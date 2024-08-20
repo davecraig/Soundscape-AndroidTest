@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -33,8 +36,16 @@ android {
         versionCode = 36
         versionName = "0.0.35"
 
+        // Retrieve the tile provider API from local.properties. This is not under version control
+        // and must be configured by each developer locally. GitHb actions fill in local.properties
+        // from a secret.
+        val localProperties = Properties()
+        localProperties.load(FileInputStream(rootProject.file("local.properties")))
+        val tileProviderApiKey = localProperties["tileProviderApiKey"]
+
         buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
         buildConfigField("String", "FMOD_LIB", "\"fmod\"")
+        buildConfigField("String", "TILE_PROVIDER_API_KEY", "\"${tileProviderApiKey}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -174,6 +185,9 @@ dependencies {
 
     // GPX parser
     implementation (libs.android.gpx.parser)
+
+    // Open Street Map compose library
+    implementation (libs.mapcompose)
 
     // Screenshots for tests
     //screenshotTestImplementation(libs.androidx.compose.ui.tooling)

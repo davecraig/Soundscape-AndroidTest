@@ -57,6 +57,32 @@ fun getXYTile(
 }
 
 /**
+ * Gets map coordinates from X and Y GPS coordinates. This is the same calculation as above
+ * but returns normalised x and y values scaled between 0 and 1.0. These are what are required
+ * by the mapcompose library to set markers/positions.
+ * @param lat
+ * Latitude in decimal degrees.
+ * @param lon
+ * Longitude in decimal degrees.
+ * @return a Pair(x, y).
+ */
+fun getNormalizedMapCoordinates(
+    lat: Double,
+    lon: Double
+): Pair<Double, Double> {
+
+    val latRad = toRadians(lat)
+    var x = (lon + 180.0) / 360.0
+    var y = (1.0 - asinh(tan(latRad)) / PI) / 2
+
+    // Keep result within bounds
+    x = minOf(1.0, maxOf(0.0, x))
+    y = minOf(1.0, maxOf(0.0, y))
+
+    return Pair(x, y)
+}
+
+/**
  * Given a radius and location it calculates the set of tiles (VectorTiles) that cover a
  * circular region around the specified location.
  * @param currentLatitude

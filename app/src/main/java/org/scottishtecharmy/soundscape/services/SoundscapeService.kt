@@ -1,5 +1,6 @@
 package org.scottishtecharmy.soundscape.services
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
 import android.app.Service
@@ -8,12 +9,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import com.google.android.gms.location.DeviceOrientation
@@ -55,11 +58,13 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import retrofit2.awaitResponse
 import java.util.concurrent.Executors
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
 /**
  * Foreground service that provides location updates, device orientation updates, requests tiles, data persistence with realmDB.
  */
+@Singleton
 @AndroidEntryPoint
 class SoundscapeService : Service() {
     private val binder = LocalBinder()
@@ -121,8 +126,6 @@ class SoundscapeService : Service() {
 
         // test
         startOrientationUpdates()
-
-
 
         return super.onStartCommand(intent, flags, startId)
     }
@@ -201,6 +204,21 @@ class SoundscapeService : Service() {
      */
     private fun setupLocationUpdates() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED) {
+            // Faster startup for obtaining initial location
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    // Handle the retrieved location here
+                    if (location != null) {
+                        _locationFlow.value = location
+                    }
+                }
+                .addOnFailureListener { exception: Exception ->
+                }
+        }
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {

@@ -51,13 +51,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.MainActivity
+import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.DrawerMenuItem
 import org.scottishtecharmy.soundscape.components.MainSearchBar
-import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.NavigationButton
+import org.scottishtecharmy.soundscape.viewmodels.HomeViewModel
+import ovh.plrapps.mapcompose.ui.MapUI
 
 
 @Preview(showBackground = true)
@@ -349,15 +352,26 @@ fun HomeBottomAppBar(
 }
 
 @Composable
+fun MapContainer(
+    modifier: Modifier = Modifier, viewModel: HomeViewModel
+) {
+    MapUI(modifier, state = viewModel.state)
+}
+
+@Composable
 fun HomeContent(
     innerPadding: PaddingValues,
     searchBar: @Composable () -> Unit
 ) {
     val context = LocalContext.current
+    val viewModel : HomeViewModel?
     val notAvailableText = "This is not implemented yet."
     val notAvailableToast = {
         Toast.makeText(context, notAvailableText, Toast.LENGTH_SHORT).show()
     }
+
+    viewModel = hiltViewModel<HomeViewModel>()
+
     Column(
         modifier = Modifier
             .padding(innerPadding),
@@ -384,6 +398,7 @@ fun HomeContent(
                 onClick = { notAvailableToast() },
                 text = "Current Location"
             )
-        }
+            MapContainer(viewModel = viewModel)
+            }
     }
 }
