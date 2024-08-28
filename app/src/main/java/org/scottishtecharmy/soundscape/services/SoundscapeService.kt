@@ -59,6 +59,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.kalman.KalmanFilter
 import retrofit2.awaitResponse
 import java.util.concurrent.Executors
 import kotlin.time.Duration
@@ -95,6 +96,7 @@ class SoundscapeService : Service() {
     var beaconFlow: StateFlow<LngLatAlt?> = _beaconFlow
 
     // Flow to return Location objects
+    private val locationFilter = KalmanFilter()
     private val _locationFlow = MutableStateFlow<Location?>(null)
     var locationFlow: StateFlow<Location?> = _locationFlow
 
@@ -228,6 +230,10 @@ class SoundscapeService : Service() {
                 .addOnSuccessListener { location: Location? ->
                     // Handle the retrieved location here
                     if (location != null) {
+                        // Filter the location through the Kalman filter
+                        val filteredLocation = locationFilter.process(LngLatAlt(location.longitude, location.latitude), System.currentTimeMillis(), location.accuracy.toDouble())
+                        location.latitude = filteredLocation.latitude
+                        location.longitude = filteredLocation.longitude
                         _locationFlow.value = location
                     }
                 }
@@ -237,6 +243,10 @@ class SoundscapeService : Service() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
+                    // Filter the location through the Kalman filter
+                    val filteredLocation = locationFilter.process(LngLatAlt(location.longitude, location.latitude), System.currentTimeMillis(), location.accuracy.toDouble())
+                    location.latitude = filteredLocation.latitude
+                    location.longitude = filteredLocation.longitude
                     _locationFlow.value = location
                 }
             }
