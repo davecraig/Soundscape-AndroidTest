@@ -157,7 +157,7 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Instrumentation Tests
+      - name: Run tests and app on emulator
         id: instrumentation-tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -169,7 +169,12 @@ jobs:
             touch app/emulator.log                    # create log file
             chmod 777 app/emulator.log                # allow writing to log file
             adb logcat >> app/emulator.log &          # pipe all logcat messages into log file as a background process
-            ./gradlew connectedCheck
+            ./gradlew connectedCheck                  # Run instrumented tests
+            ./gradlew assembleDebug                   # Build the app
+            ./gradlew installDebug                    # Install the app
+            adb shell am start -n org.scottishtecharmy.soundscape/org.scottishtecharmy.soundscape.MainActivity --ez DISABLE_EXIT 1 # Run the app with the exit button disabled
+            adb shell ime reset                       # Disable the keyboard
+            adb shell monkey --pct-syskeys 0 -p org.scottishtecharmy.soundscape -v 10000    # Generate 10000 random events
 
   firebase:
     name: Run UI tests with Firebase Test Lab

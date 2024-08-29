@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.net.http.HttpResponseCache
 import android.os.Build
@@ -169,10 +170,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun stopServiceAndExit() {
-        // service is already running, stop it
-        soundscapeServiceConnection.stopServiceAndExit()
-        // And exit application
-        finishAndRemoveTask()
+
+        // We want to disable the shutting down of the service and app when we're running monkey
+        // testing from adb. Use a flag passed in on starting the activity to control this.
+        val disableExit = intent.getBooleanExtra("DISABLE_EXIT", false);
+        if(!disableExit) {
+            //service is already running, stop it
+            soundscapeServiceConnection.stopServiceAndExit()
+            // And exit application
+            finishAndRemoveTask()
+        }
     }
 
     /**
