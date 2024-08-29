@@ -65,6 +65,7 @@ import org.scottishtecharmy.soundscape.components.DrawerMenuItem
 import org.scottishtecharmy.soundscape.components.MainSearchBar
 import org.scottishtecharmy.soundscape.components.NavigationButton
 import org.scottishtecharmy.soundscape.viewmodels.HomeViewModel
+import org.scottishtecharmy.soundscape.viewmodels.TestViewModel
 
 
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
@@ -251,6 +252,10 @@ fun HomeBottomAppBar(
     val notAvailableToast = {
         Toast.makeText(context, notAvailableText, Toast.LENGTH_SHORT).show()
     }
+
+    var viewModel : TestViewModel? = null
+    viewModel = hiltViewModel<TestViewModel>()
+
 
     BottomAppBar(
         modifier = Modifier
