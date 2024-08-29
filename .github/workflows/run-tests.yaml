@@ -52,8 +52,8 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Instrumentation Tests
-        id: instrumentation-tests
+      - name: Instrumentation Tests API 34
+        id: instrumentation-tests-34
         uses: reactivecircus/android-emulator-runner@v2
         continue-on-error: true # IMPORTANT: allow pipeline to continue to Android Test Report step
         with:
@@ -68,12 +68,38 @@ jobs:
             ./gradlew connectedCheck
 
       - name: Upload Failing Test Report Log
-        if: steps.instrumentation-tests.outcome != 'success'        # upload the generated log on failure of the tests job
+        if: steps.instrumentation-tests-34.outcome != 'success'        # upload the generated log on failure of the tests job
         uses: actions/upload-artifact@v4
         with:
-          name: logs
+          name: logs-API34
           path: app/emulator.log # path to where the log is
 
-      - name: Raise error on test fail # set a red tick on the workflow run if the tests failed
-        if: steps.instrumentation-tests.outcome != 'success'
+      - name: Raise error on test fail API 34 # set a red tick on the workflow run if the tests failed
+        if: steps.instrumentation-tests-34.outcome != 'success'
+        run: exit 1
+
+      - name: Instrumentation Tests API 30
+        id: instrumentation-tests-30
+        uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true # IMPORTANT: allow pipeline to continue to Android Test Report step
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          script: |
+            adb logcat -c                             # clear logs
+            touch app/emulator.log                    # create log file
+            chmod 777 app/emulator.log                # allow writing to log file
+            adb logcat >> app/emulator.log &          # pipe all logcat messages into log file as a background process
+            ./gradlew connectedCheck
+
+      - name: Upload Failing Test Report Log
+        if: steps.instrumentation-tests-30.outcome != 'success'        # upload the generated log on failure of the tests job
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-API30
+          path: app/emulator.log # path to where the log is
+
+      - name: Raise error on test fail API 30 # set a red tick on the workflow run if the tests failed
+        if: steps.instrumentation-tests-30.outcome != 'success'
         run: exit 1
