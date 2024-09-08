@@ -223,4 +223,8 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
             System.loadLibrary("soundscape-audio")
         }
     }
+
+    override fun utteranceLocation(latitude: Double, longitude: Double) {
+        Log.e("NativeAudioEngine", "utteranceLocation: $latitude,$longitude")
+    }
 }

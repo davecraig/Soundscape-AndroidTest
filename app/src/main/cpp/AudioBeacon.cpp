@@ -68,6 +68,8 @@ void PositionedAudio::Init(double degrees_off_axis)
 
 void PositionedAudio::PlayNow()
 {
+    // Callback into Kotlin with location of this text
+    m_pEngine->utteranceLocation(m_Latitude, m_Longitude);
     InitFmodSound();
 }
 

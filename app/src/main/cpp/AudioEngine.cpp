@@ -330,7 +330,9 @@ const BeaconDescriptor AudioEngine::msc_BeaconDescriptors[] =
         TRACE("RemoveBeacon -> %zu beacons", m_Beacons.size());
     }
 
+    void AudioEngine::utteranceLocation(double latitude, double longitude) {
 
+    }
 
 } // soundscape
 

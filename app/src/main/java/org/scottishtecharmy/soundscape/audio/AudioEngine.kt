@@ -13,4 +13,6 @@ interface AudioEngine {
     fun getAvailableSpeechLanguages() : Set<Locale>
     fun getAvailableSpeechVoices() : Set<Voice>
     fun setSpeechLanguage(language : String) : Boolean
+
+    fun utteranceLocation(latitude: Double, longitude: Double)
 }

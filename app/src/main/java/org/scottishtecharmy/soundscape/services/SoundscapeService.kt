@@ -91,6 +91,10 @@ class SoundscapeService : Service() {
     private val _beaconFlow = MutableStateFlow<LngLatAlt?>(null)
     var beaconFlow: StateFlow<LngLatAlt?> = _beaconFlow
 
+    // Flow to return location of currently playing speech
+    private val _speechFlow = MutableStateFlow<LngLatAlt?>(null)
+    var speechFlow: StateFlow<LngLatAlt?> = _speechFlow
+
     // OkhttpClientInstance
     private lateinit var okhttpClientInstance: OkhttpClientInstance
 
@@ -401,6 +405,10 @@ class SoundscapeService : Service() {
         }
         // Report any change in beacon back to application
         _beaconFlow.value = LngLatAlt(0.0,0.0)
+    }
+
+    fun utteranceLocation(latitude : Double, longitude : Double) {
+        _speechFlow.value = LngLatAlt(longitude, latitude)
     }
 
     fun myLocation() {
