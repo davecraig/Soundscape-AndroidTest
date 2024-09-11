@@ -432,7 +432,9 @@ fun HomeContent(
             )
             // Markers and routes
             NavigationButton(
-                onClick = { notAvailableToast() },
+                onClick = {
+                    viewModel?.geocodeSearch(context)
+                },
                 text = stringResource(R.string.search_view_markers)
             )
             // Current location

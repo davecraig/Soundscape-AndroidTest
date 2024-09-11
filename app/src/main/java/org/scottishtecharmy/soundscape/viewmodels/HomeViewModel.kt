@@ -7,10 +7,14 @@
 package org.scottishtecharmy.soundscape.viewmodels
 
 import android.content.Context
+import android.location.Geocoder
 import android.location.Location
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.test.platform.app.InstrumentationRegistry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
@@ -189,6 +193,45 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
                 highlightSize = 2F
 
             foodLayer?.setProperties(PropertyFactory.iconSize(highlightSize))
+        }
+    }
+
+    private val geocodeListener = Geocoder.GeocodeListener { addresses ->
+        Log.e(TAG, "getFromLocationName results count " + addresses.size.toString())
+        for (address in addresses) {
+            Log.e(TAG, "$address")
+        }
+    }
+
+    private val geocodeListener2 = Geocoder.GeocodeListener { addresses ->
+        Log.e(TAG, "getFromLocation results count " + addresses.size.toString())
+        for (address in addresses) {
+            Log.e(TAG, "$address")
+        }
+    }
+
+    private lateinit var geocoder : Geocoder;
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun geocodeSearch(context: Context) {
+
+        if(!Geocoder.isPresent()) {
+            Log.e(TAG, "No geocoder available")
+            return
+        }
+
+        val location = "Graeme Pharmacy, Milngavie"
+        Log.e(TAG, "Search for $location")
+        geocoder = Geocoder(context);
+        try {
+            geocoder.getFromLocationName(location, 5, geocodeListener)
+        } catch (e : Exception) {
+            Log.e(TAG, "getFromLocationName failed: $e")
+        }
+
+        try {
+            geocoder.getFromLocation(latitude, longitude, 1, geocodeListener2)
+        } catch (e : Exception) {
+            Log.e(TAG, "getFromLocation failed: $e")
         }
     }
 
