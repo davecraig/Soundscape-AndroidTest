@@ -139,7 +139,7 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
         // Set the style after mapView was loaded
         mapLibreMap = map
         val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
-        val styleUrl = "https://api.maptiler.com/maps/streets-v2/style.json?key=$apiKey"
+        val styleUrl = "http://192.168.86.39:8080/styles/test-style/style.json"
         mapLibreMap?.setStyle(styleUrl) {
 
             ////////////////////////////////////////////////////////////////////////////////////////

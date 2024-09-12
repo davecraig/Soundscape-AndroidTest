@@ -134,20 +134,20 @@ class VectorTileTest {
     fun vectorTileToGeoJson() {
 
         // Do we really want to go via GeoJSON, or instead go direct to our parsed format?
-        var tileX = 15992
-        var tileY = 10212
-        val tileZoom = 15
-        var remoteTile = URL("https://api.protomaps.com/tiles/v3/$tileZoom/$tileX/$tileY.mvt?key=9f3c764359583830")
+        var tileX = 15992/2
+        var tileY = 10212/2
+        val tileZoom = 14
+        var remoteTile = URL("http://192.168.86.39:8080/data/openmaptiles/$tileZoom/$tileX/$tileY.pbf")
+
         val tile: Tile = Tile.parseFrom(remoteTile.openStream())
 
-        val highwayPoints : HashMap< Int, ArrayList<String>> = hashMapOf()
-
         val collection = FeatureCollection()
+        val highwayPoints : HashMap< Int, ArrayList<String>> = hashMapOf()
         for(layer in tile.layersList) {
             Log.d(TAG, "Process layer: " + layer.name)
             for (feature in layer.featuresList) {
                 // Convert coordinates to GeoJSON
-                if(layer.name != "roads")
+                if((layer.name != "transportation") && (layer.name != "transportation_name"))
                     continue
 
                 // And map the tags
@@ -209,48 +209,60 @@ class VectorTileTest {
                         firstInPair = false
                 }
                 collection.addFeature(geoFeature)
-                if(layer.name == "roads") {
-                    Log.e(TAG, "Process " + geoFeature.properties?.get("name").toString())
+                if((layer.name == "transportation") || (layer.name == "transportation_name")) {
+                    Log.e(TAG, "Process " + geoFeature.properties?.get("name").toString() + " " + geoFeature.id)
                     // Add each point in the road to a hashMap so that we can see where roads
                     // intersect. The x,y coordinates are only 12 bits each, so we can create a
                     // single Int key that specifies the position within the tile.
                     for (point in intGeometry) {
-                        Log.e(TAG, "Point: " + point.first + "," + point.second)
+                        if((point.first < 0) || (point.first > 4095) ||
+                           (point.second < 0) || (point.second > 4095)) {
+                            continue
+                        }
+//                        Log.e(TAG, "Point: " + point.first + "," + point.second)
                         val coordinateKey = point.first.toInt().shl(12) + point.second
                         if (highwayPoints[coordinateKey] == null) {
                             highwayPoints[coordinateKey] =
-                                arrayListOf(geoFeature.properties?.get("name").toString())
+                                arrayListOf(geoFeature.id!!)
                         }
                         else {
-                            highwayPoints[coordinateKey]?.add(geoFeature.properties?.get("name").toString())
-                            //
-                            // Unfortunately, this intersection spotting is unreliable with the
-                            // maptiler tiles :-( There's an explanation of why here:
-                            // https://gis.stackexchange.com/questions/319422/mapbox-vector-tiles-appear-to-lack-accurate-intersection-nodes
-                            //
-                            // There's no Roselea Drive/Strathblane Drive intersection because the
-                            // Strathblane section was drawn first and then Roselea Drive joined in
-                            // half way between two nodes. That node doesn't affect how you'd draw
-                            // Strathblane Road and so it isn't included in its list of nodes.
-                            //
-                            // It's possible that we can generate the tiles so that they don't
-                            // exclude intersection nodes by disabling simplification at the max
-                            // zoom level, see:
-                            // https://github.com/Scottish-Tech-Army/Soundscape-Android/actions/workflows/nightly.yaml
-                            //
-                            // This would make our tiles a little larger, but that's what you'd expect!
-                            //
-                            // One remaining question is whether it would then be  possible to have
-                            // a single road be made up of two separate lines which would mean that
-                            // we end up finding an intersection where there isn't one in the real
-                            // world? Also, does that render properly on the UI map?
-                            // Most roads segments wouldn't split other than at a junction, but the
-                            // code has to deal with that correctly too.
-                            val roads = highwayPoints[coordinateKey]
-                            if(roads != null) {
-                                Log.e(TAG, "Intersection!")
-                                for (road in roads)
-                                    Log.e(TAG, "    $road")
+                            if(!highwayPoints[coordinateKey]?.contains(geoFeature.id!!)!!) {
+                                highwayPoints[coordinateKey]?.add(geoFeature.id!!)
+                                //
+                                // Unfortunately, this intersection spotting is unreliable with the
+                                // maptiler tiles :-( There's an explanation of why here:
+                                // https://gis.stackexchange.com/questions/319422/mapbox-vector-tiles-appear-to-lack-accurate-intersection-nodes
+                                //
+                                // There's no Roselea Drive/Strathblane Drive intersection because the
+                                // Strathblane section was drawn first and then Roselea Drive joined in
+                                // half way between two nodes. That node doesn't affect how you'd draw
+                                // Strathblane Road and so it isn't included in its list of nodes.
+                                //
+                                // It's possible that we can generate the tiles so that they don't
+                                // exclude intersection nodes by disabling simplification at the max
+                                // zoom level, see:
+                                // https://github.com/Scottish-Tech-Army/Soundscape-Android/actions/workflows/nightly.yaml
+                                //
+                                // This would make our tiles a little larger, but that's what you'd expect!
+                                //
+                                // One remaining question is whether it would then be  possible to have
+                                // a single road be made up of two separate lines which would mean that
+                                // we end up finding an intersection where there isn't one in the real
+                                // world? Also, does that render properly on the UI map?
+                                // Most roads segments wouldn't split other than at a junction, but the
+                                // code has to deal with that correctly too.
+                                val roads = highwayPoints[coordinateKey]
+                                if (roads != null) {
+                                    var intersectionNames = ""
+                                    var firstRoad = true
+                                    for (road in roads) {
+                                        if (!firstRoad)
+                                            intersectionNames += ","
+                                        intersectionNames += road
+                                        firstRoad = false
+                                    }
+                                    Log.e(TAG, "Intersection: $intersectionNames")
+                                }
                             }
                         }
                     }
