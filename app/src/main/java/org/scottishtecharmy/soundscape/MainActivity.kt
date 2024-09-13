@@ -74,6 +74,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Log.e(TAG, "onCreate")
+
         // Debug - dump preferences
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         for(pref in sharedPreferences.all) {
@@ -229,6 +231,32 @@ class MainActivity : AppCompatActivity() {
 
         startForegroundService(serviceIntent)
     }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e(TAG, "onStop")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e(TAG, "onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(TAG, "onResume")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e(TAG, "onStart")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e(TAG, "onDestroy")
+    }
+
     companion object {
         private const val TAG = "MainActivity"
 

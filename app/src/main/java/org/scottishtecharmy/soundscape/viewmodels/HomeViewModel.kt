@@ -131,7 +131,13 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
         }
     }
 
+    fun unsetMap() {
+        mapLibreMap = null
+    }
+
     fun setMap(map: MapLibreMap) {
+        Log.e(TAG, "setMap")
+
         // Set the style after mapView was loaded
         mapLibreMap = map
         val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
@@ -193,6 +199,8 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
     }
 
     init {
+        Log.e(TAG, "HomeViewModel init")
+
         serviceConnection = soundscapeServiceConnection
         iconFactory = IconFactory.getInstance(context)
         viewModelScope.launch {
@@ -215,6 +223,12 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        Log.e(TAG, "onCleared called")
     }
 
     companion object {
