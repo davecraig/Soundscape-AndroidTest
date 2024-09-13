@@ -1,7 +1,10 @@
 package org.scottishtecharmy.soundscape
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.location.Geocoder
 import android.net.http.HttpResponseCache
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +12,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,16 +22,23 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.preference.PreferenceManager
-
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.scottishtecharmy.soundscape.screens.home.SetUpHomeNavGraph
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
-import org.scottishtecharmy.soundscape.screens.home.SetUpHomeNavGraph
+import org.scottishtecharmy.soundscape.viewmodels.HomeViewModel
+import org.scottishtecharmy.soundscape.viewmodels.HomeViewModel.Companion
 import java.io.File
 import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 import java.net.URLDecoder
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -187,47 +198,120 @@ class MainActivity : AppCompatActivity() {
      *
      * It also tries to bind to the service to update the UI with location updates.
      */
+    private val geocodeListener = Geocoder.GeocodeListener { addresses ->
+        Log.e(TAG, "getFromLocationName results count " + addresses.size.toString())
+        for (address in addresses) {
+            Log.e(TAG, "$address")
+        }
+    }
+    private lateinit var geocoder : Geocoder;
+    @SuppressLint("NewApi")
+    private fun getRedirectUrl(url: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            var urlTmp: URL? = null
+            var connection: HttpURLConnection? = null
+
+            try {
+                Log.e(TAG, "Open URL $url")
+                urlTmp = URL(url)
+            } catch (e1: MalformedURLException) {
+                e1.printStackTrace()
+            }
+
+            try {
+                Log.e(TAG, "Open connection")
+                connection = urlTmp!!.openConnection() as HttpURLConnection
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            try {
+                connection!!.responseCode
+                Log.e(TAG, "Response ${connection!!.responseCode}")
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+            val redUrl = connection!!.url.toString()
+            connection.disconnect()
+
+            Log.e(TAG, "Maps URL: $redUrl")
+
+            // We need to turn the Google URL into an address for the Geocoder
+            //
+            // https://www.google.com/maps/place/Tesco+Superstore,+7+Gavin's+Mill+Rd,+Milngavie,+Glasgow+G62+6NB/data=!4m2!3.....
+            //
+            var address = redUrl.substringAfter("https://www.google.com/maps/place/")
+            address = address.substringBefore("/")
+            if(Geocoder.isPresent()) {
+                Log.e(TAG, "Search for $address")
+                geocoder = Geocoder(this@MainActivity);
+                try {
+                    geocoder.getFromLocationName(address, 5, geocodeListener)
+                } catch (e: Exception) {
+                    Log.e(TAG, "getFromLocationName failed: $e")
+                }
+            }
+        }
+    }
+
     private fun startSoundscapeService() {
 
         val serviceIntent = Intent(this, SoundscapeService::class.java)
 
         // Was the app started with a location that we should use?
         if (intent != null) {
-            Log.d("intent", intent.data.toString())
-            if (intent.data != null) {
-                val uriData: String = URLDecoder.decode(intent.data.toString(), Charsets.UTF_8.name())
 
-                // Check for geo intent which means to create a beacon at the provided location
-                var regex =
-                    Regex("geo:([-+]?[0-9]*\\.[0-9]+|[0-9]+),([-+]?[0-9]*\\.[0-9]+|[0-9]+).*")
-                var matchResult = regex.find(uriData)
-                if (matchResult != null) {
-                    val latitude = matchResult.groupValues[1]
-                    val longitude = matchResult.groupValues[2]
-
-                    Log.d("intent", "beacon latitude: $latitude")
-                    Log.d("intent", "beacon longitude: $longitude")
-
-                    // We have a geo intent with a GPS position - use that as our location
-                    serviceIntent.putExtra("beacon-latitude", latitude.toDouble())
-                    serviceIntent.putExtra("beacon-longitude", longitude.toDouble())
+            when {
+                intent?.action == Intent.ACTION_SEND -> {
+                    if ("text/plain" == intent.type) {
+                        intent.getStringExtra(Intent.EXTRA_TEXT)?.let { plainText ->
+                            Log.e(TAG, "Intent text: $plainText")
+                            if (plainText.contains("maps.app.goo.gl")) {
+                                try {
+                                    getRedirectUrl(plainText)
+                                }
+                                catch (e : Exception){
+                                    Log.e(TAG, "Exception: $e")
+                                }
+                            }
+                        }
+                    }
                 }
-                else {
-                    // Check for soundscape intent which can do more complex things. For now it just
-                    // sets the mock location
-                    regex =
-                        Regex("soundscape://([-+]?[0-9]*\\.[0-9]+|[0-9]+),([-+]?[0-9]*\\.[0-9]+|[0-9]+).*")
-                    matchResult = regex.find(uriData)
+                else -> {
+                    val uriData: String =
+                        URLDecoder.decode(intent.data.toString(), Charsets.UTF_8.name())
+
+                    // Check for geo intent which means to create a beacon at the provided location
+                    var regex =
+                        Regex("geo:([-+]?[0-9]*\\.[0-9]+|[0-9]+),([-+]?[0-9]*\\.[0-9]+|[0-9]+).*")
+                    var matchResult = regex.find(uriData)
                     if (matchResult != null) {
                         val latitude = matchResult.groupValues[1]
                         val longitude = matchResult.groupValues[2]
 
-                        Log.d("intent", "mock latitude: $latitude")
-                        Log.d("intent", "mock longitude: $longitude")
+                        Log.d("intent", "beacon latitude: $latitude")
+                        Log.d("intent", "beacon longitude: $longitude")
 
                         // We have a geo intent with a GPS position - use that as our location
-                        serviceIntent.putExtra("mock-latitude", latitude.toDouble())
-                        serviceIntent.putExtra("mock-longitude", longitude.toDouble())
+                        serviceIntent.putExtra("beacon-latitude", latitude.toDouble())
+                        serviceIntent.putExtra("beacon-longitude", longitude.toDouble())
+                    } else {
+                        // Check for soundscape intent which can do more complex things. For now it just
+                        // sets the mock location
+                        regex =
+                            Regex("soundscape://([-+]?[0-9]*\\.[0-9]+|[0-9]+),([-+]?[0-9]*\\.[0-9]+|[0-9]+).*")
+                        matchResult = regex.find(uriData)
+                        if (matchResult != null) {
+                            val latitude = matchResult.groupValues[1]
+                            val longitude = matchResult.groupValues[2]
+
+                            Log.d("intent", "mock latitude: $latitude")
+                            Log.d("intent", "mock longitude: $longitude")
+
+                            // We have a geo intent with a GPS position - use that as our location
+                            serviceIntent.putExtra("mock-latitude", latitude.toDouble())
+                            serviceIntent.putExtra("mock-longitude", longitude.toDouble())
+                        }
                     }
                 }
             }
