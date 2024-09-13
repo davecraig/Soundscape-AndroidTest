@@ -1,6 +1,5 @@
 package org.scottishtecharmy.soundscape.screens.home
 
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,17 +36,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,18 +60,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.maplibre.android.MapLibre
-import org.maplibre.android.WellKnownTileServer
-import org.maplibre.android.maps.MapLibreMap
-import org.maplibre.android.maps.MapView
+import org.maplibre.android.geometry.LatLng
+import org.ramani.compose.CameraPosition
+import org.ramani.compose.MapLibre
+import org.ramani.compose.Symbol
 import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.R
@@ -82,8 +79,6 @@ import org.scottishtecharmy.soundscape.viewmodels.DrawerViewModel
 import org.scottishtecharmy.soundscape.viewmodels.HomeViewModel
 import org.scottishtecharmy.soundscape.viewmodels.MyLocationViewModel
 import org.scottishtecharmy.soundscape.viewmodels.WhatsAroundMeViewModel
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
@@ -216,10 +211,6 @@ fun HomeTopAppBar(
     coroutineScope: CoroutineScope
 ) {
     val context = LocalContext.current
-    val notAvailableText = "This is not implemented yet."
-    val notAvailableToast = {
-        Toast.makeText(context, notAvailableText, Toast.LENGTH_SHORT).show()
-    }
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -393,80 +384,40 @@ fun HomeBottomAppBar(
         }
     }
 }
-
-private fun getMapLifecycleObserver(mapView: MapView): LifecycleEventObserver =
-    LifecycleEventObserver { _, event ->
-        when (event) {
-            Lifecycle.Event.ON_CREATE -> {
-                Log.e("MapLifecycle", "map OnCreate")
-                mapView.onCreate(Bundle())
-            }
-            Lifecycle.Event.ON_START -> {
-                Log.e("MapLifecycle", "map onStart")
-                mapView.onStart()
-            }
-            Lifecycle.Event.ON_RESUME -> {
-                Log.e("MapLifecycle", "map onResume")
-                mapView.onResume()
-            }
-            Lifecycle.Event.ON_PAUSE -> {
-                Log.e("MapLifecycle", "map onPause")
-                mapView.onPause()
-            }
-            Lifecycle.Event.ON_STOP -> {
-                Log.e("MapLifecycle", "map onStop")
-                mapView.onStop()
-            }
-            Lifecycle.Event.ON_DESTROY -> {
-                Log.e("MapLifecycle", "map onDestroy")
-                mapView.onDestroy()
-            }
-            else -> throw IllegalStateException()
-        }
-    }
-
-@Composable
-fun rememberMapViewWithLifecycle(): MapView {
-    val context = LocalContext.current
-    MapLibre.getInstance(context, BuildConfig.TILE_PROVIDER_API_KEY, WellKnownTileServer.MapTiler)
-    val mapView = remember { MapView(context) }
-
-    // Makes MapView follow the lifecycle of this composable
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
-    DisposableEffect(lifecycle, mapView) {
-        val lifecycleObserver = getMapLifecycleObserver(mapView)
-        lifecycle.addObserver(lifecycleObserver)
-        onDispose {
-            lifecycle.removeObserver(lifecycleObserver)
-        }
-    }
-
-    return mapView
-}
-
-suspend inline fun MapView.awaitMap(): MapLibreMap =
-    suspendCoroutine { continuation ->
-        getMapAsync {
-            continuation.resume(it)
-        }
-    }
-
 @Composable
 fun MapContainerLibre(viewModel: HomeViewModel) {
 
-    val mapView = rememberMapViewWithLifecycle()
-    val coroutineScope = rememberCoroutineScope()
-    AndroidView(
-        factory = {
-            mapView
-        },
-        update = {
-            coroutineScope.launch {
-                val map = it.awaitMap()
-                viewModel.setMap(map)
-            }
+    val cameraPosition = rememberSaveable {
+        mutableStateOf(
+            CameraPosition(
+                target = LatLng(viewModel.latitude, viewModel.longitude),
+                zoom = 15.0,
+            )
+        )
+    }
+
+    val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
+    val styleUrl = "https://api.maptiler.com/maps/streets-v2/style.json?key=$apiKey"
+    val beaconState: LatLng by viewModel.homeMapStateFlow.collectAsStateWithLifecycle()
+    Log.e("HomeViewModel", "Beacon at ${beaconState.latitude},${beaconState.longitude}")
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        MapLibre(
+            modifier = Modifier.fillMaxSize(),
+            styleUrl = styleUrl,
+            cameraPosition = cameraPosition.value,
+            onMapLongClick = { viewModel.onMapLongClick(it) }
+        ) {
+            if((beaconState.latitude != 0.0) && (beaconState.longitude != 0.0))
+                Symbol(center=LatLng(beaconState.latitude, beaconState.longitude),
+                       color="red",
+                       isDraggable=false,
+                       size=0.2F,
+                       imageId = R.drawable.marker_selected)
         }
-    )
+    }
 }
 
 @Composable
@@ -499,11 +450,7 @@ fun HomeContent(
         ) {
             // Places Nearby
             NavigationButton(
-                onClick = {
-                    // This is not the real function of the button - it just demos the live styling
-                    // of the map.
-                    viewModel?.highlightPointsOfInterest()
-                },
+                onClick = { notAvailableToast() },
                 text = stringResource(R.string.search_nearby_screen_title)
             )
             // Markers and routes

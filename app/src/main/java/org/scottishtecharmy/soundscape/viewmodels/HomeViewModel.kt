@@ -13,23 +13,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.maplibre.android.annotations.IconFactory
-import org.maplibre.android.annotations.Marker
-import org.maplibre.android.annotations.MarkerOptions
-import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
-import org.maplibre.android.maps.MapLibreMap
-import org.maplibre.android.style.layers.PropertyFactory
-import org.scottishtecharmy.soundscape.BuildConfig
-import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(@ApplicationContext context: Context, private val soundscapeServiceConnection : SoundscapeServiceConnection): ViewModel(),
-    MapLibreMap.OnMarkerClickListener {
+class HomeViewModel @Inject constructor(@ApplicationContext context: Context, private val soundscapeServiceConnection : SoundscapeServiceConnection): ViewModel() {
 
     private var serviceConnection : SoundscapeServiceConnection? = null
     private var iconFactory : IconFactory
@@ -38,22 +32,9 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
     var heading : Float = 0.0F
     private var initialLocation : Location? = null
     private var mapCentered : Boolean = false
-    private var beaconLocation : LatLng? = null
 
-    private var currentLocationMarker : Marker? = null
-    private var beaconLocationMarker : Marker? = null
-
-    private var mapLibreMap : MapLibreMap? = null
-
-    private fun updateBeaconLocation() {
-        if (beaconLocationMarker != null) {
-            beaconLocationMarker?.position = beaconLocation
-        } else {
-            val markerOptions = MarkerOptions()
-                .position(beaconLocation)
-            beaconLocationMarker = mapLibreMap?.addMarker(markerOptions)
-        }
-    }
+    private val _homeMapStateFlow = MutableStateFlow(LatLng(0.0, 0.0))
+    var homeMapStateFlow: StateFlow<LatLng> = _homeMapStateFlow
 
     private fun startMonitoringLocation() {
         Log.d(TAG, "ViewModel startMonitoringLocation")
@@ -62,7 +43,6 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
             serviceConnection?.getLocationFlow()?.collectLatest { value ->
                 if (value != null) {
                     Log.d(TAG, "Location $value")
-                    updateLocationOnMap(value)
                 }
             }
         }
@@ -72,10 +52,6 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
             serviceConnection?.getOrientationFlow()?.collectLatest { value ->
                 if (value != null) {
                     heading = value.headingDegrees
-
-                    mapLibreMap?.cameraPosition = CameraPosition.Builder()
-                        .bearing(heading.toDouble())
-                        .build()
                 }
             }
         }
@@ -84,118 +60,21 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
             serviceConnection?.getBeaconFlow()?.collectLatest { value ->
                 if (value != null) {
                     // Use MarkerOptions and addMarker() to add a new marker in map
-                    beaconLocation = LatLng(value.latitude, value.longitude)
-                    updateBeaconLocation()
+                    _homeMapStateFlow.value = LatLng(value.latitude, value.longitude)
                 }
                 else {
-                    if(beaconLocationMarker != null) {
-                        mapLibreMap?.removeMarker(beaconLocationMarker!!)
-                        beaconLocationMarker = null
-                    }
+                    _homeMapStateFlow.value = LatLng(0.0, 0.0)
                 }
             }
         }
     }
 
-    private fun updateLocationOnMap(location : Location) {
-        if( (initialLocation == null) &&
-            location.hasAccuracy() && (location.accuracy < 250.0)) {
-            initialLocation = location
-            Log.d(TAG, "lastLocation updated to $location")
-        }
-        if(!mapCentered && (mapLibreMap != null) && (initialLocation != null)) {
-            // If the map has already been created and it's not yet been centered, and we've received
-            // a location with reasonable accuracy then center it
-            mapCentered = true
-            mapLibreMap?.cameraPosition = CameraPosition.Builder()
-                .target(LatLng(location.latitude, location.longitude))
-                .zoom(15.0)
-                .bearing(heading.toDouble())
-                .build()
-        }
-
-        latitude = location.latitude
-        longitude = location.longitude
-
-        // Use MarkerOptions and addMarker() to add a new marker in map
-        val latLng = LatLng(latitude, longitude)
-        if(currentLocationMarker != null) {
-            currentLocationMarker?.position = latLng
-        }
-        else {
-            val icon = iconFactory.fromResource(R.drawable.icons8_navigation_24)
-            val markerOptions = MarkerOptions()
-                .position(latLng)
-                .icon(icon)
-            currentLocationMarker = mapLibreMap?.addMarker(markerOptions)
-        }
-    }
-
-    fun unsetMap() {
-        mapLibreMap = null
-    }
-
-    fun setMap(map: MapLibreMap) {
-        Log.e(TAG, "setMap")
-
-        // Set the style after mapView was loaded
-        mapLibreMap = map
-        val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
-        val styleUrl = "https://api.maptiler.com/maps/streets-v2/style.json?key=$apiKey"
-        mapLibreMap?.setStyle(styleUrl) {
-
-            ////////////////////////////////////////////////////////////////////////////////////////
-            // Prove that these are vector maps by listing the layers and then changing the colour
-            // of water...
-//            for (singleLayer in it.layers) {
-//                Log.d(TAG, "onMapReady: layer id = " + singleLayer.id)
-//            }
-//            val waterLayer = it.getLayer("Water")
-//            waterLayer?.setProperties(PropertyFactory.fillColor(Color.parseColor("#900090")))
-            //
-            ////////////////////////////////////////////////////////////////////////////////////////
-
-            mapLibreMap?.uiSettings?.setAttributionMargins(15, 0, 0, 15)
-
-            // Set the map view center if we already have an initial location
-            initialLocation?.let { location -> updateLocationOnMap(location) }
-            // Update the map with the beacon location if we already have one
-            beaconLocation?.let { updateBeaconLocation() }
-
-            mapLibreMap?.addOnMapLongClickListener { latitudeLongitude ->
-                soundscapeServiceConnection.soundscapeService?.createBeacon(
-                    latitudeLongitude.latitude,
-                    latitudeLongitude.longitude
-                )
-                false
-            }
-            mapLibreMap?.setOnMarkerClickListener(this)
-        }
-
-    }
-
-    override fun onMarkerClick(marker: Marker): Boolean {
-        if(marker == beaconLocationMarker) {
-            soundscapeServiceConnection.soundscapeService?.destroyBeacon()
-            return true
-        }
+    fun onMapLongClick(location: LatLng ) : Boolean {
+        soundscapeServiceConnection.soundscapeService?.createBeacon(
+            location.latitude,
+            location.longitude
+        )
         return false
-    }
-
-    // This is a demo function to show how to dynamically alter the map based on user input.
-    // The result of this function is that Food POIs have their icons toggled between enlarged
-    // and regular sized.
-    private var highlightedPointsOfInterest : Boolean = false
-    fun highlightPointsOfInterest() {
-        highlightedPointsOfInterest = highlightedPointsOfInterest.xor(true)
-        mapLibreMap?.getStyle {
-            val foodLayer = it.getLayer("Food")
-            var highlightSize = 1F
-            if(highlightedPointsOfInterest)
-                highlightSize = 2F
-
-            foodLayer?.setProperties(PropertyFactory.iconSize(highlightSize))
-        }
     }
 
     init {
@@ -211,11 +90,6 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
                     startMonitoringLocation()
                 }
                 else {
-                    // The service has gone away so remove the current location marker
-                    if(currentLocationMarker != null) {
-                        mapLibreMap?.removeMarker(currentLocationMarker!!)
-                        currentLocationMarker = null
-                    }
                     // Reset map view variables so that the map re-centers when the service comes back
                     initialLocation = null
                     mapCentered = false
