@@ -69,12 +69,16 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.maplibre.compose.MapView
+import com.maplibre.compose.camera.MapViewCamera
+import com.maplibre.compose.rememberSaveableMapViewCamera
+import com.maplibre.compose.symbols.Symbol
+import com.maplibre.compose.symbols.models.SymbolOffset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.maplibre.android.MapLibre
+import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
-import org.ramani.compose.CameraPosition
-import org.ramani.compose.MapLibre
-import org.ramani.compose.Symbol
 import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.R
@@ -401,14 +405,10 @@ fun HomeBottomAppBar(
 @Composable
 fun MapContainerLibre(viewModel: HomeViewModel) {
 
-    val cameraPosition = rememberSaveable {
-        mutableStateOf(
-            CameraPosition(
-                target = LatLng(viewModel.latitude, viewModel.longitude),
-                zoom = 15.0,
-            )
-        )
-    }
+    val mapViewCamera =
+        rememberSaveableMapViewCamera(
+            initialCamera =
+            MapViewCamera.Centered(viewModel.latitude, viewModel.longitude, zoom = 15.0))
 
     val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
     val styleUrl = "https://api.maptiler.com/maps/streets-v2/style.json?key=$apiKey"
@@ -418,18 +418,18 @@ fun MapContainerLibre(viewModel: HomeViewModel) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        MapLibre(
+        MapView(
             modifier = Modifier.fillMaxSize(),
             styleUrl = styleUrl,
-            cameraPosition = cameraPosition.value,
-            onMapLongClick = { viewModel.onMapLongClick(it) }
+            camera = mapViewCamera,
+            onLongPressGestureCallback = {
+                    viewModel.onMapLongClick(it.coordinate) }
         ) {
             if((beaconState.latitude != 0.0) && (beaconState.longitude != 0.0))
                 Symbol(center=LatLng(beaconState.latitude, beaconState.longitude),
-                       color="red",
-                       isDraggable=false,
-                       size=1.0F,
-                       imageId = R.drawable.icons8_navigation_24)
+                       imageId = R.drawable.nearby_markers_24px,
+                       imageOffset = SymbolOffset(0f,0f),
+                       onTap = { viewModel.onMarkerClick() })
         }
     }
 }

@@ -31,8 +31,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(@ApplicationContext context: Context, private val soundscapeServiceConnection : SoundscapeServiceConnection): ViewModel(),
-    MapLibreMap.OnMarkerClickListener {
+class HomeViewModel @Inject constructor(@ApplicationContext context: Context, private val soundscapeServiceConnection : SoundscapeServiceConnection): ViewModel() {
 
     var serviceConnection : SoundscapeServiceConnection? = null
     private var iconFactory : IconFactory
@@ -135,49 +134,6 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
         }
     }
 
-    fun unsetMap() {
-        mapLibreMap = null
-    }
-
-    fun setMap(map: MapLibreMap) {
-        Log.e(TAG, "setMap")
-
-        // Set the style after mapView was loaded
-        mapLibreMap = map
-        val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
-        val styleUrl = "https://api.maptiler.com/maps/streets-v2/style.json?key=$apiKey"
-        mapLibreMap?.setStyle(styleUrl) {
-
-            ////////////////////////////////////////////////////////////////////////////////////////
-            // Prove that these are vector maps by listing the layers and then changing the colour
-            // of water...
-//            for (singleLayer in it.layers) {
-//                Log.d(TAG, "onMapReady: layer id = " + singleLayer.id)
-//            }
-//            val waterLayer = it.getLayer("Water")
-//            waterLayer?.setProperties(PropertyFactory.fillColor(Color.parseColor("#900090")))
-            //
-            ////////////////////////////////////////////////////////////////////////////////////////
-
-            mapLibreMap?.uiSettings?.setAttributionMargins(15, 0, 0, 15)
-
-            // Set the map view center if we already have an initial location
-            initialLocation?.let { location -> updateLocationOnMap(location) }
-            // Update the map with the beacon location if we already have one
-//            homeMapState.beaconLocation?.let { updateBeaconLocation() }
-
-            mapLibreMap?.addOnMapLongClickListener { latitudeLongitude ->
-                soundscapeServiceConnection.soundscapeService?.createBeacon(
-                    latitudeLongitude.latitude,
-                    latitudeLongitude.longitude
-                )
-                false
-            }
-            mapLibreMap?.setOnMarkerClickListener(this)
-        }
-
-    }
-
     fun onMapLongClick(location: LatLng ) : Boolean {
         soundscapeServiceConnection.soundscapeService?.createBeacon(
             location.latitude,
@@ -186,12 +142,8 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
         return false
     }
 
-    override fun onMarkerClick(marker: Marker): Boolean {
-        if(marker == beaconLocationMarker) {
-            soundscapeServiceConnection.soundscapeService?.destroyBeacon()
-            return true
-        }
-        return false
+    fun onMarkerClick() {
+        soundscapeServiceConnection.soundscapeService?.destroyBeacon()
     }
 
     // This is a demo function to show how to dynamically alter the map based on user input.

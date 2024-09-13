@@ -230,6 +230,8 @@ dependencies {
     implementation(libs.androidx.preference.ktx)
 
     // Ramani maps
-    implementation(libs.ramani.maplibre)
-
+    //implementation(libs.ramani.maplibre)
+    //implementation(libs.maplibre.compose)
+    implementation(files("../../maplibre-compose-playground/compose/build/outputs/aar/compose-release.aar"))
+    implementation(libs.android.plugin.annotation.v9)
 }
