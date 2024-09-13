@@ -1,5 +1,6 @@
 package org.scottishtecharmy.soundscape.screens.home
 
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +41,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,10 +61,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
+import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.MainActivity
@@ -75,6 +82,8 @@ import org.scottishtecharmy.soundscape.viewmodels.DrawerViewModel
 import org.scottishtecharmy.soundscape.viewmodels.HomeViewModel
 import org.scottishtecharmy.soundscape.viewmodels.MyLocationViewModel
 import org.scottishtecharmy.soundscape.viewmodels.WhatsAroundMeViewModel
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
@@ -385,17 +394,77 @@ fun HomeBottomAppBar(
     }
 }
 
+private fun getMapLifecycleObserver(mapView: MapView): LifecycleEventObserver =
+    LifecycleEventObserver { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_CREATE -> {
+                Log.e("MapLifecycle", "map OnCreate")
+                mapView.onCreate(Bundle())
+            }
+            Lifecycle.Event.ON_START -> {
+                Log.e("MapLifecycle", "map onStart")
+                mapView.onStart()
+            }
+            Lifecycle.Event.ON_RESUME -> {
+                Log.e("MapLifecycle", "map onResume")
+                mapView.onResume()
+            }
+            Lifecycle.Event.ON_PAUSE -> {
+                Log.e("MapLifecycle", "map onPause")
+                mapView.onPause()
+            }
+            Lifecycle.Event.ON_STOP -> {
+                Log.e("MapLifecycle", "map onStop")
+                mapView.onStop()
+            }
+            Lifecycle.Event.ON_DESTROY -> {
+                Log.e("MapLifecycle", "map onDestroy")
+                mapView.onDestroy()
+            }
+            else -> throw IllegalStateException()
+        }
+    }
+
+@Composable
+fun rememberMapViewWithLifecycle(): MapView {
+    val context = LocalContext.current
+    MapLibre.getInstance(context, BuildConfig.TILE_PROVIDER_API_KEY, WellKnownTileServer.MapTiler)
+    val mapView = remember { MapView(context) }
+
+    // Makes MapView follow the lifecycle of this composable
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    DisposableEffect(lifecycle, mapView) {
+        val lifecycleObserver = getMapLifecycleObserver(mapView)
+        lifecycle.addObserver(lifecycleObserver)
+        onDispose {
+            lifecycle.removeObserver(lifecycleObserver)
+        }
+    }
+
+    return mapView
+}
+
+suspend inline fun MapView.awaitMap(): MapLibreMap =
+    suspendCoroutine { continuation ->
+        getMapAsync {
+            continuation.resume(it)
+        }
+    }
+
 @Composable
 fun MapContainerLibre(viewModel: HomeViewModel) {
+
+    val mapView = rememberMapViewWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
     AndroidView(
-        factory = { context ->
-            MapLibre.getInstance(context, BuildConfig.TILE_PROVIDER_API_KEY, WellKnownTileServer.MapTiler)
-            val mapView = MapView(context)
-            mapView.onCreate(null)
-            mapView.getMapAsync { map ->
+        factory = {
+            mapView
+        },
+        update = {
+            coroutineScope.launch {
+                val map = it.awaitMap()
                 viewModel.setMap(map)
             }
-            mapView
         }
     )
 }
