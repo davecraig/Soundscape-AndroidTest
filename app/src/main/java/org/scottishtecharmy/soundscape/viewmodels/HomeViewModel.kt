@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.maplibre.android.annotations.IconFactory
@@ -25,35 +27,37 @@ import org.maplibre.android.style.layers.PropertyFactory
 import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(@ApplicationContext context: Context, private val soundscapeServiceConnection : SoundscapeServiceConnection): ViewModel(),
     MapLibreMap.OnMarkerClickListener {
 
-    private var serviceConnection : SoundscapeServiceConnection? = null
+    var serviceConnection : SoundscapeServiceConnection? = null
     private var iconFactory : IconFactory
     var latitude : Double = 0.0
     var longitude : Double = 0.0
     var heading : Float = 0.0F
     private var initialLocation : Location? = null
     private var mapCentered : Boolean = false
-    private var beaconLocation : LatLng? = null
-
     private var currentLocationMarker : Marker? = null
     private var beaconLocationMarker : Marker? = null
 
+    private val _homeMapStateFlow = MutableStateFlow(LatLng(0.0, 0.0))
+    var homeMapStateFlow: StateFlow<LatLng> = _homeMapStateFlow
+
     private var mapLibreMap : MapLibreMap? = null
 
-    private fun updateBeaconLocation() {
-        if (beaconLocationMarker != null) {
-            beaconLocationMarker?.position = beaconLocation
-        } else {
-            val markerOptions = MarkerOptions()
-                .position(beaconLocation)
-            beaconLocationMarker = mapLibreMap?.addMarker(markerOptions)
-        }
-    }
+//    private fun updateBeaconLocation() {
+//        if (beaconLocationMarker != null) {
+//            beaconLocationMarker?.position = _homeMapStateFlow.beaconLocation
+//        } else {
+//            val markerOptions = MarkerOptions()
+//                .position(homeMapState.beaconLocation)
+//            beaconLocationMarker = mapLibreMap?.addMarker(markerOptions)
+//        }
+//    }
 
     private fun startMonitoringLocation() {
         Log.d(TAG, "ViewModel startMonitoringLocation")
@@ -84,8 +88,8 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
             serviceConnection?.getBeaconFlow()?.collectLatest { value ->
                 if (value != null) {
                     // Use MarkerOptions and addMarker() to add a new marker in map
-                    beaconLocation = LatLng(value.latitude, value.longitude)
-                    updateBeaconLocation()
+                    _homeMapStateFlow.value = LatLng(value.latitude, value.longitude)
+//                    updateBeaconLocation()
                 }
                 else {
                     if(beaconLocationMarker != null) {
@@ -160,7 +164,7 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
             // Set the map view center if we already have an initial location
             initialLocation?.let { location -> updateLocationOnMap(location) }
             // Update the map with the beacon location if we already have one
-            beaconLocation?.let { updateBeaconLocation() }
+//            homeMapState.beaconLocation?.let { updateBeaconLocation() }
 
             mapLibreMap?.addOnMapLongClickListener { latitudeLongitude ->
                 soundscapeServiceConnection.soundscapeService?.createBeacon(
@@ -172,6 +176,14 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
             mapLibreMap?.setOnMarkerClickListener(this)
         }
 
+    }
+
+    fun onMapLongClick(location: LatLng ) : Boolean {
+        soundscapeServiceConnection.soundscapeService?.createBeacon(
+            location.latitude,
+            location.longitude
+        )
+        return false
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
