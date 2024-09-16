@@ -1,6 +1,5 @@
 package org.scottishtecharmy.soundscape.screens.home
 
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -43,13 +42,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,13 +59,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.maplibre.compose.MapView
 import com.maplibre.compose.camera.MapViewCamera
 import com.maplibre.compose.rememberSaveableMapViewCamera
@@ -76,8 +68,6 @@ import com.maplibre.compose.symbols.Symbol
 import com.maplibre.compose.symbols.models.SymbolOffset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.maplibre.android.MapLibre
-import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.MainActivity
@@ -85,14 +75,11 @@ import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.DrawerMenuItem
 import org.scottishtecharmy.soundscape.components.MainSearchBar
 import org.scottishtecharmy.soundscape.components.NavigationButton
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.viewmodels.AheadOfMeViewModel
 import org.scottishtecharmy.soundscape.viewmodels.DrawerViewModel
 import org.scottishtecharmy.soundscape.viewmodels.HomeViewModel
 import org.scottishtecharmy.soundscape.viewmodels.MyLocationViewModel
 import org.scottishtecharmy.soundscape.viewmodels.WhatsAroundMeViewModel
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
@@ -225,10 +212,6 @@ fun HomeTopAppBar(
     coroutineScope: CoroutineScope
 ) {
     val context = LocalContext.current
-    val notAvailableText = "This is not implemented yet."
-    val notAvailableToast = {
-        Toast.makeText(context, notAvailableText, Toast.LENGTH_SHORT).show()
-    }
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -429,6 +412,7 @@ fun MapContainerLibre(viewModel: HomeViewModel) {
                 Symbol(center=LatLng(beaconState.latitude, beaconState.longitude),
                        imageId = R.drawable.nearby_markers_24px,
                        imageOffset = SymbolOffset(0f,0f),
+                       color = "#ff0000",
                        onTap = { viewModel.onMarkerClick() })
         }
     }

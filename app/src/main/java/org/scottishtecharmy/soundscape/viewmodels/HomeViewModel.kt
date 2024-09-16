@@ -24,16 +24,14 @@ import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.style.layers.PropertyFactory
-import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(@ApplicationContext context: Context, private val soundscapeServiceConnection : SoundscapeServiceConnection): ViewModel() {
 
-    var serviceConnection : SoundscapeServiceConnection? = null
+    private var serviceConnection : SoundscapeServiceConnection? = null
     private var iconFactory : IconFactory
     var latitude : Double = 0.0
     var longitude : Double = 0.0
@@ -47,16 +45,6 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
     var homeMapStateFlow: StateFlow<LatLng> = _homeMapStateFlow
 
     private var mapLibreMap : MapLibreMap? = null
-
-//    private fun updateBeaconLocation() {
-//        if (beaconLocationMarker != null) {
-//            beaconLocationMarker?.position = _homeMapStateFlow.beaconLocation
-//        } else {
-//            val markerOptions = MarkerOptions()
-//                .position(homeMapState.beaconLocation)
-//            beaconLocationMarker = mapLibreMap?.addMarker(markerOptions)
-//        }
-//    }
 
     private fun startMonitoringLocation() {
         Log.d(TAG, "ViewModel startMonitoringLocation")
@@ -121,17 +109,17 @@ class HomeViewModel @Inject constructor(@ApplicationContext context: Context, pr
         longitude = location.longitude
 
         // Use MarkerOptions and addMarker() to add a new marker in map
-        val latLng = LatLng(latitude, longitude)
-        if(currentLocationMarker != null) {
-            currentLocationMarker?.position = latLng
-        }
-        else {
-            val icon = iconFactory.fromResource(R.drawable.icons8_navigation_24)
-            val markerOptions = MarkerOptions()
-                .position(latLng)
-                .icon(icon)
-            currentLocationMarker = mapLibreMap?.addMarker(markerOptions)
-        }
+//        val latLng = LatLng(latitude, longitude)
+//        if(currentLocationMarker != null) {
+//            currentLocationMarker?.position = latLng
+//        }
+//        else {
+//            val icon = iconFactory.fromResource(R.drawable.baseline_navigation_24)
+//            val markerOptions = MarkerOptions()
+//                .position(latLng)
+//                .icon(icon)
+//            currentLocationMarker = mapLibreMap?.addMarker(markerOptions)
+//        }
     }
 
     fun onMapLongClick(location: LatLng ) : Boolean {

@@ -10,9 +10,6 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
@@ -31,18 +28,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var soundscapeServiceConnection : SoundscapeServiceConnection
-
-    data class DeviceLocation(
-        var latitude : Double,
-        var longitude : Double,
-        var orientation : Double,
-    )
-
-    private var currentDeviceLocation by mutableStateOf<DeviceLocation?>(null)
-    private var displayableTileString by mutableStateOf<String?>(null)
-
-    //private var location by mutableStateOf<Location?>(null)
-    //private var tileXY by mutableStateOf<Pair<Int, Int>?>(null)
 
     // we need notification permission to be able to display a notification for the foreground service
     private val notificationPermissionLauncher =
