@@ -146,6 +146,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.androidx.benchmark.common)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.androidx.media3.session)
 
 
     testImplementation(libs.junit)

@@ -1,7 +1,7 @@
 package org.scottishtecharmy.soundscape.services
 
+import android.annotation.SuppressLint
 import android.app.Application
-import android.app.Service
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -16,6 +16,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
+import androidx.media3.session.MediaSession
+import androidx.media3.session.MediaSessionService
 import androidx.preference.PreferenceManager
 import com.squareup.moshi.Moshi
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,7 +86,7 @@ import kotlin.time.Duration.Companion.seconds
  * Foreground service that provides location updates, device orientation updates, requests tiles, data persistence with realmDB.
  */
 @AndroidEntryPoint
-class SoundscapeService : Service() {
+class SoundscapeService : MediaSessionService() {
     private val binder = LocalBinder()
 
     private val coroutineScope = CoroutineScope(Job())
@@ -115,6 +117,12 @@ class SoundscapeService : Service() {
     // Activity recognition
     private lateinit var activityTransition: ActivityTransition
 
+    // Media control button code
+    private var mediaSession: MediaSession? = null
+    @SuppressLint("UnsafeOptInUsageError")
+    private val mediaPlayer = SoundscapeDummyMediaPlayer()
+    private val soundscapeMediaCallback = SoundscapeMediaCallback()
+
     private var running: Boolean = false
 
     // Binder to allow local clients to Bind to our service
@@ -123,10 +131,11 @@ class SoundscapeService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder {
-        Log.d(TAG, "onBind")
-
+        super.onBind(intent)
         return binder
     }
+
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = mediaSession
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
@@ -203,6 +212,10 @@ class SoundscapeService : Service() {
                 onSuccess = { },
                 onFailure = { },
             )
+
+            mediaSession = MediaSession.Builder(this, mediaPlayer).build()
+            mediaSession.setCallback(soundscapeMediaCallback)
+
         }
     }
 

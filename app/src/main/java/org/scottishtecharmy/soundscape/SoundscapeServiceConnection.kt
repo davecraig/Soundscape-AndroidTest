@@ -6,7 +6,12 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import com.google.android.gms.location.DeviceOrientation
+import com.google.common.util.concurrent.MoreExecutors
 
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -81,6 +86,28 @@ class SoundscapeServiceConnection @Inject constructor(@ApplicationContext contex
                 appContext.bindService(intent, connection, 0)
             }
         }
+
+        val sessionToken = SessionToken(appContext, ComponentName(appContext, SoundscapeService::class.java))
+        val controllerFuture =
+            MediaController.Builder(appContext, sessionToken).buildAsync()
+        controllerFuture.addListener({
+            val controller = controllerFuture.get()
+            val mediaItem =
+                MediaItem.Builder()
+                    .setMediaId("media-1")
+                    .setMediaMetadata(
+                        MediaMetadata.Builder()
+                            .setArtist("Soundscape")
+                            .setTitle("Audio")
+                            .build()
+                    )
+                    .build()
+
+            controller.setMediaItem(mediaItem)
+            controller.prepare()
+            controller.play()
+
+        }, MoreExecutors.directExecutor())
     }
 
     companion object {
