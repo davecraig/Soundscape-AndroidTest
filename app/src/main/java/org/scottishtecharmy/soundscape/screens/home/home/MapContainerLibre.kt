@@ -21,7 +21,6 @@ import org.maplibre.android.maps.MapView
 import org.maplibre.android.plugins.annotation.Symbol
 import org.maplibre.android.plugins.annotation.SymbolManager
 import org.maplibre.android.plugins.annotation.SymbolOptions
-import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.R
 import java.io.File
 
@@ -109,7 +108,7 @@ fun MapContainerLibre(
         // init map first time it is displayed
         map.getMapAsync { mapLibre ->
             // val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
-            val styleUrl = Uri.fromFile(File("$filesDir/osm-bright-gl-style/style.json")).toString()
+            val styleUrl = Uri.fromFile(File("$filesDir/osm-bright-gl-style/style.json.apikey")).toString()
             mapLibre.setStyle(styleUrl) { style ->
                 style.addImage(USER_POSITION_MARKER_NAME, drawable!!)
 

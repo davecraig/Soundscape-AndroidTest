@@ -34,6 +34,9 @@ import org.scottishtecharmy.soundscape.utils.extractAssets
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
+import kotlin.io.path.Path
+import kotlin.io.path.readText
+import kotlin.io.path.writeText
 
 
 @AndroidEntryPoint
@@ -84,6 +87,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateStyle(filename : String) {
+        val path = Path(filename)
+        val newPath = Path("$filename.apikey")
+
+        val text = path.readText()
+        val newText = text.replace("{soundscape_api_key}", /*"?key=${BuildConfig.TILE_PROVIDER_API_KEY}"*/"")
+        val currentText = newPath.readText()
+        if(currentText != newText) {
+            Log.e(TAG, "Updating style with API key")
+            newPath.writeText(newText)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -91,6 +107,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("ExtractAssets", "Start extraction")
         extractAssets(applicationContext, "osm-bright-gl-style","osm-bright-gl-style")
         Log.d("ExtractAssets", "Completed extraction")
+        // Update style.json with API key
+        updateStyle("$filesDir/osm-bright-gl-style/style.json")
 
         // Debug - dump preferences
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
