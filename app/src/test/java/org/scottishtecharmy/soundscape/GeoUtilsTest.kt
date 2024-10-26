@@ -30,11 +30,19 @@ import org.scottishtecharmy.soundscape.utils.pixelXYToLatLon
 import org.scottishtecharmy.soundscape.utils.polygonContainsCoordinates
 import org.junit.Assert
 import org.junit.Test
+import org.scottishtecharmy.soundscape.utils.BentleyOttmann
+import org.scottishtecharmy.soundscape.utils.BoPoint
+import org.scottishtecharmy.soundscape.utils.BoSegment
 import org.scottishtecharmy.soundscape.utils.calculateCenterOfCircle
 import org.scottishtecharmy.soundscape.utils.distanceToPolygon
+import org.scottishtecharmy.soundscape.utils.getXYTile
+import org.scottishtecharmy.soundscape.utils.isBetween
 import org.scottishtecharmy.soundscape.utils.lineStringsIntersect
 import org.scottishtecharmy.soundscape.utils.straightLinesIntersect
+import org.scottishtecharmy.soundscape.utils.straightLinesIntersectLngLatAlt
 import kotlin.math.abs
+import kotlin.math.min
+import kotlin.math.sqrt
 
 
 class GeoUtilsTest {
@@ -574,33 +582,69 @@ class GeoUtilsTest {
     @Test
     fun intersectingLinesTest(){
 
-        val testLinesIntersect1 = straightLinesIntersect(
-            LngLatAlt(0.0,0.0),
-            LngLatAlt(0.0, 1.0),
-            LngLatAlt(0.0, 0.0),
-            LngLatAlt(1.0,1.0)
-        )
-        // touching lines should intersect
-        Assert.assertEquals(true, testLinesIntersect1)
-
-        val testLinesIntersect2 = straightLinesIntersect(
-            LngLatAlt(0.0,0.0),
-            LngLatAlt(0.0, 1.0),
-            LngLatAlt(1.0, 0.0),
-            LngLatAlt(1.0,1.0)
-        )
-        // parallel lines should not intersect
-        Assert.assertEquals(false, testLinesIntersect2)
-
-        val testLinesIntersect3 = straightLinesIntersect(
+        val testLinesIntersectLngLatAlt1 = straightLinesIntersect(
             LngLatAlt(0.0,0.5),
             LngLatAlt(1.0, 0.5),
             LngLatAlt(0.5, 0.0),
             LngLatAlt(0.5,1.0)
         )
-        //crossing lines should intersect
-        Assert.assertEquals(true, testLinesIntersect3)
 
+        //we have a vertical and a horizontal line here (cross), so they should intersect at 0.5, 0.5
+        Assert.assertEquals(true, testLinesIntersectLngLatAlt1)
+
+        val testLinesIntersectLngLatAlt2 = straightLinesIntersect(
+            LngLatAlt(0.0,0.5),
+            LngLatAlt(1.0, 0.5),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(0.0,1.0)
+        )
+        //crossing lines (T shape) should intersect
+        Assert.assertEquals(true, testLinesIntersectLngLatAlt2)
+
+        val testLinesIntersectLngLatAlt3 = straightLinesIntersect(
+            LngLatAlt(0.0,0.0),
+            LngLatAlt (1.0,1.0),
+            LngLatAlt(1.0,0.0),
+            LngLatAlt(0.0, 1.0)
+        )
+        // These lines are diagonal and should intersect
+        Assert.assertEquals(true, testLinesIntersectLngLatAlt3)
+
+        val testLinesIntersectLngLatAlt4 = straightLinesIntersect(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0),
+            LngLatAlt(0.0, 1.0),
+            LngLatAlt(1.0, 1.0)
+        )
+        //These lines are horizontal and parallel and should not intersect
+        Assert.assertEquals(false, testLinesIntersectLngLatAlt4)
+
+        val testLinesIntersectLngLatAlt5 = straightLinesIntersect(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0)
+        )
+        // these lines are both horizontal and occupy the same coordinates and should intersect
+        Assert.assertEquals(true, testLinesIntersectLngLatAlt5)
+
+        val testLinesIntersectLngLatAlt6 = straightLinesIntersect(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(0.0, 1.0),
+            LngLatAlt(1.0, 0.0),
+            LngLatAlt(1.0, 1.0)
+        )
+        // These lines are both vertical and parallel and do not intersect
+        Assert.assertEquals(false, testLinesIntersectLngLatAlt6)
+
+        val testLinesIntersectLngLatAlt7 = straightLinesIntersect(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(0.0, 1.0),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0)
+        )
+        //One line is vertical and one horizontal but they intersect
+        Assert.assertEquals(true, testLinesIntersectLngLatAlt7)
 
     }
 
@@ -635,5 +679,178 @@ class GeoUtilsTest {
         // These linestrings do not intersect
         val intersect2 = lineStringsIntersect(lineString1, lineString3)
         Assert.assertEquals(false, intersect2)
+    }
+
+    @Test
+    fun intersectingStraightLngLatAltTest(){
+        val testLinesIntersectLngLatAlt1 = straightLinesIntersectLngLatAlt(
+            LngLatAlt(0.0,0.5),
+            LngLatAlt(1.0, 0.5),
+            LngLatAlt(0.5, 0.0),
+            LngLatAlt(0.5,1.0)
+        )
+
+        //we have a vertical and a horizontal line here (cross), so they should intersect at 0.5, 0.5
+        Assert.assertEquals(LngLatAlt(0.5, 0.5), testLinesIntersectLngLatAlt1)
+
+        val testLinesIntersectLngLatAlt2 = straightLinesIntersectLngLatAlt(
+            LngLatAlt(0.0,0.5),
+            LngLatAlt(1.0, 0.5),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(0.0,1.0)
+        )
+        //crossing lines (T shape) should intersect at 0.0, 0.5 as we have a horizontal line and a vertical line
+        Assert.assertEquals(LngLatAlt(0.0, 0.5), testLinesIntersectLngLatAlt2)
+
+        val testLinesIntersectLngLatAlt3 = straightLinesIntersectLngLatAlt(
+            LngLatAlt(0.0,0.0),
+            LngLatAlt (1.0,1.0),
+            LngLatAlt(1.0,0.0),
+            LngLatAlt(0.0, 1.0)
+        )
+        // These lines are diagonal and should cross at 0.5, 0.5
+        Assert.assertEquals(LngLatAlt(0.5, 0.5), testLinesIntersectLngLatAlt3)
+
+        val testLinesIntersectLngLatAlt4 = straightLinesIntersectLngLatAlt(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0),
+            LngLatAlt(0.0, 1.0),
+            LngLatAlt(1.0, 1.0)
+        )
+        //These lines are horizontal and parallel and should not intersect
+        Assert.assertEquals(null, testLinesIntersectLngLatAlt4)
+
+        val testLinesIntersectLngLatAlt5 = straightLinesIntersectLngLatAlt(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0)
+        )
+        // these lines are both horizontal and occupy the same coordinates and should intersect at 0.0, 0.0
+        Assert.assertEquals(LngLatAlt(0.0, 0.0), testLinesIntersectLngLatAlt5)
+
+        val testLinesIntersectLngLatAlt6 = straightLinesIntersectLngLatAlt(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(0.0, 1.0),
+            LngLatAlt(1.0, 0.0),
+            LngLatAlt(1.0, 1.0)
+        )
+        // These lines are both vertical and parallel and do not intersect
+        Assert.assertEquals(null, testLinesIntersectLngLatAlt6)
+
+        val testLinesIntersectLngLatAlt7 = straightLinesIntersectLngLatAlt(
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(0.0, 1.0),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 0.0)
+        )
+        //One line is vertical and one horizontal but they intersect at 0.0, 0.0 (L shape)
+        Assert.assertEquals(LngLatAlt(0.0, 0.0), testLinesIntersectLngLatAlt7)
+
+    }
+
+
+
+
+
+    @Test
+    fun tempIntersectTest(){
+        // Just trying out another line intersection algorithm to see how it works:
+        // https://github.com/valenpe7/bentley-ottmann
+        val point1 = BoPoint(0.0,0.0)
+        val point2 = BoPoint(1.0,1.0)
+        val point3 = BoPoint(1.0,0.0)
+        val point4 = BoPoint(0.0, 1.0)
+
+        val data1 = ArrayList<BoSegment>()
+        data1.add(BoSegment(point1, point2))
+        data1.add(BoSegment(point3, point4))
+        val test1 = BentleyOttmann(data1)
+        test1.findIntersections()
+        val intersectionsTest = test1.getIntersections()
+        // the lines cross diagonally
+        Assert.assertEquals(1, intersectionsTest.size)
+        Assert.assertEquals(0.5, intersectionsTest[0].x_coord, 0.0001)
+        Assert.assertEquals(0.5, intersectionsTest[0].y_coord, 0.0001)
+        test1.printIntersections()
+    }
+
+    @Test
+    fun nearestCoordinateOnPolygonSegmentTest(){
+
+        val currentLocation1 = LngLatAlt(0.0, 0.0)
+        //closed triangle/polygon
+        val polygon1 = Polygon().also {
+            it.coordinates = arrayListOf(
+                arrayListOf(
+                    LngLatAlt(0.0, 1.0),
+                    LngLatAlt(1.0, 1.0),
+                    LngLatAlt(1.0, 0.0),
+                    LngLatAlt(0.0, 1.0),
+                )
+            )
+        }
+
+        val nearestDistance1 = distanceToPolygon(currentLocation1, polygon1)
+        val nearestPoint1 = nearestPointOnPolygonSegment(currentLocation1, polygon1)
+
+        // distance to midpoint of hypotenuse
+        Assert.assertEquals(78714.27, nearestDistance1, 0.0001)
+        // midpoint of hypotenuse
+        Assert.assertEquals(LngLatAlt(0.5, 0.5), nearestPoint1)
+
+    }
+
+    fun nearestPointOnPolygonSegment(point: LngLatAlt, polygon: Polygon): LngLatAlt? {
+        var nearestPoint: LngLatAlt? = null
+        var minDistance = Double.MAX_VALUE
+
+
+        for (ring in polygon.coordinates) {
+            // not sure if we really need to do this as any point on the outer ring is going to be closer than the inner ring(s)
+            // assuming the location is outside the polygon
+            for (i in ring.indices) {
+                val start = ring[i]
+                val end = ring[(i + 1) % ring.size]
+
+                val nearestPointOnSegment = nearestPointOnSegment(point, start, end)
+                val distance = distance(point.latitude, point.longitude, nearestPointOnSegment.latitude, nearestPointOnSegment.longitude)
+
+                if (distance < minDistance) {
+                    minDistance = distance
+                    nearestPoint = nearestPointOnSegment
+                }
+            }
+        }
+
+        return nearestPoint
+    }
+
+    fun nearestPointOnSegment(point: LngLatAlt, start: LngLatAlt, end: LngLatAlt): LngLatAlt {
+        val segment = subtractLngLatAlt(end, start)
+        val segmentLengthSquared = dotProductLngLatAlt(segment, segment)
+
+        if (segmentLengthSquared == 0.0) {
+            return start
+        }
+
+        val t = (dotProductLngLatAlt(subtractLngLatAlt(point, start), segment) / segmentLengthSquared).coerceIn(0.0, 1.0)
+        return addLngLatAlt(start, multiplyLngLatAltByScalar(segment, t))
+    }
+
+    fun subtractLngLatAlt(a: LngLatAlt, b: LngLatAlt): LngLatAlt {
+        return LngLatAlt(a.longitude - b.longitude, a.latitude - b.latitude, a.altitude)
+    }
+
+    fun addLngLatAlt(a: LngLatAlt, b: LngLatAlt): LngLatAlt {
+        return LngLatAlt(a.longitude + b.longitude, a.latitude + b.latitude, a.altitude)
+    }
+
+    fun multiplyLngLatAltByScalar(a: LngLatAlt, scalar: Double): LngLatAlt {
+        return LngLatAlt(a.longitude * scalar, a.latitude * scalar, a.altitude)
+    }
+
+    fun dotProductLngLatAlt(a: LngLatAlt, b: LngLatAlt): Double {
+        return a.longitude * b.longitude + a.latitude * b.latitude
     }
 }
