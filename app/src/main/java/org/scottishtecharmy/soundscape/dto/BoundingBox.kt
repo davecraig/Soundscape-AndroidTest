@@ -1,4 +1,8 @@
 package org.scottishtecharmy.soundscape.dto
+
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.utils.isBetween
+
 /**
  * Bounding box usually follow the standard format of:
  *
@@ -12,3 +16,11 @@ data class BoundingBox(
     var eastLongitude: Double = 0.0,
     var northLatitude: Double = 0.0
 )
+
+fun pointIsWithinBoundingBox(point: LngLatAlt?, box: BoundingBox) : Boolean {
+    if(point == null)
+        return true
+
+    return (isBetween(box.westLongitude, box.eastLongitude, point.longitude) &&
+            isBetween(box.southLatitude, box.northLatitude, point.latitude))
+}

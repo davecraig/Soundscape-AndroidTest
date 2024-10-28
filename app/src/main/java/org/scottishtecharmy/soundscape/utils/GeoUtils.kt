@@ -191,7 +191,6 @@ fun pixelXYToLatLon(pixelX: Double, pixelY: Double, zoom: Int): Pair<Double, Dou
     val longitude = 360 * x
 
     return Pair(latitude, longitude)
-
 }
 
 /**
@@ -585,7 +584,7 @@ fun getReferenceCoordinate(path: LineString, targetDistance: Double, reverseLine
  * @return A bounding box object that contains coordinates for West/South/East/North edges
  * or min Lon / min Lat / max Lon / max Lat.
  */
-fun tileToBoundingBox(x: Int, y: Int, zoom: Double): BoundingBox {
+fun tileToBoundingBox(x: Int, y: Int, zoom: Int): BoundingBox {
     val boundingBox = BoundingBox()
     boundingBox.northLatitude = tileToLat(y, zoom)
     boundingBox.southLatitude = tileToLat(y + 1, zoom)
@@ -602,7 +601,7 @@ fun tileToBoundingBox(x: Int, y: Int, zoom: Double): BoundingBox {
  * Zoom level of the Slippy Tile
  * @return a latitude coordinate.
  */
-fun tileToLat(x: Int, zoom: Double): Double {
+fun tileToLat(x: Int, zoom: Int): Double {
     val n: Double = Math.PI - (2.0 * Math.PI * x) / 2.0.pow(zoom)
     return Math.toDegrees(atan(sinh(n)))
 }
@@ -615,7 +614,7 @@ fun tileToLat(x: Int, zoom: Double): Double {
  * Zoom level of the Slippy Tile.
  * @return a longitude coordinate.
  */
-fun tileToLon(y: Int, zoom: Double): Double {
+fun tileToLon(y: Int, zoom: Int): Double {
     return y / 2.0.pow(zoom) * 360.0 - 180
 }
 
