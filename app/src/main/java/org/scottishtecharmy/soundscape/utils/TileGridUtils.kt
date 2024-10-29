@@ -57,8 +57,8 @@ class TileGrid(newTiles : MutableList<VectorTile>, newCentralBoundingBox : Bound
          * The zoom level and grid size are constant. When using soundscape-backend these will be
          * 16 and 3, but if we switch to using protobuf tiles they will be 15 and 2.
          */
-        var ZOOM_LEVEL = 16
-        var GRID_SIZE = 3
+        var ZOOM_LEVEL = 15
+        var GRID_SIZE = 2
 
         /**
          * Given a location it calculates the set of tiles (VectorTiles) that cover a

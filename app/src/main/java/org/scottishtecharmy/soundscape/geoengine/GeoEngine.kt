@@ -38,6 +38,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import org.scottishtecharmy.soundscape.locationprovider.DirectionProvider
 import org.scottishtecharmy.soundscape.locationprovider.LocationProvider
 import org.scottishtecharmy.soundscape.network.ITileDAO
+import org.scottishtecharmy.soundscape.network.ProtomapsTileClient
 import org.scottishtecharmy.soundscape.network.TileClient
 import org.scottishtecharmy.soundscape.utils.RelativeDirections
 import org.scottishtecharmy.soundscape.utils.TileGrid
@@ -61,9 +62,11 @@ import org.scottishtecharmy.soundscape.utils.getRelativeDirectionLabel
 import org.scottishtecharmy.soundscape.utils.getRelativeDirectionsPolygons
 import org.scottishtecharmy.soundscape.utils.getRoadBearingToIntersection
 import org.scottishtecharmy.soundscape.utils.getSuperCategoryElements
+import org.scottishtecharmy.soundscape.utils.processTileFeatureCollection
 import org.scottishtecharmy.soundscape.utils.processTileString
 import org.scottishtecharmy.soundscape.utils.removeDuplicateOsmIds
 import org.scottishtecharmy.soundscape.utils.sortedByDistanceTo
+import org.scottishtecharmy.soundscape.utils.vectorTileToGeoJson
 import retrofit2.awaitResponse
 import java.util.Locale
 
@@ -164,7 +167,25 @@ class GeoEngine {
         }
     }
 
-    private suspend fun updateTile(x : Int, y: Int, quadkey: String, update: Boolean) {
+    private suspend fun updateTileFromProtomaps(x : Int, y: Int, quadkey: String, update: Boolean) {
+        withContext(Dispatchers.IO) {
+            val protomapsClient = ProtomapsTileClient()
+            val tileReq = async {
+                protomapsClient.getClient().getMvtTileWithCache(x, y, ZOOM_LEVEL)
+            }
+            val result = tileReq.await().awaitResponse().body()
+            if(result != null) {
+                val tileFeatureCollection = vectorTileToGeoJson(x, y, result)
+                val tileData = processTileFeatureCollection(tileFeatureCollection, quadkey)
+                if(update)
+                    tilesRepository.updateTile(tileData)
+                else
+                    tilesRepository.insertTile(tileData)
+            }
+        }
+    }
+
+    private suspend fun updateTileFromSoundscapeBackend(x : Int, y: Int, quadkey: String, update: Boolean) {
         withContext(Dispatchers.IO) {
             val service =
                 tileClient.retrofitInstance?.create(ITileDAO::class.java)
@@ -184,6 +205,13 @@ class GeoEngine {
                     tilesRepository.insertTile(tileData)
             }
         }
+    }
+
+    private suspend fun updateTile(x : Int, y: Int, quadkey: String, update: Boolean) {
+        if(ZOOM_LEVEL == 15) {
+            return updateTileFromProtomaps(x, y, quadkey, update)
+        }
+        return updateTileFromSoundscapeBackend(x, y, quadkey, update)
     }
 
     private suspend fun updateTileGrid(tileGrid : TileGrid) {
@@ -313,12 +341,17 @@ class GeoEngine {
                             if (feature.foreign?.get("feature_value") != "house") {
                                 if (feature.properties?.get("name") != null) {
                                     val superCategoryList = getSuperCategoryElements("place")
+                                    // We never want to add a feature more than once
+                                    var found = false
                                     for (property in feature.properties!!) {
                                         for (featureType in superCategoryList) {
                                             if (property.value == featureType) {
                                                 tempFeatureCollection.features.add(feature)
+                                                found = true
                                             }
+                                            if(found) break
                                         }
+                                        if(found) break
                                     }
                                 }
                             }
@@ -404,7 +437,21 @@ class GeoEngine {
                                 //  should be the location of that. For now we pass no location.
                                 results.add(PositionedString(text/*, polygonAsPoint*/))
                             }
+                        } else if (feature.geometry is Point) {
+                            if (feature.properties?.get("name") != null) {
+                                val point = feature.geometry as Point
+                                val d = distance(locationProvider.getCurrentLatitude() ?: 0.0,
+                                                 locationProvider.getCurrentLongitude() ?: 0.0,
+                                                  point.coordinates.latitude,
+                                                  point.coordinates.longitude).toInt()
+                                val text = "${feature.properties?.get("name")}. $d meters."
+                                // TODO: We want to play the speech out at a location representing
+                                //  the polygon. Because we're calculating the nearest point, it
+                                //  should be the location of that. For now we pass no location.
+                                results.add(PositionedString(text/*, polygonAsPoint*/))
+                            }
                         }
+
                     }
                 } else {
                     results.add(PositionedString(localizedContext.getString(R.string.callouts_nothing_to_call_out_now)))
@@ -735,8 +782,8 @@ class GeoEngine {
                     for (feature in collection.features) {
                         val osmId = feature.foreign?.get("osm_ids")
                         //Log.d(TAG, "osmId: $osmId")
-                        if (osmId != null && !processedRoadOsmIds.contains(osmId)) {
-                            processedRoadOsmIds.add(osmId)
+                        if (true) {//osmId != null && !processedRoadOsmIds.contains(osmId)) {
+                            //processedRoadOsmIds.add(osmId)
                             roadsGridFeatureCollection.features.add(feature)
                         }
                     }
@@ -746,8 +793,8 @@ class GeoEngine {
                     for (feature in collection.features) {
                         val osmId = feature.foreign?.get("osm_ids")
                         //Log.d(TAG, "osmId: $osmId")
-                        if (osmId != null && !processedIntersectionOsmIds.contains(osmId)) {
-                            processedIntersectionOsmIds.add(osmId)
+                        if (true) { //osmId != null && !processedIntersectionOsmIds.contains(osmId)) {
+                            //processedIntersectionOsmIds.add(osmId)
                             intersectionsGridFeatureCollection.features.add(feature)
                         }
                     }
@@ -757,8 +804,8 @@ class GeoEngine {
                     for (feature in collection.features) {
                         val osmId = feature.foreign?.get("osm_ids")
                         //Log.d(TAG, "osmId: $osmId")
-                        if (osmId != null && !processedCrossingsOsmIds.contains(osmId)) {
-                            processedCrossingsOsmIds.add(osmId)
+                        if (true) {//osmId != null && !processedCrossingsOsmIds.contains(osmId)) {
+                            //processedCrossingsOsmIds.add(osmId)
                             crossingsGridFeatureCollection.features.add(feature)
                         }
 
@@ -768,8 +815,8 @@ class GeoEngine {
                     for (feature in collection.features) {
                         val osmId = feature.foreign?.get("osm_ids")
                         //Log.d(TAG, "osmId: $osmId")
-                        if (osmId != null && !processedPoiOsmIds.contains(osmId)) {
-                            processedPoiOsmIds.add(osmId)
+                        if (true) { //osmId != null && !processedPoiOsmIds.contains(osmId)) {
+                            //processedPoiOsmIds.add(osmId)
                             poiGridFeatureCollection.features.add(feature)
                         }
                     }
@@ -778,8 +825,8 @@ class GeoEngine {
                     for (feature in collection.features) {
                         val osmId = feature.foreign?.get("osm_ids")
                         //Log.d(TAG, "osmId: $osmId")
-                        if (osmId != null && !processedBusOsmIds.contains(osmId)) {
-                            processedBusOsmIds.add(osmId)
+                        if (true) { //osmId != null && !processedBusOsmIds.contains(osmId)) {
+                            //processedBusOsmIds.add(osmId)
                             busGridFeatureCollection.features.add(feature)
                         }
                     }

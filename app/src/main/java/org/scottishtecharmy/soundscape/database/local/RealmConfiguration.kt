@@ -20,6 +20,13 @@ object RealmConfiguration {
             val config = RealmConfiguration.Builder(
                 schema = setOf(TileData::class)
             ).name("TileData").build()
+            //
+            // DEBUG FOR DAVE
+            //
+            deleteRealm(config)
+            //
+            //
+            //
             tileDataRealm = Realm.open(config)
         }
         return tileDataRealm!!
