@@ -1,6 +1,5 @@
 package org.scottishtecharmy.soundscape.utils
 
-import org.scottishtecharmy.soundscape.database.local.model.TileData
 import org.scottishtecharmy.soundscape.dto.IntersectionRelativeDirections
 import org.scottishtecharmy.soundscape.dto.Tile
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
@@ -14,7 +13,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import com.squareup.moshi.Moshi
-import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
+import org.scottishtecharmy.soundscape.geoengine.GeoEngine.Fc
 import java.lang.Math.toDegrees
 import java.util.PriorityQueue
 import kotlin.math.PI
@@ -419,100 +418,31 @@ fun removeDuplicateOsmIds(
 
 /**
  * Parses out roads, paths, intersections, entrances, pois, bus stops and crossings from a tile string.
- * @param quadKey
- * quad key for the tile.
- * @param tileString
- * String for a tile.
  * @return a TileData object with the string parsed into separate strings.
  */
 
-fun processTileString(quadKey: String, tileString: String): TileData {
+fun processTileString(tileString: String): Array<FeatureCollection> {
     val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
     val tileFeatureCollection = moshi.adapter(FeatureCollection::class.java)
         .fromJson(tileString)
+    if(tileFeatureCollection == null)
+        return emptyArray()
 
-    return processTileFeatureCollection(tileFeatureCollection, quadKey, tileString)
+    return processTileFeatureCollection(tileFeatureCollection)
 }
 
-fun processTileFeatureCollection(tileFeatureCollection: FeatureCollection?,
-                                 quadKey: String,
-                                 tileString: String? = null): TileData {
+fun processTileFeatureCollection(tileFeatureCollection: FeatureCollection): Array<FeatureCollection> {
 
-    val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-    val tileData = TileData()
-    tileData.quadKey = quadKey
+    val tileData = Array(Fc.MAX_COLLECTION_ID.id) { FeatureCollection() }
 
-    if(tileString != null) {
-        tileData.tileString = tileString
-    }
-    else {
-        val adapter = GeoJsonObjectMoshiAdapter()
-        tileData.tileString = adapter.toJson(tileFeatureCollection)
-    }
-
-    val roadsFeatureCollection = getRoadsFeatureCollectionFromTileFeatureCollection(
-        tileFeatureCollection!!
-    )
-    val roadsString = moshi.adapter(FeatureCollection::class.java).toJson(
-        roadsFeatureCollection
-    )
-    tileData.roads = roadsString
-
-    val pathsFeatureCollection = getPathsFeatureCollectionFromTileFeatureCollection(
-        tileFeatureCollection
-    )
-    val pathsString = moshi.adapter(FeatureCollection::class.java).toJson(
-        pathsFeatureCollection
-    )
-    tileData.paths = pathsString
-
-    val intersectionsFeatureCollection =  getIntersectionsFeatureCollectionFromTileFeatureCollection(
-        tileFeatureCollection
-    )
-    val intersectionsString = moshi.adapter(FeatureCollection::class.java).toJson(
-        intersectionsFeatureCollection
-    )
-    tileData.intersections = intersectionsString
-
-    val entrancesFeatureCollection = getEntrancesFeatureCollectionFromTileFeatureCollection(
-        tileFeatureCollection
-    )
-    val entrancesString = moshi.adapter(FeatureCollection::class.java).toJson(
-        entrancesFeatureCollection
-    )
-    tileData.entrances = entrancesString
-
-    val poisFeatureCollection = getPointsOfInterestFeatureCollectionFromTileFeatureCollection(
-        tileFeatureCollection
-    )
-    val poisString = moshi.adapter(FeatureCollection::class.java).toJson(
-        poisFeatureCollection
-    )
-    tileData.pois = poisString
-
-    val busStopsFeatureCollection = getBusStopsFeatureCollectionFromTileFeatureCollection(
-        tileFeatureCollection
-    )
-    val busStopsString = moshi.adapter(FeatureCollection::class.java).toJson(
-        busStopsFeatureCollection
-    )
-    tileData.busStops = busStopsString
-
-    val crossingsFeatureCollection = getCrossingsFromTileFeatureCollection(
-        tileFeatureCollection
-    )
-    val crossingsString = moshi.adapter(FeatureCollection::class.java).toJson(
-        crossingsFeatureCollection
-    )
-    tileData.crossings = crossingsString
-
-    val interpolationFeatureCollection = getInterpolationPointsFromTileFeatureCollection(
-        tileFeatureCollection
-    )
-    val interpolationString = moshi.adapter(FeatureCollection::class.java).toJson(
-        interpolationFeatureCollection
-    )
-    tileData.interpolations = interpolationString
+    tileData[Fc.ROADS.id] = getRoadsFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
+    tileData[Fc.PATHS.id] = getPathsFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
+    tileData[Fc.INTERSECTIONS.id] = getIntersectionsFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
+    tileData[Fc.ENTRANCES.id] = getEntrancesFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
+    tileData[Fc.POIS.id] = getPointsOfInterestFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
+    tileData[Fc.BUS_STOPS.id] = getBusStopsFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
+    tileData[Fc.CROSSINGS.id] = getCrossingsFromTileFeatureCollection(tileFeatureCollection)
+    tileData[Fc.INTERPOLATIONS.id] = getInterpolationPointsFromTileFeatureCollection(tileFeatureCollection)
 
     return  tileData
 
@@ -2176,7 +2106,7 @@ fun checkIntersection(
     if(testNearestRoad.features.isEmpty())
         return false
 
-    var needsFurtherChecking: Boolean = true
+    var needsFurtherChecking = true
     for (road in intersectionRoadNames) {
         val roadName = road.properties?.get("name")
         val isOneWay = road.properties?.get("oneway") == "yes"
