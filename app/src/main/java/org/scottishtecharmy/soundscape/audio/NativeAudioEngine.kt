@@ -237,7 +237,12 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
                 // utteranceId with an incrementing count.
                 utteranceIncrementingCount += 1
                 val utteranceId = ttsSocketPair[1].fd.toString() + "/" + utteranceIncrementingCount
-                textToSpeech.synthesizeToFile(text, params, ttsSocket, utteranceId)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    textToSpeech.synthesizeToFile(text, params, ttsSocket, utteranceId)
+                } else {
+                    //textToSpeech.synthesizeToFile(text, params, ttsSocket)?
+                }
 
                 // Store the socket pair in a hashmap indexed by utteranceId
                 ttsSockets[ttsSocket.toString()] = ttsSocketPair

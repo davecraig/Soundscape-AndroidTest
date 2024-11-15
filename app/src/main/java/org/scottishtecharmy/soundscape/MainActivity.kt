@@ -224,14 +224,16 @@ class MainActivity : AppCompatActivity() {
                 startSoundscapeService()
             }
             else -> {
-                locationPermissionRequest.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                        Manifest.permission.ACTIVITY_RECOGNITION
-                    )
+                var permissions = arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
                 )
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    permissions += Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    permissions += Manifest.permission.ACTIVITY_RECOGNITION
+                }
+                locationPermissionRequest.launch(permissions)
             }
         }
     }

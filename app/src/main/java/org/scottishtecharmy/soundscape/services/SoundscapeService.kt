@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
@@ -204,11 +205,15 @@ class SoundscapeService : MediaSessionService() {
 
         // promote service to foreground service
         // FOREGROUND_SERVICE_TYPE_LOCATION needs to be in AndroidManifest.xml
+        var foregroundServiceType = 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            foregroundServiceType = ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+        }
         ServiceCompat.startForeground(
             this,
             NOTIFICATION_ID,
             getNotification(),
-            ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+            foregroundServiceType
         )
     }
 
