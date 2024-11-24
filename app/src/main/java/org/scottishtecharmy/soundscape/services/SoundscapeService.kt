@@ -35,6 +35,7 @@ import org.scottishtecharmy.soundscape.activityrecognition.ActivityTransition
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
 import org.scottishtecharmy.soundscape.database.local.RealmConfiguration
 import org.scottishtecharmy.soundscape.geoengine.GeoEngine
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.locationprovider.AndroidDirectionProvider
 import org.scottishtecharmy.soundscape.locationprovider.AndroidLocationProvider
@@ -85,26 +86,26 @@ class SoundscapeService : MediaSessionService() {
 
     private var running: Boolean = false
 
-    private var binder : SoundscapeBinder? = null
+    private var binder: SoundscapeBinder? = null
+
     @SuppressLint("MissingSuperCall")
     override fun onBind(intent: Intent?): IBinder {
-        if(binder == null) {
+        if (binder == null) {
             // Create binder if we don't have one already
             binder = SoundscapeBinder(this@SoundscapeService)
         }
         return binder!!
     }
 
-    fun setStreetPreviewMode(on : Boolean, latitude: Double, longitude: Double) {
+    fun setStreetPreviewMode(on: Boolean, latitude: Double, longitude: Double) {
         directionProvider.destroy()
         locationProvider.destroy()
         geoEngine.stop()
-        if(on) {
+        if (on) {
             // Use static location, but phone's direction
             locationProvider = StaticLocationProvider(latitude, longitude)
             directionProvider = AndroidDirectionProvider(this)
-        } else
-        {
+        } else {
             // Switch back to phone's location and direction
             locationProvider = AndroidLocationProvider(this)
             directionProvider = AndroidDirectionProvider(this)
@@ -116,7 +117,8 @@ class SoundscapeService : MediaSessionService() {
         _streetPreviewFlow.value = on
     }
 
-    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = mediaSession
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? =
+        mediaSession
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (!running) {
@@ -313,19 +315,22 @@ class SoundscapeService : MediaSessionService() {
     fun myLocation() {
         audioEngine.clearTextToSpeechQueue()
         val results = geoEngine.myLocation()
-        for(result in results) {
+        for (result in results) {
             audioEngine.createTextToSpeech(result)
         }
+    }
+
+    suspend fun searchResult(searchString: String): ArrayList<Feature>? {
+        return geoEngine.searchResult(searchString)?.features
     }
 
     fun whatsAroundMe() {
         audioEngine.clearTextToSpeechQueue()
         val results = geoEngine.whatsAroundMe()
-        for(result in results) {
-            if(result.location == null) {
+        for (result in results) {
+            if (result.location == null) {
                 audioEngine.createTextToSpeech(result.text)
-            }
-            else {
+            } else {
                 audioEngine.createTextToSpeech(
                     result.text,
                     result.location.latitude,
@@ -338,12 +343,12 @@ class SoundscapeService : MediaSessionService() {
     fun aheadOfMe() {
         audioEngine.clearTextToSpeechQueue()
         val results = geoEngine.aheadOfMe()
-        for(result in results) {
+        for (result in results) {
             audioEngine.createTextToSpeech(result)
         }
     }
 
-    private lateinit var routePlayer : RoutePlayer
+    private lateinit var routePlayer: RoutePlayer
     fun setupCurrentRoute() {
         routePlayer = RoutePlayer(this)
         routePlayer.setupCurrentRoute()
@@ -362,11 +367,12 @@ class SoundscapeService : MediaSessionService() {
 }
 
 // Binder to allow local clients to Bind to our service
-class SoundscapeBinder(newService : SoundscapeService?) : Binder() {
-    var service : SoundscapeService? = newService
+class SoundscapeBinder(newService: SoundscapeService?) : Binder() {
+    var service: SoundscapeService? = newService
     fun getSoundscapeService(): SoundscapeService {
         return service!!
     }
+
     fun reset() {
         service = null
     }

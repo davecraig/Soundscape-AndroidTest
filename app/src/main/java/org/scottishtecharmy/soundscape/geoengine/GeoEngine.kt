@@ -69,6 +69,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.processTileString
 import org.scottishtecharmy.soundscape.geoengine.utils.removeDuplicateOsmIds
 import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.vectorTileToGeoJson
+import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
 import retrofit2.awaitResponse
 import java.util.Locale
 import kotlin.coroutines.cancellation.CancellationException
@@ -368,7 +369,14 @@ class GeoEngine {
         }
         return results
     }
-
+    suspend fun searchResult(searchString: String) = withContext(Dispatchers.IO) {
+        return@withContext PhotonSearchProvider.getInstance()
+            .getSearchResults(
+                searchString = searchString,
+                latitude = locationProvider.getCurrentLatitude(),
+                longitude = locationProvider.getCurrentLongitude()
+            ).execute().body()
+    }
     fun whatsAroundMe() : List<PositionedString> {
         // TODO This is just a rough POC at the moment. Lots more to do...
         //  setup settings in the menu so we can pass in the filters, etc.

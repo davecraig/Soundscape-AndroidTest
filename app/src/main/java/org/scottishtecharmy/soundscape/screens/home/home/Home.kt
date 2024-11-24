@@ -38,6 +38,7 @@ import org.maplibre.android.geometry.LatLng
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.MainSearchBar
+import org.scottishtecharmy.soundscape.components.SearchItem
 import org.scottishtecharmy.soundscape.screens.home.DrawerContent
 
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
@@ -53,12 +54,17 @@ fun HomePreview() {
         onMapLongClick = { false },
         onMarkerClick = { true },
         getMyLocation = {},
-        getWhatsAheadOfMe = {},
         getWhatsAroundMe = {},
+        getWhatsAheadOfMe = {},
         shareLocation = {},
         rateSoundscape = {},
         streetPreviewEnabled = false,
-        tileGridGeoJson = ""
+        tileGridGeoJson = "",
+        searchText = "Lille",
+        isSearching = true,
+        onSearchTextChange = {},
+        onToogleSearch = {},
+        searchItems = emptyList()
     )
 }
 
@@ -70,15 +76,20 @@ fun Home(
     heading: Float,
     onNavigate: (String) -> Unit,
     onMapLongClick: (LatLng) -> Boolean,
-    onMarkerClick: (Marker) -> Boolean,
+    onMarkerClick: ( Marker) -> Boolean,
     getMyLocation: () -> Unit,
     getWhatsAroundMe: () -> Unit,
     getWhatsAheadOfMe: () -> Unit,
     shareLocation: () -> Unit,
     rateSoundscape: () -> Unit,
-    streetPreviewEnabled : Boolean,
+    streetPreviewEnabled: Boolean,
     modifier: Modifier = Modifier,
-    tileGridGeoJson: String
+    tileGridGeoJson: String,
+    searchText: String,
+    isSearching: Boolean,
+    onSearchTextChange: (String) -> Unit,
+    onToogleSearch: () -> Unit,
+    searchItems: List<SearchItem>,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -123,11 +134,11 @@ fun Home(
                 onNavigate = onNavigate,
                 searchBar = {
                     MainSearchBar(
-                        searchText = "Hello Dave",
-                        isSearching = false,
-                        itemList = emptyList(),
-                        onSearchTextChange = { },
-                        onToggleSearch = { },
+                        searchText = searchText,
+                        isSearching = isSearching,
+                        itemList = searchItems,
+                        onSearchTextChange = onSearchTextChange ,
+                        onToggleSearch = onToogleSearch,
                         onItemClick = { },
                     )
                 },

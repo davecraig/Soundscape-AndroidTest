@@ -24,11 +24,13 @@ const val BASE_URL = "https://photon.komoot.io/"
  */
 interface PhotonSearchProvider {
     @GET("api/")
-    fun getSearchResults(@Query("q") searchString : String,
-                         @Query("lat") latitude : Double? = null,
-                         @Query("lon") longitude : Double? = null,
-                         @Query("limit") limit : UInt = 5U
-                         ): Call<FeatureCollection>
+    fun getSearchResults(
+        @Query("q") searchString: String,
+        @Query("lat") latitude: Double? = null,
+        @Query("lon") longitude: Double? = null,
+        @Query("limit") limit: UInt = 5U,
+        @Query("location_bias_scale") bias: Float = 0.2f
+    ): Call<FeatureCollection>
 
     companion object {
         private var searchProvider: PhotonSearchProvider? = null

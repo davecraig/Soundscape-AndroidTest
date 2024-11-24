@@ -51,6 +51,7 @@
     <string name="search_use_current_location">Current Location</string>
     <string name="search_nearby_screen_title">Places Nearby</string>
     <string name="search_view_markers">Markers &amp; Routes</string>
+    <string name="search_hint_input">Search for an address</string>
 
     <string name="callouts_panel_title">Hear My Surroundings</string>
     <string name="ui_action_button_my_location">My\nLocation</string>
