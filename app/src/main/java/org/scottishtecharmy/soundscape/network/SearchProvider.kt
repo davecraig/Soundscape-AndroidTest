@@ -8,6 +8,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 const val BASE_URL = "https://photon.komoot.io/"
@@ -23,11 +24,16 @@ const val BASE_URL = "https://photon.komoot.io/"
  *  @param limit is the number of results to return.
  */
 interface PhotonSearchProvider {
+    @Headers(
+        "Cache-control: max-age=0",
+        "Connection: keep-alive"
+    )
     @GET("api/")
     fun getSearchResults(
         @Query("q") searchString: String,
         @Query("lat") latitude: Double? = null,
         @Query("lon") longitude: Double? = null,
+        @Query("lang") language: String = "en",
         @Query("limit") limit: UInt = 5U,
         @Query("location_bias_scale") bias: Float = 0.2f
     ): Call<FeatureCollection>
