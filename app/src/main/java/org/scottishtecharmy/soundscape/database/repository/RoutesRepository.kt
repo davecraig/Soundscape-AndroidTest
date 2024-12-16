@@ -12,7 +12,7 @@ class RoutesRepository(private val routesDao: RoutesDao) {
         routesDao.insertRoute(route)
     }
 
-    suspend fun getRoute(name: String) = withContext(Dispatchers.IO){
+    suspend fun getRoute(name: String?) = withContext(Dispatchers.IO){
         routesDao.getRoute(name)
     }
 

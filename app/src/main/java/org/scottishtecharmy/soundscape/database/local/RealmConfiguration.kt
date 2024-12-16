@@ -66,7 +66,7 @@ object RealmConfiguration {
                     RoutePoint::class,
                     Location::class
                 )
-            ).name("MarkersAndRoutes").inMemory().build()
+            ).name("MarkersAndRoutes").build()
 
             // TODO: Once we are happy with the format of the database, this option should be removed
             if(startAfresh) {
