@@ -351,7 +351,7 @@ class SoundscapeService : MediaSessionService() {
     private lateinit var routePlayer : RoutePlayer
     fun setupCurrentRoute() {
         routePlayer = RoutePlayer(this)
-        routePlayer.setupCurrentRoute()
+        routePlayer.setupRoute(null)
     }
 
     fun speakCallout(callouts: List<PositionedString>) {
