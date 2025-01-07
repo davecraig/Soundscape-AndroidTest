@@ -1,0 +1,2213 @@
+[
+{
+"latitude": "55.947447",
+"longitude": "-4.3059446",
+"altitude": "148.50001525878906",
+"accuracy": "13.158",
+"speed": "0.17782035",
+"bearing": "63.129265",
+"bearingAccuracyDegrees": "45.0",
+"time": "1736093208940"
+,"heading": "3.3225968"
+},
+{
+"latitude": "55.9473167",
+"longitude": "-4.3058772",
+"altitude": "148.8000030517578",
+"accuracy": "6.461",
+"speed": "0.3205396",
+"bearing": "165.98108",
+"bearingAccuracyDegrees": "24.555748",
+"time": "1736093429345"
+,"heading": "176.16434"
+},
+{
+"latitude": "55.9473098",
+"longitude": "-4.3058917",
+"altitude": "148.8000030517578",
+"accuracy": "5.844",
+"speed": "0.10391869",
+"bearing": "160.43192",
+"bearingAccuracyDegrees": "20.94042",
+"time": "1736093431861"
+,"heading": "256.41168"
+},
+{
+"latitude": "55.9473007",
+"longitude": "-4.3058969",
+"altitude": "149.70001220703125",
+"accuracy": "5.002",
+"speed": "0.28220844",
+"bearing": "164.34789",
+"bearingAccuracyDegrees": "21.574394",
+"time": "1736093434699"
+,"heading": "234.83849"
+},
+{
+"latitude": "55.9472847",
+"longitude": "-4.3058899",
+"altitude": "148.8000030517578",
+"accuracy": "5.068",
+"speed": "0.8792896",
+"bearing": "162.85698",
+"bearingAccuracyDegrees": "20.150978",
+"time": "1736093435685"
+,"heading": "261.87866"
+},
+{
+"latitude": "55.9472689",
+"longitude": "-4.3058911",
+"altitude": "148.8000030517578",
+"accuracy": "5.071",
+"speed": "0.9831042",
+"bearing": "174.0356",
+"bearingAccuracyDegrees": "18.373482",
+"time": "1736093436683"
+,"heading": "261.8728"
+},
+{
+"latitude": "55.947252",
+"longitude": "-4.3058985",
+"altitude": "148.8000030517578",
+"accuracy": "5.154",
+"speed": "1.1442919",
+"bearing": "191.35475",
+"bearingAccuracyDegrees": "16.36981",
+"time": "1736093437728"
+,"heading": "268.7279"
+},
+{
+"latitude": "55.9472389",
+"longitude": "-4.3059124",
+"altitude": "149.70001220703125",
+"accuracy": "5.279",
+"speed": "1.3565428",
+"bearing": "202.58353",
+"bearingAccuracyDegrees": "16.019201",
+"time": "1736093438755"
+,"heading": "283.8803"
+},
+{
+"latitude": "55.9472299",
+"longitude": "-4.305928",
+"altitude": "149.70001220703125",
+"accuracy": "5.339",
+"speed": "1.3896087",
+"bearing": "210.13847",
+"bearingAccuracyDegrees": "15.651879",
+"time": "1736093439685"
+,"heading": "279.17352"
+},
+{
+"latitude": "55.9472196",
+"longitude": "-4.3059516",
+"altitude": "149.70001220703125",
+"accuracy": "5.322",
+"speed": "1.4103576",
+"bearing": "218.08516",
+"bearingAccuracyDegrees": "15.127605",
+"time": "1736093440749"
+,"heading": "284.866"
+},
+{
+"latitude": "55.9472123",
+"longitude": "-4.305976",
+"altitude": "149.70001220703125",
+"accuracy": "5.321",
+"speed": "1.4364014",
+"bearing": "228.3747",
+"bearingAccuracyDegrees": "15.291741",
+"time": "1736093441757"
+,"heading": "294.69858"
+},
+{
+"latitude": "55.9472083",
+"longitude": "-4.3059991",
+"altitude": "149.70001220703125",
+"accuracy": "5.335",
+"speed": "1.465288",
+"bearing": "235.18974",
+"bearingAccuracyDegrees": "15.906242",
+"time": "1736093442685"
+,"heading": "281.53836"
+},
+{
+"latitude": "55.947203",
+"longitude": "-4.3060298",
+"altitude": "149.70001220703125",
+"accuracy": "5.347",
+"speed": "1.4755313",
+"bearing": "230.25935",
+"bearingAccuracyDegrees": "15.7201",
+"time": "1736093443752"
+,"heading": "280.53702"
+},
+{
+"latitude": "55.9471974",
+"longitude": "-4.3060686",
+"altitude": "149.70001220703125",
+"accuracy": "5.376",
+"speed": "1.5004073",
+"bearing": "233.77068",
+"bearingAccuracyDegrees": "12.793513",
+"time": "1736093444760"
+,"heading": "288.162"
+},
+{
+"latitude": "55.9471963",
+"longitude": "-4.3060919",
+"altitude": "149.70001220703125",
+"accuracy": "5.431",
+"speed": "1.4698968",
+"bearing": "242.82849",
+"bearingAccuracyDegrees": "13.371843",
+"time": "1736093445703"
+,"heading": "290.21286"
+},
+{
+"latitude": "55.9471955",
+"longitude": "-4.3061179",
+"altitude": "149.70001220703125",
+"accuracy": "5.457",
+"speed": "1.4520614",
+"bearing": "248.87895",
+"bearingAccuracyDegrees": "12.767926",
+"time": "1736093446665"
+,"heading": "291.10623"
+},
+{
+"latitude": "55.9471955",
+"longitude": "-4.3061445",
+"altitude": "149.70001220703125",
+"accuracy": "5.504",
+"speed": "1.4538388",
+"bearing": "250.9266",
+"bearingAccuracyDegrees": "12.848209",
+"time": "1736093447666"
+,"heading": "290.614"
+},
+{
+"latitude": "55.9471955",
+"longitude": "-4.3061694",
+"altitude": "149.70001220703125",
+"accuracy": "5.602",
+"speed": "1.4466959",
+"bearing": "253.50517",
+"bearingAccuracyDegrees": "12.369389",
+"time": "1736093448629"
+,"heading": "297.53598"
+},
+{
+"latitude": "55.947198",
+"longitude": "-4.3062025",
+"altitude": "149.70001220703125",
+"accuracy": "5.618",
+"speed": "1.4622884",
+"bearing": "260.01917",
+"bearingAccuracyDegrees": "12.271133",
+"time": "1736093449643"
+,"heading": "288.5764"
+},
+{
+"latitude": "55.9471991",
+"longitude": "-4.3062278",
+"altitude": "149.70001220703125",
+"accuracy": "5.67",
+"speed": "1.4565288",
+"bearing": "256.77722",
+"bearingAccuracyDegrees": "12.489497",
+"time": "1736093450644"
+,"heading": "290.2381"
+},
+{
+"latitude": "55.9472001",
+"longitude": "-4.3062516",
+"altitude": "149.70001220703125",
+"accuracy": "5.776",
+"speed": "1.4515829",
+"bearing": "257.53546",
+"bearingAccuracyDegrees": "13.268085",
+"time": "1736093451689"
+,"heading": "293.9838"
+},
+{
+"latitude": "55.9472021",
+"longitude": "-4.3062728",
+"altitude": "149.70001220703125",
+"accuracy": "5.926",
+"speed": "1.3990104",
+"bearing": "261.09433",
+"bearingAccuracyDegrees": "12.910061",
+"time": "1736093452680"
+,"heading": "287.56552"
+},
+{
+"latitude": "55.9472056",
+"longitude": "-4.3062961",
+"altitude": "149.70001220703125",
+"accuracy": "6.121",
+"speed": "1.435937",
+"bearing": "259.73904",
+"bearingAccuracyDegrees": "13.048871",
+"time": "1736093453758"
+,"heading": "288.39374"
+},
+{
+"latitude": "55.9472142",
+"longitude": "-4.3063283",
+"altitude": "149.15976764926387",
+"accuracy": "6.324",
+"speed": "1.4581107",
+"bearing": "265.21512",
+"bearingAccuracyDegrees": "12.828949",
+"time": "1736093454761"
+,"heading": "288.05542"
+},
+{
+"latitude": "55.9472202",
+"longitude": "-4.3063532",
+"altitude": "149.23215131685652",
+"accuracy": "6.576",
+"speed": "1.4866172",
+"bearing": "267.68683",
+"bearingAccuracyDegrees": "13.305549",
+"time": "1736093455752"
+,"heading": "288.15512"
+},
+{
+"latitude": "55.9472263",
+"longitude": "-4.306375",
+"altitude": "149.27236472876905",
+"accuracy": "6.834",
+"speed": "1.4624645",
+"bearing": "269.9364",
+"bearingAccuracyDegrees": "14.4594555",
+"time": "1736093456729"
+,"heading": "288.10678"
+},
+{
+"latitude": "55.9472326",
+"longitude": "-4.3063959",
+"altitude": "149.29273959590984",
+"accuracy": "7.102",
+"speed": "1.4581959",
+"bearing": "272.0052",
+"bearingAccuracyDegrees": "13.392317",
+"time": "1736093457727"
+,"heading": "288.18823"
+},
+{
+"latitude": "55.9472361",
+"longitude": "-4.3064235",
+"altitude": "149.18764869353112",
+"accuracy": "7.332",
+"speed": "1.4606658",
+"bearing": "271.7819",
+"bearingAccuracyDegrees": "12.865215",
+"time": "1736093458725"
+,"heading": "288.81113"
+},
+{
+"latitude": "55.9472371",
+"longitude": "-4.3064503",
+"altitude": "149.11258454949757",
+"accuracy": "7.545",
+"speed": "1.4495832",
+"bearing": "273.51514",
+"bearingAccuracyDegrees": "13.283179",
+"time": "1736093459738"
+,"heading": "292.3096"
+},
+{
+"latitude": "55.9472417",
+"longitude": "-4.3064671",
+"altitude": "149.2128489459276",
+"accuracy": "7.78",
+"speed": "1.4360712",
+"bearing": "275.9072",
+"bearingAccuracyDegrees": "15.014622",
+"time": "1736093460715"
+,"heading": "288.20554"
+},
+{
+"latitude": "55.9472487",
+"longitude": "-4.3064843",
+"altitude": "149.28952250841496",
+"accuracy": "8.008",
+"speed": "1.4436117",
+"bearing": "275.1941",
+"bearingAccuracyDegrees": "15.792216",
+"time": "1736093461718"
+,"heading": "284.0615"
+},
+{
+"latitude": "55.9472541",
+"longitude": "-4.3065002",
+"altitude": "149.36244345380868",
+"accuracy": "8.218",
+"speed": "1.4367383",
+"bearing": "270.24323",
+"bearingAccuracyDegrees": "15.795941",
+"time": "1736093462719"
+,"heading": "284.07123"
+},
+{
+"latitude": "55.9472568",
+"longitude": "-4.3065262",
+"altitude": "149.28952250841496",
+"accuracy": "8.484",
+"speed": "1.4264148",
+"bearing": "270.06268",
+"bearingAccuracyDegrees": "13.399481",
+"time": "1736093463745"
+,"heading": "292.4455"
+},
+{
+"latitude": "55.947258",
+"longitude": "-4.30655",
+"altitude": "149.17317198618701",
+"accuracy": "8.529",
+"speed": "1.4232848",
+"bearing": "276.78452",
+"bearingAccuracyDegrees": "12.95686",
+"time": "1736093464685"
+,"heading": "295.8699"
+},
+{
+"latitude": "55.9472619",
+"longitude": "-4.3065689",
+"altitude": "149.17478050802134",
+"accuracy": "8.524",
+"speed": "1.4178734",
+"bearing": "282.5869",
+"bearingAccuracyDegrees": "13.33747",
+"time": "1736093465685"
+,"heading": "297.2809"
+},
+{
+"latitude": "55.9472657",
+"longitude": "-4.306587",
+"altitude": "149.247164301973",
+"accuracy": "8.502",
+"speed": "1.4244686",
+"bearing": "283.3832",
+"bearingAccuracyDegrees": "13.22238",
+"time": "1736093466728"
+,"heading": "292.2565"
+},
+{
+"latitude": "55.9472691",
+"longitude": "-4.3066052",
+"altitude": "149.28201597560803",
+"accuracy": "8.484",
+"speed": "1.414575",
+"bearing": "281.09885",
+"bearingAccuracyDegrees": "12.714764",
+"time": "1736093467731"
+,"heading": "288.7111"
+},
+{
+"latitude": "55.9472707",
+"longitude": "-4.3066221",
+"altitude": "149.37531192012153",
+"accuracy": "8.509",
+"speed": "1.4098349",
+"bearing": "278.18262",
+"bearingAccuracyDegrees": "12.914687",
+"time": "1736093468734"
+,"heading": "290.6258"
+},
+{
+"latitude": "55.9472666",
+"longitude": "-4.3066604",
+"altitude": "149.41498981246906",
+"accuracy": "8.537",
+"speed": "1.4240786",
+"bearing": "278.71036",
+"bearingAccuracyDegrees": "12.668686",
+"time": "1736093469735"
+,"heading": "291.4754"
+},
+{
+"latitude": "55.947268",
+"longitude": "-4.3066819",
+"altitude": "149.44126311219804",
+"accuracy": "8.65",
+"speed": "1.4276699",
+"bearing": "279.14514",
+"bearingAccuracyDegrees": "12.961201",
+"time": "1736093470686"
+,"heading": "293.38428"
+},
+{
+"latitude": "55.9472709",
+"longitude": "-4.3066988",
+"altitude": "149.49434614635544",
+"accuracy": "8.78",
+"speed": "1.4628975",
+"bearing": "279.0964",
+"bearingAccuracyDegrees": "13.030615",
+"time": "1736093471686"
+,"heading": "291.2684"
+},
+{
+"latitude": "55.9472749",
+"longitude": "-4.3067149",
+"altitude": "149.6230336497407",
+"accuracy": "8.957",
+"speed": "1.4731021",
+"bearing": "280.33545",
+"bearingAccuracyDegrees": "14.588798",
+"time": "1736093472743"
+,"heading": "290.969"
+},
+{
+"latitude": "55.9472789",
+"longitude": "-4.3067316",
+"altitude": "149.71633329383434",
+"accuracy": "9.084",
+"speed": "1.4813565",
+"bearing": "280.1983",
+"bearingAccuracyDegrees": "12.950921",
+"time": "1736093473744"
+,"heading": "289.503"
+},
+{
+"latitude": "55.9472793",
+"longitude": "-4.3067751",
+"altitude": "149.72062295698214",
+"accuracy": "9.178",
+"speed": "1.514313",
+"bearing": "277.5873",
+"bearingAccuracyDegrees": "12.938597",
+"time": "1736093474747"
+,"heading": "294.64944"
+},
+{
+"latitude": "55.9472818",
+"longitude": "-4.3068001",
+"altitude": "149.72062295698214",
+"accuracy": "9.315",
+"speed": "1.5181442",
+"bearing": "280.80316",
+"bearingAccuracyDegrees": "13.052965",
+"time": "1736093475748"
+,"heading": "287.9911"
+},
+{
+"latitude": "55.9472854",
+"longitude": "-4.3068178",
+"altitude": "149.61874403527037",
+"accuracy": "9.421",
+"speed": "1.4959043",
+"bearing": "278.38416",
+"bearingAccuracyDegrees": "13.552709",
+"time": "1736093476686"
+,"heading": "290.41058"
+},
+{
+"latitude": "55.9472881",
+"longitude": "-4.3068334",
+"altitude": "149.64823517796515",
+"accuracy": "9.51",
+"speed": "1.4967539",
+"bearing": "278.83853",
+"bearingAccuracyDegrees": "14.941634",
+"time": "1736093477685"
+,"heading": "291.88937"
+},
+{
+"latitude": "55.9472922",
+"longitude": "-4.3068539",
+"altitude": "149.64823517796515",
+"accuracy": "9.648",
+"speed": "1.4980286",
+"bearing": "280.45004",
+"bearingAccuracyDegrees": "13.249775",
+"time": "1736093479002"
+,"heading": "297.30328"
+},
+{
+"latitude": "55.947289",
+"longitude": "-4.3069093",
+"altitude": "149.5651240349202",
+"accuracy": "9.628",
+"speed": "1.508691",
+"bearing": "276.89905",
+"bearingAccuracyDegrees": "12.302884",
+"time": "1736093480022"
+,"heading": "294.23416"
+},
+{
+"latitude": "55.9472904",
+"longitude": "-4.3069366",
+"altitude": "149.5651240349202",
+"accuracy": "9.624",
+"speed": "1.4680259",
+"bearing": "277.5863",
+"bearingAccuracyDegrees": "12.655965",
+"time": "1736093481064"
+,"heading": "297.6747"
+},
+{
+"latitude": "55.947293",
+"longitude": "-4.306957",
+"altitude": "149.45735224709432",
+"accuracy": "9.638",
+"speed": "1.4649849",
+"bearing": "279.96658",
+"bearingAccuracyDegrees": "12.671233",
+"time": "1736093482106"
+,"heading": "291.47977"
+},
+{
+"latitude": "55.9472962",
+"longitude": "-4.3069756",
+"altitude": "149.57317101458318",
+"accuracy": "9.628",
+"speed": "1.4362618",
+"bearing": "278.06082",
+"bearingAccuracyDegrees": "13.006526",
+"time": "1736093483149"
+,"heading": "294.0139"
+},
+{
+"latitude": "55.9472957",
+"longitude": "-4.3070139",
+"altitude": "149.69328101356433",
+"accuracy": "9.527",
+"speed": "1.4561232",
+"bearing": "275.02762",
+"bearingAccuracyDegrees": "12.306599",
+"time": "1736093484180"
+,"heading": "292.2016"
+},
+{
+"latitude": "55.9472964",
+"longitude": "-4.307035",
+"altitude": "149.7141931937751",
+"accuracy": "10.083",
+"speed": "1.8728946",
+"bearing": "272.8594",
+"bearingAccuracyDegrees": "25.099354",
+"time": "1736093485188"
+,"heading": "292.7577"
+},
+{
+"latitude": "55.9473001",
+"longitude": "-4.3070044",
+"altitude": "149.78658190255226",
+"accuracy": "11.351",
+"speed": "1.9231339",
+"bearing": "272.93015",
+"bearingAccuracyDegrees": "27.405684",
+"time": "1736093486204"
+,"heading": "292.3441"
+},
+{
+"latitude": "55.947304",
+"longitude": "-4.30698",
+"altitude": "149.78658190255226",
+"accuracy": "12.7",
+"speed": "1.3958962",
+"bearing": "85.37161",
+"bearingAccuracyDegrees": "180.0",
+"time": "1736093487208"
+,"heading": "294.15625"
+},
+{
+"latitude": "55.9473117",
+"longitude": "-4.3069329",
+"altitude": "149.91527444488753",
+"accuracy": "14.236",
+"speed": "1.3574284",
+"bearing": "317.85812",
+"bearingAccuracyDegrees": "24.70491",
+"time": "1736093488221"
+,"heading": "295.26462"
+},
+{
+"latitude": "55.9473202",
+"longitude": "-4.3069412",
+"altitude": "150.03699791334833",
+"accuracy": "16.663",
+"speed": "1.5905006",
+"bearing": "308.6891",
+"bearingAccuracyDegrees": "91.11537",
+"time": "1736093489264"
+,"heading": "293.63174"
+},
+{
+"latitude": "55.9473256",
+"longitude": "-4.306954",
+"altitude": "149.91527444488753",
+"accuracy": "18.251",
+"speed": "1.5623127",
+"bearing": "307.56317",
+"bearingAccuracyDegrees": "24.172115",
+"time": "1736093490244"
+,"heading": "297.48663"
+},
+{
+"latitude": "55.9473304",
+"longitude": "-4.306973",
+"altitude": "149.80695809343626",
+"accuracy": "17.845",
+"speed": "1.124694",
+"bearing": "68.59613",
+"bearingAccuracyDegrees": "180.0",
+"time": "1736093492278"
+,"heading": "297.76636"
+},
+{
+"latitude": "55.9473295",
+"longitude": "-4.3070027",
+"altitude": "149.80695809343626",
+"accuracy": "17.915",
+"speed": "1.3930795",
+"bearing": "307.94403",
+"bearingAccuracyDegrees": "24.769264",
+"time": "1736093493284"
+,"heading": "302.53503"
+},
+{
+"latitude": "55.9473314",
+"longitude": "-4.3070355",
+"altitude": "149.99570826179718",
+"accuracy": "17.817",
+"speed": "1.4024446",
+"bearing": "310.28696",
+"bearingAccuracyDegrees": "10.341679",
+"time": "1736093494310"
+,"heading": "295.78854"
+},
+{
+"latitude": "55.9473366",
+"longitude": "-4.3070652",
+"altitude": "149.90723110457134",
+"accuracy": "17.19",
+"speed": "1.4217645",
+"bearing": "305.9055",
+"bearingAccuracyDegrees": "11.903674",
+"time": "1736093495348"
+,"heading": "295.31412"
+},
+{
+"latitude": "55.9473433",
+"longitude": "-4.3070973",
+"altitude": "149.90723110457134",
+"accuracy": "16.249",
+"speed": "1.4447753",
+"bearing": "302.19473",
+"bearingAccuracyDegrees": "11.933628",
+"time": "1736093496387"
+,"heading": "293.5006"
+},
+{
+"latitude": "55.9473475",
+"longitude": "-4.3071576",
+"altitude": "149.9345784923367",
+"accuracy": "15.052",
+"speed": "1.4651557",
+"bearing": "301.61295",
+"bearingAccuracyDegrees": "12.214895",
+"time": "1736093497379"
+,"heading": "294.216"
+},
+{
+"latitude": "55.9473415",
+"longitude": "-4.3071937",
+"altitude": "149.88202868696237",
+"accuracy": "14.419",
+"speed": "1.7132365",
+"bearing": "265.43924",
+"bearingAccuracyDegrees": "10.080264",
+"time": "1736093498382"
+,"heading": "296.339"
+},
+{
+"latitude": "55.9473287",
+"longitude": "-4.3072249",
+"altitude": "149.85629012393252",
+"accuracy": "14.236",
+"speed": "1.7808781",
+"bearing": "262.1778",
+"bearingAccuracyDegrees": "9.552596",
+"time": "1736093499385"
+,"heading": "297.45032"
+},
+{
+"latitude": "55.9473215",
+"longitude": "-4.3072596",
+"altitude": "149.65467404523798",
+"accuracy": "14.654",
+"speed": "1.7974883",
+"bearing": "271.6684",
+"bearingAccuracyDegrees": "17.472063",
+"time": "1736093500447"
+,"heading": "298.4561"
+},
+{
+"latitude": "55.9473169",
+"longitude": "-4.3072944",
+"altitude": "149.64823956736484",
+"accuracy": "15.769",
+"speed": "1.7961147",
+"bearing": "255.5531",
+"bearingAccuracyDegrees": "25.009655",
+"time": "1736093501441"
+,"heading": "299.61325"
+},
+{
+"latitude": "55.9473092",
+"longitude": "-4.30731",
+"altitude": "149.7667419736067",
+"accuracy": "17.099",
+"speed": "1.4581482",
+"bearing": "102.15981",
+"bearingAccuracyDegrees": "180.0",
+"time": "1736093503027"
+,"heading": "294.30298"
+},
+{
+"latitude": "55.9473048",
+"longitude": "-4.3073391",
+"altitude": "149.89168066795816",
+"accuracy": "17.511",
+"speed": "1.6498207",
+"bearing": "250.32881",
+"bearingAccuracyDegrees": "19.147144",
+"time": "1736093504568"
+,"heading": "298.98108"
+},
+{
+"latitude": "55.9473052",
+"longitude": "-4.3073738",
+"altitude": "150.04182398945545",
+"accuracy": "17.768",
+"speed": "1.6316631",
+"bearing": "257.7605",
+"bearingAccuracyDegrees": "75.07101",
+"time": "1736093505579"
+,"heading": "299.1848"
+},
+{
+"latitude": "55.9473053",
+"longitude": "-4.3074061",
+"altitude": "150.1887524917364",
+"accuracy": "17.961",
+"speed": "1.616879",
+"bearing": "254.73967",
+"bearingAccuracyDegrees": "21.33567",
+"time": "1736093506623"
+,"heading": "295.73325"
+},
+{
+"latitude": "55.9473081",
+"longitude": "-4.3074359",
+"altitude": "150.1887524917364",
+"accuracy": "18.292",
+"speed": "1.5523994",
+"bearing": "294.68878",
+"bearingAccuracyDegrees": "25.073801",
+"time": "1736093507644"
+,"heading": "302.7329"
+},
+{
+"latitude": "55.9473187",
+"longitude": "-4.3074695",
+"altitude": "149.93243359603713",
+"accuracy": "18.211",
+"speed": "1.5664142",
+"bearing": "304.32468",
+"bearingAccuracyDegrees": "24.293919",
+"time": "1736093508685"
+,"heading": "306.7975"
+},
+{
+"latitude": "55.9473236",
+"longitude": "-4.3075053",
+"altitude": "150.0445051440177",
+"accuracy": "18.157",
+"speed": "1.4489037",
+"bearing": "293.8372",
+"bearingAccuracyDegrees": "27.419775",
+"time": "1736093509768"
+,"heading": "299.71222"
+},
+{
+"latitude": "55.9473261",
+"longitude": "-4.3075278",
+"altitude": "150.19518737402854",
+"accuracy": "18.062",
+"speed": "1.4470607",
+"bearing": "291.76373",
+"bearingAccuracyDegrees": "30.999218",
+"time": "1736093510728"
+,"heading": "293.599"
+},
+{
+"latitude": "55.9473254",
+"longitude": "-4.3075586",
+"altitude": "150.39145359695965",
+"accuracy": "18.009",
+"speed": "1.5124241",
+"bearing": "294.33478",
+"bearingAccuracyDegrees": "9.732828",
+"time": "1736093511685"
+,"heading": "290.33914"
+},
+{
+"latitude": "55.947324",
+"longitude": "-4.3075895",
+"altitude": "150.34319099570092",
+"accuracy": "17.843",
+"speed": "1.5249642",
+"bearing": "288.4844",
+"bearingAccuracyDegrees": "30.315144",
+"time": "1736093512732"
+,"heading": "294.42413"
+},
+{
+"latitude": "55.9473263",
+"longitude": "-4.3076267",
+"altitude": "150.39145359695965",
+"accuracy": "17.597",
+"speed": "1.1747193",
+"bearing": "314.95804",
+"bearingAccuracyDegrees": "39.378693",
+"time": "1736093513686"
+,"heading": "297.2034"
+},
+{
+"latitude": "55.9473251",
+"longitude": "-4.3076663",
+"altitude": "150.42470132427536",
+"accuracy": "17.33",
+"speed": "1.4124885",
+"bearing": "283.86093",
+"bearingAccuracyDegrees": "16.3064",
+"time": "1736093514737"
+,"heading": "297.19534"
+},
+{
+"latitude": "55.9473247",
+"longitude": "-4.3077192",
+"altitude": "150.4611667213868",
+"accuracy": "15.562",
+"speed": "1.4600018",
+"bearing": "284.4719",
+"bearingAccuracyDegrees": "18.10263",
+"time": "1736093515740"
+,"heading": "291.3789"
+},
+{
+"latitude": "55.9473266",
+"longitude": "-4.3077589",
+"altitude": "150.4611667213868",
+"accuracy": "13.199",
+"speed": "1.4757367",
+"bearing": "280.12338",
+"bearingAccuracyDegrees": "15.726788",
+"time": "1736093516741"
+,"heading": "299.53897"
+},
+{
+"latitude": "55.9473285",
+"longitude": "-4.3077876",
+"altitude": "150.3860910723327",
+"accuracy": "11.025",
+"speed": "1.4936439",
+"bearing": "282.38312",
+"bearingAccuracyDegrees": "16.044804",
+"time": "1736093517685"
+,"heading": "297.37302"
+},
+{
+"latitude": "55.947331",
+"longitude": "-4.3078177",
+"altitude": "150.3860910723327",
+"accuracy": "9.299",
+"speed": "1.4974539",
+"bearing": "283.89536",
+"bearingAccuracyDegrees": "16.166794",
+"time": "1736093518745"
+,"heading": "289.8429"
+},
+{
+"latitude": "55.9473333",
+"longitude": "-4.3078488",
+"altitude": "150.34533599444956",
+"accuracy": "7.641",
+"speed": "1.5171448",
+"bearing": "278.52484",
+"bearingAccuracyDegrees": "17.898428",
+"time": "1736093519685"
+,"heading": "297.35287"
+},
+{
+"latitude": "55.9473156",
+"longitude": "-4.3079188",
+"altitude": "150.34533599444956",
+"accuracy": "8.487",
+"speed": "1.5900605",
+"bearing": "268.90546",
+"bearingAccuracyDegrees": "9.642345",
+"time": "1736093520685"
+,"heading": "304.9746"
+},
+{
+"latitude": "55.9473049",
+"longitude": "-4.3079872",
+"altitude": "150.49763227311735",
+"accuracy": "9.688",
+"speed": "1.34978",
+"bearing": "284.05515",
+"bearingAccuracyDegrees": "9.94961",
+"time": "1736093521753"
+,"heading": "301.39798"
+},
+{
+"latitude": "55.9473059",
+"longitude": "-4.3080403",
+"altitude": "150.55769351891666",
+"accuracy": "10.487",
+"speed": "1.5160019",
+"bearing": "290.1211",
+"bearingAccuracyDegrees": "13.660089",
+"time": "1736093522686"
+,"heading": "290.05472"
+},
+{
+"latitude": "55.9473066",
+"longitude": "-4.3080951",
+"altitude": "150.56841878552126",
+"accuracy": "11.501",
+"speed": "1.7408735",
+"bearing": "273.8512",
+"bearingAccuracyDegrees": "10.092686",
+"time": "1736093523686"
+,"heading": "276.29822"
+},
+{
+"latitude": "55.9472997",
+"longitude": "-4.3081462",
+"altitude": "150.56841878552126",
+"accuracy": "12.561",
+"speed": "1.795209",
+"bearing": "253.0234",
+"bearingAccuracyDegrees": "16.454338",
+"time": "1736093524685"
+,"heading": "249.78133"
+},
+{
+"latitude": "55.9472936",
+"longitude": "-4.3081802",
+"altitude": "150.56841878552126",
+"accuracy": "12.358",
+"speed": "1.8480213",
+"bearing": "252.89911",
+"bearingAccuracyDegrees": "25.067179",
+"time": "1736093525643"
+,"heading": "286.67807"
+},
+{
+"latitude": "55.9472965",
+"longitude": "-4.3082029",
+"altitude": "150.56948215579024",
+"accuracy": "12.353",
+"speed": "1.680542",
+"bearing": "299.869",
+"bearingAccuracyDegrees": "31.263435",
+"time": "1736093526664"
+,"heading": "290.13776"
+},
+{
+"latitude": "55.9472921",
+"longitude": "-4.3082375",
+"altitude": "150.78130784212118",
+"accuracy": "12.227",
+"speed": "1.9001776",
+"bearing": "265.68082",
+"bearingAccuracyDegrees": "9.762473",
+"time": "1736093527647"
+,"heading": "299.6096"
+},
+{
+"latitude": "55.9472814",
+"longitude": "-4.3082845",
+"altitude": "150.87891029395712",
+"accuracy": "11.935",
+"speed": "1.3096948",
+"bearing": "262.46463",
+"bearingAccuracyDegrees": "11.644704",
+"time": "1736093528742"
+,"heading": "292.4074"
+},
+{
+"latitude": "55.9472757",
+"longitude": "-4.308313",
+"altitude": "151.01566284525273",
+"accuracy": "11.83",
+"speed": "1.3737981",
+"bearing": "259.25336",
+"bearingAccuracyDegrees": "15.362917",
+"time": "1736093529762"
+,"heading": "289.76727"
+},
+{
+"latitude": "55.9472702",
+"longitude": "-4.3083433",
+"altitude": "151.13525607445393",
+"accuracy": "10.747",
+"speed": "1.3731556",
+"bearing": "256.32358",
+"bearingAccuracyDegrees": "15.843094",
+"time": "1736093530685"
+,"heading": "287.91397"
+},
+{
+"latitude": "55.947268",
+"longitude": "-4.3083795",
+"altitude": "151.18194441984923",
+"accuracy": "8.586",
+"speed": "1.3711687",
+"bearing": "256.01077",
+"bearingAccuracyDegrees": "16.046127",
+"time": "1736093531685"
+,"heading": "252.28418"
+},
+{
+"latitude": "55.9472658",
+"longitude": "-4.3084095",
+"altitude": "151.39807845464895",
+"accuracy": "7.075",
+"speed": "1.3707788",
+"bearing": "230.28935",
+"bearingAccuracyDegrees": "17.334774",
+"time": "1736093532686"
+,"heading": "178.53658"
+},
+{
+"latitude": "55.9472539",
+"longitude": "-4.3084212",
+"altitude": "151.33211141151935",
+"accuracy": "6.094",
+"speed": "1.358235",
+"bearing": "165.34395",
+"bearingAccuracyDegrees": "18.100512",
+"time": "1736093533685"
+,"heading": "168.51527"
+},
+{
+"latitude": "55.9472415",
+"longitude": "-4.3084124",
+"altitude": "151.33211141151935",
+"accuracy": "5.257",
+"speed": "1.404904",
+"bearing": "135.06595",
+"bearingAccuracyDegrees": "18.588345",
+"time": "1736093534586"
+,"heading": "149.01215"
+},
+{
+"latitude": "55.9472331",
+"longitude": "-4.308396",
+"altitude": "151.3455193061434",
+"accuracy": "4.805",
+"speed": "1.3895333",
+"bearing": "113.33387",
+"bearingAccuracyDegrees": "18.68952",
+"time": "1736093535626"
+,"heading": "131.29962"
+},
+{
+"latitude": "55.9472288",
+"longitude": "-4.3083796",
+"altitude": "151.356781953782",
+"accuracy": "4.929",
+"speed": "1.463176",
+"bearing": "96.98093",
+"bearingAccuracyDegrees": "18.174738",
+"time": "1736093536767"
+,"heading": "130.6776"
+},
+{
+"latitude": "55.9472248",
+"longitude": "-4.3083609",
+"altitude": "151.356781953782",
+"accuracy": "4.99",
+"speed": "1.4710876",
+"bearing": "104.147514",
+"bearingAccuracyDegrees": "16.439106",
+"time": "1736093538123"
+,"heading": "131.39368"
+},
+{
+"latitude": "55.947218",
+"longitude": "-4.3083412",
+"altitude": "151.30475937130257",
+"accuracy": "5.069",
+"speed": "1.5326396",
+"bearing": "111.251785",
+"bearingAccuracyDegrees": "17.74779",
+"time": "1736093539126"
+,"heading": "125.353165"
+},
+{
+"latitude": "55.9472102",
+"longitude": "-4.3083211",
+"altitude": "151.2881336638781",
+"accuracy": "5.221",
+"speed": "1.591382",
+"bearing": "106.92225",
+"bearingAccuracyDegrees": "15.9534445",
+"time": "1736093540129"
+,"heading": "117.31425"
+},
+{
+"latitude": "55.9472039",
+"longitude": "-4.3083019",
+"altitude": "151.2510968417252",
+"accuracy": "5.37",
+"speed": "1.5810587",
+"bearing": "99.67287",
+"bearingAccuracyDegrees": "15.732496",
+"time": "1736093541118"
+,"heading": "110.15007"
+},
+{
+"latitude": "55.9472",
+"longitude": "-4.3082807",
+"altitude": "151.08487358128417",
+"accuracy": "5.486",
+"speed": "1.5862061",
+"bearing": "93.54786",
+"bearingAccuracyDegrees": "15.610446",
+"time": "1736093542120"
+,"heading": "110.58275"
+},
+{
+"latitude": "55.9472026",
+"longitude": "-4.3082604",
+"altitude": "150.99209419060958",
+"accuracy": "5.701",
+"speed": "1.6010572",
+"bearing": "85.30561",
+"bearingAccuracyDegrees": "9.584524",
+"time": "1736093543644"
+,"heading": "116.945366"
+},
+{
+"latitude": "55.9472054",
+"longitude": "-4.3082366",
+"altitude": "150.99209419060958",
+"accuracy": "5.885",
+"speed": "1.6427698",
+"bearing": "83.84639",
+"bearingAccuracyDegrees": "10.261094",
+"time": "1736093544607"
+,"heading": "123.46522"
+},
+{
+"latitude": "55.9472004",
+"longitude": "-4.3082084",
+"altitude": "150.93739235994923",
+"accuracy": "6.029",
+"speed": "1.6286676",
+"bearing": "98.84508",
+"bearingAccuracyDegrees": "9.805446",
+"time": "1736093545602"
+,"heading": "128.06453"
+},
+{
+"latitude": "55.9471965",
+"longitude": "-4.3081823",
+"altitude": "150.93739235994923",
+"accuracy": "6.142",
+"speed": "1.6590781",
+"bearing": "99.68501",
+"bearingAccuracyDegrees": "9.908299",
+"time": "1736093546606"
+,"heading": "115.8813"
+},
+{
+"latitude": "55.9471962",
+"longitude": "-4.3081551",
+"altitude": "150.88269087722676",
+"accuracy": "6.24",
+"speed": "1.6339417",
+"bearing": "90.99408",
+"bearingAccuracyDegrees": "13.026474",
+"time": "1736093547607"
+,"heading": "114.27865"
+},
+{
+"latitude": "55.9471994",
+"longitude": "-4.3081268",
+"altitude": "150.78723226036652",
+"accuracy": "6.261",
+"speed": "1.6507084",
+"bearing": "82.22873",
+"bearingAccuracyDegrees": "9.725911",
+"time": "1736093548608"
+,"heading": "116.154755"
+},
+{
+"latitude": "55.9471988",
+"longitude": "-4.3080949",
+"altitude": "150.78723226036652",
+"accuracy": "6.082",
+"speed": "1.659032",
+"bearing": "87.16702",
+"bearingAccuracyDegrees": "9.747528",
+"time": "1736093549607"
+,"heading": "115.37898"
+},
+{
+"latitude": "55.9471964",
+"longitude": "-4.3080571",
+"altitude": "150.75398287858098",
+"accuracy": "6.074",
+"speed": "1.7252818",
+"bearing": "89.31135",
+"bearingAccuracyDegrees": "12.91832",
+"time": "1736093550680"
+,"heading": "128.44658"
+},
+{
+"latitude": "55.9471935",
+"longitude": "-4.3080274",
+"altitude": "150.54590902164097",
+"accuracy": "6.136",
+"speed": "1.5393542",
+"bearing": "95.24537",
+"bearingAccuracyDegrees": "15.685328",
+"time": "1736093551745"
+,"heading": "124.41748"
+},
+{
+"latitude": "55.9471931",
+"longitude": "-4.3079982",
+"altitude": "150.46332440184625",
+"accuracy": "5.995",
+"speed": "1.6388425",
+"bearing": "78.007866",
+"bearingAccuracyDegrees": "15.104113",
+"time": "1736093553245"
+,"heading": "117.89659"
+},
+{
+"latitude": "55.9471961",
+"longitude": "-4.3079777",
+"altitude": "150.46332440184625",
+"accuracy": "5.912",
+"speed": "1.5485563",
+"bearing": "71.71386",
+"bearingAccuracyDegrees": "17.848314",
+"time": "1736093554299"
+,"heading": "105.83541"
+},
+{
+"latitude": "55.9472005",
+"longitude": "-4.3079608",
+"altitude": "150.5877378978659",
+"accuracy": "5.902",
+"speed": "1.4995372",
+"bearing": "59.759346",
+"bearingAccuracyDegrees": "22.363647",
+"time": "1736093555728"
+,"heading": "120.00827"
+},
+{
+"latitude": "55.947199",
+"longitude": "-4.3079436",
+"altitude": "150.5877378978659",
+"accuracy": "5.692",
+"speed": "1.4547617",
+"bearing": "76.14274",
+"bearingAccuracyDegrees": "16.568083",
+"time": "1736093556865"
+,"heading": "115.44228"
+},
+{
+"latitude": "55.9472015",
+"longitude": "-4.3079201",
+"altitude": "150.49335508092275",
+"accuracy": "5.259",
+"speed": "1.4715148",
+"bearing": "74.19813",
+"bearingAccuracyDegrees": "17.46176",
+"time": "1736093557867"
+,"heading": "125.263145"
+},
+{
+"latitude": "55.9472049",
+"longitude": "-4.307894",
+"altitude": "150.43865642248062",
+"accuracy": "4.823",
+"speed": "1.4761368",
+"bearing": "81.73189",
+"bearingAccuracyDegrees": "15.989312",
+"time": "1736093558918"
+,"heading": "127.61374"
+},
+{
+"latitude": "55.9472064",
+"longitude": "-4.3078696",
+"altitude": "150.43865642248062",
+"accuracy": "4.383",
+"speed": "1.4838535",
+"bearing": "86.66093",
+"bearingAccuracyDegrees": "15.668429",
+"time": "1736093559902"
+,"heading": "126.61918"
+},
+{
+"latitude": "55.9472073",
+"longitude": "-4.307834",
+"altitude": "150.30244754956232",
+"accuracy": "3.866",
+"speed": "1.4896338",
+"bearing": "81.706436",
+"bearingAccuracyDegrees": "12.807401",
+"time": "1736093561321"
+,"heading": "118.29111"
+},
+{
+"latitude": "55.9472087",
+"longitude": "-4.307802",
+"altitude": "150.0380797918399",
+"accuracy": "3.565",
+"speed": "1.493777",
+"bearing": "81.9255",
+"bearingAccuracyDegrees": "12.385007",
+"time": "1736093562628"
+,"heading": "118.34209"
+},
+{
+"latitude": "55.9472067",
+"longitude": "-4.307776",
+"altitude": "150.17964691100713",
+"accuracy": "3.667",
+"speed": "1.519795",
+"bearing": "85.7515",
+"bearingAccuracyDegrees": "9.844567",
+"time": "1736093563746"
+,"heading": "122.27146"
+},
+{
+"latitude": "55.947206",
+"longitude": "-4.3077471",
+"altitude": "150.45474422708395",
+"accuracy": "3.757",
+"speed": "1.5491179",
+"bearing": "87.281204",
+"bearingAccuracyDegrees": "11.8191",
+"time": "1736093564686"
+,"heading": "123.61373"
+},
+{
+"latitude": "55.9472061",
+"longitude": "-4.3077183",
+"altitude": "150.45474422708395",
+"accuracy": "3.914",
+"speed": "1.5733931",
+"bearing": "87.56874",
+"bearingAccuracyDegrees": "11.885862",
+"time": "1736093565685"
+,"heading": "126.067245"
+},
+{
+"latitude": "55.9471966",
+"longitude": "-4.3076899",
+"altitude": "150.30781006282018",
+"accuracy": "4.419",
+"speed": "1.5692805",
+"bearing": "94.91407",
+"bearingAccuracyDegrees": "18.344402",
+"time": "1736093566685"
+,"heading": "120.10135"
+},
+{
+"latitude": "55.947196",
+"longitude": "-4.3076671",
+"altitude": "150.30781006282018",
+"accuracy": "5.248",
+"speed": "1.5511492",
+"bearing": "77.75087",
+"bearingAccuracyDegrees": "27.975721",
+"time": "1736093567755"
+,"heading": "113.22669"
+},
+{
+"latitude": "55.9471947",
+"longitude": "-4.3076456",
+"altitude": "150.16195089366784",
+"accuracy": "6.439",
+"speed": "1.5298319",
+"bearing": "78.352356",
+"bearingAccuracyDegrees": "26.922932",
+"time": "1736093568685"
+,"heading": "115.05769"
+},
+{
+"latitude": "55.9471963",
+"longitude": "-4.3076289",
+"altitude": "150.06221038603223",
+"accuracy": "8.08",
+"speed": "1.308978",
+"bearing": "82.143074",
+"bearingAccuracyDegrees": "180.0",
+"time": "1736093570444"
+,"heading": "115.53739"
+},
+{
+"latitude": "55.9471939",
+"longitude": "-4.3076048",
+"altitude": "150.00107967891546",
+"accuracy": "8.789",
+"speed": "1.5011215",
+"bearing": "89.70368",
+"bearingAccuracyDegrees": "81.529526",
+"time": "1736093572428"
+,"heading": "114.13131"
+},
+{
+"latitude": "55.9471911",
+"longitude": "-4.3075385",
+"altitude": "150.00107967891546",
+"accuracy": "8.726",
+"speed": "1.6850299",
+"bearing": "92.90003",
+"bearingAccuracyDegrees": "10.157484",
+"time": "1736093573423"
+,"heading": "114.95854"
+},
+{
+"latitude": "55.9471864",
+"longitude": "-4.3074948",
+"altitude": "150.2016329226679",
+"accuracy": "8.662",
+"speed": "1.6661587",
+"bearing": "99.61014",
+"bearingAccuracyDegrees": "15.105745",
+"time": "1736093574424"
+,"heading": "119.057945"
+},
+{
+"latitude": "55.9471865",
+"longitude": "-4.3074653",
+"altitude": "150.23380767519274",
+"accuracy": "8.559",
+"speed": "1.5673141",
+"bearing": "90.41147",
+"bearingAccuracyDegrees": "21.869038",
+"time": "1736093575446"
+,"heading": "113.9852"
+},
+{
+"latitude": "55.9471865",
+"longitude": "-4.3074405",
+"altitude": "149.96997825786036",
+"accuracy": "8.49",
+"speed": "1.5145646",
+"bearing": "88.15404",
+"bearingAccuracyDegrees": "24.941456",
+"time": "1736093576469"
+,"heading": "113.2227"
+},
+{
+"latitude": "55.9471867",
+"longitude": "-4.3074167",
+"altitude": "149.8343130296783",
+"accuracy": "8.476",
+"speed": "1.4265985",
+"bearing": "92.48042",
+"bearingAccuracyDegrees": "26.695837",
+"time": "1736093577481"
+,"heading": "108.4602"
+},
+{
+"latitude": "55.9471869",
+"longitude": "-4.3073947",
+"altitude": "149.9635434951329",
+"accuracy": "8.61",
+"speed": "1.3776921",
+"bearing": "73.31807",
+"bearingAccuracyDegrees": "32.695114",
+"time": "1736093578483"
+,"heading": "114.58675"
+},
+{
+"latitude": "55.9471902",
+"longitude": "-4.3073706",
+"altitude": "149.95925365598976",
+"accuracy": "8.563",
+"speed": "1.4790877",
+"bearing": "77.58802",
+"bearingAccuracyDegrees": "31.021029",
+"time": "1736093579504"
+,"heading": "120.0298"
+},
+{
+"latitude": "55.9471921",
+"longitude": "-4.3073434",
+"altitude": "149.9635434951329",
+"accuracy": "8.314",
+"speed": "1.4971341",
+"bearing": "82.98805",
+"bearingAccuracyDegrees": "30.705061",
+"time": "1736093580525"
+,"heading": "116.13875"
+},
+{
+"latitude": "55.9471945",
+"longitude": "-4.3073151",
+"altitude": "149.95925365598976",
+"accuracy": "8.101",
+"speed": "1.5107567",
+"bearing": "81.27205",
+"bearingAccuracyDegrees": "29.91991",
+"time": "1736093581521"
+,"heading": "116.228035"
+},
+{
+"latitude": "55.947197",
+"longitude": "-4.3072894",
+"altitude": "149.90348594185355",
+"accuracy": "7.834",
+"speed": "1.5060785",
+"bearing": "80.56229",
+"bearingAccuracyDegrees": "27.5478",
+"time": "1736093582504"
+,"heading": "114.053116"
+},
+{
+"latitude": "55.9471983",
+"longitude": "-4.3072631",
+"altitude": "149.4707622191463",
+"accuracy": "7.669",
+"speed": "1.4981242",
+"bearing": "81.811386",
+"bearingAccuracyDegrees": "26.724098",
+"time": "1736093583460"
+,"heading": "117.16877"
+},
+{
+"latitude": "55.9471981",
+"longitude": "-4.3072364",
+"altitude": "149.4707622191463",
+"accuracy": "7.563",
+"speed": "1.4965404",
+"bearing": "82.26061",
+"bearingAccuracyDegrees": "24.26396",
+"time": "1736093584446"
+,"heading": "113.983826"
+},
+{
+"latitude": "55.9471985",
+"longitude": "-4.3072088",
+"altitude": "149.4707622191463",
+"accuracy": "7.558",
+"speed": "1.4935006",
+"bearing": "81.56561",
+"bearingAccuracyDegrees": "22.198921",
+"time": "1736093585449"
+,"heading": "123.580185"
+},
+{
+"latitude": "55.9471932",
+"longitude": "-4.3071734",
+"altitude": "149.50454284148208",
+"accuracy": "7.638",
+"speed": "1.5065442",
+"bearing": "90.672554",
+"bearingAccuracyDegrees": "18.778625",
+"time": "1736093586461"
+,"heading": "115.43073"
+},
+{
+"latitude": "55.9471921",
+"longitude": "-4.3071452",
+"altitude": "149.50454284148208",
+"accuracy": "7.687",
+"speed": "1.5208977",
+"bearing": "85.09702",
+"bearingAccuracyDegrees": "18.15633",
+"time": "1736093587484"
+,"heading": "113.67439"
+},
+{
+"latitude": "55.9471929",
+"longitude": "-4.3071198",
+"altitude": "149.51312206828408",
+"accuracy": "7.741",
+"speed": "1.5087705",
+"bearing": "83.878456",
+"bearingAccuracyDegrees": "17.731865",
+"time": "1736093588482"
+,"heading": "106.7717"
+},
+{
+"latitude": "55.9471923",
+"longitude": "-4.3070956",
+"altitude": "149.51312206828408",
+"accuracy": "7.806",
+"speed": "1.5196747",
+"bearing": "82.834595",
+"bearingAccuracyDegrees": "16.230026",
+"time": "1736093589427"
+,"heading": "113.10336"
+},
+{
+"latitude": "55.9471918",
+"longitude": "-4.3070711",
+"altitude": "149.70776557608843",
+"accuracy": "7.852",
+"speed": "1.5253837",
+"bearing": "84.00689",
+"bearingAccuracyDegrees": "16.006998",
+"time": "1736093590398"
+,"heading": "112.033295"
+},
+{
+"latitude": "55.9471981",
+"longitude": "-4.3070426",
+"altitude": "149.70776557608843",
+"accuracy": "7.834",
+"speed": "1.4898866",
+"bearing": "81.06181",
+"bearingAccuracyDegrees": "13.019843",
+"time": "1736093591402"
+,"heading": "112.2885"
+},
+{
+"latitude": "55.9472009",
+"longitude": "-4.3070218",
+"altitude": "149.72331579842432",
+"accuracy": "7.813",
+"speed": "1.4231654",
+"bearing": "81.45122",
+"bearingAccuracyDegrees": "12.929739",
+"time": "1736093592385"
+,"heading": "111.65485"
+},
+{
+"latitude": "55.9472034",
+"longitude": "-4.3070009",
+"altitude": "149.69543266112578",
+"accuracy": "7.727",
+"speed": "1.3893028",
+"bearing": "81.72563",
+"bearingAccuracyDegrees": "11.954611",
+"time": "1736093593386"
+,"heading": "108.947716"
+},
+{
+"latitude": "55.9472042",
+"longitude": "-4.3069847",
+"altitude": "149.75763362997395",
+"accuracy": "7.559",
+"speed": "1.3708525",
+"bearing": "81.39959",
+"bearingAccuracyDegrees": "12.666914",
+"time": "1736093594368"
+,"heading": "108.61598"
+},
+{
+"latitude": "55.9472062",
+"longitude": "-4.306968",
+"altitude": "149.7474455094403",
+"accuracy": "7.327",
+"speed": "1.3444458",
+"bearing": "81.767746",
+"bearingAccuracyDegrees": "12.398369",
+"time": "1736093595361"
+,"heading": "111.40141"
+},
+{
+"latitude": "55.9472104",
+"longitude": "-4.3069405",
+"altitude": "149.69543266112578",
+"accuracy": "7.156",
+"speed": "1.424751",
+"bearing": "82.63246",
+"bearingAccuracyDegrees": "12.247889",
+"time": "1736093596359"
+,"heading": "113.1909"
+},
+{
+"latitude": "55.9472121",
+"longitude": "-4.3069181",
+"altitude": "149.6546805461535",
+"accuracy": "7.047",
+"speed": "1.4484259",
+"bearing": "84.70211",
+"bearingAccuracyDegrees": "12.306271",
+"time": "1736093597366"
+,"heading": "115.83587"
+},
+{
+"latitude": "55.9472128",
+"longitude": "-4.3068957",
+"altitude": "149.45842964405722",
+"accuracy": "6.921",
+"speed": "1.4947083",
+"bearing": "85.84097",
+"bearingAccuracyDegrees": "11.996498",
+"time": "1736093598348"
+,"heading": "116.00512"
+},
+{
+"latitude": "55.9472111",
+"longitude": "-4.3068708",
+"altitude": "149.21499895558873",
+"accuracy": "6.81",
+"speed": "1.5332438",
+"bearing": "87.92118",
+"bearingAccuracyDegrees": "12.23911",
+"time": "1736093599343"
+,"heading": "114.94119"
+},
+{
+"latitude": "55.9472033",
+"longitude": "-4.3068509",
+"altitude": "149.33724962946786",
+"accuracy": "7.088",
+"speed": "1.5816511",
+"bearing": "84.41666",
+"bearingAccuracyDegrees": "18.975372",
+"time": "1736093600362"
+,"heading": "116.22388"
+},
+{
+"latitude": "55.9471955",
+"longitude": "-4.3068333",
+"altitude": "149.43269215300785",
+"accuracy": "7.676",
+"speed": "1.5311466",
+"bearing": "98.8703",
+"bearingAccuracyDegrees": "12.442138",
+"time": "1736093601363"
+,"heading": "110.45292"
+},
+{
+"latitude": "55.9471912",
+"longitude": "-4.3068015",
+"altitude": "149.33724962946786",
+"accuracy": "8.152",
+"speed": "1.702165",
+"bearing": "97.95681",
+"bearingAccuracyDegrees": "16.310396",
+"time": "1736093602383"
+,"heading": "114.666595"
+},
+{
+"latitude": "55.9471905",
+"longitude": "-4.3067612",
+"altitude": "149.33724962946786",
+"accuracy": "8.618",
+"speed": "1.8537809",
+"bearing": "99.20357",
+"bearingAccuracyDegrees": "19.261",
+"time": "1736093603359"
+,"heading": "113.40569"
+},
+{
+"latitude": "55.9471914",
+"longitude": "-4.3067262",
+"altitude": "149.27129839215934",
+"accuracy": "9.15",
+"speed": "1.8166964",
+"bearing": "96.87577",
+"bearingAccuracyDegrees": "11.743841",
+"time": "1736093604380"
+,"heading": "119.45959"
+},
+{
+"latitude": "55.9471902",
+"longitude": "-4.3066923",
+"altitude": "149.27129839215934",
+"accuracy": "9.2",
+"speed": "1.8420911",
+"bearing": "96.517204",
+"bearingAccuracyDegrees": "12.610065",
+"time": "1736093605404"
+,"heading": "114.17505"
+},
+{
+"latitude": "55.9471894",
+"longitude": "-4.3066581",
+"altitude": "149.4058823484063",
+"accuracy": "8.946",
+"speed": "1.866688",
+"bearing": "92.455666",
+"bearingAccuracyDegrees": "19.343462",
+"time": "1736093606405"
+,"heading": "111.962204"
+},
+{
+"latitude": "55.9471877",
+"longitude": "-4.3066265",
+"altitude": "149.39086889433577",
+"accuracy": "8.826",
+"speed": "1.8471556",
+"bearing": "98.03419",
+"bearingAccuracyDegrees": "30.438292",
+"time": "1736093607388"
+,"heading": "111.17807"
+},
+{
+"latitude": "55.9471855",
+"longitude": "-4.3065971",
+"altitude": "149.38068120828518",
+"accuracy": "8.823",
+"speed": "1.761233",
+"bearing": "91.68058",
+"bearingAccuracyDegrees": "29.430273",
+"time": "1736093608380"
+,"heading": "115.36092"
+},
+{
+"latitude": "55.9471858",
+"longitude": "-4.3065721",
+"altitude": "149.38068120828518",
+"accuracy": "8.886",
+"speed": "1.7613062",
+"bearing": "86.53488",
+"bearingAccuracyDegrees": "22.103827",
+"time": "1736093609383"
+,"heading": "111.151596"
+},
+{
+"latitude": "55.9471885",
+"longitude": "-4.3065412",
+"altitude": "149.032162375059",
+"accuracy": "9.002",
+"speed": "1.7716633",
+"bearing": "79.97956",
+"bearingAccuracyDegrees": "26.880762",
+"time": "1736093610368"
+,"heading": "110.57376"
+},
+{
+"latitude": "55.9471915",
+"longitude": "-4.3065084",
+"altitude": "149.19033455662083",
+"accuracy": "9.112",
+"speed": "1.7510666",
+"bearing": "79.86907",
+"bearingAccuracyDegrees": "23.588642",
+"time": "1736093611365"
+,"heading": "107.78259"
+},
+{
+"latitude": "55.9471904",
+"longitude": "-4.3064663",
+"altitude": "149.11258854452075",
+"accuracy": "9.096",
+"speed": "1.1250721",
+"bearing": "84.07248",
+"bearingAccuracyDegrees": "9.664435",
+"time": "1736093612339"
+,"heading": "109.3926"
+},
+{
+"latitude": "55.9471944",
+"longitude": "-4.3064304",
+"altitude": "149.1967687408357",
+"accuracy": "8.988",
+"speed": "1.3960959",
+"bearing": "85.478065",
+"bearingAccuracyDegrees": "9.404133",
+"time": "1736093613323"
+,"heading": "116.96528"
+},
+{
+"latitude": "55.9471938",
+"longitude": "-4.3063934",
+"altitude": "149.3125848798873",
+"accuracy": "8.735",
+"speed": "1.5633402",
+"bearing": "87.02144",
+"bearingAccuracyDegrees": "12.368098",
+"time": "1736093614324"
+,"heading": "111.30107"
+},
+{
+"latitude": "55.9471898",
+"longitude": "-4.3063526",
+"altitude": "149.27612407530148",
+"accuracy": "8.2",
+"speed": "1.7757491",
+"bearing": "89.42026",
+"bearingAccuracyDegrees": "9.555825",
+"time": "1736093615326"
+,"heading": "113.119484"
+},
+{
+"latitude": "55.9471891",
+"longitude": "-4.3063127",
+"altitude": "148.85951673818744",
+"accuracy": "7.697",
+"speed": "1.8498155",
+"bearing": "89.31729",
+"bearingAccuracyDegrees": "11.831999",
+"time": "1736093616328"
+,"heading": "110.63286"
+},
+{
+"latitude": "55.9471907",
+"longitude": "-4.3062823",
+"altitude": "148.91688617712344",
+"accuracy": "7.382",
+"speed": "1.7981176",
+"bearing": "79.96717",
+"bearingAccuracyDegrees": "12.6435585",
+"time": "1736093617301"
+,"heading": "102.61342"
+},
+{
+"latitude": "55.9471928",
+"longitude": "-4.3062435",
+"altitude": "149.08149033647567",
+"accuracy": "7.11",
+"speed": "1.867887",
+"bearing": "79.57359",
+"bearingAccuracyDegrees": "9.34853",
+"time": "1736093618323"
+,"heading": "105.268616"
+},
+{
+"latitude": "55.9471935",
+"longitude": "-4.3062141",
+"altitude": "149.0246559709513",
+"accuracy": "6.774",
+"speed": "1.8599125",
+"bearing": "83.73196",
+"bearingAccuracyDegrees": "9.568984",
+"time": "1736093619303"
+,"heading": "103.537025"
+},
+{
+"latitude": "55.9471958",
+"longitude": "-4.3061833",
+"altitude": "148.99194957237654",
+"accuracy": "6.569",
+"speed": "1.8359061",
+"bearing": "79.99685",
+"bearingAccuracyDegrees": "11.895533",
+"time": "1736093620307"
+,"heading": "110.31225"
+},
+{
+"latitude": "55.9471969",
+"longitude": "-4.3061582",
+"altitude": "148.99194957237654",
+"accuracy": "6.421",
+"speed": "1.7816098",
+"bearing": "85.35205",
+"bearingAccuracyDegrees": "12.129469",
+"time": "1736093621298"
+,"heading": "112.29849"
+},
+{
+"latitude": "55.9471976",
+"longitude": "-4.3061308",
+"altitude": "148.72386902630916",
+"accuracy": "6.24",
+"speed": "1.7519822",
+"bearing": "88.106445",
+"bearingAccuracyDegrees": "10.029732",
+"time": "1736093622277"
+,"heading": "113.45373"
+},
+{
+"latitude": "55.9471981",
+"longitude": "-4.3061054",
+"altitude": "148.6992060358374",
+"accuracy": "6.039",
+"speed": "1.7316148",
+"bearing": "89.04644",
+"bearingAccuracyDegrees": "9.546175",
+"time": "1736093623283"
+,"heading": "118.450195"
+},
+{
+"latitude": "55.947197",
+"longitude": "-4.3060838",
+"altitude": "148.6992060358374",
+"accuracy": "5.947",
+"speed": "1.6693149",
+"bearing": "93.75473",
+"bearingAccuracyDegrees": "13.066293",
+"time": "1736093624326"
+,"heading": "101.14387"
+},
+{
+"latitude": "55.947202",
+"longitude": "-4.3060585",
+"altitude": "148.72386902630916",
+"accuracy": "5.757",
+"speed": "1.6048089",
+"bearing": "49.147686",
+"bearingAccuracyDegrees": "19.273514",
+"time": "1736093625604"
+,"heading": "32.915684"
+},
+{
+"latitude": "55.9472071",
+"longitude": "-4.3060415",
+"altitude": "148.34964255918499",
+"accuracy": "5.78",
+"speed": "1.4978178",
+"bearing": "65.751366",
+"bearingAccuracyDegrees": "16.164589",
+"time": "1736093627214"
+,"heading": "67.302536"
+},
+{
+"latitude": "55.9472127",
+"longitude": "-4.3060235",
+"altitude": "148.2643984061841",
+"accuracy": "5.763",
+"speed": "1.4464719",
+"bearing": "47.567547",
+"bearingAccuracyDegrees": "12.405584",
+"time": "1736093628213"
+,"heading": "66.57473"
+},
+{
+"latitude": "55.9472252",
+"longitude": "-4.3060088",
+"altitude": "148.3292696659064",
+"accuracy": "5.543",
+"speed": "1.4340292",
+"bearing": "45.04801",
+"bearingAccuracyDegrees": "11.852496",
+"time": "1736093629218"
+,"heading": "60.13498"
+},
+{
+"latitude": "55.9472393",
+"longitude": "-4.305993",
+"altitude": "148.50001525878906",
+"accuracy": "5.17",
+"speed": "1.4705638",
+"bearing": "36.83389",
+"bearingAccuracyDegrees": "10.073613",
+"time": "1736093630219"
+,"heading": "67.62446"
+},
+{
+"latitude": "55.9472541",
+"longitude": "-4.3059801",
+"altitude": "148.50001525878906",
+"accuracy": "5.017",
+"speed": "1.5628353",
+"bearing": "32.96873",
+"bearingAccuracyDegrees": "9.654864",
+"time": "1736093631221"
+,"heading": "69.76628"
+},
+{
+"latitude": "55.9472719",
+"longitude": "-4.3059614",
+"altitude": "148.50001525878906",
+"accuracy": "5.009",
+"speed": "1.656806",
+"bearing": "40.602253",
+"bearingAccuracyDegrees": "9.645147",
+"time": "1736093632245"
+,"heading": "77.94805"
+},
+{
+"latitude": "55.9472913",
+"longitude": "-4.3059442",
+"altitude": "148.50001525878906",
+"accuracy": "5.01",
+"speed": "1.7407345",
+"bearing": "41.333088",
+"bearingAccuracyDegrees": "9.621912",
+"time": "1736093633245"
+,"heading": "66.78542"
+},
+{
+"latitude": "55.9473156",
+"longitude": "-4.3059242",
+"altitude": "148.50001525878906",
+"accuracy": "5.395",
+"speed": "1.7980143",
+"bearing": "34.47366",
+"bearingAccuracyDegrees": "11.382638",
+"time": "1736093634288"
+,"heading": "63.03674"
+},
+{
+"latitude": "55.9473333",
+"longitude": "-4.3059086",
+"altitude": "148.50001525878906",
+"accuracy": "5.903",
+"speed": "1.7864162",
+"bearing": "40.466106",
+"bearingAccuracyDegrees": "18.021034",
+"time": "1736093635383"
+,"heading": "71.927505"
+},
+{
+"latitude": "55.9473411",
+"longitude": "-4.3058914",
+"altitude": "148.50001525878906",
+"accuracy": "6.182",
+"speed": "1.7218856",
+"bearing": "50.8382",
+"bearingAccuracyDegrees": "21.93682",
+"time": "1736093636546"
+,"heading": "54.908356"
+},
+{
+"latitude": "55.9473505",
+"longitude": "-4.3058823",
+"altitude": "148.50001525878906",
+"accuracy": "6.131",
+"speed": "1.5655164",
+"bearing": "26.817451",
+"bearingAccuracyDegrees": "18.851694",
+"time": "1736093637712"
+,"heading": "48.863182"
+},
+{
+"latitude": "55.9473633",
+"longitude": "-4.305875",
+"altitude": "148.50001525878906",
+"accuracy": "6.066",
+"speed": "1.4757369",
+"bearing": "359.0464",
+"bearingAccuracyDegrees": "7.019033",
+"time": "1736093638715"
+,"heading": "19.247023"
+},
+{
+"latitude": "55.9473743",
+"longitude": "-4.3058927",
+"altitude": "150.26276505538414",
+"accuracy": "6.226",
+"speed": "1.4860566",
+"bearing": "324.81195",
+"bearingAccuracyDegrees": "10.39564",
+"time": "1736093639686"
+,"heading": "307.0779"
+},
+{
+"latitude": "55.9473933",
+"longitude": "-4.3059007",
+"altitude": "150.35553890580803",
+"accuracy": "6.586",
+"speed": "1.4996144",
+"bearing": "328.23822",
+"bearingAccuracyDegrees": "28.231907",
+"time": "1736093641562"
+,"heading": "269.99298"
+}
+]

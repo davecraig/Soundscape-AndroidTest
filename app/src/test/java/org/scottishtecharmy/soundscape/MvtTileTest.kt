@@ -1,15 +1,23 @@
 package org.scottishtecharmy.soundscape
 
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import okio.buffer
+import okio.source
 import org.junit.Test
+import org.scottishtecharmy.soundscape.geoengine.filters.KalmanFilter
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.InterpolatedPointsJoiner
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.vectorTileToGeoJson
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
+import org.scottishtecharmy.soundscape.geoengine.utils.LocationData
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid.Companion.getTileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.getNearestPoi
 import org.scottishtecharmy.soundscape.geoengine.utils.searchFeaturesByName
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
 import vector_tile.VectorTile
@@ -200,6 +208,133 @@ class MvtTileTest {
         val searchResults = searchFeaturesByName(featureCollection, "Graeme")
         println(adapter.toJson(searchResults))
         assert(searchResults.features.size == 1)
+
+//        // Test the polygon contains function
+//        for(poi in featureCollection) {
+//            // We can only be inside polygons
+//            if(poi.geometry.type == "Polygon") {
+//                val polygon = poi.geometry as Polygon
+//                val name = poi.properties?.get("name")
+//                if(name == "Tesco") {
+//                    assert(pointIsWithinPolygon(LngLatAlt(-4.31432,55.93987), polygon))
+//                }
+//            }
+//        }
+
+        // Load in the travel.json file
+        val inputStream =
+            FileInputStream("src/test/res/org/scottishtecharmy/soundscape/travel.json")
+        val moshi = Moshi.Builder().build()
+
+        val listOfLocationData =
+            Types.newParameterizedType(List::class.java, LocationData::class.java)
+        val locationAdapter: JsonAdapter<List<LocationData>> = moshi.adapter(listOfLocationData)
+        val travelData = locationAdapter.fromJson(inputStream.source().buffer())
+        if(travelData != null) {
+            val travelCollection = FeatureCollection()
+            var lastPoint: LocationData? = null
+            val filters = arrayOf(
+                KalmanFilter(3.0),
+                KalmanFilter(6.0))
+            val lastFilteredPoint : Array<LngLatAlt?> = arrayOf(
+                null,
+                null)
+
+            for (point in travelData) {
+                for((index, filter) in filters.withIndex()) {
+                    val filteredPoint = filter.process(
+                        LngLatAlt(point.longitude.toDouble(), point.latitude.toDouble()),
+                        point.time.toLong(),
+                        point.accuracy.toDouble()
+                    )
+
+                    // Add line from point to filtered point
+                    val filteredPosition = LngLatAlt(
+                        filteredPoint.longitude,
+                        filteredPoint.latitude
+                    )
+
+                    if(lastFilteredPoint[index] != null) {
+                        val geoFeature = Feature()
+                        val segment = arrayListOf<LngLatAlt>()
+                        segment.add(filteredPosition)
+                        segment.add(
+                            LngLatAlt(
+                                lastFilteredPoint[index]!!.longitude,
+                                lastFilteredPoint[index]!!.latitude
+                            )
+                        )
+
+                        val geometry = LineString(segment)
+                        geoFeature.geometry = geometry
+                        travelCollection.addFeature(geoFeature)
+
+                        val kalmanLag = filteredPosition.distance(
+                            LngLatAlt(
+                                point.longitude.toDouble(),
+                                point.latitude.toDouble()
+                            )
+                        )
+                        println("$kalmanLag / ${point.accuracy}, ${point.speed}")
+                    }
+                    lastFilteredPoint[index] = filteredPosition
+                }
+
+                if(lastPoint != null) {
+//                    // Add line from last point
+//                    val geoFeature = Feature()
+//                    val segment = arrayListOf<LngLatAlt>()
+//                    val lastPosition = LngLatAlt(
+//                        lastPoint.longitude!!.toDouble(),
+//                        lastPoint.latitude!!.toDouble()
+//                    )
+//
+//                    segment.add(lastPosition)
+//                    segment.add(
+//                        LngLatAlt(
+//                            point.longitude!!.toDouble(),
+//                            point.latitude!!.toDouble()
+//                        )
+//                    )
+//
+//                    val geometry = LineString(segment)
+//                    geoFeature.geometry = geometry
+//                    travelCollection.addFeature(geoFeature)
+
+                    // Is the speed just the distance since the last point in metres per second?
+//                    val distance = lastPosition.distance(LngLatAlt(point.longitude!!.toDouble(), point.latitude!!.toDouble()))
+//                    val timeDiff = point.time!!.toLong() - lastPoint.time!!.toLong()
+//                    println("${distance * 1000.0/timeDiff} vs ${point.speed}")
+
+                    // Is the bearing just the direction from the last point?
+//                    val bearingFromLastPoint = bearingFromTwoPoints(lastPoint.latitude!!.toDouble(),
+//                        lastPoint.longitude!!.toDouble(),
+//                        point.latitude!!.toDouble(),
+//                        point.longitude!!.toDouble())
+//                    println("$bearingFromLastPoint vs ${point.bearing}")
+                }
+
+                lastPoint = point
+//                val geoPointFeature = Feature()
+//                val pointGeometry = Point(lastPoint.longitude!!.toDouble(), lastPoint.latitude!!.toDouble())
+//                geoPointFeature.geometry = pointGeometry
+//                val foreign: HashMap<String, Any?> = hashMapOf()
+//                foreign["time"] = point.time
+//                foreign["speed"] = point.speed
+//                foreign["altitude"] = point.altitude
+//                foreign["bearing"] = point.bearing
+//                foreign["bearingAccuracyDegrees"] = point.bearingAccuracyDegrees
+//                foreign["accuracy"] = point.accuracy
+//                foreign["heading"] = point.heading
+//                geoPointFeature.properties = foreign
+//                travelCollection.addFeature(geoPointFeature)
+            }
+            println(travelCollection)
+
+            val outputFile = FileOutputStream("travel.geojson")
+            outputFile.write(adapter.toJson(travelCollection).toByteArray())
+            outputFile.close()
+        }
 
         val outputFile = FileOutputStream("2x2.geojson")
         outputFile.write(adapter.toJson(featureCollection).toByteArray())

@@ -51,7 +51,7 @@ class AndroidLocationProvider(context : Context) :
                 .addOnSuccessListener { location: Location? ->
                     // Handle the retrieved location here
                     if (location != null) {
-                        mutableLocationFlow.value = filterLocation(location)
+                        mutableLocationFlow.value = location //filterLocation(location)
                     }
                 }
                 .addOnFailureListener { _: Exception ->
@@ -60,7 +60,7 @@ class AndroidLocationProvider(context : Context) :
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
-                    mutableLocationFlow.value = filterLocation(location)
+                    mutableLocationFlow.value = location //filterLocation(location)
                 }
             }
         }

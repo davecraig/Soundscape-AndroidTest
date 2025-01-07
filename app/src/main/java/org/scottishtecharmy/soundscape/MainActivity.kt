@@ -301,6 +301,8 @@ class MainActivity : AppCompatActivity() {
         const val SPEECH_RATE_KEY = "SpeechRate"
         const val MAP_DEBUG_DEFAULT = false
         const val MAP_DEBUG_KEY = "MapDebug"
+        const val RECORD_TRAVEL_DEFAULT = false
+        const val RECORD_TRAVEL_KEY = "RecordTravel"
 
         const val FIRST_LAUNCH_KEY = "FirstLaunch"
     }
