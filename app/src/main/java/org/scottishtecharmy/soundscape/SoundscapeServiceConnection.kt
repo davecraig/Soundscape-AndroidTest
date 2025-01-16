@@ -15,6 +15,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.services.SoundscapeBinder
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import javax.inject.Inject
 
 @ActivityRetainedScoped
@@ -83,6 +84,10 @@ class SoundscapeServiceConnection @Inject constructor() {
 
     fun streetPreviewGo() {
         soundscapeService?.streetPreviewGo()
+    }
+
+    fun getCalloutHistory() : FeatureCollection? {
+        return soundscapeService?.geoEngine?.getCalloutHistory()
     }
 
     companion object {

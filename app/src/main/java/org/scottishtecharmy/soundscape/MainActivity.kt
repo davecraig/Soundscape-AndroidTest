@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape
 
 import android.Manifest
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
@@ -26,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.geoengine.PROTOMAPS_SERVER_BASE
 import org.scottishtecharmy.soundscape.geoengine.PROTOMAPS_SERVER_PATH
+import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
 import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
 import org.scottishtecharmy.soundscape.screens.home.HomeScreen
 import org.scottishtecharmy.soundscape.screens.home.Navigator
@@ -33,22 +36,25 @@ import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.utils.extractAssets
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     @Inject
-    lateinit var soundscapeServiceConnection : SoundscapeServiceConnection
+    lateinit var soundscapeServiceConnection: SoundscapeServiceConnection
+
     @Inject
-    lateinit var navigator : Navigator
+    lateinit var navigator: Navigator
+
     @Inject
-    lateinit var soundscapeIntents : SoundscapeIntents
+    lateinit var soundscapeIntents: SoundscapeIntents
 
     data class DeviceLocation(
-        var latitude : Double,
-        var longitude : Double,
-        var orientation : Double,
+        var latitude: Double,
+        var longitude: Double,
+        var orientation: Double,
     )
 
     private var currentDeviceLocation by mutableStateOf<DeviceLocation?>(null)
@@ -84,25 +90,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var sharedPreferencesListener: SharedPreferences.OnSharedPreferenceChangeListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Extract the maplibre style assets
         Log.d("ExtractAssets", "Start extraction")
-        extractAssets(applicationContext, "osm-bright-gl-style","osm-bright-gl-style")
+        extractAssets(applicationContext, "osm-bright-gl-style", "osm-bright-gl-style")
         Log.d("ExtractAssets", "Completed extraction")
 
         // Update extracted style.json with protomaps server URI
         val filesDir = applicationContext.filesDir.toString()
-        val outputStyleStream = File("$filesDir/osm-bright-gl-style/processedstyle.json").outputStream()
+        val outputStyleStream =
+            File("$filesDir/osm-bright-gl-style/processedstyle.json").outputStream()
         val inputStyleStream = File("$filesDir/osm-bright-gl-style/style.json").inputStream()
         inputStyleStream.bufferedReader().useLines { lines ->
             lines.forEach { line ->
-                if(line.contains("PROTOMAPS_SERVER_URL")) {
-                    val newline = line.replace("PROTOMAPS_SERVER_URL", "$PROTOMAPS_SERVER_BASE/$PROTOMAPS_SERVER_PATH.json")
+                if (line.contains("PROTOMAPS_SERVER_URL")) {
+                    val newline = line.replace(
+                        "PROTOMAPS_SERVER_URL",
+                        "$PROTOMAPS_SERVER_BASE/$PROTOMAPS_SERVER_PATH.json"
+                    )
                     outputStyleStream.write(newline.toByteArray())
-                }
-                else {
+                } else {
                     outputStyleStream.write(line.toByteArray())
                 }
             }
@@ -143,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "serviceBoundState $it")
                 if (it) {
                     // The service has started, so parse the Intent
-                    if(intent != null) {
+                    if (intent != null) {
                         if (intent.action != "") {
                             soundscapeIntents.parse(intent, this@MainActivity)
                             // Clear the action so that it doesn't happen on every screen rotate etc.
@@ -162,7 +172,7 @@ class MainActivity : AppCompatActivity() {
                 val navController = rememberNavController()
                 val destination by navigator.destination.collectAsState()
                 LaunchedEffect(destination) {
-                    if(destination != "") {
+                    if (destination != "") {
                         if (navController.currentDestination?.route != destination) {
                             navController.navigate(destination)
                         }
@@ -227,11 +237,12 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
             }
-        }else{
+        } else {
             checkAndRequestLocationPermissions()
         }
 
     }
+
     private fun checkAndRequestLocationPermissions() {
         when (ContextCompat.checkSelfPermission(
             this,
@@ -241,6 +252,7 @@ class MainActivity : AppCompatActivity() {
                 // permission already granted
                 startSoundscapeService()
             }
+
             else -> {
                 locationPermissionRequest.launch(
                     arrayOf(
@@ -252,6 +264,36 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    fun saveCallouts() {
+
+        val callouts = soundscapeServiceConnection.getCalloutHistory()
+
+        // Create a temporary file
+        val tempFile = File.createTempFile("callout-history.geojson", null, this.cacheDir)
+
+        // Write data to the file
+        val adapter = GeoJsonObjectMoshiAdapter()
+        val outputFile = FileOutputStream(tempFile)
+        outputFile.write(adapter.toJson(callouts).toByteArray())
+        outputFile.close()
+
+        // Get content URI using FileProvider
+        val contentUri = FileProvider.getUriForFile(
+            this,
+            "${applicationContext.packageName}.CalloutSaver",
+            tempFile
+        )
+
+        // Create and send the Intent
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/geo+json"
+            putExtra(Intent.EXTRA_STREAM, contentUri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        this.startActivity(Intent.createChooser(intent, "Send GeoJSON"))
     }
 
     fun toggleServiceState(newServiceState: Boolean) {
@@ -301,6 +343,8 @@ class MainActivity : AppCompatActivity() {
         const val SPEECH_RATE_KEY = "SpeechRate"
         const val MAP_DEBUG_DEFAULT = false
         const val MAP_DEBUG_KEY = "MapDebug"
+        const val RECORD_TRAVEL_DEFAULT = false
+        const val RECORD_TRAVEL_KEY = "RecordTravel"
 
         const val FIRST_LAUNCH_KEY = "FirstLaunch"
     }

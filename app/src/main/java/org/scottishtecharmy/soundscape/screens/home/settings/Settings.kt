@@ -130,6 +130,11 @@ fun Settings(
                     defaultValue = MainActivity.MAP_DEBUG_DEFAULT,
                     title = { Text(text = "Map debug") },
                 )
+                switchPreference(
+                    key = MainActivity.RECORD_TRAVEL_KEY,
+                    defaultValue = MainActivity.RECORD_TRAVEL_DEFAULT,
+                    title = { Text(text = "Record travel") },
+                )
             }
         }
     }

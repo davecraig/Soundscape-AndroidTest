@@ -6,6 +6,7 @@ import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.geoengine.PositionedString
 import org.scottishtecharmy.soundscape.geoengine.filters.CalloutHistory
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.utils.CalloutSaver
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
 import org.scottishtecharmy.soundscape.geoengine.utils.checkWhetherIntersectionIsOfInterest
@@ -32,7 +33,9 @@ data class RoadsDescription(val nearestRoad: Feature? = null,
                             val heading: Double = 0.0,
                             val fovBaseLocation: LngLatAlt = LngLatAlt(),
                             val intersection: Feature? = null,
-                            val intersectionRoads: FeatureCollection = FeatureCollection())
+                            val intersectionRoads: FeatureCollection = FeatureCollection(),
+                            val fovLeft: LngLatAlt? = null,
+                            val fovRight: LngLatAlt? = null)
 
 /**
  * getRoadsDescriptionFromFov returns a description of the nearestRoad and also the 'best'
@@ -76,7 +79,12 @@ fun getRoadsDescriptionFromFov(roadTree: FeatureTree,
     // Find intersections within FOV
     val fovIntersections = intersectionTree.generateFeatureCollectionWithinTriangle(
         currentLocation, points.left, points.right)
-    if(fovIntersections.features.isEmpty()) return RoadsDescription(nearestRoadInFoV, deviceHeading, currentLocation)
+    if(fovIntersections.features.isEmpty()) return RoadsDescription(nearestRoadInFoV,
+        deviceHeading,
+        currentLocation,
+        null,
+        FeatureCollection(),
+        points.left, points.right)
 
     // Sort the FOV intersections by distance
     val sortedFovIntersections = sortedByDistanceTo(currentLocation, fovIntersections)
@@ -92,7 +100,12 @@ fun getRoadsDescriptionFromFov(roadTree: FeatureTree,
         }
     }
     if(nonTrivialIntersections.features.isEmpty()) {
-        return RoadsDescription(nearestRoadInFoV, deviceHeading, currentLocation)
+        return RoadsDescription(nearestRoadInFoV,
+            deviceHeading,
+            currentLocation,
+            null,
+            FeatureCollection(),
+            points.left, points.right)
     }
 
     // We have two different approaches to picking the intersection we're interested in
@@ -136,7 +149,8 @@ fun getRoadsDescriptionFromFov(roadTree: FeatureTree,
                 intersectionRoadNames,
                 intersection,
                 relativeDirections
-        )
+        ),
+        points.left, points.right
     )
 }
 
@@ -155,9 +169,11 @@ fun addIntersectionCalloutFromDescription(
     description: RoadsDescription,
     localizedContext: Context,
     results: MutableList<PositionedString>,
-    calloutHistory: CalloutHistory? = null
+    calloutHistory: CalloutHistory? = null,
+    calloutSaver: CalloutSaver? = null
 ) {
 
+    var accumulatedCalloutText = ""
     // Report nearby road
     if(description.nearestRoad != null) {
 
@@ -171,7 +187,10 @@ fun addIntersectionCalloutFromDescription(
                 ))?.let { newCallout ->
                     if(!newCallout) skip = true
             }
-            if(!skip) results.add(PositionedString(calloutText))
+            if(!skip) {
+                results.add(PositionedString(calloutText))
+                accumulatedCalloutText += calloutText
+            }
         } else {
             // we are detecting an unnamed road here but pretending there is nothing here
             results.add(
@@ -182,7 +201,18 @@ fun addIntersectionCalloutFromDescription(
         }
     }
 
-    if(description.intersection == null) return
+    if(description.intersection == null) {
+        if(accumulatedCalloutText.isNotEmpty()) {
+            calloutSaver?.addCallout(
+                description.fovBaseLocation,
+                accumulatedCalloutText,
+                description.heading.toFloat(),
+                description.fovLeft,
+                description.fovRight
+            )
+        }
+        return
+    }
 
     val intersectionNameProperty = description.intersection.properties?.get("name")
     val intersectionName = if(intersectionNameProperty == null)
@@ -202,16 +232,14 @@ fun addIntersectionCalloutFromDescription(
     }
 
     // Report distance to intersection
-    results.add(
-        PositionedString(
-            "${localizedContext.getString(R.string.intersection_approaching_intersection)} ${
-                localizedContext.getString(
-                    R.string.distance_format_meters,
-                    description.fovBaseLocation.distance(intersectionLocation).toInt().toString(),
-                )
-            }",
-        ),
-    )
+    val distanceText = "${localizedContext.getString(R.string.intersection_approaching_intersection)} ${
+        localizedContext.getString(
+            R.string.distance_format_meters,
+            description.fovBaseLocation.distance(intersectionLocation).toInt().toString(),
+        )}"
+
+    results.add(PositionedString(distanceText))
+    accumulatedCalloutText += distanceText
 
     // Report roads that join the intersection
     for (feature in description.intersectionRoads.features) {
@@ -231,7 +259,14 @@ fun addIntersectionCalloutFromDescription(
                         relativeDirectionString,
                     )
                 results.add(PositionedString(intersectionCallout))
+                accumulatedCalloutText += intersectionCallout
             }
         }
     }
+    calloutSaver?.addCallout(description.fovBaseLocation,
+        accumulatedCalloutText,
+        description.heading.toFloat(),
+        description.fovLeft,
+        description.fovRight
+    )
 }

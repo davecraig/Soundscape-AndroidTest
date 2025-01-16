@@ -52,6 +52,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getFovTrianglePoints
 import org.scottishtecharmy.soundscape.geoengine.utils.getNearestRoad
 import org.scottishtecharmy.soundscape.geoengine.utils.getPoiFeatureCollectionBySuperCategory
 import org.scottishtecharmy.soundscape.geoengine.callouts.getRoadsDescriptionFromFov
+import org.scottishtecharmy.soundscape.geoengine.utils.CalloutSaver
 import org.scottishtecharmy.soundscape.geoengine.utils.getSuperCategoryElements
 import org.scottishtecharmy.soundscape.geoengine.utils.mergeAllPolygonsInFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.pointIsWithinBoundingBox
@@ -116,6 +117,8 @@ class GeoEngine {
 
     private val streetPreview = StreetPreview()
 
+    private var calloutSaver: CalloutSaver? = null
+
     @Subscribe
     fun onActivityTransitionEvent(event: ActivityTransitionEvent) {
         if (event.transitionType == ActivityTransition.ACTIVITY_TRANSITION_ENTER) {
@@ -131,6 +134,7 @@ class GeoEngine {
         }
     }
 
+    private var recordTravel = false
     fun start(
         application: Application,
         newLocationProvider: LocationProvider,
@@ -139,6 +143,7 @@ class GeoEngine {
     ) {
         sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(application.applicationContext)
+        calloutSaver = CalloutSaver()
 
         tileClient =
             if (SOUNDSCAPE_TILE_BACKEND) {
@@ -168,7 +173,7 @@ class GeoEngine {
         tilesJob?.cancel()
         locationProvider.destroy()
         directionProvider.destroy()
-    }
+   }
 
     /**
      * The tile grid service is called each time the location changes. It checks if the location
@@ -405,11 +410,9 @@ class GeoEngine {
                     // We've found a POI that contains our location
                     val name = poi.properties?.get("name")
                     if(name != null) {
-                        results.add(
-                            PositionedString(
-                                localizedContext.getString(R.string.directions_at_poi).format(name as String)
-                            ),
-                        )
+                        val calloutText = localizedContext.getString(R.string.directions_at_poi).format(name as String)
+                        results.add(PositionedString(calloutText))
+                        calloutSaver?.addCallout(location, calloutText)
                         return results
                     }
                 }
@@ -435,6 +438,7 @@ class GeoEngine {
                         inVehicle
                     )
                 results.add(PositionedString(facingDirectionAlongRoad))
+                calloutSaver?.addCallout(location, facingDirectionAlongRoad, orientation)
                 return results
             }
         }
@@ -499,7 +503,8 @@ class GeoEngine {
         addIntersectionCalloutFromDescription(roadsDescription,
                 localizedContext,
                 results,
-                intersectionCalloutHistory)
+                intersectionCalloutHistory,
+                calloutSaver)
 
         return results
     }
@@ -650,6 +655,7 @@ class GeoEngine {
                                         NativeAudioEngine.EARCON_SENSE_POI,
                                     ),
                                 )
+                                calloutSaver?.addCallout(location, name)
                                 // Add the entries to the history
                                 poiCalloutHistory.add(callout)
                             }
@@ -751,6 +757,7 @@ class GeoEngine {
                                         inVehicle
                                     )
                                 list.add(PositionedString(facingDirectionAlongRoad))
+                                calloutSaver?.addCallout(location, facingDirectionAlongRoad, orientation)
                             } else {
                                 Log.e(TAG, "No properties found for road")
                             }
@@ -766,6 +773,7 @@ class GeoEngine {
                                 inVehicle
                             )
                         results.add(PositionedString(facingDirection))
+                        calloutSaver?.addCallout(location, facingDirection, orientation)
                     }
                     list
                 }
@@ -943,6 +951,7 @@ class GeoEngine {
                                                 NativeAudioEngine.EARCON_SENSE_POI
                                             )
                                         )
+                                        calloutSaver?.addCallout(location, text)
                                     }
                                 } else if (feature.geometry is Point) {
                                     if (feature.properties?.get("name") != null) {
@@ -956,15 +965,18 @@ class GeoEngine {
                                                 NativeAudioEngine.EARCON_SENSE_POI
                                             )
                                         )
+                                        calloutSaver?.addCallout(location, text)
                                     }
                                 }
                             }
                         } else {
                             list.add(PositionedString(localizedContext.getString(R.string.callouts_nothing_to_call_out_now)))
+                            calloutSaver?.addCallout(location, localizedContext.getString(R.string.callouts_nothing_to_call_out_now))
                         }
                     } else {
                         Log.d(TAG, "No Points Of Interest found in the grid")
                         list.add(PositionedString(localizedContext.getString(R.string.callouts_nothing_to_call_out_now)))
+                        calloutSaver?.addCallout(location, localizedContext.getString(R.string.callouts_nothing_to_call_out_now))
                     }
                     list
                 }
@@ -1006,7 +1018,9 @@ class GeoEngine {
                     )
                     addIntersectionCalloutFromDescription(roadsDescription,
                         localizedContext,
-                        list)
+                        list,
+                        null,
+                        calloutSaver)
 
                     // Detect if there is a crossing in the FOV
                     val points = getFovTrianglePoints(location, orientation, fovDistance)
@@ -1080,7 +1094,10 @@ class GeoEngine {
 
     data class FeatureByRoad(val feature: Feature,
                              val road: Feature,
-                             val distance: Double = Double.POSITIVE_INFINITY)
+                             val distance: Double = Double.POSITIVE_INFINITY,
+                             val location: LngLatAlt = LngLatAlt(),
+                             val left: LngLatAlt = LngLatAlt(),
+                             val right: LngLatAlt = LngLatAlt())
     private fun getNearestFeatureOnRoadInFov(id: Int,
                                              location: LngLatAlt,
                                              left: LngLatAlt,
@@ -1102,7 +1119,7 @@ class GeoEngine {
             if(nearestRoad != null) {
                 // We found a feature and the road that it is on
                 val distance = location.distance(featureLocation.coordinates)
-                return FeatureByRoad(nearestFeature, nearestRoad, distance)
+                return FeatureByRoad(nearestFeature, nearestRoad, distance, location, left, right)
             }
         }
 
@@ -1128,6 +1145,7 @@ class GeoEngine {
                 }
             }
             list.add(PositionedString(text))
+            calloutSaver?.addCallout(nearestFeature.location, text, 0.0F, nearestFeature.left, nearestFeature.right)
         }
     }
 
@@ -1206,6 +1224,10 @@ class GeoEngine {
         }
         val end = System.currentTimeMillis()
         Log.d(TAG, "streetPreviewGo: ${end-start}ms")
+    }
+
+    fun getCalloutHistory(): FeatureCollection? {
+        return calloutSaver?.getCalloutHistory()
     }
 
     companion object {

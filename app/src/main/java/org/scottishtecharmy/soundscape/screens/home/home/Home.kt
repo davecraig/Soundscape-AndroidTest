@@ -206,6 +206,18 @@ fun HomeTopAppBar(
         actions = {
             var serviceRunning by remember { mutableStateOf(true) }
             IconButton(
+                enabled = true,
+                onClick = {
+                    (context as MainActivity).saveCallouts()
+                },
+            ) {
+                Icon(
+                    Icons.Rounded.PlayCircle,
+                    tint = MaterialTheme.colorScheme.primary,
+                    contentDescription = "StreetPreview play"
+                )
+            }
+            IconButton(
                 enabled = streetPreviewEnabled,
                 onClick = {
                     if(streetPreviewEnabled) {
