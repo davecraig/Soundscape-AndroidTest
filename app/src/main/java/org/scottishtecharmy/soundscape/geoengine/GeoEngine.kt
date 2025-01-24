@@ -32,8 +32,8 @@ import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirection
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirectionAlong
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
-import org.scottishtecharmy.soundscape.geoengine.utils.getNearestRoad
 import org.scottishtecharmy.soundscape.geoengine.callouts.getRoadsDescriptionFromFov
+import org.scottishtecharmy.soundscape.geoengine.filters.NearestRoadFilter
 import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionsPolygons
@@ -66,6 +66,7 @@ class GeoEngine {
 
     internal lateinit var locationProvider : LocationProvider
     private lateinit var directionProvider : DirectionProvider
+    private var nearestRoadFilter = NearestRoadFilter()
 
     // Resource string locale configuration
     private lateinit var configLocale: Locale
@@ -87,14 +88,16 @@ class GeoEngine {
                             val fovDistance: Double = 50.0,
                             val inVehicle: Boolean = false,
                             val inMotion: Boolean = false,
-                            val speed: Double = 0.0)
+                            val speed: Double = 0.0,
+                            val nearestRoad: Feature? = null)
     private fun getCurrentUserGeometry() : UserGeometry {
         return UserGeometry(locationProvider.get(),
             directionProvider.getCurrentDirection().toDouble(),
             50.0,
             inVehicle,
             inMotion,
-            locationProvider.getSpeed())
+            locationProvider.getSpeed(),
+            nearestRoadFilter.get())
     }
 
     @Subscribe
@@ -175,6 +178,13 @@ class GeoEngine {
                         LngLatAlt(location.longitude, location.latitude),
                         createSuperCategoriesSet()
                     )
+
+                    runBlocking {
+                        withContext(gridState.treeContext) {
+                            // Update the nearest road filter with our new location
+                            nearestRoadFilter.update(location, gridState)
+                        }
+                    }
 
                     // Run any auto callouts that we need
                     val callouts = autoCallout(location)
@@ -405,16 +415,16 @@ class GeoEngine {
             results = runBlocking {
                 withContext(gridState.treeContext) {
                     val list : MutableList<PositionedString> = mutableListOf()
-                    val location = locationProvider.get()
+                    val userGeometry = getCurrentUserGeometry()
 
                     val roadGridFeatureCollection = gridState.getFeatureCollection(TreeId.ROADS_AND_PATHS,
-                        location,
+                        userGeometry.location,
                         100.0
                     )
 
                     if (roadGridFeatureCollection.features.isNotEmpty()) {
                         //Log.d(TAG, "Found roads in tile")
-                        val nearestRoad = getNearestRoad(location, gridState.getFeatureTree(TreeId.ROADS_AND_PATHS))
+                        val nearestRoad = userGeometry.nearestRoad
                         if (nearestRoad != null) {
 
                             val properties = nearestRoad.properties

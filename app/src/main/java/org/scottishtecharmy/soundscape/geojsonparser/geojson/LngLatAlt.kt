@@ -1,8 +1,11 @@
 package org.scottishtecharmy.soundscape.geojsonparser.geojson
 
 import com.squareup.moshi.JsonClass
+import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeading
+import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
 import org.scottishtecharmy.soundscape.geoengine.utils.distance
 import java.io.Serializable
+import kotlin.math.min
 
 @JsonClass(generateAdapter = true)
 open class LngLatAlt(
@@ -50,20 +53,28 @@ open class LngLatAlt(
 
     /**
      * Distance to a LineString from current location.
-     * @param pointCoordinates
-     * LngLatAlt of current location
      * @param lineStringCoordinates
      * LineString that we are working out the distance from
-     * @return The distance of the point to the LineString
+     * @return The distance of the point to the LineString, the location of the nearest node in that
+     * LineString, and the heading of that segment of LineString.
      */
     fun distanceToLineString(
         lineStringCoordinates: LineString,
-        nearestPoint: LngLatAlt? = null
-    ): Double {
+    ): PointAndDistanceAndHeading {
 
-        return distanceToLine(
-            lineStringCoordinates.coordinates[0],
-            lineStringCoordinates.coordinates[1],
-            nearestPoint)
+        val result = PointAndDistanceAndHeading()
+        var last = lineStringCoordinates.coordinates[0]
+        for (i in 1 until lineStringCoordinates.coordinates.size) {
+            val current = lineStringCoordinates.coordinates[i]
+            val pointOnLine = LngLatAlt()
+            val distance = distanceToLine(last, current, pointOnLine)
+            if (distance < result.distance) {
+                result.distance = min(result.distance, distance)
+                result.point = pointOnLine
+                result.heading = bearingFromTwoPoints(last, current)
+            }
+            last = current
+        }
+        return result
     }
 }

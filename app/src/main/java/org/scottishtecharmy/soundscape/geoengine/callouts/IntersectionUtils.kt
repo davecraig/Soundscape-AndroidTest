@@ -10,12 +10,10 @@ import org.scottishtecharmy.soundscape.geoengine.filters.CalloutHistory
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
-import org.scottishtecharmy.soundscape.geoengine.utils.Triangle
 import org.scottishtecharmy.soundscape.geoengine.utils.checkWhetherIntersectionIsOfInterest
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getIntersectionRoadNames
 import org.scottishtecharmy.soundscape.geoengine.utils.getIntersectionRoadNamesRelativeDirections
-import org.scottishtecharmy.soundscape.geoengine.utils.getNearestRoad
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionLabel
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionsPolygons
 import org.scottishtecharmy.soundscape.geoengine.utils.getRoadBearingToIntersection
@@ -68,8 +66,8 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     //     intersection road we're on. This can be slightly behind us, it doesn't have to be in our
     //     FOV.
     //  2. The nearest one in our FOV. We use this to describe 'what's ahead'
-    val nearestRoad = getNearestRoad(userGeometry.location, roadTree)
-    val nearestRoadInFoV = getNearestRoad(userGeometry.location, FeatureTree(fovRoads))
+    val nearestRoad = userGeometry.nearestRoad
+    val nearestRoadInFoV = roadTree.getNearestFeatureWithinTriangle(triangle)
 
     // Find intersections within FOV
     val fovIntersections = intersectionTree.generateFeatureCollectionWithinTriangle(triangle)

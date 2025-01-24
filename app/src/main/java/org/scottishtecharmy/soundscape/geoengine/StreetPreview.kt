@@ -46,12 +46,11 @@ class StreetPreview {
                 var nearestDistance = Double.POSITIVE_INFINITY
                 var nearestPoint = LngLatAlt()
                 val nearestPointOnRoad = LngLatAlt()
-                val distance = userGeometry.location.distanceToLineString(
-                    road.geometry as LineString,
-                    nearestPointOnRoad
+                val nearest = userGeometry.location.distanceToLineString(
+                    road.geometry as LineString
                 )
-                if (distance < nearestDistance) {
-                    nearestDistance = distance
+                if (nearest.distance < nearestDistance) {
+                    nearestDistance = nearest.distance
                     nearestPoint = nearestPointOnRoad
                 }
                 if (nearestDistance != Double.POSITIVE_INFINITY) {
