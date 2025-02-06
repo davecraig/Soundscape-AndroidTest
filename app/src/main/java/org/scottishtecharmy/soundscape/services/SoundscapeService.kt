@@ -343,7 +343,7 @@ class SoundscapeService : MediaSessionService() {
         coroutineScope.launch {
             audioEngine.clearTextToSpeechQueue()
             val results = geoEngine.myLocation()
-            speakCallout(results)
+            speakCallout(results, true)
         }
     }
 
@@ -355,7 +355,7 @@ class SoundscapeService : MediaSessionService() {
         coroutineScope.launch {
             audioEngine.clearTextToSpeechQueue()
             val results = geoEngine.whatsAroundMe()
-            speakCallout(results)
+            speakCallout(results, true)
         }
     }
 
@@ -363,7 +363,7 @@ class SoundscapeService : MediaSessionService() {
         coroutineScope.launch {
             audioEngine.clearTextToSpeechQueue()
             val results = geoEngine.aheadOfMe()
-            speakCallout(results)
+            speakCallout(results, true)
         }
     }
 
@@ -387,8 +387,8 @@ class SoundscapeService : MediaSessionService() {
         return (depth > 1)
     }
 
-    fun speakCallout(callouts: List<PositionedString>) {
-        audioEngine.createEarcon(NativeAudioEngine.EARCON_MODE_ENTER)
+    fun speakCallout(callouts: List<PositionedString>, includeMode: Boolean = false) {
+        if(includeMode) audioEngine.createEarcon(NativeAudioEngine.EARCON_MODE_ENTER)
         for(result in callouts) {
             if(result.location == null) {
                 if(result.earcon != null) {
@@ -409,7 +409,7 @@ class SoundscapeService : MediaSessionService() {
                 )
             }
         }
-        audioEngine.createEarcon(NativeAudioEngine.EARCON_MODE_EXIT)
+        if(includeMode) audioEngine.createEarcon(NativeAudioEngine.EARCON_MODE_EXIT)
     }
 
     /**

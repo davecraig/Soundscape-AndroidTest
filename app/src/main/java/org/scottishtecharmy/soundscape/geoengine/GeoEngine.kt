@@ -177,7 +177,7 @@ class GeoEngine {
                             autoCallout.updateLocation(getCurrentUserGeometry(UserGeometry.HeadingMode.Auto), gridState)
                         if (callouts.isNotEmpty()) {
                             // Tell the service that we've got some callouts to tell the user about
-                            soundscapeService.speakCallout(callouts)
+                            soundscapeService.speakCallout(callouts, false)
                         }
                     }
                 }
