@@ -33,18 +33,64 @@ class LocationDetailsViewModel @Inject constructor(
             var name = locationDescription.addressName
             if (name == null) name = locationDescription.fullAddress
             name = name ?: "Unknown"
-            val marker =
-                MarkerData(
-                    addressName = name,
-                    fullAddress = locationDescription.fullAddress ?: "", // TODO Fanny is it possible to get no full address ?
-                    location = Location(latitude = locationDescription.location.latitude, longitude = locationDescription.location.longitude),
-                )
-            try {
-                routesRepository.insertMarker(marker)
 
-                Log.d("LocationDetailsViewModel", "Marker saved successfully: ${marker.addressName}")
+            val updated = locationDescription.markerObjectId?.let { objectId ->
+                // We are updating an existing marker
+                val markerData = MarkerData(
+                    objectId = objectId,
+                    addressName = name,
+                    fullAddress = locationDescription.fullAddress
+                        ?: "", // TODO Fanny is it possible to get no full address ?
+                    location = Location(
+                        latitude = locationDescription.location.latitude,
+                        longitude = locationDescription.location.longitude
+                    ),
+                )
+                try {
+                    routesRepository.updateMarker(markerData)
+
+                    Log.d(
+                        "LocationDetailsViewModel",
+                        "Marker saved successfully: ${markerData.addressName}"
+                    )
+                    true
+                } catch (e: Exception) {
+                    Log.e("LocationDetailsViewModel", "Error saving route: ${e.message}")
+                    null
+                }
+            }
+            if(updated == null) {
+                val marker =
+                    MarkerData(
+                        addressName = name,
+                        fullAddress = locationDescription.fullAddress
+                            ?: "", // TODO Fanny is it possible to get no full address ?
+                        location = Location(
+                            latitude = locationDescription.location.latitude,
+                            longitude = locationDescription.location.longitude
+                        ),
+                    )
+                try {
+                    routesRepository.insertMarker(marker)
+
+                    Log.d(
+                        "LocationDetailsViewModel",
+                        "Marker saved successfully: ${marker.addressName}"
+                    )
+                } catch (e: Exception) {
+                    Log.e("LocationDetailsViewModel", "Error saving route: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun deleteMarker(objectId: org.mongodb.kbson.ObjectId) {
+        viewModelScope.launch {
+            try {
+                routesRepository.deleteMarker(objectId)
+                Log.d("LocationDetailsViewModel","Delete ${objectId.toString()}")
             } catch (e: Exception) {
-                Log.e("LocationDetailsViewModel", "Error saving route: ${e.message}")
+                Log.e("LocationDetailsViewModel", "Error deleting marker: ${e.message}")
             }
         }
     }

@@ -75,7 +75,7 @@ class MarkersViewModel
                                             LngLatAlt(userLocation.longitude, userLocation.latitude)
                                         formatDistance(userLngLat.distance(markerLngLat), context)
                                     },
-                                marker = true
+                                markerObjectId = it.objectId
                             )
                         }
                     val isAscending = getSortOrderPreference(context)
