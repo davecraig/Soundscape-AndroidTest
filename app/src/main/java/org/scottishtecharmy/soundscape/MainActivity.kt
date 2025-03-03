@@ -16,6 +16,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -224,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "serviceBoundState $it")
                 if (it) {
                     // The service has started
-
+                    registerIntents()
                     // Update the app state in the service
                     this@MainActivity.lifecycle.addObserver(AppLifecycleObserver())
 
@@ -264,6 +266,22 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener)
         super.onDestroy()
+    }
+
+    private fun registerIntents() {
+        // Define the dynamic shortcut for an item
+        val intent = Intent(this, MainActivity::class.java)
+        intent.setPackage("org.scottishtecharmy.soundscape")
+        intent.setAction(Intent.ACTION_VIEW)
+
+        val shortcutInfo: ShortcutInfoCompat = ShortcutInfoCompat.Builder(this, "unique_id_for_shortcut")
+            .setShortLabel("Route")
+            .setLongLabel("Start a route")
+            .addCapabilityBinding("actions.intent.START_EXERCISE", "exercise.name", listOf("To Tesco"))
+            .setIntent(intent)
+            .build()
+
+        ShortcutManagerCompat.pushDynamicShortcut(this, shortcutInfo);
     }
 
     private fun rateSoundscape() {

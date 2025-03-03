@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService

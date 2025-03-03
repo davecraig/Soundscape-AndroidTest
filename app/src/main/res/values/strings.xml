@@ -3621,4 +3621,8 @@ Alternatively, you may continue previewing the app with a predefined test locati
   <string name="gpx_parser_copyright"  translatable="false">&lt;a href="https://github.com/ticofab/android-gpx-parser/blob/master/LICENSE">ticofab/android-gpx-parser&lt;/a> for GPX parsing.</string>
   <string name="preferences_copyright"  translatable="false">&lt;a href="https://github.com/zhanghai/ComposePreference/blob/master/LICENSE">zhanghai/ComposePreference&lt;/a> for a simple settings UI.</string>
   <string name="dokka_mermaid_copyright"  translatable="false">&lt;a href="https://github.com/glureau/dokka-mermaid/blob/main/LICENSE">glureau/dokka-mermaid&lt;/a> for adding mermaid diagrams to Dokka documentation.</string>
+
+  <!-- Shortcuts -->
+  <string name="following"  translatable="false">Following</string>
+
 </resources>

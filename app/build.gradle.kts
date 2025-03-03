@@ -165,6 +165,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.media3.session)
     implementation(libs.androidx.lifecycle.process)
+    implementation(libs.core.google.shortcuts)
 
 
     testImplementation(libs.junit)
@@ -265,4 +266,6 @@ dependencies {
     debugImplementation(libs.leakcanary.android)
 
     implementation(libs.reorderable)
+
+    implementation(libs.widgets)
 }
