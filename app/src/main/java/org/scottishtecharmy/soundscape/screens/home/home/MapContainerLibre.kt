@@ -193,7 +193,7 @@ fun MapContainerLibre(
             // init map first time it is displayed
             map.getMapAsync { mapLibre ->
                 // val apiKey = BuildConfig.TILE_PROVIDER_API_KEY
-                val styleUrl = Uri.fromFile(File("$filesDir/osm-bright-gl-style/processedstyle.json")).toString()
+                val styleUrl = Uri.fromFile(File("$filesDir/osm-liberty-accessible/processedstyle.json")).toString()
                 mapLibre.setStyle(styleUrl) { style ->
 
                     // Add the icons we might need to the style
