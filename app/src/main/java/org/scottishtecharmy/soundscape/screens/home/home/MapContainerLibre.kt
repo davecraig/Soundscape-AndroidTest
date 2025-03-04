@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.google.firebase.annotations.concurrent.Background
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.maplibre.android.camera.CameraPosition
@@ -30,6 +31,13 @@ import org.maplibre.android.maps.MapView
 import org.maplibre.android.plugins.annotation.Symbol
 import org.maplibre.android.plugins.annotation.SymbolManager
 import org.maplibre.android.plugins.annotation.SymbolOptions
+import org.maplibre.android.style.expressions.Expression
+import org.maplibre.android.style.layers.BackgroundLayer
+import org.maplibre.android.style.layers.FillExtrusionLayer
+import org.maplibre.android.style.layers.FillLayer
+import org.maplibre.android.style.layers.LineLayer
+import org.maplibre.android.style.layers.PropertyFactory
+import org.maplibre.android.style.layers.SymbolLayer
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.database.local.model.RouteData
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -203,6 +211,35 @@ fun MapContainerLibre(
                     for(i in 0 .. 99) {
                         style.addImage(LOCATION_MARKER_NAME.format(i), markerDrawables[i])
                     }
+
+                    val layers = style.layers
+                    for(layer in layers) {
+                        when(layer) {
+                            is BackgroundLayer -> {
+                                println("Background layer: ${layer.id}, ${layer.backgroundColor}")
+                            }
+                            is LineLayer -> {
+                                println("Line layer: ${layer.id}")
+                            }
+                            is FillLayer -> {
+                                println("Fill layer: ${layer.id}, ${layer.fillColor}")
+                                if(layer.id == "water") {
+                                    layer.setProperties(
+                                        PropertyFactory.fillColor(layer.fillColor.toString())
+                                    )
+                                }
+                            }
+                            is FillExtrusionLayer -> {
+                                println("Fill extrusion layer: ${layer.id}")
+                            }
+                            is SymbolLayer -> {
+                                println("Symbol layer: ${layer.id}")
+                            }
+
+                            else -> assert(false)
+                        }
+                    }
+
 
                     val sm = SymbolManager(map, mapLibre, style)
                     // Disable symbol collisions
