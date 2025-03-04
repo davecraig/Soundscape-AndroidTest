@@ -1,16 +1,17 @@
 import com.google.protobuf.gradle.id
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    id("io.realm.kotlin")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.protobuf)
     alias(libs.plugins.screenshot)
-    id("com.google.protobuf")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.io.realm.kotlin)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.jetbrains.dokka)
 }
 
 android {
@@ -26,6 +27,8 @@ android {
             enableSplit = false
         }
     }
+    
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
     signingConfigs {
         create("release") {
@@ -96,18 +99,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "19"
+        jvmTarget = "21"
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
-        experimentalProperties["android.experimental.enableScreenshotTest"] = true
     }
     packaging {
         resources {
@@ -122,9 +121,14 @@ android {
     }
 }
 
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    //stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
+}
+
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.28.0"
+        artifact = "com.google.protobuf:protoc:4.29.3"
     }
 
     generateProtoTasks {
@@ -237,6 +241,7 @@ dependencies {
     // MapLibre library
     implementation (libs.maplibre)
     implementation (libs.maplibre.annotations)
+    implementation (libs.maplibre.compose.material3)
 
     // Screenshots for tests
     //screenshotTestImplementation(libs.androidx.compose.ui.tooling)

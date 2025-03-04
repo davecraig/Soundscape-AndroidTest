@@ -11,17 +11,29 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import dev.sargunv.maplibrecompose.compose.MaplibreMap
+import dev.sargunv.maplibrecompose.compose.rememberCameraState
+import dev.sargunv.maplibrecompose.compose.rememberStyleState
+import dev.sargunv.maplibrecompose.core.OrnamentSettings
+import dev.sargunv.maplibrecompose.material3.controls.AttributionButton
+import dev.sargunv.maplibrecompose.material3.controls.CompassButton
+import dev.sargunv.maplibrecompose.material3.controls.ScaleBar
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.maplibre.android.camera.CameraPosition
@@ -101,8 +113,39 @@ fun createLocationMarkerDrawable(context: Context, number: Int): Drawable {
  * @onMapLongClick Action to take if a long click is made on the map
  * @onMarkerClick Action to take if a beacon marker is clicked on
  */
+
 @Composable
 fun MapContainerLibre(
+    mapCenter: LngLatAlt,
+    allowScrolling: Boolean,
+    mapViewRotation: Float,
+    userLocation: LngLatAlt?,
+    userSymbolRotation: Float,
+    beaconLocation: LngLatAlt?,
+    routeData: RouteData?,
+    modifier: Modifier = Modifier,
+    onMapLongClick: (LatLng) -> Boolean,
+) {
+    val cameraState = rememberCameraState()
+    val styleState = rememberStyleState()
+
+    Box(modifier = modifier) {
+        MaplibreMap(
+            cameraState = cameraState,
+            styleState = styleState,
+            ornamentSettings = OrnamentSettings.AllDisabled,
+        )
+
+        Box(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+            ScaleBar(cameraState.metersPerDpAtTarget, modifier = Modifier.align(Alignment.TopStart))
+            CompassButton(cameraState, modifier = Modifier.align(Alignment.TopEnd))
+            AttributionButton(styleState, modifier = Modifier.align(Alignment.BottomEnd))
+        }
+    }
+}
+
+@Composable
+fun MapContainerLibreOld(
     mapCenter: LngLatAlt,
     allowScrolling: Boolean,
     mapViewRotation: Float,

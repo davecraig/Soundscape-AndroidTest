@@ -48,6 +48,10 @@ class Location : EmbeddedRealmObject {
         }
 
     fun location(): LngLatAlt { return LngLatAlt(longitude, latitude) }
+
+    companion object {
+        private const val TAG = "test"
+    }
 }
 
 class MarkerData(
@@ -66,4 +70,9 @@ class MarkerData(
         return (addressName == other.addressName) &&
                 (location?.latitude == other.location?.latitude) &&
                 (location?.longitude == other.location?.longitude)
-    }}
+    }
+
+    companion object {
+        private const val TAG = "test"
+    }
+}
