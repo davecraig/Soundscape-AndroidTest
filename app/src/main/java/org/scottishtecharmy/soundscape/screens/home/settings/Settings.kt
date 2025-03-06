@@ -23,7 +23,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import me.zhanghai.compose.preference.ProvidePreferenceLocals
 import me.zhanghai.compose.preference.listPreference
-import me.zhanghai.compose.preference.sliderPreference
 import me.zhanghai.compose.preference.switchPreference
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.R
@@ -256,18 +255,21 @@ fun Settings(
                 summary = { Text(text = it, color = textColor) },
             )
 
-            sliderPreference(
+            val voiceRateValues = listOf("0.5x", "1.0x", "1.5x", "2.0x")
+            listPreference(
                 key = MainActivity.SPEECH_RATE_KEY,
                 defaultValue = MainActivity.SPEECH_RATE_DEFAULT,
+                values = voiceRateValues,
                 title = {
                     Text(
                         text = stringResource(R.string.voice_settings_speaking_rate),
                         color = textColor
                     )
                 },
-                valueRange = 0.5f..2.0f,
-                valueSteps = 10,
-                valueText = { Text(text = "%.1fx".format(it), color = textColor) },
+                item = { value, currentValue, onClick ->
+                    ListPreferenceItem(value, currentValue, onClick, voiceRateValues.indexOf(value), voiceRateValues.size)
+                },
+                summary = { Text(text = it, color = textColor) },
             )
         }
     }

@@ -20,6 +20,8 @@ import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.text.replace
+import kotlin.text.toFloatOrNull
 
 enum class AudioType(val type: Int) {
     STANDARD(0),
@@ -384,12 +386,20 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
         }
 
         // Check for change in rate preference
-        val rate = sharedPreferences.getFloat(MainActivity.SPEECH_RATE_KEY, MainActivity.SPEECH_RATE_DEFAULT)
-        if (rate != textToSpeechRate) {
-            textToSpeech.setSpeechRate(rate)
-            Log.d(TAG, "Speech rate changed from $textToSpeechRate to $rate on $this")
-            textToSpeechRate = rate
-            change = change.or(true)
+        try {
+            val rate = sharedPreferences.getString(
+                MainActivity.SPEECH_RATE_KEY,
+                MainActivity.SPEECH_RATE_DEFAULT
+            )!!
+            if (rate != textToSpeechRate) {
+                val floatRate = rate.replace("x", "").toFloat()
+                textToSpeech.setSpeechRate(floatRate)
+                Log.d(TAG, "Speech rate changed from $textToSpeechRate to $rate on $this")
+                textToSpeechRate = rate
+                change = change.or(true)
+            }
+        } catch(e:Exception) {
+            Log.e(TAG, "Exception from voice rate $e")
         }
 
         return change
