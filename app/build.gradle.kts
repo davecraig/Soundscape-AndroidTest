@@ -66,11 +66,11 @@ android {
             useSupportLibrary = true
         }
 
-        externalNativeBuild {
-            cmake {
-                cppFlags += ""
-            }
-        }
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags += ""
+//            }
+//        }
     }
 
     buildTypes {
@@ -114,12 +114,12 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path = file("src/main/cpp/CMakeLists.txt")
+//            version = "3.22.1"
+//        }
+//    }
 }
 
 protobuf {

@@ -44,19 +44,6 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
     private var textToSpeechRate = MainActivity.SPEECH_RATE_DEFAULT
     private var beaconType = MainActivity.BEACON_TYPE_DEFAULT
 
-    private external fun create() : Long
-    private external fun destroy(engineHandle: Long)
-    private external fun createNativeBeacon(engineHandle: Long, mode: Int, latitude: Double, longitude: Double, heading: Double) :  Long
-    private external fun destroyNativeBeacon(beaconHandle: Long)
-    private external fun toggleNativeBeaconMute(engineHandle: Long) : Boolean
-    private external fun createNativeTextToSpeech(engineHandle: Long, mode: Int, latitude: Double, longitude: Double, heading: Double, ttsSocket: Int) :  Long
-    private external fun createNativeEarcon(engineHandle: Long, asset:String, mode: Int, latitude: Double, longitude: Double, heading: Double) :  Long
-    private external fun clearNativeTextToSpeechQueue(engineHandle: Long)
-    private external fun getQueueDepth(engineHandle: Long) : Long
-    private external fun updateGeometry(engineHandle: Long, latitude: Double, longitude: Double, heading: Double)
-    private external fun setBeaconType(engineHandle: Long, beaconType: String)
-    private external fun getListOfBeacons() : Array<String>
-
     private var _textToSpeechRunning = MutableStateFlow(false)
     val textToSpeechRunning = _textToSpeechRunning.asStateFlow()
 
@@ -68,7 +55,7 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
             if (engineHandle == 0L) {
                 return
             }
-            destroy(engineHandle)
+            //destroy(engineHandle)
             engineHandle = 0
 
             for(ttsSocketPair in ttsSockets){
@@ -124,7 +111,7 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
                 return
             }
             org.fmod.FMOD.init(context)
-            engineHandle = this.create()
+            //engineHandle = this.create()
             textToSpeech = TextToSpeech(context, this)
             sharedPreferences?.let {
                 updateBeaconType(it)
@@ -198,12 +185,12 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
         synchronized(engineMutex) {
             if(engineHandle != 0L) {
                 Log.d(TAG, "Call createNativeBeacon")
-                return createNativeBeacon(
-                    engineHandle,
-                    AudioType.LOCALIZED.type,
-                    location.latitude,
-                    location.longitude,
-                    0.0)
+//                return createNativeBeacon(
+//                    engineHandle,
+//                    AudioType.LOCALIZED.type,
+//                    location.latitude,
+//                    location.longitude,
+//                    0.0)
             }
 
             return 0
@@ -215,7 +202,7 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
         synchronized(engineMutex) {
             if(beaconHandle != 0L) {
                 Log.d(TAG, "Call destroyNativeBeacon")
-                destroyNativeBeacon(beaconHandle)
+//                destroyNativeBeacon(beaconHandle)
             }
         }
     }
@@ -224,7 +211,7 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
     {
         synchronized(engineMutex) {
             if(engineHandle != 0L) {
-                return toggleNativeBeaconMute(engineHandle)
+//                return toggleNativeBeaconMute(engineHandle)
             }
         }
         return false
@@ -274,13 +261,13 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
                 ttsSockets[ttsSocket.toString()] = ttsSocketPair
 
                 Log.d(TAG, "Call createNativeTextToSpeech: $text")
-                return createNativeTextToSpeech(
-                    engineHandle,
-                    type.type,
-                    latitude,
-                    longitude,
-                    heading,
-                    ttsSocketPair[1].fd)
+//                return createNativeTextToSpeech(
+//                    engineHandle,
+//                    type.type,
+//                    latitude,
+//                    longitude,
+//                    heading,
+//                    ttsSocketPair[1].fd)
             }
 
             return 0
@@ -298,7 +285,7 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
             if(engineHandle != 0L) {
 
                 Log.d(TAG, "Call createNativeEarcon: $asset")
-                return createNativeEarcon(engineHandle, asset, type.type,  latitude, longitude, heading)
+//                return createNativeEarcon(engineHandle, asset, type.type,  latitude, longitude, heading)
             }
 
             return 0
@@ -324,7 +311,7 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
                 ttsSockets.clear()
 
                 // Clear the queue in the engine
-                clearNativeTextToSpeechQueue(engineHandle)
+//                clearNativeTextToSpeechQueue(engineHandle)
             }
         }
     }
@@ -332,7 +319,7 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
     override fun getQueueDepth() : Long {
         synchronized(engineMutex) {
             if (engineHandle != 0L) {
-                return getQueueDepth(engineHandle)
+//                return getQueueDepth(engineHandle)
             }
         }
         return 0
@@ -413,33 +400,34 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
 
     override fun updateGeometry(listenerLatitude: Double, listenerLongitude: Double, listenerHeading: Double?)
     {        synchronized(engineMutex) {
-            if(engineHandle != 0L)
-                updateGeometry(
-                    engineHandle,
-                    listenerLatitude,
-                    listenerLongitude,
-                    listenerHeading ?: 50000.0
-                )
+//            if(engineHandle != 0L)
+//                updateGeometry(
+//                    engineHandle,
+//                    listenerLatitude,
+//                    listenerLongitude,
+//                    listenerHeading ?: 50000.0
+//                )
         }
     }
     override fun setBeaconType(beaconType: String)
     {
         synchronized(engineMutex) {
-            if(engineHandle != 0L)
-                setBeaconType(engineHandle, beaconType)
+//            if(engineHandle != 0L)
+//                setBeaconType(engineHandle, beaconType)
         }
     }
 
     override fun getListOfBeaconTypes() : Array<String>
     {
-        return getListOfBeacons()
+//        return getListOfBeacons()
+        return arrayOf("Current")
     }
 
     companion object {
         private const val TAG = "NativeAudioEngine"
-        init {
-            System.loadLibrary("soundscape-audio")
-        }
+//        init {
+//            System.loadLibrary("soundscape-audio")
+//        }
 
         // Earcon asset filenames
         const val EARCON_CALIBRATION_IN_PROGRESS = "file:///android_asset/earcons/calibration_in_progress.wav"
