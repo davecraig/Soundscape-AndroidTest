@@ -66,7 +66,6 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
             ttsSockets.clear()
 
             textToSpeech.shutdown()
-            org.fmod.FMOD.close()
         }
     }
 
@@ -110,7 +109,6 @@ class NativeAudioEngine @Inject constructor(): AudioEngine, TextToSpeech.OnInitL
             if (engineHandle != 0L) {
                 return
             }
-            org.fmod.FMOD.init(context)
             //engineHandle = this.create()
             textToSpeech = TextToSpeech(context, this)
             sharedPreferences?.let {

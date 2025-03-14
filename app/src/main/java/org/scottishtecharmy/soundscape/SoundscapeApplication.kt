@@ -8,9 +8,4 @@ class SoundscapeApplication : Application(){
     override fun onCreate() {
         super.onCreate()
     }
-    companion object {
-        init {
-            System.loadLibrary(BuildConfig.FMOD_LIB)
-        }
-    }
 }

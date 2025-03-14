@@ -59,7 +59,6 @@ android {
 //        buildConfigField("String", "TILE_PROVIDER_API_KEY", "\"${tileProviderApiKey}\"")
 
         buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
-        buildConfigField("String", "FMOD_LIB", "\"fmod\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -220,9 +219,6 @@ dependencies {
     // Datastore for onboarding and settings
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore)
-
-    // Audio engine
-    implementation(files("libs/fmod.jar"))
 
     // Firebase
     implementation(platform(libs.firebase.bom))
