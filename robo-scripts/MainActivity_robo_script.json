@@ -1,0 +1,43 @@
+"roboscript": {
+  "executionMode": {
+    "strict": false
+  },
+  "postscript": {
+    "terminate": false
+  }
+}
+[
+  {
+    "crawlStage": "crawl",
+    "contextDescriptor": {
+      "condition": "app_under_test_shown"
+    },
+    "actions": [
+      {
+        "eventType": "PERMISSIONS_REQUEST",
+        "timestamp": 1742030750088,
+        "actionCode": -1,
+        "delayTime": 0,
+        "requestedPermissions": [
+          "android.permission.POST_NOTIFICATIONS"
+        ],
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PERMISSIONS_REQUEST",
+        "timestamp": 1742030752417,
+        "actionCode": -1,
+        "delayTime": 0,
+        "requestedPermissions": [
+          "android.permission.ACCESS_FINE_LOCATION",
+          "android.permission.ACCESS_COARSE_LOCATION",
+          "android.permission.ACCESS_BACKGROUND_LOCATION",
+          "android.permission.ACTIVITY_RECOGNITION"
+        ],
+        "canScrollTo": false,
+        "elementDescriptors": []
+      }
+    ]
+  }
+]

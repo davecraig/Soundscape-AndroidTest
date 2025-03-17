@@ -30,9 +30,12 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("keystore.jks")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+//            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+//            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+//            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            storePassword = "abcdef"
+            keyAlias = "key0"
+            keyPassword = "abcdef"
         }
     }
 
@@ -228,10 +231,6 @@ dependencies {
     // GPX parser
     implementation (libs.android.gpx.parser)
 
-    // MapLibre library
-    implementation (libs.maplibre)
-    implementation (libs.maplibre.annotations)
-
     // Screenshots for tests
     //screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 
@@ -256,7 +255,8 @@ dependencies {
     dokkaPlugin(libs.html.mermaid.dokka.plugin)
 
     // Leak canary
-    debugImplementation(libs.leakcanary.android)
+//    debugImplementation(libs.leakcanary.android)
 
     implementation(libs.reorderable)
+    implementation(libs.gson)
 }

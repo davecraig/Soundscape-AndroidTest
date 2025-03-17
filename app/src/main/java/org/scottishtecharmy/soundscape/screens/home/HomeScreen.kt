@@ -89,12 +89,6 @@ fun HomeScreen(
             Home(
                 state = state.value,
                 onNavigate = { dest -> navController.navigate(dest) },
-                onMapLongClick = { latLong ->
-                    val location = LngLatAlt(latLong.longitude, latLong.latitude)
-                    val ld = viewModel.getLocationDescription(location) ?: LocationDescription("", location)
-                    navController.navigate(generateLocationDetailsRoute(ld))
-                    true
-                },
                 bottomButtonFunctions = bottomButtonFunctions,
                 getCurrentLocationDescription = {
                     if(state.value.location != null) {

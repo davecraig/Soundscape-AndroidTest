@@ -225,18 +225,7 @@ fun RouteDetailsScreen(
                             }
                         }
                         // Small map showing first route point
-                        MapContainerLibre(
-                            beaconLocation = null,
-                            routeData = uiState.route,
-                            allowScrolling = true,
-                            onMapLongClick = { _ -> false },
-                            // Center on the beacon
-                            mapCenter = location,
-                            userLocation = userLocation,
-                            mapViewRotation = 0.0F,
-                            userSymbolRotation = heading,
-                            modifier = modifier.fillMaxWidth().weight(1f).smallPadding()
-                        )
+                        MapContainerLibre()
                         Spacer(modifier = Modifier.size(spacing.medium))
 
                         // List of all route points

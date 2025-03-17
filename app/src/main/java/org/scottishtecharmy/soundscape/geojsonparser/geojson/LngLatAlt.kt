@@ -1,7 +1,6 @@
 package org.scottishtecharmy.soundscape.geojsonparser.geojson
 
 import com.squareup.moshi.JsonClass
-import org.maplibre.android.geometry.LatLng
 import org.scottishtecharmy.soundscape.geoengine.utils.distance
 import java.io.Serializable
 
@@ -34,10 +33,6 @@ open class LngLatAlt(
 
     override fun toString(): String {
         return "$longitude,$latitude"
-    }
-
-    fun toLatLng(): LatLng {
-        return LatLng(latitude, longitude)
     }
 
     fun distance(other: LngLatAlt): Double {
@@ -86,8 +81,4 @@ open class LngLatAlt(
         }
         return shortestDistance
     }
-}
-
-fun fromLatLng(loc:LatLng): LngLatAlt {
-    return LngLatAlt(loc.longitude, loc.latitude)
 }

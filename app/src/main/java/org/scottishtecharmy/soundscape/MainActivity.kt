@@ -205,17 +205,17 @@ class MainActivity : AppCompatActivity() {
         val isFirstLaunch = sharedPreferences.getBoolean(FIRST_LAUNCH_KEY, true)
         Log.d(TAG, "isFirstLaunch: $isFirstLaunch")
 
-        if (isFirstLaunch) {
-            // On the first launch, we want to take the user through the OnboardingActivity so
-            // switch to it immediately.
-            val intent = Intent(this, OnboardingActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            finish()
-
-            // No need to carry on with the rest of the initialization as we are switching activities
-            return
-        }
+//        if (isFirstLaunch) {
+//            // On the first launch, we want to take the user through the OnboardingActivity so
+//            // switch to it immediately.
+//            val intent = Intent(this, OnboardingActivity::class.java)
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            startActivity(intent)
+//            finish()
+//
+//            // No need to carry on with the rest of the initialization as we are switching activities
+//            return
+//        }
 
         checkAndRequestNotificationPermissions()
         soundscapeServiceConnection.tryToBindToServiceIfRunning(applicationContext)

@@ -27,7 +27,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.maplibre.android.geometry.LatLng
 import org.mongodb.kbson.ObjectId
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.R
@@ -49,7 +48,6 @@ import org.scottishtecharmy.soundscape.viewmodels.home.HomeState
 fun Home(
     state: HomeState,
     onNavigate: (String) -> Unit,
-    onMapLongClick: (LatLng) -> Boolean,
     bottomButtonFunctions: BottomButtonFunctions,
     getCurrentLocationDescription: () -> LocationDescription,
     rateSoundscape: () -> Unit,
@@ -111,7 +109,6 @@ fun Home(
                         userLocation = state.location
                     )
                 },
-                onMapLongClick = onMapLongClick,
                 streetPreviewState = state.streetPreviewState,
                 routeFunctions = routeFunctions,
                 streetPreviewFunctions = streetPreviewFunctions
@@ -174,7 +171,6 @@ fun HomePreview() {
     Home(
         state = HomeState(),
         onNavigate = {},
-        onMapLongClick = { false },
         bottomButtonFunctions = BottomButtonFunctions(null),
         getCurrentLocationDescription = { LocationDescription("Current Location", LngLatAlt()) },
         rateSoundscape = {},
@@ -193,7 +189,6 @@ fun HomeSearchPreview() {
     Home(
         state = HomeState(),
         onNavigate = {},
-        onMapLongClick = { false },
         bottomButtonFunctions = BottomButtonFunctions(null),
         getCurrentLocationDescription = { LocationDescription("Current Location", LngLatAlt()) },
         rateSoundscape = {},
@@ -223,7 +218,6 @@ fun HomeRoutePreview() {
             currentRouteData = routePlayerState
         ),
         onNavigate = {},
-        onMapLongClick = { false },
         bottomButtonFunctions = BottomButtonFunctions(null),
         getCurrentLocationDescription = { LocationDescription("Current Location", LngLatAlt()) },
         rateSoundscape = {},

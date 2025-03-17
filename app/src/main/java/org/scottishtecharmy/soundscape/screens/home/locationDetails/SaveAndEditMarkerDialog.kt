@@ -128,20 +128,7 @@ fun SaveAndEditMarkerDialog(
                 )
                 Spacer(modifier = Modifier.height(spacing.medium))
 
-                MapContainerLibre(
-                    beaconLocation = locationDescription.location,
-                    mapCenter = locationDescription.location,
-                    allowScrolling = true,
-                    mapViewRotation = 0.0F,
-                    userLocation = location ?: LngLatAlt(),
-                    userSymbolRotation = heading,
-                    routeData = null,
-                    onMapLongClick = { false },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1.7f)
-                        .smallPadding()
-                )
+                MapContainerLibre()
             }
         }
     )

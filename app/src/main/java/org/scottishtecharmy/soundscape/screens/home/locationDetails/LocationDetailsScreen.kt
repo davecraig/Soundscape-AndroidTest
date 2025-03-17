@@ -38,7 +38,6 @@ import org.mongodb.kbson.ObjectId
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.geoengine.formatDistance
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.fromLatLng
 import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.MapContainerLibre
@@ -155,37 +154,7 @@ fun LocationDetails(
                     dialogState = dialogState
                 )
 
-                MapContainerLibre(
-                    beaconLocation = description.value.location,
-                    allowScrolling = true,
-                    onMapLongClick = { latLong ->
-                        val clickLocation = fromLatLng(latLong)
-                        val ld = getLocationDescription(clickLocation)
-
-                        // This effectively replaces the current screen with the new one
-                        navController.navigate(generateLocationDetailsRoute(ld)) {
-                            println("entry: ${navController.currentBackStackEntry?.destination?.route}")
-                            popUpTo(
-                                navController.currentBackStackEntry?.destination?.route
-                                    ?: return@navigate
-                            ) {
-                                inclusive = true
-                            }
-                            launchSingleTop = true // Prevents multiple instances of Home
-                        }
-                        true
-                    },
-                    // Center on the beacon
-                    mapCenter = description.value.location,
-                    userLocation = location ?: LngLatAlt(),
-                    mapViewRotation = 0.0F,
-                    userSymbolRotation = heading,
-                    routeData = null,
-                    modifier =
-                    modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1.7f)
-                )
+                MapContainerLibre()
             }
         }
     }

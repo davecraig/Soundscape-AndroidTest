@@ -26,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
-import org.maplibre.android.geometry.LatLng
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.NavigationButton
 import org.scottishtecharmy.soundscape.database.local.model.Location
@@ -55,7 +54,6 @@ fun HomeContent(
     routePlayerState: RoutePlayerState,
     heading: Float,
     onNavigate: (String) -> Unit,
-    onMapLongClick: (LatLng) -> Boolean,
     getCurrentLocationDescription: () -> LocationDescription,
     searchBar: @Composable () -> Unit,
     modifier: Modifier = Modifier,
@@ -123,17 +121,7 @@ fun HomeContent(
                                 )
                             }
                             Row(modifier = Modifier.fillMaxWidth().aspectRatio(2.0f)) {
-                                MapContainerLibre(
-                                    beaconLocation = beaconState?.location,
-                                    routeData = routePlayerState.routeData,
-                                    mapCenter = location,
-                                    allowScrolling = false,
-                                    mapViewRotation = 0.0F,
-                                    userLocation = location,
-                                    userSymbolRotation = heading,
-                                    onMapLongClick = onMapLongClick,
-                                    modifier = Modifier.fillMaxWidth().extraSmallPadding()
-                                )
+                                MapContainerLibre()
                             }
                             Row(modifier = Modifier
                                     .fillMaxWidth()
@@ -204,20 +192,7 @@ fun HomeContent(
                         }
                     }
                 } else {
-                    MapContainerLibre(
-                        beaconLocation = beaconState?.location,
-                        routeData = null,
-                        mapCenter = location,
-                        allowScrolling = false,
-                        mapViewRotation = 0.0F,
-                        userLocation = location,
-                        userSymbolRotation = heading,
-                        onMapLongClick = onMapLongClick,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .mediumPadding()
-                    )
+                    MapContainerLibre()
                 }
             }
         }
@@ -233,7 +208,6 @@ fun StreetPreviewHomeContent() {
         routePlayerState = RoutePlayerState(),
         heading = 0.0f,
         onNavigate = {},
-        onMapLongClick = { false },
         searchBar = {},
         streetPreviewState = StreetPreviewState(StreetPreviewEnabled.ON),
         streetPreviewFunctions = StreetPreviewFunctions(null),
@@ -262,7 +236,6 @@ fun PreviewHomeContent() {
         routePlayerState = routePlayerState,
         heading = 0.0f,
         onNavigate = {},
-        onMapLongClick = { false },
         searchBar = {},
         streetPreviewState = StreetPreviewState(StreetPreviewEnabled.OFF),
         streetPreviewFunctions = StreetPreviewFunctions(null),
