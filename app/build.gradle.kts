@@ -27,6 +27,12 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     signingConfigs {
         create("release") {
             storeFile = file("keystore.jks")
@@ -172,7 +178,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation (libs.kotlin.test.junit)
     testImplementation(libs.junit.jupiter)
-
+    testImplementation("org.robolectric:robolectric:4.14.1")
     androidTestImplementation(libs.androidx.junit.v121)
     androidTestImplementation(libs.androidx.espresso.core.v351)
     androidTestImplementation(platform(libs.androidx.compose.bom))

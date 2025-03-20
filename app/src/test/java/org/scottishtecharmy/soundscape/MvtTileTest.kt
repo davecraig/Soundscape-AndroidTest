@@ -24,7 +24,6 @@ import vector_tile.VectorTile
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.math.abs
-import kotlin.math.absoluteValue
 
 
 private fun vectorTileToGeoJsonFromFile(

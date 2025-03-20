@@ -74,7 +74,7 @@ class NearestRoadFilter {
                     bestFitness = fitness
                     bestIndex = index
                 }
-                println("fitness: ${fitness} for ${sensedRoad.properties?.get("name")} (${sensedRoadInfo.distance}m, ${headingOffSensedRoad}deg -> $currentHeading vs. ${sensedRoadInfo.heading}")
+                //println("fitness: ${fitness} for ${sensedRoad.properties?.get("name")} (${sensedRoadInfo.distance}m, ${headingOffSensedRoad}deg -> $currentHeading vs. ${sensedRoadInfo.heading}")
             }
             val bestMatch = sensedNearestRoads.features[bestIndex]
             nearestRoad?.let { road ->

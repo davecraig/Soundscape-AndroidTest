@@ -6,8 +6,6 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.location.Location
 import android.util.Log
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.preference.PreferenceManager
 import com.google.android.gms.location.DeviceOrientation
 import kotlinx.coroutines.CoroutineScope
