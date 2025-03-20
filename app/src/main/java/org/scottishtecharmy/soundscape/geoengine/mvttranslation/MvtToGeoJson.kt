@@ -179,7 +179,7 @@ fun vectorTileToGeoJson(tileX: Int,
     val intersectionDetection = IntersectionDetection()
     val entranceMatching = EntranceMatching()
 
-    val layerIds = arrayOf("transportation", "poi", "building")
+    val layerIds = arrayOf("transportation", "poi", "building", "water", "waterway", "water_name")
 
     // POI can have duplicate entries for polygons and points and also duplicates in the Buildings
     // layer we de-duplicate them with these maps.
@@ -320,6 +320,8 @@ fun vectorTileToGeoJson(tileX: Int,
                                     id)
                                 entranceMatching.addPolygon(polygon, entranceDetails)
                             }
+                        } else {
+                            println("${properties?.get("name")}")
                         }
                     }
                 }
@@ -417,6 +419,21 @@ fun vectorTileToGeoJson(tileX: Int,
                                     interpolatedFeature.properties!!["class"] = "edgePoint"
                                     mapInterpolatedNodes[id] = interpolatedFeature
                                 }
+                            }
+                        }
+                    } else {
+                        println("${properties?.get("name")}")
+                        for (line in lines) {
+                            val interpolatedNodes : MutableList<LngLatAlt> = mutableListOf()
+                            val clippedLines = convertGeometryAndClipLineToTile(
+                                tileX,
+                                tileY,
+                                tileZoom,
+                                line,
+                                interpolatedNodes
+                            )
+                            for (clippedLine in clippedLines) {
+                                listOfGeometries.add(clippedLine)
                             }
                         }
                     }
