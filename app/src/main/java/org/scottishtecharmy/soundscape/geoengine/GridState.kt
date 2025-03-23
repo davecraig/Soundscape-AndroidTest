@@ -127,21 +127,72 @@ open class GridState {
         return true
     }
 
+    // We keep a small cache of the FeatureCollections for the most recently used tiles. The main
+    // aim of this is to re-use tiles which are shared between the old and new 2x2 grid. There is
+    // almost always at least 1 tile shared, and often 2.
+    val maxCachedTiles = 8
+    data class CachedTile(
+        val x: Int,
+        val y: Int,
+        val tileCollections: Array<FeatureCollection>,
+        var lastUsed: Long)
+
+    val cachedTiles: HashMap<String, CachedTile> = HashMap()
     private suspend fun updateTileGrid(
         tileGrid: TileGrid,
         featureCollections: Array<FeatureCollection>,
     ): Boolean {
         for (tile in tileGrid.tiles) {
             Log.d(TAG, "Tile quad key: ${tile.quadkey}")
-            var ret = false
-            for (retry in 1..5) {
-                ret = updateTile(tile.tileX, tile.tileY, featureCollections)
-                if (ret) {
-                    break
+            var tileCollections: Array<FeatureCollection>? = null
+
+            if(cachedTiles.contains(tile.quadkey)) {
+                val cachedTile = cachedTiles[tile.quadkey]
+                tileCollections = cachedTile!!.tileCollections
+                cachedTile.lastUsed = System.currentTimeMillis()
+                Log.d(TAG, "Using cached value for ${tile.tileX},${tile.tileY}")
+            } else {
+                var ret = false
+                tileCollections = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
+                for (retry in 1..5) {
+                    ret = updateTile(tile.tileX, tile.tileY, tileCollections)
+                    if (ret) {
+                        // Add new tile to the cache
+                        cachedTiles[tile.quadkey] = CachedTile(
+                            tile.tileX,
+                            tile.tileY,
+                            tileCollections,
+                            System.currentTimeMillis()
+                        )
+                        Log.d(TAG, "Adding ${tile.tileX},${tile.tileY} to cache")
+
+                        if(cachedTiles.size > maxCachedTiles) {
+                            // Remove the least recently used tile
+                            var leastRecentlyUsed = Long.MAX_VALUE
+                            var leastRecentlyUsedKey = ""
+                            for (tile in cachedTiles) {
+                                if (tile.value.lastUsed < leastRecentlyUsed) {
+                                    leastRecentlyUsed = tile.value.lastUsed
+                                    leastRecentlyUsedKey = tile.key
+                                }
+                            }
+                            if(leastRecentlyUsedKey.isNotEmpty()) {
+                                Log.d(TAG, "Removing ${cachedTiles[leastRecentlyUsedKey]!!.x},${cachedTiles[leastRecentlyUsedKey]!!.y} from cache")
+                                cachedTiles.remove(leastRecentlyUsedKey)
+                            }
+                            assert(cachedTiles.size <= maxCachedTiles)
+                        }
+                        break
+                    }
+                }
+                if (!ret) {
+                    return false
                 }
             }
-            if (!ret) {
-                return false
+
+            // Add the tile FeatureCollections into the grid
+            for ((index, collection) in tileCollections.withIndex()) {
+                featureCollections[index].plusAssign(collection)
             }
         }
         return true
