@@ -6,8 +6,6 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
-import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
-import java.io.FileOutputStream
 import kotlin.collections.set
 import kotlin.math.PI
 import kotlin.math.abs
@@ -236,13 +234,5 @@ class WayGenerator {
             feature.foreign?.set("osm_ids", osmIds)
             intersectionCollection.addFeature(feature)
         }
-
-//        val fc = FeatureCollection()
-//        fc.features.addAll(waysCollection.features)
-//        fc.features.addAll(intersectionCollection.features)
-//        val adapter = GeoJsonObjectMoshiAdapter()
-//        val outputFile = FileOutputStream("graph.geojson")
-//        outputFile.write(adapter.toJson(fc).toByteArray())
-//        outputFile.close()
     }
 }

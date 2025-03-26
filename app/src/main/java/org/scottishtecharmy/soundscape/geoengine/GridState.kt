@@ -3,8 +3,12 @@ package org.scottishtecharmy.soundscape.geoengine
 import android.content.Context
 import android.util.Log
 import com.squareup.moshi.Moshi
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -14,6 +18,7 @@ import org.scottishtecharmy.soundscape.dto.BoundingBox
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid.Companion.getTileGrid
+import org.scottishtecharmy.soundscape.geoengine.utils.confectNamesForRoad
 import org.scottishtecharmy.soundscape.geoengine.utils.getPoiFeatureCollectionBySuperCategory
 import org.scottishtecharmy.soundscape.geoengine.utils.pointIsWithinBoundingBox
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
@@ -21,6 +26,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoMoshi
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.network.TileClient
+import kotlin.system.measureTimeMillis
 import kotlin.time.TimeSource
 
 enum class TreeId(
@@ -99,6 +105,11 @@ open class GridState {
                 for ((index, fc) in featureCollections.withIndex()) {
                     localTrees[index] = FeatureTree(fc)
                 }
+
+                // Confect names for un-named ways
+//                for(road in featureCollections[TreeId.ROADS_AND_PATHS.id]) {
+//                    confectNamesForRoad(road, this)
+//                }
 
                 // Assign rtrees to our shared trees from within the treeContext. All
                 // other accesses of featureTrees needs to be from within the same

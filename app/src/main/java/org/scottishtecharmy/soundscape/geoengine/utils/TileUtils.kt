@@ -2124,12 +2124,12 @@ fun addSidewalk(currentRoad: Feature,
                 roadTree: FeatureTree) : Boolean {
 
     if(currentRoad.properties?.get("footway") == "sidewalk") {
-        val startRoads = roadTree.generateNearestFeatureCollection(
+        val startRoads = roadTree.getNearestCollection(
             location = start,
             distance = 15.0,
             maxCount = 10
         )
-        val endRoads = roadTree.generateNearestFeatureCollection(
+        val endRoads = roadTree.getNearestCollection(
             location = end,
             distance = 15.0,
             maxCount = 10
@@ -2167,7 +2167,7 @@ fun addRoadDestination(currentRoad: Feature,
                        location: LngLatAlt,
                        start: Boolean,
                        roadTree: FeatureTree) : Boolean {
-    val roads = roadTree.generateNearestFeatureCollection(
+    val roads = roadTree.getNearestCollection(
         location = location,
         distance = 1.0,
         maxCount = 10
@@ -2190,7 +2190,7 @@ fun addDeadEnd(currentRoad: Feature,
                location: LngLatAlt,
                start: Boolean,
                roadTree: FeatureTree) : Boolean {
-    val roads = roadTree.generateNearestFeatureCollection(
+    val roads = roadTree.getNearestCollection(
         location = location,
         distance = 1.0,
         maxCount = 10

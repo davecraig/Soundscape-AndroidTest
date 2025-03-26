@@ -58,9 +58,9 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     if(fovRoads.features.isEmpty()) return RoadsDescription(nearestRoad = userGeometry.nearestRoad)
 
     // Ensure that we have up to date names for any un-named roads
-    for(road in fovRoads) {
-        confectNamesForRoad(road, gridState)
-    }
+//    for(road in fovRoads) {
+//        confectNamesForRoad(road, gridState)
+//    }
 
     // Two roads that we are interested in:
     //  1. The one that we are nearest to. We use this for intersection call outs to decide which
