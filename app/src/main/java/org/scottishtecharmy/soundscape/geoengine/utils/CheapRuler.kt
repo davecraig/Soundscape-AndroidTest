@@ -236,21 +236,21 @@ class CheapRuler(lat: Double, units: Double) {
      * const point = ruler.along(line, 2.5);
      * //=point
      */
-//    along(line, dist) {
-//        let sum = 0;
-//
-//        if (dist <= 0) return line[0];
-//
-//        for (let i = 0; i < line.length - 1; i++) {
-//            const p0 = line[i];
-//            const p1 = line[i + 1];
-//            const d = this.distance(p0, p1);
-//            sum += d;
-//            if (sum > dist) return interpolate(p0, p1, (dist - (sum - d)) / d);
-//        }
-//
-//        return line[line.length - 1];
-//    }
+    fun along(line: LineString, dist: Double) : LngLatAlt {
+        var sum = 0.0
+
+        if (dist <= 0.0) return line.coordinates[0]
+
+        for (i in 0 until line.coordinates.size - 1) {
+            val p0 = line.coordinates[i];
+            val p1 = line.coordinates[i + 1];
+            val d = this.distance(p0, p1);
+            sum += d;
+            if (sum > dist) return cheapInterpolate(p0, p1, (dist - (sum - d)) / d);
+        }
+
+        return line.coordinates[line.coordinates.size - 1];
+    }
 
     /**
      * Returns the distance from a point `p` to a line segment `a` to `b`.
@@ -264,29 +264,30 @@ class CheapRuler(lat: Double, units: Double) {
      * const distance = ruler.pointToSegmentDistance([-67.04, 50.5], [-67.05, 50.57], [-67.03, 50.54]);
      * //=distance
      */
-//    pointToSegmentDistance(p, a, b) {
-//        let [x, y] = a;
-//        let dx = wrap(b[0] - x) * this.kx;
-//        let dy = (b[1] - y) * this.ky;
-//
-//        if (dx !== 0 || dy !== 0) {
-//            const t = (wrap(p[0] - x) * this.kx * dx + (p[1] - y) * this.ky * dy) / (dx * dx + dy * dy);
-//
-//            if (t > 1) {
-//                x = b[0];
-//                y = b[1];
-//
-//            } else if (t > 0) {
-//                x += (dx / this.kx) * t;
-//                y += (dy / this.ky) * t;
-//            }
-//        }
-//
-//        dx = wrap(p[0] - x) * this.kx;
-//        dy = (p[1] - y) * this.ky;
-//
-//        return sqrt(dx * dx + dy * dy);
-//    }
+    fun pointToSegmentDistance(p: LngLatAlt, a: LngLatAlt, b: LngLatAlt) : Double {
+        var x = a.longitude
+        var y = a.latitude
+        var dx = wrap(b.longitude - x) * this.kx
+        var dy = (b.latitude - y) * this.ky
+
+        if (dx != 0.0 || dy != 0.0) {
+            val t = (wrap(p.longitude - x) * this.kx * dx + (p.latitude - y) * this.ky * dy) / (dx * dx + dy * dy)
+
+            if (t > 1) {
+                x = b.longitude
+                y = b.latitude
+
+            } else if (t > 0) {
+                x += (dx / this.kx) * t
+                y += (dy / this.ky) * t
+            }
+        }
+
+        dx = wrap(p.longitude - x) * this.kx;
+        dy = (p.latitude - y) * this.ky;
+
+        return sqrt(dx * dx + dy * dy);
+    }
 
     /**
      * Returns an object of the form {point, index, t}, where point is closest point on the line
@@ -300,7 +301,7 @@ class CheapRuler(lat: Double, units: Double) {
      * const point = ruler.pointOnLine(line, [-67.04, 50.5]).point;
      * //=point
      */
-    fun pointOnLine(line: LineString, p: LngLatAlt) : Triple<LngLatAlt, Int, Double> {
+    fun pointOnLine(line: LineString, p: LngLatAlt) : PointAndDistanceAndHeading {
         var minDist = Double.MAX_VALUE
         var minX = line.coordinates[0].longitude
         var minY = line.coordinates[0].latitude
@@ -316,7 +317,7 @@ class CheapRuler(lat: Double, units: Double) {
             var t = 0.0
 
             if (dx != 0.0 || dy != 0.0) {
-                t = (wrap(p.longitude - x) * kx * dx + (p.latitude - y) * ky * dy) / (dx * dx + dy * dy)
+                t = ((wrap(p.longitude - x) * kx * dx) + ((p.latitude - y) * ky * dy)) / ((dx * dx) + (dy * dy))
 
                 if (t > 1.0) {
                     x = line.coordinates[i+1].longitude
@@ -331,7 +332,7 @@ class CheapRuler(lat: Double, units: Double) {
             dx = wrap(p.longitude - x) * kx
             dy = (p.latitude - y) * ky
 
-            val sqDist = dx * dx + dy * dy
+            val sqDist = (dx * dx) + (dy * dy)
             if (sqDist < minDist) {
                 minDist = sqDist
                 minX = x
@@ -341,10 +342,13 @@ class CheapRuler(lat: Double, units: Double) {
             }
         }
 
-        return Triple(
-            LngLatAlt(minX, minY),
+        val nearestPoint = cheapInterpolate(line.coordinates[minI], line.coordinates[minI+1], max(0.0, min(1.0, minT)))
+        return PointAndDistanceAndHeading(
+            nearestPoint,
+            this.distance(p, nearestPoint),
+            bearingFromTwoPoints(line.coordinates[minI], line.coordinates[minI+1]),
             minI,
-            max(0.0, min(1.0, minT))
+            minI.toDouble() + max(0.0, min(1.0, minT))
         )
     }
 
@@ -410,11 +414,11 @@ class CheapRuler(lat: Double, units: Double) {
 //            sum += d;
 //
 //            if (sum > start && slice.length === 0) {
-//                slice.push(interpolate(p0, p1, (start - (sum - d)) / d));
+//                slice.push(cheapInterpolate(p0, p1, (start - (sum - d)) / d));
 //            }
 //
 //            if (sum >= stop) {
-//                slice.push(interpolate(p0, p1, (stop - (sum - d)) / d));
+//                slice.push(cheapInterpolate(p0, p1, (stop - (sum - d)) / d));
 //                return slice;
 //            }
 //
@@ -498,11 +502,8 @@ class CheapRuler(lat: Double, units: Double) {
  * @param {number} t
  * @returns {[number, number]}
  */
-//function interpolate(a, b, t) {
-//    const dx = wrap(b[0] - a[0]);
-//    const dy = b[1] - a[1];
-//    return [
-//        a[0] + dx * t,
-//        a[1] + dy * t
-//    ];
-//}
+fun cheapInterpolate(a: LngLatAlt, b: LngLatAlt, t: Double) : LngLatAlt {
+    val dx = wrap(b.longitude - a.longitude)
+    val dy = b.latitude - a.latitude
+    return LngLatAlt(a.longitude + (dx * t), a.latitude + (dy * t))
+}

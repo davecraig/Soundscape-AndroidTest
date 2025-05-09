@@ -2,10 +2,11 @@ package org.scottishtecharmy.soundscape.geojsonparser.geojson
 
 import com.squareup.moshi.JsonClass
 import org.maplibre.android.geometry.LatLng
+import org.scottishtecharmy.soundscape.geoengine.utils.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.EARTH_RADIUS_METERS
 import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeading
-import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
 import org.scottishtecharmy.soundscape.geoengine.utils.distance
+import org.scottishtecharmy.soundscape.geoengine.utils.metres
 import org.scottishtecharmy.soundscape.geoengine.utils.toRadians
 import java.io.Serializable
 import java.lang.Math.toDegrees
@@ -51,81 +52,25 @@ open class LngLatAlt(
         return LatLng(latitude, longitude)
     }
 
-
-    fun distance(other: LngLatAlt): Double {
-        return distance(latitude, longitude, other.latitude, other.longitude)
+    fun createCheapRuler() : CheapRuler {
+        return CheapRuler(latitude, metres)
     }
 
-    fun project(location: LngLatAlt, reference: LngLatAlt): LngLatAlt {
-        val dLat = toRadians(location.latitude - reference.latitude)
-        val dLon = toRadians(location.longitude - reference.longitude)
-
-        val x = EARTH_RADIUS_METERS * dLon * cos(toRadians(reference.latitude))
-        val y = EARTH_RADIUS_METERS * dLat
-
-        return LngLatAlt(x, y)
-    }
-
-    fun unproject(projected: LngLatAlt, reference: LngLatAlt): LngLatAlt {
-        val dLat = projected.latitude / EARTH_RADIUS_METERS
-        val dLon = projected.longitude / (EARTH_RADIUS_METERS * cos(toRadians(reference.latitude)))
-
-        val lat = reference.latitude + toDegrees(dLat)
-        val lon = reference.longitude + toDegrees(dLon)
-
-        return LngLatAlt(lon, lat)
-    }
-    fun distanceToLine(
-        l1: LngLatAlt,
-        l2: LngLatAlt,
-        nearestPoint: LngLatAlt? = null
-    ): Double {
-
-        // Use l1 as our reference point
-        val l1Projected = project(l1, l1)
-        val l2Projected = project(l2, l1)
-        val thisProjected = project(this, l1)
-        val nearestPointProjected = LngLatAlt()
-        val result = distance(
-            l1Projected.latitude, l1Projected.longitude,
-            l2Projected.latitude, l2Projected.longitude,
-            thisProjected.latitude, thisProjected.longitude,
-            nearestPointProjected
-        )
-
-        if(nearestPoint != null) {
-            val np = unproject(nearestPointProjected, l1)
-
-            nearestPoint.latitude = np.latitude
-            nearestPoint.longitude = np.longitude
-        }
-        return result
+    fun distance(other: LngLatAlt, ruler: CheapRuler): Double {
+        return ruler.distance(this, other)// ?: distance(latitude, longitude, other.latitude, other.longitude)
     }
 
     /**
      * Distance to a LineString from current location.
-     * @param lineStringCoordinates LineString that we are working out the distance from
+     * @param lineString LineString that we are working out the distance from
      * @return The distance of the point to the LineString, the nearest point on the line and the
      * heading of the line at that point.
      */
     fun distanceToLineString(
-        lineStringCoordinates: LineString
+        lineString: LineString,
+        ruler: CheapRuler = CheapRuler(lineString.coordinates[0].latitude, metres)
     ): PointAndDistanceAndHeading {
-
-        val result = PointAndDistanceAndHeading()
-        var last = lineStringCoordinates.coordinates[0]
-        for (i in 1 until lineStringCoordinates.coordinates.size) {
-            val current = lineStringCoordinates.coordinates[i]
-            val pointOnLine = LngLatAlt()
-            val distance = distanceToLine(last, current, pointOnLine)
-            if (distance < result.distance) {
-                result.distance = min(result.distance, distance)
-                result.point = pointOnLine
-                result.heading = bearingFromTwoPoints(last, current)
-            }
-            last = current
-        }
-        return result
+        return ruler.pointOnLine(lineString, this)
     }
 }
 

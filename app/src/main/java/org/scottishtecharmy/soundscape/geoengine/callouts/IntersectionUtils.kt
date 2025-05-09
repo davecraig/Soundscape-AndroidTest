@@ -13,14 +13,15 @@ import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
+import org.scottishtecharmy.soundscape.geoengine.utils.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.Direction
-import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geoengine.utils.checkWhetherIntersectionIsOfInterest
 import org.scottishtecharmy.soundscape.geoengine.utils.confectNamesForRoad
 import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
 import org.scottishtecharmy.soundscape.geoengine.utils.getCombinedDirectionSegments
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getPathWays
+import org.scottishtecharmy.soundscape.geoengine.utils.metres
 import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
@@ -53,13 +54,15 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     val roadTree = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
     val intersectionTree = gridState.getFeatureTree(TreeId.INTERSECTIONS)
 
+    val ruler = CheapRuler(userGeometry.location.latitude, metres)
+
     // Find roads within FOV
     val fovRoads = roadTree.getAllWithinTriangle(triangle)
     if(fovRoads.features.isEmpty()) return IntersectionDescription(nearestRoad = userGeometry.mapMatchedWay)
 
     var nearestRoad = userGeometry.mapMatchedWay
     if(nearestRoad == null)
-        nearestRoad = roadTree.getNearestFeatureWithinTriangle(triangle) as Way?
+        nearestRoad = roadTree.getNearestFeatureWithinTriangle(triangle, userGeometry.ruler) as Way?
 
     // If we're on a mapped sidewalk, use the associated road for intersection detection instead of
     // the sidewalk itself.
@@ -76,7 +79,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
         var bestRoadDistance = Double.MAX_VALUE
         for(road in fovRoads.features) {
             if(nearestRoad.properties?.get("pavement") == road.properties?.get("name")) {
-                val roadDistance = userGeometry.mapMatchedLocation?.point?.distanceToLineString(road.geometry as LineString)
+                val roadDistance = userGeometry.mapMatchedLocation?.point?.distanceToLineString(road.geometry as LineString, ruler)
                 if(roadDistance != null) {
                     val snappedHeading = userGeometry.snappedHeading()
                     if(snappedHeading != null) {

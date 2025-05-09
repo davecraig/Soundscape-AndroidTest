@@ -554,7 +554,7 @@ class GeoEngine {
                             val triangle = getTriangleForDirection(individualRelativePolygons, dir)
                             // Get the 4 nearest features in this direction. This allows us to de-duplicate
                             // across the other directions.
-                            val featureCollection = featureTree.getNearestCollectionWithinTriangle(triangle, 4)
+                            val featureCollection = featureTree.getNearestCollectionWithinTriangle(triangle, 4, userGeometry.ruler)
                             if (featureCollection.features.isNotEmpty()) {
                                 // We found features in this direction, find the nearest one which
                                 // we are not already calling out in another direction.
@@ -586,7 +586,7 @@ class GeoEngine {
                     for (feature in featuresByDirection) {
 
                         if(feature == null) continue
-                        val poiLocation = getDistanceToFeature(userGeometry.location, feature)
+                        val poiLocation = getDistanceToFeature(userGeometry.location, feature, gridState.ruler)
                         val name = getTextForFeature(localizedContext, feature)
                         val text = "${name.text}. ${formatDistance(poiLocation.distance, localizedContext)}"
                         list.add(
@@ -629,11 +629,11 @@ class GeoEngine {
                     val triangle = getFovTriangle(userGeometry)
                     val featureTree = gridState.getFeatureTree(TreeId.PLACES_AND_LANDMARKS)
 
-                    val featuresAhead = featureTree.getNearestCollectionWithinTriangle(triangle, 5)
+                    val featuresAhead = featureTree.getNearestCollectionWithinTriangle(triangle, 5, userGeometry.ruler)
                     val list: MutableList<PositionedString> = mutableListOf()
                     for (feature in featuresAhead) {
 
-                        val poiLocation = getDistanceToFeature(userGeometry.location, feature)
+                        val poiLocation = getDistanceToFeature(userGeometry.location, feature, gridState.ruler)
                         val name = getTextForFeature(localizedContext, feature)
                         val text = "${name.text}. ${formatDistance(poiLocation.distance, localizedContext)}"
                         list.add(
@@ -687,13 +687,14 @@ class GeoEngine {
                     val nearestMarkers = gridState.markerTree?.getNearestCollection(
                         userGeometry.location,
                         2000.0,
-                        4
+                        4,
+                        userGeometry.ruler
                     )
 
                     val list: MutableList<PositionedString> = mutableListOf()
                     if(nearestMarkers != null) {
                         for (feature in nearestMarkers.features) {
-                            val markerLocation = getDistanceToFeature(userGeometry.location, feature)
+                            val markerLocation = getDistanceToFeature(userGeometry.location, feature, gridState.ruler)
                             val name = feature.properties?.get("name")
                             val text = "$name. ${
                                 formatDistance(
@@ -1016,7 +1017,7 @@ fun localReverseGeocode(location: LngLatAlt,
                 val name = poi.properties?.get("name")
                 if(name != null) {
                     return LocationDescription(
-                        name = localizedContext?.getString(R.string.directions_at_poi)?.format(name as String),
+                        name = localizedContext?.getString(R.string.directions_at_poi)?.format(name as String) ?: "At $name",
                         location = location,
                     )
                 }
@@ -1024,15 +1025,18 @@ fun localReverseGeocode(location: LngLatAlt,
         }
     }
 
-    // Check if the location is alongside a road/path.
+    // Check if the location is alongside a road/path
     val nearestRoad = gridState.getNearestFeature(TreeId.ROADS_AND_PATHS, location, 100.0) as Way?
     if(nearestRoad != null) {
-        val roadName = nearestRoad.getName(null, gridState)
-        return LocationDescription(
-            name = localizedContext?.getString(R.string.directions_near_name)
-                ?.format(roadName),
-            location = location,
-        )
+        // We only want 'interesting' non-generic names i.e. no "Path" or "Service"
+        val roadName = nearestRoad.getName(null, gridState, true)
+        if(roadName.isNotEmpty()) {
+            return LocationDescription(
+                name = localizedContext?.getString(R.string.directions_near_name)
+                    ?.format(roadName) ?: "Near $roadName",
+                location = location,
+            )
+        }
     }
 
     return null

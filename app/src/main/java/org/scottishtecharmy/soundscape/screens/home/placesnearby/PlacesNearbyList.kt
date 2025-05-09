@@ -66,7 +66,7 @@ fun PlacesNearbyList(
             }.map { feature ->
                 LocationDescription(
                     name = feature.properties?.get("name").toString(),
-                    location = getDistanceToFeature(LngLatAlt(), feature).point
+                    location = getDistanceToFeature(LngLatAlt(), feature, cheapRuler).point
                 )
             }.sortedBy {
                 uiState.userLocation?.let { location ->
@@ -81,7 +81,7 @@ fun PlacesNearbyList(
             }.map { feature ->
                 LocationDescription(
                     name = getTextForFeature(context, feature).text,
-                    location = getDistanceToFeature(LngLatAlt(), feature).point
+                    location = getDistanceToFeature(LngLatAlt(), feature, cheapRuler).point
                 )
             }.sortedBy {
                 uiState.userLocation?.let { location ->

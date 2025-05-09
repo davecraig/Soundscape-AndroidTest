@@ -694,25 +694,20 @@ fun lineStringIsCircular(path: LineString): Boolean {
 fun distanceToPolygon(
     pointCoordinates: LngLatAlt,
     polygon: Polygon,
+    ruler: CheapRuler,
     nearestPoint: LngLatAlt? = null)
 : Double {
 
-    var minDistance = Double.MAX_VALUE
-    var last = polygon.coordinates[0][0]
-    for (i in 1 until polygon.coordinates[0].size) {
-        val current = polygon.coordinates[0][i]
-        val pointOnLine = LngLatAlt()
-        val distance = pointCoordinates.distanceToLine(last, current, pointOnLine)
-        if(distance < minDistance) {
-            minDistance = min(minDistance, distance)
-            if(nearestPoint != null) {
-                nearestPoint.latitude = pointOnLine.latitude
-                nearestPoint.longitude = pointOnLine.longitude
-            }
-        }
-        last = current
+    // We're only looking at the outer ring, which is really just a LineString
+    val lineString = LineString()
+    lineString.coordinates = polygon.coordinates[0]
+
+    val pdh = ruler.pointOnLine(lineString, pointCoordinates)
+    if(nearestPoint != null) {
+        nearestPoint.latitude = pdh.point.latitude
+        nearestPoint.longitude = pdh.point.longitude
     }
-    return minDistance
+    return pdh.distance
 }
 
 /**
@@ -879,7 +874,7 @@ fun calculateCenter(
 ): Circle {
     val chordMidpoint =
         LngLatAlt((start.longitude + end.longitude) / 2, (start.latitude + end.latitude) / 2)
-    val chordLength = start.distance(end)
+    val chordLength = start.distance(end, end.createCheapRuler())
     // calculate radius
     val radius = calculateRadius(chordLength, arcMidPoint, chordMidpoint)
     // is the chord midpoint to the right or left of the segment?

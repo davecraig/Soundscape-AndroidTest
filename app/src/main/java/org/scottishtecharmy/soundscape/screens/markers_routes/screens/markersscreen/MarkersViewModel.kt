@@ -109,10 +109,11 @@ fun sortMarkers(
         else
             markers.sortedByDescending { it.name }
     } else {
+        val ruler = userLocation?.createCheapRuler() ?: LngLatAlt().createCheapRuler()
         if(sortAscending)
-            markers.sortedBy { userLocation?.distance(it.location) }
+            markers.sortedBy { userLocation?.distance(it.location, ruler) }
         else
-            markers.sortedByDescending { userLocation?.distance(it.location) }
+            markers.sortedByDescending { userLocation?.distance(it.location, ruler) }
     }
     return sortedMarkers
 }

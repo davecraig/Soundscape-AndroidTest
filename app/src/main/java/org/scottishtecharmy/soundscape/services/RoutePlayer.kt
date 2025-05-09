@@ -143,7 +143,8 @@ class RoutePlayer(val service: SoundscapeService, context: Context) {
                 if(currentLocation != null) {
                     val distance =
                         LngLatAlt(currentLocation.longitude, currentLocation.latitude).distance(
-                            location.location()
+                            location.location(),
+                            location.location().createCheapRuler()
                         )
                     val beaconSetText = localizedContext.getString(
                         R.string.behavior_scavenger_hunt_callout_next_flag,

@@ -13,6 +13,7 @@ class TrackedCallout(
     )
 {
     val time = System.currentTimeMillis()
+    val ruler = location.createCheapRuler()
 
     override fun equals(other: Any?) : Boolean {
         if(other is TrackedCallout) {
@@ -21,12 +22,12 @@ class TrackedCallout(
                 // range+ of each other, treat them as a match
                 // TODO: Don't hard code the distance here - also, we need to compare more than
                 //  just isGeneric as that would match benches with top up taps etc.
-                return location.distance(other.location) < 20.0
+                return location.distance(other.location, ruler) < 20.0
             }
             // If the TrackedCallout isn't for a point i.e. it's a Polygon, then we can't compare
             // it's location, as the nearest point on a Polygon changes as we move.
             return (other.callout == callout)
-                    && (!isPoint || location.distance(other.location) < 10.0)
+                    && (!isPoint || location.distance(other.location, ruler) < 10.0)
         }
         return false
     }
@@ -59,8 +60,8 @@ class CalloutHistory(expiryPeriodMilliseconds : Long = 60000) {
         val now = System.currentTimeMillis()
         // TODO : Remove hardcoded expiry time and distance should be based on category
         history.removeAll {
-            val result = ((now - it.time) > expiryPeriod) || (it.isPoint && userGeometry.location.distance(it.location) > 50.0)
-            if(result)  println("Trim ${it.callout} - ${now - it.time} ${userGeometry.location.distance(it.location)}")
+            val result = ((now - it.time) > expiryPeriod) || (it.isPoint && userGeometry.location.distance(it.location, userGeometry.ruler) > 50.0)
+//            if(result)  println("Trim ${it.callout} - ${now - it.time} ${userGeometry.location.distance(it.location)}")
             result
         }
     }

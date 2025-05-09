@@ -79,11 +79,13 @@ class Way : Feature() {
     var wayType = WayType.REGULAR
 
     fun getName(direction: Boolean? = null,
-                gridState: GridState? = null) : String {
+                gridState: GridState? = null,
+                nonGenericOnly: Boolean = false) : String {
 
         var destinationModifier: Any? = null
         var passesModifier: Any?
         var name = properties?.get("name")
+        val genericName = (name == null)
         var passesString = ""
 
         if(name == null) {
@@ -147,6 +149,11 @@ class Way : Feature() {
             return if (passesString.isNotEmpty()) {
                 "$name via $passesString"
             } else {
+                // This is a path/service/track with no other qualifiers, so just return the name
+                // unless we're looking for a non-generic name.
+                if(nonGenericOnly && genericName) {
+                    return ""
+                }
                 return name.toString()
             }
         }
@@ -154,11 +161,24 @@ class Way : Feature() {
 
     fun doesIntersect(other: Way) : Intersection? {
         for(ours in intersections) {
+            if(ours == null) continue
             for(theirs in other.intersections) {
+                if(theirs == null) continue
+                // Check for direct intersection first
                 if(ours == theirs)
                     return ours
+                // Check for tile-edge joiner
+                if((ours.intersectionType == IntersectionType.TILE_EDGE) &&
+                   (theirs.intersectionType == IntersectionType.TILE_EDGE)) {
+                    for(member in ours.members) {
+                        if(theirs.members.contains(member)) {
+                            return theirs
+                        }
+                    }
+                }
             }
         }
+
         return null
     }
 
@@ -287,35 +307,11 @@ class Way : Feature() {
      * @return the distance along the Way from location to the START intersection. It's measured
      * from the nearest point on the Way.
      */
-    fun distanceToStart(location: LngLatAlt) : Double {
-        val nearestPoint = location.distanceToLineString(geometry as LineString)
-        val lineCoordinates = (geometry as LineString).coordinates
-        var accumulatedDistance = 0.0
-        for(index in 0 until lineCoordinates.size - 1) {
-            val distanceToSegment = nearestPoint.point.distanceToLine(lineCoordinates[index], lineCoordinates[index+1])
-            if(distanceToSegment < 1.0)
-            {
-                // We're on this segment, return our accumulated distance plus the distance to the
-                // start of the segment.
-                return accumulatedDistance + nearestPoint.point.distance(lineCoordinates[index])
-            }
-            accumulatedDistance += lineCoordinates[index].distance(lineCoordinates[index + 1])
-        }
-
-        return 0.0
-    }
-
-    /**
-     * @param location is where the distance is calculated from.
-     * @return the distance along the Way from location to the START intersection. It's measured
-     * from the nearest point on the Way.
-     */
-    fun createTemporaryIntersectionAndWays(location: LngLatAlt) : Intersection {
+    fun createTemporaryIntersectionAndWays(location: LngLatAlt, ruler: CheapRuler) : Intersection {
         val newIntersection = Intersection()
         newIntersection.location = location
 
-        val cheapRuler = CheapRuler(location.latitude, meters)
-        val point = cheapRuler.pointOnLine(geometry as LineString, location)
+        val point = ruler.pointOnLine(geometry as LineString, location)
 
         // Create two line strings out of the original line, adding in the location in the middle
         val line1 = LineString()
@@ -324,18 +320,18 @@ class Way : Feature() {
         var length1 = 0.0
         var length2 = 0.0
         for(coordinate in (geometry as LineString).coordinates.withIndex()) {
-            if(coordinate.index <= point.second) {
+            if(coordinate.index <= point.index) {
                 if(coordinate.index > 0) {
-                    length1 += cheapRuler.distance(line1.coordinates.last(), coordinate.value)
+                    length1 += ruler.distance(line1.coordinates.last(), coordinate.value)
                 }
                 line1.coordinates.add(coordinate.value)
             }
             else {
-                length2 += cheapRuler.distance(line2.coordinates.last(), coordinate.value)
+                length2 += ruler.distance(line2.coordinates.last(), coordinate.value)
                 line2.coordinates.add(coordinate.value)
             }
         }
-        length1 += cheapRuler.distance(line1.coordinates.last(), location)
+        length1 += ruler.distance(line1.coordinates.last(), location)
         line1.coordinates.add(location)
 
         val newWay1 = Way()
@@ -389,6 +385,7 @@ class Way : Feature() {
             intersections[WayEnd.END.id]!!.members.remove(intersection.members[0])
             intersections[WayEnd.END.id]!!.members.remove(intersection.members[1])
         }
+
         intersection.members.clear()
     }
 }
@@ -497,6 +494,8 @@ class WayGenerator {
         val topLeft = getLatLonTileWithOffset(xTile, yTile, tileZoom, 0.0, 0.0)
         val bottomRight = getLatLonTileWithOffset(xTile, yTile, tileZoom, 1.0, 1.0)
 
+        val ruler = topLeft.createCheapRuler()
+
         for(feature in wayFeatures) {
             if(feature.geometry.type == "LineString") {
                 val line = feature.geometry as LineString
@@ -529,7 +528,7 @@ class WayGenerator {
 
                     if(currentSegment.coordinates.isNotEmpty()) {
                         // Add the length of the new segment
-                        currentSegmentLength += currentSegment.coordinates.last().distance(coordinate)
+                        currentSegmentLength += currentSegment.coordinates.last().distance(coordinate, ruler)
                     }
                     currentSegment.coordinates.add(coordinate)
 
