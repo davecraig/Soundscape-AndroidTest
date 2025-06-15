@@ -180,7 +180,11 @@ fun AddAndEditRouteScreen(
     val context = LocalContext.current
     var addWaypointDialog by remember { mutableStateOf(false) }
     var routeMembers by remember(uiState.routeMembers) {
-        mutableStateOf(uiState.routeMembers.toList())
+        val members = uiState.routeMembers.toList()
+        for((index, marker) in members.withIndex()) {
+            marker.orderId = index.toLong()
+        }
+        mutableStateOf(members)
     }
     val lazyListState = rememberLazyListState()
     val location by remember(userLocation) {mutableStateOf(userLocation)}
@@ -355,8 +359,8 @@ fun AddAndEditRouteScreen(
                                 state = lazyListState,
                                 verticalArrangement = Arrangement.spacedBy(spacing.tiny),
                             ) {
-                                itemsIndexed(routeMembers, key = { _,item -> item.databaseId.toString() }) { index, item ->
-                                    ReorderableItem(reorderableLazyListState, item.databaseId.toString()) { _ ->
+                                itemsIndexed(routeMembers, key = { _,item -> item.orderId.toString() }) { index, item ->
+                                    ReorderableItem(reorderableLazyListState, item.orderId.toString()) { _ ->
                                         Row(modifier = Modifier
                                             .background(MaterialTheme.colorScheme.surface)
                                         ) {
