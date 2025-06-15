@@ -16,23 +16,34 @@ import androidx.compose.material.icons.rounded.FullscreenExit
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import dev.sargunv.maplibrecompose.compose.MaplibreMap
+import dev.sargunv.maplibrecompose.compose.rememberCameraState
+import dev.sargunv.maplibrecompose.compose.rememberStyleState
+import dev.sargunv.maplibrecompose.core.OrnamentSettings
+import dev.sargunv.maplibrecompose.material3.controls.AttributionButton
+import dev.sargunv.maplibrecompose.material3.controls.CompassButton
+import dev.sargunv.maplibrecompose.material3.controls.ScaleBar
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.MapView
 import org.maplibre.android.plugins.annotation.Symbol
@@ -50,6 +61,8 @@ import java.io.File
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.preference.PreferenceManager
+import dev.sargunv.maplibrecompose.core.GestureSettings
+import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.maps.MapLibreMap.OnMapLongClickListener
 import org.scottishtecharmy.soundscape.MainActivity.Companion.ACCESSIBLE_MAP_DEFAULT
 import org.scottishtecharmy.soundscape.MainActivity.Companion.ACCESSIBLE_MAP_KEY
@@ -130,6 +143,7 @@ fun FullScreenMapFab(fullscreenMap: MutableState<Boolean>) {
  * @onMapLongClick Action to take if a long click is made on the map
  * @onMarkerClick Action to take if a beacon marker is clicked on
  */
+
 @Composable
 fun MapContainerLibre(
     mapCenter: LngLatAlt,
@@ -141,6 +155,54 @@ fun MapContainerLibre(
     modifier: Modifier = Modifier,
     editBeaconLocation: Boolean = false,
     onMapLongClick: OnMapLongClickListener,
+) {
+    val cameraState = rememberCameraState(
+        firstPosition = dev.sargunv.maplibrecompose.core.CameraPosition(
+            target = io.github.dellisd.spatialk.geojson.Position(mapCenter.longitude, mapCenter.latitude),
+            zoom = 13.0,
+        )
+    )
+    val styleState = rememberStyleState()
+    val context = LocalContext.current
+    val sharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context)
+    val accessibleMapEnabled = sharedPreferences.getBoolean(ACCESSIBLE_MAP_KEY, ACCESSIBLE_MAP_DEFAULT)
+    val styleName = if(accessibleMapEnabled) "processedStyle.json" else "processedOriginalStyle.json"
+    val filesDir = context.filesDir.toString()
+    val styleUri = Uri.fromFile(File("$filesDir/osm-liberty-accessible/$styleName")).toString()
+
+    Box(modifier = modifier) {
+        MaplibreMap(
+            styleUri = styleUri,
+            cameraState = cameraState,
+            styleState = styleState,
+            ornamentSettings = OrnamentSettings.AllDisabled,
+            gestureSettings = GestureSettings(
+                isScrollGesturesEnabled = allowScrolling,
+                isTiltGesturesEnabled = false,
+                isRotateGesturesEnabled = false
+            )
+        )
+
+        Box(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+            ScaleBar(cameraState.metersPerDpAtTarget, modifier = Modifier.align(Alignment.TopStart))
+            CompassButton(cameraState, modifier = Modifier.align(Alignment.TopEnd))
+            AttributionButton(styleState, modifier = Modifier.align(Alignment.BottomEnd))
+        }
+    }
+}
+
+@Composable
+fun MapContainerLibreOld(
+    mapCenter: LngLatAlt,
+    allowScrolling: Boolean,
+    mapViewRotation: Float,
+    userLocation: LngLatAlt?,
+    userSymbolRotation: Float,
+    beaconLocation: LngLatAlt?,
+    routeData: RouteWithMarkers?,
+    modifier: Modifier = Modifier,
+    onMapLongClick: (LatLng) -> Boolean,
 ) {
     val context = LocalContext.current
     val sharedPreferences =
@@ -390,7 +452,8 @@ fun MapContainerLibre(
 
                     mapLibre.addOnMapLongClickListener(onMapLongClick)
                     mapLibre.addOnCameraMoveListener {
-                        if(editBeaconLocation) {
+                        //if(editBeaconLocation)
+                        {
                             if(beaconLocationMarker.value != null) {
                                 val center = mapLibre.projection.visibleRegion.latLngBounds.center
 
