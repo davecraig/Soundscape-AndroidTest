@@ -21,11 +21,14 @@ import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
 import org.scottishtecharmy.soundscape.geoengine.utils.getCombinedDirectionSegments
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getPathWays
+import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
 import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import kotlin.math.abs
 
 data class IntersectionDescription(var nearestRoad: Way? = null,
@@ -45,7 +48,8 @@ data class IntersectionDescription(var nearestRoad: Way? = null,
  * intersection.
  */
 fun getRoadsDescriptionFromFov(gridState: GridState,
-                               userGeometry: UserGeometry
+                               userGeometry: UserGeometry,
+                               insideGeometry: Feature? = null
 ) : IntersectionDescription {
 
     // Create FOV triangle
@@ -126,10 +130,17 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     //  1. Short paths leading to sidewalks of the road, or
     //  2. Direct intersections with sidewalks.
     //  3. Within a 5m radius of the current location
+    //  4. Outwith any building that we are currently in (the insideGeometry Polygon)
     val trimmedIntersections = FeatureCollection()
     for(i in fovIntersections.features) {
         val intersection = i as Intersection
         var add = true
+
+        if(insideGeometry != null) {
+            if(!polygonContainsCoordinates(intersection.location, insideGeometry.geometry as Polygon))
+                add = false
+        }
+
         if(!userGeometry.inStreetPreview && userGeometry.ruler.distance(intersection.location, userGeometry.mapMatchedLocation?.point ?: userGeometry.location) < 5.0)
             add = false
         else {

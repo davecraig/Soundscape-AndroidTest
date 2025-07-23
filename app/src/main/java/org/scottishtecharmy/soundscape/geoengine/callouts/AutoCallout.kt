@@ -20,7 +20,10 @@ import org.scottishtecharmy.soundscape.geoengine.formatDistance
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
 import org.scottishtecharmy.soundscape.geoengine.reverseGeocode
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
+import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
+import org.scottishtecharmy.soundscape.geoengine.utils.polygonFeaturesOverlap
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 
 class AutoCallout(
     private val localizedContext: Context?,
@@ -107,7 +110,8 @@ class AutoCallout(
         return emptyList()
     }
     fun buildCalloutForIntersections(userGeometry: UserGeometry,
-                                     gridState: GridState) : List<PositionedString> {
+                                     gridState: GridState,
+                                     insideGeometry: Feature?) : List<PositionedString> {
         val results : MutableList<PositionedString> = mutableListOf()
 
         // We rely heavily on having map matched our GPS location to a nearby way. If we're not in
@@ -132,7 +136,8 @@ class AutoCallout(
 
         val roadsDescription = getRoadsDescriptionFromFov(
             gridState,
-            userGeometry)
+            userGeometry,
+            insideGeometry)
 
         // Don't describe the road we're on if there's an intersection
         addIntersectionCalloutFromDescription(
@@ -147,7 +152,8 @@ class AutoCallout(
     }
 
     private fun buildCalloutForNearbyPOI(userGeometry: UserGeometry,
-                                         gridState: GridState) : List<PositionedString> {
+                                         gridState: GridState,
+                                         insideGeometry: Feature? = null) : List<PositionedString> {
         if (!poiFilter.shouldUpdateActivity(userGeometry)) {
             return emptyList()
         }
@@ -188,6 +194,13 @@ class AutoCallout(
             val category = feature.foreign?.get("category") as String?
 
             val nearestPoint = getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
+
+            if(insideGeometry != null) {
+                // Check if the nearby feature overlaps with this feature
+                if(!polygonFeaturesOverlap(feature, insideGeometry))
+                    return@filter true
+            }
+
             if(category == null) {
                 true
             } else {
@@ -271,7 +284,7 @@ class AutoCallout(
                     // Update the destination filter if we're outputting it
                     destinationFilter.update(userGeometry)
                     list = destinationCallout
-                } else if (sharedPreferences?.getBoolean(ALLOW_CALLOUTS_KEY, true) == true) {
+                } else if (sharedPreferences?.getBoolean(ALLOW_CALLOUTS_KEY, true) != false) {
                     // buildCalloutForRoadSense builds a callout for travel that's faster than
                     // walking
                     val roadSenseCallout =
@@ -279,8 +292,36 @@ class AutoCallout(
                     if (roadSenseCallout.isNotEmpty()) {
                         list = roadSenseCallout
                     } else {
+                        // We don't want to callout intersections or POIs if we're inside a building
+                        // and the thing to callout is outside. We can see which polygons we're
+                        // inside, so decide whether or not they are a building and then filter on
+                        // that polygon. An example would be when inside Tesco I don't want to know
+                        // about road intersections outside, or about bike parking outside.
+
+                        val gridPoiTree = gridState.getFeatureTree(TreeId.POIS)
+                        val insidePois = gridPoiTree.getContainingPolygons(userGeometry.location)
+                        var insideGeometry: Feature? = null
+                        for(poi in insidePois) {
+                            if(poi.properties?.get("building") == "yes") {
+                                // We're in a building?
+                                insideGeometry = poi //poi.geometry as Polygon
+                            }
+                            else {
+                                val poiClass = poi.properties?.get("class")
+                                when(poiClass) {
+                                    "shop",
+                                    "grocery",
+                                    "restaurant",
+                                    "place_of_worship",
+                                    "school" ->
+                                        insideGeometry = poi //poi.geometry as Polygon
+                                }
+                            }
+                            if(insideGeometry != null) break
+                        }
+
                         val intersectionCallout =
-                            buildCalloutForIntersections(userGeometry, gridState)
+                            buildCalloutForIntersections(userGeometry, gridState, insideGeometry)
                         if (intersectionCallout.isNotEmpty()) {
                             intersectionFilter.update(userGeometry)
                             list = list + intersectionCallout
@@ -288,7 +329,7 @@ class AutoCallout(
 
 
                         // Get normal callouts for nearby POIs, for the destination, and for beacons
-                        val poiCallout = buildCalloutForNearbyPOI(userGeometry, gridState)
+                        val poiCallout = buildCalloutForNearbyPOI(userGeometry, gridState, insideGeometry)
 
                         // Update time/location filter for our new position
                         if (poiCallout.isNotEmpty()) {

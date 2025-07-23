@@ -690,6 +690,7 @@ fun translateProperties(properties: HashMap<String, Any?>?, id: Double): HashMap
                 // This is used for mapping warehouses
                 foreign["feature_type"] = property.key
                 foreign["feature_value"] = property.value
+                foreign["building"] = "yes"
             }
         }
     }

@@ -314,6 +314,10 @@ class MvtTileTest {
             outputCollection.addFeature(intersection.value)
         }
 
+        for(poi in gridState.getFeatureCollection(TreeId.POIS)) {
+            outputCollection.addFeature(poi)
+        }
+
         val outputFile = FileOutputStream("2x2.geojson")
         outputFile.write(adapter.toJson(outputCollection).toByteArray())
         outputFile.close()
@@ -698,7 +702,7 @@ class MvtTileTest {
 
         val directoryEntries = directoryPath.listDirectoryEntries("*.gpx")
         for(file in directoryEntries) {
-            if(file.nameWithoutExtension.contains("train-1"))
+            if(file.nameWithoutExtension.contains("MikeC-2"))
                 testMovingGrid(file.toString(), "gpxFiles/${file.nameWithoutExtension}.txt", "gpxFiles/${file.nameWithoutExtension}.geojson")
         }
     }
