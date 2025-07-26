@@ -1,0 +1,40 @@
+name: Server canary
+
+env:
+  # The name of the main module repository
+  main_project_module: app
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Schedule to run every 10 minutes
+  schedule:
+    - cron:  '*/10 * * * *'
+
+jobs:
+  artillery:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make reports directory
+        run: mkdir artillery/reports
+
+      - name: Execute load tests on photon server
+        uses: artilleryio/action-cli@v1
+        with:
+          command: run artillery/photon-test.yaml --output artillery/reports/photon-test-results.json
+
+      - name: Execute load tests on protomaps server
+        uses: artilleryio/action-cli@v1
+        with:
+          command: run artillery/protomaps-test.yaml --output artillery/reports/protomaps-test-results.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: artillery-report
+          path: artillery/reports/

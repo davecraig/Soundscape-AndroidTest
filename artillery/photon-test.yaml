@@ -1,0 +1,32 @@
+config:
+  target: http://52.56.201.89:2322
+  http:
+    # Responses have to be sent within 10 seconds, or an `ETIMEDOUT` error gets raised.
+    timeout: 10
+  phases:
+    - duration: 30
+      arrivalCount: 90
+      name: Startup
+    - duration: 30
+      arrivalCount: 270
+      name: NinePerSecond
+
+  # Load & configure a couple of useful plugins
+  # https://docs.art/reference/extensions
+  plugins:
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+    fake-data: {}
+  apdex:
+    threshold: 500
+  ensure:
+    thresholds:
+      - http.response_time.p99: 10000
+      - http.response_time.p95: 20000
+scenarios:
+  - flow:
+      - loop:
+          - get:
+              url: '/api?q={{ $randStreetName() }}&lat={{ $randLatitude() }}&lon={{ $randLongitude() }}'
+        count: 1
