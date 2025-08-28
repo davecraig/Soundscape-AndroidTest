@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.geoengine
 
 import android.content.Context
+import android.os.Environment
 import android.util.Log
 import ch.poole.geo.pmtiles.Reader
 import kotlinx.coroutines.CloseableCoroutineDispatcher
@@ -38,9 +39,17 @@ open class ProtomapsGridState(
     override fun start(applicationContext: Context) {
         tileClient = ProtomapsTileClient(applicationContext)
 
-        // Create a range reader for the local file
-        val path = applicationContext.filesDir.path + "/offline-maps/gb-extract-file.pmtiles"
-        fileTileReader = Reader(File(path))
+        // Create a range reader for any local downloaded file
+        val destinationDir = applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        destinationDir?.let { directory ->
+            if(directory.exists() && directory.isDirectory) {
+                // Find the first extract within the directory
+                val files = directory.listFiles()
+                files?.firstOrNull()?.let { file ->
+                   fileTileReader = Reader(file)
+                }
+            }
+        }
     }
 
     /**
