@@ -4,6 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+<<<<<<< Updated upstream
+=======
+import android.location.Geocoder
+import android.location.Location
+import android.net.Uri
+>>>>>>> Stashed changes
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.google.android.gms.location.ActivityTransition
@@ -26,6 +32,14 @@ import org.scottishtecharmy.soundscape.geoengine.callouts.AutoCallout
 import org.scottishtecharmy.soundscape.geoengine.callouts.ComplexIntersectionApproach
 import org.scottishtecharmy.soundscape.geoengine.callouts.addIntersectionCalloutFromDescription
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
+<<<<<<< Updated upstream
+=======
+import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.LocalGeocoder
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.PhotonGeocoder
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.SoundscapeGeocoder
+>>>>>>> Stashed changes
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirection
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirectionAlong
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
@@ -47,7 +61,11 @@ import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.services.getOttoBus
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
+<<<<<<< Updated upstream
 import org.scottishtecharmy.soundscape.utils.toLocationDescriptions
+=======
+import java.io.File
+>>>>>>> Stashed changes
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.time.Duration.Companion.milliseconds
@@ -168,12 +186,35 @@ class GeoEngine {
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    fun getRecordingShareUri(context: Context) : Uri? {
+        val ret = gpxRecorder?.getShareUri(context)
+        return ret
+    }
+
+    lateinit var onlineGeocoder : SoundscapeGeocoder
+    lateinit var offlineGeocoder : SoundscapeGeocoder
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+>>>>>>> Stashed changes
     fun start(
         application: Application,
         newLocationProvider: LocationProvider,
         newDirectionProvider: DirectionProvider,
         soundscapeService: SoundscapeService,
     ) {
+        // If we have an Android Geocoder available then we use that, otherwise we use the photon
+        // geo search server.
+        onlineGeocoder = if(Geocoder.isPresent())
+            AndroidGeocoder(application.applicationContext)
+        else
+            PhotonGeocoder()
+
+        // When there's no network connection, then we'll only be able to use the LocalGeocoder
+        // which can work with the local map tile data.
+        offlineGeocoder = LocalGeocoder()
+
         sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(application.applicationContext)
 
@@ -575,8 +616,9 @@ class GeoEngine {
         }
     }
 
-    private suspend fun reverseGeocodeResult(location: LngLatAlt) =
+    private suspend fun reverseGeocodeResultAndroid(location: LngLatAlt) =
         withContext(Dispatchers.IO) {
+<<<<<<< Updated upstream
             return@withContext PhotonSearchProvider
                 .getInstance()
                 .reverseGeocodeLocation(
@@ -584,6 +626,15 @@ class GeoEngine {
                     longitude = location.longitude
                 ).execute()
                 .body()
+=======
+            try {
+                check(Geocoder.isPresent())
+                onlineGeocoder.getAddressFromLngLat(location)
+            } catch(e: Exception) {
+                Log.e(TAG, "Error getting reverse geocode result:", e)
+                return@withContext null
+            }
+>>>>>>> Stashed changes
         }
 
     /**
@@ -599,6 +650,7 @@ class GeoEngine {
                                preserveLocation: Boolean = true) : LocationDescription? {
 
         var geocode: LocationDescription? = null
+<<<<<<< Updated upstream
         val currentLocation = locationProvider.get()
         // If the location is within our current TileGrid, then we can make our own description of
         // the location.
@@ -639,6 +691,26 @@ class GeoEngine {
                         }
                     } else
                         null
+=======
+//        // If the location is within our current TileGrid, then we can make our own description of
+//        // the location.
+//        geocode = runBlocking {
+//            withContext(gridState.treeContext) {
+//                localReverseGeocode(location, gridState, settlementGrid, localizedContext)
+//            }
+//        }
+//        if(geocode != null) return geocode
+
+        // If we have network, then we should be able to do a reverse geocode via the photon server
+        // TODO: Check for network first
+        // TODO: The geocode result takes too long to have it done inline like this. We need to
+        //  move it into the user of the LocationDescription so that it can update dynamically if
+        //  and when the request succeeds. Disable for now.
+        if(true) {
+            geocode = runBlocking {
+                withContext(Dispatchers.IO) {
+                    onlineGeocoder.getAddressFromLngLat(location)
+>>>>>>> Stashed changes
                 }
             }
             if (geocode != null)
