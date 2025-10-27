@@ -385,6 +385,8 @@ class GeoEngine {
 
                 newLocation?.let { location ->
 
+                    soundscapeService.vibrate()
+
                     // Add location to crash dumps
                     FirebaseCrashlytics.getInstance().setCustomKey("latitude", newLocation.latitude)
                     FirebaseCrashlytics.getInstance().setCustomKey("longitude", newLocation.longitude)

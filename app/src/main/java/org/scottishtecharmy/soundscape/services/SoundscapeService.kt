@@ -16,11 +16,17 @@ import android.net.Uri
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.VibrationAttributes
+import android.os.VibrationAttributes.USAGE_ACCESSIBILITY
+import android.os.VibrationEffect
+import android.os.VibratorManager
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -217,6 +223,22 @@ class SoundscapeService : MediaSessionService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    var vibrationManager: VibratorManager? = null
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun vibrate() {
+        val pattern = longArrayOf(0, 100, 50, 200)
+        val effect = VibrationEffect.createWaveform(pattern, -1)
+
+        val vibrator = vibrationManager?.defaultVibrator
+        val attributes = VibrationAttributes.Builder()
+            .setUsage(USAGE_ACCESSIBILITY)
+            .build()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            vibrator?.vibrate(effect, attributes)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
     @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
@@ -233,6 +255,9 @@ class SoundscapeService : MediaSessionService() {
 
             locationProvider = AndroidLocationProvider(this)
             directionProvider = AndroidDirectionProvider(this)
+
+            vibrationManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager?
+            //val vibrator = vibrationManager.defaultVibrator
 
             // create new RealmDB or open existing
             startRealms(applicationContext)
