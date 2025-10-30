@@ -698,10 +698,10 @@ class WayGenerator(val transit: Boolean = false) {
                 intersection.value.properties?.set("feature_type", "highway")
                 intersection.value.properties?.set("feature_value", "gd_intersection")
             }
-            intersectionCollection.addFeature(intersection.value)
-
-            if(!transit)
+            if(!transit) {
+                intersectionCollection.addFeature(intersection.value)
                 intersectionMap[intersection.key] = intersection.value
+            }
         }
     }
 }
