@@ -18,6 +18,7 @@ import android.os.Debug
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.scottishtecharmy.soundscape.dto.BoundingBox
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
@@ -69,7 +70,7 @@ class MvtPerformanceTest {
         end = System.currentTimeMillis()
         println("Search result in ${end-start}ms")
         for(dResult in distanceResults) {
-            println(dResult.properties?.get("name"))
+            println((dResult as MvtFeature).name)
         }
     }
 

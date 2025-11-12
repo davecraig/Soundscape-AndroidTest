@@ -19,6 +19,7 @@ import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
@@ -98,11 +99,10 @@ fun getPoiFeatureCollectionBySuperCategory(
     val superCategorySet = getSuperCategoryElements(superCategory)
 
     for (feature in poiFeatureCollection) {
-        feature.properties?.let { properties ->
-            if (superCategorySet.contains(properties["feature_type"]) or superCategorySet.contains(properties["feature_value"])) {
-                tempFeatureCollection.addFeature(feature)
-                feature.properties?.put("category", superCategory)
-            }
+        val mvtFeature = feature as MvtFeature
+        if (superCategorySet.contains(mvtFeature.featureType) or superCategorySet.contains(mvtFeature.featureValue)) {
+            tempFeatureCollection.addFeature(feature)
+            feature.properties?.put("category", superCategory)
         }
     }
     return tempFeatureCollection
@@ -129,11 +129,9 @@ fun featureIsInFilterGroup(feature: Feature, filter: String): Boolean {
     if(tags.isEmpty()) return true
 
     for (tag in tags) {
-        feature.properties?.let { properties ->
-            if (properties["feature_value"] == tag) {
-                return true
-            }
-        }
+        val mvtFeature = feature as MvtFeature
+        if (mvtFeature.featureValue == tag)
+            return true
     }
     return false
 }
@@ -559,7 +557,7 @@ fun getRelativeDirectionsPolygons(
 
 fun checkWhetherIntersectionIsOfInterest(
     intersection: Intersection,
-    testNearestRoad:Feature?
+    testNearestRoad:Way?
 ): Int {
     //println("Number of roads that make up intersection ${intersectionNumber}: ${intersectionRoadNames.features.size}")
     if(testNearestRoad == null)
@@ -572,8 +570,8 @@ fun checkWhetherIntersectionIsOfInterest(
     var needsFurtherChecking = 0
     val setOfNames = mutableListOf<String>()
     for (way in intersection.members) {
-        val roadName = way.properties?.get("name")
-        val isMatch = testNearestRoad.properties?.get("name") == roadName
+        val roadName = way.name
+        val isMatch = testNearestRoad.name == roadName
 
         if (isMatch) {
             // Ignore the road we're on
@@ -1534,11 +1532,11 @@ fun addSidewalk(currentRoad: Way,
         var found = false
         for(road in startRoads) {
             if((road as Way).isSidewalkOrCrossing()) continue
-            name = road.properties?.get("name")
+            name = road.name
             if(name != null) {
                 for (road2 in endRoads) {
                     if((road2 as Way).isSidewalkOrCrossing()) continue
-                    if (road2.properties?.get("name") == name) {
+                    if (road2.name == name) {
                         // The distance between the pavement and the road should be similar at both ends.
                         val delta = abs(
                             ruler.distanceToLineString(start, road.geometry as LineString).distance -
@@ -1559,11 +1557,11 @@ fun addSidewalk(currentRoad: Way,
             if (name != null) {
                 val text = localizedContext?.getString(R.string.confect_name_pavement_next_to)
                     ?.format(name) ?: "Pavement next to $name"
-                currentRoad.properties?.set("name", text)
+                currentRoad.name = text
             } else {
                 val text = localizedContext?.getString(R.string.confect_name_pavement)
                     ?.format(name) ?: "Pavement"
-                currentRoad.properties?.set("name", text)
+                currentRoad.name = text
             }
             // Store the name of the associated road
             currentRoad.properties?.set("pavement", name.toString())
@@ -1686,14 +1684,14 @@ fun addPoiDestinations(way: Way,
 
     if(startPoi != endPoi) {
         if(!startDestinationAdded) {
-            val startName = startPoi?.properties?.get("name")
+            val startName = (startPoi as MvtFeature?)?.name
             if (startName != null) {
                 way.properties?.set("destination:backward", startName)
                 addedDestinations = true
             }
         }
         if(!endDestinationAdded) {
-            val endName = endPoi?.properties?.get("name")
+            val endName = (endPoi as MvtFeature?)?.name
             if (endName != null) {
                 way.properties?.set("destination:forward", endName)
                 addedDestinations = true
@@ -1703,15 +1701,15 @@ fun addPoiDestinations(way: Way,
     return addedDestinations
 }
 
-fun confectNamesForRoad(road: Feature,
+fun confectNamesForRoad(road: Way,
                         gridState: GridState) {
 
     // rtree searches take time and so we should avoid them where possible.
 
     val roadTree = gridState.featureTrees[TreeId.ROADS_AND_PATHS.id]
-    if (road.properties?.get("name") == null) {
+    if (road.name == null) {
 
-        if (addSidewalk(road as Way, roadTree, gridState.ruler)) {
+        if (addSidewalk(road, roadTree, gridState.ruler)) {
             return
         }
 
@@ -1747,15 +1745,13 @@ fun traverseIntersectionsConfectingNames(gridIntersections: HashMap<LngLatAlt, I
         var namedRoadToUse: String? = null
         for (road in intersection.value.members) {
             if (namedRoadToUse == null) {
-                road.properties?.get("name")?.let { name ->
-                    namedRoadToUse = name.toString()
-                }
+                namedRoadToUse = road.name
             }
         }
         // We've got a named road at this junction, so use if for any un-named roads
         for (road in intersection.value.members) {
             // Skip if the road is named
-            if (road.properties?.get("name") == null) {
+            if (road.name == null) {
 
                 // We don't confect names for sidewalks or crossings as those will be named from the
                 // adjacent road.
@@ -1773,7 +1769,7 @@ fun traverseIntersectionsConfectingNames(gridIntersections: HashMap<LngLatAlt, I
                         brunnelOrStepsValue = way.properties?.get("brunnel").toString()
                     }
 
-                    (way.properties?.get("name") != null)
+                    (way.name != null)
                 }
 
                 for(way in ways) {
