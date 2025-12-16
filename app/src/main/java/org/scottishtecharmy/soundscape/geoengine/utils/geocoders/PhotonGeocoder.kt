@@ -3,6 +3,7 @@ package org.scottishtecharmy.soundscape.geoengine.utils.geocoders
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
@@ -43,7 +44,9 @@ class PhotonGeocoder : SoundscapeGeocoder() {
         return ld?.firstOrNull()
     }
 
-    override suspend fun getAddressFromLngLat(location: LngLatAlt) : LocationDescription? {
+    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry) : LocationDescription? {
+
+        val location = userGeometry.mapMatchedLocation?.point ?: userGeometry.location
         val searchResult = withContext(Dispatchers.IO) {
             try {
                 return@withContext PhotonSearchProvider

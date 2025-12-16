@@ -1005,6 +1005,14 @@ fun getTextForFeature(localizedContext: Context?, feature: MvtFeature) : TextFor
     val featureValue = feature.featureValue
     val isMarker = feature.superCategory == SuperCategoryId.MARKER
 
+    if(feature.superCategory == SuperCategoryId.HOUSENUMBER) {
+        val street = feature.properties?.get("street")
+        if(name != null) {
+            val text = "$name, $street"
+            return TextForFeature(text, false)
+        }
+    }
+
     if(localizedContext == null) {
         if(name == null) {
             val osmClass = feature.featureClass

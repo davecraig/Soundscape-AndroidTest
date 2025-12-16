@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.ProtomapsGridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
@@ -23,26 +24,93 @@ import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.SoundscapeGeoco
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
+import java.text.Normalizer
+import java.util.Locale
+import kotlin.time.measureTime
 
 @RunWith(AndroidJUnit4::class)
 class GeocoderTest {
 
     private suspend fun describeLocation(geocoder: SoundscapeGeocoder, location: LngLatAlt): LocationDescription? {
-        val description = geocoder.getAddressFromLngLat(location)
+        val description = geocoder.getAddressFromLngLat(UserGeometry(location))
         return description
+    }
+
+    private val apostrophes = setOf('\'', '’', '‘', '‛', 'ʻ', 'ʼ', 'ʹ', 'ꞌ', '＇')
+    fun normalizeForSearch(input: String): String {
+        // 1) Unicode normalize (decompose accents)
+        val nfkd = Normalizer.normalize(input, Normalizer.Form.NFKD)
+
+        val sb = StringBuilder(nfkd.length)
+        var lastWasSpace = false
+
+        for (ch in nfkd) {
+            // Remove combining marks (diacritics)
+            val type = Character.getType(ch)
+            if (type == Character.NON_SPACING_MARK.toInt()) continue
+
+            // Make apostrophes disappear completely (missing/extra apostrophes become irrelevant)
+            if (ch in apostrophes) continue
+
+            // Turn most punctuation into spaces (keeps token boundaries stable)
+            val isLetterOrDigit = Character.isLetterOrDigit(ch)
+            val outCh = when {
+                isLetterOrDigit -> ch.lowercaseChar()
+                Character.isWhitespace(ch) -> ' '
+                else -> ' ' // punctuation -> space
+            }
+
+            if (outCh == ' ') {
+                if (!lastWasSpace) {
+                    sb.append(' ')
+                    lastWasSpace = true
+                }
+            } else {
+                sb.append(outCh)
+                lastWasSpace = false
+            }
+        }
+
+        return sb.toString().trim().lowercase(Locale.ROOT)
+    }
+
+    fun search(query: String, names: List<String>, limit: Int = 10): List<Pair<String, Float>> {
+        val q = normalizeForSearch(query)
+        return emptyList()
     }
 
     private fun estimateNumberOfPlacenames(gridState: GridState) {
 
         /**
-         * This is looking ahead to search to see how large the dictionaries will be.
+         * This is looking ahead to search to see how large the dictionaries will be and how quickly
+         * we can search them.
          */
-        val pois = gridState.getFeatureTree(TreeId.POIS).getAllCollection()
-        val roads = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS).getAllCollection()
         var count = 0
-        pois.forEach { poi -> if(!(poi as MvtFeature).name.isNullOrEmpty()) count++ }
-        roads.forEach { road -> if(!(road as Way).name.isNullOrEmpty()) count++ }
-        Log.e("GeocoderTest", "Estimated number of placenames: $count")
+        val dictionary = mutableListOf<String>()
+        var timed = measureTime {
+            val pois = gridState.getFeatureTree(TreeId.POIS).getAllCollection()
+            val roads = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS).getAllCollection()
+            pois.forEach { poi ->
+                if (!(poi as MvtFeature).name.isNullOrEmpty()) {
+                    dictionary.add(normalizeForSearch(poi.name!!))
+                    count++
+                }
+            }
+            roads.forEach { road ->
+                if (!(road as Way).name.isNullOrEmpty()) {
+                    dictionary.add(normalizeForSearch(road.name!!))
+                    count++
+                }
+            }
+        }
+        Log.e("GeocoderTest", "Estimated number of placenames: $count, in $timed")
+        var results = listOf<Pair<String, Float>>()
+        timed = measureTime {
+            val query = normalizeForSearch("10 Roselea Drive")
+            results = search(query, dictionary, 10)
+        }
+        results.forEach { Log.e("GeocoderTest", "${it.first} ${it.second}") }
+        Log.e("GeocoderTest", "Search took $timed")
     }
 
     private fun geocodeLocation(

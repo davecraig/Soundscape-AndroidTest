@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape.geoengine.utils.geocoders
 
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
@@ -30,11 +31,103 @@ class LocalGeocoder(
         return getDistanceToFeature(location, feature, gridState.ruler).point
     }
 
-    override suspend fun getAddressFromLngLat(location: LngLatAlt) : LocationDescription? {
+    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry) : LocationDescription? {
 
+        val location = userGeometry.mapMatchedLocation?.point ?: userGeometry.location
         // We can only use the local geocoder for local locations
         if(!gridState.isLocationWithinGrid(location))
             return null
+
+        //
+        // The ideal scenario is that we return a house number and street name that we think match
+        // our current location. However, there are many things that can make this harder:
+        //
+        //  * Missing house numbers
+        //  * Location is close to more than one street
+        //  * Map matched to an un-named street or Way
+        //  * Large front gardens e.g. https://www.openstreetmap.org/way/443769054 where Strathblane
+        //    Road is between 60m and 90m away from the actual house.
+        //  * Numbers can be quite different on opposite sides of street e.g.
+        //    https://www.openstreetmap.org/way/31094506 where there are three times more even than
+        //    odd numbered houses.
+        //
+        val houseNumberTree = gridState.getFeatureTree(TreeId.HOUSENUMBER)
+
+        if(userGeometry.mapMatchedWay != null) {
+            // We're map matched to a street so we can be fairly confident that we are on it. Check
+            // that it's a named street
+            if(userGeometry.mapMatchedWay.name != null) {
+                // Find the nearest house number for this street
+                val nearbyHouseNumbers =
+                    houseNumberTree.getNearbyCollection(
+                        userGeometry.mapMatchedLocation?.point ?: userGeometry.location,
+                        100.0,
+                        gridState.ruler
+                    )
+
+                for(house in nearbyHouseNumbers) {
+                    if ((house as MvtFeature).name == userGeometry.mapMatchedWay.name) {
+                        // We have a match, but we need to check that it's really the nearest house
+                        // and not several houses away.
+                        val houseNumberText = getTextForFeature(null, house)
+                        return LocationDescription(
+                            name = houseNumberText.text,
+                            location = getNearestPointOnFeature(house, location)
+                        )
+                    }
+                }
+
+                // No house numbers for this street, so try and describe our location on it in other
+                // ways e.g. relative to POI on street, or distance from nearest named junction.
+                userGeometry.mapMatchedLocation?.point
+            }
+        }
+
+        // We weren't map matched to a street, so use our location instead. Find the nearest house
+        // number and then check that the street for that is the nearest named street to our location.
+        val nearestHouse =
+            houseNumberTree.getNearestFeature(
+                userGeometry.mapMatchedLocation?.point ?: userGeometry.location,
+                userGeometry.ruler,
+                50.0
+            )
+
+        // Find nearby Ways
+        val nearbyWays = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
+            .getNearbyCollection(
+                location,
+                50.0,
+                userGeometry.ruler
+            )
+
+//        // Find nearby house numbers
+//        if (nearbyHouseNumbers.features.isNotEmpty()) {
+//            val street = nearestHouseNumber.properties?.get("street")
+//            if(currentWay.name == street) {
+//                val houseNumberText = getTextForFeature(null, nearestHouseNumber as MvtFeature)
+//                return LocationDescription(
+//                    name = houseNumberText.text,
+//                    location = getNearestPointOnFeature(nearestHouseNumber, location)
+//                )
+//            }
+//        }
+//
+//        if(currentWay != null) {
+//            // Find nearest house number on this street
+//            val houseNumberTree = gridState.getFeatureTree(TreeId.HOUSENUMBER)
+//            val nearestHouseNumber =
+//                houseNumberTree.getNearestFeature(location, gridState.ruler, 25.0)
+//            if (nearestHouseNumber != null) {
+//                val street = nearestHouseNumber.properties?.get("street")
+//                if(currentWay.name == street) {
+//                    val houseNumberText = getTextForFeature(null, nearestHouseNumber as MvtFeature)
+//                    return LocationDescription(
+//                        name = houseNumberText.text,
+//                        location = getNearestPointOnFeature(nearestHouseNumber, location)
+//                    )
+//                }
+//            }
+//        }
 
         // Check if we're near a bus/tram/train stop. This is useful when travelling on public transport
         val busStopTree = gridState.getFeatureTree(TreeId.TRANSIT_STOPS)

@@ -308,7 +308,7 @@ fun vectorTileToGeoJson(tileX: Int,
     // layers. However, we also create TileGrids at lower zoom levels to get towns, cities etc. from
     // the place layer.
     val layerIds = if(tileZoom >= MIN_MAX_ZOOM_LEVEL) {
-        arrayOf("transportation", "poi", "building")
+        arrayOf("transportation", "poi", "building", "housenumber")
     } else {
         arrayOf("place")
     }
@@ -333,6 +333,7 @@ fun vectorTileToGeoJson(tileX: Int,
             var name : String? = null
             var featureClass : String? = null
             var featureSubClass : String? = null
+            var housenumber : String? = null
 
             // Convert coordinates to GeoJSON. This is where we find out how many features
             // we're actually dealing with as there can be multiple features that have the
@@ -371,6 +372,7 @@ fun vectorTileToGeoJson(tileX: Int,
                         "name" -> name = value.toString()
                         "class" -> featureClass = value.toString()
                         "subclass" -> featureSubClass = value.toString()
+                        "housenumber" -> housenumber = value.toString()
                         else -> {
                             if (properties == null) {
                                 properties = HashMap()
@@ -473,25 +475,27 @@ fun vectorTileToGeoJson(tileX: Int,
                     for (point in points) {
                         if (point.isNotEmpty()) {
                             val coordinates = convertGeometry(tileX, tileY, tileZoom, point)
-                            listOfGeometries.add(
-                                Point(coordinates[0].longitude, coordinates[0].latitude)
-                            )
+                            for(coordinate in coordinates) {
+                                listOfGeometries.add(
+                                    Point(coordinate.longitude, coordinate.latitude)
+                                )
 
-                            if(featureClass == "entrance") {
-                                // If the access is set to no, then don't add the entrance
-                                if((properties?.get("access") != "no")) {
+                                if (featureClass == "entrance") {
+                                    // If the access is set to no, then don't add the entrance
+                                    if ((properties?.get("access") != "no")) {
 
-                                    // Add the entrance
-                                    val entranceDetails = EntranceDetails(
-                                        name,
-                                        featureSubClass,
-                                        properties?.get("layer")?.toString(),
-                                        properties,
-                                        false,
-                                        id
-                                    )
-                                    entranceMatching.addGeometry(point, entranceDetails)
-                                    entrance = true
+                                        // Add the entrance
+                                        val entranceDetails = EntranceDetails(
+                                            name,
+                                            featureSubClass,
+                                            properties?.get("layer")?.toString(),
+                                            properties,
+                                            false,
+                                            id
+                                        )
+                                        entranceMatching.addGeometry(point, entranceDetails)
+                                        entrance = true
+                                    }
                                 }
                             }
                         }
@@ -569,51 +573,60 @@ fun vectorTileToGeoJson(tileX: Int,
                 val geoFeature = MvtFeature()
                 geoFeature.geometry = geometry
                 geoFeature.osmId = id
-                geoFeature.name = name
-                geoFeature.featureClass = featureClass
-                geoFeature.featureSubClass = featureSubClass
-                geoFeature.properties = properties
-                if (translateProperties(geoFeature)) {
-                    // Categorise as we go, picking the highest ranking category
-                    val ft = superCategoryMap[geoFeature.featureType] ?: SuperCategoryId.UNCATEGORIZED
-                    val fv = superCategoryMap[geoFeature.featureValue] ?: SuperCategoryId.UNCATEGORIZED
-                    if(ft > fv)
-                        geoFeature.superCategory = ft
-                    else
-                        geoFeature.superCategory = fv
+                if(layer.name == "housenumber") {
+                    geoFeature.name = housenumber
+                    geoFeature.superCategory = SuperCategoryId.HOUSENUMBER
+                    geoFeature.properties = properties
+                    collection.addFeature(geoFeature)
+                } else {
+                    geoFeature.name = name
+                    geoFeature.featureClass = featureClass
+                    geoFeature.featureSubClass = featureSubClass
+                    geoFeature.properties = properties
+                    if (translateProperties(geoFeature)) {
+                        // Categorise as we go, picking the highest ranking category
+                        val ft = superCategoryMap[geoFeature.featureType]
+                            ?: SuperCategoryId.UNCATEGORIZED
+                        val fv = superCategoryMap[geoFeature.featureValue]
+                            ?: SuperCategoryId.UNCATEGORIZED
+                        if (ft > fv)
+                            geoFeature.superCategory = ft
+                        else
+                            geoFeature.superCategory = fv
 
-                    if ((layer.name == "poi") || (layer.name == "place")) {
-                        // If this is an un-named garden, then we can discard it
-                        if (geoFeature.featureValue == "garden") {
-                            if (name == null)
-                                continue
-                        }
-                        if (feature.type == VectorTile.Tile.GeomType.POLYGON) {
-                            if (!mapPolygonFeatures.contains(id)) {
-                                mapPolygonFeatures[id] = MutableList(1) { geoFeature }
+                        if ((layer.name == "poi") || (layer.name == "place")) {
+                            // If this is an un-named garden, then we can discard it
+                            if (geoFeature.featureValue == "garden") {
+                                if (name == null)
+                                    continue
+                            }
+                            if (feature.type == VectorTile.Tile.GeomType.POLYGON) {
+                                if (!mapPolygonFeatures.contains(id)) {
+                                    mapPolygonFeatures[id] = MutableList(1) { geoFeature }
+                                } else {
+                                    mapPolygonFeatures[id]!!.add(geoFeature)
+                                }
                             } else {
-                                mapPolygonFeatures[id]!!.add(geoFeature)
+                                mapPointFeatures[id] = geoFeature
                             }
-                        } else {
-                            mapPointFeatures[id] = geoFeature
-                        }
-                    } else if (layer.name == "transportation") {
-                        if (geoFeature.geometry.type != "LineString") {
-                            collection.addFeature(geoFeature)
-                        } else {
-                            if ((featureClass == "transit") || (featureClass == "rail"))
-                                transitGenerator.addFeature(geoFeature)
-                            else
-                                wayGenerator.addFeature(geoFeature)
-
-                            if(geoFeature.superCategory != SuperCategoryId.UNCATEGORIZED) {
-                                // Features like Piers and steps are POIs as well as ways, so ensure
-                                // that we add them
+                        } else if (layer.name == "transportation") {
+                            if (geoFeature.geometry.type != "LineString") {
                                 collection.addFeature(geoFeature)
+                            } else {
+                                if ((featureClass == "transit") || (featureClass == "rail"))
+                                    transitGenerator.addFeature(geoFeature)
+                                else
+                                    wayGenerator.addFeature(geoFeature)
+
+                                if (geoFeature.superCategory != SuperCategoryId.UNCATEGORIZED) {
+                                    // Features like Piers and steps are POIs as well as ways, so ensure
+                                    // that we add them
+                                    collection.addFeature(geoFeature)
+                                }
                             }
+                        } else {
+                            mapBuildingFeatures[id] = geoFeature
                         }
-                    } else {
-                        mapBuildingFeatures[id] = geoFeature
                     }
                 }
             }

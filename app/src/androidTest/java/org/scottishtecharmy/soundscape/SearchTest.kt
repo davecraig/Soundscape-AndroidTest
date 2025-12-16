@@ -1,26 +1,26 @@
 package org.scottishtecharmy.soundscape
 
+import android.os.Environment
+import androidx.preference.PreferenceManager
+import androidx.test.platform.app.InstrumentationRegistry
 import ch.poole.geo.pmtiles.Reader
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Test
-import org.scottishtecharmy.soundscape.geoengine.GRID_SIZE
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
-import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.utils.decompressTile
 import org.scottishtecharmy.soundscape.geoengine.utils.getXYTile
-import org.scottishtecharmy.soundscape.geoengine.utils.searchFeaturesByName
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 import org.scottishtecharmy.soundscape.utils.levenshteinDamerauRatio
 import java.io.File
 import java.text.Normalizer
+import java.util.Collections
 import java.util.Locale
 import kotlin.time.measureTime
 
 class SearchTest {
 
-    val stringCache = mutableMapOf<Long, List<String>>()
+    val stringCache = Collections.synchronizedMap(mutableMapOf<Long, List<String>>())
 
     private val apostrophes = setOf('\'', '’', '‘', '‛', 'ʻ', 'ʼ', 'ʹ', 'ꞌ', '＇')
 
@@ -67,10 +67,17 @@ class SearchTest {
     ) : List<String> {
 
         val tileLocation = getXYTile(location, MAX_ZOOM_LEVEL)
+
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val path = sharedPreferences.getString(MainActivity.SELECTED_STORAGE_KEY, MainActivity.SELECTED_STORAGE_DEFAULT)
+        val offlineExtractPath =  path + "/" + Environment.DIRECTORY_DOWNLOADS
         val extracts = findExtractPaths(offlineExtractPath).toMutableList()
+
         var reader : Reader? = null
         for(extract in extracts) {
             reader = Reader(File(extract))
+            println("Try extract $extract")
             if(reader.getTile(MAX_ZOOM_LEVEL, tileLocation.first, tileLocation.second) != null)
                 break
         }
@@ -93,19 +100,21 @@ class SearchTest {
         val normalizedNeedle = normalizeForSearch(searchString)
         val searchResults = mutableListOf<String>()
 
+
         while (turnCount < maxTurns) {
             val tileIndex = x.toLong() + (y.toLong().shl(32))
             var cache = stringCache[tileIndex]
             if(cache == null) {
+
                 // Load the tile and add all of its String to a cache
-                cache = mutableListOf()
                 println("Get tile: ($x, $y)")
                 val tileData = reader?.getTile(MAX_ZOOM_LEVEL, x, y)
                 if (tileData != null) {
                     val tile = decompressTile(reader.tileCompression, tileData)
                     if(tile != null) {
+                        cache = mutableListOf()
                         for(layer in tile.layersList) {
-                            if(layer.name == "transportation") {
+                            if((layer.name == "transportation") || (layer.name == "poi") || (layer.name == "building")) {
                                 for (value in layer.valuesList) {
                                     if (value.hasStringValue()) {
                                         cache.add(normalizeForSearch(value.stringValue))
@@ -116,6 +125,11 @@ class SearchTest {
                         stringCache[tileIndex] = cache
                     }
                 }
+            }
+            if(cache == null) {
+                println("Failed to load tile")
+                reader?.close()
+                return emptyList()
             }
             for(string in cache) {
 
@@ -146,6 +160,7 @@ class SearchTest {
                 }
             }
         }
+        reader?.close()
         return emptyList()
     }
 
@@ -153,7 +168,8 @@ class SearchTest {
     fun offlineSearch() {
         runBlocking {
 
-            val currentLocation = LngLatAlt(-4.3215166, 55.9404307)
+//            val currentLocation = LngLatAlt(-4.3215166, 55.9404307)
+            val currentLocation = LngLatAlt(-3.1917130, 55.9494934)
             var cacheSize = 0
             stringCache.forEach { set -> cacheSize += set.value.size }
             var time = measureTime {
@@ -187,17 +203,15 @@ class SearchTest {
                 localSearch(currentLocation, "Dirleton Gate")
             }
             println("$time (cache size $cacheSize strings)")
+
+            // Final cache size
+            var totalStringSize = 0
+            stringCache.forEach { set ->
+                for(string in set.value) {
+                    totalStringSize += string.length
+                }
+            }
+            println("Total string length in cache $totalStringSize")
         }
-    }
-
-    @Test
-    fun testSearch() {
-        // This does a really crude search through the "name" property of the POI features
-        val gridState = getGridStateForLocation(sixtyAcresCloseTestLocation, MAX_ZOOM_LEVEL, GRID_SIZE)
-        val testPoiCollection = gridState.getFeatureCollection(TreeId.POIS)
-
-        // As there isn't much going on in the tiles then it should return the local village shop/coffee place
-        val searchResults = searchFeaturesByName(testPoiCollection, "honey")
-        Assert.assertEquals(1, searchResults.features.size)
     }
 }

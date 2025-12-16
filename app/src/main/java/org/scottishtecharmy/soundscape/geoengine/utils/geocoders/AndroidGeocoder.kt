@@ -5,8 +5,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import android.util.Log
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.suspendCancellableCoroutine
+import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import kotlin.coroutines.resume
@@ -68,10 +67,11 @@ class AndroidGeocoder(val applicationContext: Context) : SoundscapeGeocoder() {
         return null
     }
 
-    override suspend fun getAddressFromLngLat(location: LngLatAlt) : LocationDescription? {
+    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry) : LocationDescription? {
         if(!enabled)
             return null
 
+        val location = userGeometry.mapMatchedLocation?.point ?: userGeometry.location
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return suspendCoroutine { continuation ->
                 val geocodeListener =
