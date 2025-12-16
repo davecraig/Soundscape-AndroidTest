@@ -42,6 +42,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.StreetDescription
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirection
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirectionAlong
@@ -60,7 +61,7 @@ import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
-import org.scottishtecharmy.soundscape.utils.toLocationDescriptions
+import org.scottishtecharmy.soundscape.utils.toLocationDescription
 import java.io.File
 import java.util.Locale
 import kotlin.math.abs
@@ -517,6 +518,71 @@ class GeoEngine {
 
                         val nearestRoad = userGeometry.mapMatchedWay
                         if (nearestRoad != null) {
+                            if(nearestRoad.name != null) {
+                                val description = StreetDescription(nearestRoad.name!!, gridState)
+                                description.createDescription(nearestRoad)
+
+                                val describeFeature = MvtFeature()
+                                describeFeature.geometry =
+                                    Point(userGeometry.location.longitude, userGeometry.location.latitude)
+                                val nearestWay = description.nearestWayOnStreet(describeFeature)
+                                if (nearestWay != null) {
+                                    val houseNumber =
+                                        description.getStreetNumber(nearestWay.first, userGeometry.location)
+                                    if(houseNumber.first.isNotEmpty()) {
+                                        // We've got an address to call out
+                                        list.add(
+                                            PositionedString(
+                                                text ="${if (houseNumber.second) "Opposite" else ""} ${houseNumber.first} ${nearestWay.first.name}",
+                                                type = AudioType.STANDARD
+                                            )
+                                        )
+                                    }
+
+                                    val result = description.describeLocation(userGeometry, localizedContext)
+                                    var text = ""
+                                    val formattedBehindDistance = formatDistanceAndDirection(result.behind.distance, null, localizedContext)
+                                    val formattedAheadDistance = formatDistanceAndDirection(result.ahead.distance, null, localizedContext)
+                                    if (
+                                        (result.ahead.distance < 10.0) &&
+                                        ((result.ahead.distance < result.behind.distance) || result.behind.name.isEmpty()))
+                                    {
+                                        text = "At ${result.ahead.name}"
+                                    }
+                                    else if (result.behind.distance < 10.0) {
+                                        text = "At ${result.behind.name}"
+                                    }
+                                    else if(result.behind.name.isNotEmpty() && result.ahead.name.isNotEmpty()) {
+                                        val fraction = result.behind.distance/(result.behind.distance + result.ahead.distance)
+                                        text = when (fraction) {
+                                            in 0.2..0.3 -> "Quarter of the way between: ${result.behind.name} and ${result.ahead.name}"
+                                            in 0.4..0.6 -> "Half way between: ${result.behind.name} and ${result.ahead.name}"
+                                            in 0.7..0.8 -> "Three quarters way between: ${result.behind.name} and ${result.ahead.name}"
+                                            else -> {
+                                                if(result.ahead.distance < result.behind.distance) {
+                                                    "Between: ${result.behind.name} and ${result.ahead.name}, $formattedAheadDistance to go"
+                                                }
+                                                else
+                                                    "Between: ${result.behind.name} and ${result.ahead.name}, $formattedBehindDistance since start"
+                                            }
+                                        }
+                                    }
+                                    else if(result.behind.distance < result.ahead.distance) {
+                                        text = "$formattedBehindDistance since ${result.behind.name}"
+                                    } else {
+                                        text = "$formattedAheadDistance to ${result.ahead.name}"
+                                    }
+                                    if(text.isNotEmpty()) {
+                                        list.add(
+                                            PositionedString(
+                                                text = text,
+                                                type = AudioType.STANDARD
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+
                             val roadName = nearestRoad.getName(null, gridState, localizedContext)
                             val facingDirectionAlongRoad =
                                 getCompassLabelFacingDirectionAlong(
@@ -528,7 +594,8 @@ class GeoEngine {
                                 )
                             list.add(PositionedString(
                                 text = facingDirectionAlongRoad,
-                                type = AudioType.STANDARD))
+                                type = AudioType.STANDARD)
+                            )
                         } else {
                             val facingDirection =
                                 getCompassLabelFacingDirection(
@@ -939,7 +1006,7 @@ class GeoEngine {
 
                     // The geocode result includes the location for the POI. In the case of something
                     // like a park this could be a long way from the point that was passed in.
-                    val ld = result?.features?.toLocationDescriptions()
+                    val ld = result?.features?.mapNotNull{feature -> feature.toLocationDescription() }
                     if (!ld.isNullOrEmpty()) {
                         if(preserveLocation) {
                             val overwritten = ld.first()
@@ -1004,6 +1071,10 @@ fun getTextForFeature(localizedContext: Context?, feature: MvtFeature) : TextFor
     val entranceType = feature.properties?.get("entrance") as String?
     val featureValue = feature.featureValue
     val isMarker = feature.superCategory == SuperCategoryId.MARKER
+
+    if(feature.superCategory == SuperCategoryId.HOUSENUMBER) {
+        return TextForFeature(name ?: feature.housenumber ?: "", false)
+    }
 
     if(localizedContext == null) {
         if(name == null) {
@@ -1151,13 +1222,13 @@ fun formatDistanceAndDirection(distance: Double, heading: Double?, localizedCont
         distanceText = localizedContext?.getString(
             if(metric) R.string.distance_format_meters else R.string.distance_format_feet,
             roundedDistance.toInt().toString()
-        ) ?: format("%f metres", roundedDistance)
+        ) ?: format("%d metres", roundedDistance.toInt())
     } else {
         val bigUnits = (roundedDistance.toInt() / 10).toFloat() / bigUnitDivisor
         distanceText = localizedContext?.getString(
             if(metric) R.string.distance_format_km else R.string.distance_format_miles,
             "%.2f".format(bigUnits)
-        )  ?: format("%f km", bigUnits)
+        )  ?: format("%.2f km", bigUnits)
     }
 
     var headingText = ""

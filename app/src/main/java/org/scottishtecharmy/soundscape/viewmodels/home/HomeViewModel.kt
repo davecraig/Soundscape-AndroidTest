@@ -22,7 +22,7 @@ import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.utils.blankOrEmpty
-import org.scottishtecharmy.soundscape.utils.toLocationDescriptions
+import org.scottishtecharmy.soundscape.utils.toLocationDescription
 import javax.inject.Inject
 
 @HiltViewModel
@@ -249,7 +249,7 @@ class HomeViewModel
 
                         _state.update {
                             it.copy(
-                                searchItems = result?.toLocationDescriptions(),
+                                searchItems = result?.mapNotNull{feature -> feature.toLocationDescription() }
                             )
                         }
                     }

@@ -233,12 +233,14 @@ class MergePolygonsTest {
 
         // Read in the files
         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
+        val streetNumberMap:  HashMap<String, FeatureCollection> = hashMapOf()
         val featureCollection = FeatureCollection()
         for (tile in grid.tiles) {
             val geojson = vectorTileToGeoJsonFromFile(
                 tile.tileX,
                 tile.tileY,
-                intersectionMap
+                intersectionMap,
+                streetNumberMap
             )
             for(collection in geojson!!) {
                 for (feature in collection) {
@@ -258,6 +260,7 @@ class MergePolygonsTest {
         tileX: Int,
         tileY: Int,
         intersectionMap:  HashMap<LngLatAlt, Intersection>,
+        streetNumberMap:  HashMap<String, FeatureCollection>,
         cropPoints: Boolean = true
     ): Array<FeatureCollection> {
 
@@ -267,7 +270,7 @@ class MergePolygonsTest {
         gridState.start(null, offlineExtractPath, true)
 
         runBlocking {
-            gridState.updateTile(tileX, tileY, 0, result, intersectionMap)
+            gridState.updateTile(tileX, tileY, 0, result, intersectionMap, streetNumberMap)
         }
 
 //            // We want to check that all of the coordinates generated are within the buffered

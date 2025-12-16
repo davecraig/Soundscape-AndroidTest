@@ -64,7 +64,8 @@ enum class TreeId(
     SETTLEMENT_VILLAGE(18, "Villages"),
     SETTLEMENT_HAMLET(19, "Hamlets"),
     TRANSIT(20, "Transit"),
-    MAX_COLLECTION_ID(21, ""),
+    HOUSENUMBER(21, "House numbers"),
+    MAX_COLLECTION_ID(22, ""),
 }
 
 @OptIn(ExperimentalCoroutinesApi::class, DelicateCoroutinesApi::class)
@@ -81,7 +82,8 @@ open class GridState(
     private var totalBoundingBox = BoundingBox()
     internal var ruler = CheapRuler(0.0)
     internal var featureTrees = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureTree(null) }
-    internal var gridIntersections: HashMap<LngLatAlt, Intersection> = HashMap()
+    internal var gridIntersections = hashMapOf<LngLatAlt, Intersection>()
+    internal var gridStreetNumberTreeMap = hashMapOf<String, FeatureTree>()
 
     val treeContext = passedInTreeContext ?: newSingleThreadContext("TreeContext")
 
@@ -278,7 +280,14 @@ open class GridState(
             // We have a new centralBoundingBox, so update the tiles
             val featureCollections = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
             val newGridIntersections = mutableListOf<HashMap<LngLatAlt, Intersection>>()
-            if (updateTileGrid(tileGrid, featureCollections, newGridIntersections, isUnitTesting)) {
+            val newGridStreetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+            if (updateTileGrid(
+                    tileGrid,
+                    featureCollections,
+                    newGridIntersections,
+                    newGridStreetNumberMap,
+                    isUnitTesting)
+                ) {
                 // We have got a new grid, so create our new central region
                 centralBoundingBox = tileGrid.centralBoundingBox
                 totalBoundingBox = tileGrid.totalBoundingBox
@@ -301,6 +310,9 @@ open class GridState(
                                 gridIntersections,
                                 tileGrid
                             )
+                            gridStreetNumberTreeMap.clear()
+                            for(collection in newGridStreetNumberMap)
+                                gridStreetNumberTreeMap[collection.key] = FeatureTree(collection.value)
                         }
 
                         println("Time to process grid: $duration")
@@ -324,6 +336,7 @@ open class GridState(
     data class CachedTile(
         var tileCollections: Array<FeatureCollection>,
         var intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf(),
+        var streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf(),
         var lastUsed: Long)
     val cachedTiles: HashMap<Pair<Int,Int>, CachedTile> = HashMap()
 
@@ -362,13 +375,15 @@ open class GridState(
         val success: Boolean,
         val tile: Tile,
         var collections: Array<FeatureCollection>?,
-        var intersections: HashMap<LngLatAlt, Intersection>?
+        var intersections: HashMap<LngLatAlt, Intersection>?,
+        var streetNumberMap: HashMap<String, FeatureCollection>?
     )
 
     private suspend fun updateTileGrid(
         tileGrid: TileGrid,
         featureCollections: Array<FeatureCollection>,
         gridIntersections: MutableList<HashMap<LngLatAlt, Intersection>>,
+        gridStreetNumberMap: HashMap<String, FeatureCollection>,
         isUnitTesting: Boolean
     ): Boolean = withContext(Dispatchers.IO) {
 
@@ -392,22 +407,29 @@ open class GridState(
                 if (!tile.cached) {
                     var ret = false
                     val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
+                    val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
                     val tileCollections = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
                     if (!isUnitTesting)
                         Firebase.analytics.logEvent("updateTile", null)
                     for (retry in 1..5) {
-                        ret = updateTile(tile.tileX, tile.tileY, tile.workerIndex, tileCollections, intersectionMap)
+                        ret = updateTile(
+                            tile.tileX,
+                            tile.tileY,
+                            tile.workerIndex,
+                            tileCollections,
+                            intersectionMap,
+                            streetNumberMap)
                         if(ret)
                             break
                     }
                     if (ret) {
-                        TileUpdateResult(true, tile, tileCollections, intersectionMap)
+                        TileUpdateResult(true, tile, tileCollections, intersectionMap, streetNumberMap)
                     } else {
-                        TileUpdateResult(false, tile, null, null)
+                        TileUpdateResult(false, tile, null, null, null)
                     }
                 } else {
                     // Mark cached results as successful
-                    TileUpdateResult(true, tile, null, null)
+                    TileUpdateResult(true, tile, null, null, null)
                 }
             }
         }
@@ -426,6 +448,7 @@ open class GridState(
                 val cachedTile = cachedTiles[key]!!
                 result.collections = cachedTile.tileCollections
                 result.intersections = cachedTile.intersectionMap
+                result.streetNumberMap = cachedTile.streetNumberMap
                 cachedTile.lastUsed = System.currentTimeMillis()
             }
         }
@@ -438,6 +461,7 @@ open class GridState(
                 cachedTiles[key] = CachedTile(
                     result.collections!!,
                     result.intersections!!,
+                    result.streetNumberMap!!,
                     System.currentTimeMillis()
                 )
 
@@ -469,6 +493,16 @@ open class GridState(
             result.intersections?.let { intersections ->
                 gridIntersections.add(intersections)
             }
+            result.streetNumberMap?.let { streetNumberMap ->
+                // Go through each street in the map and either add it to an existing map for the
+                // same street, or add it in it's entirety as a new entry
+                for(entry in streetNumberMap) {
+                    if(gridStreetNumberMap.containsKey(entry.key))
+                        gridStreetNumberMap[entry.key]?.plusAssign(entry.value)
+                    else
+                        gridStreetNumberMap[entry.key] = entry.value
+                }
+            }
         }
 
         return@withContext true
@@ -478,7 +512,8 @@ open class GridState(
                                          y: Int,
                                          workerIndex: Int,
                                          featureCollections: Array<FeatureCollection>,
-                                         intersectionMap: HashMap<LngLatAlt, Intersection>): Boolean {
+                                         intersectionMap: HashMap<LngLatAlt, Intersection>,
+                                         streetNumberMap: HashMap<String, FeatureCollection>): Boolean {
         assert(false)
         return false
     }
@@ -498,7 +533,8 @@ open class GridState(
             SuperCategoryId.SETTLEMENT_CITY,
             SuperCategoryId.SETTLEMENT_TOWN,
             SuperCategoryId.SETTLEMENT_VILLAGE,
-            SuperCategoryId.SETTLEMENT_HAMLET
+            SuperCategoryId.SETTLEMENT_HAMLET,
+            SuperCategoryId.HOUSENUMBER,
         )
         val superCategoryCollections = superCategories.associateWith { superCategory ->
             getPoiFeatureCollectionBySuperCategory(superCategory, featureCollections[TreeId.POIS.id])
@@ -517,8 +553,10 @@ open class GridState(
         featureCollections[TreeId.MOBILITY_POIS.id] = category ?: FeatureCollection()
         category = superCategoryCollections[SuperCategoryId.SAFETY]
         featureCollections[TreeId.SAFETY_POIS.id] = category ?: FeatureCollection()
+        category = superCategoryCollections[SuperCategoryId.HOUSENUMBER]
+        featureCollections[TreeId.HOUSENUMBER.id] = category ?: FeatureCollection()
 
-        // Settlement amd their area names
+        // Settlement and their area names
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_CITY]
         featureCollections[TreeId.SETTLEMENT_CITY.id] = category ?: FeatureCollection()
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_TOWN]

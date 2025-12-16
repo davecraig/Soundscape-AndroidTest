@@ -43,8 +43,9 @@ class MvtPerformanceTest {
         val remoteTile = context.assets.open(filename)
         val tile: VectorTile.Tile = VectorTile.Tile.parseFrom(remoteTile)
         val intersectionMap:  HashMap<LngLatAlt, Intersection> = hashMapOf()
+        val streetNumberMap:  HashMap<String, FeatureCollection> = hashMapOf()
 
-        return vectorTileToGeoJson(tileX, tileY, tile, intersectionMap, cropPoints, 15)
+        return vectorTileToGeoJson(tileX, tileY, tile, intersectionMap, streetNumberMap, cropPoints, 15)
     }
 
     @Test
@@ -84,7 +85,8 @@ class MvtPerformanceTest {
         runBlocking {
             val featureCollections = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
             val intersectionMap:  HashMap<LngLatAlt, Intersection> = hashMapOf()
-            gridState.updateTile(x, y, 0, featureCollections, intersectionMap)
+            val streetNumberMap:  HashMap<String, FeatureCollection> = hashMapOf()
+            gridState.updateTile(x, y, 0, featureCollections, intersectionMap, streetNumberMap)
         }
     }
     fun tileProviderAvailable(): Boolean {

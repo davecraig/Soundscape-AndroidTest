@@ -2,57 +2,64 @@ package org.scottishtecharmy.soundscape
 
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.scottishtecharmy.soundscape.MainActivity.Companion.MOBILITY_KEY
 import org.scottishtecharmy.soundscape.MainActivity.Companion.PLACES_AND_LANDMARKS_KEY
 import org.scottishtecharmy.soundscape.geoengine.GRID_SIZE
 import org.scottishtecharmy.soundscape.geoengine.GridState
+import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.ProtomapsGridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
-import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.callouts.AutoCallout
 import org.scottishtecharmy.soundscape.geoengine.filters.MapMatchFilter
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.EntranceDetails
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.EntranceMatching
-import org.scottishtecharmy.soundscape.geoengine.mvttranslation.convertBackToTileCoordinates
-import org.scottishtecharmy.soundscape.geoengine.mvttranslation.sampleToFractionOfTile
-import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
-import org.scottishtecharmy.soundscape.geoengine.utils.confectNamesForRoad
-import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
-import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
-import org.scottishtecharmy.soundscape.geoengine.utils.searchFeaturesByName
-import org.scottishtecharmy.soundscape.geoengine.utils.traverseIntersectionsConfectingNames
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
-import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
-import java.io.File
-import java.io.FileOutputStream
-import kotlin.math.abs
-import kotlin.sequences.forEach
-import kotlin.system.measureTimeMillis
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.convertBackToTileCoordinates
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.sampleToFractionOfTile
 import org.scottishtecharmy.soundscape.geoengine.processTileFeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
+import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeading
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
+import org.scottishtecharmy.soundscape.geoengine.utils.confectNamesForRoad
 import org.scottishtecharmy.soundscape.geoengine.utils.createPolygonFromTriangle
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.LocalGeocoder
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.SoundscapeGeocoder
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.StreetDescription
+import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
+import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
+import org.scottishtecharmy.soundscape.geoengine.utils.searchFeaturesByName
+import org.scottishtecharmy.soundscape.geoengine.utils.traverseIntersectionsConfectingNames
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
+import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
+import org.scottishtecharmy.soundscape.utils.levenshteinDamerauRatio
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.io.path.Path
 import kotlin.io.path.listDirectoryEntries
 import kotlin.io.path.nameWithoutExtension
+import kotlin.math.abs
+import kotlin.system.measureTimeMillis
 import kotlin.time.measureTime
 
 /**
  * FileGridState overrides ProtomapsGridState updateTile to set validateContext to false as it
  * assumes that the tests are all running in a single context.
  */
-
-const val offlineExtractPath = "src/test/res/org/scottishtecharmy/soundscape"
+//const val offlineExtractPath = "src/test/res/org/scottishtecharmy/soundscape"
+const val offlineExtractPath = "/home/dave/STA/planetiler-openmaptiles/soundscape-maps/map-to-serve"
 class FileGridState(
     zoomLevel: Int = MAX_ZOOM_LEVEL,
     gridSize: Int = GRID_SIZE) : ProtomapsGridState(zoomLevel, gridSize) {
@@ -65,7 +72,8 @@ class FileGridState(
 private fun vectorTileToGeoJsonFromFile(
     tileX: Int,
     tileY: Int,
-    intersectionMap:  HashMap<LngLatAlt, Intersection>
+    intersectionMap:  HashMap<LngLatAlt, Intersection>,
+    streetNumberMap: HashMap<String, FeatureCollection>
 ): Array<FeatureCollection> {
 
     val gridState = FileGridState()
@@ -75,7 +83,7 @@ private fun vectorTileToGeoJsonFromFile(
     gridState.checkOfflineMaps()
 
     runBlocking {
-        gridState.updateTile(tileX, tileY, 0, result, intersectionMap)
+        gridState.updateTile(tileX, tileY, 0, result, intersectionMap, streetNumberMap)
     }
 
     return result
@@ -186,7 +194,8 @@ class MvtTileTest {
     @Test
     fun testVectorToGeoJsonMilngavie() {
         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-        val geojson = vectorTileToGeoJsonFromFile(15991/2, 10212/2, intersectionMap)
+        val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+        val geojson = vectorTileToGeoJsonFromFile(15991/2, 10212/2, intersectionMap, streetNumberMap)
         val adapter = GeoJsonObjectMoshiAdapter()
 
         val outputCollection = FeatureCollection()
@@ -201,7 +210,8 @@ class MvtTileTest {
     @Test
     fun testVectorToGeoJsonEdinburgh() {
         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-        val geojson = vectorTileToGeoJsonFromFile(16093/2, 10211/2, intersectionMap)
+        val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+        val geojson = vectorTileToGeoJsonFromFile(16093/2, 10211/2, intersectionMap, streetNumberMap)
         val adapter = GeoJsonObjectMoshiAdapter()
 
         val outputCollection = FeatureCollection()
@@ -216,7 +226,8 @@ class MvtTileTest {
     @Test
     fun testVectorToGeoJsonByresRoad() {
         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-        val geojson = vectorTileToGeoJsonFromFile(15992/2, 10223/2, intersectionMap)
+        val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+        val geojson = vectorTileToGeoJsonFromFile(15992/2, 10223/2, intersectionMap, streetNumberMap)
         val adapter = GeoJsonObjectMoshiAdapter()
 
         val outputCollection = FeatureCollection()
@@ -423,7 +434,8 @@ class MvtTileTest {
         for (x in 7995..7995) {
             for (y in 5106..5107) {
                 val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-                val geojson = vectorTileToGeoJsonFromFile(x, y, intersectionMap)
+                val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+                val geojson = vectorTileToGeoJsonFromFile(x, y, intersectionMap, streetNumberMap)
 
                 for(collection in geojson) {
                     for (feature in collection) {
@@ -481,7 +493,8 @@ class MvtTileTest {
         // problem, but we do add "distance_to".
 
         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-        val featureCollections = vectorTileToGeoJsonFromFile(15990/2, 10212/2, intersectionMap)
+        val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+        val featureCollections = vectorTileToGeoJsonFromFile(15990/2, 10212/2, intersectionMap, streetNumberMap)
         val featureCollection = FeatureCollection()
         for(collection in featureCollections) {
             featureCollection += collection
@@ -773,6 +786,126 @@ class MvtTileTest {
         }
     }
 
+    fun testStreetNumbers(gpxFilename: String, calloutFilename: String, geojsonFilename: String) {
+
+        val gridState = FileGridState()
+        gridState.start(null, offlineExtractPath, true)
+        val mapMatchFilter = MapMatchFilter()
+        val gps = parseGpxFromFile(gpxFilename)
+        val collection = FeatureCollection()
+        val startIndex = 0
+        val endIndex = gps.features.size
+        val autoCallout = AutoCallout(null, null)
+        val callOutText = FileOutputStream(calloutFilename)
+
+        val enabledCategories = mutableSetOf<String>()
+        enabledCategories.add(PLACES_AND_LANDMARKS_KEY)
+        enabledCategories.add(MOBILITY_KEY)
+
+        gps.features.filterIndexed {
+                index, _ -> (index > startIndex) and (index < endIndex)
+        }.forEachIndexed { index, position ->
+            val location = (position.geometry as Point).coordinates
+            runBlocking {
+                // Update the grid state
+                val gridChanged = gridState.locationUpdate(
+                    LngLatAlt(location.longitude, location.latitude),
+                    enabledCategories,
+                    true
+                )
+
+                if(gridChanged) {
+                    // As we're here, test the name confection for the grids. This is relatively
+                    // expensive and is only done on individual Ways as needed when running the app.
+                    val roads = gridState.getFeatureCollection(TreeId.ROADS_AND_PATHS)
+                    for (road in roads) {
+                        confectNamesForRoad(road as Way, gridState)
+                    }
+                }
+
+                // Update the nearest road filter with our new location
+                val mapMatchedResult = mapMatchFilter.filter(
+                    LngLatAlt(location.longitude, location.latitude),
+                    gridState,
+                    collection,
+                    false
+                )
+
+                val userGeometry = UserGeometry(
+                    location = LngLatAlt(location.longitude, location.latitude),
+                    travelHeading = position.properties?.get("heading") as Double?,
+                    speed = position.properties?.get("speed") as Double,
+                    mapMatchedWay = mapMatchFilter.matchedWay,
+                    mapMatchedLocation = mapMatchFilter.matchedLocation,
+                    timestampMilliseconds = (position.properties?.get("time") as Double).toLong()
+                )
+
+                val wayName = userGeometry.mapMatchedWay?.name
+                if(wayName != null) {
+                    val description = StreetDescription(wayName, gridState)
+                    description.createDescription(userGeometry.mapMatchedWay)
+                    description.describeStreet()
+                    val houseNumber = description.getStreetNumber(userGeometry.mapMatchedWay, location)
+                    val addressText = "${if (houseNumber.second) "Opposite" else ""} ${houseNumber.first} ${userGeometry.mapMatchedWay.name}"
+
+                    val locationDescription = description.describeLocation(userGeometry, null)
+                    val behindText = "${locationDescription.behind.name} ${locationDescription.behind.distance}m"
+                    val aheadText = "${locationDescription.ahead.name} ${locationDescription.ahead.distance}m"
+
+                    callOutText.write("$addressText\n".toByteArray())
+                    position.properties?.set("index", index + startIndex)
+                    position.properties?.set("address", addressText)
+                    position.properties?.set("behind", behindText)
+                    position.properties?.set("ahead", aheadText)
+                    if(houseNumber.first.isNotEmpty())
+                        position.properties?.set("marker-color", "#ff0000")
+                    collection.addFeature(position)
+                }
+            }
+        }
+        callOutText.close()
+
+        val adapter = GeoJsonObjectMoshiAdapter()
+        val mapMatchingOutput = FileOutputStream(geojsonFilename)
+        mapMatchingOutput.write(adapter.toJson(collection).toByteArray())
+        mapMatchingOutput.close()
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun replayStreetNumbers() {
+
+        val directoryPath = Path("src/test/res/org/scottishtecharmy/soundscape/gpxFiles/")
+
+        val resultsStoragePath =  "gpxFiles/"
+        val resultsStorageDir = File(resultsStoragePath)
+        if (!resultsStorageDir.exists()) {
+            resultsStorageDir.mkdirs()
+        }
+
+        val directoryEntries = directoryPath.listDirectoryEntries("*.gpx")
+        for(file in directoryEntries) {
+            testStreetNumbers(file.toString(), "gpxFiles/${file.nameWithoutExtension}-address.txt", "gpxFiles/${file.nameWithoutExtension}-address.geojson")
+//            val referenceFile = File("$directoryPath/${file.nameWithoutExtension}-address.txt")
+//            if(referenceFile.exists()) {
+//                // Compare our new address file with the reference one.
+//                val generatedFile = File("gpxFiles/${file.nameWithoutExtension}-address.txt")
+//
+//                // Read all lines from both files
+//                val generatedLines = generatedFile.readLines()
+//                val referenceLines = referenceFile.readLines()
+//
+//                // Assert that the contents are identical.
+//                println("Compare ${file.nameWithoutExtension} results to reference")
+//                assertEquals(
+//                    "File content for ${file.nameWithoutExtension} does not match the reference file.",
+//                    referenceLines,
+//                    generatedLines
+//                )
+//            }
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testGridCache() {
@@ -882,57 +1015,12 @@ class MvtTileTest {
                         val featureCollections =
                             Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
                         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-                        gridState.updateTile(x, y, 0, featureCollections, intersectionMap)
+                        val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+                        gridState.updateTile(x, y, 0, featureCollections, intersectionMap, streetNumberMap)
                     }
                 }
             }
         }
-    }
-
-    // Put this function inside the MvtTileTest class or at the top level of the file
-    private fun levenshteinDamerauRatio(needleString: String, haystackString: String): Double {
-        // A clean-room implementation of Levenshtein distance
-        val len1 = needleString.length
-        val len2 = haystackString.length
-
-        // Create a DP table to store distances
-        val dp = Array(len1 + 1) { IntArray(len2 + 1) }
-
-        for (i in 0..len1) {
-            for (j in 0..len2) {
-                when {
-                    i == 0 -> dp[i][j] = j // Cost of deleting all chars from s2
-                    j == 0 -> dp[i][j] = i // Cost of inserting all chars from s1
-                    else -> {
-                        // If characters are the same, cost is the same as the previous state
-                        val cost = if (needleString[i - 1] == haystackString[j - 1]) 0 else 1
-
-                        // Find the minimum cost from three possible operations:
-                        val deletionCost = dp[i - 1][j] + 1       // Deletion
-                        val insertionCost = dp[i][j - 1] + 1       // Insertion
-                        val substitutionCost = dp[i - 1][j - 1] + cost // Substitution
-
-                        dp[i][j] = minOf(deletionCost, insertionCost, substitutionCost)
-
-                        // --- Damerau-Levenshtein Addition ---
-                        // Check for transposition of adjacent characters
-                        if (i > 1 && j > 1 &&
-                            needleString[i - 1] == haystackString[j - 2] &&
-                            needleString[i - 2] == haystackString[j - 1]
-                        ) {
-                            // If a transposition is found, compare its cost with the current minimum
-                            val transpositionCost = dp[i - 2][j - 2] + 1
-                            dp[i][j] = minOf(dp[i][j], transpositionCost)
-                        }
-                    }
-                }
-            }
-        }
-        // The final value in the DP table is the Damerau-Levenshtein distance
-        // Normalize the distance to a ratio. A lower ratio means a better match.
-        val maxLen = maxOf(len1, len2)
-        if (maxLen == 0) return 0.0
-        return dp[len1][len2] / maxLen.toDouble()
     }
 
     fun fuzzySearchFeatureCollection(featureCollection: FeatureCollection,
@@ -945,7 +1033,7 @@ class MvtTileTest {
             val name = feature.properties?.get("name") as? String
             if (name != null) {
                 // Calculate the Levenshtein distance ratio between the POI name and our test string
-                val distance = levenshteinDamerauRatio(needleString, name)
+                val distance = needleString.levenshteinDamerauRatio(name)
 
                 // If this string is closer than the best one we've found so far, update it
                 if (distance < bestDistance) {
@@ -998,7 +1086,8 @@ class MvtTileTest {
             y: Int,
             workerIndex: Int,
             featureCollections: Array<FeatureCollection>,
-            intersectionMap: HashMap<LngLatAlt, Intersection>
+            intersectionMap: HashMap<LngLatAlt, Intersection>,
+            streetNumberMap: HashMap<String, FeatureCollection>
         ): Boolean {
 
             // We're not parsing a tile here, just creating some data using the entrance matcher
@@ -1107,7 +1196,8 @@ class MvtTileTest {
             val featureCollections =
                 Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
             val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-            gridState.updateTile(0, 0, 0, featureCollections, intersectionMap)
+            val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+            gridState.updateTile(0, 0, 0, featureCollections, intersectionMap, streetNumberMap)
 
             // The 3 entrances should appear as entrances and POIS and two of them as transit stops
             assertEquals(5, featureCollections[TreeId.ENTRANCES.id].features.size)
@@ -1166,5 +1256,108 @@ class MvtTileTest {
                 getGridStateForLocation(centralManchesterTestLocation, MAX_ZOOM_LEVEL, 2)
         }
         println("Processing time $duration")
+    }
+
+    private suspend fun describeLocation(geocoder: SoundscapeGeocoder,
+                                         location: LngLatAlt,
+                                         mapMatchedWay: Way? = null,
+                                         mapMatchedLocation: PointAndDistanceAndHeading? = null): LocationDescription? {
+        val userGeometry = UserGeometry(
+            location = location,
+            mapMatchedWay =  mapMatchedWay,
+            mapMatchedLocation =  mapMatchedLocation
+        )
+        val description = geocoder.getAddressFromLngLat(userGeometry)
+        return description
+    }
+
+    private fun geocodeLocation(
+        list: List<SoundscapeGeocoder>,
+        location: LngLatAlt,
+        gridState: GridState,
+        settlementState: GridState,
+        mapMatchLocation: LngLatAlt? = null,
+    ) {
+        val cheapRuler = CheapRuler(location.latitude)
+        runBlocking {
+            // Update the grid states for this location
+            gridState.locationUpdate(location, emptySet(), true)
+            settlementState.locationUpdate(location, emptySet(), true)
+
+            var mapMatchedWay: Way? = null
+            var mapMatchedLocation: PointAndDistanceAndHeading? = null
+            if(mapMatchLocation != null) {
+                // We're going to set up the mapMatchedWay and mapMatchedLocation
+                mapMatchedLocation = PointAndDistanceAndHeading(mapMatchLocation)
+                mapMatchedWay = (gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
+                    .getNearestFeature(mapMatchLocation, gridState.ruler))as Way?
+            }
+
+            // Run the geocoders in parallel and wait for them all to complete
+            val deferredResults = list.map { geocoder ->
+                async { describeLocation(geocoder, location, mapMatchedWay, mapMatchedLocation) }
+            }
+            val results = deferredResults.awaitAll()
+
+            // Handle the results
+            results.forEachIndexed { index, result ->
+                if(result != null) {
+                    val distance = cheapRuler.distance(result.location, location)
+                    println("${distance}m from ${list[index]}: $result")
+                }
+            }
+        }
+    }
+
+    /**
+     * geocodeTest takes a handful of locations and runs them through all of our various geocoders
+     * and prints out the results. This is to aid debugging of the LocalGeocoder whilst also giving
+     * a better understanding of what the Photon and Android geocoders provide.
+     */
+    @Test
+    fun geocodeTest() {
+        runBlocking {
+            val gridState = FileGridState()
+            val settlementGridState = FileGridState(12, 3)
+
+            val geocoderList = listOf(
+                LocalGeocoder(gridState, settlementGridState)
+            )
+
+            gridState.validateContext = false
+            settlementGridState.validateContext = false
+            gridState.start(null, offlineExtractPath, true)
+            settlementGridState.start(null, offlineExtractPath, true)
+
+            // Corner between 10 Craigdhu Road and 1 Ferguson Avenue Milngavie
+            // House number mapped on OSM and Google.
+            val wellKnownLocation = LngLatAlt(-4.3215166, 55.9404307)
+            val mapMatchedWellKnownLocation = LngLatAlt(-4.321310, 55.940514)
+            // The first call doesn't include map matched data, so it has to just pick the nearest road
+            // which is Craigdhu Road.
+            geocodeLocation(geocoderList, wellKnownLocation, gridState, settlementGridState)
+            // The second call is map matching to Ferguson Avenue and so that address is found instead.
+            geocodeLocation(geocoderList, wellKnownLocation, gridState, settlementGridState, mapMatchedWellKnownLocation)
+
+            // Corner of 28 Dougalston Gardens North, Milngavie.
+            // House number not mapped on OSM, but Google has it
+//            val lessWellKnownLocation = LngLatAlt(-4.3078777, 55.9394283)
+//            geocodeLocation(geocoderList, lessWellKnownLocation, gridState, settlementGridState)
+//
+//            // Junction of driveway for Baldernock Lodge and Craigmaddie Road near Baldernock
+//            // OSM doesn't know much at all, Google has all the information
+//            val ruralLocation = LngLatAlt(-4.2791516, 55.9465324)
+//            geocodeLocation(geocoderList, ruralLocation, gridState, settlementGridState)
+//
+//            // On A809 along from Queens View car park
+//            // OSM knows about the car park, but doesn't return the road. Google is accurate to the
+//            // point that the car park is returned in the second result because it's further away.
+//            val veryRuralLocation = LngLatAlt(-4.387525, 55.995528)
+//            geocodeLocation(geocoderList, veryRuralLocation, gridState, settlementGridState)
+//
+//            // Next to St. Giles Cathedral on the Royal Mile in Edinburgh
+//            val busyLocation = LngLatAlt(-3.1917130, 55.9494934)
+//            geocodeLocation(geocoderList, busyLocation, gridState, settlementGridState)
+        }
     }
 }
