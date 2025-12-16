@@ -60,7 +60,7 @@ import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
-import org.scottishtecharmy.soundscape.utils.toLocationDescriptions
+import org.scottishtecharmy.soundscape.utils.toLocationDescription
 import java.io.File
 import java.util.Locale
 import kotlin.math.abs
@@ -939,7 +939,7 @@ class GeoEngine {
 
                     // The geocode result includes the location for the POI. In the case of something
                     // like a park this could be a long way from the point that was passed in.
-                    val ld = result?.features?.toLocationDescriptions()
+                    val ld = result?.features?.mapNotNull{feature -> feature.toLocationDescription() }
                     if (!ld.isNullOrEmpty()) {
                         if(preserveLocation) {
                             val overwritten = ld.first()
@@ -1004,6 +1004,14 @@ fun getTextForFeature(localizedContext: Context?, feature: MvtFeature) : TextFor
     val entranceType = feature.properties?.get("entrance") as String?
     val featureValue = feature.featureValue
     val isMarker = feature.superCategory == SuperCategoryId.MARKER
+
+    if(feature.superCategory == SuperCategoryId.HOUSENUMBER) {
+        val street = feature.properties?.get("street")
+        if(name != null) {
+            val text = "$name, $street"
+            return TextForFeature(text, false)
+        }
+    }
 
     if(localizedContext == null) {
         if(name == null) {

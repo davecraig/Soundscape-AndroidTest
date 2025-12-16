@@ -3,12 +3,11 @@ package org.scottishtecharmy.soundscape.geoengine.utils.geocoders
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.utils.toLocationDescriptions
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import org.scottishtecharmy.soundscape.utils.toLocationDescription
 
 /**
  * The PhotonGeocoder class abstracts away the use of photon geo-search server for geocoding and
@@ -31,19 +30,21 @@ class PhotonGeocoder : SoundscapeGeocoder() {
                     ).execute()
                     .body()
             } catch (e: Exception) {
-                Log.e(TAG, "Error getting reverse geocode result:", e)
+                Log.e(TAG, "Error getting geocode result:", e)
                 null
             }
         }
-        searchResult?.features?.forEach { Log.d(TAG, "$it") }
 
         // The geocode result includes the location for the POI. In the case of something
         // like a park this could be a long way from the point that was passed in.
-        val ld = searchResult?.features?.toLocationDescriptions()
-        return ld?.firstOrNull()
+        return searchResult?.features?.firstNotNullOfOrNull { feature ->
+            feature.toLocationDescription()
+        }
     }
 
-    override suspend fun getAddressFromLngLat(location: LngLatAlt) : LocationDescription? {
+    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry) : LocationDescription? {
+
+        val location = userGeometry.mapMatchedLocation?.point ?: userGeometry.location
         val searchResult = withContext(Dispatchers.IO) {
             try {
                 return@withContext PhotonSearchProvider
@@ -59,7 +60,9 @@ class PhotonGeocoder : SoundscapeGeocoder() {
             }
         }
         searchResult?.features?.forEach { Log.d(TAG, "$it") }
-        return searchResult?.features?.toLocationDescriptions()?.firstOrNull()
+        return searchResult?.features?.firstNotNullOfOrNull { feature ->
+            feature.toLocationDescription()
+        }
     }
 
     companion object {

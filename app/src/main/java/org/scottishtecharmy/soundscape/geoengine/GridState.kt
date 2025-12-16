@@ -64,7 +64,8 @@ enum class TreeId(
     SETTLEMENT_VILLAGE(18, "Villages"),
     SETTLEMENT_HAMLET(19, "Hamlets"),
     TRANSIT(20, "Transit"),
-    MAX_COLLECTION_ID(21, ""),
+    HOUSENUMBER(21, "House numbers"),
+    MAX_COLLECTION_ID(22, ""),
 }
 
 @OptIn(ExperimentalCoroutinesApi::class, DelicateCoroutinesApi::class)
@@ -498,7 +499,8 @@ open class GridState(
             SuperCategoryId.SETTLEMENT_CITY,
             SuperCategoryId.SETTLEMENT_TOWN,
             SuperCategoryId.SETTLEMENT_VILLAGE,
-            SuperCategoryId.SETTLEMENT_HAMLET
+            SuperCategoryId.SETTLEMENT_HAMLET,
+            SuperCategoryId.HOUSENUMBER,
         )
         val superCategoryCollections = superCategories.associateWith { superCategory ->
             getPoiFeatureCollectionBySuperCategory(superCategory, featureCollections[TreeId.POIS.id])
@@ -517,8 +519,10 @@ open class GridState(
         featureCollections[TreeId.MOBILITY_POIS.id] = category ?: FeatureCollection()
         category = superCategoryCollections[SuperCategoryId.SAFETY]
         featureCollections[TreeId.SAFETY_POIS.id] = category ?: FeatureCollection()
+        category = superCategoryCollections[SuperCategoryId.HOUSENUMBER]
+        featureCollections[TreeId.HOUSENUMBER.id] = category ?: FeatureCollection()
 
-        // Settlement amd their area names
+        // Settlement and their area names
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_CITY]
         featureCollections[TreeId.SETTLEMENT_CITY.id] = category ?: FeatureCollection()
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_TOWN]
