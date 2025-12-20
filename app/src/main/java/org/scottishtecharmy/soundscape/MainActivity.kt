@@ -19,6 +19,7 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,6 +46,7 @@ import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
+import org.scottishtecharmy.soundscape.hardware.BleManager
 import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
 import org.scottishtecharmy.soundscape.screens.home.HomeScreen
 import org.scottishtecharmy.soundscape.screens.home.Navigator
@@ -58,6 +60,7 @@ import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
 import org.scottishtecharmy.soundscape.utils.processMaps
 import java.io.File
 import java.util.Locale
+import java.util.UUID
 import javax.inject.Inject
 
 data class ThemeState(
@@ -234,6 +237,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private lateinit var bleManager: BleManager
 
     private fun continueLaunch(isFirstLaunch: Boolean) {
         if (isFirstLaunch) {
@@ -247,6 +251,10 @@ class MainActivity : AppCompatActivity() {
             onSplashComplete()
     }
 
+    // Bose AR Glasses
+    private val boseARServiceUuid = UUID.fromString("0000fdd2-0000-1000-8000-00805f9b34fb")
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_SCAN)
     override fun onCreate(savedInstanceState: Bundle?) {
 
 //      Enable the following code to generate stack traces when tracking down "A resource failed to
@@ -350,6 +358,14 @@ class MainActivity : AppCompatActivity() {
         println("${Build.MODEL}")
         println("${Build.BRAND}")
         println("${Build.PRODUCT}")
+
+        bleManager = BleManager(
+            context = this,
+            targetServiceUuid = boseARServiceUuid,
+            onRotation = { data ->
+                soundscapeServiceConnection.soundscapeService?.headRotation(data)
+            }
+        )
 
         // Delete contents of export directory. This is used for exporting routes and markers, and
         // log data when using Contact Support. We don't want these accumulating over separate runs
@@ -462,9 +478,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     override fun onDestroy() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener)
         super.onDestroy()
+        bleManager.stop()
     }
 
     private fun updateRouteShortcuts(routes: List<RouteEntity>) {
@@ -697,11 +715,31 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.POST_NOTIFICATIONS
             )) {
                 android.content.pm.PackageManager.PERMISSION_GRANTED -> {
-                    checkAndRequestLocationPermissions()
+                    checkAndRequestBluetoothPermissions()
                 }
 
                 else -> {
                     notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    return
+                }
+            }
+        }else{
+            checkAndRequestBluetoothPermissions()
+        }
+
+    }
+    private fun checkAndRequestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_SCAN
+            )) {
+                android.content.pm.PackageManager.PERMISSION_GRANTED -> {
+                    checkAndRequestLocationPermissions()
+                }
+
+                else -> {
+                    notificationPermissionLauncher.launch(Manifest.permission.BLUETOOTH_SCAN)
                     return
                 }
             }
@@ -718,6 +756,7 @@ class MainActivity : AppCompatActivity() {
             android.content.pm.PackageManager.PERMISSION_GRANTED -> {
                 // permission already granted
                 startSoundscapeService()
+                bleManager.start()
             }
             else -> {
                 locationPermissionRequest.launch(

@@ -164,6 +164,10 @@ class SoundscapeService : MediaSessionService() {
     private var geoEngine = GeoEngine()
     lateinit var localizedContext: Context
 
+    fun headRotation(rotation: Double?) {
+        geoEngine.headRotation(rotation)
+    }
+
     // Flow to return beacon location
     private val _beaconFlow = MutableStateFlow(BeaconState())
     var beaconFlow: StateFlow<BeaconState> = _beaconFlow
