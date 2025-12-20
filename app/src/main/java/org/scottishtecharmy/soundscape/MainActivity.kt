@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape
 
 import android.Manifest
+import android.R
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.Intent
@@ -8,7 +9,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.StrictMode
 import android.text.Html
 import android.util.Log
 import android.view.View
@@ -17,6 +17,7 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -41,6 +42,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
+import org.scottishtecharmy.soundscape.hardware.BleManager
 import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
 import org.scottishtecharmy.soundscape.screens.home.HomeScreen
 import org.scottishtecharmy.soundscape.screens.home.Navigator
@@ -51,6 +53,7 @@ import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
 import org.scottishtecharmy.soundscape.utils.processMaps
 import java.io.File
 import java.util.Locale
+import java.util.UUID
 import javax.inject.Inject
 
 data class ThemeState(
@@ -205,6 +208,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    private lateinit var bleManager: BleManager
+
+    // Bose AR Glasses
+    private val boseARServiceUuid = UUID.fromString("0000fdd2-0000-1000-8000-00805f9b34fb")
+    private val boseSensorInformation = UUID.fromString("855cb3e7-98ff-42a6-80fc-40b32a2221c1")
+    private val boseSensorConfiguration = UUID.fromString("5af38af6-000e-404b-9b46-07f77580890b")
+    private val boseSensorData = UUID.fromString("56a72ab8-4988-4cc8-a752-fbd1d54a953d")
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_SCAN)
     override fun onCreate(savedInstanceState: Bundle?) {
 
 //      Enable the following code to generate stack traces when tracking down "A resource failed to
@@ -226,7 +239,7 @@ class MainActivity : AppCompatActivity() {
             // Keep the splash screen visible to allow time to see the attribution acknowledgements,
             // But not too long as this delay happens coming out of sleep too.
             val attributionDelay = 2000
-            val content: View = findViewById(android.R.id.content)
+            val content: View = findViewById(R.id.content)
             content.viewTreeObserver.addOnPreDrawListener(
                 object : ViewTreeObserver.OnPreDrawListener {
                     override fun onPreDraw(): Boolean {
@@ -247,6 +260,14 @@ class MainActivity : AppCompatActivity() {
         println("${Build.MODEL}")
         println("${Build.BRAND}")
         println("${Build.PRODUCT}")
+
+        bleManager = BleManager(
+            context = this,
+            targetServiceUuid = boseARServiceUuid,
+            onRotation = { data ->
+                soundscapeServiceConnection.soundscapeService?.headRotation(data)
+            }
+        )
 
         // Delete contents of export directory. This is used for exporting routes and markers, and
         // log data when using Contact Support. We don't want these accumulating over separate runs
@@ -356,9 +377,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     override fun onDestroy() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener)
         super.onDestroy()
+        bleManager.stop()
     }
 
     private fun rateSoundscape() {
@@ -518,11 +541,31 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.POST_NOTIFICATIONS
             )) {
                 android.content.pm.PackageManager.PERMISSION_GRANTED -> {
-                    checkAndRequestLocationPermissions()
+                    checkAndRequestBluetoothPermissions()
                 }
 
                 else -> {
                     notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    return
+                }
+            }
+        }else{
+            checkAndRequestBluetoothPermissions()
+        }
+
+    }
+    private fun checkAndRequestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_SCAN
+            )) {
+                android.content.pm.PackageManager.PERMISSION_GRANTED -> {
+                    checkAndRequestLocationPermissions()
+                }
+
+                else -> {
+                    notificationPermissionLauncher.launch(Manifest.permission.BLUETOOTH_SCAN)
                     return
                 }
             }
@@ -539,6 +582,7 @@ class MainActivity : AppCompatActivity() {
             android.content.pm.PackageManager.PERMISSION_GRANTED -> {
                 // permission already granted
                 startSoundscapeService()
+                bleManager.start()
             }
             else -> {
                 locationPermissionRequest.launch(

@@ -68,6 +68,8 @@ import kotlin.time.TimeSource
 import kotlin.time.measureTime
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import java.lang.String.format
+import kotlin.concurrent.atomics.AtomicReference
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
 
 data class PositionedString(
@@ -115,6 +117,21 @@ class GeoEngine {
     private lateinit var directionProvider : DirectionProvider
     private var mapMatchFilter = MapMatchFilter()
 
+    @OptIn(ExperimentalAtomicApi::class)
+    private val headRotation = AtomicReference<Double?>(null)
+
+    @OptIn(ExperimentalAtomicApi::class)
+    fun headRotation(rotation: Double?) {
+        var normalised = rotation
+        if(normalised != null) {
+            // Normalise the heading to be between 0 and 360 degrees
+            normalised = 360.0 - normalised
+            while (normalised < 0.0) normalised += 360.0
+            while (normalised > 360.0) normalised -= 360.0
+        }
+        headRotation.store(normalised)
+    }
+
     // Resource string locale configuration
     private lateinit var configLocale: Locale
     private lateinit var configuration: Configuration
@@ -148,6 +165,7 @@ class GeoEngine {
      * @param location The Android location to use
      * @param orientation The Android DeviceOrientation to use
      */
+    @OptIn(ExperimentalAtomicApi::class)
     private fun createUserGeometry(
         location: Location?,
         orientation: DeviceOrientation?,
@@ -208,6 +226,7 @@ class GeoEngine {
             errorDistance = errorDistance,
             errorHeading = errorHeading,
             phoneHeading = phoneHeading,
+            headHeading = headRotation.load(),
             fovDistance = 50.0,
             speed = speed,
             headingMode = headingMode,
