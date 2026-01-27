@@ -9,7 +9,6 @@ import com.github.davidmoten.rtree2.geometry.Line
 import com.github.davidmoten.rtree2.geometry.Point
 import com.github.davidmoten.rtree2.geometry.Rectangle
 import com.github.davidmoten.rtree2.internal.EntryDefault
-import org.scottishtecharmy.soundscape.dto.BoundingBox
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
@@ -19,8 +18,6 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import kotlin.math.PI
 import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * FeatureTree is a class which stores FeatureCollections within an rtree which gives us faster
@@ -79,25 +76,40 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                 }
 
                 "LineString" -> {
-                    // We add each line segment as a separate entry into the rtree for more precise
-                    // searching, however this does mean that searches in the tree will return
-                    // duplicates of the same Feature and so these must be de-duplicated when
-                    // retrieving the data from the tree.
-                    val line = feature.geometry as LineString
-                    for ((index, point) in line.coordinates.withIndex()) {
-                        if (index < (line.coordinates.size - 1)) {
-                            rtreeList.add(
-                                EntryDefault(
-                                    feature,
-                                    Geometries.line(
-                                        point.longitude,
-                                        point.latitude,
-                                        line.coordinates[index + 1].longitude,
-                                        line.coordinates[index + 1].latitude
+                    if(false) {
+                        // We add each line segment as a separate entry into the rtree for more precise
+                        // searching, however this does mean that searches in the tree will return
+                        // duplicates of the same Feature and so these must be de-duplicated when
+                        // retrieving the data from the tree.
+                        val line = feature.geometry as LineString
+                        for ((index, point) in line.coordinates.withIndex()) {
+                            if (index < (line.coordinates.size - 1)) {
+                                rtreeList.add(
+                                    EntryDefault(
+                                        feature,
+                                        Geometries.line(
+                                            point.longitude,
+                                            point.latitude,
+                                            line.coordinates[index + 1].longitude,
+                                            line.coordinates[index + 1].latitude
+                                        )
                                     )
                                 )
-                            )
+                            }
                         }
+                    } else {
+                        // Alternatively, we add each line as a single entry into the rtree for a
+                        // smaller rtree with fewer duplicates.
+                        val box = getBoundingBoxOfLineString(feature.geometry as LineString)
+                        rtreeList.add(
+                            EntryDefault(
+                                feature,
+                                Geometries.rectangleGeographic(
+                                    box.westLongitude, box.southLatitude,
+                                    box.eastLongitude, box.northLatitude
+                                )
+                            )
+                        )
                     }
                 }
 
@@ -192,6 +204,9 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                         entry.value().geometry as MultiPolygon,
                         ruler)
                 }
+                else if(entry.value().geometry.type == "LineString") {
+                    return ruler.distanceToLineString(from, entry.value().geometry as LineString).distance
+                }
             }
         }
         return Double.POSITIVE_INFINITY
@@ -273,6 +288,17 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         return (polygonContainsCoordinates(p1, polygon) && polygonContainsCoordinates(p2, polygon))
     }
 
+    private fun lineStringPassesWithinTriangle(coordinates: ArrayList<LngLatAlt>,
+                                                triangle: Triangle): Boolean {
+        var lastPoint = coordinates[0]
+        for(point in coordinates.drop(1)) {
+            if(lineSegmentPassesWithinTriangle(lastPoint, point, triangle))
+                return true
+            lastPoint = point
+        }
+        return false
+    }
+
     private fun testPolygonInFov(polygon: Polygon, triangle: Triangle) : Boolean {
 
         // Test if any of the polygon edges intersect with the triangle or are wholly within it
@@ -323,6 +349,8 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                 } else if(feature.geometry.type == "MultiPolygon") {
                     // No MultiPolygons exist from MVT translation, so no need to handle
                     return testMultiPolygonInFov(feature.geometry as MultiPolygon, triangle)
+                } else if(feature.geometry.type == "LineString") {
+                    return lineStringPassesWithinTriangle((feature.geometry as LineString).coordinates, triangle)
                 }
 
                 return false
