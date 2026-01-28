@@ -288,7 +288,7 @@ class DocumentationScreens {
 
         for (page in helpPages) {
 
-            if(page.titleId == R.string.menu_help_and_tutorials)
+            if(page.titleId == R.string.menu_help)
                 continue
             val pageTitle = targetContext.getString(page.titleId)
 
