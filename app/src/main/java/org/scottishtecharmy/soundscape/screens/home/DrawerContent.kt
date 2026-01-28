@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Comment
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
+import androidx.compose.material.icons.rounded.Headphones
 import androidx.compose.material.icons.rounded.Markunread
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Settings
@@ -49,6 +50,7 @@ fun DrawerContent(
     contactSupport: () -> Unit,
     shareRecording: () -> Unit,
     offlineMaps: () -> Unit,
+    startTutorial: () -> Unit,
     preferences: SharedPreferences?,
     newReleaseDialog: MutableState<Boolean>?
 ) {
@@ -123,13 +125,16 @@ fun DrawerContent(
                     Icons.AutoMirrored.Rounded.HelpOutline,
                     modifier = Modifier.testTag("menuHelpAndTutorials")
                 )
+                DrawerMenuItem(
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        startTutorial()
+                    },
+                    label = stringResource(R.string.menu_audio_tutorial),
+                    Icons.Rounded.Headphones,
+                    modifier = Modifier.testTag("menuAudioTutorial")
+                )
 
-// Not implemented yet
-//                DrawerMenuItem(
-//                    onClick = { notAvailableToast() },
-//                    label = stringResource(R.string.menu_send_feedback),
-//                    icon = Icons.Rounded.MailOutline,
-//                )
                 DrawerMenuItem(
                     onClick = { rateSoundscape() },
                     label = stringResource(R.string.menu_rate),
@@ -196,6 +201,7 @@ fun PreviewDrawerContent() {
         contactSupport = { },
         shareRecording = { },
         offlineMaps = { },
+        startTutorial = { },
         preferences = null,
         newReleaseDialog = null
     )

@@ -82,6 +82,7 @@ fun Home(
     getCurrentLocationDescription: () -> LocationDescription,
     rateSoundscape: () -> Unit,
     contactSupport: () -> Unit,
+    startTutorial: () -> Unit,
     routeFunctions: RouteFunctions,
     streetPreviewFunctions : StreetPreviewFunctions,
     modifier: Modifier = Modifier,
@@ -120,6 +121,7 @@ fun Home(
                     val ld = LocationDescription("", state.location ?: LngLatAlt())
                     onNavigate(generateOfflineMapScreenRoute(ld))
                 },
+                startTutorial = startTutorial,
                 preferences = preferences,
                 newReleaseDialog = newReleaseDialog
             )
@@ -156,7 +158,7 @@ fun Home(
         ) { innerPadding ->
 
             if(newReleaseDialog.value) {
-                newReleaseDialog(innerPadding, sharedPreferences, newReleaseDialog)
+                NewReleaseDialog(innerPadding, sharedPreferences, newReleaseDialog, startTutorial)
             }
 
             if (fullscreenMap.value) {
@@ -302,6 +304,7 @@ fun HomePreview() {
             },
             rateSoundscape = {},
             contactSupport = {},
+            startTutorial = {},
             searchFunctions = SearchFunctions(null),
             routeFunctions = RouteFunctions(null),
             streetPreviewFunctions = StreetPreviewFunctions(null),
@@ -330,6 +333,7 @@ fun HomeSearchPreview() {
             },
             rateSoundscape = {},
             contactSupport = {},
+            startTutorial = {},
             searchFunctions = SearchFunctions(null),
             routeFunctions = RouteFunctions(null),
             streetPreviewFunctions = StreetPreviewFunctions(null),
@@ -372,6 +376,7 @@ fun HomeRoutePreview() {
             },
             rateSoundscape = {},
             contactSupport = {},
+            startTutorial = {},
             searchFunctions = SearchFunctions(null),
             routeFunctions = RouteFunctions(null),
             streetPreviewFunctions = StreetPreviewFunctions(null),
@@ -408,6 +413,7 @@ fun StreetPreview() {
             },
             rateSoundscape = {},
             contactSupport = {},
+            startTutorial = {},
             searchFunctions = SearchFunctions(null),
             routeFunctions = RouteFunctions(null),
             streetPreviewFunctions = StreetPreviewFunctions(null),

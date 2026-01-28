@@ -25,18 +25,20 @@ import org.commonmark.node.Node
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 import org.scottishtecharmy.soundscape.BuildConfig
+import org.scottishtecharmy.soundscape.MainActivity.Companion.AUDIO_TOUR_SHOWN_KEY
 import org.scottishtecharmy.soundscape.MainActivity.Companion.LAST_NEW_RELEASE_KEY
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 
 /**
- * newReleaseDialog displays text explaining what new features are available within the app
+ * NewReleaseDialog displays text explaining what new features are available within the app
  */
 @Composable
-fun newReleaseDialog(
+fun NewReleaseDialog(
     innerPadding: PaddingValues,
     sharedPreferences: SharedPreferences,
-    newReleaseDialog: MutableState<Boolean>
+    newReleaseDialog: MutableState<Boolean>,
+    startTutorial: () -> Unit
 ) {
     val markdownText = stringResource(R.string.new_version_info_details)
     val markdownSentences = remember(markdownText) {
@@ -78,7 +80,14 @@ fun newReleaseDialog(
         confirmButton = { },
         dismissButton = {
             TextButton(
-                onClick = { newReleaseDialog.value = false }
+                onClick = {
+                    newReleaseDialog.value = false
+                    val audioTourShown = sharedPreferences.getBoolean(AUDIO_TOUR_SHOWN_KEY, false)
+                    if (!audioTourShown) {
+                        sharedPreferences.edit(commit = true) { putBoolean(AUDIO_TOUR_SHOWN_KEY, true) }
+                        startTutorial()
+                    }
+                }
             ) {
                 // Remember that we've shown the dialog for this version
                 sharedPreferences.edit(commit = true) {
