@@ -1,13 +1,12 @@
 package org.scottishtecharmy.soundscape.screens.home.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ViewList
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.LiveRegionMode
-import androidx.compose.ui.semantics.liveRegion
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.NavigationButton
@@ -17,16 +16,17 @@ import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.calculateHeadingOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.StreetPreviewFunctions
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
-import org.scottishtecharmy.soundscape.ui.theme.spacing
 
 @Composable
 fun StreetPreview(
     state: StreetPreviewState,
     heading: Float,
-    streetPreviewFunctions: StreetPreviewFunctions
+    streetPreviewFunctions: StreetPreviewFunctions,
+    location: LngLatAlt? = null
 ) {
     Column {
         if (state.enabled == StreetPreviewEnabled.INITIALIZING) {
@@ -81,6 +81,18 @@ fun StreetPreview(
                 },
                 text = text
             )
+
+            // View Street button - show when we have a valid best choice street
+            if (bestChoice != -1 && location != null) {
+                val streetName = state.choices[bestChoice].name
+                NavigationButton(
+                    onClick = {
+                        streetPreviewFunctions.viewStreet(streetName, location)
+                    },
+                    text = stringResource(R.string.street_view_button),
+                    icon = Icons.AutoMirrored.Filled.ViewList
+                )
+            }
         }
     }
 }
@@ -96,7 +108,8 @@ fun StreetPreviewInitializingPreview() {
                 emptyList()
             ),
             90.0F,
-            StreetPreviewFunctions(null)
+            StreetPreviewFunctions(null),
+            null
         )
     }
 }
@@ -115,7 +128,8 @@ fun StreetPreviewOnPreview() {
                 )
             ),
             179.0F,
-            StreetPreviewFunctions(null)
+            StreetPreviewFunctions(null),
+            LngLatAlt(-3.2, 55.9)
         )
     }
 }

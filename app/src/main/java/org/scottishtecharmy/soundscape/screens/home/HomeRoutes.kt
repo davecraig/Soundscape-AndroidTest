@@ -56,4 +56,8 @@ sealed class HomeRoutes(
         route = "open_source_licenses",
         title = "OpenSourceLicenses",
     )
+    data object StreetView : HomeRoutes(
+        route = "street_view",
+        title = "StreetView",
+    )
 }

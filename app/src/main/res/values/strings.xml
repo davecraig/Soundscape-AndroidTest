@@ -806,6 +806,22 @@
 <string name="settings_use_value" tools:ignore="MissingTranslation">"use"</string>
 <!-- Button text for exiting location simulation mode -->
 <string name="street_preview_exit" tools:ignore="MissingTranslation">"Exit location simulation"</string>
+<!-- Button text for viewing the street -->
+<string name="street_view_button" tools:ignore="MissingTranslation">"View Street"</string>
+<!-- Title for Street View screen -->
+<string name="street_view_title" tools:ignore="MissingTranslation">"Street View"</string>
+<!-- Title for Street View screen with street name, %s is the street name -->
+<string name="street_view_title_with_name" tools:ignore="MissingTranslation">"Street View - %s"</string>
+<!-- Label for items on the left side of the street -->
+<string name="street_view_left_side" tools:ignore="MissingTranslation">"On left"</string>
+<!-- Label for items on the right side of the street -->
+<string name="street_view_right_side" tools:ignore="MissingTranslation">"On right"</string>
+<!-- Label for an intersection -->
+<string name="street_view_intersection" tools:ignore="MissingTranslation">"Intersection"</string>
+<!-- Message when no items found on street -->
+<string name="street_view_no_items" tools:ignore="MissingTranslation">"No items found on this street"</string>
+<!-- Back button accessibility description -->
+<string name="ui_back_button" tools:ignore="MissingTranslation">"Back"</string>
 <!-- Settings option for enabling recording of travel locations -->
 <string name="settings_travel_recording" tools:ignore="MissingTranslation">"Enable recording of travel"</string>
 <!-- Settings option for enabling a map styling which has improved accessibility -->

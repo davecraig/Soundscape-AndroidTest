@@ -45,6 +45,7 @@ import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandedit
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.RouteDetailsScreenVM
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
+import org.scottishtecharmy.soundscape.screens.home.streetview.StreetViewScreenVM
 import org.scottishtecharmy.soundscape.utils.Analytics
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
 import org.scottishtecharmy.soundscape.audio.AudioTour
@@ -97,9 +98,17 @@ data class SearchFunctions(val viewModel: HomeViewModel?) {
     val onTriggerSearch: (String) -> Unit = { viewModel?.onTriggerSearch(it) }
 }
 
-data class StreetPreviewFunctions(val viewModel: HomeViewModel?) {
+data class StreetPreviewFunctions(
+    val viewModel: HomeViewModel?,
+    private val onNavigate: ((String) -> Unit)? = null
+) {
     val go = { viewModel?.streetPreviewGo() }
     val exit = { viewModel?.streetPreviewExit() }
+    val viewStreet: (String, LngLatAlt) -> Unit = { streetName, location ->
+        onNavigate?.invoke(
+            "${HomeRoutes.StreetView.route}/${java.net.URLEncoder.encode(streetName, "UTF-8")}/${location.latitude}/${location.longitude}"
+        )
+    }
 }
 
 fun getCurrentLocationDescription(viewModel: HomeViewModel, state: HomeState): LocationDescription
@@ -129,7 +138,9 @@ fun HomeScreen(
     val state = viewModel.state.collectAsStateWithLifecycle()
     val routeFunctions = remember(viewModel) { RouteFunctions(viewModel) }
     val searchFunctions = remember(viewModel) { SearchFunctions(viewModel) }
-    val streetPreviewFunctions = remember(viewModel) { StreetPreviewFunctions(viewModel) }
+    val streetPreviewFunctions = remember(viewModel, navController) {
+        StreetPreviewFunctions(viewModel) { dest -> navController.navigate(dest) }
+    }
     val bottomButtonFunctions = remember(viewModel, audioTour) { BottomButtonFunctions(viewModel, audioTour) }
     val onMapLongClickListener = remember(viewModel) {
         OnMapLongClickListener { latLong ->
@@ -374,6 +385,32 @@ fun HomeScreen(
             OfflineMapsScreenVM(
                 navController = navController,
                 locationDescription = locationDescription,
+                modifier = Modifier
+                    .windowInsetsPadding(WindowInsets.safeDrawing)
+                    .semantics { testTagsAsResourceId = true }
+            )
+        }
+
+        composable(
+            HomeRoutes.StreetView.route + "/{streetName}/{latitude}/{longitude}",
+            arguments = listOf(
+                navArgument("streetName") { type = NavType.StringType },
+                navArgument("latitude") { type = NavType.StringType },
+                navArgument("longitude") { type = NavType.StringType }
+            )
+        ) { navBackStackEntry ->
+            val streetName = URLDecoder.decode(
+                navBackStackEntry.arguments?.getString("streetName") ?: "",
+                StandardCharsets.UTF_8.toString()
+            )
+            val latitude = navBackStackEntry.arguments?.getString("latitude")?.toDoubleOrNull() ?: 0.0
+            val longitude = navBackStackEntry.arguments?.getString("longitude")?.toDoubleOrNull() ?: 0.0
+
+            StreetViewScreenVM(
+                navController = navController,
+                streetName = streetName,
+                latitude = latitude,
+                longitude = longitude,
                 modifier = Modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing)
                     .semantics { testTagsAsResourceId = true }

@@ -154,7 +154,7 @@ fun HomeContent(
         modifier = modifier
     ) {
         if (streetPreviewState.enabled != StreetPreviewEnabled.OFF) {
-            StreetPreview(streetPreviewState, heading, streetPreviewFunctions)
+            StreetPreview(streetPreviewState, heading, streetPreviewFunctions, location)
         }
         else {
             searchBar()
