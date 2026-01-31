@@ -197,7 +197,7 @@ class MvtFeatureAdapter(private val feature: MvtFeature) : SpatialFeature {
     override val side: Boolean? get() = feature.side
     override val streetConfidence: Boolean get() = feature.streetConfidence
 
-    override val geometry: MvtGeometry by lazy {
+    override val mvtGeometry: MvtGeometry by lazy {
         feature.geometry.toMvtGeometry() ?: MvtPoint(LngLatAlt())
     }
 

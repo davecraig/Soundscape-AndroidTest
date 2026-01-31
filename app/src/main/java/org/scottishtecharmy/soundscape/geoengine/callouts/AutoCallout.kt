@@ -195,7 +195,7 @@ class AutoCallout(
                 name.text,
                 nearestPoint.point,
                 positionedStrings = emptyList(),
-                spatialFeature.geometry.geometryType == GeometryType.POINT,
+                spatialFeature.mvtGeometry.geometryType == GeometryType.POINT,
                 name.generic
             )
             if(userGeometry.currentBeacon != null) {

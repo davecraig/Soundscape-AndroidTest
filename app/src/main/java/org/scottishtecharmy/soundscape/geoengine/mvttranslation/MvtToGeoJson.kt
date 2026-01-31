@@ -5,10 +5,15 @@ import org.scottishtecharmy.soundscape.geoengine.MIN_MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.processTileFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toMvtGeometry
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoJsonObject
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPoint
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
@@ -25,18 +30,86 @@ fun sampleToFractionOfTile(sample: Int) : Double {
     return (sample.toDouble() + 0.5) / 4096.0
 }
 
-open class MvtFeature : Feature() {
-    var osmId : Long = 0L
-    var name : String? = null
-    var housenumber : String? = null
-    var street : String? = null
-    var side : Boolean? = null
-    var streetConfidence : Boolean = false
-    var featureClass : String? = null
-    var featureSubClass : String? = null
-    var featureType : String? = null
-    var featureValue : String? = null
-    var superCategory : SuperCategoryId = SuperCategoryId.UNCATEGORIZED
+open class MvtFeature : Feature(), SpatialFeature {
+    override var osmId : Long = 0L
+    override var name : String? = null
+    override var housenumber : String? = null
+    override var street : String? = null
+    override var side : Boolean? = null
+    override var streetConfidence : Boolean = false
+    override var featureClass : String? = null
+    override var featureSubClass : String? = null
+    override var featureType : String? = null
+    override var featureValue : String? = null
+    override var superCategory : SuperCategoryId = SuperCategoryId.UNCATEGORIZED
+
+    // SpatialFeature implementations
+    override val center: LngLatAlt by lazy {
+        when (val geom = geometry) {
+            is Point -> geom.coordinates
+            is MultiPoint -> {
+                if (geom.coordinates.isEmpty()) LngLatAlt()
+                else {
+                    var sumLng = 0.0
+                    var sumLat = 0.0
+                    for (coord in geom.coordinates) {
+                        sumLng += coord.longitude
+                        sumLat += coord.latitude
+                    }
+                    LngLatAlt(sumLng / geom.coordinates.size, sumLat / geom.coordinates.size)
+                }
+            }
+            is LineString -> {
+                if (geom.coordinates.isEmpty()) LngLatAlt()
+                else geom.coordinates[geom.coordinates.size / 2]
+            }
+            is Polygon -> {
+                val exterior = geom.coordinates.firstOrNull() ?: return@lazy LngLatAlt()
+                if (exterior.isEmpty()) return@lazy LngLatAlt()
+                var sumLng = 0.0
+                var sumLat = 0.0
+                val count = if (exterior.size > 1 && exterior.first() == exterior.last()) {
+                    exterior.size - 1
+                } else {
+                    exterior.size
+                }
+                for (i in 0 until count) {
+                    sumLng += exterior[i].longitude
+                    sumLat += exterior[i].latitude
+                }
+                LngLatAlt(sumLng / count, sumLat / count)
+            }
+            else -> LngLatAlt()
+        }
+    }
+
+    override val mvtGeometry: MvtGeometry by lazy {
+        geometry.toMvtGeometry() ?: MvtPoint(LngLatAlt())
+    }
+
+    override val treeId: TreeId? get() = null  // MvtFeature doesn't store this
+
+    override fun getProperty(key: String): Any? {
+        return when (key) {
+            "name" -> name
+            "class" -> featureClass
+            "subclass" -> featureSubClass
+            "housenumber" -> housenumber
+            "street" -> street
+            else -> properties?.get(key)
+        }
+    }
+
+    override fun hasProperty(key: String): Boolean {
+        return when (key) {
+            "name" -> name != null
+            "class" -> featureClass != null
+            "subclass" -> featureSubClass != null
+            "housenumber" -> housenumber != null
+            "street" -> street != null
+            else -> properties?.containsKey(key) == true
+        }
+    }
 
     // Set a property, ensuring that the hash map has been created first
     fun setProperty(key: String, value: Any) {
@@ -48,7 +121,7 @@ open class MvtFeature : Feature() {
         }
     }
 
-    // Copy all of the 'local;
+    // Copy all of the 'local' properties
     fun copyProperties(other: MvtFeature) {
         osmId = other.osmId
         name = other.name

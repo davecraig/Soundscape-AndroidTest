@@ -73,9 +73,11 @@ interface SpatialFeature {
     val streetConfidence: Boolean
 
     /**
-     * The geometry of the feature.
+     * The geometry of the feature in native MVT format.
+     * Named mvtGeometry to avoid conflict with Feature.geometry (GeoJsonObject) when
+     * MvtFeature implements this interface.
      */
-    val geometry: MvtGeometry
+    val mvtGeometry: MvtGeometry
 
     /**
      * Which R-tree this feature belongs to (may be null if not yet assigned).
@@ -111,7 +113,7 @@ class MvtTileFeatureWrapper(private val feature: MvtTileFeature) : SpatialFeatur
     override val street: String? get() = feature.street
     override val side: Boolean? get() = feature.side
     override val streetConfidence: Boolean get() = feature.streetConfidence
-    override val geometry: MvtGeometry get() = feature.geometry
+    override val mvtGeometry: MvtGeometry get() = feature.geometry
     override val treeId: TreeId? get() = feature.treeId
 
     override fun getProperty(key: String): Any? = feature.getProperty(key)

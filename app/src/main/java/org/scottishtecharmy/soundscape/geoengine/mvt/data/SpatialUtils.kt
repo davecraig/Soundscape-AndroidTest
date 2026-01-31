@@ -20,7 +20,7 @@ fun MvtGeometry.isPointLike(): Boolean {
 /**
  * Checks if a SpatialFeature has point-like geometry.
  */
-fun SpatialFeature.isPointLike(): Boolean = geometry.isPointLike()
+fun SpatialFeature.isPointLike(): Boolean = mvtGeometry.isPointLike()
 
 /**
  * Gets coordinates for iteration, handling all geometry types.
@@ -92,7 +92,7 @@ fun MvtGeometry.nearestCoordinateTo(location: LngLatAlt): LngLatAlt {
  * Finds the nearest coordinate on a SpatialFeature to a given location.
  */
 fun SpatialFeature.nearestCoordinateTo(location: LngLatAlt): LngLatAlt {
-    return geometry.nearestCoordinateTo(location)
+    return mvtGeometry.nearestCoordinateTo(location)
 }
 
 /**
