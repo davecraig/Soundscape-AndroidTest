@@ -11,6 +11,8 @@ import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
@@ -35,7 +37,8 @@ class OfflineGeocoder(
     fun addNamesFromGrid(treeId: TreeId, names: MutableSet<String>) {
         val features = settlementGrid.getFeatureTree(treeId).getAllCollection()
         for (feature in features) {
-            val name = (feature as MvtFeature).name
+            val spatialFeature = (feature as MvtFeature).asSpatialFeature()
+            val name = spatialFeature.name
             if(name != null) {
                 names.add(normalizeForSearch(name))
             }
@@ -167,7 +170,8 @@ class OfflineGeocoder(
         val busStopTree = gridState.getFeatureTree(TreeId.TRANSIT_STOPS)
         val nearestBusStop = busStopTree.getNearestFeature(location, gridState.ruler, 20.0)
         if(nearestBusStop != null) {
-            val busStopText = getTextForFeature(null, nearestBusStop as MvtFeature)
+            val spatialBusStop = (nearestBusStop as MvtFeature).asSpatialFeature()
+            val busStopText = getTextForFeature(null, spatialBusStop)
             return LocationDescription(
                 name = busStopText.text,
                 location = getNearestPointOnFeature(nearestBusStop, location)
@@ -178,12 +182,12 @@ class OfflineGeocoder(
         val gridPoiTree = gridState.getFeatureTree(TreeId.POIS)
         val insidePois = gridPoiTree.getContainingPolygons(location)
         insidePois.forEach { poi ->
-            val mvt = poi as MvtFeature
-            if(!mvt.name.isNullOrEmpty()) {
-                val featureText = getTextForFeature(null, mvt)
+            val spatialPoi = (poi as MvtFeature).asSpatialFeature()
+            if(!spatialPoi.name.isNullOrEmpty()) {
+                val featureText = getTextForFeature(null, spatialPoi)
                 return LocationDescription(
                     name = featureText.text,
-                    location = getNearestPointOnFeature(mvt, location)
+                    location = getNearestPointOnFeature(poi, location)
                 )
             }
         }
@@ -191,11 +195,11 @@ class OfflineGeocoder(
         // See if there are any nearby named POI
         val nearbyPois = gridPoiTree.getNearestCollection(location, 300.0, 10, gridState.ruler, null)
         nearbyPois.forEach { poi ->
-            val mvt = poi as MvtFeature
-            if(!mvt.name.isNullOrEmpty()) {
+            val spatialPoi = (poi as MvtFeature).asSpatialFeature()
+            if(!spatialPoi.name.isNullOrEmpty()) {
                 return LocationDescription(
-                    name = getTextForFeature(null, mvt).text,
-                    location = getNearestPointOnFeature(mvt, location),
+                    name = getTextForFeature(null, spatialPoi).text,
+                    location = getNearestPointOnFeature(poi, location),
                 )
             }
         }
@@ -207,21 +211,21 @@ class OfflineGeocoder(
         // villages, suburbs               | 2 km
         // hamlets, farms, neighbourhoods  |  1 km
         //
-        var nearestSettlement = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_HAMLET)
-            .getNearestFeature(location, settlementGrid.ruler, 1000.0) as MvtFeature?
-        var nearestSettlementName = nearestSettlement?.name
+        var nearestSettlementFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_HAMLET)
+            .getNearestFeature(location, settlementGrid.ruler, 1000.0)
+        var nearestSettlementName = (nearestSettlementFeature as? MvtFeature)?.asSpatialFeature()?.name
         if(nearestSettlementName == null) {
-            nearestSettlement = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_VILLAGE)
-                .getNearestFeature(location, settlementGrid.ruler, 2000.0) as MvtFeature?
-            nearestSettlementName = nearestSettlement?.name
+            nearestSettlementFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_VILLAGE)
+                .getNearestFeature(location, settlementGrid.ruler, 2000.0)
+            nearestSettlementName = (nearestSettlementFeature as? MvtFeature)?.asSpatialFeature()?.name
             if(nearestSettlementName == null) {
-                nearestSettlement = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_TOWN)
-                    .getNearestFeature(location, settlementGrid.ruler, 4000.0) as MvtFeature?
-                nearestSettlementName = nearestSettlement?.name
+                nearestSettlementFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_TOWN)
+                    .getNearestFeature(location, settlementGrid.ruler, 4000.0)
+                nearestSettlementName = (nearestSettlementFeature as? MvtFeature)?.asSpatialFeature()?.name
                 if (nearestSettlementName == null) {
-                    nearestSettlement = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_CITY)
-                        .getNearestFeature(location, settlementGrid.ruler, 15000.0) as MvtFeature?
-                    nearestSettlementName = nearestSettlement?.name
+                    nearestSettlementFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_CITY)
+                        .getNearestFeature(location, settlementGrid.ruler, 15000.0)
+                    nearestSettlementName = (nearestSettlementFeature as? MvtFeature)?.asSpatialFeature()?.name
                 }
             }
         }

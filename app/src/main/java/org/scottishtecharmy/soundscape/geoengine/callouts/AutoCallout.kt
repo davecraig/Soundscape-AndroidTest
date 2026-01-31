@@ -19,6 +19,9 @@ import org.scottishtecharmy.soundscape.geoengine.filters.LocationUpdateFilter
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.GeometryType
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.SoundscapeGeocoder
@@ -179,10 +182,12 @@ class AutoCallout(
             markers
         )
 
-        val uniquelyNamedPOIs = mutableMapOf<String, Feature>()
+        val uniquelyNamedPOIs = mutableMapOf<String, SpatialFeature>()
         pois.features.filter { feature ->
+            // Wrap the feature in SpatialFeature adapter for unified access
+            val spatialFeature = (feature as MvtFeature).asSpatialFeature()
 
-            val name = getTextForFeature(localizedContext, feature as MvtFeature)
+            val name = getTextForFeature(localizedContext, spatialFeature)
             val nearestPoint = getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
 
             val callout = TrackedCallout(
@@ -190,7 +195,7 @@ class AutoCallout(
                 name.text,
                 nearestPoint.point,
                 positionedStrings = emptyList(),
-                feature.geometry.type == "Point",
+                spatialFeature.geometry.geometryType == GeometryType.POINT,
                 name.generic
             )
             if(userGeometry.currentBeacon != null) {
@@ -205,10 +210,10 @@ class AutoCallout(
                 }
             }
 
-            if(feature.superCategory == SuperCategoryId.UNCATEGORIZED) {
+            if(spatialFeature.superCategory == SuperCategoryId.UNCATEGORIZED) {
                 true
             } else {
-                if (nearestPoint.distance > userGeometry.getTriggerRange(feature.superCategory)) {
+                if (nearestPoint.distance > userGeometry.getTriggerRange(spatialFeature.superCategory)) {
                     // The POI is farther away than the category allows
                     true
                 } else {
@@ -220,8 +225,8 @@ class AutoCallout(
                     } else {
                         if (!uniquelyNamedPOIs.containsKey(name.text)) {
                             // Don't filter out
-                            uniquelyNamedPOIs[name.text] = feature
-                            val earcon = when(feature.superCategory) {
+                            uniquelyNamedPOIs[name.text] = spatialFeature
+                            val earcon = when(spatialFeature.superCategory) {
                                 SuperCategoryId.INFORMATION -> NativeAudioEngine.EARCON_INFORMATION_ALERT
                                 SuperCategoryId.SAFETY -> NativeAudioEngine.EARCON_SENSE_SAFETY
                                 SuperCategoryId.MOBILITY -> NativeAudioEngine.EARCON_SENSE_MOBILITY

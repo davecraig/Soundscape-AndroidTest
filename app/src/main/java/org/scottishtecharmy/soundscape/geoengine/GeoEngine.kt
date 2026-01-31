@@ -33,6 +33,8 @@ import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabase
 import org.scottishtecharmy.soundscape.geoengine.callouts.AutoCallout
 import org.scottishtecharmy.soundscape.geoengine.filters.MapMatchFilter
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
@@ -1053,6 +1055,131 @@ fun getTextForFeature(localizedContext: Context?, feature: MvtFeature) : TextFor
         //      Entrance to "Charing Cross"
 
         val entranceName = feature.properties?.get("entrance_name") as String?
+        val destinationName = text      // The transit naming has already been done above
+
+        val entranceText =
+            if(entranceType == "main")
+                localizedContext.getString(R.string.osm_main_entrance)
+            else
+                localizedContext.getString(R.string.osm_entrance)
+
+
+        text = if(entranceName != null) {
+            localizedContext.getString(
+                R.string.osm_entrance_named_with_destination,
+                destinationName,
+                entranceText,
+                entranceName,
+
+            )
+        }
+        else
+            localizedContext.getString(R.string.osm_entrance_with_destination, destinationName, entranceText)
+    }
+
+    val osmClass =
+        feature.featureClass ?: return TextForFeature("", true)
+    val osmSubClass =
+        feature.featureSubClass
+
+    val id = ResourceMapper.getResourceId(osmClass) ?: ResourceMapper.getResourceId(osmSubClass)
+    val osmText = if (id == null) {
+        null        //osmClass.replace("_", " ").capitalize(Locale.getDefault())
+    } else {
+        localizedContext.getString(id)
+    }
+    var additionalText :String? = null
+    if (text == null) {
+        text = osmText
+        generic = true
+    } else {
+        additionalText = osmText
+    }
+    val capitalizedText = text?.replaceFirstChar {
+        if (it.isLowerCase())
+            it.titlecase(localizedContext.resources.configuration.getLocales().get(0))
+        else
+            it.toString()
+    }
+    if(capitalizedText == null)
+        return TextForFeature("", generic, additionalText)
+
+    return TextForFeature(capitalizedText, generic, additionalText)
+}
+
+/**
+ * Overload of getTextForFeature that accepts SpatialFeature interface.
+ * This allows gradual migration to the new SpatialFeature abstraction.
+ */
+fun getTextForFeature(localizedContext: Context?, feature: SpatialFeature) : TextForFeature {
+    var generic = false
+    val name = feature.name
+    val entranceType = feature.getProperty("entrance") as String?
+    val featureValue = feature.featureValue
+    val isMarker = feature.superCategory == SuperCategoryId.MARKER
+
+    if(feature.superCategory == SuperCategoryId.HOUSENUMBER) {
+        return TextForFeature(name ?: feature.housenumber ?: "", false)
+    }
+
+    if(localizedContext == null) {
+        if(name == null) {
+            val osmClass = feature.featureClass
+            return TextForFeature(osmClass ?: "", true)
+        }
+
+        return TextForFeature(name, false)
+    }
+
+    if(isMarker) {
+        // If the feature is a Marker, return the unadulterated name along with prefix indicating
+        // that it's a Marker and any extra description (annotation).
+        val description = feature.getProperty("description")
+        var text = name
+        if(description != null) {
+            if(text != null)
+                text += ", $description"
+            else
+                text = description as String
+        }
+        return if(text != null)
+                TextForFeature(localizedContext.getString(R.string.markers_marker_with_name, text), false)
+            else
+                TextForFeature(localizedContext.getString(R.string.markers_generic_name), false)
+    }
+
+    var text = name
+
+    val namedTransit = when (featureValue) {
+        "bus_stop" -> Pair(R.string.osm_bus_stop_named, R.string.osm_bus_stop)
+        "station" -> Pair(R.string.osm_train_station_named, R.string.osm_train_station)
+        "tram_stop" -> Pair(R.string.osm_tram_stop_named, R.string.osm_tram_stop)
+        "subway" -> Pair(R.string.osm_subway_named, R.string.osm_subway)
+        "ferry_terminal" -> Pair(R.string.osm_ferry_terminal_named, R.string.osm_ferry_terminal)
+        else -> null
+    }
+    if(namedTransit != null) {
+        text = if (name != null)
+            localizedContext.getString(namedTransit.first, name)
+        else
+            localizedContext.getString(namedTransit.second)
+    }
+
+    if(entranceType != null) {
+        // Features which are an entrance can have the following properties:
+        //  An entrance name e.g. "Main Street"
+        //  A name for the POI/building that they are an entrance for e.g. Charing Cross
+        //  A name for the type of POI that they are an entrance for e.g. Subway
+        //
+        // Possible name combinations could be:
+        //      "Main Street" entrance to "Charing Cross" "Subway"
+        //      "Main Street" entrance to "Charing Cross"
+        //      "Main Street" entrance to "Subway"
+        //      Entrance to "Charing Cross" "Subway"
+        //      Entrance to "Subway"
+        //      Entrance to "Charing Cross"
+
+        val entranceName = feature.getProperty("entrance_name") as String?
         val destinationName = text      // The transit naming has already been done above
 
         val entranceText =
