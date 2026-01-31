@@ -3,10 +3,38 @@ package org.scottishtecharmy.soundscape.geoengine.mvt.data
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 
 /**
+ * Enum representing the types of MVT geometry.
+ * Each type has a corresponding GeoJSON type string for compatibility.
+ */
+enum class GeometryType(val geoJsonType: String) {
+    POINT("Point"),
+    MULTI_POINT("MultiPoint"),
+    LINE_STRING("LineString"),
+    MULTI_LINE_STRING("MultiLineString"),
+    POLYGON("Polygon"),
+    MULTI_POLYGON("MultiPolygon");
+
+    companion object {
+        /**
+         * Gets the GeometryType from a GeoJSON type string.
+         */
+        fun fromGeoJsonType(type: String): GeometryType? {
+            return entries.find { it.geoJsonType == type }
+        }
+    }
+}
+
+/**
  * Sealed interface representing MVT geometry types.
  * This provides type-safe geometry handling without GeoJSON overhead.
  */
 sealed interface MvtGeometry {
+    /**
+     * Returns the enum type for this geometry.
+     * Enables type-safe dispatch without string matching.
+     */
+    val geometryType: GeometryType
+
     /**
      * Returns all coordinates that make up this geometry as a flat list.
      * Useful for bounding box calculations and center point computation.
@@ -22,11 +50,20 @@ sealed interface MvtGeometry {
 }
 
 /**
+ * Extension property to get the GeoJSON-style type string.
+ * Provided for backward compatibility with existing code that uses string matching.
+ */
+val MvtGeometry.type: String
+    get() = geometryType.geoJsonType
+
+/**
  * A single point geometry.
  */
 data class MvtPoint(
     val coordinate: LngLatAlt
 ) : MvtGeometry {
+    override val geometryType: GeometryType get() = GeometryType.POINT
+
     override val allCoordinates: List<LngLatAlt>
         get() = listOf(coordinate)
 
@@ -39,6 +76,8 @@ data class MvtPoint(
 data class MvtMultiPoint(
     val coordinates: List<LngLatAlt>
 ) : MvtGeometry {
+    override val geometryType: GeometryType get() = GeometryType.MULTI_POINT
+
     override val allCoordinates: List<LngLatAlt>
         get() = coordinates
 
@@ -62,6 +101,8 @@ data class MvtMultiPoint(
 data class MvtLineString(
     val coordinates: List<LngLatAlt>
 ) : MvtGeometry {
+    override val geometryType: GeometryType get() = GeometryType.LINE_STRING
+
     override val allCoordinates: List<LngLatAlt>
         get() = coordinates
 
@@ -93,6 +134,8 @@ data class MvtLineString(
 data class MvtMultiLineString(
     val lines: List<MvtLineString>
 ) : MvtGeometry {
+    override val geometryType: GeometryType get() = GeometryType.MULTI_LINE_STRING
+
     override val allCoordinates: List<LngLatAlt>
         get() = lines.flatMap { it.coordinates }
 
@@ -110,6 +153,8 @@ data class MvtPolygon(
     val exteriorRing: List<LngLatAlt>,
     val interiorRings: List<List<LngLatAlt>> = emptyList()
 ) : MvtGeometry {
+    override val geometryType: GeometryType get() = GeometryType.POLYGON
+
     override val allCoordinates: List<LngLatAlt>
         get() = exteriorRing + interiorRings.flatten()
 
@@ -141,6 +186,8 @@ data class MvtPolygon(
 data class MvtMultiPolygon(
     val polygons: List<MvtPolygon>
 ) : MvtGeometry {
+    override val geometryType: GeometryType get() = GeometryType.MULTI_POLYGON
+
     override val allCoordinates: List<LngLatAlt>
         get() = polygons.flatMap { it.allCoordinates }
 
