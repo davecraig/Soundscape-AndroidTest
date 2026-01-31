@@ -9,6 +9,8 @@ import org.scottishtecharmy.soundscape.components.LocationSource
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.convertGeometry
@@ -58,7 +60,8 @@ class TileSearch(val offlineExtractPath: String,
 
                 )
         for (way in nearestWays) {
-            val wayName = (way as MvtFeature?)?.name
+            val spatialWay = (way as MvtFeature).asSpatialFeature()
+            val wayName = spatialWay.name
             if(name != null) {
                 if (wayName == name) {
                     return way as Way?
@@ -165,12 +168,12 @@ class TileSearch(val offlineExtractPath: String,
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun search(
+    fun searchForFeatures(
         location: LngLatAlt,
         searchString: String,
         localizedContext: Context?,
         settlementNames: Set<String>
-    ) : List<LocationDescription> {
+    ) : List<SpatialFeature> {
         val tileLocation = getXYTile(location, MAX_ZOOM_LEVEL)
         val extracts = findExtractPaths(offlineExtractPath).toMutableList()
         var reader: Reader? = null
@@ -593,33 +596,26 @@ class TileSearch(val offlineExtractPath: String,
                         // villages, suburbs               |  2 km
                         // hamlets, farms, neighbourhoods  |  1 km
                         //
-                        var nearestDistrict: MvtFeature?
-                        nearestDistrict = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_HAMLET)
-                            .getNearestFeature(location, settlementGrid.ruler, 1000.0) as MvtFeature?
-                        if(nearestDistrict?.name == null) {
-                            nearestDistrict = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_VILLAGE)
-                                    .getNearestFeature(result.location, settlementGrid.ruler, 2000.0) as MvtFeature?
-                            if(nearestDistrict?.name == null) {
-                                nearestDistrict =
-                                    settlementGrid.getFeatureTree(TreeId.SETTLEMENT_TOWN)
-                                        .getNearestFeature(
-                                            result.location,
-                                            settlementGrid.ruler,
-                                            4000.0
-                                        ) as MvtFeature?
-                                if (nearestDistrict?.name == null) {
-                                    nearestDistrict =
-                                        settlementGrid.getFeatureTree(TreeId.SETTLEMENT_CITY)
-                                            .getNearestFeature(
-                                                result.location,
-                                                settlementGrid.ruler,
-                                                15000.0
-                                            ) as MvtFeature?
+                        var nearestDistrictFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_HAMLET)
+                            .getNearestFeature(location, settlementGrid.ruler, 1000.0)
+                        var nearestDistrictName = (nearestDistrictFeature as? MvtFeature)?.asSpatialFeature()?.name
+                        if(nearestDistrictName == null) {
+                            nearestDistrictFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_VILLAGE)
+                                    .getNearestFeature(result.location, settlementGrid.ruler, 2000.0)
+                            nearestDistrictName = (nearestDistrictFeature as? MvtFeature)?.asSpatialFeature()?.name
+                            if(nearestDistrictName == null) {
+                                nearestDistrictFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_TOWN)
+                                    .getNearestFeature(result.location, settlementGrid.ruler, 4000.0)
+                                nearestDistrictName = (nearestDistrictFeature as? MvtFeature)?.asSpatialFeature()?.name
+                                if (nearestDistrictName == null) {
+                                    nearestDistrictFeature = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_CITY)
+                                        .getNearestFeature(result.location, settlementGrid.ruler, 15000.0)
+                                    nearestDistrictName = (nearestDistrictFeature as? MvtFeature)?.asSpatialFeature()?.name
                                 }
                             }
                         }
-                        if (nearestDistrict?.name != null) {
-                            mvt.properties?.set("city", nearestDistrict.name)
+                        if (nearestDistrictName != null) {
+                            mvt.properties?.set("city", nearestDistrictName)
                         }
                     }
                 }
@@ -638,12 +634,34 @@ class TileSearch(val offlineExtractPath: String,
                 }
                 accumulator
             }
-        return streetResults.map { (mvt, result) ->
-            val ld = mvt.toLocationDescription(LocationSource.OfflineGeocoder)
-            ld ?: LocationDescription(
-                name = result.string,
-                location = result.location
-            )
+        return streetResults.map { (mvt, _) ->
+            mvt.asSpatialFeature()
+        }
+    }
+
+    /**
+     * Search for locations matching the search string and return LocationDescriptions.
+     * This is a convenience wrapper around searchForFeatures() for backward compatibility.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun search(
+        location: LngLatAlt,
+        searchString: String,
+        localizedContext: Context?,
+        settlementNames: Set<String>
+    ) : List<LocationDescription> {
+        return searchForFeatures(location, searchString, localizedContext, settlementNames).mapNotNull { spatialFeature ->
+            // Convert SpatialFeature to LocationDescription
+            // We need to unwrap to get the MvtFeature for toLocationDescription
+            val mvtFeature = when (spatialFeature) {
+                is org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtFeatureAdapter -> spatialFeature.unwrap()
+                else -> null
+            }
+            mvtFeature?.toLocationDescription(LocationSource.OfflineGeocoder)
+                ?: LocationDescription(
+                    name = spatialFeature.name ?: "",
+                    location = spatialFeature.center
+                )
         }
     }
 }
