@@ -25,7 +25,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.SoundscapeGeocoder
-import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
+import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 
@@ -183,12 +183,12 @@ class AutoCallout(
         )
 
         val uniquelyNamedPOIs = mutableMapOf<String, SpatialFeature>()
-        pois.features.filter { feature ->
+        pois.filter { feature ->
             // Wrap the feature in SpatialFeature adapter for unified access
-            val spatialFeature = (feature as MvtFeature).asSpatialFeature()
+            val spatialFeature = feature as MvtFeature
 
             val name = getTextForFeature(localizedContext, spatialFeature)
-            val nearestPoint = getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
+            val nearestPoint = getDistanceToSpatialFeature(userGeometry.location, spatialFeature, userGeometry.ruler)
 
             val callout = TrackedCallout(
                 userGeometry,
@@ -200,7 +200,7 @@ class AutoCallout(
             )
             if(userGeometry.currentBeacon != null) {
                 // If the feature is within 1m of the current beacon, don't call it out
-                if(getDistanceToFeature(userGeometry.currentBeacon, feature, userGeometry.ruler).distance < 1.0) {
+                if(getDistanceToSpatialFeature(userGeometry.currentBeacon, spatialFeature, userGeometry.ruler).distance < 1.0) {
                     // We do want to add it to the POI history though so that when it's no longer
                     // the currentBeacon it doesn't immediately get called out.
                     if (!poiCalloutHistory.find(callout))

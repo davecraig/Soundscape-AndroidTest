@@ -1,8 +1,8 @@
 package org.scottishtecharmy.soundscape.geoengine.mvttranslation
 
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.cloneHashMap
 import kotlin.collections.component1
@@ -73,7 +73,7 @@ class EntranceMatching {
      * @param tileY the tile y coordinate so that the tile relative location of the intersection can
      *      * be turned into a latitude/longitude
      */
-    fun generateEntrances(collection: FeatureCollection,
+    fun generateEntrances(collection: FeatureList,
                           poiMap : HashMap<Long, MutableList<Feature>>,
                           buildingMap: HashMap<Long, Feature>,
                           tileX : Int,
@@ -192,7 +192,7 @@ class EntranceMatching {
                                     if (entranceDetails.name != null)
                                         set( "entrance_name", entranceDetails.name)
                                 }
-                                collection.addFeature(entrance)
+                                collection.add(entrance)
                                 //println("POI entrance: ${entrance.properties?.get("name")} ${entranceDetails.entranceType} ${entranceDetails.osmId} ")
 
                                 // We're also going to mark the POI to indicate that it has entrances.
@@ -232,7 +232,7 @@ class EntranceMatching {
                             entrance.setProperty("entrance", entranceDetails.entranceType)
                             entrance.name = entranceDetails.name
                             entrance.superCategory = SuperCategoryId.PLACE
-                            collection.addFeature(entrance)
+                            collection.add(entrance)
                             //println("Confected Entrance: ${entrance.name} ${entranceDetails.entranceType} ${entranceDetails.osmId} ${entrance.featureClass} ${entrance.featureSubClass}")
                         }
                     }

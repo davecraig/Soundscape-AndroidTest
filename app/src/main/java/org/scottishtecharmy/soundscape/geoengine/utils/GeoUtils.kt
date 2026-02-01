@@ -2,6 +2,13 @@ package org.scottishtecharmy.soundscape.geoengine.utils
 
 import org.scottishtecharmy.soundscape.dto.BoundingBox
 import org.scottishtecharmy.soundscape.dto.BoundingBoxCorners
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
@@ -37,6 +44,12 @@ const val MIN_LATITUDE = -85.05112878
 const val MAX_LATITUDE = 85.05112878
 const val MIN_LONGITUDE: Double = -180.0002
 const val MAX_LONGITUDE: Double = 180.0002
+
+/**
+ * Represents a triangle defined by an origin and two edge points.
+ * Used for Field of View (FOV) calculations.
+ */
+data class Triangle(val origin: LngLatAlt, val left: LngLatAlt, val right: LngLatAlt)
 
 
 /**
@@ -1371,4 +1384,135 @@ fun getSideOfLine(p1: LngLatAlt, p2: LngLatAlt, h: LngLatAlt): Side {
         else -> Side.INLINE
     }
 }
+
+// ============== MvtGeometry Helper Functions ==============
+
+/**
+ * Given an MvtPolygon returns the bounding box.
+ */
+fun getBoundingBoxOfMvtPolygon(polygon: MvtPolygon): BoundingBox {
+    var westLon = Int.MAX_VALUE.toDouble()
+    var southLat = Int.MAX_VALUE.toDouble()
+    var eastLon = Int.MIN_VALUE.toDouble()
+    var northLat = Int.MIN_VALUE.toDouble()
+
+    for (point in polygon.exteriorRing) {
+        westLon = min(westLon, point.longitude)
+        southLat = min(southLat, point.latitude)
+        eastLon = max(eastLon, point.longitude)
+        northLat = max(northLat, point.latitude)
+    }
+    return BoundingBox(westLon, southLat, eastLon, northLat)
+}
+
+/**
+ * Given an MvtMultiPolygon returns the bounding boxes for each polygon.
+ */
+fun getBoundingBoxesOfMvtMultiPolygon(multiPolygon: MvtMultiPolygon): List<BoundingBox> {
+    return multiPolygon.polygons.map { getBoundingBoxOfMvtPolygon(it) }
+}
+
+/**
+ * Distance to an MvtPolygon from current location.
+ */
+fun distanceToMvtPolygon(
+    pointCoordinates: LngLatAlt,
+    polygon: MvtPolygon,
+    ruler: Ruler,
+    nearestPoint: LngLatAlt? = null
+): Double {
+    if (mvtPolygonContainsCoordinates(pointCoordinates, polygon)) {
+        nearestPoint?.latitude = pointCoordinates.latitude
+        nearestPoint?.longitude = pointCoordinates.longitude
+        return 0.0
+    }
+
+    // We're only looking at the outer ring, which is really just a LineString
+    val lineString = LineString()
+    lineString.coordinates = ArrayList(polygon.exteriorRing)
+    return distanceToRegion(pointCoordinates, lineString, ruler, nearestPoint)
+}
+
+/**
+ * Distance to an MvtMultiPolygon from current location.
+ */
+fun distanceToMvtMultiPolygon(
+    pointCoordinates: LngLatAlt,
+    multiPolygon: MvtMultiPolygon,
+    ruler: Ruler,
+    nearestPoint: LngLatAlt? = null
+): Double {
+    var shortestDistance = Double.POSITIVE_INFINITY
+    for (polygon in multiPolygon.polygons) {
+        if (mvtPolygonContainsCoordinates(pointCoordinates, polygon)) {
+            return 0.0
+        }
+        val lineString = LineString()
+        lineString.coordinates = ArrayList(polygon.exteriorRing)
+        val distance = distanceToRegion(pointCoordinates, lineString, ruler, nearestPoint)
+        if (distance < shortestDistance)
+            shortestDistance = distance
+    }
+    return shortestDistance
+}
+
+/**
+ * Check if a coordinate is contained within an MvtPolygon.
+ */
+fun mvtPolygonContainsCoordinates(lngLatAlt: LngLatAlt, polygon: MvtPolygon): Boolean {
+    return regionContainsCoordinates(lngLatAlt, ArrayList(polygon.exteriorRing))
+}
+
+/**
+ * Check if a coordinate is contained within an MvtMultiPolygon.
+ */
+fun mvtMultiPolygonContainsCoordinates(lngLatAlt: LngLatAlt, multiPolygon: MvtMultiPolygon): Boolean {
+    for (polygon in multiPolygon.polygons) {
+        if (regionContainsCoordinates(lngLatAlt, ArrayList(polygon.exteriorRing)))
+            return true
+    }
+    return false
+}
+
+/**
+ * Test if an MvtPolygon is within a FOV triangle.
+ */
+fun testMvtPolygonInFov(polygon: MvtPolygon, triangle: Triangle): Boolean {
+    // Test if any of the polygon edges intersect with the triangle or are wholly within it
+    var lastPoint = polygon.exteriorRing.firstOrNull() ?: return false
+    for (point in polygon.exteriorRing.drop(1)) {
+        if (lineSegmentPassesWithinTriangle(lastPoint, point, triangle)) {
+            return true
+        }
+        lastPoint = point
+    }
+
+    // Finally check that the triangle isn't wholly inside the polygon
+    return (mvtPolygonContainsCoordinates(triangle.origin, polygon) ||
+            mvtPolygonContainsCoordinates(triangle.left, polygon) ||
+            mvtPolygonContainsCoordinates(triangle.right, polygon))
+}
+
+fun lineSegmentPassesWithinTriangle(p1: LngLatAlt, p2: LngLatAlt, triangle: Triangle): Boolean {
+    // Check if the line segment intersects any of the triangle's edges
+    if (straightLinesIntersect(p1, p2, triangle.origin, triangle.left) ||
+        straightLinesIntersect(p1, p2, triangle.left, triangle.right) ||
+        straightLinesIntersect(p1, p2, triangle.right, triangle.origin)) {
+        return true
+    }
+
+    // Then check that the line segment isn't completely inside the triangle
+    val trianglePolygon = createPolygonFromTriangle(triangle)
+    return (polygonContainsCoordinates(p1, trianglePolygon) && polygonContainsCoordinates(p2, trianglePolygon))
+}
+
+/**
+ * Test if an MvtMultiPolygon is within a FOV triangle.
+ */
+fun testMvtMultiPolygonInFov(multiPolygon: MvtMultiPolygon, triangle: Triangle): Boolean {
+    // Test only the first polygon
+    val firstPolygon = multiPolygon.polygons.firstOrNull() ?: return false
+    return testMvtPolygonInFov(firstPolygon, triangle)
+}
+
 

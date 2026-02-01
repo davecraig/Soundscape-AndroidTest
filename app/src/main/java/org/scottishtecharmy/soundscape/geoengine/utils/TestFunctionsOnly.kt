@@ -4,6 +4,8 @@ import org.scottishtecharmy.soundscape.dto.Circle
 import org.scottishtecharmy.soundscape.dto.IntersectionRelativeDirections
 import org.scottishtecharmy.soundscape.dto.Tile
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
@@ -408,13 +410,13 @@ fun interpolate(
     return LngLatAlt(lon, lat)
 }
 
-fun searchFeaturesByName(featureCollection: FeatureCollection, query: String): FeatureCollection {
-    val results = FeatureCollection()
-    for (feature in featureCollection) {
+fun searchFeaturesByName(featureList: FeatureList, query: String): FeatureList {
+    val results = emptyFeatureList()
+    for (feature in featureList) {
         val mvtFeature = feature as MvtFeature
         val name = mvtFeature.name
         if (name != null && name.contains(query, ignoreCase = true)) {
-            results.addFeature(feature)
+            results.add(feature)
         }
     }
     return results

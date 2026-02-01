@@ -10,9 +10,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.vectorTileToGeoJson
-import org.scottishtecharmy.soundscape.geoengine.utils.mergeAllPolygonsInFeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.utils.mergeAllPolygonsInFeatureList
 import org.scottishtecharmy.soundscape.geoengine.utils.decompressTile
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.network.ITileDAO
 import org.scottishtecharmy.soundscape.network.ProtomapsTileClient
@@ -72,15 +72,15 @@ open class ProtomapsGridState(
 
     /**
      * updateTile is responsible for getting data from the protomaps server and translating it from
-     * MVT format into a set of FeatureCollections.
+     * MVT format into a set of FeatureLists.
      */
     override suspend fun updateTile(
         x: Int,
         y: Int,
         workerIndex: Int,
-        featureCollections: Array<FeatureCollection>,
+        featureCollections: Array<FeatureList>,
         intersectionMap: HashMap<LngLatAlt, Intersection>,
-        streetNumberMap: HashMap<String, FeatureCollection>
+        streetNumberMap: HashMap<String, FeatureList>
     ): Boolean {
         var ret = false
 
@@ -132,7 +132,7 @@ open class ProtomapsGridState(
                 if (result != null) {
                     val requestTime = System.currentTimeMillis() - startTime
                     println("Tile size ${result.serializedSize}")
-                    var collections: Array<FeatureCollection>?
+                    var collections: Array<FeatureList>?
                     val mvtParseTime = measureTimeMillis {
                         collections = vectorTileToGeoJson(
                             tileX = x,
@@ -145,14 +145,14 @@ open class ProtomapsGridState(
                     val addTime = measureTimeMillis {
                         if(collections != null) {
                             for ((index, collection) in collections.withIndex()) {
-                                featureCollections[index] += collection
+                                featureCollections[index].addAll(collection)
                             }
                         }
                     }
 
                     println("Request time $requestTime")
                     println("MVT parse time $mvtParseTime")
-                    println("Add to FeatureCollection time $addTime")
+                    println("Add to FeatureList time $addTime")
 
                     ret = true
                 } else {
@@ -168,9 +168,9 @@ open class ProtomapsGridState(
         return ret
     }
 
-    override fun fixupCollections(featureCollections: Array<FeatureCollection>) {
+    override fun fixupCollections(featureCollections: Array<FeatureList>) {
         // Merge any overlapping Polygons that are on the tile boundaries
-        val mergedPoi = mergeAllPolygonsInFeatureCollection(featureCollections[TreeId.POIS.id])
+        val mergedPoi = mergeAllPolygonsInFeatureList(featureCollections[TreeId.POIS.id])
         featureCollections[TreeId.POIS.id] = mergedPoi
     }
 }

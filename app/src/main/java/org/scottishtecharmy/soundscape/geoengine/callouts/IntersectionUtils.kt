@@ -22,6 +22,8 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getCombinedDirectionSegme
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getPathWays
 import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -56,7 +58,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
 
     // Find roads within FOV
     val fovRoads = roadTree.getAllWithinTriangle(triangle)
-    if(fovRoads.features.isEmpty()) return IntersectionDescription(
+    if(fovRoads.isEmpty()) return IntersectionDescription(
         nearestRoad = userGeometry.mapMatchedWay,
         userGeometry = userGeometry)
 
@@ -95,7 +97,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
         // and the nearest of those.
         var bestRoad: Way? = null
         var bestRoadDistance = Double.MAX_VALUE
-        for(road in fovRoads.features) {
+        for(road in fovRoads) {
             val way = road as Way
             if(nearestRoad.properties?.get("pavement") == way.name) {
                 if(userGeometry.mapMatchedLocation?.point != null) {
@@ -121,14 +123,14 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
 
     // Find intersections within FOV
     val fovIntersections = intersectionTree.getAllWithinTriangle(triangle)
-    if(fovIntersections.features.isEmpty()) return IntersectionDescription(nearestRoad, userGeometry)
+    if(fovIntersections.isEmpty()) return IntersectionDescription(nearestRoad, userGeometry)
 
     // Remove intersections which are only:
     //  1. Short paths leading to sidewalks of the road, or
     //  2. Direct intersections with sidewalks.
     //  3. Within a 5m radius of the current location
-    val trimmedIntersections = FeatureCollection()
-    for(i in fovIntersections.features) {
+    val trimmedIntersections = emptyFeatureList()
+    for(i in fovIntersections) {
         val intersection = i as Intersection
         var add = true
         if(!userGeometry.inStreetPreview && userGeometry.ruler.distance(intersection.location, userGeometry.mapMatchedLocation?.point ?: userGeometry.location) < 5.0)
@@ -156,7 +158,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
             }
         }
         if(add)
-            trimmedIntersections.features.add(intersection)
+            trimmedIntersections.add(intersection)
     }
 
     // Sort the FOV intersections by distance
@@ -165,7 +167,8 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     // Inspect each intersection so as to skip trivial ones
     val nonTrivialIntersections = mutableListOf<Pair<Int, Intersection>>()
 
-    for (intersection in sortedFovIntersections.features) {
+    for (feature in sortedFovIntersections) {
+        val intersection = feature as Intersection
         val intersectionLocation = (intersection.geometry as Point).coordinates
         val graphIntersection = gridState.gridIntersections[intersectionLocation]
         if(graphIntersection != null) {

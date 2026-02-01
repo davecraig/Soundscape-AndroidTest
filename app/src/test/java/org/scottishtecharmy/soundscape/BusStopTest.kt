@@ -6,6 +6,8 @@ import org.junit.Test
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
+import org.scottishtecharmy.soundscape.geoengine.types.toFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -32,7 +34,7 @@ class BusStopTest {
         // This is a good examples as the points are way off their actual location in the real world.
         // One appears to be in a garden and the other is on the wrong side of the road!
         val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-        val busStopString = moshi.adapter(FeatureCollection::class.java).toJson(busStopTree.getAllCollection())
+        val busStopString = moshi.adapter(FeatureCollection::class.java).toJson(busStopTree.getAllCollection().toFeatureCollection())
         println("Bus stops in tile: $busStopString")
 
         // However we can get some dodgy info for the user so...
@@ -46,11 +48,11 @@ class BusStopTest {
         // we can reuse the intersection code as bus stops are GeoJSON Points just like Intersections
         val triangle = getFovTriangle(userGeometry)
         val fovBusStopFeatureCollection = busStopTree.getAllWithinTriangle(triangle)
-        Assert.assertEquals(2, fovBusStopFeatureCollection.features.size)
+        Assert.assertEquals(2, fovBusStopFeatureCollection.size)
         // we can detect the nearest bus stop and give a distance/direction but as mentioned above the OSM
         // bus stop location data for this example is rubbish so not sure how useful this is to the user?
         val nearestBusStop = FeatureTree(fovBusStopFeatureCollection).getNearestFeature(userGeometry.location, userGeometry.ruler)
-        val busStopLocation = nearestBusStop!!.geometry as Point
+        val busStopLocation = (nearestBusStop!! as MvtFeature).geometry as Point
         val distanceToBusStop = userGeometry.ruler.distance(userGeometry.location, busStopLocation.coordinates)
         Assert.assertEquals(9.08, distanceToBusStop, 0.1)
 

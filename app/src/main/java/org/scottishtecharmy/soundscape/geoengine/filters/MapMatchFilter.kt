@@ -636,7 +636,7 @@ class MapMatchFilter {
         val roads = roadTree.getNearestCollection(location, 20.0, 8, gridState.ruler)
 
         if (followerList.isEmpty()) {
-            if(roads.features.isNotEmpty()) {
+            if(roads.isNotEmpty()) {
                 // Start off with a follower for the nearest road
                 followerList.add(RoadFollower(this, MutableList(1) { roads.first() as Way }, lastLocation, colorIndex))
                 ++colorIndex

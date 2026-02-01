@@ -28,9 +28,9 @@ import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.featureHasEntrances
 import org.scottishtecharmy.soundscape.geoengine.utils.featureIsInFilterGroup
-import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
+import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.utils.deferredToLocationDescription
@@ -109,8 +109,8 @@ class PlacesNearbySharedLogic(
                     )
                 } else {
                     internalUiState.value = uiState.value.copy(
-                        nearbyPlaces = FeatureCollection(),
-                        nearbyIntersections = FeatureCollection()
+                        nearbyPlaces = emptyFeatureList(),
+                        nearbyIntersections = emptyFeatureList()
                     )
                 }
             }
@@ -122,35 +122,45 @@ fun filterLocations(uiState: PlacesNearbyUiState, context: Context): List<Locati
     val location = uiState.userLocation ?: LngLatAlt()
     val ruler = CheapRuler(location.latitude)
     return if (uiState.filter == "intersections") {
-        uiState.nearbyIntersections.features.filter { feature ->
-            // Filter out un-named intersections
-            (feature as MvtFeature).name.toString().isNotEmpty()
-        }.map { feature ->
-            LocationDescription(
-                name = (feature as MvtFeature).name.toString(),
-                location = getDistanceToFeature(location, feature, ruler).point
-            )
-        }.sortedBy {
-            uiState.userLocation?.let { location ->
-                ruler.distance(location, it.location)
-            } ?: 0.0
-        }
+        uiState.nearbyIntersections
+            .filter { feature ->
+                // Filter out un-named intersections
+                (feature as MvtFeature).name.toString().isNotEmpty()
+            }
+            .map { feature ->
+                val mvtFeature = feature as MvtFeature
+                LocationDescription(
+                    name = mvtFeature.name.toString(),
+                    location = getDistanceToSpatialFeature(location, mvtFeature, ruler).point
+                )
+            }
+            .sortedBy { desc ->
+                uiState.userLocation?.let { loc ->
+                    ruler.distance(loc, desc.location)
+                } ?: 0.0
+            }
     } else {
-        uiState.nearbyPlaces.features.filter { feature ->
-            // Filter based on any folder selected and filter out POIs with entrances
-            !featureHasEntrances(feature) &&
-            featureIsInFilterGroup(feature, uiState.filter) &&
-                    getTextForFeature(context, feature as MvtFeature).text.isNotEmpty()
-        }.map { feature ->
-            feature.deferredToLocationDescription(
-                LocationSource.OfflineGeocoder,
-                getDistanceToFeature(location, feature, ruler).point,
-                getTextForFeature(context, feature as MvtFeature)
-            )
-        }.sortedBy {
-            uiState.userLocation?.let { location ->
-                ruler.distance(location, it.location)
-            } ?: 0.0
-        }
+        uiState.nearbyPlaces
+            .filter { feature ->
+                val mvtFeature = feature as MvtFeature
+                // Filter based on any folder selected and filter out POIs with entrances
+                val hasNoEntrances = !featureHasEntrances(mvtFeature)
+                val matchesFilter = featureIsInFilterGroup(mvtFeature, uiState.filter)
+                val hasName = getTextForFeature(context, mvtFeature).text.isNotEmpty()
+                hasNoEntrances && matchesFilter && hasName
+            }
+            .map { feature ->
+                val mvtFeature = feature as MvtFeature
+                mvtFeature.deferredToLocationDescription(
+                    LocationSource.OfflineGeocoder,
+                    getDistanceToSpatialFeature(location, mvtFeature, ruler).point,
+                    getTextForFeature(context, mvtFeature)
+                )
+            }
+            .sortedBy { desc ->
+                uiState.userLocation?.let { loc ->
+                    ruler.distance(loc, desc.location)
+                } ?: 0.0
+            }
     }
 }

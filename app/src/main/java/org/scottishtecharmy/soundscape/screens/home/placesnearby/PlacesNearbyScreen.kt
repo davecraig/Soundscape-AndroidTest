@@ -14,7 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import org.scottishtecharmy.soundscape.R
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomAppBar
 import org.scottishtecharmy.soundscape.ui.theme.extraSmallPadding
@@ -92,7 +92,7 @@ fun PlacesNearbyPreview() {
         homeNavController = rememberNavController(),
         uiState =
             PlacesNearbyUiState(
-                nearbyPlaces = FeatureCollection()
+                nearbyPlaces = emptyFeatureList()
             ),
     )
 }

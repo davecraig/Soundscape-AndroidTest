@@ -8,6 +8,7 @@ import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
+import org.scottishtecharmy.soundscape.geoengine.types.toFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoMoshi
@@ -27,7 +28,7 @@ class CrossingTest {
         Assert.assertEquals(2, crossingsTree.tree!!.size())
 
         val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-        val crossingString = moshi.adapter(FeatureCollection::class.java).toJson(crossingsTree.getAllCollection())
+        val crossingString = moshi.adapter(FeatureCollection::class.java).toJson(crossingsTree.getAllCollection().toFeatureCollection())
         println("Crossings in tile: $crossingString")
 
         // usual fake our device location and heading
@@ -42,10 +43,10 @@ class CrossingTest {
         //  but there will be more complex crossings so I'll need to check some other tiles
         val triangle = getFovTriangle(userGeometry)
         val fovCrossingFeatureCollection = crossingsTree.getAllWithinTriangle(triangle)
-        Assert.assertEquals(1, fovCrossingFeatureCollection.features.size)
+        Assert.assertEquals(1, fovCrossingFeatureCollection.size)
 
-        val nearestCrossing = FeatureTree(fovCrossingFeatureCollection).getNearestFeature(userGeometry.location, userGeometry.ruler)
-        val crossingLocation = nearestCrossing!!.geometry as Point
+        val nearestCrossing = FeatureTree(fovCrossingFeatureCollection).getNearestFeature(userGeometry.location, userGeometry.ruler) as MvtFeature
+        val crossingLocation = nearestCrossing.geometry as Point
         val distanceToCrossing = userGeometry.ruler.distance(userGeometry.location, crossingLocation.coordinates)
 
         // Confirm which road the crossing is on

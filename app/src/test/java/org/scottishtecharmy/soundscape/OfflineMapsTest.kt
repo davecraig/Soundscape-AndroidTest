@@ -2,6 +2,8 @@ package org.scottishtecharmy.soundscape
 
 import org.junit.Test
 import org.scottishtecharmy.soundscape.geoengine.MANIFEST_NAME
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
+import org.scottishtecharmy.soundscape.geoengine.types.toFeatureList
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
@@ -25,7 +27,7 @@ class OfflineMapsTest {
         for((index, extract) in extracts.withIndex()) {
             val distanceToLocation = getDistanceToFeature(
                 location,
-                extract,
+                extract as Feature,
                 CheapRuler(location.latitude)
             )
             if(distanceToLocation.distance < shortestDistance) {
@@ -38,12 +40,12 @@ class OfflineMapsTest {
             var highlight = ""
             if(index == mostCentral)
                 highlight = "*"
-            println("$highlight ${extract.properties} - $shortestDistance")
+            println("$highlight ${(extract as MvtFeature).properties} - $shortestDistance")
         }
 
         val simple = tree.getNearestCollection(location, 250000.0, 5, CheapRuler(location.latitude))
-        if(simple.features.isNotEmpty()) {
-            println(simple.features[0].properties?.get("name"))
+        if(simple.isNotEmpty()) {
+            println((simple[0] as MvtFeature).properties?.get("name"))
         }
     }
 
@@ -60,7 +62,7 @@ class OfflineMapsTest {
         val collection = adapter.fromJson(metadataFile) as FeatureCollection
 
         // Add it to a FeatureTree for searching
-        val tree = FeatureTree(collection)
+        val tree = FeatureTree(collection.toFeatureList())
 
         // Try out some locations to see which extracts they are in
         checkLocation( LngLatAlt(-0.1277653, 51.5074456), tree) // London

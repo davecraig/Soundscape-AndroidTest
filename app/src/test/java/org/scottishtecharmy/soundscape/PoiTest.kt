@@ -11,6 +11,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
 import org.scottishtecharmy.soundscape.geoengine.utils.circleToPolygon
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionsPolygons
 import org.scottishtecharmy.soundscape.geoengine.utils.getTriangleForDirection
+import org.scottishtecharmy.soundscape.geoengine.types.toFeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -122,7 +123,7 @@ class PoiTest {
                 gridState.ruler
             )
             // Check that the first returned name is the nearest
-            val nearestName = getNameForFeature(poiFeatures.features[0] as MvtFeature)
+            val nearestName = getNameForFeature(poiFeatures[0] as MvtFeature)
             println("Nearest name : $nearestName")
             when(index) {
                 0 -> assertEquals("bridge", nearestName)
@@ -131,7 +132,7 @@ class PoiTest {
                 3 -> assertEquals("Garvie & Co", nearestName)
             }
 
-            val furthestName = getNameForFeature(poiFeatures.features.last() as MvtFeature)
+            val furthestName = getNameForFeature(poiFeatures.last() as MvtFeature)
             println("Furthest name : $furthestName")
             when(index) {
                 0 -> assertEquals("Woodburn Way Car Park", furthestName)
@@ -141,7 +142,7 @@ class PoiTest {
             }
 
             featuresToDraw.addFeature(polygon)
-            featuresToDraw += poiFeatures
+            featuresToDraw += poiFeatures.toFeatureCollection()
         }
 
         val adapter = GeoJsonObjectMoshiAdapter()
@@ -163,8 +164,8 @@ class PoiTest {
 
         val featuresToDraw = FeatureCollection()
         val features = poi.getNearbyCollection(userGeometry.location, 50.0, gridState.ruler)
-        featuresToDraw += features
-        //assertEquals(33, features.features.size)
+        featuresToDraw += features.toFeatureCollection()
+        //assertEquals(33, features.size)
 
         val circle = Feature()
         circle.geometry = circleToPolygon(
@@ -177,7 +178,7 @@ class PoiTest {
 
         val adapter = GeoJsonObjectMoshiAdapter()
         val outputFile = FileOutputStream("poi.geojson")
-        outputFile.write(adapter.toJson(features).toByteArray())
+        outputFile.write(adapter.toJson(features.toFeatureCollection()).toByteArray())
         outputFile.close()
     }
 
@@ -204,14 +205,14 @@ class PoiTest {
         // Make a FeatureCollection containing all of the super category Features. If the
         // classification hasn't missed anything, then this should include all the POIs.
         val joint = FeatureCollection()
-        joint += info
-        joint += objects
-        joint += places
-        joint += landmarks
-        joint += mobility
-        joint += safety
-        joint += entrances
-        diffFeatureCollections(features, joint)
+        joint += info.toFeatureCollection()
+        joint += objects.toFeatureCollection()
+        joint += places.toFeatureCollection()
+        joint += landmarks.toFeatureCollection()
+        joint += mobility.toFeatureCollection()
+        joint += safety.toFeatureCollection()
+        joint += entrances.toFeatureCollection()
+        diffFeatureCollections(features.toFeatureCollection(), joint)
 
         // The differences between these two collections are all un-categorised OSM tags
         //

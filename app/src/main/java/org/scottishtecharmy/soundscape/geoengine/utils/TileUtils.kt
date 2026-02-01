@@ -1,6 +1,15 @@
 package org.scottishtecharmy.soundscape.geoengine.utils
 
 import android.content.Context
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
@@ -88,26 +97,26 @@ fun getLatLonTileWithOffset(
 }
 
 /**
- * Parses out the super category Features contained in the Points of Interest (POI) Feature Collection.
+ * Parses out the super category Features contained in the Points of Interest (POI) FeatureList.
  * @param superCategory
  * String for super category. Options are "information", "object", "place", "landmark", "mobility", "safety"
- * @param poiFeatureCollection
- * POI Feature Collection for a tile.
- * @return a Feature Collection object containing only the Features from the super category.
+ * @param poiFeatureList
+ * POI FeatureList for a tile.
+ * @return a FeatureList object containing only the Features from the super category.
  */
 fun getPoiFeatureCollectionBySuperCategory(
     superCategory: SuperCategoryId,
-    poiFeatureCollection: FeatureCollection
-): FeatureCollection {
+    poiFeatureList: FeatureList
+): FeatureList {
 
-    val features = poiFeatureCollection.features.filter {
+    val features = poiFeatureList.filter {
         feature -> (feature as MvtFeature).superCategory == superCategory
     }
 
-    val tempFeatureCollection = FeatureCollection()
-    tempFeatureCollection.features += features
+    val tempFeatureList = emptyFeatureList()
+    tempFeatureList.addAll(features)
 
-    return tempFeatureCollection
+    return tempFeatureList
 }
 
 fun featureHasEntrances(feature: Feature): Boolean {
@@ -321,6 +330,90 @@ fun getDistanceToFeature(
 }
 
 /**
+ * Given a SpatialFeature and a location this will calculate the nearest distance to it
+ * @param currentLocation
+ * Current location as LngLatAlt
+ * @param feature
+ * @return The a PointAndDistance object which contains the distance between currentLocation and
+ *  feature and the point to which the distance is measured.
+ */
+fun getDistanceToSpatialFeature(
+    currentLocation: LngLatAlt,
+    feature: SpatialFeature,
+    ruler: Ruler
+): PointAndDistanceAndHeading {
+    when (val geom = feature.mvtGeometry) {
+        is MvtPoint -> {
+            val point = geom.coordinate
+            val distanceToFeaturePoint = ruler.distance(currentLocation, point)
+            val heading = ruler.bearing(currentLocation, point)
+            return PointAndDistanceAndHeading(point, distanceToFeaturePoint, heading)
+        }
+
+        is MvtMultiPoint -> {
+            var shortestDistance = Double.MAX_VALUE
+            var nearestPoint = LngLatAlt()
+
+            for (point in geom.coordinates) {
+                val distanceToPoint = ruler.distance(currentLocation, point)
+                if (distanceToPoint < shortestDistance) {
+                    shortestDistance = distanceToPoint
+                    nearestPoint = point
+                }
+            }
+            val heading = ruler.bearing(currentLocation, nearestPoint)
+            return PointAndDistanceAndHeading(nearestPoint, shortestDistance, heading)
+        }
+
+        is MvtLineString -> {
+            val lineString = LineString()
+            lineString.coordinates = ArrayList(geom.coordinates)
+            return ruler.distanceToLineString(currentLocation, lineString)
+        }
+
+        is MvtMultiLineString -> {
+            var nearest = PointAndDistanceAndHeading()
+            for (line in geom.lines) {
+                val lineString = LineString()
+                lineString.coordinates = ArrayList(line.coordinates)
+                val segmentNearest = ruler.distanceToLineString(currentLocation, lineString)
+                if (segmentNearest.distance < nearest.distance) {
+                    nearest = segmentNearest
+                }
+            }
+            return nearest
+        }
+
+        is MvtPolygon -> {
+            val nearestPoint = LngLatAlt()
+            val distance = distanceToMvtPolygon(currentLocation, geom, ruler, nearestPoint)
+            val heading = ruler.bearing(currentLocation, nearestPoint)
+            return PointAndDistanceAndHeading(nearestPoint, distance, heading)
+        }
+
+        is MvtMultiPolygon -> {
+            var shortestDistance = Double.MAX_VALUE
+            var nearestPoint = LngLatAlt()
+
+            for (polygon in geom.polygons) {
+                val pointOnPolygon = LngLatAlt()
+                val distance = distanceToMvtPolygon(currentLocation, polygon, ruler, pointOnPolygon)
+                if (distance < shortestDistance) {
+                    shortestDistance = distance
+                    nearestPoint = pointOnPolygon
+                }
+            }
+            val heading = ruler.bearing(currentLocation, nearestPoint)
+            return PointAndDistanceAndHeading(nearestPoint, shortestDistance, heading)
+        }
+
+        else -> {
+            return PointAndDistanceAndHeading()
+        }
+    }
+}
+
+/**
  * Given a Feature Collection and location this will calculate the nearest distance to each Feature,
  * and return a Feature Collection that contains the distance_to data for each Feature.
  * @param currentLocation
@@ -367,6 +460,25 @@ fun sortedByDistanceTo(
         featuresSortedByDistance.addFeature(feature)
     }
     return featuresSortedByDistance
+}
+
+/**
+ * Given a FeatureList and location this will calculate the nearest distance to each Feature,
+ * and return a sorted FeatureList by distance for each Feature.
+ * @param currentLocation
+ * Current location as LngLatAlt.
+ * @param featureList
+ * @return a sorted FeatureList by distance from the current location.
+ */
+fun sortedByDistanceTo(
+    currentLocation: LngLatAlt,
+    featureList: FeatureList
+): FeatureList {
+    val ruler = currentLocation.createCheapRuler()
+    val sortedList = featureList.sortedBy { feature ->
+        getDistanceToSpatialFeature(currentLocation, feature, ruler).distance
+    }
+    return sortedList.toMutableList()
 }
 
 /**
@@ -665,6 +777,71 @@ fun mergeAllPolygonsInFeatureCollection(
         }
     }
     return resultantFeatureCollection
+}
+
+fun mergeAllPolygonsInFeatureList(
+    polygonFeatureList: FeatureList
+): FeatureList {
+
+    // We return a FeatureList which contains all the points and lines in the original,
+    // but with any duplicated polygons merged.
+    val resultantFeatureList = emptyFeatureList()
+
+    // Create a HashMap of any polygons with the same osm_id. Each hash map entry contains a List
+    // of FeatureLists. Each FeatureList contains one or more polygons. When there's
+    // more than one, they've been tested to see if they overlap.
+    val features = hashMapOf<Any, MutableList<FeatureList>>()
+    for (feature in polygonFeatureList) {
+        val mvtFeature = feature as MvtFeature
+        if(mvtFeature.geometry.type == "Polygon") {
+            val osmId = mvtFeature.osmId
+            if (!features.containsKey(osmId)) {
+                // This is the first feature with this osm_id
+                features[osmId] = mutableListOf()
+            }
+            var foundOverlap = false
+            for(featureList in features[osmId]!!) {
+                for(existingFeature in featureList) {
+                    if(polygonFeaturesOverlap(mvtFeature, existingFeature as Feature)) {
+                        featureList.add(mvtFeature)
+                        foundOverlap = true
+                        break
+                    }
+                }
+            }
+            if(!foundOverlap) {
+                // We found no overlap, so create a new FeatureList for this feature
+                val newFeatureList = emptyFeatureList()
+                newFeatureList.add(mvtFeature)
+                features[osmId]!!.add(newFeatureList)
+            }
+        } else {
+            // Not a polygon, so just copy it over to our results
+            resultantFeatureList.add(feature)
+        }
+    }
+
+    for(featureListEntry in features) {
+        // For each FeatureList merge any overlapping polygons. If there are no duplicates,
+        // then the only Feature in the collection is returned.
+        for(featureList in featureListEntry.value) {
+            var mergedFeature: Feature? = null
+            for ((index, feature) in featureList.withIndex()) {
+                val tempMergedFeature = mergedFeature
+                mergedFeature = if (index == 0) {
+                    feature as Feature
+                } else {
+                    mergePolygons(mergedFeature!!, feature as Feature)
+                }
+                if(mergedFeature == feature) {
+                    if(tempMergedFeature != null)
+                        resultantFeatureList.add(tempMergedFeature as MvtFeature)
+                }
+            }
+            resultantFeatureList.add(mergedFeature as MvtFeature)
+        }
+    }
+    return resultantFeatureList
 }
 
 fun polygonOuterRingToCoordinateArray(polygon: Polygon?, geometryFactory: GeometryFactory) : LinearRing? {
@@ -1013,8 +1190,8 @@ fun addSidewalk(currentRoad: Way,
 }
 fun checkNearbyPoi(tree: FeatureTree,
                    location: LngLatAlt,
-                   polygonPoiToCompare: Feature?,
-                   ruler: Ruler) : Feature? {
+                   polygonPoiToCompare: SpatialFeature?,
+                   ruler: Ruler) : SpatialFeature? {
 
     // Get the nearest 2 features so that we can exclude polygonPoiToCompare.
     // Otherwise we never find features within other Polygons like parks.
@@ -1070,12 +1247,12 @@ fun addPoiDestinations(way: Way,
 
     // Does the unnamed way start or end near a Marker?
     val markerTree = gridState.markerTree
-    var startPoi = markerTree?.getNearestFeature(
+    var startPoi: SpatialFeature? = markerTree?.getNearestFeature(
         location = startLocation,
         distance = 20.0,
         ruler = gridState.ruler
     )
-    var endPoi = markerTree?.getNearestFeature(
+    var endPoi: SpatialFeature? = markerTree?.getNearestFeature(
         location = endLocation,
         distance = 20.0,
         ruler = gridState.ruler
@@ -1085,8 +1262,8 @@ fun addPoiDestinations(way: Way,
     // up with confusing confections inside parks where a path is described "to Park" when the
     // whole path is within the park, but one end is nearer the edge of it.
     val poiTree = gridState.getFeatureTree(TreeId.POIS)
-    val polygonStartPoi = poiTree.getContainingPolygons(startLocation).features.firstOrNull()
-    val polygonEndPoi = poiTree.getContainingPolygons(endLocation).features.firstOrNull()
+    val polygonStartPoi = poiTree.getContainingPolygons(startLocation).firstOrNull()
+    val polygonEndPoi = poiTree.getContainingPolygons(endLocation).firstOrNull()
     if((polygonEndPoi != null) || (polygonStartPoi != null)) {
         if(polygonEndPoi != polygonStartPoi) {
             // The way crosses across a polygon boundary
@@ -1112,10 +1289,10 @@ fun addPoiDestinations(way: Way,
 
     val safetyTree = gridState.getFeatureTree(TreeId.SAFETY_POIS)
     if (startPoi == null) {
-        startPoi = safetyTree.getContainingPolygons(startLocation).features.firstOrNull()
+        startPoi = safetyTree.getContainingPolygons(startLocation).firstOrNull()
     }
     if (endPoi == null) {
-        endPoi = safetyTree.getContainingPolygons(endLocation).features.firstOrNull()
+        endPoi = safetyTree.getContainingPolygons(endLocation).firstOrNull()
     }
 
     var addedDestinations = false

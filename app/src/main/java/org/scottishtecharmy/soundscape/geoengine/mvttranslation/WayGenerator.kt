@@ -10,7 +10,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getCombinedDirectionSegme
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geoengine.utils.toRadians
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
@@ -557,10 +557,10 @@ class WayGenerator(val transit: Boolean = false) {
         way.length = currentSegmentLength
     }
 
-    fun generateWays(intersectionCollection: FeatureCollection?,
-                     mainWaysCollection: FeatureCollection,
-                     roadsOnlyWaysCollection: FeatureCollection?,
-                     leftOverCollection: FeatureCollection,
+    fun generateWays(intersectionCollection: FeatureList?,
+                     mainWaysCollection: FeatureList,
+                     roadsOnlyWaysCollection: FeatureList?,
+                     leftOverCollection: FeatureList,
                      intersectionMap:  HashMap<LngLatAlt, Intersection>?,
                      xTile: Int,
                      yTile: Int,
@@ -693,23 +693,23 @@ class WayGenerator(val transit: Boolean = false) {
                                 "bus_stop", "crossing" -> {} // Don't add
                                 "footway", "path", "bridleway", "cycleway" -> {
                                     // These are paths
-                                    mainWaysCollection.addFeature(way)
+                                    mainWaysCollection.add(way)
                                 }
 
                                 else -> {
                                     // These are roads
-                                    mainWaysCollection.addFeature(way)
-                                    roadsOnlyWaysCollection.addFeature(way)
+                                    mainWaysCollection.add(way)
+                                    roadsOnlyWaysCollection.add(way)
                                 }
                             }
                         } else {
-                            leftOverCollection.addFeature(way)
+                            leftOverCollection.add(way)
                         }
                     } else {
-                        mainWaysCollection.addFeature(way)
+                        mainWaysCollection.add(way)
                     }
                 }
-                else -> leftOverCollection.addFeature(way)
+                else -> leftOverCollection.add(way)
             }
         }
         for(intersection in intersections) {
@@ -734,7 +734,7 @@ class WayGenerator(val transit: Boolean = false) {
             if(!transit) {
                 if(intersectionCollection != null) {
                     if (intersection.value.intersectionType != IntersectionType.TILE_EDGE)
-                        intersectionCollection.addFeature(intersection.value)
+                        intersectionCollection.add(intersection.value)
                 }
                 if(intersectionMap != null)
                     intersectionMap[intersection.key] = intersection.value

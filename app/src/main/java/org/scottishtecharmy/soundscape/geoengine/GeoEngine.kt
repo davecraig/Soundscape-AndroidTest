@@ -52,6 +52,9 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionsPolygons
 import org.scottishtecharmy.soundscape.geoengine.utils.getTriangleForDirection
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
+import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToSpatialFeature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -324,7 +327,7 @@ class GeoEngine {
             val routeDao = realm.routeDao()
             routeDao.getAllMarkersFlow().collect { markers ->
 
-                val featureCollection = FeatureCollection()
+                val featureList = emptyFeatureList()
                 for (marker in markers) {
                     val geoFeature = MvtFeature()
                     geoFeature.geometry =
@@ -334,12 +337,12 @@ class GeoEngine {
                     properties["description"] = marker.fullAddress
                     geoFeature.superCategory = SuperCategoryId.MARKER
                     geoFeature.properties = properties
-                    featureCollection.addFeature(geoFeature)
+                    featureList.add(geoFeature)
                 }
                 runBlocking {
                     withContext(gridState.treeContext) {
-                        gridState.markerTree = FeatureTree(featureCollection)
-                        Log.e(TAG, "Marker tree size ${featureCollection.features.size}")
+                        gridState.markerTree = FeatureTree(featureList)
+                        Log.e(TAG, "Marker tree size ${featureList.size}")
                     }
                 }
             }
@@ -643,7 +646,7 @@ class GeoEngine {
                 withContext(gridState.treeContext) {
 
                     // Direction order is: behind(0) left(1) ahead(2) right(3)
-                    val featuresByDirection: Array<Feature?> = arrayOfNulls(4)
+                    val featuresByDirection: Array<SpatialFeature?> = arrayOfNulls(4)
                     val directionsNeeded = setOf(0, 1, 2, 3).toMutableSet()
 
                     // We want to use places and landmarks only
@@ -668,7 +671,7 @@ class GeoEngine {
                             // Get the 4 nearest features in this direction. This allows us to de-duplicate
                             // across the other directions.
                             val featureCollection = featureTree.getNearestCollectionWithinTriangle(triangle, 4, userGeometry.ruler)
-                            if (featureCollection.features.isNotEmpty()) {
+                            if (featureCollection.isNotEmpty()) {
                                 // We found features in this direction, find the nearest one which
                                 // we are not already calling out in another direction.
                                 for(feature in featureCollection) {
@@ -699,7 +702,7 @@ class GeoEngine {
                     for (feature in featuresByDirection) {
 
                         if(feature == null) continue
-                        val poiLocation = getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
+                        val poiLocation = getDistanceToSpatialFeature(userGeometry.location, feature, userGeometry.ruler)
                         val name = getTextForFeature(localizedContext, feature as MvtFeature)
                         val text = "${name.text}. ${formatDistanceAndDirection(poiLocation.distance, poiLocation.heading, localizedContext)}"
                         list.add(
@@ -752,7 +755,7 @@ class GeoEngine {
                     val list: MutableList<PositionedString> = mutableListOf()
                     for (feature in featuresAhead) {
 
-                        val poiLocation = getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
+                        val poiLocation = getDistanceToSpatialFeature(userGeometry.location, feature, userGeometry.ruler)
                         val name = getTextForFeature(localizedContext, feature as MvtFeature)
                         val text = "${name.text}. ${formatDistanceAndDirection(poiLocation.distance, poiLocation.heading, localizedContext)}"
                         list.add(
@@ -820,9 +823,9 @@ class GeoEngine {
 
                     val list: MutableList<PositionedString> = mutableListOf()
                     if(nearestMarkers != null) {
-                        for (feature in nearestMarkers.features) {
+                        for (feature in nearestMarkers) {
                             val featureText = getTextForFeature(localizedContext, feature as MvtFeature)
-                            val markerLocation = getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
+                            val markerLocation = getDistanceToSpatialFeature(userGeometry.location, feature, userGeometry.ruler)
                             val text = "${featureText.text}. ${
                                 formatDistanceAndDirection(
                                     markerLocation.distance,

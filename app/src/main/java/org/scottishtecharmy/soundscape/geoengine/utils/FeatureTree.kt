@@ -9,63 +9,58 @@ import com.github.davidmoten.rtree2.geometry.Line
 import com.github.davidmoten.rtree2.geometry.Point
 import com.github.davidmoten.rtree2.geometry.Rectangle
 import com.github.davidmoten.rtree2.internal.EntryDefault
-import org.scottishtecharmy.soundscape.dto.BoundingBox
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import kotlin.math.PI
 import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.min
 
 /**
- * FeatureTree is a class which stores FeatureCollections within an rtree which gives us faster
- * spatial searching. The APIs all return either FeatureCollections or Features.
+ * FeatureTree is a class which stores FeatureLists within an rtree which gives us faster
+ * spatial searching. The APIs all return either FeatureLists or SpatialFeatures.
  */
 
-data class Triangle(val origin: LngLatAlt, val left: LngLatAlt, val right: LngLatAlt)
+class FeatureTree(featureList: FeatureList?) {
 
-class FeatureTree(featureCollection: FeatureCollection?) {
-
-    var tree: RTree<Feature, Geometry?>? = null
+    var tree: RTree<SpatialFeature, Geometry?>? = null
 
     init {
-        if(featureCollection != null) {
-            tree = createRtree(featureCollection)
+        if(featureList != null) {
+            tree = createRtree(featureList)
         }
     }
 
-    private fun createRtree(entries: List<Entry<Feature, Geometry?>>): RTree<Feature, Geometry?> {
-        val tree: RTree<Feature, Geometry?> = RTree.create(entries)
+    private fun createRtreeFromEntries(entries: List<Entry<SpatialFeature, Geometry?>>): RTree<SpatialFeature, Geometry?> {
+        val tree: RTree<SpatialFeature, Geometry?> = RTree.create(entries)
         return tree
     }
 
-    private fun createRtree(featureCollection: FeatureCollection): RTree<Feature, Geometry?> {
-        val rtreeList = mutableListOf<Entry<Feature, Geometry?>>()
-        for (feature in featureCollection) {
-            when (feature.geometry.type) {
-                "Point" -> {
-                    val point =
-                        feature.geometry as org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+    private fun createRtree(featureList: FeatureList): RTree<SpatialFeature, Geometry?> {
+        val rtreeList = mutableListOf<Entry<SpatialFeature, Geometry?>>()
+        for (feature in featureList) {
+            when (val geom = feature.mvtGeometry) {
+                is MvtPoint -> {
                     rtreeList.add(
                         EntryDefault(
                             feature,
                             Geometries.pointGeographic(
-                                point.coordinates.longitude,
-                                point.coordinates.latitude
+                                geom.coordinate.longitude,
+                                geom.coordinate.latitude
                             )
                         )
                     )
                 }
 
-                "MultiPoint" -> {
-                    val multiPoint =
-                        feature.geometry as org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPoint
-                    for(location in multiPoint.coordinates) {
+                is MvtMultiPoint -> {
+                    for(location in geom.coordinates) {
                         rtreeList.add(
                             EntryDefault(
                                 feature,
@@ -78,22 +73,21 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                     }
                 }
 
-                "LineString" -> {
+                is MvtLineString -> {
                     // We add each line segment as a separate entry into the rtree for more precise
                     // searching, however this does mean that searches in the tree will return
                     // duplicates of the same Feature and so these must be de-duplicated when
                     // retrieving the data from the tree.
-                    val line = feature.geometry as LineString
-                    for ((index, point) in line.coordinates.withIndex()) {
-                        if (index < (line.coordinates.size - 1)) {
+                    for ((index, point) in geom.coordinates.withIndex()) {
+                        if (index < (geom.coordinates.size - 1)) {
                             rtreeList.add(
                                 EntryDefault(
                                     feature,
                                     Geometries.line(
                                         point.longitude,
                                         point.latitude,
-                                        line.coordinates[index + 1].longitude,
-                                        line.coordinates[index + 1].latitude
+                                        geom.coordinates[index + 1].longitude,
+                                        geom.coordinates[index + 1].latitude
                                     )
                                 )
                             )
@@ -101,12 +95,11 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                     }
                 }
 
-                "Polygon" -> {
-                    val polygon = feature.geometry as Polygon
+                is MvtPolygon -> {
                     // The rtree only supports points, lines, rectangles and circles. Let's create
                     // a bounding box for the polygon and use that in rtree. We can then validate
                     // the search results in a second pass.
-                    val box = getBoundingBoxOfPolygon(polygon)
+                    val box = getBoundingBoxOfMvtPolygon(geom)
                     rtreeList.add(
                         EntryDefault(
                             feature,
@@ -118,12 +111,11 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                     )
                 }
 
-                "MultiPolygon" -> {
-                    val multiPolygon = feature.geometry as MultiPolygon
+                is MvtMultiPolygon -> {
                     // The rtree only supports points, lines, rectangles and circles. Let's create
                     // a bounding box for the polygon and use that in rtree. We can then validate
                     // the search results in a second pass.
-                    val boxes = getBoundingBoxesOfMultiPolygon(multiPolygon)
+                    val boxes = getBoundingBoxesOfMvtMultiPolygon(geom)
                     for(box in boxes) {
                         rtreeList.add(
                             EntryDefault(
@@ -138,11 +130,11 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                 }
 
                 else -> {
-                    assert(false)
+                    // Unknown geometry type - skip
                 }
             }
         }
-        return createRtree(rtreeList)
+        return createRtreeFromEntries(rtreeList)
     }
 
     private fun createBoundingSquare(center: LngLatAlt, radius: Double): Rectangle {
@@ -159,7 +151,7 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         return rect
     }
 
-    private fun distanceToEntry(entry: Entry<Feature, Geometry?>,
+    private fun distanceToEntry(entry: Entry<SpatialFeature, Geometry?>,
                                 from: LngLatAlt,
                                 ruler: Ruler
     ) : Double {
@@ -178,26 +170,22 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             }
 
             is Rectangle -> {
-                if(entry.value().geometry.type == "Polygon") {
-                    return distanceToPolygon(
-                        from,
-                        entry.value().geometry as Polygon,
-                        ruler
-                    )
-                }
-                else if(entry.value().geometry.type == "MultiPolygon") {
-                    // Deal with each polygon within the multipolygon
-                    return distanceToMultiPolygon(
-                        from,
-                        entry.value().geometry as MultiPolygon,
-                        ruler)
+                val geom = entry.value().mvtGeometry
+                when (geom) {
+                    is MvtPolygon -> {
+                        return distanceToMvtPolygon(from, geom, ruler)
+                    }
+                    is MvtMultiPolygon -> {
+                        return distanceToMvtMultiPolygon(from, geom, ruler)
+                    }
+                    else -> {}
                 }
             }
         }
         return Double.POSITIVE_INFINITY
     }
 
-    private fun entryWithinDistance(entry: Entry<Feature, Geometry?>,
+    private fun entryWithinDistance(entry: Entry<SpatialFeature, Geometry?>,
                                     distance: Double,
                                     from: LngLatAlt,
                                     ruler: Ruler
@@ -209,7 +197,7 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         lonLat: Point,
         distance: Double,
         ruler: Ruler
-    ): MutableIterable<Entry<Feature, Geometry?>>? {
+    ): MutableIterable<Entry<SpatialFeature, Geometry?>>? {
 
         // This should not be called if the tree is null
         assert(tree != null)
@@ -230,7 +218,7 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         distance: Double,
         maxCount: Int,
         ruler: Ruler
-    ): MutableIterable<Entry<Feature, Geometry?>>? {
+    ): MutableIterable<Entry<SpatialFeature, Geometry?>>? {
 
         // This should not be called if the tree is null
         assert(tree != null)
@@ -259,51 +247,14 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         return Geometries.rectangle(minLongitude,minLatitude,maxLongitude,maxLatitude)
     }
 
-    private fun lineSegmentPassesWithinTriangle(p1: LngLatAlt, p2: LngLatAlt,
-                                                triangle: Triangle): Boolean {
-        // Check if the line segment intersects any of the triangle's edges
-        if (straightLinesIntersect(p1, p2, triangle.origin, triangle.left) ||
-            straightLinesIntersect(p1, p2, triangle.left, triangle.right) ||
-            straightLinesIntersect(p1, p2, triangle.right, triangle.origin)) {
-            return true
-        }
-
-        // Then check that the line segment isn't completely inside the triangle
-        val polygon = createPolygonFromTriangle(triangle)
-        return (polygonContainsCoordinates(p1, polygon) && polygonContainsCoordinates(p2, polygon))
-    }
-
-    private fun testPolygonInFov(polygon: Polygon, triangle: Triangle) : Boolean {
-
-        // Test if any of the polygon edges intersect with the triangle or are wholly within it
-        var lastPoint = polygon.coordinates[0][0]
-        for (point in polygon.coordinates[0].drop(1)) {
-            if(lineSegmentPassesWithinTriangle(lastPoint, point, triangle)) {
-                return true
-            }
-            lastPoint = point
-        }
-
-        // Finally check that the triangle isn't wholly inside the polygon
-        return (polygonContainsCoordinates(triangle.origin, polygon) ||
-                polygonContainsCoordinates(triangle.left, polygon) ||
-                polygonContainsCoordinates(triangle.right, polygon))
-    }
-
-    private fun testMultiPolygonInFov(polygon: MultiPolygon, triangle: Triangle) : Boolean {
-
-        // Test only the outer ring of the first polygon
-        return testPolygonInFov(Polygon(polygon.coordinates[0][0]), triangle)
-    }
-
-    private fun entryWithinTriangle(entry: Entry<Feature, Geometry?>,
+    private fun entryWithinTriangle(entry: Entry<SpatialFeature, Geometry?>,
                                     triangle: Triangle): Boolean {
 
         when (val p = entry.geometry()) {
             is Point -> {
                 val testPoint = LngLatAlt(p.x(), p.y())
                 // Create a closed polygon
-                val polygon =createPolygonFromTriangle(triangle)
+                val polygon = createPolygonFromTriangle(triangle)
                 return polygonContainsCoordinates(testPoint, polygon)
             }
 
@@ -318,13 +269,16 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                 // any of the polygon coordinates are within the FOV triangle or if any of the
                 // FOV triangle coordinates are within the polygon.
                 val feature = entry.value()
-                if(feature.geometry.type == "Polygon") {
-                    return testPolygonInFov(feature.geometry as Polygon, triangle)
-                } else if(feature.geometry.type == "MultiPolygon") {
-                    // No MultiPolygons exist from MVT translation, so no need to handle
-                    return testMultiPolygonInFov(feature.geometry as MultiPolygon, triangle)
+                val geom = feature.mvtGeometry
+                when (geom) {
+                    is MvtPolygon -> {
+                        return testMvtPolygonInFov(geom, triangle)
+                    }
+                    is MvtMultiPolygon -> {
+                        return testMvtMultiPolygonInFov(geom, triangle)
+                    }
+                    else -> {}
                 }
-
                 return false
             }
             else -> {
@@ -336,7 +290,7 @@ class FeatureTree(featureCollection: FeatureCollection?) {
 
     private fun searchWithinTriangle(
         triangle: Triangle
-    ): MutableIterable<Entry<Feature, Geometry?>>? {
+    ): MutableIterable<Entry<SpatialFeature, Geometry?>>? {
 
         // This should not be called if the tree is null
         assert(tree != null)
@@ -355,9 +309,9 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         triangle: Triangle,
         maxCount: Int,
         ruler: Ruler
-    ): FeatureCollection {
+    ): FeatureList {
 
-        val results = FeatureCollection()
+        val results = emptyFeatureList()
 
         if(tree != null) {
             // First find the features within the triangle
@@ -371,7 +325,7 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             //     threaded when using FeatureTree this will be okay, though slightly ugly.
             //  2. Calculate the distances in advance and sort those instead. We'll take this approach.
             //
-            data class EntryWithDistance(val entry: Entry<Feature, Geometry?>, val distance: Double)
+            data class EntryWithDistance(val entry: Entry<SpatialFeature, Geometry?>, val distance: Double)
 
             val unsortedList = mutableListOf<EntryWithDistance>()
             for (entry in resultsWithinTriangle) {
@@ -381,12 +335,12 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                 entryWithinDistance.distance
             }
 
-            // Move the sorted items into a FeatureCollection to return, breaking out if we reach the
+            // Move the sorted items into a FeatureList to return, breaking out if we reach the
             // maximum number requested.
             for ((index, item) in sortedList.withIndex()) {
                 if (index >= maxCount)
                     break
-                results.addFeature(item.entry.value())
+                results.add(item.entry.value())
             }
         }
 
@@ -394,35 +348,35 @@ class FeatureTree(featureCollection: FeatureCollection?) {
     }
 
     /**
-     * getAllCollection returns a FeatureCollection containing all of the features from
+     * getAllCollection returns a FeatureList containing all of the features from
      * within the rtree.
-     * @result FeatureCollection containing all of the features from the rtree
+     * @result FeatureList containing all of the features from the rtree
      */
-    fun getAllCollection(): FeatureCollection {
-        val featureCollection = FeatureCollection()
+    fun getAllCollection(): FeatureList {
+        val featureList = emptyFeatureList()
         if(tree != null) {
-            val deduplicationSet = mutableSetOf<Feature>()
+            val deduplicationSet = mutableSetOf<SpatialFeature>()
             val entries = tree!!.entries()
             for (feature in entries) {
                 if(!deduplicationSet.contains(feature.value())) {
-                    featureCollection.addFeature(feature.value())
+                    featureList.add(feature.value())
                     deduplicationSet.add(feature.value())
                 }
             }
         }
-        return featureCollection
+        return featureList
     }
 
     /**
-     * getNearbyCollection returns a FeatureCollection containing all of the features
+     * getNearbyCollection returns a FeatureList containing all of the features
      * within distance of the location provided
      * @param location Location to calculate distance from
      * @param distance Maximum distance to return results for
-     * @result FeatureCollection containing all of the features from the rtree that are within
+     * @result FeatureList containing all of the features from the rtree that are within
      * distance of the location
      */
-    fun getNearbyCollection(location: LngLatAlt, distance: Double, ruler: Ruler): FeatureCollection {
-        val featureCollection = FeatureCollection()
+    fun getNearbyCollection(location: LngLatAlt, distance: Double, ruler: Ruler): FeatureList {
+        val featureList = emptyFeatureList()
         if(tree != null) {
             // Return only the entries within distance of our location
             val distanceResults = Iterables.toList(searchWithinDistance(
@@ -431,25 +385,25 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                 ruler)
             )
 
-            val deduplicationSet = mutableSetOf<Feature>()
+            val deduplicationSet = mutableSetOf<SpatialFeature>()
             for (feature in distanceResults) {
                 if(!deduplicationSet.contains(feature.value())) {
-                    featureCollection.addFeature(feature.value())
+                    featureList.add(feature.value())
                     deduplicationSet.add(feature.value())
                 }
             }
         }
-        return featureCollection
+        return featureList
     }
 
     /**
-     * getNearestCollection returns a FeatureCollection containing the nearest members of the rtree
+     * getNearestCollection returns a FeatureList containing the nearest members of the rtree
      * that are also within distance.
      * @param location Location to calculate distance from
      * @param distance Maximum distance to return results for
      * @param maxCount Maximum number of results to return
-     * @param initialCollection A FeatureCollection to add to the results. This must be sorted by
-     * distance and is useful when  combining the results of searches in two separate trees e.g. POI
+     * @param initialCollection A FeatureList to add to the results. This must be sorted by
+     * distance and is useful when combining the results of searches in two separate trees e.g. POI
      * and markers.
      */
 
@@ -457,8 +411,8 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                              distance: Double,
                              maxCount: Int,
                              ruler: Ruler,
-                             initialCollection: FeatureCollection? = null): FeatureCollection {
-        val featureCollection = FeatureCollection()
+                             initialCollection: FeatureList? = null): FeatureList {
+        val featureList = emptyFeatureList()
         if(tree != null) {
             val distanceResults = Iterables.toList(nearestWithinDistance(
                 Geometries.pointGeographic(location.longitude, location.latitude),
@@ -468,7 +422,7 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             )
 
             // Deduplicate returned entries and add them to a list ready to sort by distance
-            data class EntryWithDistance(val entry: Entry<Feature, Geometry?>, val distance: Double)
+            data class EntryWithDistance(val entry: Entry<SpatialFeature, Geometry?>, val distance: Double)
             val unsortedList = distanceResults
                 .map { entry -> EntryWithDistance(entry, distanceToEntry(entry, location, ruler)) }
                 .groupBy { it.entry.value() }
@@ -480,41 +434,41 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             }
 
             // Merge the sorted initial list into the sorted list that we just generated
-            val initialItemIterator = initialCollection?.features?.iterator()
+            val initialItemIterator = initialCollection?.iterator()
             val newItemIterator = sortedList.iterator()
 
-            var initialItem: Feature? = if (initialItemIterator?.hasNext() == true) initialItemIterator.next() else null
+            var initialItem: SpatialFeature? = if (initialItemIterator?.hasNext() == true) initialItemIterator.next() else null
             var newItem: EntryWithDistance? = if (newItemIterator.hasNext()) newItemIterator.next() else null
 
             while((initialItem != null) or (newItem != null)) {
-                if(featureCollection.features.size > maxCount) break
+                if(featureList.size > maxCount) break
                 if (initialItem != null) {
                     var addInitial = false
                     if (newItem == null) addInitial = true
-                    if(!addInitial) addInitial = getDistanceToFeature(location, initialItem, ruler).distance < newItem!!.distance
+                    if(!addInitial) addInitial = getDistanceToSpatialFeature(location, initialItem, ruler).distance < newItem!!.distance
                     if(addInitial) {
-                        featureCollection.addFeature(initialItem)
+                        featureList.add(initialItem)
                         initialItem = if (initialItemIterator?.hasNext() == true) initialItemIterator.next() else null
                         continue
                     }
                 }
-                featureCollection.addFeature(newItem!!.entry.value())
+                featureList.add(newItem!!.entry.value())
                 newItem = if (newItemIterator.hasNext()) newItemIterator.next() else null
             }
         }
-        return featureCollection
+        return featureList
     }
 
     /**
-     * getNearestFeature returns a Feature that is the nearest member of the rtree
+     * getNearestFeature returns a SpatialFeature that is the nearest member of the rtree
      * that is also within distance.
      * @param location Location to calculate distance from
      * @param distance Maximum distance to return results for
-     * @result Feature that is the nearest member of the rtree that is also within distance
+     * @result SpatialFeature that is the nearest member of the rtree that is also within distance
      */
     fun getNearestFeature(location: LngLatAlt,
                           ruler: Ruler,
-                          distance: Double = Double.POSITIVE_INFINITY): Feature? {
+                          distance: Double = Double.POSITIVE_INFINITY): SpatialFeature? {
         if(tree != null) {
             val distanceResults = Iterables.toList(
                 nearestWithinDistance(
@@ -532,69 +486,69 @@ class FeatureTree(featureCollection: FeatureCollection?) {
     }
 
     /**
-     * getNearestCollectionWithinTriangle returns a FeatureCollection containing the nearest members
+     * getNearestCollectionWithinTriangle returns a FeatureList containing the nearest members
      * of the rtree within the triangle provided
      * @param triangle Triangle to search within
      * @param maxCount Maximum number of results to return
-     * @result FeatureCollection containing the nearest members of the rtree within the triangle
+     * @result FeatureList containing the nearest members of the rtree within the triangle
      * provided
      */
     fun getNearestCollectionWithinTriangle(triangle: Triangle,
                                            maxCount: Int,
                                            ruler: Ruler
-    ): FeatureCollection {
+    ): FeatureList {
 
-        if(tree == null) return FeatureCollection()
+        if(tree == null) return emptyFeatureList()
 
         return nearestWithinTriangle(triangle, maxCount, ruler)
     }
 
     /**
-     * getAllWithinTriangle returns a FeatureCollection containing all of the features with the triangle
+     * getAllWithinTriangle returns a FeatureList containing all of the features with the triangle
      * @param triangle Triangle to search within
-     * @result FeatureCollection containing all of the features with the triangle
+     * @result FeatureList containing all of the features with the triangle
      */
-    fun getAllWithinTriangle(triangle: Triangle): FeatureCollection {
-        val featureCollection = FeatureCollection()
+    fun getAllWithinTriangle(triangle: Triangle): FeatureList {
+        val featureList = emptyFeatureList()
         if(tree != null) {
             val results = Iterables.toList(searchWithinTriangle(triangle))
 
-            val deduplicationSet = mutableSetOf<Feature>()
+            val deduplicationSet = mutableSetOf<SpatialFeature>()
             for (feature in results) {
                 if(!deduplicationSet.contains(feature.value())) {
-                    featureCollection.addFeature(feature.value())
+                    featureList.add(feature.value())
                     deduplicationSet.add(feature.value())
                 }
             }
         }
-        return featureCollection
+        return featureList
     }
 
-    /** getNearestFeatureWithinTriangle returns a Feature that is the nearest member of the rtree
+    /** getNearestFeatureWithinTriangle returns a SpatialFeature that is the nearest member of the rtree
      * within the triangle provided
      * @param triangle Triangle to search within
-     * @result Feature that is the nearest member of the rtree within the triangle provided
+     * @result SpatialFeature that is the nearest member of the rtree within the triangle provided
      */
-    fun getNearestFeatureWithinTriangle(triangle: Triangle, ruler: Ruler): Feature? {
+    fun getNearestFeatureWithinTriangle(triangle: Triangle, ruler: Ruler): SpatialFeature? {
 
         if (tree == null)
             return null
 
         val results = nearestWithinTriangle(triangle, 1, ruler)
-        if(results.features.isEmpty()) return null
+        if(results.isEmpty()) return null
 
-        return results.features[0]
+        return results[0]
     }
 
     /**
      * For a given point, getContainingPolygons returns any features which contain it.
      * @param location Point to search for
-     * @result FeatureCollection containing all features which contain the point
+     * @result FeatureList containing all features which contain the point
      */
-    fun getContainingPolygons(location: LngLatAlt): FeatureCollection {
+    fun getContainingPolygons(location: LngLatAlt): FeatureList {
 
         if (tree == null)
-            return FeatureCollection()
+            return emptyFeatureList()
 
         val possiblePolygons = Iterables.filter(
             tree!!.search(
@@ -605,26 +559,24 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             )
         ) { entry ->
             // We can get here if the point is in a line, so we need to double check it's a polygon
-            if(entry.value().geometry.type == "Polygon") {
-                polygonContainsCoordinates(location, entry.value().geometry as Polygon)
+            val geom = entry.value().mvtGeometry
+            when (geom) {
+                is MvtPolygon -> mvtPolygonContainsCoordinates(location, geom)
+                is MvtMultiPolygon -> mvtMultiPolygonContainsCoordinates(location, geom)
+                else -> false
             }
-            else if(entry.value().geometry.type == "MultiPolygon") {
-                multiPolygonContainsCoordinates(location, entry.value().geometry as MultiPolygon)
-            }
-            else
-                false
         }
 
-        val result = FeatureCollection()
+        val result = emptyFeatureList()
         for(feature in possiblePolygons) {
-            result.addFeature(feature.value())
+            result.add(feature.value())
         }
         return result
     }
 
 
 
-    private fun entryNearLine(entry: Entry<Feature, Geometry?>,
+    private fun entryNearLine(entry: Entry<SpatialFeature, Geometry?>,
                               p1: LngLatAlt,
                               p2: LngLatAlt,
                               distance: Double,
@@ -638,23 +590,19 @@ class FeatureTree(featureCollection: FeatureCollection?) {
 
             is Line,
             is Rectangle -> {
-                val feature = entry.value()
-                when(feature.geometry.type) {
-                    "Polygon" -> {
-                        val polygon = feature.geometry as Polygon
-                        for (geometry in polygon.coordinates) {
-                            for (point in geometry) {
-                                if (ruler.pointToSegmentDistance(point, p1, p2) < distance)
-                                    return true
-                            }
+                val geom = entry.value().mvtGeometry
+                when (geom) {
+                    is MvtPolygon -> {
+                        for (point in geom.exteriorRing) {
+                            if (ruler.pointToSegmentDistance(point, p1, p2) < distance)
+                                return true
                         }
                         return false
                     }
 
-                    "MultiPolygon" -> {
-                        val multiPolygon = feature.geometry as MultiPolygon
-                        for (polygon in multiPolygon.coordinates) {
-                            for (point in polygon[0]) {
+                    is MvtMultiPolygon -> {
+                        for (polygon in geom.polygons) {
+                            for (point in polygon.exteriorRing) {
                                 if (ruler.pointToSegmentDistance(point, p1, p2) < distance)
                                     return true
                             }
@@ -699,9 +647,9 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         p1: LngLatAlt,
         p2: LngLatAlt,
         distance: Double,
-        deduplicationSet: MutableSet<Feature>,
+        deduplicationSet: MutableSet<SpatialFeature>,
         ruler: Ruler
-    ): MutableIterable<Entry<Feature, Geometry?>>? {
+    ): MutableIterable<Entry<SpatialFeature, Geometry?>>? {
 
         // This should not be called if the tree is null
         assert(tree != null)
@@ -720,16 +668,16 @@ class FeatureTree(featureCollection: FeatureCollection?) {
     }
 
     /**
-     * getNearbyLine returns a FeatureCollection containing all of the features near the line
+     * getNearbyLine returns a FeatureList containing all of the features near the line
      * @param line LineString to search near to
      * @param distance How far from LineString to search
-     * @result FeatureCollection containing all of the features within distance of line
+     * @result FeatureList containing all of the features within distance of line
      */
-    fun getNearbyLine(line: LineString, distance: Double, ruler: Ruler): FeatureCollection {
-        val featureCollection = FeatureCollection()
+    fun getNearbyLine(line: LineString, distance: Double, ruler: Ruler): FeatureList {
+        val featureList = emptyFeatureList()
         if(tree != null) {
 
-            val deduplicationSet = mutableSetOf<Feature>()
+            val deduplicationSet = mutableSetOf<SpatialFeature>()
 
             // We search segment by segment and accumulate the results in a Set to deduplicate
             var lastPoint = LngLatAlt()
@@ -750,9 +698,9 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             }
 
             for (feature in deduplicationSet) {
-                featureCollection.addFeature(feature)
+                featureList.add(feature)
             }
         }
-        return featureCollection
+        return featureList
     }
 }

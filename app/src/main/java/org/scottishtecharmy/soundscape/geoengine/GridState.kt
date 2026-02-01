@@ -27,6 +27,11 @@ import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid.Companion.getTileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.getPoiFeatureCollectionBySuperCategory
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.addAllDeduplicated
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.plusAssign
 import org.scottishtecharmy.soundscape.geoengine.utils.pointIsWithinBoundingBox
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geoengine.utils.traverseIntersectionsConfectingNames
@@ -111,7 +116,7 @@ open class GridState(
         }
         centralBoundingBox = BoundingBox()
     }
-    open fun fixupCollections(featureCollections: Array<FeatureCollection>) {}
+    open fun fixupCollections(featureCollections: Array<FeatureList>) {}
 
     open fun checkOfflineMaps() {}
 
@@ -159,7 +164,7 @@ open class GridState(
      * disconnect and reconnect the tile grid
      */
     fun processGridState(
-        featureCollections: Array<FeatureCollection>,
+        featureCollections: Array<FeatureList>,
         enabledCategories: Set<String>,
         newGridIntersections: List<HashMap<LngLatAlt, Intersection>>,
         localTrees: Array<FeatureTree>,
@@ -182,7 +187,7 @@ open class GridState(
         }
         println("R-Trees took $rtreeTiming")
 
-        if(featureCollections[TreeId.ROADS_AND_PATHS.id].features.isNotEmpty()) {
+        if(featureCollections[TreeId.ROADS_AND_PATHS.id].isNotEmpty()) {
             // We want to join up Ways that cross tile boundaries
             //
             // In our initial parsing we created Intersections at every line ending that is at the
@@ -285,9 +290,9 @@ open class GridState(
             val tileGrid = getTileGrid(location, zoomLevel, gridSize)
 
             // We have a new centralBoundingBox, so update the tiles
-            val featureCollections = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
+            val featureCollections = Array(TreeId.MAX_COLLECTION_ID.id) { emptyFeatureList() }
             val newGridIntersections = mutableListOf<HashMap<LngLatAlt, Intersection>>()
-            val newGridStreetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+            val newGridStreetNumberMap: HashMap<String, FeatureList> = hashMapOf()
             if (updateTileGrid(
                     tileGrid,
                     featureCollections,
@@ -340,9 +345,9 @@ open class GridState(
     // almost always at least 1 tile shared, and often 2.
     val maxCachedTiles = 10
     data class CachedTile(
-        var tileCollections: Array<FeatureCollection>,
+        var tileCollections: Array<FeatureList>,
         var intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf(),
-        var streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf(),
+        var streetNumberMap: HashMap<String, FeatureList> = hashMapOf(),
         var lastUsed: Long)
     val cachedTiles: HashMap<Pair<Int,Int>, CachedTile> = HashMap()
 
@@ -359,7 +364,7 @@ open class GridState(
 
     fun clearTile(tile: CachedTile) {
         for(fc in tile.tileCollections) {
-            fc.features.clear()
+            fc.clear()
         }
         tile.tileCollections = emptyArray()
 
@@ -380,16 +385,16 @@ open class GridState(
     data class TileUpdateResult(
         val success: Boolean,
         val tile: Tile,
-        var collections: Array<FeatureCollection>?,
+        var collections: Array<FeatureList>?,
         var intersections: HashMap<LngLatAlt, Intersection>?,
-        var streetNumberMap: HashMap<String, FeatureCollection>?
+        var streetNumberMap: HashMap<String, FeatureList>?
     )
 
     private suspend fun updateTileGrid(
         tileGrid: TileGrid,
-        featureCollections: Array<FeatureCollection>,
+        featureCollections: Array<FeatureList>,
         gridIntersections: MutableList<HashMap<LngLatAlt, Intersection>>,
-        gridStreetNumberMap: HashMap<String, FeatureCollection>
+        gridStreetNumberMap: HashMap<String, FeatureList>
     ): Boolean = withContext(Dispatchers.IO) {
 
         // Check for an updated list of offline maps
@@ -412,8 +417,8 @@ open class GridState(
                 if (!tile.cached) {
                     var ret = false
                     val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-                    val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
-                    val tileCollections = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
+                    val streetNumberMap: HashMap<String, FeatureList> = hashMapOf()
+                    val tileCollections = Array(TreeId.MAX_COLLECTION_ID.id) { emptyFeatureList() }
                     Analytics.getInstance().logEvent("updateTile", null)
                     for (retry in 1..5) {
                         ret = updateTile(
@@ -515,14 +520,14 @@ open class GridState(
     internal open suspend fun updateTile(x: Int,
                                          y: Int,
                                          workerIndex: Int,
-                                         featureCollections: Array<FeatureCollection>,
+                                         featureCollections: Array<FeatureList>,
                                          intersectionMap: HashMap<LngLatAlt, Intersection>,
-                                         streetNumberMap: HashMap<String, FeatureCollection>): Boolean {
+                                         streetNumberMap: HashMap<String, FeatureList>): Boolean {
         assert(false)
         return false
     }
 
-    internal fun classifyPois(featureCollections: Array<FeatureCollection>,
+    internal fun classifyPois(featureCollections: Array<FeatureList>,
                              enabledCategories: Set<String> = emptySet()) {
         // The FeatureCollection for POIS has been created, but we need to create sub-collections
         // for each of the super-categories along with one for the currently selected super-
@@ -546,29 +551,29 @@ open class GridState(
 
         // Create super category feature collections
         var category = superCategoryCollections[SuperCategoryId.INFORMATION]
-        featureCollections[TreeId.INFORMATION_POIS.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.INFORMATION_POIS.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.OBJECT]
-        featureCollections[TreeId.OBJECT_POIS.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.OBJECT_POIS.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.PLACE]
-        featureCollections[TreeId.PLACE_POIS.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.PLACE_POIS.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.LANDMARK]
-        featureCollections[TreeId.LANDMARK_POIS.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.LANDMARK_POIS.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.MOBILITY]
-        featureCollections[TreeId.MOBILITY_POIS.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.MOBILITY_POIS.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.SAFETY]
-        featureCollections[TreeId.SAFETY_POIS.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.SAFETY_POIS.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.HOUSENUMBER]
-        featureCollections[TreeId.HOUSENUMBER.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.HOUSENUMBER.id] = category ?: emptyFeatureList()
 
         // Settlement and their area names
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_CITY]
-        featureCollections[TreeId.SETTLEMENT_CITY.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_CITY.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_TOWN]
-        featureCollections[TreeId.SETTLEMENT_TOWN.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_TOWN.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_VILLAGE]
-        featureCollections[TreeId.SETTLEMENT_VILLAGE.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_VILLAGE.id] = category ?: emptyFeatureList()
         category = superCategoryCollections[SuperCategoryId.SETTLEMENT_HAMLET]
-        featureCollections[TreeId.SETTLEMENT_HAMLET.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_HAMLET.id] = category ?: emptyFeatureList()
 
         // Create a merged collection of places and landmarks, as used by whatsAroundMe and aheadOfMe
         featureCollections[TreeId.PLACES_AND_LANDMARKS.id] += featureCollections[TreeId.PLACE_POIS.id]
@@ -608,7 +613,7 @@ open class GridState(
     internal fun getFeatureCollection(id: TreeId,
                                       location: LngLatAlt = LngLatAlt(),
                                       distance : Double = Double.POSITIVE_INFINITY,
-                                      maxCount : Int = 0): FeatureCollection {
+                                      maxCount : Int = 0): FeatureList {
         checkContext()
         val id = treeIdToIndex(id).id
         val result = if(distance == Double.POSITIVE_INFINITY) {
@@ -628,7 +633,7 @@ open class GridState(
                                    ruler: Ruler,
                                    location: LngLatAlt = LngLatAlt(),
                                    distance : Double = Double.POSITIVE_INFINITY
-    ): Feature? {
+    ): SpatialFeature? {
         checkContext()
         return featureTrees[treeIdToIndex(id).id].getNearestFeature(location, ruler, distance)
     }
@@ -639,126 +644,127 @@ open class GridState(
 }
 
 /**
- * Given a valid Tile feature collection this will parse the collection and return a bus stops
- * feature collection. Uses the "bus_stop" feature_value to extract bus stops from GeoJSON.
- * @param tileFeatureCollection
- * A FeatureCollection object.
- * @return A FeatureCollection object that contains only bus stops.
+ * Given a valid Tile feature list this will parse the collection and return a bus stops
+ * feature list. Uses the "bus_stop" feature_value to extract bus stops from GeoJSON.
+ * @param tileFeatureList
+ * A FeatureList object.
+ * @return A FeatureList object that contains only bus stops.
  */
-private fun getTransitStopsFeatureCollectionFromTileFeatureCollection(
-    tileFeatureCollection: FeatureCollection
-): FeatureCollection{
-    val transitStopFeatureCollection = FeatureCollection()
-    for (feature in tileFeatureCollection) {
+private fun getTransitStopsFeatureListFromTileFeatureList(
+    tileFeatureList: FeatureList
+): FeatureList {
+    val transitStopFeatureList = emptyFeatureList()
+    for (feature in tileFeatureList) {
         val mvtFeature = feature as MvtFeature
         if(mvtFeature.featureType  != "transit") {
             when (mvtFeature.featureValue) {
                 "bus_stop", "tram_stop", "subway", "station", "train_station", "ferry_terminal" ->
-                    transitStopFeatureCollection.addFeature(feature)
+                    transitStopFeatureList.add(feature)
             }
         }
     }
-    return transitStopFeatureCollection
+    return transitStopFeatureList
 }
 
 /**
- * Given a valid Tile feature collection this will parse the collection and return a crossing
- * feature collection. Uses the "crossing" feature_value to extract crossings from GeoJSON.
- * @param tileFeatureCollection
- * A FeatureCollection object.
- * @return A FeatureCollection object that contains only crossings.
+ * Given a valid Tile feature list this will parse the collection and return a crossing
+ * feature list. Uses the "crossing" feature_value to extract crossings from GeoJSON.
+ * @param tileFeatureList
+ * A FeatureList object.
+ * @return A FeatureList object that contains only crossings.
  */
-private fun getCrossingsFromTileFeatureCollection(tileFeatureCollection: FeatureCollection): FeatureCollection{
-    val crossingsFeatureCollection = FeatureCollection()
-    for (feature in tileFeatureCollection) {
+private fun getCrossingsFromTileFeatureList(tileFeatureList: FeatureList): FeatureList {
+    val crossingsFeatureList = emptyFeatureList()
+    for (feature in tileFeatureList) {
         val mvtFeature = feature as MvtFeature
         if (mvtFeature.featureType == "highway" && mvtFeature.featureValue == "crossing") {
-            crossingsFeatureCollection.addFeature(feature)
+            crossingsFeatureList.add(feature)
         }
     }
-    return crossingsFeatureCollection
+    return crossingsFeatureList
 }
 
 /**
- * Given a valid Tile feature collection this will parse the collection and return an interpolation
- * points feature collection. Uses the "edgePoint" feature_value to extract crossings from GeoJSON.
- * @param tileFeatureCollection
- * A FeatureCollection object.
- * @return A FeatureCollection object that contains only edgePoints
+ * Given a valid Tile feature list this will parse the collection and return an interpolation
+ * points feature list. Uses the "edgePoint" feature_value to extract crossings from GeoJSON.
+ * @param tileFeatureList
+ * A FeatureList object.
+ * @return A FeatureList object that contains only edgePoints
  */
-private fun getInterpolationPointsFromTileFeatureCollection(tileFeatureCollection: FeatureCollection): FeatureCollection{
-    val interpolationPointsFeatureCollection = FeatureCollection()
-    for (feature in tileFeatureCollection) {
+private fun getInterpolationPointsFromTileFeatureList(tileFeatureList: FeatureList): FeatureList {
+    val interpolationPointsFeatureList = emptyFeatureList()
+    for (feature in tileFeatureList) {
         val mvtFeature = feature as MvtFeature
         if (mvtFeature.featureClass == "edgePoint") {
-            interpolationPointsFeatureCollection.addFeature(feature)
+            interpolationPointsFeatureList.add(feature)
         }
     }
-    return interpolationPointsFeatureCollection
+    return interpolationPointsFeatureList
 }
 
 /**
- * Given a valid Tile feature collection this will parse the collection and return a paths
- * feature collection. Uses the "footway", "path", "cycleway", "bridleway" feature_value to extract
- * Paths from Feature Collection.
- * @param tileFeatureCollection
- * A FeatureCollection object.
- * @return A FeatureCollection object that contains only paths.
+ * Given a valid Tile feature list this will parse the collection and return a paths
+ * feature list. Uses the "footway", "path", "cycleway", "bridleway" feature_value to extract
+ * Paths from Feature List.
+ * @param tileFeatureList
+ * A FeatureList object.
+ * @return A FeatureList object that contains only paths.
  */
-private fun getPathsFeatureCollectionFromTileFeatureCollection(
-    tileFeatureCollection: FeatureCollection
-): FeatureCollection{
-    val pathsFeatureCollection = FeatureCollection()
+private fun getPathsFeatureListFromTileFeatureList(
+    tileFeatureList: FeatureList
+): FeatureList {
+    val pathsFeatureList = emptyFeatureList()
 
-    for(feature in tileFeatureCollection) {
-        // We're only going to add linestrings to the roads feature collection
+    for(feature in tileFeatureList) {
+        // We're only going to add linestrings to the roads feature list
         val mvtFeature = feature as MvtFeature
         when(mvtFeature.geometry.type) {
             "LineString", "MultiLineString" -> {
                 if (mvtFeature.featureType == "highway")
                     when (mvtFeature.featureValue) {
-                        "footway" -> pathsFeatureCollection.addFeature(feature)
-                        "path" -> pathsFeatureCollection.addFeature(feature)
-                        "cycleway" -> pathsFeatureCollection.addFeature(feature)
-                        "bridleway" -> pathsFeatureCollection.addFeature(feature)
+                        "footway" -> pathsFeatureList.add(feature)
+                        "path" -> pathsFeatureList.add(feature)
+                        "cycleway" -> pathsFeatureList.add(feature)
+                        "bridleway" -> pathsFeatureList.add(feature)
                     }
             }
         }
     }
-    return pathsFeatureCollection
+    return pathsFeatureList
 }
 
 /**
- * Parses out all the Entrances in a tile FeatureCollection using the "gd_entrance_list" feature_type.
- * @param tileFeatureCollection
- * A FeatureCollection object.
- * @return a feature collection object that contains only entrances.
+ * Parses out all the Entrances in a tile FeatureList using the "gd_entrance_list" feature_type.
+ * @param tileFeatureList
+ * A FeatureList object.
+ * @return a feature list object that contains only entrances.
  */
-private fun getEntrancesFeatureCollectionFromTileFeatureCollection(
-    tileFeatureCollection: FeatureCollection
-): FeatureCollection {
-    val entrancesFeatureCollection = FeatureCollection()
-    for (feature in tileFeatureCollection) {
-        feature.properties?.let { properties ->
+private fun getEntrancesFeatureListFromTileFeatureList(
+    tileFeatureList: FeatureList
+): FeatureList {
+    val entrancesFeatureList = emptyFeatureList()
+    for (feature in tileFeatureList) {
+        val mvtFeature = feature as MvtFeature
+        mvtFeature.properties?.let { properties ->
             if (properties.contains("entrance")) {
-                entrancesFeatureCollection.addFeature(feature)
+                entrancesFeatureList.add(feature)
             }
         }
     }
-    return entrancesFeatureCollection
+    return entrancesFeatureList
 }
 
 /**
- * Parses out all the Points of Interest (POI) in a tile FeatureCollection.
- * @param tileFeatureCollection
- * A FeatureCollection object.
- * @return a Feature collection object that contains only POI.
+ * Parses out all the Points of Interest (POI) in a tile FeatureList.
+ * @param tileFeatureList
+ * A FeatureList object.
+ * @return a FeatureList object that contains only POI.
  */
-private fun getPointsOfInterestFeatureCollectionFromTileFeatureCollection(
-    tileFeatureCollection: FeatureCollection
-): FeatureCollection {
-    val poiFeaturesCollection = FeatureCollection()
-    for (feature in tileFeatureCollection) {
+private fun getPointsOfInterestFeatureListFromTileFeatureList(
+    tileFeatureList: FeatureList
+): FeatureList {
+    val poiFeaturesList = emptyFeatureList()
+    for (feature in tileFeatureList) {
         var add = true
         val mvtFeature = feature as MvtFeature
         if (mvtFeature.featureType == "highway") {
@@ -770,22 +776,22 @@ private fun getPointsOfInterestFeatureCollectionFromTileFeatureCollection(
         ) {
             add = false
         }
-        if (add) poiFeaturesCollection.addFeature(mvtFeature)
+        if (add) poiFeaturesList.add(mvtFeature)
     }
 
-    return poiFeaturesCollection
+    return poiFeaturesList
 }
 
-fun processTileFeatureCollection(initialFeatureCollections : Array<FeatureCollection>, tileFeatureCollection: FeatureCollection) {
+fun processTileFeatureList(initialFeatureLists: Array<FeatureList>, tileFeatureList: FeatureList) {
 
-    initialFeatureCollections[TreeId.ENTRANCES.id] += getEntrancesFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
-    initialFeatureCollections[TreeId.POIS.id] += getPointsOfInterestFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
-    initialFeatureCollections[TreeId.TRANSIT_STOPS.id] += getTransitStopsFeatureCollectionFromTileFeatureCollection(tileFeatureCollection)
-    initialFeatureCollections[TreeId.CROSSINGS.id] += getCrossingsFromTileFeatureCollection(tileFeatureCollection)
-    initialFeatureCollections[TreeId.INTERPOLATIONS.id] += getInterpolationPointsFromTileFeatureCollection(tileFeatureCollection)
+    initialFeatureLists[TreeId.ENTRANCES.id] += getEntrancesFeatureListFromTileFeatureList(tileFeatureList)
+    initialFeatureLists[TreeId.POIS.id] += getPointsOfInterestFeatureListFromTileFeatureList(tileFeatureList)
+    initialFeatureLists[TreeId.TRANSIT_STOPS.id] += getTransitStopsFeatureListFromTileFeatureList(tileFeatureList)
+    initialFeatureLists[TreeId.CROSSINGS.id] += getCrossingsFromTileFeatureList(tileFeatureList)
+    initialFeatureLists[TreeId.INTERPOLATIONS.id] += getInterpolationPointsFromTileFeatureList(tileFeatureList)
 
     // POIS includes bus stops and crossings
-    initialFeatureCollections[TreeId.POIS.id].plusAssignDeduplicate(initialFeatureCollections[TreeId.TRANSIT_STOPS.id])
-    initialFeatureCollections[TreeId.POIS.id] += initialFeatureCollections[TreeId.CROSSINGS.id]
+    initialFeatureLists[TreeId.POIS.id].addAllDeduplicated(initialFeatureLists[TreeId.TRANSIT_STOPS.id])
+    initialFeatureLists[TreeId.POIS.id] += initialFeatureLists[TreeId.CROSSINGS.id]
 }
 

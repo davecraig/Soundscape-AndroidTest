@@ -17,6 +17,8 @@ import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.toFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
@@ -37,7 +39,7 @@ data class OfflineMapsUiState(
     val manifestError: Boolean = false,
 
     // Extracts in manifest to choose from
-    val nearbyExtracts: FeatureCollection? = null,
+    val nearbyExtracts: FeatureList? = null,
 
     // Offline extracts in storage
     val downloadedExtracts: FeatureCollection? = null,
@@ -82,21 +84,22 @@ class OfflineMapsViewModel @AssistedInject constructor(
 
             val fc = downloadAndParseManifest(appContext)
             if(fc != null) {
-                val tree = FeatureTree(fc)
+                val tree = FeatureTree(fc.toFeatureList())
 
                 val location = locationDescription.location
                 println("Location $location")
                 // Containing polygons gives offline maps that include the current location
                 val extracts = tree.getContainingPolygons(location)
 
-                println("Extracts ${extracts.features.size}")
-                for(extract in extracts.features) {
-                    val size = extract.properties?.get("extract-size") as Double
-                    val properties: HashMap<String, Any?> = extract.properties!!
+                println("Extracts ${extracts.size}")
+                for(extract in extracts) {
+                    val mvtFeature = extract as org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
+                    val size = mvtFeature.properties?.get("extract-size") as Double
+                    val properties: HashMap<String, Any?> = mvtFeature.properties!!
                     properties["extract-size-string"] = Formatter.formatFileSize(appContext, size.toLong())
-                    extract.properties = properties
+                    mvtFeature.properties = properties
 
-                    Log.d(TAG, "extract: ${extract.properties}")
+                    Log.d(TAG, "extract: ${mvtFeature.properties}")
                 }
                 _uiState.value = _uiState.value.copy(
                     nearbyExtracts = extracts

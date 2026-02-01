@@ -3,7 +3,9 @@ package org.scottishtecharmy.soundscape.geoengine.mvttranslation
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.MIN_MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
-import org.scottishtecharmy.soundscape.geoengine.processTileFeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.processTileFeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
@@ -394,14 +396,14 @@ fun areCoordinatesClockwise(
  *  to them. Let's do this in a separate class for now so that we can test it.
  */
 
-private fun addToStreetNumberMap(mvt: MvtFeature, streetNumberMap: HashMap<String, FeatureCollection>) {
+private fun addToStreetNumberMap(mvt: MvtFeature, streetNumberMap: HashMap<String, FeatureList>) {
     if (mvt.housenumber != null) {
         val street = mvt.properties?.get("street")
         val streetString = street.toString()
         if (!streetNumberMap.containsKey(streetString)) {
-            streetNumberMap[streetString] = FeatureCollection()
+            streetNumberMap[streetString] = emptyFeatureList()
         }
-        streetNumberMap[streetString]?.addFeature(mvt)
+        streetNumberMap[streetString]?.add(mvt)
     }
 }
 
@@ -409,11 +411,11 @@ fun vectorTileToGeoJson(tileX: Int,
                         tileY: Int,
                         mvt: VectorTile.Tile,
                         intersectionMap:  HashMap<LngLatAlt, Intersection>,
-                        streetNumberMap: HashMap<String, FeatureCollection>,
+                        streetNumberMap: HashMap<String, FeatureList>,
                         cropPoints: Boolean = true,
-                        tileZoom: Int = MAX_ZOOM_LEVEL): Array<FeatureCollection> {
+                        tileZoom: Int = MAX_ZOOM_LEVEL): Array<FeatureList> {
 
-    val collection = FeatureCollection()
+    val collection = emptyFeatureList()
     val wayGenerator = WayGenerator()
     val transitGenerator = WayGenerator(transit = true)
     val entranceMatching = EntranceMatching()
@@ -696,9 +698,9 @@ fun vectorTileToGeoJson(tileX: Int,
                     //  cases where it happens.
                     geoFeature.superCategory = SuperCategoryId.HOUSENUMBER
                     if(!streetNumberMap.containsKey(street.toString())) {
-                        streetNumberMap[street.toString()] = FeatureCollection()
+                        streetNumberMap[street.toString()] = emptyFeatureList()
                     }
-                    streetNumberMap[street]?.addFeature(geoFeature)
+                    streetNumberMap[street]?.add(geoFeature)
                 } else {
                     geoFeature.name = name
                     geoFeature.street = street
@@ -733,7 +735,7 @@ fun vectorTileToGeoJson(tileX: Int,
                             }
                         } else if (layer.name == "transportation") {
                             if (geoFeature.geometry.type != "LineString") {
-                                collection.addFeature(geoFeature)
+                                collection.add(geoFeature)
                             } else {
                                 if ((featureClass == "transit") || (featureClass == "rail"))
                                     transitGenerator.addFeature(geoFeature)
@@ -743,7 +745,7 @@ fun vectorTileToGeoJson(tileX: Int,
                                 if (geoFeature.superCategory != SuperCategoryId.UNCATEGORIZED) {
                                     // Features like Piers and steps are POIs as well as ways, so ensure
                                     // that we add them
-                                    collection.addFeature(geoFeature)
+                                    collection.add(geoFeature)
                                 }
                             }
                         } else {
@@ -757,7 +759,7 @@ fun vectorTileToGeoJson(tileX: Int,
         if(layer.name == "transportation") {
             // Add all of our interpolated nodes
             for (feature in mapInterpolatedNodes) {
-                collection.addFeature(feature.value)
+                collection.add(feature.value as MvtFeature)
             }
         }
     }
@@ -774,8 +776,9 @@ fun vectorTileToGeoJson(tileX: Int,
     // Add all of the polygon features
     for (featureList in mapPolygonFeatures) {
         for(feature in featureList.value) {
-            collection.addFeature(feature)
-            addToStreetNumberMap(feature as MvtFeature, streetNumberMap)
+            val mvtFeature = feature as MvtFeature
+            collection.add(mvtFeature)
+            addToStreetNumberMap(mvtFeature, streetNumberMap)
         }
         // If we add as a polygon feature, then remove any point feature for the same id
         mapPointFeatures.remove(featureList.key)
@@ -784,17 +787,19 @@ fun vectorTileToGeoJson(tileX: Int,
 
     // And then add the remaining non-duplicated point features
     for (feature in mapPointFeatures) {
-        collection.addFeature(feature.value)
-        addToStreetNumberMap(feature.value as MvtFeature, streetNumberMap)
+        val mvtFeature = feature.value as MvtFeature
+        collection.add(mvtFeature)
+        addToStreetNumberMap(mvtFeature, streetNumberMap)
         mapBuildingFeatures.remove(feature.key)
     }
     // And then any remaining buildings that weren't POIs
     for (feature in mapBuildingFeatures) {
-        collection.addFeature(feature.value)
-        addToStreetNumberMap(feature.value as MvtFeature, streetNumberMap)
+        val mvtFeature = feature.value as MvtFeature
+        collection.add(mvtFeature)
+        addToStreetNumberMap(mvtFeature, streetNumberMap)
     }
 
-    val tileData = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
+    val tileData = Array(TreeId.MAX_COLLECTION_ID.id) { emptyFeatureList() }
     // Add intersections
     wayGenerator.generateWays(
         tileData[TreeId.INTERSECTIONS.id],
@@ -815,10 +820,10 @@ fun vectorTileToGeoJson(tileX: Int,
 
     // TODO:
     //  This is the first step towards categorising Features as we go rather than returning
-    //  a full FeatureCollection and leaving it up to the GridState. For example, we can stop
+    //  a full FeatureList and leaving it up to the GridState. For example, we can stop
     //  WayGenerators from putting their results into the global collection and put them into the
     //  filtered collections immediately.
-    processTileFeatureCollection(tileData, collection)
+    processTileFeatureList(tileData, collection)
 
     return tileData
 }

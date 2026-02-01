@@ -9,6 +9,8 @@ import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.vectorTileToGeoJson
+import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid.Companion.getTileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.isDuplicateByOsmId
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
@@ -233,7 +235,7 @@ class MergePolygonsTest {
 
         // Read in the files
         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-        val streetNumberMap:  HashMap<String, FeatureCollection> = hashMapOf()
+        val streetNumberMap:  HashMap<String, FeatureList> = hashMapOf()
         val featureCollection = FeatureCollection()
         for (tile in grid.tiles) {
             val geojson = vectorTileToGeoJsonFromFile(
@@ -244,7 +246,7 @@ class MergePolygonsTest {
             )
             for(collection in geojson!!) {
                 for (feature in collection) {
-                    featureCollection.addFeature(feature)
+                    featureCollection.addFeature(feature as Feature)
                 }
             }
         }
@@ -260,12 +262,12 @@ class MergePolygonsTest {
         tileX: Int,
         tileY: Int,
         intersectionMap:  HashMap<LngLatAlt, Intersection>,
-        streetNumberMap:  HashMap<String, FeatureCollection>,
+        streetNumberMap:  HashMap<String, FeatureList>,
         cropPoints: Boolean = true
-    ): Array<FeatureCollection> {
+    ): Array<FeatureList> {
 
         val gridState = FileGridState()
-        val result: Array<FeatureCollection> = emptyArray()
+        val result: Array<FeatureList> = emptyArray()
 
         gridState.start(null, offlineExtractPath)
 

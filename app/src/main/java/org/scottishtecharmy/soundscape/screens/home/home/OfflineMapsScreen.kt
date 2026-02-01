@@ -45,6 +45,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.GsonBuilder
 import org.scottishtecharmy.soundscape.R
+import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
@@ -452,14 +453,14 @@ fun OfflineMapsScreen(
                             modifier = Modifier.semantics {
                                 collectionInfo =
                                     CollectionInfo(
-                                        rowCount = uiState.nearbyExtracts.features.size,
+                                        rowCount = uiState.nearbyExtracts.size,
                                         columnCount = 1
                                     )
                             }
                         ) {
-                            for((index, extract) in uiState.nearbyExtracts.features.withIndex()) {
+                            for((index, extract) in uiState.nearbyExtracts.withIndex()) {
                                 OfflineExtract(
-                                    extract,
+                                    extract as Feature,
                                     { _, extract ->
                                         extractDetailsFeature.value = extract
                                         localExtractDetails.value = false
@@ -559,7 +560,7 @@ fun OfflineMapsScreenPreview() {
 
     val uiState = OfflineMapsUiState(
         downloadingExtractName = "",
-        nearbyExtracts = fc,
+        nearbyExtracts = emptyFeatureList(),
         downloadedExtracts = fc,
         currentPath = "/path/to/internal",
         storages = listOf(internalStorage, externalStorage),
@@ -586,7 +587,7 @@ fun OfflineMapsScreenDownloadingPreview() {
     OfflineMapsScreen(
         rememberNavController(),
         OfflineMapsUiState(
-            nearbyExtracts = FeatureCollection(),
+            nearbyExtracts = emptyFeatureList(),
             storages = emptyList(),
             downloadingExtractName = "United Kingdom"
         ),
