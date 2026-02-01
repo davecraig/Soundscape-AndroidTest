@@ -11,6 +11,7 @@ import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
@@ -120,7 +121,7 @@ class OfflineGeocoder(
                             props["street"] = nearbyName
                             props["opposite"] = houseNumber.second
                         }
-                        houseFeature.geometry = Point(userGeometry.location)
+                        houseFeature.setMvtGeometry(MvtPoint(userGeometry.location))
                         return houseFeature.toLocationDescription(LocationSource.OfflineGeocoder)
                     }
                 }

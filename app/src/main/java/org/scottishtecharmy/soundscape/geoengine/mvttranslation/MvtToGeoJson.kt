@@ -8,8 +8,10 @@ import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toGeoJsonGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.toMvtGeometry
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
@@ -45,11 +47,14 @@ open class MvtFeature : Feature(), SpatialFeature {
     override var featureValue : String? = null
     override var superCategory : SuperCategoryId = SuperCategoryId.UNCATEGORIZED
 
+    // Native MVT geometry storage - primary storage for geometry
+    private var _mvtGeometry: MvtGeometry? = null
+
     // SpatialFeature implementations
     override val center: LngLatAlt by lazy {
-        when (val geom = geometry) {
-            is Point -> geom.coordinates
-            is MultiPoint -> {
+        when (val geom = _mvtGeometry ?: geometry.toMvtGeometry()) {
+            is MvtPoint -> geom.coordinate
+            is MvtMultiPoint -> {
                 if (geom.coordinates.isEmpty()) LngLatAlt()
                 else {
                     var sumLng = 0.0
@@ -61,12 +66,12 @@ open class MvtFeature : Feature(), SpatialFeature {
                     LngLatAlt(sumLng / geom.coordinates.size, sumLat / geom.coordinates.size)
                 }
             }
-            is LineString -> {
+            is org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString -> {
                 if (geom.coordinates.isEmpty()) LngLatAlt()
                 else geom.coordinates[geom.coordinates.size / 2]
             }
-            is Polygon -> {
-                val exterior = geom.coordinates.firstOrNull() ?: return@lazy LngLatAlt()
+            is org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon -> {
+                val exterior = geom.exteriorRing
                 if (exterior.isEmpty()) return@lazy LngLatAlt()
                 var sumLng = 0.0
                 var sumLat = 0.0
@@ -81,12 +86,20 @@ open class MvtFeature : Feature(), SpatialFeature {
                 }
                 LngLatAlt(sumLng / count, sumLat / count)
             }
+            null -> LngLatAlt()
             else -> LngLatAlt()
         }
     }
 
-    override val mvtGeometry: MvtGeometry by lazy {
-        geometry.toMvtGeometry() ?: MvtPoint(LngLatAlt())
+    override val mvtGeometry: MvtGeometry
+        get() = _mvtGeometry ?: geometry.toMvtGeometry() ?: MvtPoint(LngLatAlt())
+
+    /**
+     * Sets the native MVT geometry and syncs it to GeoJSON geometry for backward compatibility.
+     */
+    fun setMvtGeometry(geom: MvtGeometry) {
+        _mvtGeometry = geom
+        geometry = geom.toGeoJsonGeometry()  // Sync for backward compat
     }
 
     override val treeId: TreeId? get() = null  // MvtFeature doesn't store this
@@ -655,14 +668,16 @@ fun vectorTileToGeoJson(tileX: Int,
                                 if (mapInterpolatedNodes.containsKey(id)) {
                                     // If we've already got this OSM id, we want to extend it with
                                     // the new points
-                                    val currentLine = mapInterpolatedNodes[id]?.geometry as MultiPoint
-                                    for(node in interpolatedNodes) {
-                                        currentLine.coordinates.add(node)
-                                    }
+                                    val existingFeature = mapInterpolatedNodes[id] as MvtFeature
+                                    val currentGeom = existingFeature.mvtGeometry as MvtMultiPoint
+                                    val extendedCoords = ArrayList(currentGeom.coordinates)
+                                    extendedCoords.addAll(interpolatedNodes)
+                                    existingFeature.setMvtGeometry(MvtMultiPoint(extendedCoords))
                                 } else {
                                     val interpolatedFeature = MvtFeature()
-                                    interpolatedFeature.geometry =
-                                        MultiPoint(ArrayList(interpolatedNodes))
+                                    interpolatedFeature.setMvtGeometry(
+                                        MvtMultiPoint(ArrayList(interpolatedNodes))
+                                    )
                                     interpolatedFeature.properties = hashMapOf()
                                     interpolatedFeature.featureClass = "edgePoint"
                                     interpolatedFeature.osmId = id
@@ -689,7 +704,7 @@ fun vectorTileToGeoJson(tileX: Int,
             for (geometry in listOfGeometries) {
                 // And map the tags
                 val geoFeature = MvtFeature()
-                geoFeature.geometry = geometry
+                geometry.toMvtGeometry()?.let { geoFeature.setMvtGeometry(it) }
                 geoFeature.osmId = id
                 geoFeature.housenumber = housenumber
                 if(layer.name == "housenumber") {

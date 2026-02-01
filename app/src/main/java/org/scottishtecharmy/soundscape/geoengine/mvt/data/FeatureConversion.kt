@@ -243,3 +243,27 @@ fun Feature.asSpatialFeature(): SpatialFeature? {
     // Only works if this is actually an MvtFeature
     return (this as? MvtFeature)?.asSpatialFeature()
 }
+
+/**
+ * Helper extension to get mvtGeometry as MvtPoint.
+ */
+fun SpatialFeature.asPoint(): MvtPoint = mvtGeometry as MvtPoint
+
+/**
+ * Helper extension to get mvtGeometry as MvtLineString.
+ */
+fun SpatialFeature.asLineString(): MvtLineString = mvtGeometry as MvtLineString
+
+/**
+ * Helper extension to get mvtGeometry as MvtPolygon.
+ */
+fun SpatialFeature.asPolygon(): MvtPolygon = mvtGeometry as MvtPolygon
+
+/**
+ * Helper extension to convert MvtLineString to GeoJSON LineString for Ruler functions.
+ */
+fun MvtLineString.toLineString(): LineString {
+    val ls = LineString()
+    ls.coordinates = ArrayList(coordinates)
+    return ls
+}

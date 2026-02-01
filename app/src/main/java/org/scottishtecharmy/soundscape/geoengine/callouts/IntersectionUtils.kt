@@ -25,9 +25,9 @@ import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
 import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toLineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import kotlin.math.abs
 
 data class IntersectionDescription(var nearestRoad: Way? = null,
@@ -102,7 +102,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
             if(nearestRoad.properties?.get("pavement") == way.name) {
                 if(userGeometry.mapMatchedLocation?.point != null) {
                     val roadDistance =
-                        userGeometry.ruler.distanceToLineString(userGeometry.mapMatchedLocation.point, road.geometry as LineString)
+                        userGeometry.ruler.distanceToLineString(userGeometry.mapMatchedLocation.point, road.asLineString().toLineString())
                     val snappedHeading = userGeometry.snappedHeading()
                     if (snappedHeading != null) {
                         val innerAngle = calculateSmallestAngleBetweenLines(roadDistance.heading, snappedHeading)
@@ -169,7 +169,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
 
     for (feature in sortedFovIntersections) {
         val intersection = feature as Intersection
-        val intersectionLocation = (intersection.geometry as Point).coordinates
+        val intersectionLocation = intersection.location
         val graphIntersection = gridState.gridIntersections[intersectionLocation]
         if(graphIntersection != null) {
             if((userGeometry.mapMatchedLocation != null) && (nearestRoad != null)) {

@@ -4,6 +4,9 @@ import android.content.Context
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toLineString
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.IntersectionType
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
@@ -45,9 +48,9 @@ class StreetDescription(val name: String, val gridState: GridState) {
                   direction: Boolean,
                   pdh: PointAndDistanceAndHeading,
                   location: LngLatAlt) : Side {
-        val line = way.geometry as LineString
-        var start = line.coordinates[pdh.index]
-        var end = line.coordinates[pdh.index + 1]
+        val lineCoords = way.asLineString().coordinates
+        var start = lineCoords[pdh.index]
+        var end = lineCoords[pdh.index + 1]
         if (direction) {
             // Swap direction based on Way direction
             val tmp = start
@@ -111,16 +114,16 @@ class StreetDescription(val name: String, val gridState: GridState) {
         for (way in ways) {
             if (way.first == nearestWay) {
                 var lineDistance = 0.0
-                val line = way.first.geometry as LineString
+                val lineCoords = way.first.asLineString().coordinates
                 for (i in 0 until pdh.index) {
                     lineDistance += gridState.ruler.distance(
-                        line.coordinates[i],
-                        line.coordinates[i + 1]
+                        lineCoords[i],
+                        lineCoords[i + 1]
                     )
                 }
                 lineDistance += (pdh.positionAlongLine - pdh.index) * gridState.ruler.distance(
-                    line.coordinates[pdh.index],
-                    line.coordinates[pdh.index + 1]
+                    lineCoords[pdh.index],
+                    lineCoords[pdh.index + 1]
                 )
                 totalDistance += if(way.second) {
                     lineDistance
@@ -160,7 +163,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                 if(way.first == nearestWayToStart.first) {
                     searching = false
                     if(way.first.length > distanceLeft) {
-                        return ruler.along(way.first.geometry as LineString, distanceLeft)
+                        return ruler.along(way.first.asLineString().toLineString(), distanceLeft)
                     }
                 }
                 else {
@@ -172,7 +175,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                 distanceLeft -= way.first.length
                 continue
             }
-            return ruler.along(way.first.geometry as LineString, distanceLeft)
+            return ruler.along(way.first.asLineString().toLineString(), distanceLeft)
         }
         return null
     }
@@ -455,7 +458,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
             // Search each of our ways for street numbers with no street
             for(way in ways) {
                 val results = unknownStreetTree.getNearbyLine(
-                    way.first.geometry as LineString,
+                    way.first.asLineString().toLineString(),
                     25.0,
                     gridState.ruler
                 )
@@ -475,7 +478,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         // Search each of our ways for street numbers with no street
         for(way in ways) {
             val results = poiTree.getNearbyLine(
-                way.first.geometry as LineString,
+                way.first.asLineString().toLineString(),
                 25.0,
                 gridState.ruler
             )
@@ -536,7 +539,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
             if (parsedHaystack == needle) {
                 // We've found an exact match
                 return Pair(
-                    (number.value.geometry as Point).coordinates,
+                    number.value.asPoint().coordinate,
                     number.value.housenumber ?: ""
                 )
             }
@@ -556,7 +559,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
 
             lastParsed = parsedHaystack
             lastKey = number.key
-            lastPoint = (number.value.geometry as Point).coordinates
+            lastPoint = number.value.asPoint().coordinate
         }
         return  null
     }

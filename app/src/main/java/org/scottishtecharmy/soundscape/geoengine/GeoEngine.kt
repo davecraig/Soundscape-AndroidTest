@@ -33,6 +33,7 @@ import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabase
 import org.scottishtecharmy.soundscape.geoengine.callouts.AutoCallout
 import org.scottishtecharmy.soundscape.geoengine.filters.MapMatchFilter
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
@@ -330,8 +331,7 @@ class GeoEngine {
                 val featureList = emptyFeatureList()
                 for (marker in markers) {
                     val geoFeature = MvtFeature()
-                    geoFeature.geometry =
-                        Point(marker.longitude, marker.latitude)
+                    geoFeature.setMvtGeometry(MvtPoint(LngLatAlt(marker.longitude, marker.latitude)))
                     val properties : HashMap<String, Any?> = hashMapOf()
                     geoFeature.name = marker.name
                     properties["description"] = marker.fullAddress

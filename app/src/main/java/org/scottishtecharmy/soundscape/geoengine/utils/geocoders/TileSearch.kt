@@ -9,6 +9,7 @@ import org.scottishtecharmy.soundscape.components.LocationSource
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
@@ -544,7 +545,7 @@ class TileSearch(val offlineExtractPath: String,
             val mvt = MvtFeature()
             mvt.name = result.properties.get("name") as? String?
             mvt.properties = result.properties
-            mvt.geometry = Point(result.location)
+            mvt.setMvtGeometry(MvtPoint(result.location))
             translateProperties(mvt)
 
             // We've got results, see if we can improve the description from our GridState
@@ -566,7 +567,7 @@ class TileSearch(val offlineExtractPath: String,
                                 if(numberResult != null) {
                                     mvt.properties?.set("housenumber", numberResult.second)
                                     result.location = numberResult.first
-                                    mvt.geometry = Point(result.location)
+                                    mvt.setMvtGeometry(MvtPoint(result.location))
                                     // We want the housenumber to appear in the LocationDescription,
                                     // so unset the name on the feature
                                     mvt.name = null

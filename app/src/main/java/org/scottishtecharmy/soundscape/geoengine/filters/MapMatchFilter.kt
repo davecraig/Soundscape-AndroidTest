@@ -3,6 +3,9 @@ package org.scottishtecharmy.soundscape.geoengine.filters
 import android.os.Build
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toLineString
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
@@ -87,7 +90,7 @@ class IndexedLineString {
         indices = Array(route.size) { 0 }
         direction = Array(route.size) { true }
         if (route.size == 1) {
-            line = route[0].geometry as LineString
+            line = route[0].asLineString().toLineString()
             indices?.set(0, line!!.coordinates.size)
             hashCode = line?.coordinates.hashCode()
             return
@@ -123,10 +126,10 @@ class IndexedLineString {
             // order of the coordinates. This results in the same coordinate being duplicated at
             // each intersection, but is simple.
             if (forwards) {
-                line!!.coordinates.addAll((way.geometry as LineString).coordinates)
+                line!!.coordinates.addAll(way.asLineString().coordinates)
             }
             else {
-                line!!.coordinates.addAll((way.geometry as LineString).coordinates.reversed())
+                line!!.coordinates.addAll(way.asLineString().coordinates.reversed())
             }
             direction?.set(index, forwards)
 
@@ -249,7 +252,7 @@ class RoadFollower(val parent: MapMatchFilter,
         val iterator = route.listIterator()
         while (iterator.hasNext()) {
             val way = iterator.next()
-            if (ruler.distanceToLineString(location, way.geometry as LineString).distance > 60.0) {
+            if (ruler.distanceToLineString(location, way.asLineString().toLineString()).distance > 60.0) {
                 iterator.remove()
                 trimmed = true
             } else {
@@ -265,7 +268,7 @@ class RoadFollower(val parent: MapMatchFilter,
         // Trim end
         while(iterator.hasPrevious()) {
             val way = iterator.previous()
-            if(ruler.distanceToLineString(location, way.geometry as LineString).distance > 60.0) {
+            if(ruler.distanceToLineString(location, way.asLineString().toLineString()).distance > 60.0) {
                 iterator.remove()
                 trimmed = true
             } else {
@@ -487,7 +490,7 @@ class RoadFollower(val parent: MapMatchFilter,
                     if (ar.isNaN()) ar = 1.0
                     lastCenter = getDestinationCoordinate(gpsLocation, c1, d1 * ar)
                     matchedPoint =
-                        ruler.distanceToLineString(lastCenter, currentNearestRoad.geometry as LineString)
+                        ruler.distanceToLineString(lastCenter, currentNearestRoad.asLineString().toLineString())
                     radius = max(dMin, ruler.distance(gpsLocation, lastGpsLocation!!) * ar)
                 }
 

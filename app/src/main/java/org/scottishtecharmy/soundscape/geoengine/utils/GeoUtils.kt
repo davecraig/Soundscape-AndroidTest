@@ -498,6 +498,10 @@ fun polygonContainsCoordinates(lngLatAlt: LngLatAlt, polygon: Polygon): Boolean 
     return regionContainsCoordinates(lngLatAlt, polygon.coordinates[0])
 }
 
+fun polygonContainsCoordinates(lngLatAlt: LngLatAlt, polygon: MvtPolygon): Boolean {
+    return regionContainsCoordinates(lngLatAlt, ArrayList(polygon.exteriorRing))
+}
+
 fun multiPolygonContainsCoordinates(lngLatAlt: LngLatAlt, multiPolygon: MultiPolygon): Boolean {
 
     for(polygon in multiPolygon.coordinates)

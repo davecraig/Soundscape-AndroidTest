@@ -27,6 +27,8 @@ import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid.Companion.getTileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.getPoiFeatureCollectionBySuperCategory
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.GeometryType
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geoengine.types.addAllDeduplicated
@@ -238,8 +240,7 @@ open class GridState(
                                 if (distance < 1.0) {
                                     // Join the intersections together
                                     val way = Way()
-                                    way.geometry =
-                                        LineString(intersection1.location, intersection2.location)
+                                    way.setMvtGeometry(MvtLineString(listOf(intersection1.location, intersection2.location)))
                                     way.wayType = WayType.JOINER
                                     way.intersections[WayEnd.START.id] = intersection1
                                     way.intersections[WayEnd.END.id] = intersection2
@@ -718,8 +719,8 @@ private fun getPathsFeatureListFromTileFeatureList(
     for(feature in tileFeatureList) {
         // We're only going to add linestrings to the roads feature list
         val mvtFeature = feature as MvtFeature
-        when(mvtFeature.geometry.type) {
-            "LineString", "MultiLineString" -> {
+        when(mvtFeature.mvtGeometry.geometryType) {
+            GeometryType.LINE_STRING, GeometryType.MULTI_LINE_STRING -> {
                 if (mvtFeature.featureType == "highway")
                     when (mvtFeature.featureValue) {
                         "footway" -> pathsFeatureList.add(feature)
@@ -728,6 +729,7 @@ private fun getPathsFeatureListFromTileFeatureList(
                         "bridleway" -> pathsFeatureList.add(feature)
                     }
             }
+            else -> { /* Only processing line types */ }
         }
     }
     return pathsFeatureList

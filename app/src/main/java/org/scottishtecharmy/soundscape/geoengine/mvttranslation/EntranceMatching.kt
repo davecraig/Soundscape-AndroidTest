@@ -1,5 +1,6 @@
 package org.scottishtecharmy.soundscape.geoengine.mvttranslation
 
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
@@ -181,8 +182,7 @@ class EntranceMatching {
                                 // instead of a polygon, and add the entrance name if it has one
                                 val entrance = MvtFeature()
                                 entrance.copyProperties(poi as MvtFeature)
-                                entrance.geometry =
-                                    Point(coordinates[0])
+                                entrance.setMvtGeometry(MvtPoint(coordinates[0]))
                                 entrance.properties = (cloneHashMap(poi.properties) ?: HashMap()).apply {
                                     set("entrance", entranceDetails.entranceType)
 
@@ -204,8 +204,7 @@ class EntranceMatching {
                         }
                         // Try and figure out how to name the entrance from its properties.
                         val entrance = MvtFeature()
-                        entrance.geometry =
-                            Point(coordinates[0])
+                        entrance.setMvtGeometry(MvtPoint(coordinates[0]))
                         entrance.properties = HashMap()
 
                         var confected = (entranceDetails.name != null)

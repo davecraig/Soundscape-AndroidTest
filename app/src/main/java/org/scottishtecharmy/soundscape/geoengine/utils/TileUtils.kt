@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.geoengine.utils
 
 import android.content.Context
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.GeometryType
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiLineString
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPoint
@@ -8,6 +9,9 @@ import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toLineString
 import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geoengine.types.emptyFeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
@@ -706,9 +710,11 @@ fun checkWhetherIntersectionIsOfInterest(
     return needsFurtherChecking
 }
 
-fun polygonFeaturesOverlap(feature1: Feature, feature2: Feature): Boolean {
-    for(point in (feature1.geometry as Polygon).coordinates[0]) {
-        if(polygonContainsCoordinates(point, (feature2.geometry as Polygon)))
+fun polygonFeaturesOverlap(feature1: MvtFeature, feature2: MvtFeature): Boolean {
+    val polygon1 = feature1.asPolygon()
+    val polygon2 = feature2.asPolygon()
+    for(point in polygon1.exteriorRing) {
+        if(polygonContainsCoordinates(point, polygon2))
             return true
     }
     return false
@@ -728,8 +734,9 @@ fun mergeAllPolygonsInFeatureCollection(
     // more than one, they've been tested to see if they overlap.
     val features = hashMapOf<Any, MutableList<FeatureCollection> >()
     for (feature in polygonFeatureCollection.features) {
-        if(feature.geometry.type == "Polygon") {
-            val osmId = (feature as MvtFeature).osmId
+        val mvtFeature = feature as MvtFeature
+        if(mvtFeature.mvtGeometry.geometryType == GeometryType.POLYGON) {
+            val osmId = mvtFeature.osmId
             if (!features.containsKey(osmId)) {
                 // This is the first feature with this osm_id
                 features[osmId] = mutableListOf()
@@ -737,7 +744,7 @@ fun mergeAllPolygonsInFeatureCollection(
             var foundOverlap = false
             for(featureCollection in features[osmId]!!) {
                 for(existingFeature in featureCollection) {
-                    if(polygonFeaturesOverlap(feature, existingFeature)) {
+                    if(polygonFeaturesOverlap(mvtFeature, existingFeature as MvtFeature)) {
                         featureCollection.addFeature(feature)
                         foundOverlap = true
                         break
@@ -760,15 +767,16 @@ fun mergeAllPolygonsInFeatureCollection(
         // For each FeatureCollection merge any overlapping polygons. If there are no duplicates,
         // then the only Feature in the collection is returned.
         for(featureCollection in featureCollectionList.value) {
-            var mergedFeature: Feature? = null
+            var mergedFeature: MvtFeature? = null
             for ((index, feature) in featureCollection.features.withIndex()) {
+                val mvtFeature = feature as MvtFeature
                 val tempMergedFeature = mergedFeature
                 mergedFeature = if (index == 0) {
-                    feature
+                    mvtFeature
                 } else {
-                    mergePolygons(mergedFeature!!, feature)
+                    mergePolygons(mergedFeature!!, mvtFeature)
                 }
-                if(mergedFeature == feature) {
+                if(mergedFeature == mvtFeature) {
                     if(tempMergedFeature != null)
                         resultantFeatureCollection.addFeature(tempMergedFeature)
                 }
@@ -793,7 +801,7 @@ fun mergeAllPolygonsInFeatureList(
     val features = hashMapOf<Any, MutableList<FeatureList>>()
     for (feature in polygonFeatureList) {
         val mvtFeature = feature as MvtFeature
-        if(mvtFeature.geometry.type == "Polygon") {
+        if(mvtFeature.mvtGeometry.geometryType == GeometryType.POLYGON) {
             val osmId = mvtFeature.osmId
             if (!features.containsKey(osmId)) {
                 // This is the first feature with this osm_id
@@ -802,7 +810,7 @@ fun mergeAllPolygonsInFeatureList(
             var foundOverlap = false
             for(featureList in features[osmId]!!) {
                 for(existingFeature in featureList) {
-                    if(polygonFeaturesOverlap(mvtFeature, existingFeature as Feature)) {
+                    if(polygonFeaturesOverlap(mvtFeature, existingFeature as MvtFeature)) {
                         featureList.add(mvtFeature)
                         foundOverlap = true
                         break
@@ -825,20 +833,21 @@ fun mergeAllPolygonsInFeatureList(
         // For each FeatureList merge any overlapping polygons. If there are no duplicates,
         // then the only Feature in the collection is returned.
         for(featureList in featureListEntry.value) {
-            var mergedFeature: Feature? = null
+            var mergedFeature: MvtFeature? = null
             for ((index, feature) in featureList.withIndex()) {
+                val mvtFeature = feature as MvtFeature
                 val tempMergedFeature = mergedFeature
                 mergedFeature = if (index == 0) {
-                    feature as Feature
+                    mvtFeature
                 } else {
-                    mergePolygons(mergedFeature!!, feature as Feature)
+                    mergePolygons(mergedFeature!!, mvtFeature)
                 }
-                if(mergedFeature == feature) {
+                if(mergedFeature == mvtFeature) {
                     if(tempMergedFeature != null)
-                        resultantFeatureList.add(tempMergedFeature as MvtFeature)
+                        resultantFeatureList.add(tempMergedFeature)
                 }
             }
-            resultantFeatureList.add(mergedFeature as MvtFeature)
+            resultantFeatureList.add(mergedFeature!!)
         }
     }
     return resultantFeatureList
@@ -880,13 +889,33 @@ fun createJtsPolygonFromPolygon(polygon: Polygon?): JtsPolygon? {
     return geometryFactory.createPolygon(outerRing, innerRings)
 }
 
-fun mergePolygons(
-    polygon1: Feature,
-    polygon2: Feature
-): Feature {
+fun createJtsPolygonFromMvtPolygon(polygon: MvtPolygon?): JtsPolygon? {
+    if(polygon == null) return null
 
-    val polygon1GeometryJTS = createJtsPolygonFromPolygon(polygon1.geometry as? Polygon)
-    val polygon2GeometryJTS = createJtsPolygonFromPolygon(polygon2.geometry as? Polygon)
+    val geometryFactory = GeometryFactory()
+    val outerRing = geometryFactory.createLinearRing(
+        polygon.exteriorRing.map { position ->
+            Coordinate(position.longitude, position.latitude)
+        }.toTypedArray()
+    )
+    val innerRings = polygon.interiorRings.map { ring ->
+        geometryFactory.createLinearRing(
+            ring.map { position ->
+                Coordinate(position.longitude, position.latitude)
+            }.toTypedArray()
+        )
+    }.toTypedArray()
+
+    return geometryFactory.createPolygon(outerRing, innerRings)
+}
+
+fun mergePolygons(
+    polygon1: MvtFeature,
+    polygon2: MvtFeature
+): MvtFeature {
+
+    val polygon1GeometryJTS = createJtsPolygonFromMvtPolygon(polygon1.mvtGeometry as? MvtPolygon)
+    val polygon2GeometryJTS = createJtsPolygonFromMvtPolygon(polygon2.mvtGeometry as? MvtPolygon)
 
     // merge/union the polygons
     val mergedGeometryJTSInitial = polygon1GeometryJTS?.union(polygon2GeometryJTS)
@@ -902,30 +931,26 @@ fun mergePolygons(
     val mergedPolygon = MvtFeature().also { feature ->
         feature.properties = polygon1.properties
         feature.type = "Feature"
-        feature.copyProperties(polygon1 as MvtFeature)
-        feature.geometry = Polygon().also { polygon ->
-            //Convert JTS to GeoJSON coordinates
-            // Start with exterior ring
-            val outerRing = mergedGeometryJTS.exteriorRing.coordinates?.map { coordinate ->
-                LngLatAlt(coordinate.x, coordinate.y)
-            }?.let {
-                arrayListOf(arrayListOf(*it.toTypedArray()))
-            }
-            polygon.coordinates = outerRing ?: arrayListOf()
+        feature.copyProperties(polygon1)
 
-            // Now process interior rings
-            val ringCount = mergedGeometryJTS.numInteriorRing
-            for(ring in 0 until ringCount) {
-                val innerRing = mergedGeometryJTS.getInteriorRingN(ring).coordinates?.map { coordinate ->
-                    LngLatAlt(coordinate.x, coordinate.y)
-                }?.let {
-                    arrayListOf(*it.toTypedArray())
-                }
-                if(innerRing != null) {
-                    polygon.addInteriorRing(innerRing)
-                }
+        // Convert JTS to MvtPolygon coordinates
+        // Start with exterior ring
+        val exteriorRing = mergedGeometryJTS.exteriorRing.coordinates?.map { coordinate ->
+            LngLatAlt(coordinate.x, coordinate.y)
+        } ?: emptyList()
+
+        // Process interior rings
+        val interiorRings = mutableListOf<List<LngLatAlt>>()
+        val ringCount = mergedGeometryJTS.numInteriorRing
+        for(ring in 0 until ringCount) {
+            val innerRing = mergedGeometryJTS.getInteriorRingN(ring).coordinates?.map { coordinate ->
+                LngLatAlt(coordinate.x, coordinate.y)
+            }
+            if(innerRing != null) {
+                interiorRings.add(innerRing)
             }
         }
+        feature.setMvtGeometry(MvtPolygon(exteriorRing, interiorRings))
     }
     return mergedPolygon
 }
@@ -1123,9 +1148,9 @@ fun addSidewalk(currentRoad: Way,
         if(currentRoad.properties?.containsKey("pavement") == true)
             return true
 
-        val line = currentRoad.geometry as LineString
-        val start = line.coordinates.first()
-        val end = line.coordinates.last()
+        val lineCoords = currentRoad.asLineString().coordinates
+        val start = lineCoords.first()
+        val end = lineCoords.last()
 
         val startRoads = roadTree.getNearestCollection(
             location = start,
@@ -1150,8 +1175,8 @@ fun addSidewalk(currentRoad: Way,
                     if (road2.name == name) {
                         // The distance between the pavement and the road should be similar at both ends.
                         val delta = abs(
-                            ruler.distanceToLineString(start, road.geometry as LineString).distance -
-                            ruler.distanceToLineString(end, road2.geometry as LineString).distance
+                            ruler.distanceToLineString(start, road.asLineString().toLineString()).distance -
+                            ruler.distanceToLineString(end, road2.asLineString().toLineString()).distance
                         )
                         if((delta < 5.0) && (delta < currentRoad.length / 2)) {
                             found = true
@@ -1214,9 +1239,9 @@ fun addPoiDestinations(way: Way,
                        gridState: GridState) : Boolean {
 
     // We want to use the locations at the furthest extent of the way as the start and end points.
-    val line = way.geometry as LineString
-    var startLocation = line.coordinates.first()
-    var endLocation = line.coordinates.last()
+    val lineCoords = way.asLineString().coordinates
+    var startLocation = lineCoords.first()
+    var endLocation = lineCoords.last()
 
     val startIntersection = way.intersections[WayEnd.START.id]
     val endIntersection = way.intersections[WayEnd.END.id]
@@ -1225,18 +1250,18 @@ fun addPoiDestinations(way: Way,
         way.followWays(startIntersection, waysFromStart)
         // When followWays from the start intersection will head towards the end of the line
         endLocation = if(waysFromStart.last().first)
-            (waysFromStart.last().second.geometry as LineString).coordinates.last()
+            waysFromStart.last().second.asLineString().coordinates.last()
         else
-            (waysFromStart.last().second.geometry as LineString).coordinates.first()
+            waysFromStart.last().second.asLineString().coordinates.first()
     }
     if(endIntersection != null) {
         val waysFromEnd = mutableListOf<Pair<Boolean, Way>>()
         way.followWays(endIntersection, waysFromEnd)
         // When followWays from the end intersection will head towards the start of the line
         startLocation = if(waysFromEnd.last().first)
-            (waysFromEnd.last().second.geometry as LineString).coordinates.last()
+            waysFromEnd.last().second.asLineString().coordinates.last()
         else
-            (waysFromEnd.last().second.geometry as LineString).coordinates.first()
+            waysFromEnd.last().second.asLineString().coordinates.first()
     }
 
     // Only add in destinations tag if they don't already exist

@@ -26,6 +26,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.pixelXYToLatLon
 import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
 import org.junit.Assert
 import org.junit.Test
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.Triangle
@@ -899,19 +900,18 @@ class GeoUtilsTest {
 
         // Merge a polygon which covers both of the previous polygons. This isn't like any that we will
         // merge from a tile, but it should get rid of the inner ring.
-        val bigPolygon = Polygon().also {
-            it.coordinates = arrayListOf(
-                arrayListOf(
-                    LngLatAlt(0.0, 2.0),
-                    LngLatAlt(4.0, 2.0),
-                    LngLatAlt(4.0, 0.0),
-                    LngLatAlt(0.0, 0.0),
-                    LngLatAlt(0.0, 2.0),
-                )
-            )
-        }
-        val bigFeature = Feature()
-        bigFeature.geometry = bigPolygon
+        val bigPolygon = MvtPolygon(
+            listOf(
+                LngLatAlt(0.0, 2.0),
+                LngLatAlt(4.0, 2.0),
+                LngLatAlt(4.0, 0.0),
+                LngLatAlt(0.0, 0.0),
+                LngLatAlt(0.0, 2.0),
+            ),
+            emptyList()
+        )
+        val bigFeature = MvtFeature()
+        bigFeature.setMvtGeometry(bigPolygon)
 
         val secondMergedFeature = mergePolygons(mergedFeature, bigFeature)
         val secondMergedPolygon = secondMergedFeature.geometry as Polygon

@@ -10,6 +10,9 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getCombinedDirectionSegme
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geoengine.utils.toRadians
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.types.FeatureList
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -43,12 +46,16 @@ class Intersection : MvtFeature() {
     var dijkstraDistance = Double.MAX_VALUE
     var dijkstraPrevious : Intersection? = null
 
+    // Override mvtGeometry to use location directly
+    override val mvtGeometry: MvtGeometry
+        get() = MvtPoint(location)
+
     // We don't allow comparison of Intersections by data because we can have two TILE_EDGE
     // intersections at exactly the same point which are joined by a JOINER way and we can't have
     // them be declared to be the same as then we can't tell the direction of the JOINER.
 
     fun toFeature() {
-        geometry = Point(location)
+        setMvtGeometry(MvtPoint(location))
         properties = HashMap<String,Any?>().apply {
             set("name", name)
             set("members", members.size)
@@ -367,10 +374,11 @@ class Way : MvtFeature() {
      */
     fun heading(fromIntersection: Intersection) : Double
     {
+        val lineCoords = (mvtGeometry as MvtLineString).coordinates
         val nextLocation = if (fromIntersection == intersections[WayEnd.START.id])
-            (geometry as LineString).coordinates.drop(1).first()
+            lineCoords.drop(1).first()
         else
-            (geometry as LineString).coordinates.dropLast(1).last()
+            lineCoords.dropLast(1).last()
 
         return bearingFromTwoPoints(fromIntersection.location, nextLocation)
     }
@@ -395,39 +403,41 @@ class Way : MvtFeature() {
         val newIntersection = Intersection()
         newIntersection.location = location
 
-        val point = ruler.distanceToLineString(location, geometry as LineString)
+        val lineCoords = (mvtGeometry as MvtLineString).coordinates
+        val lineString = LineString()
+        lineString.coordinates = ArrayList(lineCoords)
+        val point = ruler.distanceToLineString(location, lineString)
 
-        // Create two line strings out of the original line, adding in the location in the middle
-        val line1 = LineString()
-        val line2 = LineString()
-        line2.coordinates.add(location)
+        // Create two line coordinate lists out of the original line, adding in the location in the middle
+        val line1Coords = mutableListOf<LngLatAlt>()
+        val line2Coords = mutableListOf(location)
         var length1 = 0.0
         var length2 = 0.0
-        for(coordinate in (geometry as LineString).coordinates.withIndex()) {
+        for(coordinate in lineCoords.withIndex()) {
             if(coordinate.index <= point.index) {
                 if(coordinate.index > 0) {
-                    length1 += ruler.distance(line1.coordinates.last(), coordinate.value)
+                    length1 += ruler.distance(line1Coords.last(), coordinate.value)
                 }
-                line1.coordinates.add(coordinate.value)
+                line1Coords.add(coordinate.value)
             }
             else {
-                length2 += ruler.distance(line2.coordinates.last(), coordinate.value)
-                line2.coordinates.add(coordinate.value)
+                length2 += ruler.distance(line2Coords.last(), coordinate.value)
+                line2Coords.add(coordinate.value)
             }
         }
-        length1 += ruler.distance(line1.coordinates.last(), location)
-        line1.coordinates.add(location)
+        length1 += ruler.distance(line1Coords.last(), location)
+        line1Coords.add(location)
 
         val newWay1 = Way()
         newWay1.intersections[0] = intersections[0]
         newWay1.intersections[1] = newIntersection
-        newWay1.geometry = line1
+        newWay1.setMvtGeometry(MvtLineString(line1Coords))
         newWay1.length = length1
 
         val newWay2 = Way()
         newWay2.intersections[0] = newIntersection
         newWay2.intersections[1] = intersections[1]
-        newWay2.geometry = line2
+        newWay2.setMvtGeometry(MvtLineString(line2Coords))
         newWay2.length = length2
 
         if(length1 > length2) {
@@ -553,7 +563,7 @@ class WayGenerator(val transit: Boolean = false) {
         }
         way.copyProperties(feature)
         way.properties = newProperties
-        way.geometry = currentSegment
+        way.setMvtGeometry(MvtLineString(currentSegment.coordinates))
         way.length = currentSegmentLength
     }
 
@@ -573,15 +583,16 @@ class WayGenerator(val transit: Boolean = false) {
         val ruler = topLeft.createCheapRuler()
 
         for(feature in wayFeatures) {
-            if(feature.geometry.type == "LineString") {
-                val line = feature.geometry as LineString
+            val featureGeom = feature.mvtGeometry
+            if(featureGeom is MvtLineString) {
+                val lineCoords = featureGeom.coordinates
                 var currentWay = Way()
                 var currentSegment = LineString()
                 var currentSegmentLength = 0.0
                 var segmentIndex = 0
                 var coordinateKey : Int
                 var tileEdge = false
-                for (coordinate in line.coordinates) {
+                for (coordinate in lineCoords) {
 
                     tileEdge =
                         (coordinate.latitude == topLeft.latitude) or
@@ -684,7 +695,12 @@ class WayGenerator(val transit: Boolean = false) {
             }
         }
         for(way in ways) {
-            when(way.geometry.type) {
+            val geomType = when(way.mvtGeometry) {
+                is MvtLineString -> "LineString"
+                is org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiLineString -> "MultiLineString"
+                else -> "Other"
+            }
+            when(geomType) {
                 "LineString", "MultiLineString" ->
                 {
                     if(roadsOnlyWaysCollection != null) {
@@ -723,7 +739,7 @@ class WayGenerator(val transit: Boolean = false) {
             // Naming the intersection is now done as a separate pass after the name confection has
             // taken place
             //intersection.value.updateName()
-            intersection.value.geometry = Point(intersection.value.location)
+            intersection.value.setMvtGeometry(MvtPoint(intersection.value.location))
             intersection.value.properties = hashMapOf()
             if(transit) {
                 intersection.value.featureType = "transit"
