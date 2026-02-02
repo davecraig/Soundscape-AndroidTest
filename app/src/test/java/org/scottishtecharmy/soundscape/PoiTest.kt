@@ -15,6 +15,7 @@ import org.scottishtecharmy.soundscape.geoengine.types.toFeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
 import java.io.FileOutputStream
 
@@ -77,7 +78,7 @@ class PoiTest {
         val polygons = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.INDIVIDUAL)
 
         val featuresToDraw = FeatureCollection()
-        for((index, polygon) in polygons.features.withIndex()) {
+        for((index, polygon) in polygons.withIndex()) {
 
             val nearestFeature = poi.getNearestFeatureWithinTriangle(
                 getTriangleForDirection(polygons, index),
@@ -93,8 +94,8 @@ class PoiTest {
                 3 -> assertEquals("Garvie & Co", name)
             }
 
-            featuresToDraw.addFeature(polygon)
-            featuresToDraw.addFeature(nearestFeature)
+//            featuresToDraw.addFeature(Polygon(ArrayList(polygon.exteriorRing)))
+            featuresToDraw.addFeature((nearestFeature).toFeature())
         }
 
         val adapter = GeoJsonObjectMoshiAdapter()
@@ -115,7 +116,7 @@ class PoiTest {
         val polygons = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.INDIVIDUAL)
 
         val featuresToDraw = FeatureCollection()
-        for((index, polygon) in polygons.features.withIndex()) {
+        for((index, polygon) in polygons.withIndex()) {
 
             val poiFeatures = poi.getNearestCollectionWithinTriangle(
                 getTriangleForDirection(polygons, index),
@@ -141,7 +142,7 @@ class PoiTest {
                 3 -> assertEquals("Woodburn Way Car Park", furthestName)
             }
 
-            featuresToDraw.addFeature(polygon)
+//            featuresToDraw.addFeature(polygon)
             featuresToDraw += poiFeatures.toFeatureCollection()
         }
 
@@ -167,14 +168,14 @@ class PoiTest {
         featuresToDraw += features.toFeatureCollection()
         //assertEquals(33, features.size)
 
-        val circle = Feature()
-        circle.geometry = circleToPolygon(
-            40,
-            userGeometry.location.latitude,
-            userGeometry.location.longitude,
-            50.0
-        )
-        featuresToDraw.addFeature(circle)
+//        val circle = Feature()
+//        circle.geometry = circleToPolygon(
+//            40,
+//            userGeometry.location.latitude,
+//            userGeometry.location.longitude,
+//            50.0
+//        )
+//        featuresToDraw.addFeature(circle)
 
         val adapter = GeoJsonObjectMoshiAdapter()
         val outputFile = FileOutputStream("poi.geojson")

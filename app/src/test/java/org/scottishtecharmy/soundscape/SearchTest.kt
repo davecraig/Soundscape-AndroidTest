@@ -8,6 +8,9 @@ import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.asLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toLineString
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
@@ -208,7 +211,7 @@ class SearchTest {
                 way.followWays(intersection, ways)
 
                 for (segment in ways) {
-                    for(point in (segment.second.geometry as LineString).coordinates) {
+                    for(point in segment.second.asLineString().coordinates) {
                         val nearestHouse = streetTrees[streetName]?.getNearestFeature(
                             point,
                             gridState.ruler
@@ -216,7 +219,7 @@ class SearchTest {
                         if (nearestHouse != null) {
                             val distance = gridState.ruler.distance(
                                 point,
-                                (nearestHouse.geometry as Point).coordinates
+                                (nearestHouse.mvtGeometry as MvtPoint).coordinate
                             )
                             println("${nearestHouse.housenumber} $streetName - $distance from $point")
                         }
@@ -377,7 +380,7 @@ class SearchTest {
         val tree = gridState.gridStreetNumberTreeMap["null"]
 
         val results = tree!!.getNearbyLine(
-            matchedWay!!.geometry as LineString,
+            matchedWay!!.asLineString().toLineString(),
             50.0,
             gridState.ruler
         )
@@ -386,7 +389,7 @@ class SearchTest {
         // Look POI near the road
         val poiTree = gridState.getFeatureTree(TreeId.POIS)
         val poiResults = poiTree.getNearbyLine(
-            matchedWay.geometry as LineString,
+            matchedWay.asLineString().toLineString(),
             25.0,
             gridState.ruler
         )

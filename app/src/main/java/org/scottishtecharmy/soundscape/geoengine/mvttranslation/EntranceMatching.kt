@@ -75,8 +75,8 @@ class EntranceMatching {
      *      * be turned into a latitude/longitude
      */
     fun generateEntrances(collection: FeatureList,
-                          poiMap : HashMap<Long, MutableList<Feature>>,
-                          buildingMap: HashMap<Long, Feature>,
+                          poiMap : HashMap<Long, MutableList<MvtFeature>>,
+                          buildingMap: HashMap<Long, MvtFeature>,
                           tileX : Int,
                           tileY : Int,
                           tileZoom : Int) {

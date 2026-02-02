@@ -92,9 +92,7 @@ fun MvtGeometry.toGeoJsonGeometry(): GeoJsonObject {
 fun MvtFeature.toMvtTileFeature(
     layer: String = "unknown",
     treeId: TreeId? = null
-): MvtTileFeature? {
-    val mvtGeometry = geometry.toMvtGeometry() ?: return null
-
+): MvtTileFeature {
     return MvtTileFeature(
         osmId = osmId,
         geometry = mvtGeometry,
@@ -119,7 +117,7 @@ fun MvtFeature.toMvtTileFeature(
  */
 fun MvtTileFeature.toMvtFeature(): MvtFeature {
     val feature = MvtFeature()
-    feature.geometry = geometry.toGeoJsonGeometry()
+    feature.setMvtGeometry(geometry)
     feature.osmId = osmId
     feature.name = name
     feature.featureClass = featureClass
@@ -140,52 +138,13 @@ fun MvtTileFeature.toMvtFeature(): MvtFeature {
 }
 
 /**
- * Adapter that wraps an old MvtFeature to implement SpatialFeature interface.
- * This allows old code to work with the new interface during migration.
+ * Adapter that wraps an MvtFeature to implement SpatialFeature interface.
+ * NOTE: Since MvtFeature now implements SpatialFeature directly, this adapter
+ * is mostly redundant but kept for backward compatibility with existing code.
  */
 class MvtFeatureAdapter(private val feature: MvtFeature) : SpatialFeature {
     override val osmId: Long get() = feature.osmId
-
-    override val center: LngLatAlt by lazy {
-        // Compute center from the GeoJSON geometry
-        when (val geom = feature.geometry) {
-            is Point -> geom.coordinates
-            is MultiPoint -> {
-                if (geom.coordinates.isEmpty()) LngLatAlt()
-                else {
-                    var sumLng = 0.0
-                    var sumLat = 0.0
-                    for (coord in geom.coordinates) {
-                        sumLng += coord.longitude
-                        sumLat += coord.latitude
-                    }
-                    LngLatAlt(sumLng / geom.coordinates.size, sumLat / geom.coordinates.size)
-                }
-            }
-            is LineString -> {
-                if (geom.coordinates.isEmpty()) LngLatAlt()
-                else geom.coordinates[geom.coordinates.size / 2]
-            }
-            is Polygon -> {
-                val exterior = geom.coordinates.firstOrNull() ?: return@lazy LngLatAlt()
-                if (exterior.isEmpty()) return@lazy LngLatAlt()
-                var sumLng = 0.0
-                var sumLat = 0.0
-                val count = if (exterior.size > 1 && exterior.first() == exterior.last()) {
-                    exterior.size - 1
-                } else {
-                    exterior.size
-                }
-                for (i in 0 until count) {
-                    sumLng += exterior[i].longitude
-                    sumLat += exterior[i].latitude
-                }
-                LngLatAlt(sumLng / count, sumLat / count)
-            }
-            else -> LngLatAlt()
-        }
-    }
-
+    override val center: LngLatAlt get() = feature.center
     override val name: String? get() = feature.name
     override val featureClass: String? get() = feature.featureClass
     override val featureSubClass: String? get() = feature.featureSubClass
@@ -196,12 +155,8 @@ class MvtFeatureAdapter(private val feature: MvtFeature) : SpatialFeature {
     override val street: String? get() = feature.street
     override val side: Boolean? get() = feature.side
     override val streetConfidence: Boolean get() = feature.streetConfidence
-
-    override val mvtGeometry: MvtGeometry by lazy {
-        feature.geometry.toMvtGeometry() ?: MvtPoint(LngLatAlt())
-    }
-
-    override val treeId: TreeId? get() = null  // Old MvtFeature doesn't store this
+    override val mvtGeometry: MvtGeometry get() = feature.mvtGeometry
+    override val treeId: TreeId? get() = feature.treeId
 
     override fun getProperty(key: String): Any? {
         return when (key) {

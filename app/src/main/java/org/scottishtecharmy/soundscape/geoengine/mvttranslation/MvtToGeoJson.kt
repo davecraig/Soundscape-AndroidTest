@@ -34,7 +34,7 @@ fun sampleToFractionOfTile(sample: Int) : Double {
     return (sample.toDouble() + 0.5) / 4096.0
 }
 
-open class MvtFeature : Feature(), SpatialFeature {
+open class MvtFeature : SpatialFeature {
     override var osmId : Long = 0L
     override var name : String? = null
     override var housenumber : String? = null
@@ -47,12 +47,15 @@ open class MvtFeature : Feature(), SpatialFeature {
     override var featureValue : String? = null
     override var superCategory : SuperCategoryId = SuperCategoryId.UNCATEGORIZED
 
-    // Native MVT geometry storage - primary storage for geometry
-    private var _mvtGeometry: MvtGeometry? = null
+    // Properties - moved from GeoJsonObject
+    var properties: HashMap<String, Any?>? = null
+
+    // Native MVT geometry storage - the only storage for geometry
+    private var _mvtGeometry: MvtGeometry = MvtPoint(LngLatAlt())
 
     // SpatialFeature implementations
     override val center: LngLatAlt by lazy {
-        when (val geom = _mvtGeometry ?: geometry.toMvtGeometry()) {
+        when (val geom = _mvtGeometry) {
             is MvtPoint -> geom.coordinate
             is MvtMultiPoint -> {
                 if (geom.coordinates.isEmpty()) LngLatAlt()
@@ -86,20 +89,18 @@ open class MvtFeature : Feature(), SpatialFeature {
                 }
                 LngLatAlt(sumLng / count, sumLat / count)
             }
-            null -> LngLatAlt()
             else -> LngLatAlt()
         }
     }
 
     override val mvtGeometry: MvtGeometry
-        get() = _mvtGeometry ?: geometry.toMvtGeometry() ?: MvtPoint(LngLatAlt())
+        get() = _mvtGeometry
 
     /**
-     * Sets the native MVT geometry and syncs it to GeoJSON geometry for backward compatibility.
+     * Sets the native MVT geometry.
      */
     fun setMvtGeometry(geom: MvtGeometry) {
         _mvtGeometry = geom
-        geometry = geom.toGeoJsonGeometry()  // Sync for backward compat
     }
 
     override val treeId: TreeId? get() = null  // MvtFeature doesn't store this
@@ -149,6 +150,26 @@ open class MvtFeature : Feature(), SpatialFeature {
         featureType = other.featureType
         featureValue = other.featureValue
         superCategory = other.superCategory
+    }
+
+    /**
+     * Converts this MvtFeature to a GeoJSON Feature for serialization.
+     */
+    fun toFeature(): Feature {
+        val feature = Feature()
+        feature.geometry = mvtGeometry.toGeoJsonGeometry()
+        // Copy properties and add typed fields
+        val props = properties?.let { HashMap(it) } ?: HashMap()
+        name?.let { props["name"] = it }
+        housenumber?.let { props["housenumber"] = it }
+        street?.let { props["street"] = it }
+        if (osmId != 0L) props["osm_id"] = osmId
+        featureClass?.let { props["class"] = it }
+        featureSubClass?.let { props["subclass"] = it }
+        featureType?.let { props["feature_type"] = it }
+        featureValue?.let { props["feature_value"] = it }
+        feature.properties = props
+        return feature
     }
 }
 
@@ -444,9 +465,9 @@ fun vectorTileToGeoJson(tileX: Int,
 
     // POI can have duplicate entries for polygons and points and also duplicates in the Buildings
     // layer we de-duplicate them with these maps.
-    val mapPolygonFeatures : HashMap<Long, MutableList<Feature>> = hashMapOf()
-    val mapBuildingFeatures : HashMap<Long, Feature> = hashMapOf()
-    val mapPointFeatures : HashMap<Long, Feature> = hashMapOf()
+    val mapPolygonFeatures : HashMap<Long, MutableList<MvtFeature>> = hashMapOf()
+    val mapBuildingFeatures : HashMap<Long, MvtFeature> = hashMapOf()
+    val mapPointFeatures : HashMap<Long, MvtFeature> = hashMapOf()
 
     for(layer in mvt.layersList) {
         if(!layerIds.contains(layer.name)) {
@@ -454,7 +475,7 @@ fun vectorTileToGeoJson(tileX: Int,
         }
         //println("Process layer: " + layer.name)
 
-        val mapInterpolatedNodes : HashMap<Long, Feature> = hashMapOf()
+        val mapInterpolatedNodes : HashMap<Long, MvtFeature> = hashMapOf()
         for (feature in layer.featuresList) {
 
             var entrance = false
@@ -668,7 +689,7 @@ fun vectorTileToGeoJson(tileX: Int,
                                 if (mapInterpolatedNodes.containsKey(id)) {
                                     // If we've already got this OSM id, we want to extend it with
                                     // the new points
-                                    val existingFeature = mapInterpolatedNodes[id] as MvtFeature
+                                    val existingFeature = mapInterpolatedNodes[id]!!
                                     val currentGeom = existingFeature.mvtGeometry as MvtMultiPoint
                                     val extendedCoords = ArrayList(currentGeom.coordinates)
                                     extendedCoords.addAll(interpolatedNodes)
@@ -749,7 +770,7 @@ fun vectorTileToGeoJson(tileX: Int,
                                 mapPointFeatures[id] = geoFeature
                             }
                         } else if (layer.name == "transportation") {
-                            if (geoFeature.geometry.type != "LineString") {
+                            if (geoFeature.mvtGeometry.geometryType != org.scottishtecharmy.soundscape.geoengine.mvt.data.GeometryType.LINE_STRING) {
                                 collection.add(geoFeature)
                             } else {
                                 if ((featureClass == "transit") || (featureClass == "rail"))
@@ -774,7 +795,7 @@ fun vectorTileToGeoJson(tileX: Int,
         if(layer.name == "transportation") {
             // Add all of our interpolated nodes
             for (feature in mapInterpolatedNodes) {
-                collection.add(feature.value as MvtFeature)
+                collection.add(feature.value)
             }
         }
     }

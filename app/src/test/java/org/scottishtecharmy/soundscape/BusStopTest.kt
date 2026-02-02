@@ -6,6 +6,7 @@ import org.junit.Test
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.types.toFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
@@ -52,8 +53,8 @@ class BusStopTest {
         // we can detect the nearest bus stop and give a distance/direction but as mentioned above the OSM
         // bus stop location data for this example is rubbish so not sure how useful this is to the user?
         val nearestBusStop = FeatureTree(fovBusStopFeatureCollection).getNearestFeature(userGeometry.location, userGeometry.ruler)
-        val busStopLocation = (nearestBusStop!! as MvtFeature).geometry as Point
-        val distanceToBusStop = userGeometry.ruler.distance(userGeometry.location, busStopLocation.coordinates)
+        val busStopLocation = (nearestBusStop!! as MvtFeature).mvtGeometry as MvtPoint
+        val distanceToBusStop = userGeometry.ruler.distance(userGeometry.location, busStopLocation.coordinate)
         Assert.assertEquals(9.08, distanceToBusStop, 0.1)
 
         // Here's the naptan stuff stored in the bus stop properties which might be

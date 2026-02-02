@@ -127,7 +127,7 @@ fun findShortestDistance(
             newEndIntersection
         )
         for (way in ways) {
-            debugFeatureCollection.addFeature(way as Feature)
+            debugFeatureCollection.addFeature(way.toFeature())
         }
     }
 

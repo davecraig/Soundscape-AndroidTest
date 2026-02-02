@@ -9,9 +9,12 @@ import org.scottishtecharmy.soundscape.components.LocationSource
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toMvtGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.convertGeometry
@@ -446,8 +449,9 @@ class TileSearch(val offlineExtractPath: String,
                                                 var resultValid = false
                                                 for (clippedLine in clippedLines) {
                                                     resultValid = true
-                                                    val centreDistance = ruler.lineLength(clippedLine)/2
-                                                    val lineCentre = ruler.along(clippedLine, centreDistance)
+                                                    val mvtLine = clippedLine.toMvtGeometry() as MvtLineString
+                                                    val centreDistance = ruler.lineLength(mvtLine)/2
+                                                    val lineCentre = ruler.along(mvtLine, centreDistance)
                                                     detailedResults.add(
                                                         DetailedSearchResult(
                                                             result.score,
@@ -485,7 +489,7 @@ class TileSearch(val offlineExtractPath: String,
                                             if(allOutside) continue
 
                                             for (polygon in polygons) {
-                                                val polygonGeo = Polygon(
+                                                val polygonGeo = MvtPolygon(
                                                     convertGeometry(
                                                         result.tileX,
                                                         result.tileY,
@@ -498,7 +502,7 @@ class TileSearch(val offlineExtractPath: String,
                                                     DetailedSearchResult(
                                                         result.score,
                                                         stringValue,
-                                                        centroid ?: polygonGeo.coordinates[0][0],
+                                                        centroid ?: polygonGeo.exteriorRing[0],
                                                         properties,
                                                         layer.name
                                                     )

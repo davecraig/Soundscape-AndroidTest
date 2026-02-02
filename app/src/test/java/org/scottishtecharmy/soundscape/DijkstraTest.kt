@@ -12,6 +12,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
 import org.scottishtecharmy.soundscape.geoengine.utils.getPathWays
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
 import java.io.FileOutputStream
 import kotlin.time.measureTime
@@ -52,7 +53,7 @@ class DijkstraTest {
                 endIntersection
             )
             for(way in ways) {
-                shortestRoutes.addFeature(way as Feature)
+                shortestRoutes.addFeature((way as Way).toFeature())
             }
             shortestPath = shortestPathDistance
         }
@@ -133,11 +134,12 @@ class DijkstraTest {
             // Convert the ways into a single line string
             val ils = IndexedLineString()
             ils.updateFromRoute(route)
-            val singleLine = Feature()
-            singleLine.geometry = ils.line!!
-            singleLine.properties = hashMapOf()
-            shortestRouteAsSingleLine.addFeature(singleLine)
-
+            ils.line?.let { line ->
+                val singleLine = Feature()
+                singleLine.geometry = LineString(ArrayList(line.coordinates))
+                singleLine.properties = hashMapOf()
+                shortestRouteAsSingleLine.addFeature(singleLine)
+            }
             results.tidy()
         }
 

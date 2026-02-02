@@ -31,6 +31,7 @@ import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.toMvtGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
@@ -123,11 +124,11 @@ fun getPoiFeatureCollectionBySuperCategory(
     return tempFeatureList
 }
 
-fun featureHasEntrances(feature: Feature): Boolean {
+fun featureHasEntrances(feature: MvtFeature): Boolean {
     return (feature.properties?.get("has_entrances") == "yes")
 }
 
-fun featureIsInFilterGroup(feature: Feature, filter: String): Boolean {
+fun featureIsInFilterGroup(feature: MvtFeature, filter: String): Boolean {
 
     val tags = when(filter) {
         "transit" -> listOf("bus_stop", "train_station", "tram_stop", "ferry_terminal", "station")
@@ -144,8 +145,7 @@ fun featureIsInFilterGroup(feature: Feature, filter: String): Boolean {
     if(tags.isEmpty()) return true
 
     for (tag in tags) {
-        val mvtFeature = feature as MvtFeature
-        if (mvtFeature.featureValue == tag)
+        if (feature.featureValue == tag)
             return true
     }
     return false
@@ -171,9 +171,15 @@ fun deduplicateFeatureCollection(outputFeatureCollection: FeatureCollection,
                                  existingSet : MutableSet<Any>) {
     inputFeatureCollection?.let { collection ->
         for (feature in collection.features) {
-            if (!isDuplicateByOsmId(existingSet, feature as MvtFeature)) {
-                outputFeatureCollection.features.add(feature)
+            val osmId = when (feature) {
+                is MvtFeature -> feature.osmId
+                else -> (feature.properties?.get("osm_id") as? Long) ?: 0L
             }
+            if (osmId != 0L && existingSet.contains(osmId)) {
+                continue
+            }
+            existingSet.add(osmId)
+            outputFeatureCollection.features.add(feature)
         }
     }
 }
@@ -270,7 +276,7 @@ fun getDistanceToFeature(
 
         "LineString" -> {
             val lineString = feature.geometry as LineString
-            return ruler.distanceToLineString(currentLocation, lineString)
+            return ruler.distanceToLineString(currentLocation, lineString.toMvtGeometry() as MvtLineString)
         }
 
         "MultiLineString" -> {
@@ -280,7 +286,7 @@ fun getDistanceToFeature(
             for (arrCoordinates in multiLineString.coordinates) {
                 val segmentNearest = ruler.distanceToLineString(
                     currentLocation,
-                    LineString(arrCoordinates)
+                    MvtLineString(arrCoordinates)
                 )
                 if (segmentNearest.distance < nearest.distance) {
                     nearest = segmentNearest
@@ -294,7 +300,7 @@ fun getDistanceToFeature(
             val nearestPoint = LngLatAlt()
             val distance = distanceToPolygon(
                 currentLocation,
-                polygon,
+                polygon.toMvtGeometry() as MvtPolygon,
                 ruler,
                 nearestPoint
             )
@@ -311,7 +317,7 @@ fun getDistanceToFeature(
                 val pointOnPolygon = LngLatAlt()
                 val distance = distanceToPolygon(
                     currentLocation,
-                    Polygon(arrCoordinates[0]), // Use outer ring
+                    MvtPolygon(arrCoordinates[0]), // Use outer ring
                     ruler,
                     pointOnPolygon
                 )
@@ -370,17 +376,13 @@ fun getDistanceToSpatialFeature(
         }
 
         is MvtLineString -> {
-            val lineString = LineString()
-            lineString.coordinates = ArrayList(geom.coordinates)
-            return ruler.distanceToLineString(currentLocation, lineString)
+            return ruler.distanceToLineString(currentLocation, geom)
         }
 
         is MvtMultiLineString -> {
             var nearest = PointAndDistanceAndHeading()
             for (line in geom.lines) {
-                val lineString = LineString()
-                lineString.coordinates = ArrayList(line.coordinates)
-                val segmentNearest = ruler.distanceToLineString(currentLocation, lineString)
+                val segmentNearest = ruler.distanceToLineString(currentLocation, line)
                 if (segmentNearest.distance < nearest.distance) {
                     nearest = segmentNearest
                 }
@@ -622,11 +624,10 @@ fun getLeftRightDirectionSegments(
 fun makeTriangles(
     segments: Array<Segment>,
     userGeometry: UserGeometry
-): FeatureCollection{
+): List<MvtPolygon> {
 
-    val newFeatureCollection = FeatureCollection()
-    for ((count, segment) in segments.withIndex()) {
-
+    val triangleList = mutableListOf<MvtPolygon>()
+    for (segment in segments) {
         val aheadTriangle = createPolygonFromTriangle(
             Triangle(
                 userGeometry.location,
@@ -634,15 +635,9 @@ fun makeTriangles(
                 getDestinationCoordinate(userGeometry.location, segment.right, userGeometry.fovDistance)
             )
         )
-        val featureAheadTriangle = Feature().also {
-            val ars3: HashMap<String, Any?> = HashMap()
-            ars3 += Pair("Direction", count)
-            it.properties = ars3
-        }
-        featureAheadTriangle.geometry = aheadTriangle
-        newFeatureCollection.addFeature(featureAheadTriangle)
+        triangleList.add(aheadTriangle)
     }
-    return newFeatureCollection
+    return triangleList
 }
 
 /**
@@ -657,7 +652,7 @@ fun makeTriangles(
 fun getRelativeDirectionsPolygons(
     userGeometry: UserGeometry,
     relativeDirectionType: RelativeDirections
-): FeatureCollection {
+): List<MvtPolygon> {
 
     val heading = userGeometry.heading() ?: 0.0
     val segments =
@@ -778,10 +773,10 @@ fun mergeAllPolygonsInFeatureCollection(
                 }
                 if(mergedFeature == mvtFeature) {
                     if(tempMergedFeature != null)
-                        resultantFeatureCollection.addFeature(tempMergedFeature)
+                        resultantFeatureCollection.addFeature(tempMergedFeature.toFeature())
                 }
             }
-            resultantFeatureCollection.addFeature(mergedFeature!!)
+            resultantFeatureCollection.addFeature(mergedFeature!!.toFeature())
         }
     }
     return resultantFeatureCollection
@@ -930,7 +925,6 @@ fun mergePolygons(
     // create a new Polygon with a single outer ring using the coordinates from the JTS merged geometry
     val mergedPolygon = MvtFeature().also { feature ->
         feature.properties = polygon1.properties
-        feature.type = "Feature"
         feature.copyProperties(polygon1)
 
         // Convert JTS to MvtPolygon coordinates
@@ -1175,8 +1169,8 @@ fun addSidewalk(currentRoad: Way,
                     if (road2.name == name) {
                         // The distance between the pavement and the road should be similar at both ends.
                         val delta = abs(
-                            ruler.distanceToLineString(start, road.asLineString().toLineString()).distance -
-                            ruler.distanceToLineString(end, road2.asLineString().toLineString()).distance
+                            ruler.distanceToLineString(start, road.asLineString()).distance -
+                            ruler.distanceToLineString(end, road2.asLineString()).distance
                         )
                         if((delta < 5.0) && (delta < currentRoad.length / 2)) {
                             found = true

@@ -41,13 +41,14 @@ fun FeatureList.addAllDeduplicatedByOsmId(other: FeatureList) {
 
 /**
  * Converts a FeatureList to a FeatureCollection for JSON serialization boundaries.
- * Only includes features that are actually Feature instances (like MvtFeature).
+ * MvtFeatures are converted to Feature using toFeature().
  */
 fun FeatureList.toFeatureCollection(): FeatureCollection {
     val fc = FeatureCollection()
     for (feature in this) {
-        if (feature is Feature) {
-            fc.features.add(feature)
+        when (feature) {
+            is Feature -> fc.features.add(feature)
+            is MvtFeature -> fc.features.add(feature.toFeature())
         }
     }
     return fc

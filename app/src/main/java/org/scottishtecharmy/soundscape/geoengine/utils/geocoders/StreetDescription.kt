@@ -17,7 +17,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeadin
 import org.scottishtecharmy.soundscape.geoengine.utils.Side
 import org.scottishtecharmy.soundscape.geoengine.utils.calculateHeadingOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.getCentralPointForFeature
-import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
+import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getSideOfLine
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
@@ -144,7 +144,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         var nearestPdh = PointAndDistanceAndHeading()
 
         for(way in ways) {
-            val pdh = getDistanceToFeature(location, way.first, gridState.ruler)
+            val pdh = getDistanceToSpatialFeature(location, way.first, gridState.ruler)
             if(pdh.distance < nearestPdh.distance) {
                 nearestWay = way
                 nearestPdh = pdh
@@ -163,7 +163,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                 if(way.first == nearestWayToStart.first) {
                     searching = false
                     if(way.first.length > distanceLeft) {
-                        return ruler.along(way.first.asLineString().toLineString(), distanceLeft)
+                        return ruler.along(way.first.asLineString(), distanceLeft)
                     }
                 }
                 else {
@@ -175,7 +175,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                 distanceLeft -= way.first.length
                 continue
             }
-            return ruler.along(way.first.asLineString().toLineString(), distanceLeft)
+            return ruler.along(way.first.asLineString(), distanceLeft)
         }
         return null
     }
@@ -222,7 +222,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                          streetConfidence: Boolean) {
         if(nearestWay != null) {
             val location = getCentralPointForFeature(house) ?: return
-            val pdh = getDistanceToFeature(location, nearestWay.first, gridState.ruler)
+            val pdh = getDistanceToSpatialFeature(location, nearestWay.first, gridState.ruler)
             val totalDistance = distanceAlongLine(nearestWay.first, pdh)
             val side = whichSide(
                 nearestWay.first,
@@ -600,7 +600,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         if(direction == null) return Pair("", false)
 
         // Get the distance along our lines of points
-        val pdh = getDistanceToFeature(location, way, gridState.ruler)
+        val pdh = getDistanceToSpatialFeature(location, way, gridState.ruler)
         val distance = distanceAlongLine(way, pdh)
 
         // Find which side of the road the point is on
@@ -689,7 +689,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         if(nearestWay == null) return StreetLocationDescription()
 
         // Get the distance along our lines of points
-        val pdh = getDistanceToFeature(location, nearestWay, gridState.ruler)
+        val pdh = getDistanceToSpatialFeature(location, nearestWay, gridState.ruler)
         val distance = distanceAlongLine(nearestWay, pdh)
 
         var direction = false

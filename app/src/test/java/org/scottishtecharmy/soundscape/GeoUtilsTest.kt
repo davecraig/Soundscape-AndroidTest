@@ -26,6 +26,11 @@ import org.scottishtecharmy.soundscape.geoengine.utils.pixelXYToLatLon
 import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
 import org.junit.Assert
 import org.junit.Test
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiLineString
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPoint
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPolygon
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
@@ -90,7 +95,7 @@ class GeoUtilsTest {
 
     @Test
     fun getBoundingBoxOfPointTest() {
-        val testPoint = Point(0.5, 0.5)
+        val testPoint = MvtPoint(LngLatAlt(0.5, 0.5))
         // testing min lon, min lat, max lon, max lat
         val testBoundingBox = getBoundingBoxOfPoint(testPoint)
         Assert.assertEquals(0.5, testBoundingBox.westLongitude, 0.1)
@@ -105,7 +110,7 @@ class GeoUtilsTest {
         // simplest line string made of two coordinates (diagonal)
         val testLngLatAlt1 = LngLatAlt(0.0, 1.0)
         val testLngLatAlt2 = LngLatAlt(1.0, 0.0)
-        val testLineString1 = LineString(testLngLatAlt1, testLngLatAlt2)
+        val testLineString1 = MvtLineString(listOf(testLngLatAlt1, testLngLatAlt2))
         val testBoundingBox1 = getBoundingBoxOfLineString(testLineString1)
         Assert.assertEquals(0.0, testBoundingBox1.westLongitude, 0.01)
         Assert.assertEquals(0.0, testBoundingBox1.southLatitude, 0.01)
@@ -116,10 +121,11 @@ class GeoUtilsTest {
         val testThreePointLineString1 = LngLatAlt(0.0, 1.0)
         val testThreePointLineString2 = LngLatAlt(1.0, 0.0)
         val testThreePointLineString3 = LngLatAlt(2.0, 2.0)
-        val testLineString2 = LineString(
-            testThreePointLineString1,
-            testThreePointLineString2,
-            testThreePointLineString3
+        val testLineString2 = MvtLineString(listOf(
+                testThreePointLineString1,
+                testThreePointLineString2,
+                testThreePointLineString3
+            )
         )
         val testBoundingBox2 = getBoundingBoxOfLineString(testLineString2)
         Assert.assertEquals(0.0, testBoundingBox2.westLongitude, 0.01)
@@ -130,12 +136,12 @@ class GeoUtilsTest {
 
     @Test
     fun getBoundingBoxOfMultiPointsTest() {
-        val multiLineStringObject = MultiPoint().also {
-            it.coordinates = arrayListOf(
+        val multiLineStringObject = MvtMultiPoint(
+            arrayListOf(
                 LngLatAlt(0.0, 0.0),
                 LngLatAlt(1.0, 1.0)
             )
-        }
+        )
         val testBoundingBox = getBoundingBoxOfMultiPoint(multiLineStringObject)
         Assert.assertEquals(0.0, testBoundingBox.westLongitude, 0.01)
         Assert.assertEquals(0.0, testBoundingBox.southLatitude, 0.01)
@@ -146,18 +152,22 @@ class GeoUtilsTest {
 
     @Test
     fun getBoundingBoxOfMultiLineStringTest() {
-        val multiLineStringObject = MultiLineString().also {
-            it.coordinates = arrayListOf(
-                arrayListOf(
-                    LngLatAlt(0.0, 0.0),
-                    LngLatAlt(0.0, 1.0)
+        val multiLineStringObject = MvtMultiLineString(
+            listOf(
+                MvtLineString(
+                    arrayListOf(
+                        LngLatAlt(0.0, 0.0),
+                        LngLatAlt(0.0, 1.0)
+                    )
                 ),
-                arrayListOf(
-                    LngLatAlt(1.0, 0.0),
-                    LngLatAlt(1.0, 1.0)
+                MvtLineString(
+                    arrayListOf(
+                        LngLatAlt(1.0, 0.0),
+                        LngLatAlt(1.0, 1.0)
+                    )
                 )
             )
-        }
+        )
         val boundingBoxOfMultiLineString = getBoundingBoxOfMultiLineString(multiLineStringObject)
         Assert.assertEquals(0.0, boundingBoxOfMultiLineString.westLongitude, 0.01)
         Assert.assertEquals(0.0, boundingBoxOfMultiLineString.southLatitude, 0.01)
@@ -167,8 +177,7 @@ class GeoUtilsTest {
 
     @Test
     fun getBoundingBoxOfPolygonTest() {
-        val polygonObject = Polygon().also {
-            it.coordinates = arrayListOf(
+        val polygonObject = MvtPolygon(
                 arrayListOf(
                     LngLatAlt(0.0, 1.0),
                     LngLatAlt(0.0, 0.0),
@@ -177,7 +186,6 @@ class GeoUtilsTest {
                     LngLatAlt(0.0, 1.0)
                 )
             )
-        }
         val boundingBoxOfPolygon = getBoundingBoxOfPolygon(polygonObject)
         // min lon
         Assert.assertEquals(0.0, boundingBoxOfPolygon.westLongitude, 0.000001)
@@ -192,9 +200,9 @@ class GeoUtilsTest {
 
     @Test
     fun getBoundingBoxOfMultiPolygonTest() {
-        val multiPolygonObject = MultiPolygon().also {
-            it.coordinates = arrayListOf(
-                arrayListOf(
+        val multiPolygonObject = MvtMultiPolygon(
+            listOf(
+                MvtPolygon(
                     arrayListOf(
                         LngLatAlt(0.0, 1.0),
                         LngLatAlt(0.0, 0.0),
@@ -203,7 +211,7 @@ class GeoUtilsTest {
                         LngLatAlt(0.0, 1.0)
                     )
                 ),
-                arrayListOf(
+                MvtPolygon(
                     arrayListOf(
                         LngLatAlt(0.0, 2.0),
                         LngLatAlt(0.0, 0.0),
@@ -213,7 +221,8 @@ class GeoUtilsTest {
                     )
                 )
             )
-        }
+        )
+
         val boundingBoxesOfMultiPolygon = getBoundingBoxesOfMultiPolygon(multiPolygonObject)
         val firstBox = boundingBoxesOfMultiPolygon[0]
         // min lon
@@ -231,7 +240,7 @@ class GeoUtilsTest {
     fun getBoundingBoxCornersTest() {
         val testLngLatAlt1 = LngLatAlt(0.0, 1.0)
         val testLngLatAlt2 = LngLatAlt(1.0, 0.0)
-        val testLineString1 = LineString(testLngLatAlt1, testLngLatAlt2)
+        val testLineString1 = MvtLineString(listOf(testLngLatAlt1, testLngLatAlt2))
         val testBoundingBox1 = getBoundingBoxOfLineString(testLineString1)
 
         val testBoundingBoxCorners = getBoundingBoxCorners(testBoundingBox1)
@@ -254,7 +263,7 @@ class GeoUtilsTest {
     fun getCenterOfBoundingBoxTest() {
         val testLngLatAlt1 = LngLatAlt(0.0, 1.0)
         val testLngLatAlt2 = LngLatAlt(1.0, 0.0)
-        val testLineString1 = LineString(testLngLatAlt1, testLngLatAlt2)
+        val testLineString1 = MvtLineString(listOf(testLngLatAlt1, testLngLatAlt2))
         val testBoundingBox1 = getBoundingBoxOfLineString(testLineString1)
         val testBoundingBoxCorners1 = getBoundingBoxCorners(testBoundingBox1)
 
@@ -266,8 +275,7 @@ class GeoUtilsTest {
 
     @Test
     fun getPolygonFromBoundingBoxTest() {
-        val polygonObject = Polygon().also {
-            it.coordinates = arrayListOf(
+        val polygonObject = MvtPolygon(
                 arrayListOf(
                     LngLatAlt(0.0, 1.0),
                     LngLatAlt(0.0, 0.0),
@@ -276,25 +284,24 @@ class GeoUtilsTest {
                     LngLatAlt(0.0, 1.0)
                 )
             )
-        }
         val boundingBoxOfPolygon = getBoundingBoxOfPolygon(polygonObject)
 
         val polygonOfBoundingBox = getPolygonOfBoundingBox(boundingBoxOfPolygon)
         // Northwest corner
-        Assert.assertEquals(0.0, polygonOfBoundingBox.coordinates[0][0].longitude, 0.000001)
-        Assert.assertEquals(1.0, polygonOfBoundingBox.coordinates[0][0].latitude, 0.000001)
+        Assert.assertEquals(0.0, polygonOfBoundingBox.exteriorRing[0].longitude, 0.000001)
+        Assert.assertEquals(1.0, polygonOfBoundingBox.exteriorRing[0].latitude, 0.000001)
         // Southwest corner
-        Assert.assertEquals(0.0, polygonOfBoundingBox.coordinates[0][1].longitude, 0.000001)
-        Assert.assertEquals(0.0, polygonOfBoundingBox.coordinates[0][1].latitude, 0.000001)
+        Assert.assertEquals(0.0, polygonOfBoundingBox.exteriorRing[1].longitude, 0.000001)
+        Assert.assertEquals(0.0, polygonOfBoundingBox.exteriorRing[1].latitude, 0.000001)
         // Southeast corner
-        Assert.assertEquals(1.0, polygonOfBoundingBox.coordinates[0][2].longitude, 0.000001)
-        Assert.assertEquals(0.0, polygonOfBoundingBox.coordinates[0][2].latitude, 0.000001)
+        Assert.assertEquals(1.0, polygonOfBoundingBox.exteriorRing[2].longitude, 0.000001)
+        Assert.assertEquals(0.0, polygonOfBoundingBox.exteriorRing[2].latitude, 0.000001)
         //Northeast corner
-        Assert.assertEquals(1.0, polygonOfBoundingBox.coordinates[0][3].longitude, 0.000001)
-        Assert.assertEquals(1.0, polygonOfBoundingBox.coordinates[0][3].latitude, 0.000001)
+        Assert.assertEquals(1.0, polygonOfBoundingBox.exteriorRing[3].longitude, 0.000001)
+        Assert.assertEquals(1.0, polygonOfBoundingBox.exteriorRing[3].latitude, 0.000001)
         // Close polygon so Northwest corner again
-        Assert.assertEquals(0.0, polygonOfBoundingBox.coordinates[0][4].longitude, 0.000001)
-        Assert.assertEquals(1.0, polygonOfBoundingBox.coordinates[0][4].latitude, 0.000001)
+        Assert.assertEquals(0.0, polygonOfBoundingBox.exteriorRing[4].longitude, 0.000001)
+        Assert.assertEquals(1.0, polygonOfBoundingBox.exteriorRing[4].latitude, 0.000001)
 
     }
 
@@ -316,8 +323,7 @@ class GeoUtilsTest {
     @Test
     fun polygonContainsCoordinatesTest() {
 
-        val polygonObject = Polygon().also {
-            it.coordinates = arrayListOf(
+        val polygonObject = MvtPolygon(
                 arrayListOf(
                     LngLatAlt(0.0, 1.0),
                     LngLatAlt(0.0, 0.0),
@@ -326,7 +332,6 @@ class GeoUtilsTest {
                     LngLatAlt(0.0, 1.0)
                 )
             )
-        }
 
         val testPolygon1 =
             polygonContainsCoordinates(LngLatAlt(0.5, 0.5), polygonObject)
@@ -350,12 +355,12 @@ class GeoUtilsTest {
 
     @Test
     fun getReferenceCoordinateTest(){
-        val lineStringObject = LineString().also {
-            it.coordinates = arrayListOf(
+        val lineStringObject = MvtLineString(arrayListOf(
                 LngLatAlt(0.0, 0.0),
                 LngLatAlt(1.0, 0.0)
             )
-        }
+        )
+
         val distanceBetweenCoordinates = distance(0.0, 0.0, 0.0, 1.0)
         Assert.assertEquals(111319.49,distanceBetweenCoordinates, 0.1)
 
@@ -379,15 +384,15 @@ class GeoUtilsTest {
             )
         )
 
-        Assert.assertEquals(0.0, polygonTriangleFOV.coordinates[0][0].longitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][0].latitude, 0.01)
-        Assert.assertEquals(0.5, polygonTriangleFOV.coordinates[0][1].longitude, 0.01)
-        Assert.assertEquals(0.0, polygonTriangleFOV.coordinates[0][1].latitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][2].longitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][2].latitude, 0.01)
+        Assert.assertEquals(0.0, polygonTriangleFOV.exteriorRing[0].longitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[0].latitude, 0.01)
+        Assert.assertEquals(0.5, polygonTriangleFOV.exteriorRing[1].longitude, 0.01)
+        Assert.assertEquals(0.0, polygonTriangleFOV.exteriorRing[1].latitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[2].longitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[2].latitude, 0.01)
         // check it is closed
-        Assert.assertEquals(0.0, polygonTriangleFOV.coordinates[0][3].longitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][3].latitude, 0.01)
+        Assert.assertEquals(0.0, polygonTriangleFOV.exteriorRing[3].longitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[3].latitude, 0.01)
     }
 
     @Test
@@ -395,8 +400,7 @@ class GeoUtilsTest {
         val lngLat = 0.01
         val accuracy = 0.01
         val ruler = CheapRuler(lngLat)
-        val polygonObject = Polygon().also {
-            it.coordinates = arrayListOf(
+        val polygonObject = MvtPolygon(
                 arrayListOf(
                     LngLatAlt(0.0, lngLat),
                     LngLatAlt(0.0, 0.0),
@@ -405,7 +409,6 @@ class GeoUtilsTest {
                     LngLatAlt(0.0, lngLat)
                 )
             )
-        }
         val minDistanceToPolygon1 = distanceToPolygon(LngLatAlt(0.0, -lngLat), polygonObject, ruler)
         Assert.assertEquals(1105.74, minDistanceToPolygon1, accuracy)
         val minDistanceToPolygon2 = distanceToPolygon(LngLatAlt(0.0, lngLat * 2), polygonObject, ruler)
@@ -537,7 +540,7 @@ class GeoUtilsTest {
     }
 
 
-    fun cheapTestPoint(ruler: CheapRuler, point: LngLatAlt, line: LineString, fc: FeatureCollection) {
+    fun cheapTestPoint(ruler: CheapRuler, point: LngLatAlt, line: MvtLineString, fc: FeatureCollection) {
         val pdh = ruler.distanceToLineString(point, line)
         val pointFeature1 = Feature()
         pointFeature1.geometry = Point(point)
@@ -560,8 +563,7 @@ class GeoUtilsTest {
             200.0
         )
         // Turn the circle into a line
-        val line = LineString()
-        line.coordinates.addAll(circle.coordinates[0])
+        val line = MvtLineString(circle.exteriorRing)
 
         // Test some nearest points on the line
         val ruler = CheapRuler(51.431658)
@@ -573,12 +575,12 @@ class GeoUtilsTest {
             -2.653228,
             190.0
         )
-        for(point in testCircle.coordinates[0]) {
+        for(point in testCircle.exteriorRing) {
             cheapTestPoint(ruler, point, line, fc)
         }
 
         val lineFeature = Feature()
-        lineFeature.geometry = line
+        lineFeature.geometry = LineString(ArrayList(line.coordinates))
         lineFeature.properties = hashMapOf()
         fc. addFeature(lineFeature)
 
@@ -659,27 +661,24 @@ class GeoUtilsTest {
 
     @Test
     fun intersectingLineStringsTest(){
-        val lineString1 = LineString().also {
-            it.coordinates = arrayListOf(
+        val lineString1 = MvtLineString(arrayListOf(
                 LngLatAlt(-2.6856311440872105,51.44095049507263),
                 LngLatAlt(-2.6854046355432217,51.44085784067977),
                 LngLatAlt(-2.6852524501146036,51.440941670852794)
             )
-        }
+        )
 
-        val lineString2 = LineString().also {
-            it.coordinates = arrayListOf(
+        val lineString2 = MvtLineString(arrayListOf(
                 LngLatAlt(-2.685340930014803,51.4409946161459),
                 LngLatAlt(-2.6853480084065495,51.44081371947439)
             )
-        }
+        )
 
-        val lineString3 = LineString().also {
-            it.coordinates = arrayListOf(
+        val lineString3 = MvtLineString(arrayListOf(
                 LngLatAlt(-2.6851321174495126,51.44103432507555),
                 LngLatAlt(-2.685135656646054,51.44082474977969)
             )
-        }
+        )
 
         // These linestrings do intersect
         val intersect1 = lineStringsIntersect(lineString1, lineString2)
@@ -777,8 +776,7 @@ class GeoUtilsTest {
 
         val currentLocation1 = LngLatAlt(0.0, 0.0)
         //closed triangle/polygon
-        val polygon1 = Polygon().also {
-            it.coordinates = arrayListOf(
+        val polygon1 = MvtPolygon(
                 arrayListOf(
                     LngLatAlt(0.0, 1.0),
                     LngLatAlt(1.0, 1.0),
@@ -786,7 +784,6 @@ class GeoUtilsTest {
                     LngLatAlt(0.0, 1.0),
                 )
             )
-        }
 
         val nearestDistance1 = distanceToPolygon(currentLocation1, polygon1, currentLocation1.createCheapRuler())
         val nearestPoint1 = nearestPointOnPolygonSegment(currentLocation1, polygon1)
@@ -799,25 +796,24 @@ class GeoUtilsTest {
 
     }
 
-    private fun nearestPointOnPolygonSegment(point: LngLatAlt, polygon: Polygon): LngLatAlt? {
+    private fun nearestPointOnPolygonSegment(point: LngLatAlt, polygon: MvtPolygon): LngLatAlt? {
         var nearestPoint: LngLatAlt? = null
         var minDistance = Double.MAX_VALUE
 
 
-        for (ring in polygon.coordinates) {
+
+        for (i in polygon.exteriorRing.indices) {
             // not sure if we really need to do this as any point on the outer ring is going to be closer than the inner ring(s)
             // assuming the location is outside the polygon
-            for (i in ring.indices) {
-                val start = ring[i]
-                val end = ring[(i + 1) % ring.size]
+            val start = polygon.exteriorRing[i]
+            val end = polygon.exteriorRing[(i + 1) % polygon.exteriorRing.size]
 
-                val nearestPointOnSegment = nearestPointOnSegment(point, start, end)
-                val distance = distance(point.latitude, point.longitude, nearestPointOnSegment.latitude, nearestPointOnSegment.longitude)
+            val nearestPointOnSegment = nearestPointOnSegment(point, start, end)
+            val distance = distance(point.latitude, point.longitude, nearestPointOnSegment.latitude, nearestPointOnSegment.longitude)
 
-                if (distance < minDistance) {
-                    minDistance = distance
-                    nearestPoint = nearestPointOnSegment
-                }
+            if (distance < minDistance) {
+                minDistance = distance
+                nearestPoint = nearestPointOnSegment
             }
         }
 
@@ -890,13 +886,21 @@ class GeoUtilsTest {
 
         val feature1 = MvtFeature()
         val feature2 = MvtFeature()
-        feature1.geometry = polygon1
-        feature2.geometry = polygon2
+        val mvtPolygon1 = MvtPolygon(
+            polygon1.coordinates[0],
+            polygon1.coordinates.drop(1)
+        )
+        val mvtPolygon2 = MvtPolygon(
+            polygon2.coordinates[0],
+            polygon2.coordinates.drop(1)
+        )
+        feature1.setMvtGeometry(mvtPolygon1)
+        feature2.setMvtGeometry(mvtPolygon2)
 
         val mergedFeature = mergePolygons(feature1, feature2)
-        val mergedPolygon = mergedFeature.geometry as Polygon
+        val mergedPolygon = mergedFeature.mvtGeometry as MvtPolygon
         // Check we have one outer and one inner ring
-        assert(mergedPolygon.coordinates.size == 2)
+        assert(mergedPolygon.interiorRings.size == 1)
 
         // Merge a polygon which covers both of the previous polygons. This isn't like any that we will
         // merge from a tile, but it should get rid of the inner ring.
@@ -914,9 +918,9 @@ class GeoUtilsTest {
         bigFeature.setMvtGeometry(bigPolygon)
 
         val secondMergedFeature = mergePolygons(mergedFeature, bigFeature)
-        val secondMergedPolygon = secondMergedFeature.geometry as Polygon
-        // Check we have just one outer ring
-        assert(secondMergedPolygon.coordinates.size == 1)
+        val secondMergedPolygon = secondMergedFeature.mvtGeometry as MvtPolygon
+        // Check we have just one outer ring (interior rings list is empty)
+        assert(secondMergedPolygon.interiorRings.isEmpty())
     }
 
     @Test
@@ -959,13 +963,21 @@ class GeoUtilsTest {
 
         val feature1 = MvtFeature()
         val feature2 = MvtFeature()
-        feature1.geometry = polygon1
-        feature2.geometry = polygon2
+        val mvtPolygon1 = MvtPolygon(
+            polygon1.coordinates[0],
+            polygon1.coordinates.drop(1)
+        )
+        val mvtPolygon2 = MvtPolygon(
+            polygon2.coordinates[0],
+            polygon2.coordinates.drop(1)
+        )
+        feature1.setMvtGeometry(mvtPolygon1)
+        feature2.setMvtGeometry(mvtPolygon2)
 
         val mergedFeature = mergePolygons(feature1, feature2)
-        val mergedPolygon = mergedFeature.geometry as Polygon
+        val mergedPolygon = mergedFeature.mvtGeometry as MvtPolygon
         // Check we have one outer and one inner ring
-        assert(mergedPolygon.coordinates.size == 2)
+        assert(mergedPolygon.interiorRings.size == 1)
    }
     @Test
     fun cheapRulerWrapTest(){

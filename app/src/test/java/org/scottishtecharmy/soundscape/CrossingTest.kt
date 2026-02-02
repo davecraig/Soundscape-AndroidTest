@@ -6,6 +6,7 @@ import org.junit.Test
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.types.toFeatureCollection
@@ -46,11 +47,11 @@ class CrossingTest {
         Assert.assertEquals(1, fovCrossingFeatureCollection.size)
 
         val nearestCrossing = FeatureTree(fovCrossingFeatureCollection).getNearestFeature(userGeometry.location, userGeometry.ruler) as MvtFeature
-        val crossingLocation = nearestCrossing.geometry as Point
-        val distanceToCrossing = userGeometry.ruler.distance(userGeometry.location, crossingLocation.coordinates)
+        val crossingLocation = nearestCrossing.mvtGeometry as MvtPoint
+        val distanceToCrossing = userGeometry.ruler.distance(userGeometry.location, crossingLocation.coordinate)
 
         // Confirm which road the crossing is on
-        val nearestRoadToCrossing = roadsTree.getNearestFeature(crossingLocation.coordinates, userGeometry.ruler) as MvtFeature?
+        val nearestRoadToCrossing = roadsTree.getNearestFeature(crossingLocation.coordinate, userGeometry.ruler) as MvtFeature?
 
         Assert.assertEquals(24.58, distanceToCrossing, 0.2)
         Assert.assertEquals("Belmont Drive", nearestRoadToCrossing?.name)

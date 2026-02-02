@@ -54,7 +54,7 @@ class Intersection : MvtFeature() {
     // intersections at exactly the same point which are joined by a JOINER way and we can't have
     // them be declared to be the same as then we can't tell the direction of the JOINER.
 
-    fun toFeature() {
+    fun prepareForExport() {
         setMvtGeometry(MvtPoint(location))
         properties = HashMap<String,Any?>().apply {
             set("name", name)
@@ -404,9 +404,7 @@ class Way : MvtFeature() {
         newIntersection.location = location
 
         val lineCoords = (mvtGeometry as MvtLineString).coordinates
-        val lineString = LineString()
-        lineString.coordinates = ArrayList(lineCoords)
-        val point = ruler.distanceToLineString(location, lineString)
+        val point = ruler.distanceToLineString(location, mvtGeometry as MvtLineString)
 
         // Create two line coordinate lists out of the original line, adding in the location in the middle
         val line1Coords = mutableListOf<LngLatAlt>()

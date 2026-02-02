@@ -4,6 +4,8 @@ import android.location.Address
 import org.json.JSONObject
 import org.scottishtecharmy.soundscape.components.LocationSource
 import org.scottishtecharmy.soundscape.geoengine.TextForFeature
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.GeometryType
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -58,6 +60,53 @@ fun Feature.toLocationDescription(source: LocationSource,
 }
 
 /**
+ * MvtFeature version - converts to Feature for LocationDescription compatibility
+ */
+fun MvtFeature.deferredToLocationDescription(source: LocationSource,
+                                              alternateLocation: LngLatAlt = LngLatAlt(),
+                                              featureName: TextForFeature? = null): LocationDescription {
+    val location =
+        when (mvtGeometry) {
+            is MvtPoint -> (mvtGeometry as MvtPoint).coordinate
+            else -> alternateLocation
+        }
+
+    val ld = LocationDescription(
+        source = source,
+        location = location,
+        feature = this.toFeature(),
+        alternateLocation = alternateLocation,
+        featureName = featureName
+    )
+
+    return ld
+}
+
+/**
+ * MvtFeature version - converts to Feature for LocationDescription compatibility
+ */
+fun MvtFeature.toLocationDescription(source: LocationSource,
+                                      alternateLocation: LngLatAlt = LngLatAlt(),
+                                      featureName: TextForFeature? = null): LocationDescription {
+    val location =
+        when (mvtGeometry) {
+            is MvtPoint -> (mvtGeometry as MvtPoint).coordinate
+            else -> alternateLocation
+        }
+
+    val ld = LocationDescription(
+        source = source,
+        location = location,
+        feature = this.toFeature(),
+        alternateLocation = alternateLocation,
+        featureName = featureName
+    )
+    ld.process()
+
+    return ld
+}
+
+/**
   *  Although the formatting of the address is not hugely time consuming, it adds up and so
  *  in Places Nearby the processing is deferred to the point at which the location information
  *  is displayed. The display uses a LazyColumn so even if there are hundreds of items in the
@@ -70,7 +119,6 @@ fun LocationDescription.process() {
             val jsonObject = JSONObject()
             var oppositeProperty = false
             var locationTypeProperty: LocationType = LocationType.Country
-            val mvt = (feature as? MvtFeature)
             var nameLocal: String? = null
 
             feature.properties?.let { properties ->
@@ -85,6 +133,7 @@ fun LocationDescription.process() {
                             jsonObject.put("house_number", value.toString())
                             locationTypeProperty =
                                 setIfLower(LocationType.StreetNumber, locationTypeProperty)
+                            address = true
                         }
 
                         "street" -> {
@@ -114,16 +163,6 @@ fun LocationDescription.process() {
                     }
                 }
                 nameLocal = properties["name"] as String?
-                if (mvt != null) {
-                    if (mvt.housenumber != null) {
-                        jsonObject.put("house_number", mvt.housenumber)
-                        address = true
-                    }
-                    if (mvt.street != null) {
-                        jsonObject.put("road", mvt.street)
-                        address = true
-                    }
-                }
             }
             if (address) {
                 val formatter = AndroidAddressFormatter(false, false, false)
@@ -136,16 +175,13 @@ fun LocationDescription.process() {
                     // Named locations are as good a street number
                     locationTypeProperty = setIfLower(LocationType.StreetNumber, locationTypeProperty)
                 }
-                if (mvt != null) {
-                    nameLocal = mvt.name
-                }
 
                 name = nameLocal ?: formattedAddress.substringBefore('\n')
                 description = formattedAddress.replace("\n", ", ").substringBeforeLast(",")
                 opposite = oppositeProperty
                 locationType = locationTypeProperty
             } else {
-                name = mvt?.name?.takeIf { it.isNotEmpty() } ?: featureName?.text ?: ""
+                name = (feature?.properties?.get("name") as? String)?.takeIf { it.isNotEmpty() } ?: featureName?.text ?: ""
                 if(name == "")
                 {
                     println("!")

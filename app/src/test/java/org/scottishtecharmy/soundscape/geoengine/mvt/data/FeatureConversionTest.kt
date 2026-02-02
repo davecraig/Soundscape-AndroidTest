@@ -136,7 +136,7 @@ class FeatureConversionTest {
     @Test
     fun `MvtFeature converts to MvtTileFeature`() {
         val mvtFeature = MvtFeature()
-        mvtFeature.geometry = Point(LngLatAlt(-4.25, 55.85))
+        mvtFeature.setMvtGeometry(MvtPoint(LngLatAlt(-4.25, 55.85)))
         mvtFeature.osmId = 12345L
         mvtFeature.name = "Test POI"
         mvtFeature.featureClass = "shop"
@@ -158,7 +158,7 @@ class FeatureConversionTest {
     @Test
     fun `MvtFeature with properties converts correctly`() {
         val mvtFeature = MvtFeature()
-        mvtFeature.geometry = Point(LngLatAlt(0.0, 0.0))
+        mvtFeature.setMvtGeometry(MvtPoint(LngLatAlt(0.0, 0.0)))
         mvtFeature.osmId = 1L
         mvtFeature.setProperty("custom_key", "custom_value")
         mvtFeature.setProperty("number", 42)
@@ -191,7 +191,7 @@ class FeatureConversionTest {
         assertEquals("shop", mvtFeature.featureClass)
         assertEquals("supermarket", mvtFeature.featureSubClass)
         assertEquals(SuperCategoryId.PLACE, mvtFeature.superCategory)
-        assertTrue(mvtFeature.geometry is Point)
+        assertTrue(mvtFeature.mvtGeometry is MvtPoint)
     }
 
     // SpatialFeature adapter tests
@@ -199,7 +199,7 @@ class FeatureConversionTest {
     @Test
     fun `MvtFeatureAdapter provides correct values`() {
         val mvtFeature = MvtFeature()
-        mvtFeature.geometry = Point(LngLatAlt(-4.25, 55.85))
+        mvtFeature.setMvtGeometry(MvtPoint(LngLatAlt(-4.25, 55.85)))
         mvtFeature.osmId = 12345L
         mvtFeature.name = "Test POI"
         mvtFeature.featureClass = "shop"
@@ -216,7 +216,7 @@ class FeatureConversionTest {
     @Test
     fun `MvtFeatureAdapter getProperty works correctly`() {
         val mvtFeature = MvtFeature()
-        mvtFeature.geometry = Point(LngLatAlt(0.0, 0.0))
+        mvtFeature.setMvtGeometry(MvtPoint(LngLatAlt(0.0, 0.0)))
         mvtFeature.osmId = 1L
         mvtFeature.name = "Test"
         mvtFeature.setProperty("custom", "value")
@@ -231,7 +231,7 @@ class FeatureConversionTest {
     @Test
     fun `MvtFeatureAdapter hasProperty works correctly`() {
         val mvtFeature = MvtFeature()
-        mvtFeature.geometry = Point(LngLatAlt(0.0, 0.0))
+        mvtFeature.setMvtGeometry(MvtPoint(LngLatAlt(0.0, 0.0)))
         mvtFeature.osmId = 1L
         mvtFeature.name = "Test"
         mvtFeature.setProperty("custom", "value")
@@ -247,11 +247,11 @@ class FeatureConversionTest {
     @Test
     fun `MvtFeatureAdapter computes center for LineString`() {
         val mvtFeature = MvtFeature()
-        mvtFeature.geometry = LineString(arrayListOf(
+        mvtFeature.setMvtGeometry(MvtLineString(listOf(
             LngLatAlt(-4.0, 55.0),
             LngLatAlt(-4.2, 55.2),
             LngLatAlt(-4.4, 55.4)
-        ))
+        )))
         mvtFeature.osmId = 1L
 
         val spatial = mvtFeature.asSpatialFeature()
@@ -295,7 +295,7 @@ class FeatureConversionTest {
     @Test
     fun `MvtFeatureAdapter unwrap returns original`() {
         val original = MvtFeature()
-        original.geometry = Point(LngLatAlt(0.0, 0.0))
+        original.setMvtGeometry(MvtPoint(LngLatAlt(0.0, 0.0)))
         original.osmId = 1L
 
         val adapter = MvtFeatureAdapter(original)

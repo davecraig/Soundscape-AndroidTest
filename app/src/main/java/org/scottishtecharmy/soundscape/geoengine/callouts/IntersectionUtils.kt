@@ -102,7 +102,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
             if(nearestRoad.properties?.get("pavement") == way.name) {
                 if(userGeometry.mapMatchedLocation?.point != null) {
                     val roadDistance =
-                        userGeometry.ruler.distanceToLineString(userGeometry.mapMatchedLocation.point, road.asLineString().toLineString())
+                        userGeometry.ruler.distanceToLineString(userGeometry.mapMatchedLocation.point, road.asLineString())
                     val snappedHeading = userGeometry.snappedHeading()
                     if (snappedHeading != null) {
                         val innerAngle = calculateSmallestAngleBetweenLines(roadDistance.heading, snappedHeading)

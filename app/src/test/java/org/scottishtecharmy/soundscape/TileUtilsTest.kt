@@ -17,6 +17,8 @@ import org.scottishtecharmy.soundscape.geoengine.GRID_SIZE
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.GeometryType
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
@@ -262,7 +264,7 @@ class TileUtilsTest {
                         if (mvtFeature.name != null) {
                             for (property in mvtFeature.properties!!) {
                                 if (superCategoryMap[property.value] == SuperCategoryId.PLACE) {
-                                    tempFeatureCollection.features.add(mvtFeature)
+                                    tempFeatureCollection.features.add(mvtFeature.toFeature())
                                 }
                             }
                         }
@@ -279,12 +281,12 @@ class TileUtilsTest {
                 val landmarkSuperCategory =
                     getPoiFeatureCollectionBySuperCategory(SuperCategoryId.LANDMARK, poiCollection)
                 for (feature in landmarkSuperCategory) {
-                    settingsFeatureCollection.features.add(feature as Feature)
+                    settingsFeatureCollection.features.add((feature as MvtFeature).toFeature())
                 }
                 val mobilitySuperCategory =
                     getPoiFeatureCollectionBySuperCategory(SuperCategoryId.MOBILITY, poiCollection)
                 for (feature in mobilitySuperCategory) {
-                    settingsFeatureCollection.features.add(feature as Feature)
+                    settingsFeatureCollection.features.add((feature as MvtFeature).toFeature())
                 }
                 val settingsString =
                     moshi.adapter(FeatureCollection::class.java).toJson(settingsFeatureCollection)
@@ -297,10 +299,10 @@ class TileUtilsTest {
                     feature.properties?.get("distance_to") as? Double ?: Double.MAX_VALUE
                 }
                 for (feature in distanceToFeatureCollection) {
-                    val mvtFeature = feature as MvtFeature
-                    if (mvtFeature.name != null) {
+                    val featureName = feature.properties?.get("name") as? String
+                    if (featureName != null) {
                         println(
-                            "Feature: ${mvtFeature.name} " +
+                            "Feature: $featureName " +
                                     "distance to feature: ${feature.properties?.get("distance_to")}"
                         )
                     }
@@ -316,13 +318,13 @@ class TileUtilsTest {
                 for (feature in placeSuperCategory) {
                     val mvtFeature = feature as MvtFeature
                     if (mvtFeature.featureType != "building" && mvtFeature.featureValue != "house") {
-                        settingsFeatureCollection.features.add(mvtFeature)
+                        settingsFeatureCollection.features.add(mvtFeature.toFeature())
                     }
                 }
                 val landmarkSuperCategory =
                     getPoiFeatureCollectionBySuperCategory(SuperCategoryId.LANDMARK, poiCollection)
                 for (feature in landmarkSuperCategory) {
-                    settingsFeatureCollection.features.add(feature as Feature)
+                    settingsFeatureCollection.features.add((feature as MvtFeature).toFeature())
                 }
             }
         } else {
@@ -447,9 +449,9 @@ class TileUtilsTest {
         val fc = poiTree.getAllCollection()
         for(feature in fc) {
             val mvtFeature = feature as MvtFeature
-            if(mvtFeature.geometry?.type == "Polygon") {
+            if(mvtFeature.mvtGeometry.geometryType == GeometryType.POLYGON) {
                 println("${mvtFeature.name}")
-                val nearestPoint = getDistanceToFeature(userGeometry.location, mvtFeature, ruler).point
+                val nearestPoint = getDistanceToSpatialFeature(userGeometry.location, mvtFeature, ruler).point
                 val offset = ruler.distance(nearestPoint, expectedNearestPoint)
                 assert(offset < 1.0)
                 break
@@ -534,7 +536,7 @@ class TileUtilsTest {
         val nearestPoiFeature =
             poiTree.getNearestFeatureWithinTriangle(triangle, userGeometry.ruler)
 
-        val distance = getDistanceToFeature(userGeometry.location, nearestPoiFeature!! as Feature, userGeometry.ruler)
+        val distance = getDistanceToSpatialFeature(userGeometry.location, nearestPoiFeature!! as MvtFeature, userGeometry.ruler)
 
         Assert.assertEquals(101.68, distance.distance, 0.1)
 
@@ -604,78 +606,78 @@ class TileUtilsTest {
 
         // Location to test relative directions. Placed in "Ahead" triangle
         val testBeaconAhead = LngLatAlt(-2.6572829456840736, 51.4307659303868)
-        for (feature in combinedDirectionPolygons) {
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
             val iAmHere1 =
-                polygonContainsCoordinates(testBeaconAhead, (feature.geometry as Polygon))
+                polygonContainsCoordinates(testBeaconAhead, feature)
             if (iAmHere1) {
-                Assert.assertEquals(4, feature.properties!!["Direction"])
+                Assert.assertEquals(4, index)
             }
         }
 
         // Location to test relative directions. Placed in "Ahead Right" triangle
         val testBeaconAheadRight = LngLatAlt(-2.656996677668559, 51.43067289460916)
-        for (feature in combinedDirectionPolygons) {
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
             val iAmHere2 =
-                polygonContainsCoordinates(testBeaconAheadRight, (feature.geometry as Polygon))
+                polygonContainsCoordinates(testBeaconAheadRight, feature)
             if (iAmHere2) {
-                Assert.assertEquals(5, feature.properties!!["Direction"])
+                Assert.assertEquals(5, index)
             }
         }
 
         // Location to test relative directions. Placed in "Right" triangle
         val testBeaconRight = LngLatAlt(-2.656649501563379, 51.430464038091515)
-        for (feature in combinedDirectionPolygons) {
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
             val iAmHere3 =
-                polygonContainsCoordinates(testBeaconRight, (feature.geometry as Polygon))
+                polygonContainsCoordinates(testBeaconRight, feature)
             if (iAmHere3) {
-                Assert.assertEquals(6, feature.properties!!["Direction"])
+                Assert.assertEquals(6, index)
             }
         }
 
         // Location to test relative directions. Placed in "Behind Right" triangle
         val testBeaconBehindRight = LngLatAlt(-2.6570667219705797, 51.43031404054909)
-        for (feature in combinedDirectionPolygons) {
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
             val iAmHere4 =
-                polygonContainsCoordinates(testBeaconBehindRight, (feature.geometry as Polygon))
+                polygonContainsCoordinates(testBeaconBehindRight, feature)
             if (iAmHere4) {
-                Assert.assertEquals(7, feature.properties!!["Direction"])
+                Assert.assertEquals(7, index)
             }
         }
 
         // Location to test relative directions. Placed in "Behind" triangle
         val testBeaconBehind = LngLatAlt(-2.6572890364938644, 51.430274167701896)
-        for (feature in combinedDirectionPolygons) {
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
             val iAmHere5 =
-                polygonContainsCoordinates(testBeaconBehind, (feature.geometry as Polygon))
+                polygonContainsCoordinates(testBeaconBehind, feature)
             if (iAmHere5) {
-                Assert.assertEquals(0, feature.properties!!["Direction"])
+                Assert.assertEquals(0, index)
             }
         }
 
         // Location to test relative directions. Placed in "Behind Left" triangle
         val testBeaconBehindLeft = LngLatAlt(-2.657806755246213, 51.430285559947464)
-        for (feature in combinedDirectionPolygons) {
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
             val iAmHere6 =
-                polygonContainsCoordinates(testBeaconBehindLeft, (feature.geometry as Polygon))
+                polygonContainsCoordinates(testBeaconBehindLeft, feature)
             if (iAmHere6) {
-                Assert.assertEquals(2, feature.properties!!["Direction"])
+                Assert.assertEquals(2, index)
             }
         }
         // Location to test relative directions. Placed in "Left" triangle
         val testBeaconLeft = LngLatAlt(-2.6579194352108857, 51.43053239123893)
-        for (feature in combinedDirectionPolygons) {
-            val iAmHere7 = polygonContainsCoordinates(testBeaconLeft, (feature.geometry as Polygon))
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
+            val iAmHere7 = polygonContainsCoordinates(testBeaconLeft, feature)
             if (iAmHere7) {
-                Assert.assertEquals(2, feature.properties!!["Direction"])
+                Assert.assertEquals(2, index)
             }
         }
         // Location to test relative directions. Placed in "Ahead Left" triangle
         val testBeaconAheadLeft = LngLatAlt(-2.657566168297052, 51.430682388064525)
-        for (feature in combinedDirectionPolygons) {
+        for ((index, feature) in combinedDirectionPolygons.withIndex()) {
             val iAmHere8 =
-                polygonContainsCoordinates(testBeaconAheadLeft, (feature.geometry as Polygon))
+                polygonContainsCoordinates(testBeaconAheadLeft, feature)
             if (iAmHere8) {
-                Assert.assertEquals(3, feature.properties!!["Direction"])
+                Assert.assertEquals(3, index)
             }
         }
 
@@ -704,9 +706,9 @@ class TileUtilsTest {
         assert(nearestIntersection != null)
 
         // how far away is the intersection?
-        val nearestIntersectionPoint = (nearestIntersection!! as MvtFeature).geometry as Point
+        val nearestIntersectionPoint = (nearestIntersection!! as MvtFeature).mvtGeometry as MvtPoint
         val distanceToNearestIntersection =
-            userGeometry.ruler.distance(userGeometry.location, nearestIntersectionPoint.coordinates)
+            userGeometry.ruler.distance(userGeometry.location, nearestIntersectionPoint.coordinate)
         Assert.assertEquals(6.24, distanceToNearestIntersection, 0.1)
 
         // get the roads that make up the intersection based on the osm_ids
@@ -786,21 +788,21 @@ class TileUtilsTest {
             )
         )
 
-        Assert.assertEquals(0.0, polygonTriangleFOV.coordinates[0][0].longitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][0].latitude, 0.01)
-        Assert.assertEquals(0.5, polygonTriangleFOV.coordinates[0][1].longitude, 0.01)
-        Assert.assertEquals(0.0, polygonTriangleFOV.coordinates[0][1].latitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][2].longitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][2].latitude, 0.01)
+        Assert.assertEquals(0.0, polygonTriangleFOV.exteriorRing[0].longitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[0].latitude, 0.01)
+        Assert.assertEquals(0.5, polygonTriangleFOV.exteriorRing[1].longitude, 0.01)
+        Assert.assertEquals(0.0, polygonTriangleFOV.exteriorRing[1].latitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[2].longitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[2].latitude, 0.01)
         // check it is closed
-        Assert.assertEquals(0.0, polygonTriangleFOV.coordinates[0][3].longitude, 0.01)
-        Assert.assertEquals(1.0, polygonTriangleFOV.coordinates[0][3].latitude, 0.01)
+        Assert.assertEquals(0.0, polygonTriangleFOV.exteriorRing[3].longitude, 0.01)
+        Assert.assertEquals(1.0, polygonTriangleFOV.exteriorRing[3].latitude, 0.01)
 
         // add it to a feature collection
         val polygonFeatureCollection = FeatureCollection()
         polygonFeatureCollection.addFeature(
             Feature().also { feature ->
-                feature.geometry = polygonTriangleFOV
+                feature.geometry = Polygon(ArrayList(polygonTriangleFOV.exteriorRing))
             }
         )
         // explode the triangle into segments

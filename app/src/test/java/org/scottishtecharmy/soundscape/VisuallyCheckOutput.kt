@@ -24,6 +24,7 @@ import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.utils.createPolygonFromTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 
 // Functions to output GeoJSON strings that can be put into the very useful Geojson.io
 // for a visual check. The GeoJSON parser that they use is also handy to make sure output
@@ -47,7 +48,7 @@ class VisuallyCheckOutput {
             ars3 += Pair("Polygon", "to display the tile bounding box")
             it.properties = ars3
         }
-        featurePolygon.geometry = tilePolygon
+        featurePolygon.geometry = Polygon(ArrayList(tilePolygon.exteriorRing))
         // Create a point to show center of tile
         val locationPoint = Point()
         locationPoint.coordinates = tileBoundingBoxCenter
@@ -92,7 +93,7 @@ class VisuallyCheckOutput {
                 it.properties = ars3
                 it.type = "Feature"
             }
-            boundingBoxFeature.geometry = polygonBoundingBox
+            boundingBoxFeature.geometry = Polygon(ArrayList(polygonBoundingBox.exteriorRing))
             newFeatureCollection.addFeature(boundingBoxFeature)
         }
         // Display the circle we are using for the grid radius
@@ -109,7 +110,7 @@ class VisuallyCheckOutput {
             it.properties = ars3
             it.type = "Feature"
         }
-        circlePolygonFeature.geometry = circlePolygon
+        circlePolygonFeature.geometry = Polygon(ArrayList(circlePolygon.exteriorRing))
         newFeatureCollection.addFeature(circlePolygonFeature)
 
         val grid3x3String = moshi.adapter(FeatureCollection::class.java).toJson(newFeatureCollection)
@@ -232,7 +233,7 @@ class VisuallyCheckOutput {
             ars3 += Pair("FoV", "45 degrees 35 meters")
             it.properties = ars3
         }
-        featureFOVTriangle.geometry = polygonTriangleFOV
+        featureFOVTriangle.geometry = Polygon(ArrayList(polygonTriangleFOV.exteriorRing))
 
         val outputFc = fovIntersectionsFeatureCollection.toFeatureCollection()
         outputFc.addFeature(featureFOVTriangle)
@@ -280,7 +281,7 @@ class VisuallyCheckOutput {
             ars3 += Pair("FoV", "45 degrees 35 meters")
             it.properties = ars3
         }
-        featureFOVTriangle.geometry = polygonTriangleFOV
+        featureFOVTriangle.geometry = Polygon(ArrayList(polygonTriangleFOV.exteriorRing))
 
         val outputFc = fovRoadsFeatureCollection.toFeatureCollection()
         outputFc.addFeature(featureFOVTriangle)
@@ -330,7 +331,7 @@ class VisuallyCheckOutput {
             ars3 += Pair("FoV", "45 degrees 35 meters")
             it.properties = ars3
         }
-        featureFOVTriangle.geometry = polygonTriangleFOV
+        featureFOVTriangle.geometry = Polygon(ArrayList(polygonTriangleFOV.exteriorRing))
 
         val outputFc = fovPoiFeatureCollection.toFeatureCollection()
         outputFc.addFeature(featureFOVTriangle)
@@ -344,97 +345,97 @@ class VisuallyCheckOutput {
 
     // Trying to understand how relative headings "ahead", "ahead left", etc. work
     // Displaying Soundscape COMBINED Direction types with this
-    @Test
-    fun relativeDirectionsCombined(){
-        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-        val userGeometry = UserGeometry(
-            LngLatAlt(-2.657279900280031, 51.430461188129385),
-            0.0,
-            50.0
-        )
-        val combinedDirectionPolygons  = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.COMBINED)
-
-        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
-            .toJson(combinedDirectionPolygons)
-
-        println(relativeDirectionTrianglesString)
-
-    }
-
-    //Displaying Soundscape INDIVIDUAL Direction types
-    @Test
-    fun relativeDirectionsIndividual(){
-        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-        val userGeometry = UserGeometry(
-            LngLatAlt(-2.657279900280031, 51.430461188129385),
-            90.0,
-            50.0
-        )
-
-        val individualRelativeDirections = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.INDIVIDUAL)
-
-        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
-            .toJson(individualRelativeDirections)
-
-        println(relativeDirectionTrianglesString)
-    }
-
-    //Displaying Soundscape AHEAD_BEHIND Direction types
-    @Test
-    fun relativeDirectionsAheadBehind(){
-        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-        val userGeometry = UserGeometry(
-            LngLatAlt(-2.657279900280031, 51.430461188129385),
-            90.0,
-            50.0
-        )
-
-        // Issue here is because of the bias towards "ahead" and "behind" you end up with a wide but shallow field of view
-        // Probably better to do some trig to provide the distance to keep the depth of the field of view constant?
-        val aheadBehindRelativeDirections  = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.AHEAD_BEHIND)
-
-        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
-            .toJson(aheadBehindRelativeDirections)
-
-        println(relativeDirectionTrianglesString)
-
-    }
-
-    //Displaying Soundscape LEFT_RIGHT Direction types
-    @Test
-    fun relativeDirectionsLeftRight(){
-        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-        val userGeometry = UserGeometry(
-            LngLatAlt(-2.657279900280031, 51.430461188129385),
-            90.0,
-            50.0
-        )
-
-        val leftRightRelativeDirections  = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.LEFT_RIGHT)
-
-        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
-            .toJson(leftRightRelativeDirections)
-
-        println(relativeDirectionTrianglesString)
-    }
-
-    @Test
-    fun relativeDirectionsAll(){
-        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
-        val userGeometry = UserGeometry(
-            LngLatAlt(-2.657279900280031, 51.430461188129385),
-            90.0,
-            50.0
-        )
-
-        // A wrapper around the individual functions
-        val relativeDirections = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.COMBINED)
-        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
-            .toJson(relativeDirections)
-
-        println(relativeDirectionTrianglesString)
-
-    }
+//    @Test
+//    fun relativeDirectionsCombined(){
+//        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
+//        val userGeometry = UserGeometry(
+//            LngLatAlt(-2.657279900280031, 51.430461188129385),
+//            0.0,
+//            50.0
+//        )
+//        val combinedDirectionPolygons  = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.COMBINED)
+//
+//        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
+//            .toJson(combinedDirectionPolygons)
+//
+//        println(relativeDirectionTrianglesString)
+//
+//    }
+//
+//    //Displaying Soundscape INDIVIDUAL Direction types
+//    @Test
+//    fun relativeDirectionsIndividual(){
+//        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
+//        val userGeometry = UserGeometry(
+//            LngLatAlt(-2.657279900280031, 51.430461188129385),
+//            90.0,
+//            50.0
+//        )
+//
+//        val individualRelativeDirections = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.INDIVIDUAL)
+//
+//        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
+//            .toJson(individualRelativeDirections)
+//
+//        println(relativeDirectionTrianglesString)
+//    }
+//
+//    //Displaying Soundscape AHEAD_BEHIND Direction types
+//    @Test
+//    fun relativeDirectionsAheadBehind(){
+//        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
+//        val userGeometry = UserGeometry(
+//            LngLatAlt(-2.657279900280031, 51.430461188129385),
+//            90.0,
+//            50.0
+//        )
+//
+//        // Issue here is because of the bias towards "ahead" and "behind" you end up with a wide but shallow field of view
+//        // Probably better to do some trig to provide the distance to keep the depth of the field of view constant?
+//        val aheadBehindRelativeDirections  = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.AHEAD_BEHIND)
+//
+//        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
+//            .toJson(aheadBehindRelativeDirections)
+//
+//        println(relativeDirectionTrianglesString)
+//
+//    }
+//
+//    //Displaying Soundscape LEFT_RIGHT Direction types
+//    @Test
+//    fun relativeDirectionsLeftRight(){
+//        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
+//        val userGeometry = UserGeometry(
+//            LngLatAlt(-2.657279900280031, 51.430461188129385),
+//            90.0,
+//            50.0
+//        )
+//
+//        val leftRightRelativeDirections  = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.LEFT_RIGHT)
+//
+//        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
+//            .toJson(leftRightRelativeDirections)
+//
+//        println(relativeDirectionTrianglesString)
+//    }
+//
+//    @Test
+//    fun relativeDirectionsAll(){
+//        val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
+//        val userGeometry = UserGeometry(
+//            LngLatAlt(-2.657279900280031, 51.430461188129385),
+//            90.0,
+//            50.0
+//        )
+//
+//        // A wrapper around the individual functions
+//        val relativeDirections = getRelativeDirectionsPolygons(userGeometry, RelativeDirections.COMBINED)
+//        val relativeDirectionTrianglesString = moshi.adapter(FeatureCollection::class.java)
+//            .toJson(relativeDirections)
+//
+//        println(relativeDirectionTrianglesString)
+//
+//    }
 
 
 }

@@ -17,6 +17,7 @@ import org.scottishtecharmy.soundscape.geoengine.filters.MapMatchFilter
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.EntranceDetails
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.EntranceMatching
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.convertBackToTileCoordinates
@@ -32,6 +33,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.createPolygonFromTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.OfflineGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.StreetDescription
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
+import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
@@ -41,6 +43,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
 import org.scottishtecharmy.soundscape.utils.Analytics
 import org.scottishtecharmy.soundscape.utils.fuzzyCompare
@@ -360,7 +363,7 @@ class MvtTileTest {
         val outputCollection = gridState.getFeatureTree(TreeId.WAYS_SELECTION).getAllCollection()
         outputCollection += gridState.getFeatureTree(TreeId.POIS).getAllCollection()
         for(intersection in gridState.gridIntersections) {
-            intersection.value.toFeature()
+            intersection.value.prepareForExport()
             outputCollection.add(intersection.value)
         }
 
@@ -582,7 +585,7 @@ class MvtTileTest {
         var latitude = 55.945219
         while(latitude < 55.94583) {
             var longitude = -4.311362
-            var lastNearestRoad: Feature? = null
+            var lastNearestRoad: MvtFeature? = null
             while(longitude < -4.31029) {
 
                 val location = LngLatAlt(longitude, latitude)
@@ -592,7 +595,7 @@ class MvtTileTest {
                 var bestIndex = -1
                 var bestFitness = 0.0
                 for ((index, sensedRoad) in sensedNearestRoads.withIndex()) {
-                    val sensedRoadInfo = getDistanceToFeature(location, sensedRoad as Feature, gridState.ruler)
+                    val sensedRoadInfo = getDistanceToSpatialFeature(location, sensedRoad as Way, gridState.ruler)
                     var headingOffSensedRoad =
                         abs((heading % 180) - (sensedRoadInfo.heading % 180))
                     if(headingOffSensedRoad > 90)
@@ -680,7 +683,7 @@ class MvtTileTest {
 
         val markers = emptyFeatureList()
         val marker = MvtFeature()
-        marker.geometry = Point(-4.3095570, 55.9498421)
+        marker.setMvtGeometry(MvtPoint(LngLatAlt(-4.3095570, 55.9498421)))
         marker.name = "Marker 1"
         markers.add(marker)
         gridState.markerTree = FeatureTree(markers)
@@ -766,7 +769,7 @@ class MvtTileTest {
                     callOutText.write("\nCallout\n".toByteArray())
                     val polygon = createPolygonFromTriangle(getFovTriangle(userGeometry, true))
                     val fovFeature = Feature()
-                    fovFeature.geometry = polygon
+                    fovFeature.geometry = Polygon(ArrayList(polygon.exteriorRing))
                     fovFeature.properties = HashMap<String,Any?>().apply {
                         for (positionedString in callout.positionedStrings.withIndex()) {
                             callOutText.write("\t${positionedString.value.text}\n".toByteArray())
@@ -1204,7 +1207,7 @@ class MvtTileTest {
                 2
             )
 
-            val poiMap = hashMapOf<Long, MutableList<Feature>>()
+            val poiMap = hashMapOf<Long, MutableList<MvtFeature>>()
             val poiFeature = MvtFeature()
             poiFeature.featureClass = "shop"
             poiFeature.featureSubClass = "mall"
@@ -1224,7 +1227,7 @@ class MvtTileTest {
             matcher.addGeometry(arrayListOf(Pair(500,500)), unNamedStationEntranceDetails)
 
             val collection = emptyFeatureList()
-            matcher.generateEntrances(collection, poiMap, HashMap(), 5000,5000, 14)
+            matcher.generateEntrances(collection, poiMap, HashMap<Long, MvtFeature>(), 5000,5000, 14)
 
             val collections = Array(TreeId.MAX_COLLECTION_ID.id) { emptyFeatureList() }
             processTileFeatureList(collections, collection)

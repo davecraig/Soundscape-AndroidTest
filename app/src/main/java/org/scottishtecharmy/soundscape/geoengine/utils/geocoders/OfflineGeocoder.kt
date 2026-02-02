@@ -16,8 +16,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.asSpatialFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
-import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
+import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToSpatialFeature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
@@ -70,9 +69,9 @@ class OfflineGeocoder(
         return tileSearch?.search(nearbyLocation, locationName, localizedContext, settlementNames)
     }
 
-    private fun getNearestPointOnFeature(feature: Feature,
+    private fun getNearestPointOnFeature(feature: MvtFeature,
                                          location: LngLatAlt) : LngLatAlt {
-        return getDistanceToFeature(location, feature, gridState.ruler).point
+        return getDistanceToSpatialFeature(location, feature, gridState.ruler).point
     }
 
     override suspend fun getAddressFromLngLat(userGeometry: UserGeometry,

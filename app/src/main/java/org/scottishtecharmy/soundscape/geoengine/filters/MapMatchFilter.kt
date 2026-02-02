@@ -5,7 +5,6 @@ import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.asLineString
-import org.scottishtecharmy.soundscape.geoengine.mvt.data.toLineString
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
@@ -15,7 +14,6 @@ import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeadin
 import org.scottishtecharmy.soundscape.geoengine.utils.addSidewalk
 import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
 import org.scottishtecharmy.soundscape.geoengine.utils.calculateSmallestAngleBetweenLines
-import org.scottishtecharmy.soundscape.geoengine.utils.circleToPolygon
 import org.scottishtecharmy.soundscape.geoengine.utils.clone
 import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
 import org.scottishtecharmy.soundscape.geoengine.utils.fromRadians
@@ -24,7 +22,6 @@ import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geoengine.utils.toRadians
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
@@ -62,7 +59,7 @@ data class RoadFollowerStatus(val frechetAverage: Double, val state: RoadFollowe
  */
 class IndexedLineString {
 
-    var line : LineString? = null
+    var line : MvtLineString? = null
     var indices: Array<Int>? = null
     var direction: Array<Boolean>? = null
     var hashCode: Int = 0
@@ -90,13 +87,12 @@ class IndexedLineString {
         indices = Array(route.size) { 0 }
         direction = Array(route.size) { true }
         if (route.size == 1) {
-            line = route[0].asLineString().toLineString()
+            line = route[0].asLineString()
             indices?.set(0, line!!.coordinates.size)
             hashCode = line?.coordinates.hashCode()
             return
         }
 
-        line = LineString()
         for ((index, way) in route.withIndex()) {
 
             var forwards: Boolean
@@ -125,11 +121,10 @@ class IndexedLineString {
             // And add its coordinates to the LineString along with whether or not we reversed the
             // order of the coordinates. This results in the same coordinate being duplicated at
             // each intersection, but is simple.
-            if (forwards) {
-                line!!.coordinates.addAll(way.asLineString().coordinates)
-            }
-            else {
-                line!!.coordinates.addAll(way.asLineString().coordinates.reversed())
+            line = if (forwards) {
+                MvtLineString(way.asLineString().coordinates)
+            } else {
+                MvtLineString(way.asLineString().coordinates.reversed())
             }
             direction?.set(index, forwards)
 
@@ -212,7 +207,7 @@ class RoadFollower(val parent: MapMatchFilter,
         val adapter = GeoJsonObjectMoshiAdapter()
         val collection = FeatureCollection()
         for (way in route) {
-            collection.addFeature(way)
+            collection.addFeature(way.toFeature())
         }
         println(adapter.toJson(collection))
     }
@@ -252,7 +247,7 @@ class RoadFollower(val parent: MapMatchFilter,
         val iterator = route.listIterator()
         while (iterator.hasNext()) {
             val way = iterator.next()
-            if (ruler.distanceToLineString(location, way.asLineString().toLineString()).distance > 60.0) {
+            if (ruler.distanceToLineString(location, way.asLineString()).distance > 60.0) {
                 iterator.remove()
                 trimmed = true
             } else {
@@ -268,7 +263,7 @@ class RoadFollower(val parent: MapMatchFilter,
         // Trim end
         while(iterator.hasPrevious()) {
             val way = iterator.previous()
-            if(ruler.distanceToLineString(location, way.asLineString().toLineString()).distance > 60.0) {
+            if(ruler.distanceToLineString(location, way.asLineString()).distance > 60.0) {
                 iterator.remove()
                 trimmed = true
             } else {
@@ -369,9 +364,9 @@ class RoadFollower(val parent: MapMatchFilter,
             route = newRoute
             validateRoute()
             ils.updateFromRoute(route)
-            if(ils.line != null) {
+            ils.line?.let { line ->
                 nearestPoint?.let { point ->
-                    nearestPoint = ruler.distanceToLineString(point.point, ils.line as LineString)
+                    nearestPoint = ruler.distanceToLineString(point.point, line)
                 }
             }
             directionOnLine = 0.0
@@ -395,8 +390,10 @@ class RoadFollower(val parent: MapMatchFilter,
                 return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.DISTANT)
             }
             // Reset nearestPoint so that the pointAlongLine is based on our newly trimmed line
-            nearestPoint?.let { point ->
-                nearestPoint = ruler.distanceToLineString(point.point, ils.line as LineString)
+            ils.line?.let { line ->
+                nearestPoint?.let { point ->
+                    nearestPoint = ruler.distanceToLineString(point.point, line)
+                }
             }
             directionOnLine = 0.0
             directionHysteresis = 5
@@ -440,8 +437,7 @@ class RoadFollower(val parent: MapMatchFilter,
             // returned is valid except for the heading. The heading is relative to the direction of
             // the accumulated LineString which may be the opposite direction to the line within the
             // Way.
-            nearestPoint =
-                ruler.distanceToLineString(gpsLocation, ils.line as LineString)
+            nearestPoint = ruler.distanceToLineString(gpsLocation, line)
             nearestPoint?.let { nearestPoint ->
 
                 if((lastNearestPoint != null) &&
@@ -490,7 +486,7 @@ class RoadFollower(val parent: MapMatchFilter,
                     if (ar.isNaN()) ar = 1.0
                     lastCenter = getDestinationCoordinate(gpsLocation, c1, d1 * ar)
                     matchedPoint =
-                        ruler.distanceToLineString(lastCenter, currentNearestRoad.asLineString().toLineString())
+                        ruler.distanceToLineString(lastCenter, currentNearestRoad.asLineString())
                     radius = max(dMin, ruler.distance(gpsLocation, lastGpsLocation!!) * ar)
                 }
 
@@ -501,17 +497,17 @@ class RoadFollower(val parent: MapMatchFilter,
                     return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.DISTANT)
                 }
 
-                if(Build.VERSION.SDK_INT == 10000) {
-                    val circle = Feature()
-                    circle.geometry =
-                        circleToPolygon(32, lastCenter.latitude, lastCenter.longitude, radius)
-                    circle.properties = HashMap<String,Any?>().apply {
-                        set("fill-opacity", 0.0)
-                        set("stroke", color)
-                        set("radius", radius)
-                    }
-                    collection.addFeature(circle)
-                }
+//                if(Build.VERSION.SDK_INT == 10000) {
+//                    val circle = Feature()
+//                    circle.geometry =
+//                        circleToPolygon(32, lastCenter.latitude, lastCenter.longitude, radius).
+//                    circle.properties = HashMap<String,Any?>().apply {
+//                        set("fill-opacity", 0.0)
+//                        set("stroke", color)
+//                        set("radius", radius)
+//                    }
+//                    collection.addFeature(circle)
+//                }
 
                 val directionToNearestPoint = bearingFromTwoPoints(lastCenter, matchedPoint.point)
                 val chordLength = sqrt(
@@ -718,7 +714,7 @@ class MapMatchFilter {
     }
 
     var colorIndex = 0
-    fun filter(location: LngLatAlt, gridState: GridState, collection: FeatureCollection, dump: Boolean): Triple<LngLatAlt?, Feature?, String> {
+    fun filter(location: LngLatAlt, gridState: GridState, collection: FeatureCollection, dump: Boolean): Triple<LngLatAlt?, Way?, String> {
 
         extendFollowerList(location, gridState)
 

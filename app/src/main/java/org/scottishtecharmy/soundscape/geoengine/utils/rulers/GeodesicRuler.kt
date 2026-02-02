@@ -1,9 +1,9 @@
 package org.scottishtecharmy.soundscape.geoengine.utils.rulers
 
+import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtLineString
 import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeading
 import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
 import org.scottishtecharmy.soundscape.geoengine.utils.getDestinationCoordinate
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 
 class GeodesicRuler() : Ruler() {
@@ -44,7 +44,7 @@ class GeodesicRuler() : Ruler() {
      * ]);
      * //=length
      */
-    override fun lineLength(line: LineString) : Double {
+    override fun lineLength(line: MvtLineString) : Double {
         var total = 0.0
 
         for (i in 0 until line.coordinates.size - 1) {
@@ -93,7 +93,7 @@ class GeodesicRuler() : Ruler() {
      * const point = ruler.along(line, 2.5);
      * //=point
      */
-    override fun along(line: LineString, dist: Double) : LngLatAlt {
+    override fun along(line: MvtLineString, dist: Double) : LngLatAlt {
         // TODO: implement
         assert(false)
         return LngLatAlt()
@@ -129,7 +129,7 @@ class GeodesicRuler() : Ruler() {
      * const point = ruler.pointOnLine(line, [-67.04, 50.5]).point;
      * //=point
      */
-    override fun distanceToLineString(p: LngLatAlt, line: LineString) : PointAndDistanceAndHeading {
+    override fun distanceToLineString(p: LngLatAlt, line: MvtLineString) : PointAndDistanceAndHeading {
         // TODO: implement
         assert(false)
         return PointAndDistanceAndHeading()

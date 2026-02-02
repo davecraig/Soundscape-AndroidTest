@@ -9,15 +9,11 @@ import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtMultiPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPoint
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.MvtPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvt.data.SpatialFeature
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiLineString
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPoint
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import java.util.ArrayList
 import kotlin.math.PI
@@ -90,8 +86,7 @@ fun distance(lat1: Double, long1: Double, lat2: Double, long2: Double): Double {
  *                and last points of the polygon's outer ring are the same (closed).
  * @return The centroid coordinate as a LngLatAlt object, or null if the polygon is invalid.
  */
-fun getCentroidOfPolygon(polygon: Polygon): LngLatAlt? {
-    val ring = polygon.coordinates.firstOrNull() ?: return null
+fun getCentroidOfPolygon(ring: List<LngLatAlt>): LngLatAlt? {
     if (ring.size < 4) {
         return null
     }
@@ -129,11 +124,17 @@ fun getCentroidOfPolygon(polygon: Polygon): LngLatAlt? {
 
     return LngLatAlt(finalCentroidX, finalCentroidY)
 }
-fun getCentralPointForFeature(feature: Feature) : LngLatAlt? {
-    when(feature.geometry.type) {
-        "Point" -> return (feature.geometry as Point).coordinates
-        "Polygon" -> return getCentroidOfPolygon(feature.geometry as Polygon)
-        else -> return null
+
+fun getCentroidOfPolygon(polygon: MvtPolygon): LngLatAlt? {
+    return getCentroidOfPolygon(polygon)
+}
+
+fun getCentralPointForFeature(feature: MvtFeature) : LngLatAlt? {
+    val geom = feature.mvtGeometry
+    return when(geom) {
+        is MvtPoint -> geom.coordinate
+        is MvtPolygon -> getCentroidOfPolygon(geom.exteriorRing)
+        else -> null
     }
 }
 
@@ -242,13 +243,13 @@ fun pixelXYToLatLon(pixelX: Double, pixelY: Double, zoom: Int): Pair<Double, Dou
  * Point object.
  * @return A Bounding Box for the Point.
  */
-fun getBoundingBoxOfPoint(point: Point): BoundingBox {
+fun getBoundingBoxOfPoint(point: MvtPoint): BoundingBox {
     val bbOfPoint = BoundingBox()
 
-    bbOfPoint.westLongitude = point.coordinates.longitude
-    bbOfPoint.southLatitude = point.coordinates.latitude
-    bbOfPoint.eastLongitude = point.coordinates.longitude
-    bbOfPoint.northLatitude = point.coordinates.latitude
+    bbOfPoint.westLongitude = point.coordinate.longitude
+    bbOfPoint.southLatitude = point.coordinate.latitude
+    bbOfPoint.eastLongitude = point.coordinate.longitude
+    bbOfPoint.northLatitude = point.coordinate.latitude
 
     return bbOfPoint
 }
@@ -259,7 +260,7 @@ fun getBoundingBoxOfPoint(point: Point): BoundingBox {
  * LineString object with multiple points.
  * @return A Bounding Box for the LineString.
  */
-fun getBoundingBoxOfLineString(lineString: LineString): BoundingBox {
+fun getBoundingBoxOfLineString(lineString: MvtLineString): BoundingBox {
 
     var westLon = Int.MAX_VALUE.toDouble()
     var southLat = Int.MAX_VALUE.toDouble()
@@ -282,7 +283,7 @@ fun getBoundingBoxOfLineString(lineString: LineString): BoundingBox {
  * MultiLineString object.
  * @return A Bounding Box for the MultiPoint object.
  */
-fun getBoundingBoxOfMultiPoint(multiPoint: MultiPoint): BoundingBox {
+fun getBoundingBoxOfMultiPoint(multiPoint: MvtMultiPoint): BoundingBox {
     var westLon = Int.MAX_VALUE.toDouble()
     var southLat = Int.MAX_VALUE.toDouble()
     var eastLon = Int.MIN_VALUE.toDouble()
@@ -304,14 +305,14 @@ fun getBoundingBoxOfMultiPoint(multiPoint: MultiPoint): BoundingBox {
  * MultiLineString object.
  * @return A Bounding Box for the MultiLineString.
  */
-fun getBoundingBoxOfMultiLineString(multiLineString: MultiLineString): BoundingBox {
+fun getBoundingBoxOfMultiLineString(multiLineString: MvtMultiLineString): BoundingBox {
     var westLon = Int.MAX_VALUE.toDouble()
     var southLat = Int.MAX_VALUE.toDouble()
     var eastLon = Int.MIN_VALUE.toDouble()
     var northLat = Int.MIN_VALUE.toDouble()
 
-    for (lineString in multiLineString.coordinates) {
-        for (point in lineString) {
+    for (lineString in multiLineString.lines) {
+        for (point in lineString.coordinates) {
             westLon = min(westLon, point.longitude)
             southLat = min(southLat, point.latitude)
             eastLon = max(eastLon, point.longitude)
@@ -327,19 +328,17 @@ fun getBoundingBoxOfMultiLineString(multiLineString: MultiLineString): BoundingB
  * Polygon object.
  * @return A Bounding Box for the Polygon.
  */
-fun getBoundingBoxOfPolygon(polygon: Polygon): BoundingBox{
+fun getBoundingBoxOfPolygon(polygon: MvtPolygon): BoundingBox{
     var westLon = Int.MAX_VALUE.toDouble()
     var southLat = Int.MAX_VALUE.toDouble()
     var eastLon = Int.MIN_VALUE.toDouble()
     var northLat = Int.MIN_VALUE.toDouble()
 
-    for (geometry in polygon.coordinates) {
-        for (point in geometry) {
-            westLon = min(westLon, point.longitude)
-            southLat = min(southLat, point.latitude)
-            eastLon = max(eastLon, point.longitude)
-            northLat = max(northLat, point.latitude)
-        }
+    for (point in polygon.exteriorRing) {
+        westLon = min(westLon, point.longitude)
+        southLat = min(southLat, point.latitude)
+        eastLon = max(eastLon, point.longitude)
+        northLat = max(northLat, point.latitude)
     }
     return BoundingBox(westLon, southLat, eastLon, northLat)
 }
@@ -350,15 +349,15 @@ fun getBoundingBoxOfPolygon(polygon: Polygon): BoundingBox{
  * MultiPolygon object with multiple polygons.
  * @return A Bounding Box for the MultiPolygon.
  */
-fun getBoundingBoxesOfMultiPolygon(multiPolygon: MultiPolygon): List<BoundingBox> {
+fun getBoundingBoxesOfMultiPolygon(multiPolygon: MvtMultiPolygon): List<BoundingBox> {
     val boundingBoxes = mutableListOf<BoundingBox>()
-    for (polygon in multiPolygon.coordinates) {
+    for (polygon in multiPolygon.polygons) {
         var westLon = Int.MAX_VALUE.toDouble()
         var southLat = Int.MAX_VALUE.toDouble()
         var eastLon = Int.MIN_VALUE.toDouble()
         var northLat = Int.MIN_VALUE.toDouble()
         // Just use the outer ring of each polygon
-        for (point in polygon[0]) {
+        for (point in polygon.exteriorRing) {
             westLon = min(westLon, point.longitude)
             southLat = min(southLat, point.latitude)
             eastLon = max(eastLon, point.longitude)
@@ -410,19 +409,18 @@ fun getCenterOfBoundingBox(
  * A BoundingBox object.
  * @return A closed Polygon.
  */
-fun getPolygonOfBoundingBox(boundingBox: BoundingBox): Polygon{
+fun getPolygonOfBoundingBox(boundingBox: BoundingBox): MvtPolygon{
     val cornerCoordinates = getBoundingBoxCorners(boundingBox)
-    val polygonObject = Polygon().also {
-        it.coordinates = arrayListOf(
-            arrayListOf(
-                LngLatAlt(cornerCoordinates.northWestCorner.longitude, cornerCoordinates.northWestCorner.latitude ),
-                LngLatAlt(cornerCoordinates.southWestCorner.longitude, cornerCoordinates.southWestCorner.latitude),
-                LngLatAlt(cornerCoordinates.southEastCorner.longitude, cornerCoordinates.southEastCorner.latitude),
-                LngLatAlt(cornerCoordinates.northEastCorner.longitude, cornerCoordinates.northEastCorner.latitude),
-                LngLatAlt(cornerCoordinates.northWestCorner.longitude, cornerCoordinates.northWestCorner.latitude)
-            )
+    val polygonObject = MvtPolygon(
+        arrayListOf(
+            LngLatAlt(cornerCoordinates.northWestCorner.longitude, cornerCoordinates.northWestCorner.latitude ),
+            LngLatAlt(cornerCoordinates.southWestCorner.longitude, cornerCoordinates.southWestCorner.latitude),
+            LngLatAlt(cornerCoordinates.southEastCorner.longitude, cornerCoordinates.southEastCorner.latitude),
+            LngLatAlt(cornerCoordinates.northEastCorner.longitude, cornerCoordinates.northEastCorner.latitude),
+            LngLatAlt(cornerCoordinates.northWestCorner.longitude, cornerCoordinates.northWestCorner.latitude)
         )
-    }
+    )
+
     return polygonObject
 }
 
@@ -494,18 +492,14 @@ fun regionContainsCoordinates(lngLatAlt: LngLatAlt, regionCoordinates: ArrayList
     return intersections % 2 != 0
 }
 
-fun polygonContainsCoordinates(lngLatAlt: LngLatAlt, polygon: Polygon): Boolean {
-    return regionContainsCoordinates(lngLatAlt, polygon.coordinates[0])
-}
-
 fun polygonContainsCoordinates(lngLatAlt: LngLatAlt, polygon: MvtPolygon): Boolean {
     return regionContainsCoordinates(lngLatAlt, ArrayList(polygon.exteriorRing))
 }
 
-fun multiPolygonContainsCoordinates(lngLatAlt: LngLatAlt, multiPolygon: MultiPolygon): Boolean {
+fun multiPolygonContainsCoordinates(lngLatAlt: LngLatAlt, multiPolygon: MvtMultiPolygon): Boolean {
 
-    for(polygon in multiPolygon.coordinates)
-        if(regionContainsCoordinates(lngLatAlt, polygon[0]))
+    for(polygon in multiPolygon.polygons)
+        if(regionContainsCoordinates(lngLatAlt, ArrayList(polygon.exteriorRing)))
             return true
 
     return false
@@ -555,7 +549,7 @@ fun getDestinationCoordinate(start: LngLatAlt, bearing: Double, distance: Double
  * Reverse the sort order of the LineString coordinates so "first" is "last"
  * @return The new coordinate as a LngLatAlt object.
  */
-fun getReferenceCoordinate(path: LineString, targetDistance: Double, reverseLineString: Boolean): LngLatAlt {
+fun getReferenceCoordinate(path: MvtLineString, targetDistance: Double, reverseLineString: Boolean): LngLatAlt {
 
     if (path.coordinates.size == 1 || targetDistance <= 0.0) return path.coordinates.first()
 
@@ -564,9 +558,7 @@ fun getReferenceCoordinate(path: LineString, targetDistance: Double, reverseLine
     //if (reverseLineString) path.coordinates.reverse()
     if (reverseLineString) {
         val reversedCoordinates = path.coordinates.toMutableList().asReversed()
-        val reversedPath = LineString().also {
-            it.coordinates = ArrayList(reversedCoordinates)
-        }
+        val reversedPath = MvtLineString(reversedCoordinates)
         var totalDistance = 0.0
         // work our way along the linestring to check the distance
         for (i in 0 until reversedPath.coordinates.lastIndex) {
@@ -679,28 +671,26 @@ fun tileToLon(y: Int, zoom: Int): Double {
  * The points of the triangle
  * @return A Polygon object with the triangle coordinates.
  */
-fun createPolygonFromTriangle(triangle: Triangle): Polygon {
-    val polygonTriangleFOV = Polygon().also {
-        it.coordinates = arrayListOf(
-            arrayListOf(
-                triangle.left,
-                triangle.origin,
-                triangle.right,
-                // Close the polygon
-                triangle.left
-            )
+fun createPolygonFromTriangle(triangle: Triangle): MvtPolygon {
+    val polygonTriangleFOV = MvtPolygon(
+        arrayListOf(
+            triangle.left,
+            triangle.origin,
+            triangle.right,
+            // Close the polygon
+            triangle.left
         )
-    }
+    )
     return polygonTriangleFOV
 }
 
-fun getTriangleForDirection(featureCollection: FeatureCollection, direction: Int) : Triangle {
-    val geometry = featureCollection.features[direction].geometry as Polygon
+fun getTriangleForDirection(triangleList: List<MvtPolygon>, direction: Int) : Triangle {
+    val geometry = triangleList[direction]
     // The order of coordinates is as passed in to createTriangleFOV
     return Triangle(
-        geometry.coordinates[0][1],     // location
-        geometry.coordinates[0][0],     // left
-        geometry.coordinates[0][2]      // right
+        geometry.exteriorRing[1],   // location
+        geometry.exteriorRing[0],     // left
+        geometry.exteriorRing[2]     // right
     )
 }
 
@@ -716,7 +706,7 @@ fun getTriangleForDirection(featureCollection: FeatureCollection, direction: Int
  * Radius of the circle.
  * @return Polygon object.
  */
-fun circleToPolygon(segments: Int, centerLat: Double, centerLon: Double, radius: Double): Polygon {
+fun circleToPolygon(segments: Int, centerLat: Double, centerLon: Double, radius: Double): MvtPolygon {
 
     val points = mutableListOf<LngLatAlt>()
     val relativeLatitude = radius / EARTH_RADIUS_METERS * 180 / PI
@@ -755,15 +745,11 @@ fun circleToPolygon(segments: Int, centerLat: Double, centerLon: Double, radius:
     }
     tempCirclePoints.removeAt(0)
 
-    val polygonObject = Polygon().also {
-        it.coordinates = arrayListOf(
-            tempCirclePoints
-        )
-    }
+    val polygonObject = MvtPolygon(tempCirclePoints)
     return polygonObject
 }
 
-fun lineStringIsCircular(path: LineString): Boolean {
+fun lineStringIsCircular(path: MvtLineString): Boolean {
     if (path.coordinates.size <= 2) return false
     val first = path.coordinates.first()
     val last = path.coordinates.last()
@@ -780,7 +766,7 @@ fun lineStringIsCircular(path: LineString): Boolean {
  */
 fun distanceToRegion(
     pointCoordinates: LngLatAlt,
-    lineString: LineString,
+    lineString: MvtLineString,
     ruler: Ruler,
     nearestPoint: LngLatAlt? = null) : Double
 {
@@ -794,14 +780,13 @@ fun distanceToRegion(
 
 fun distanceToPolygon(
     pointCoordinates: LngLatAlt,
-    polygon: Polygon,
+    polygon: MvtPolygon,
     ruler: Ruler,
     nearestPoint: LngLatAlt? = null)
 : Double {
 
     // We're only looking at the outer ring, which is really just a LineString
-    val lineString = LineString()
-    lineString.coordinates = polygon.coordinates[0]
+    val lineString = MvtLineString(polygon.exteriorRing)
     return if(polygonContainsCoordinates(pointCoordinates, polygon)) {
         nearestPoint?.latitude = pointCoordinates.latitude
         nearestPoint?.longitude = pointCoordinates.longitude
@@ -813,24 +798,23 @@ fun distanceToPolygon(
 
 fun distanceToMultiPolygon(
     pointCoordinates: LngLatAlt,
-    polygon: MultiPolygon,
+    polygon: MvtMultiPolygon,
     ruler: Ruler,
     nearestPoint: LngLatAlt? = null)
         : Double {
 
     // Check each polygon in turn
     var shortestDistance = Double.POSITIVE_INFINITY
-    for(region in polygon.coordinates) {
+    for(region in polygon.polygons) {
         if(
-            polygonContainsCoordinates(
-            pointCoordinates, Polygon(region[0])
+            polygonContainsCoordinates (
+                pointCoordinates, region
             )
         ) {
             return 0.0
         }
         // We're only looking at the outer ring, which is really just a LineString
-        val lineString = LineString()
-        lineString.coordinates = region[0]
+        val lineString = MvtLineString(region.exteriorRing)
         val distance = distanceToRegion(pointCoordinates, lineString, ruler, nearestPoint)
         if(distance < shortestDistance)
             shortestDistance = distance
@@ -1012,8 +996,8 @@ fun pointOnRightSide(
  * @return true if the line strings intersect each other.
  */
 fun lineStringsIntersect(
-    lineString1: LineString,
-    lineString2: LineString
+    lineString1: MvtLineString,
+    lineString2: MvtLineString
 ): Boolean {
     var lineStringsIntersect = false
 
@@ -1432,8 +1416,7 @@ fun distanceToMvtPolygon(
     }
 
     // We're only looking at the outer ring, which is really just a LineString
-    val lineString = LineString()
-    lineString.coordinates = ArrayList(polygon.exteriorRing)
+    val lineString = MvtLineString(ArrayList(polygon.exteriorRing))
     return distanceToRegion(pointCoordinates, lineString, ruler, nearestPoint)
 }
 
@@ -1451,8 +1434,7 @@ fun distanceToMvtMultiPolygon(
         if (mvtPolygonContainsCoordinates(pointCoordinates, polygon)) {
             return 0.0
         }
-        val lineString = LineString()
-        lineString.coordinates = ArrayList(polygon.exteriorRing)
+        val lineString = MvtLineString(ArrayList(polygon.exteriorRing))
         val distance = distanceToRegion(pointCoordinates, lineString, ruler, nearestPoint)
         if (distance < shortestDistance)
             shortestDistance = distance
