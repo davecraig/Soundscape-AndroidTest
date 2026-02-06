@@ -152,6 +152,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+        // FMOD's loadPlugin() needs .so files on the filesystem (not inside the APK).
+        // With minSdk 30+, the default is to keep native libs compressed in the APK,
+        // which breaks loadPlugin(). This extracts them at install time.
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
     externalNativeBuild {
         cmake {

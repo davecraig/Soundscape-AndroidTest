@@ -58,6 +58,7 @@ namespace soundscape {
         void InitFmodSound();
 
         double GetHeadingOffset(double heading, double latitude, double longitude) const;
+        void UpdateResonanceSource(double listenerLatitude, double listenerLongitude, double heading);
 
         PositioningMode m_Mode;
 
@@ -67,6 +68,7 @@ namespace soundscape {
         FMOD::System *m_pSystem = nullptr;
         FMOD::Sound *m_pSound = nullptr;
         FMOD::Channel *m_pChannel = nullptr;
+        FMOD::DSP *m_pResonanceSource = nullptr;
         bool m_Dimmable = false;
 
         bool m_AudioConfigured = false;

@@ -5,9 +5,11 @@
 #include <thread>
 #include <mutex>
 #include <jni.h>
+#include <string>
 #include "fmod.hpp"
 #include "fmod.h"
 #include "BeaconDescriptor.h"
+#include "RoomProperties.h"
 
 namespace soundscape {
 
@@ -73,7 +75,7 @@ namespace soundscape {
     class PositionedAudio;
     class AudioEngine {
     public:
-        AudioEngine() noexcept;
+        AudioEngine(const std::string &nativeLibDir) noexcept;
         ~AudioEngine();
 
         void UpdateGeometry(double listenerLatitude,
@@ -84,6 +86,9 @@ namespace soundscape {
         FMOD::System * GetFmodSystem() const { return m_pSystem; };
         FMOD::ChannelGroup * GetBeaconGroup() const { return m_pBeaconChannelGroup; };
         FMOD::ChannelGroup * GetSpeechGroup() const { return m_pSpeechChannelGroup; };
+
+        FMOD::DSP *CreateResonanceSource();
+        void SetRoomProperties(const vraudio::RoomProperties &roomProps);
 
         void SetBeaconType(int beaconType);
         const BeaconDescriptor *GetBeaconDescriptor() const;
@@ -140,6 +145,13 @@ namespace soundscape {
         bool m_QueuedBeaconPlaying = false;
 
         bool m_BeaconMute = false;
+
+        // Resonance Audio plugin
+        unsigned int m_ResonancePluginHandle = 0;
+        unsigned int m_ResonanceListenerHandle = 0;
+        unsigned int m_ResonanceSourceHandle = 0;
+        FMOD::DSP *m_pListenerDSP = nullptr;
+        bool m_ResonanceLoaded = false;
 
         // For JNI callbacks
         JavaVM *m_pJvm = nullptr;

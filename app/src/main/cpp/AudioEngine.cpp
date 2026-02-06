@@ -152,7 +152,7 @@ const BeaconDescriptor AudioEngine::msc_BeaconDescriptors[] =
     }
 #endif
 
-    AudioEngine::AudioEngine() noexcept
+    AudioEngine::AudioEngine(const std::string &nativeLibDir) noexcept
                : m_BeaconTypeIndex(1) {
         FMOD_RESULT result;
 
@@ -163,12 +163,8 @@ const BeaconDescriptor AudioEngine::msc_BeaconDescriptors[] =
         FMOD::System_Create(&system);
         m_pSystem = system;
 
-        // As of FMOD 2.03.06 Android spatial audio is supported. Prior to that version we set the
-        // setSoftwareFormat with FMOD_SPEAKERMODE_SURROUND, but since spatial audio support was
-        // added the behaviour changed and the audio wasn't always appearing in the correct
-        // location. Intersection callouts in particular all seemed to be called out from directly
-        // ahead. We now set it to FMOD_SPEAKERMODE_STEREO. In future we can investigate using
-        // Android spatial audio.
+        // Use stereo mode for binaural rendering via Resonance Audio.
+        // Resonance Audio's Listener DSP expects stereo output to produce HRTF-based binaural audio.
         result = m_pSystem->setSoftwareFormat(22050, FMOD_SPEAKERMODE_STEREO, 0);
         ERROR_CHECK(result);
 
@@ -187,6 +183,55 @@ const BeaconDescriptor AudioEngine::msc_BeaconDescriptors[] =
         ERROR_CHECK(result);
         result = system->createChannelGroup("speech", &m_pSpeechChannelGroup);
         ERROR_CHECK(result);
+
+        // Load the Resonance Audio FMOD plugin
+        std::string pluginPath = nativeLibDir + "/libresonanceaudio.so";
+        result = m_pSystem->loadPlugin(pluginPath.c_str(), &m_ResonancePluginHandle);
+        if (result == FMOD_OK) {
+            TRACE("Resonance Audio plugin loaded successfully from %s", pluginPath.c_str());
+            m_ResonanceLoaded = true;
+
+            // Get nested plugin handles:
+            //   Index 0 = Listener, Index 1 = Soundfield, Index 2 = Source
+            result = m_pSystem->getNestedPlugin(m_ResonancePluginHandle, 0, &m_ResonanceListenerHandle);
+            ERROR_CHECK(result);
+            result = m_pSystem->getNestedPlugin(m_ResonancePluginHandle, 2, &m_ResonanceSourceHandle);
+            ERROR_CHECK(result);
+
+            // Create the singleton Listener DSP and attach it to the master channel group
+            result = m_pSystem->createDSPByPlugin(m_ResonanceListenerHandle, &m_pListenerDSP);
+            ERROR_CHECK(result);
+
+            if (m_pListenerDSP) {
+                FMOD::ChannelGroup *masterGroup = nullptr;
+                result = m_pSystem->getMasterChannelGroup(&masterGroup);
+                ERROR_CHECK(result);
+
+                if (masterGroup) {
+                    result = masterGroup->addDSP(0, m_pListenerDSP);
+                    ERROR_CHECK(result);
+                    TRACE("Resonance Audio Listener DSP attached to master channel group");
+                }
+
+//                // Room effects disabled for now - can be enabled later via SetRoomProperties()
+//                vraudio::RoomProperties defaultRoom;
+//                defaultRoom.dimensions[0] = 100.0f;  // width
+//                defaultRoom.dimensions[1] = 20.0f;   // height
+//                defaultRoom.dimensions[2] = 100.0f;  // depth
+//                for (auto &mat : defaultRoom.material_names) {
+//                    mat = vraudio::kGrass;
+//                }
+//                defaultRoom.reverb_gain = 0.5f;
+//                defaultRoom.reverb_time = 0.5f;
+//                defaultRoom.reverb_brightness = 0.3f;
+//                defaultRoom.reflection_scalar = 0.5f;
+//                SetRoomProperties(defaultRoom);
+            }
+        } else {
+            TRACE("Failed to load Resonance Audio plugin from %s (result: %d - %s)",
+                  pluginPath.c_str(), result, FMOD_ErrorString(result));
+            m_ResonanceLoaded = false;
+        }
 
 #if 0
         int numdrivers = 0;
@@ -228,6 +273,23 @@ const BeaconDescriptor AudioEngine::msc_BeaconDescriptors[] =
             {
                 delete *m_Beacons.begin();
             }
+        }
+
+        // Clean up Resonance Audio plugin
+        if (m_ResonanceLoaded) {
+            if (m_pListenerDSP) {
+                FMOD::ChannelGroup *masterGroup = nullptr;
+                m_pSystem->getMasterChannelGroup(&masterGroup);
+                if (masterGroup) {
+                    masterGroup->removeDSP(m_pListenerDSP);
+                }
+                m_pListenerDSP->release();
+                m_pListenerDSP = nullptr;
+                TRACE("Resonance Audio Listener DSP released");
+            }
+            m_pSystem->unloadPlugin(m_ResonancePluginHandle);
+            m_ResonanceLoaded = false;
+            TRACE("Resonance Audio plugin unloaded");
         }
 
         TRACE("Release groups");
@@ -576,6 +638,34 @@ const BeaconDescriptor AudioEngine::msc_BeaconDescriptors[] =
         return FMOD_VECTOR{(float)x, 0.0f, (float)y};
     }
 
+    FMOD::DSP *AudioEngine::CreateResonanceSource() {
+        if (!m_ResonanceLoaded) {
+            return nullptr;
+        }
+
+        FMOD::DSP *sourceDSP = nullptr;
+        auto result = m_pSystem->createDSPByPlugin(m_ResonanceSourceHandle, &sourceDSP);
+        ERROR_CHECK(result);
+
+        if (result != FMOD_OK) {
+            return nullptr;
+        }
+
+        return sourceDSP;
+    }
+
+    void AudioEngine::SetRoomProperties(const vraudio::RoomProperties &roomProps) {
+        if (!m_ResonanceLoaded || !m_pListenerDSP) {
+            return;
+        }
+
+        // Parameter index 1 on the Listener DSP is the room properties data
+        auto result = m_pListenerDSP->setParameterData(1,
+            const_cast<vraudio::RoomProperties *>(&roomProps),
+            sizeof(vraudio::RoomProperties));
+        ERROR_CHECK(result);
+    }
+
     void AudioEngine::Eof(long long id) {
         // This could be used to generate callbacks to the kotlin code
         // to indicate that some audio has finished. Currently it does
@@ -587,8 +677,12 @@ const BeaconDescriptor AudioEngine::msc_BeaconDescriptors[] =
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_org_scottishtecharmy_soundscape_audio_NativeAudioEngine_create(JNIEnv *env MAYBE_UNUSED, jobject thiz MAYBE_UNUSED) {
-    auto ae = std::make_unique<soundscape::AudioEngine>();
+Java_org_scottishtecharmy_soundscape_audio_NativeAudioEngine_create(JNIEnv *env, jobject thiz MAYBE_UNUSED, jstring native_lib_dir) {
+    const char *libDir = env->GetStringUTFChars(native_lib_dir, nullptr);
+    std::string nativeLibDir(libDir);
+    env->ReleaseStringUTFChars(native_lib_dir, libDir);
+
+    auto ae = std::make_unique<soundscape::AudioEngine>(nativeLibDir);
 
     if (not ae) {
         TRACE("Failed to create audio engine");

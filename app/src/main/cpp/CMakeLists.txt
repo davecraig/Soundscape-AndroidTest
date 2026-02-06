@@ -41,6 +41,9 @@ set_target_properties(
         INTERFACE_INCLUDE_DIRECTORIES ${FMOD_INC}
 )
 
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/resonance_audio)
+
 # Specifies libraries CMake should link to your target library. You
 # can link libraries from various origins, such as libraries defined in this
 # build script, prebuilt third-party libraries, or Android system libraries.

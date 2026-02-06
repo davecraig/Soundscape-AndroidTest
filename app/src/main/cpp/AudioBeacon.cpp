@@ -6,6 +6,7 @@
 #include "Trace.h"
 #include "AudioBeacon.h"
 #include "AudioEngine.h"
+#include "fmod_dsp.h"
 using namespace soundscape;
 
 PositionedAudio::PositionedAudio(AudioEngine *engine,
@@ -24,6 +25,14 @@ PositionedAudio::PositionedAudio(AudioEngine *engine,
 PositionedAudio::~PositionedAudio() {
 //    TRACE("%s %p", __FUNCTION__, this);
     m_pEngine->RemoveBeacon(this);
+
+    if (m_pResonanceSource) {
+        if (m_pChannel) {
+            m_pChannel->removeDSP(m_pResonanceSource);
+        }
+        m_pResonanceSource->release();
+        m_pResonanceSource = nullptr;
+    }
 
     if(m_pSound) {
         auto result = m_pSound->release();
@@ -92,6 +101,25 @@ void PositionedAudio::InitFmodSound() {
                 result = m_pChannel->set3DAttributes(&pos, &vel);
                 ERROR_CHECK(result);
                 break;
+            }
+        }
+
+        // Attach a Resonance Audio Source DSP for HRTF binaural rendering (3D modes only).
+        // FMOD Core API doesn't auto-propagate 3D attributes to plugin DSPs (only when using
+        // Studio APIS) so we manually set FMOD_DSP_PARAMETER_3DATTRIBUTES on the Source DSP.
+        if (m_Mode.m_AudioType != PositioningMode::STANDARD) {
+            m_pResonanceSource = m_pEngine->CreateResonanceSource();
+            if (m_pResonanceSource) {
+                // Insert before the fader so the Source DSP receives raw mono audio,
+                // not audio already 3D-panned by FMOD's built-in processing.
+                result = m_pChannel->addDSP(FMOD_CHANNELCONTROL_DSP_TAIL, m_pResonanceSource);
+                ERROR_CHECK(result);
+
+                // Disable Resonance Audio's own distance attenuation (FMOD handles it)
+                m_pResonanceSource->setParameterInt(4, 2);  // kDistanceModel = custom (none)
+
+                // Set initial 3D attributes manually
+                UpdateResonanceSource(current_latitude, current_longitude, heading);
             }
         }
 
@@ -168,7 +196,63 @@ void PositionedAudio::UpdateGeometry(double listenerLatitude, double listenerLon
         auto degrees_off_axis = GetHeadingOffset(heading, latitude, longitude);
         m_pAudioSource->UpdateGeometry(degrees_off_axis, mode);
     }
-    //TRACE("%f %f -> %f (%f %f), %dm", heading, beacon_heading, degrees_off_axis, lat_delta, long_delta, dist)
+
+    // Update Resonance Audio Source DSP with current listener position
+    UpdateResonanceSource(listenerLatitude, listenerLongitude, heading);
+}
+
+void PositionedAudio::UpdateResonanceSource(double listenerLatitude, double listenerLongitude,
+                                             double heading) {
+    if (!m_pResonanceSource || m_Mode.m_AudioType == PositioningMode::STANDARD || isnan(heading))
+        return;
+
+    FMOD_VECTOR sourcePos = {0.0f, 0.0f, 0.0f};
+    FMOD_VECTOR listenerPos = m_pEngine->TranslateToFmodVector(listenerLongitude, listenerLatitude);
+    auto headingRad = static_cast<float>(toRadians(heading));
+    float sinH = sinf(headingRad);
+    float cosH = cosf(headingRad);
+
+    switch (m_Mode.m_AudioType) {
+        case PositioningMode::LOCALIZED:
+            if (!isnan(m_Mode.m_Latitude) && !isnan(m_Mode.m_Longitude)) {
+                sourcePos = m_pEngine->TranslateToFmodVector(m_Mode.m_Longitude, m_Mode.m_Latitude);
+            }
+            break;
+        case PositioningMode::RELATIVE: {
+            // Source position is relative to listener's heading
+            auto modeRad = static_cast<float>(toRadians(m_Mode.m_Heading));
+            float totalRad = headingRad + modeRad;
+            sourcePos = {listenerPos.x + sinf(totalRad), 0.0f, listenerPos.z + cosf(totalRad)};
+            break;
+        }
+        case PositioningMode::COMPASS: {
+            double lat, lon;
+            getDestinationCoordinate(listenerLatitude, listenerLongitude, m_Mode.m_Heading, &lat, &lon);
+            sourcePos = m_pEngine->TranslateToFmodVector(lon, lat);
+            break;
+        }
+        default:
+            return;
+    }
+
+    // Compute source position in listener's coordinate frame
+    float dx = sourcePos.x - listenerPos.x;
+    float dz = sourcePos.z - listenerPos.z;
+
+    // Build the 3D attributes struct that Resonance Audio expects
+    FMOD_DSP_PARAMETER_3DATTRIBUTES attrs = {};
+
+    // Source world position
+    attrs.absolute.position = sourcePos;
+    attrs.absolute.forward = {0.0f, 0.0f, 1.0f};
+    attrs.absolute.up = {0.0f, 1.0f, 0.0f};
+
+    // Source position rotated into listener's reference frame
+    attrs.relative.position = {cosH * dx - sinH * dz, 0.0f, sinH * dx + cosH * dz};
+    attrs.relative.forward = {-sinH, 0.0f, cosH};
+    attrs.relative.up = {0.0f, 1.0f, 0.0f};
+
+    m_pResonanceSource->setParameterData(8, &attrs, sizeof(attrs));
 }
 
 void PositionedAudio::Mute(bool mute) {

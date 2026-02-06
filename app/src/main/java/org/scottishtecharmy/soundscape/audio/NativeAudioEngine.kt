@@ -48,7 +48,7 @@ class NativeAudioEngine @Inject constructor(val service: SoundscapeService? = nu
 
     lateinit var ttsEngine : TtsEngine
 
-    private external fun create() : Long
+    private external fun create(nativeLibDir: String) : Long
     private external fun destroy(engineHandle: Long)
     private external fun createNativeBeacon(engineHandle: Long, audioType: Int, headingOnly: Boolean, latitude: Double, longitude: Double, heading: Double) :  Long
     private external fun destroyNativeBeacon(beaconHandle: Long)
@@ -201,7 +201,7 @@ class NativeAudioEngine @Inject constructor(val service: SoundscapeService? = nu
                 return
             }
             org.fmod.FMOD.init(context)
-            engineHandle = this.create()
+            engineHandle = this.create(context.applicationInfo.nativeLibraryDir)
             Log.d(TAG, "Create TTS engine from NativeAudioEngine initialize")
             ttsEngine = TtsEngine(
                 this,
