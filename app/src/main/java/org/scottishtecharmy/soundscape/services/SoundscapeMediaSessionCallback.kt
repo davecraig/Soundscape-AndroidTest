@@ -44,14 +44,19 @@ class SoundscapeMediaSessionCallback(val service : SoundscapeService):
         // KEYCODE_MEDIA_NEXT, though that may be specific to my phone. The only event actually
         // handled for now is KEYCODE_MEDIA_NEXT.
 
-        // The behaviour of the media buttons changes when a route is being played back. In that
-        // case the buttons map to next/previous waypoint and muting audio.
+        // TODO:
+        //  The behaviour of the media buttons changes when a route is being played back. In that
+        //  case the buttons map to next/previous waypoint and muting audio. This currently doesn't
+        //  play nicely with the audioMenu, more work is required.
 
         keyEvent?.let { event ->
             val decodedKey = when(event.keyCode) {
                 KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
-                    // ⏯ Play/Pause: Mute any current callouts and if the audio beacon is set, toggle the beacon audio.
-                    service.routeMute()
+                    // ⏯ Play/Pause: When a route is active, toggle mute. Otherwise select the
+                    // current audio menu item.
+                    if (!service.routeMute()) {
+                        service.audioMenu?.select()
+                    }
                     "Play/Pause"
                 }
                 KeyEvent.KEYCODE_MEDIA_SKIP_FORWARD -> {
@@ -63,18 +68,19 @@ class SoundscapeMediaSessionCallback(val service : SoundscapeService):
                     "Skip forward"
                 }
                 KeyEvent.KEYCODE_MEDIA_NEXT -> {
-                    // ⏭ Next
+                    // ⏭ Next: When a route is active, skip to next waypoint. Otherwise advance
+                    // to the next audio menu item.
                     if(!service.routeSkipNext()) {
-                        // If there's no route playing, callout My Location.
-                        service.myLocation()
+                        service.audioMenu?.next()
                     }
                     "Next"
                 }
 
                 KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
-                    // ⏮ Previous
+                    // ⏮ Previous: When a route is active, go to the previous waypoint. Otherwise
+                    // move to the previous audio menu item.
                     if(!service.routeSkipPrevious()) {
-                        // TODO: : Repeat last callout.
+                        service.audioMenu?.previous()
                     }
                     "Previous"
                 }

@@ -89,6 +89,12 @@ class SoundscapeService : MediaSessionService() {
     var audioEngine = NativeAudioEngine(this)
     private var audioBeacon: Long = 0
 
+    // Audio menu (navigated via media buttons when no route is active)
+    var audioMenu : AudioMenu? = null
+
+    /** True while the user is actively navigating the audio menu. Suppresses auto callouts. */
+    var menuActive: Boolean = false
+
     // Audio focus
     private lateinit var audioManager: AudioManager
     private var audioFocusRequest: AudioFocusRequest? = null
@@ -249,7 +255,7 @@ class SoundscapeService : MediaSessionService() {
             audioEngine.initialize(applicationContext)
 
             audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-
+            audioMenu = AudioMenu(this, application)
             routePlayer = RoutePlayer(this, applicationContext)
 
             if(hasPlayServices(this)) {
@@ -285,6 +291,7 @@ class SoundscapeService : MediaSessionService() {
         super.onDestroy()
 
         Log.d(TAG, "onDestroy")
+        audioMenu?.destroy()
         audioEngine.destroyBeacon(audioBeacon)
         audioBeacon = 0
         audioEngine.destroy()
