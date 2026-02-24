@@ -49,6 +49,7 @@ import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.utils.FocusProfile
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.hasPlayServices
 import org.scottishtecharmy.soundscape.locationprovider.AndroidDirectionProvider
@@ -497,6 +498,10 @@ class SoundscapeService : MediaSessionService() {
                 speakCallout(results, true)
             }
         }
+    }
+
+    fun applyAudioProfile(profile: FocusProfile) {
+        geoEngine.applyAudioProfile(profile)
     }
 
     suspend fun searchResult(searchString: String): List<LocationDescription>? {

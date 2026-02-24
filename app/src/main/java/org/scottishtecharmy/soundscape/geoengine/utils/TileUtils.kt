@@ -933,6 +933,40 @@ val superCategoryMap: Map<String, SuperCategoryId> = buildMap {
     )
 }
 
+enum class FocusProfile(val id: Int){
+    ALL(0),
+    EATING(1),
+    SHOPPING(2),
+    NAVIGATING(3),
+    ROADS_ONLY(4)
+}
+
+val focusProfiles: Map<Int, Set<String>?> = mapOf(
+FocusProfile.ALL.id to null,
+    FocusProfile.EATING.id to setOf(
+        "restaurant", "cafe", "pub", "bar", "fast_food", "coffee_shop", "ice_cream",
+        "bakery", "biergarten", "food", "food_court", "pastry", "deli", "tea", "pasta",
+        "dairy", "cheese", "chocolate", "wine", "winery", "beverages", "alcohol",
+        "brewing_supplies", "confectionery"
+    ),
+    FocusProfile.SHOPPING.id to setOf(
+        "shop", "generic_shop", "clothes", "electronics", "computer", "sports", "books",
+        "music", "jewelry", "boutique", "toys", "gift", "games", "stationery", "art",
+        "antiques", "second_hand", "charity", "fashion", "fabric", "outdoor", "furniture",
+        "variety_store", "speciality_store", "hardware", "garden_centre", "florist",
+        "baby_goods", "cosmetics", "watches", "photo", "newsagent", "mobile_phone",
+        "optician", "beauty", "shoes", "leather", "clothing_store", "shoe_shop",
+        "toy_shop", "hairdresser", "hair_dresser", "bicycle", "craft", "pet", "book_store"
+    ),
+    FocusProfile.NAVIGATING.id to setOf(
+        "bus_stop", "tram_stop", "subway", "subway_entrance", "taxi", "platform",
+        "crossing", "ferry_terminal", "train_station", "station", "bus_station",
+        "elevator", "escalator", "stairs", "lift", "bicycle_rental", "bicycle_parking",
+        "car_rental", "shelter", "atm", "bureau_de_change", "bicycle_repair_station"
+    ),
+    FocusProfile.ROADS_ONLY.id to emptySet(),
+)
+
 fun addSidewalk(currentRoad: Way,
                 roadTree: FeatureTree,
                 ruler: Ruler,

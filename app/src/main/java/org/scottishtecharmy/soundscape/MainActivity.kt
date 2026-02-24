@@ -53,6 +53,7 @@ import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.utils.Analytics
 import org.scottishtecharmy.soundscape.utils.LogcatHelper
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
+import org.scottishtecharmy.soundscape.geoengine.utils.FocusProfile
 import org.scottishtecharmy.soundscape.utils.findExtracts
 import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
 import org.scottishtecharmy.soundscape.utils.processMaps
@@ -758,6 +759,8 @@ class MainActivity : AppCompatActivity() {
         const val PLACES_AND_LANDMARKS_KEY = "PlaceAndLandmarks"
         const val MOBILITY_DEFAULT = true
         const val MOBILITY_KEY = "Mobility"
+        const val FOCUS_PROFILE_KEY = "FocusProfile"
+        const val FOCUS_PROFILE_DEFAULT = 0
         const val DISTANCE_TO_BEACON_DEFAULT = true
         const val DISTANCE_TO_BEACON_KEY = "DistanceToBeacon"
         const val UNNAMED_ROADS_DEFAULT = false

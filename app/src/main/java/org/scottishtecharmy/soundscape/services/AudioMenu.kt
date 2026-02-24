@@ -18,6 +18,7 @@ import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
 import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabase
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 import androidx.core.content.edit
+import org.scottishtecharmy.soundscape.geoengine.utils.FocusProfile
 
 /**
  * AudioMenu provides a hierarchical, navigable audio menu controlled by media buttons.
@@ -209,7 +210,7 @@ class AudioMenu(
         }
     }
 
-    private fun audioProfileAction(@androidx.annotation.StringRes id: Int, profile: String): MenuItem.Action {
+    private fun audioProfileAction(@androidx.annotation.StringRes id: Int, profile: FocusProfile): MenuItem.Action {
         val label = localizedContext.getString(id)
         return MenuItem.Action(label) {
             applyAudioProfile(profile)
@@ -243,11 +244,11 @@ class AudioMenu(
         MenuItem.Submenu(
             label = localizedContext.getString(R.string.menu_audio_profile),
             children = listOf(
-                audioProfileAction(R.string.menu_profile_eating, "eating"),
-                audioProfileAction(R.string.menu_profile_shopping, "shopping"),
-                audioProfileAction(R.string.menu_profile_navigating, "navigating"),
-                audioProfileAction(R.string.menu_profile_roads_only, "roads_only"),
-                audioProfileAction(R.string.menu_profile_all, "all"),
+                audioProfileAction(R.string.menu_profile_eating, FocusProfile.EATING),
+                audioProfileAction(R.string.menu_profile_shopping, FocusProfile.SHOPPING),
+                audioProfileAction(R.string.menu_profile_navigating, FocusProfile.NAVIGATING),
+                audioProfileAction(R.string.menu_profile_roads_only, FocusProfile.ROADS_ONLY),
+                audioProfileAction(R.string.menu_profile_all, FocusProfile.ALL),
                 mainMenuAction(),
             )
         ),
@@ -284,16 +285,8 @@ class AudioMenu(
             } + mainMenuAction()
         }
 
-    /**
-     */
-    private fun applyAudioProfile(profileName: String) {
-        when (profileName) {
-            "eating" -> {}
-            "shopping" -> {}
-            "navigating" -> {}
-            "roads_only" -> {}
-            "all" -> {}
-        }
+    private fun applyAudioProfile(profile: FocusProfile) {
+        service.applyAudioProfile(profile)
     }
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────

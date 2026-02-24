@@ -3,6 +3,7 @@ package org.scottishtecharmy.soundscape.geoengine
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import android.location.Location
 import android.net.Uri
 import android.os.Environment
@@ -20,6 +21,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import org.scottishtecharmy.soundscape.MainActivity
+import org.scottishtecharmy.soundscape.MainActivity.Companion.FOCUS_PROFILE_DEFAULT
+import org.scottishtecharmy.soundscape.MainActivity.Companion.FOCUS_PROFILE_KEY
 import org.scottishtecharmy.soundscape.MainActivity.Companion.MOBILITY_KEY
 import org.scottishtecharmy.soundscape.MainActivity.Companion.PLACES_AND_LANDMARKS_KEY
 import org.scottishtecharmy.soundscape.MainActivity.Companion.SEARCH_LANGUAGE_DEFAULT
@@ -34,6 +37,7 @@ import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
+import org.scottishtecharmy.soundscape.geoengine.utils.FocusProfile
 import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
@@ -44,6 +48,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.TileSearch
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirection
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirectionAlong
+import org.scottishtecharmy.soundscape.geoengine.utils.focusProfiles
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionsPolygons
@@ -367,6 +372,21 @@ class GeoEngine {
         return enabledCategories
     }
 
+    fun getFocusFilter(): Set<String>? {
+        val key = sharedPreferences.getInt(FOCUS_PROFILE_KEY, FOCUS_PROFILE_DEFAULT)
+        return focusProfiles[key]
+    }
+
+    fun refreshCategories() {
+        gridState.invalidateGrid()
+        settlementGrid.invalidateGrid()
+    }
+
+    fun applyAudioProfile(profile: FocusProfile) {
+        sharedPreferences.edit { putInt(FOCUS_PROFILE_KEY, profile.id) }
+        refreshCategories()
+    }
+
     private fun updateAudioEngineGeometry(
         soundscapeService: SoundscapeService,
         userGeometry: UserGeometry
@@ -400,12 +420,14 @@ class GeoEngine {
                     // Update the main grid state
                     val updated = gridState.locationUpdate(
                         LngLatAlt(location.longitude, location.latitude),
-                        createSuperCategoriesSet()
+                        createSuperCategoriesSet(),
+                        getFocusFilter()
                     )
                     // and update the settlement grid state
                     settlementGrid.locationUpdate(
                         LngLatAlt(location.longitude, location.latitude),
-                        createSuperCategoriesSet()
+                        createSuperCategoriesSet(),
+                        getFocusFilter()
                     )
 
                     runBlocking {

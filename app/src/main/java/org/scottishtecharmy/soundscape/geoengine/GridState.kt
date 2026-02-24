@@ -111,6 +111,10 @@ open class GridState(
         }
         centralBoundingBox = BoundingBox()
     }
+
+    fun invalidateGrid() {
+        centralBoundingBox = BoundingBox()
+    }
     open fun fixupCollections(featureCollections: Array<FeatureCollection>) {}
 
     open fun checkOfflineMaps() {}
@@ -164,13 +168,14 @@ open class GridState(
         newGridIntersections: List<HashMap<LngLatAlt, Intersection>>,
         localTrees: Array<FeatureTree>,
         intersectionAccumulator: HashMap<LngLatAlt, Intersection>,
-        grid: TileGrid
+        grid: TileGrid,
+        focusFilter: Set<String>? = null
     ) {
 
         fixupCollections(featureCollections)
 
         val classifyTiming = measureTime {
-            classifyPois(featureCollections, enabledCategories)
+            classifyPois(featureCollections, enabledCategories, focusFilter)
         }
         println("Classify took $classifyTiming")
 
@@ -276,7 +281,7 @@ open class GridState(
      * has moved away from the center of the current tile grid and if it has calculates a new grid.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    suspend fun locationUpdate(location: LngLatAlt, enabledCategories: Set<String>) : Boolean {
+    suspend fun locationUpdate(location: LngLatAlt, enabledCategories: Set<String>, focusFilter: Set<String>? = null) : Boolean {
         // Check if we're still within the central area of our grid
         if (!pointIsWithinBoundingBox(location, centralBoundingBox)) {
             //println("Update central grid area")
@@ -314,7 +319,8 @@ open class GridState(
                                 newGridIntersections,
                                 featureTrees,
                                 gridIntersections,
-                                tileGrid
+                                tileGrid,
+                                focusFilter
                             )
                             gridStreetNumberTreeMap.clear()
                             for(collection in newGridStreetNumberMap)
@@ -523,7 +529,8 @@ open class GridState(
     }
 
     internal fun classifyPois(featureCollections: Array<FeatureCollection>,
-                             enabledCategories: Set<String> = emptySet()) {
+                             enabledCategories: Set<String> = emptySet(),
+                             focusFilter: Set<String>? = null) {
         // The FeatureCollection for POIS has been created, but we need to create sub-collections
         // for each of the super-categories along with one for the currently selected super-
         // categories.
@@ -564,16 +571,27 @@ open class GridState(
         featureCollections[TreeId.PLACES_AND_LANDMARKS.id] += featureCollections[TreeId.LANDMARK_POIS.id]
 
         // Create merged collection of currently selected super categories
-        if(enabledCategories.contains(PLACES_AND_LANDMARKS_KEY)) {
-            featureCollections[TreeId.SELECTED_SUPER_CATEGORIES.id] +=
-                featureCollections[TreeId.PLACE_POIS.id]
-            featureCollections[TreeId.SELECTED_SUPER_CATEGORIES.id] +=
-                featureCollections[TreeId.LANDMARK_POIS.id]
+        if (focusFilter == null) {
+            // "all" profile — use the user's category toggles
+            if(enabledCategories.contains(PLACES_AND_LANDMARKS_KEY)) {
+                featureCollections[TreeId.SELECTED_SUPER_CATEGORIES.id] +=
+                    featureCollections[TreeId.PLACE_POIS.id]
+                featureCollections[TreeId.SELECTED_SUPER_CATEGORIES.id] +=
+                    featureCollections[TreeId.LANDMARK_POIS.id]
+            }
+            if(enabledCategories.contains(MOBILITY_KEY)) {
+                featureCollections[TreeId.SELECTED_SUPER_CATEGORIES.id] +=
+                    featureCollections[TreeId.MOBILITY_POIS.id]
+            }
+        } else if (focusFilter.isNotEmpty()) {
+            // Active profile — filter all raw POIs by featureValue
+            val filtered = FeatureCollection()
+            filtered.features += featureCollections[TreeId.POIS.id].features.filter { feature ->
+                (feature as? MvtFeature)?.featureValue?.let { focusFilter.contains(it) } ?: false
+            }
+            featureCollections[TreeId.SELECTED_SUPER_CATEGORIES.id] += filtered
         }
-        if(enabledCategories.contains(MOBILITY_KEY)) {
-            featureCollections[TreeId.SELECTED_SUPER_CATEGORIES.id] +=
-                featureCollections[TreeId.MOBILITY_POIS.id]
-        }
+        // else focusFilter.isEmpty() → "roads_only": SELECTED_SUPER_CATEGORIES stays empty
     }
 
     // All functions which access the featureTrees need to be running within the treeContext,
