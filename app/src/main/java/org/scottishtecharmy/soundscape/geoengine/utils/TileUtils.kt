@@ -219,7 +219,7 @@ fun PointAndDistanceAndHeading.clone(): PointAndDistanceAndHeading {
  * @param currentLocation
  * Current location as LngLatAlt
  * @param feature
- * @return The a PointAndDistance object which contains the distance between currentLocation and
+ * @return A PointAndDistance object which contains the distance between currentLocation and
  *  feature and the point to which the distance is measured.
  */
 fun getDistanceToFeature(
@@ -410,7 +410,7 @@ fun getCombinedDirectionSegments(
 }
 
 /**
- * This represent the original iOS INDIVIDUAL direction type which they described like this:
+ * This represents the original iOS INDIVIDUAL direction type which they described like this:
  *
  *  Ahead, Right, Behind, and Left all get a 90 degree window centered in their respective
  *  directions (e.g. right is from 45 degrees to 135 degrees). These windows do not overlap,
@@ -437,7 +437,7 @@ fun getIndividualDirectionSegments(
 }
 
 /**
- * This represent the original iOS AHEAD_BEHIND direction type which they described like this:
+ * This represents the original iOS AHEAD_BEHIND direction type which they described like this:
  *
  *  Ahead and Behind get a 150 degree window, while Left and Right get 30 degree windows in their
  *  respective directions (e.g. right is 75 degrees to 105 degrees and behind is 105 degrees to
@@ -466,7 +466,7 @@ fun getAheadBehindDirectionSegments(
 }
 
 /**
- * This represent the original iOS LEFT_RIGHT direction type which they described like this:
+ * This represents the original iOS LEFT_RIGHT direction type which they described like this:
  *
  *  Left and Right get a 120 degree window, while Ahead and Behind get 60 degree windows in their
  *  respective directions (e.g. right is 30 degrees to 150 degrees and behind is 150 degrees to
@@ -754,8 +754,7 @@ fun mergePolygons(
 
 // These ids start from the least likely. If a POI could be classified in two then the higher should
 // be chosen
-enum class SuperCategoryId(
-) {
+enum class SuperCategoryId {
     UNCATEGORIZED,
     SETTLEMENT_CITY,
     SETTLEMENT_TOWN,
@@ -1016,7 +1015,7 @@ fun checkNearbyPoi(tree: FeatureTree,
                    ruler: Ruler) : Feature? {
 
     // Get the nearest 2 features so that we can exclude polygonPoiToCompare.
-    // Otherwise we never find features within other Polygons like parks.
+    // Otherwise, we never find features within other Polygons like parks.
     val nearbyPois = tree.getNearestCollection(
         location = location,
         distance = 20.0,
@@ -1141,7 +1140,7 @@ fun addPoiDestinations(way: Way,
 fun confectNamesForRoad(road: Way,
                         gridState: GridState) {
 
-    // rtree searches take time and so we should avoid them where possible.
+    // rtree searches take time, and so we should avoid them where possible.
 
     val roadTree = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
     val cycleway = (road.featureType == "highway")  && (road.featureValue == "cycleway")

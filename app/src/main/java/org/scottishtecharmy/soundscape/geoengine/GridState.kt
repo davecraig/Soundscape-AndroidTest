@@ -545,30 +545,19 @@ open class GridState(
         }
 
         // Create super category feature collections
-        var category = superCategoryCollections[SuperCategoryId.INFORMATION]
-        featureCollections[TreeId.INFORMATION_POIS.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.OBJECT]
-        featureCollections[TreeId.OBJECT_POIS.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.PLACE]
-        featureCollections[TreeId.PLACE_POIS.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.LANDMARK]
-        featureCollections[TreeId.LANDMARK_POIS.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.MOBILITY]
-        featureCollections[TreeId.MOBILITY_POIS.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.SAFETY]
-        featureCollections[TreeId.SAFETY_POIS.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.HOUSENUMBER]
-        featureCollections[TreeId.HOUSENUMBER.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.INFORMATION_POIS.id] = superCategoryCollections[SuperCategoryId.INFORMATION] ?: FeatureCollection()
+        featureCollections[TreeId.OBJECT_POIS.id] = superCategoryCollections[SuperCategoryId.OBJECT] ?: FeatureCollection()
+        featureCollections[TreeId.PLACE_POIS.id] = superCategoryCollections[SuperCategoryId.PLACE] ?: FeatureCollection()
+        featureCollections[TreeId.LANDMARK_POIS.id] = superCategoryCollections[SuperCategoryId.LANDMARK] ?: FeatureCollection()
+        featureCollections[TreeId.MOBILITY_POIS.id] = superCategoryCollections[SuperCategoryId.MOBILITY] ?: FeatureCollection()
+        featureCollections[TreeId.SAFETY_POIS.id] = superCategoryCollections[SuperCategoryId.SAFETY] ?: FeatureCollection()
+        featureCollections[TreeId.HOUSENUMBER.id] = superCategoryCollections[SuperCategoryId.HOUSENUMBER] ?: FeatureCollection()
 
         // Settlement and their area names
-        category = superCategoryCollections[SuperCategoryId.SETTLEMENT_CITY]
-        featureCollections[TreeId.SETTLEMENT_CITY.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.SETTLEMENT_TOWN]
-        featureCollections[TreeId.SETTLEMENT_TOWN.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.SETTLEMENT_VILLAGE]
-        featureCollections[TreeId.SETTLEMENT_VILLAGE.id] = category ?: FeatureCollection()
-        category = superCategoryCollections[SuperCategoryId.SETTLEMENT_HAMLET]
-        featureCollections[TreeId.SETTLEMENT_HAMLET.id] = category ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_CITY.id] = superCategoryCollections[SuperCategoryId.SETTLEMENT_CITY] ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_TOWN.id] = superCategoryCollections[SuperCategoryId.SETTLEMENT_TOWN] ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_VILLAGE.id] = superCategoryCollections[SuperCategoryId.SETTLEMENT_VILLAGE] ?: FeatureCollection()
+        featureCollections[TreeId.SETTLEMENT_HAMLET.id] = superCategoryCollections[SuperCategoryId.SETTLEMENT_HAMLET] ?: FeatureCollection()
 
         // Create a merged collection of places and landmarks, as used by whatsAroundMe and aheadOfMe
         featureCollections[TreeId.PLACES_AND_LANDMARKS.id] += featureCollections[TreeId.PLACE_POIS.id]
