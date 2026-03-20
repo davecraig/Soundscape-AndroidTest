@@ -234,6 +234,10 @@ class Way : MvtFeature() {
         return Pair(null, 0)
     }
 
+    fun isRoundabout() : Boolean {
+        return properties?.get("junction") == "roundabout"
+    }
+
     fun isSidewalkOrCrossing() : Boolean {
         val footway = properties?.get("footway")
         val bicycle = properties?.get("bicycle")

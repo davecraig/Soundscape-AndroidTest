@@ -318,6 +318,10 @@
 <string name="sleep_wake_up_now">"Wake Up Now"</string>
 <!-- Callout that a road junction is getting near -->
 <string name="intersection_approaching_intersection">"Approaching intersection"</string>
+<!-- Callout that a roundabout is getting near -->
+<string name="intersection_approaching_roundabout">"Approaching roundabout"</string>
+<!-- Callout that a roundabout is getting near with number of exits, %s is the number of exits -->
+<string name="intersection_approaching_roundabout_with_exits">"Approaching roundabout with %s exits"</string>
 <!-- Notification, %s is a point of interest, "At Starbucks" -->
 <string name="directions_at_poi">"At %s"</string>
 <!-- Text for button on home page that callous the current user location -->

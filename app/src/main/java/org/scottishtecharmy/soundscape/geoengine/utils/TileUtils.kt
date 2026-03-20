@@ -567,6 +567,12 @@ fun checkWhetherIntersectionIsOfInterest(
     if(intersection.members.size <= 2)
         return -1
 
+    // Roundabout entry intersections are always interesting - they will be described
+    // as a complete roundabout with all exits by the callout code
+    if (intersection.members.any { it.isRoundabout() }) {
+        return 1
+    }
+
     var needsFurtherChecking = 0
     val setOfNames = mutableListOf<String>()
     for (way in intersection.members) {

@@ -34,6 +34,172 @@ data class IntersectionDescription(var nearestRoad: Way? = null,
 )
 
 /**
+ * RoundaboutDescription holds the results of traversing a roundabout from an entry intersection.
+ * @param entryIntersection The intersection where we first meet the roundabout
+ * @param exitRoads The non-roundabout Ways that leave the roundabout, paired with the intersection
+ *                  they leave from (used for calculating direction)
+ */
+data class RoundaboutDescription(
+    val entryIntersection: Intersection,
+    val exitRoads: List<Pair<Way, Intersection>>
+)
+
+/**
+ * Checks if an intersection is part of a roundabout (i.e. has at least one roundabout Way member).
+ */
+fun Intersection.hasRoundaboutWays(): Boolean {
+    return members.any { it.isRoundabout() }
+}
+
+/**
+ * Traverses the roundabout from an entry intersection, collecting all exit roads.
+ * Exit roads are non-roundabout, non-sidewalk Ways. Handles two common patterns:
+ *
+ * 1. Split carriageways: roads split into two one-way lanes before the roundabout for
+ *    pedestrian crossings. These connect at adjacent roundabout intersections and are
+ *    deduplicated as a single exit. The short unnamed connector pieces are resolved to
+ *    their parent road name.
+ *
+ * 2. Through-roads: roads that cross through the roundabout, connecting on opposite sides.
+ *    These appear as separate exits (e.g. "Hayes Way goes left" and "Hayes Way goes right").
+ *
+ * @param entryIntersection The intersection where the user's road meets the roundabout
+ * @param approachRoad The road the user is approaching on (excluded from exits)
+ * @param gridState The current GridState for name confection
+ * @return A RoundaboutDescription with all unique exit roads, or null if this isn't a roundabout
+ */
+fun getRoundaboutDescription(
+    entryIntersection: Intersection,
+    approachRoad: Way?,
+    gridState: GridState
+): RoundaboutDescription? {
+
+    if (!entryIntersection.hasRoundaboutWays()) return null
+
+    // Step 1: Traverse the roundabout graph, collecting all roundabout intersections
+    // and building an adjacency map
+    val roundaboutIntersections = mutableSetOf<Intersection>()
+    val adjacency = mutableMapOf<Intersection, MutableSet<Intersection>>()
+    val exitRoads = mutableListOf<Pair<Way, Intersection>>()
+    val queue = ArrayDeque<Intersection>()
+
+    queue.add(entryIntersection)
+
+    while (queue.isNotEmpty()) {
+        val current = queue.removeFirst()
+        if (!roundaboutIntersections.add(current)) continue
+
+        for (way in current.members) {
+            if (way.isRoundabout()) {
+                val otherEnd = way.getOtherIntersection(current)
+                if (otherEnd != null) {
+                    // Record adjacency (direct roundabout Way connection)
+                    adjacency.getOrPut(current) { mutableSetOf() }.add(otherEnd)
+                    adjacency.getOrPut(otherEnd) { mutableSetOf() }.add(current)
+                    if (otherEnd !in roundaboutIntersections) {
+                        queue.add(otherEnd)
+                    }
+                }
+            } else if (!way.isSidewalkOrCrossing()) {
+                exitRoads.add(Pair(way, current))
+            }
+        }
+    }
+
+    // Step 2: Resolve unnamed short exits. When a road splits into two one-way carriageways,
+    // the short connector pieces between the split and the roundabout may be unnamed. Follow
+    // them to see if they connect to a named road.
+    data class ResolvedExit(val way: Way, val intersection: Intersection, val resolvedName: String?)
+
+    val resolvedExits = exitRoads.map { (way, intersection) ->
+        var name = way.name
+        if (name == null && way.length < 30.0) {
+            // Follow this short unnamed Way to its other end
+            val otherIntersection = way.getOtherIntersection(intersection)
+            if (otherIntersection != null) {
+                // Look for a named road at the other end
+                for (member in otherIntersection.members) {
+                    if (member != way && !member.isRoundabout() && !member.isSidewalkOrCrossing()
+                        && member.name != null) {
+                        name = member.name
+                        break
+                    }
+                }
+            }
+        }
+        ResolvedExit(way, intersection, name)
+    }
+
+    // Step 3: Deduplicate split carriageways while preserving through-road exits.
+    // Two exits with the same name are the same split carriageway only if their roundabout
+    // intersections are adjacent (connected by a single roundabout Way). If they're on
+    // opposite sides of the roundabout, they're separate exits (through-road).
+    val approachRoadName = approachRoad?.name
+    val deduplicatedExits = mutableListOf<Pair<Way, Intersection>>()
+
+    // Group exits by resolved name
+    val namedGroups = mutableMapOf<String, MutableList<ResolvedExit>>()
+    val unnamedExits = mutableListOf<ResolvedExit>()
+    for (exit in resolvedExits) {
+        if (exit.resolvedName != null) {
+            namedGroups.getOrPut(exit.resolvedName) { mutableListOf() }.add(exit)
+        } else {
+            unnamedExits.add(exit)
+        }
+    }
+
+    // For each named group, cluster adjacent exits and keep one per cluster
+    for ((name, exits) in namedGroups) {
+        // Skip the approach road
+        if (name == approachRoadName) continue
+
+        // Build clusters of adjacent exits
+        val clusters = mutableListOf<MutableList<ResolvedExit>>()
+        val assigned = mutableSetOf<Int>()
+
+        for (i in exits.indices) {
+            if (i in assigned) continue
+            val cluster = mutableListOf(exits[i])
+            assigned.add(i)
+
+            // Find all exits adjacent to this cluster
+            var changed = true
+            while (changed) {
+                changed = false
+                for (j in exits.indices) {
+                    if (j in assigned) continue
+                    // Check if exits[j] is adjacent to any exit in the cluster
+                    val isAdjacent = cluster.any { clusterExit ->
+                        val neighbors = adjacency[clusterExit.intersection] ?: emptySet()
+                        neighbors.contains(exits[j].intersection) ||
+                                clusterExit.intersection == exits[j].intersection
+                    }
+                    if (isAdjacent) {
+                        cluster.add(exits[j])
+                        assigned.add(j)
+                        changed = true
+                    }
+                }
+            }
+            clusters.add(cluster)
+        }
+
+        // Keep one representative from each cluster (prefer the longest Way)
+        for (cluster in clusters) {
+            val best = cluster.maxByOrNull { it.way.length }!!
+            deduplicatedExits.add(Pair(best.way, best.intersection))
+        }
+    }
+
+    // Add unnamed exits (no dedup possible without a name)
+    for (exit in unnamedExits) {
+        deduplicatedExits.add(Pair(exit.way, exit.intersection))
+    }
+
+    return RoundaboutDescription(entryIntersection, deduplicatedExits)
+}
+
+/**
  * getRoadsDescriptionFromFov returns a description of the nearestRoad and also the 'best'
  * intersection within the field of view. The description includes the roads that join the
  * intersection, the location of the intersection and the name of the intersection.
@@ -127,6 +293,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     //  1. Short paths leading to sidewalks of the road, or
     //  2. Direct intersections with sidewalks.
     //  3. Within a 5m radius of the current location
+    //  4. Internal roundabout intersections (all non-sidewalk Ways are roundabout segments)
     val trimmedIntersections = FeatureCollection()
     for(i in fovIntersections.features) {
         val intersection = i as Intersection
@@ -135,13 +302,22 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
             add = false
         else {
             var disposalCount = 0
+            var roundaboutCount = 0
             for (way in i.members) {
                 if (way.isSidewalkOrCrossing())
                     ++disposalCount
                 else if (way.isSidewalkConnector(intersection, nearestRoad, gridState))
                     ++disposalCount
+                else if (way.isRoundabout())
+                    ++roundaboutCount
             }
-            if((i.members.size - disposalCount) < 2) {
+            // Skip internal roundabout intersections: all non-sidewalk Ways are roundabout
+            // segments with no exit roads. These will be described as part of the roundabout
+            // when we encounter the entry intersection.
+            if ((i.members.size - disposalCount) == roundaboutCount && roundaboutCount > 0) {
+                add = false
+            }
+            else if((i.members.size - disposalCount) < 2) {
                 // We're disposing of pavement intersections, if we've got fewer then 2 non-
                 // pavement Ways then we're not interested in this intersection. Intersections
                 // worth describing have the Way we're coming in on as well as at least two other
@@ -366,6 +542,23 @@ fun addIntersectionCalloutFromDescription(
     // Check if we should be filtering out this callout
     val intersectionLocation = description.intersection.location
 
+    // Check if this is a roundabout intersection
+    val roundaboutDescription = getRoundaboutDescription(
+        description.intersection,
+        description.nearestRoad,
+        gridState
+    )
+    if (roundaboutDescription != null) {
+        return addRoundaboutCallout(
+            description,
+            roundaboutDescription,
+            heading,
+            localizedContext,
+            calloutHistory,
+            gridState
+        )
+    }
+
     val trackedCallout = TrackedCallout(
         description.userGeometry,
         intersectionName!!,
@@ -445,6 +638,121 @@ fun addIntersectionCalloutFromDescription(
         }
     }
     // Order intersection callout by heading from left to right
+    intersectionResults.sortWith(Comparator { p1, p2 ->
+        p1.heading!!.compareTo(p2.heading!!)
+    })
+    trackedCallout.positionedStrings = intersectionResults
+    return trackedCallout
+}
+
+/**
+ * addRoundaboutCallout generates a callout describing a roundabout and its exits.
+ * Instead of describing every short roundabout segment as a separate road, it traverses
+ * the entire roundabout and lists the exit roads with their directions relative to the
+ * user's approach heading.
+ *
+ * For each exit, the direction is calculated from the entry intersection to the exit
+ * intersection, giving a bearing relative to the user's approach that indicates roughly
+ * where around the roundabout each exit is.
+ */
+private fun addRoundaboutCallout(
+    description: IntersectionDescription,
+    roundaboutDescription: RoundaboutDescription,
+    heading: Double,
+    localizedContext: Context?,
+    calloutHistory: CalloutHistory?,
+    gridState: GridState
+): TrackedCallout? {
+
+    val intersectionLocation = description.intersection!!.location
+    val exitCount = roundaboutDescription.exitRoads.size
+
+    val approachingText = if (exitCount > 0) {
+        localizedContext?.getString(R.string.intersection_approaching_roundabout_with_exits, exitCount.toString())
+            ?: "Approaching roundabout with $exitCount exits"
+    } else {
+        localizedContext?.getString(R.string.intersection_approaching_roundabout)
+            ?: "Approaching roundabout"
+    }
+
+    val trackedCallout = TrackedCallout(
+        description.userGeometry,
+        approachingText,
+        intersectionLocation,
+        positionedStrings = List(1) {
+            PositionedString(
+                text = approachingText,
+                heading = -10000.0,
+                earcon = NativeAudioEngine.EARCON_SENSE_POI,
+                type = AudioType.STANDARD
+            )
+        },
+        isPoint = true,
+        isGeneric = false,
+        calloutHistory = calloutHistory
+    )
+    if (calloutHistory?.find(trackedCallout) == true) {
+        return null
+    }
+
+    // Describe exit roads with directions relative to our approach heading
+    val incomingHeading = (heading + 180.0) % 360.0
+    val directions = getCombinedDirectionSegments(incomingHeading)
+    val intersectionResults = trackedCallout.positionedStrings.toMutableList()
+
+    for ((way, exitIntersection) in roundaboutDescription.exitRoads) {
+        // Calculate the direction of the exit relative to our approach.
+        // We use the bearing from entry intersection to exit intersection to determine
+        // which side of the roundabout this exit is on, and then use the Way's own heading
+        // to determine the exit direction more precisely.
+        val wayHeading = way.heading(exitIntersection)
+        val direction = directions.indexOfFirst { segment ->
+            segment.contains(wayHeading)
+        }
+
+        // Skip exits that are behind us (i.e. effectively back the way we came)
+        if (direction == Direction.BEHIND.value) continue
+
+        val roadDirectionId = when(direction) {
+            Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value ->
+                R.string.directions_name_goes_left
+            Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value ->
+                R.string.directions_name_goes_right
+            else ->
+                R.string.directions_name_continues_ahead
+        }
+        var unlocalizedDirection = ""
+        if (localizedContext == null) {
+            unlocalizedDirection = when(direction) {
+                Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value ->
+                    "goes left"
+                Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value ->
+                    "goes right"
+                else ->
+                    "continues ahead"
+            }
+        }
+
+        val presentationHeading = incomingHeading + when(direction) {
+            Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value -> -90.0
+            Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value -> 90.0
+            else -> 0.0
+        }
+
+        val exitDirection = way.intersections[WayEnd.START.id] == exitIntersection
+        val destinationText = way.getName(exitDirection, gridState, localizedContext)
+        val exitCallout =
+            localizedContext?.getString(roadDirectionId, destinationText) ?: "\t$destinationText $unlocalizedDirection"
+        intersectionResults.add(
+            PositionedString(
+                text = exitCallout,
+                type = AudioType.COMPASS,
+                heading = presentationHeading
+            )
+        )
+    }
+
+    // Order exit callouts by heading from left to right
     intersectionResults.sortWith(Comparator { p1, p2 ->
         p1.heading!!.compareTo(p2.heading!!)
     })
