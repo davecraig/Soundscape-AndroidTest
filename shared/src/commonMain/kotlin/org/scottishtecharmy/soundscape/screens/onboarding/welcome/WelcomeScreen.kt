@@ -28,7 +28,7 @@ import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.first_launch_welcome_button
 import org.scottishtecharmy.soundscape.resources.first_launch_welcome_description
 import org.scottishtecharmy.soundscape.resources.first_launch_welcome_title
-import org.scottishtecharmy.soundscape.resources.soundscape_alpha_1024
+import org.scottishtecharmy.soundscape.resources.soundscape_1024
 import org.scottishtecharmy.soundscape.screens.onboarding.component.BoxWithGradientBackground
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 
@@ -109,7 +109,7 @@ fun Welcome(
 @Composable
 private fun LocalImage() {
     Image(
-        painter = painterResource(Res.drawable.soundscape_alpha_1024),
+        painter = painterResource(Res.drawable.soundscape_1024),
         contentDescription = null,
         modifier = Modifier
             .clip(RoundedCornerShape(spacing.extraLarge))
