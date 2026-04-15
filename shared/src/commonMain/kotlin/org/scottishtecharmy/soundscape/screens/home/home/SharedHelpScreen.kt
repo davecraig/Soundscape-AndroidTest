@@ -339,10 +339,12 @@ val helpPages = listOf(
     Sections(
         Res.string.settings_about_app,
         listOf(
-            Section(Res.string.about_soundscape, SectionType.Paragraph, skipTalkback = false, markdown = true),
-            Section(Res.string.copyright_notices, SectionType.Paragraph, skipTalkback = true, markdown = true),
-            Section(Res.string.osm_copyright, SectionType.Paragraph, skipTalkback = true, markdown = true),
-            Section(Res.string.openmaptiles_copyright, SectionType.Paragraph, skipTalkback = true, markdown = true),
+            Section(Res.string.about_soundscape, SectionType.Paragraph, markdown = true),
+            Section(Res.string.copyright_notices, SectionType.Paragraph, markdown = true),
+            Section(Res.string.osm_copyright, SectionType.Paragraph, markdown = true),
+            Section(Res.string.openmaptiles_copyright, SectionType.Paragraph, markdown = true),
+            Section(Res.string.steam_copyright, SectionType.Paragraph, markdown = true),
+            Section(Res.string.trademark_disclaimer, SectionType.Paragraph, markdown = true),
         )
     )
 )
@@ -405,6 +407,9 @@ fun SharedHelpScreen(
                     verticalArrangement = Arrangement.spacedBy(spacing.small),
                 ) {
                     items(sections.sections) { section ->
+                      Box(
+                          modifier = Modifier.semantics(mergeDescendants = true) {}
+                      ) {
                         when (section.type) {
                             SectionType.Title -> {
                                 Text(
@@ -468,6 +473,7 @@ fun SharedHelpScreen(
                                 }
                             }
                         }
+                      }
                     }
                     item {
                         if (sections.titleId == Res.string.settings_about_app && onOpenSourceLicenses != null) {
