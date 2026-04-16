@@ -82,7 +82,7 @@ fun ExpandableSectionHeader(
             .fillMaxWidth()
             .clickable(
                 role = Role.Button,
-                onClickLabel = if (expanded) "Collapse section" else "Expand section",
+                onClickLabel = if (expanded) stringResource(Res.string.settings_collapse_section) else stringResource(Res.string.settings_expand_section),
             ) { onToggle() }
             .extraSmallPadding()
             .defaultMinSize(minHeight = spacing.targetSize),
@@ -98,7 +98,7 @@ fun ExpandableSectionHeader(
         Icon(
             imageVector = if (expanded) Icons.Filled.KeyboardArrowDown
             else Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = if (expanded) "Collapse" else "Expand",
+            contentDescription = if (expanded) stringResource(Res.string.settings_expanded) else stringResource(Res.string.settings_collapsed),
             tint = textColor,
         )
     }
