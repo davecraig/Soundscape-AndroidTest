@@ -205,14 +205,12 @@ fun HomeScreen(
                         androidx.core.os.LocaleListCompat.forLanguageTags(tag),
                     )
                 }
-                // Bounce the foreground service so the native audio/TTS engine
-                // re-initialises with the new locale rather than continuing to
-                // speak in the previously-loaded language.
-                callbackScope.launch {
-                    activity.setServiceState(false)
-                    kotlinx.coroutines.delay(1000)
-                    activity.setServiceState(true)
-                }
+                // Stop the service so it picks up the new locale on next start. The activity
+                // will be recreated by setApplicationLocales(...); its onResume() will detect
+                // the stopped service and restart it from a freshly-registered
+                // ActivityResultLauncher. Holding a MainActivity reference across recreate
+                // would crash when launch() is invoked on the destroyed activity's launcher.
+                activity.setServiceState(false)
             },
             onGetLanguageMismatch = { getLanguageMismatch() },
             getOpenSourceLicensesJson = {

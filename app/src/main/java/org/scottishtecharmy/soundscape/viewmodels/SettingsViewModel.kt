@@ -8,7 +8,6 @@ import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,7 +39,6 @@ class SettingsViewModel(
 
     private val _state: MutableStateFlow<SettingsUiState> = MutableStateFlow(SettingsUiState())
     val state: StateFlow<SettingsUiState> = _state.asStateFlow()
-    private val coroutineScope = CoroutineScope(Job())
     private var serviceBoundJob: Job? = null
 
     init {
@@ -170,14 +168,6 @@ class SettingsViewModel(
         AudioDeviceInfo.TYPE_USB_HEADSET -> "USB Headset"
         AudioDeviceInfo.TYPE_TELEPHONY -> "Telephony"
         else -> "Type $type"
-    }
-
-    fun updateLanguage(localContext: MainActivity) {
-        coroutineScope.launch {
-            localContext.setServiceState(false)
-            Thread.sleep(1000)
-            localContext.setServiceState(true)
-        }
     }
 
     fun selectStorage(path: String) {
