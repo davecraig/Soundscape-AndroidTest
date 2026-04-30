@@ -42,6 +42,7 @@ import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.locationprovider.DeviceDirection
 import org.scottishtecharmy.soundscape.locationprovider.DirectionProvider
 import org.scottishtecharmy.soundscape.locationprovider.IosDirectionProvider
+import org.scottishtecharmy.soundscape.locationprovider.IosHeadTrackingProvider
 import org.scottishtecharmy.soundscape.locationprovider.IosLocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.LocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation
@@ -78,6 +79,8 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     // Providers
     val locationProvider: IosLocationProvider = IosLocationProvider()
     val directionProvider: IosDirectionProvider = IosDirectionProvider()
+    val headTrackingProvider: IosHeadTrackingProvider =
+        IosHeadTrackingProvider(directionProvider, locationProvider)
     val audioEngine = IosAudioEngine()
     val preferencesProvider = IosPreferencesProvider()
 
@@ -207,7 +210,18 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
                 )
                 updateMediaControls(mode)
             }
+            PreferenceKeys.HEAD_TRACKING_ENABLED -> {
+                applyHeadTrackingEnabled()
+            }
         }
+    }
+
+    private fun applyHeadTrackingEnabled() {
+        val enabled = preferencesProvider.getBoolean(
+            PreferenceKeys.HEAD_TRACKING_ENABLED,
+            PreferenceDefaults.HEAD_TRACKING_ENABLED,
+        )
+        if (enabled) headTrackingProvider.start() else headTrackingProvider.stop()
     }
 
     init {
@@ -231,6 +245,8 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         )
         preferencesProvider.addListener(preferencesListener)
         startGeoEngine()
+        geoEngine.setHeadTrackingProvider(headTrackingProvider)
+        applyHeadTrackingEnabled()
         observeAppLifecycle()
     }
 

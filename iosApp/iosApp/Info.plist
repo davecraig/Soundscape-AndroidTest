@@ -78,6 +78,8 @@
 	<string>Soundscape needs your location to provide audio navigation even when the app is in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Soundscape needs your location to provide audio navigation and describe your surroundings.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Soundscape uses head motion from supported headphones to position spatial audio relative to where you're looking.</string>
 	<key>SearchProviderURL</key>
 	<string>$(SEARCH_PROVIDER_URL)</string>
 	<key>TileProviderURL</key>

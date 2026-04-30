@@ -300,6 +300,13 @@ fun SharedSettingsScreen(
                     modifier = expandedSectionModifier,
                     title = { SettingDetails(Res.string.settings_mix_audio, Res.string.settings_mix_audio_description, textColor) },
                 )
+
+                switchPreference(
+                    key = PreferenceKeys.HEAD_TRACKING_ENABLED,
+                    defaultValue = PreferenceDefaults.HEAD_TRACKING_ENABLED,
+                    modifier = expandedSectionModifier,
+                    title = { SettingDetails(Res.string.settings_head_tracking, Res.string.settings_head_tracking_description, textColor) },
+                )
             }
 
             // ── Language Section ──────────────────────────────────────────

@@ -29,8 +29,11 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.locationprovider.DirectionProvider
+import org.scottishtecharmy.soundscape.locationprovider.HeadHeading
+import org.scottishtecharmy.soundscape.locationprovider.HeadTrackingProvider
 import org.scottishtecharmy.soundscape.locationprovider.LocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.phoneHeldFlat
+import kotlinx.coroutines.flow.flowOf
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
@@ -84,7 +87,12 @@ class GeoEngine {
 
     internal lateinit var locationProvider : LocationProvider
     private lateinit var directionProvider : DirectionProvider
+    private var headTrackingProvider: HeadTrackingProvider? = null
     private var mapMatchFilter = MapMatchFilter()
+
+    fun setHeadTrackingProvider(provider: HeadTrackingProvider?) {
+        headTrackingProvider = provider
+    }
 
     private lateinit var localizedStrings: LocalizedStrings
     private lateinit var preferencesProvider: PreferencesProvider
@@ -120,6 +128,7 @@ class GeoEngine {
         orientation: DeviceDirection?,
         headingMode: UserGeometry.HeadingMode,
         mapMatchFilter: MapMatchFilter? = null,
+        headHeading: Double? = null,
     ) : UserGeometry {
 
         var latLng = LngLatAlt(0.0, 0.0)
@@ -173,6 +182,7 @@ class GeoEngine {
             headingMode = headingMode,
             ruler = ruler,
             travelHeading = travelHeading,
+            headHeading = headHeading,
             mapMatchedWay = mapMatchFilter?.matchedWay,
             mapMatchedLocation = mapMatchFilter?.matchedLocation,
             currentBeacon = beaconLocation,
@@ -403,16 +413,18 @@ class GeoEngine {
             var lastGeometry : UserGeometry? = null
             while(true) {
                 val geometry = withTimeoutOrNull(100) {
+                    val headFlow = headTrackingProvider?.headHeadingFlow ?: flowOf<HeadHeading?>(null)
                     combine(
                         directionProvider.orientationFlow,
                         locationProvider.filteredLocationFlow,
-
-                        ) { orientation: DeviceDirection?, location: SoundscapeLocation? ->
+                        headFlow,
+                        ) { orientation: DeviceDirection?, location: SoundscapeLocation?, head: HeadHeading? ->
 
                             createUserGeometry(
                                 location = location,
                                 orientation = orientation,
-                                headingMode = UserGeometry.HeadingMode.CourseAuto
+                                headingMode = UserGeometry.HeadingMode.CourseAuto,
+                                headHeading = head?.degrees,
                             )
 
                     }.collect { geometry ->

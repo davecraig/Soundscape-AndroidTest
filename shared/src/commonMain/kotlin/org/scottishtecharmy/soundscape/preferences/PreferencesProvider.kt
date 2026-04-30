@@ -47,6 +47,7 @@ object PreferenceKeys {
     const val LAST_NEW_RELEASE = "LastNewRelease"
     const val MARKERS_SORT_BY_NAME = "MarkersSortByName"
     const val MARKERS_SORT_ASCENDING = "MarkersSortAscending"
+    const val HEAD_TRACKING_ENABLED = "HeadTrackingEnabled"
 }
 
 object PreferenceDefaults {
@@ -73,4 +74,5 @@ object PreferenceDefaults {
     const val LAST_NEW_RELEASE = ""
     const val MARKERS_SORT_BY_NAME = false  // distance by default
     const val MARKERS_SORT_ASCENDING = true
+    const val HEAD_TRACKING_ENABLED = false
 }
