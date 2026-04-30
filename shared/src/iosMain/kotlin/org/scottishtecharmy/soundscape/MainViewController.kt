@@ -17,7 +17,10 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteStateHolder
+import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersViewModel
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen.RoutesViewModel
 import platform.Foundation.NSURL
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
@@ -29,8 +32,7 @@ fun MainViewController() = ComposeUIViewController {
     val mgr = service.offlineMapManager
     val prefs = service.preferencesProvider
     val audioTour = service.audioTour
-    val homeStateHolder = service.homeStateHolder
-    val placesNearbyStateHolder = service.placesNearbyStateHolder
+    val homeViewModel = service.homeViewModel
 
     val isFirstLaunch = remember {
         prefs.getBoolean(PreferenceKeys.FIRST_LAUNCH, PreferenceDefaults.FIRST_LAUNCH)
@@ -75,10 +77,7 @@ fun MainViewController() = ComposeUIViewController {
         flows = AppFlows(
             locationFlow = service.locationFlow,
             directionFlow = service.orientationFlow,
-            homeState = homeStateHolder.state,
-            markersUiState = service.markersStateHolder.uiState,
-            routesUiState = service.routesStateHolder.uiState,
-            placesNearbyUiState = placesNearbyStateHolder.uiState,
+            homeState = homeViewModel.state,
             offlineMapsNearbyExtracts = mgr.availableExtracts,
             offlineMapsDownloaded = mgr.downloadedExtracts,
             offlineMapsDownloadedFc = mgr.downloadedExtractsFc,
@@ -117,7 +116,7 @@ fun MainViewController() = ComposeUIViewController {
             onRouteSkipNext = { service.routeSkipNext() },
             onRouteSkipPrevious = { service.routeSkipPrevious() },
             onRouteMute = { service.routeMute() },
-            onSearch = { query -> homeStateHolder.onTriggerSearch(query) },
+            onSearch = { query -> homeViewModel.onTriggerSearch(query) },
             onSaveMarker = { desc ->
                 service.saveMarker(desc)
                 audioTour.onMarkerCreateDone()
@@ -126,29 +125,38 @@ fun MainViewController() = ComposeUIViewController {
             onSaveRoute = { name, desc, waypoints -> service.saveRoute(name, desc, waypoints) },
             onDeleteRoute = { routeId -> service.deleteRoute(routeId) },
             onLoadRoute = { routeId -> service.loadRouteWaypoints(routeId) },
-            createAddAndEditRouteStateHolder = {
-                AddAndEditRouteStateHolder(service.routeDao, service)
+            createAddAndEditRouteViewModel = {
+                AddAndEditRouteViewModel(service.routeDao, service)
+            },
+            createMarkersViewModel = {
+                MarkersViewModel(service.routeDao, service.preferencesProvider, service)
+            },
+            createRoutesViewModel = {
+                RoutesViewModel(service.routeDao, service.preferencesProvider, service)
+            },
+            createPlacesNearbyViewModel = {
+                PlacesNearbyViewModel(service, audioTour)
             },
             onMyLocation = {
-                homeStateHolder.myLocation()
+                homeViewModel.myLocation()
                 audioTour.onButtonPressed(TourButton.MY_LOCATION)
             },
             onWhatsAroundMe = {
-                homeStateHolder.whatsAroundMe()
+                homeViewModel.whatsAroundMe()
                 audioTour.onButtonPressed(TourButton.AROUND_ME)
             },
             onAheadOfMe = {
-                homeStateHolder.aheadOfMe()
+                homeViewModel.aheadOfMe()
                 audioTour.onButtonPressed(TourButton.AHEAD_OF_ME)
             },
             onNearbyMarkers = {
-                homeStateHolder.nearbyMarkers()
+                homeViewModel.nearbyMarkers()
                 audioTour.onButtonPressed(TourButton.NEARBY_MARKERS)
             },
-            onPlacesNearbyClickFolder = { filter, title ->
-                placesNearbyStateHolder.onClickFolder(filter, title)
-            },
-            onPlacesNearbyClickBack = { placesNearbyStateHolder.onClickBack() },
+            // No-op: PlacesNearbyViewModel is now nav-scoped and handles these
+            // events itself via createPlacesNearbyViewModel.
+            onPlacesNearbyClickFolder = { _, _ -> },
+            onPlacesNearbyClickBack = {},
             onOfflineMapsRefresh = { mgr.refresh() },
             onOfflineMapsGetExtracts = { location -> mgr.getExtractsContaining(location) },
             onOfflineMapsDownload = { _, feature ->
@@ -164,8 +172,8 @@ fun MainViewController() = ComposeUIViewController {
             // a future change can wire these to native iOS subsystems.
             onSleep = { service.setSleeping(true) },
             onWakeUp = { service.setSleeping(false) },
-            onStreetPreviewGo = { homeStateHolder.streetPreviewGo() },
-            onStreetPreviewExit = { homeStateHolder.streetPreviewExit() },
+            onStreetPreviewGo = { homeViewModel.streetPreviewGo() },
+            onStreetPreviewExit = { homeViewModel.streetPreviewExit() },
             onShareRecording = {
                 val fileUrl = service.writeRecordingFile()
                 if (fileUrl != null) presentShareSheet(fileUrl)
@@ -190,7 +198,7 @@ fun MainViewController() = ComposeUIViewController {
                 if (url != null) openExternalUrl(url)
             },
             onGetCurrentLocationDescription = {
-                val location = homeStateHolder.state.value.location
+                val location = homeViewModel.state.value.location
                 if (location != null) {
                     service.getLocationDescription(location)
                 } else {

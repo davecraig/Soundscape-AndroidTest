@@ -1,9 +1,7 @@
-package org.scottishtecharmy.soundscape.viewmodels
+package org.scottishtecharmy.soundscape.screens.home.locationDetails
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.audio.AudioType
@@ -16,12 +14,11 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.services.ServiceConnection
 
-class LocationDetailsStateHolder(
+open class LocationDetailsViewModel(
     private val connection: ServiceConnection,
     private val routeDao: RouteDao,
     private val audioTour: AudioTour,
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+) : ViewModel() {
 
     init {
         audioTour.onPlaceSelected()
@@ -45,7 +42,7 @@ class LocationDetailsStateHolder(
         createMarker(
             locationDescription = locationDescription,
             routeDao = routeDao,
-            scope = scope,
+            scope = viewModelScope,
             onSuccess = {
                 connection.service?.speakCallout(
                     TrackedCallout(
@@ -73,11 +70,11 @@ class LocationDetailsStateHolder(
     }
 
     fun deleteMarker(objectId: Long) {
-        scope.launch {
+        viewModelScope.launch {
             try {
                 routeDao.removeMarker(objectId)
             } catch (e: Exception) {
-                println("LocationDetailsStateHolder: Error deleting marker: ${e.message}")
+                println("LocationDetailsViewModel: Error deleting marker: ${e.message}")
             }
         }
     }
@@ -92,9 +89,5 @@ class LocationDetailsStateHolder(
 
     fun showDialog() {
         audioTour.onMarkerCreateStarted()
-    }
-
-    fun dispose() {
-        scope.cancel()
     }
 }

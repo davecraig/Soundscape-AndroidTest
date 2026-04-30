@@ -45,6 +45,8 @@ kotlin {
             implementation(libs.maplibre.compose)
             implementation(libs.composepreferencelibrary)
             implementation(libs.jetbrains.navigation.compose)
+            implementation(libs.jetbrains.lifecycle.viewmodel)
+            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
             implementation(libs.intellij.markdown)
             implementation(libs.reorderable)
         }

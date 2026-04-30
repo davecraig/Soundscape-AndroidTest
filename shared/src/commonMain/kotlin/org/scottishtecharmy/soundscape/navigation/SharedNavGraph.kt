@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -35,7 +36,7 @@ import org.scottishtecharmy.soundscape.screens.home.home.SharedHelpScreen
 import org.scottishtecharmy.soundscape.screens.home.home.SharedHomeScreen
 import org.scottishtecharmy.soundscape.screens.home.home.SharedOpenSourceLicensesScreen
 import org.scottishtecharmy.soundscape.screens.home.home.SharedSleepScreen
-import org.scottishtecharmy.soundscape.viewmodels.OpenSourceLicensesStateHolder
+import org.scottishtecharmy.soundscape.screens.home.home.OpenSourceLicensesViewModel
 import org.scottishtecharmy.soundscape.screens.home.locationDetails.SharedLocationDetailsScreen
 import org.scottishtecharmy.soundscape.screens.home.locationDetails.SharedSaveAndEditMarkerScreen
 import org.scottishtecharmy.soundscape.screens.home.offlinemaps.OfflineMapsUiState
@@ -193,29 +194,48 @@ fun SharedNavHost(
         }
 
         composable(SharedRoutes.PLACES_NEARBY) {
-            LaunchedEffect(Unit) { audioTour?.onNavigatedToPlacesNearby() }
-            val uiState by flows.placesNearbyUiState?.collectAsState()
-                ?: remember { mutableStateOf(PlacesNearbyUiState()) }
-            PlacesNearbyScreen(
-                uiState = uiState,
-                onSelectItem = { desc ->
-                    navStateHolder.setSelectedLocation(desc)
-                    navController.navigate(SharedRoutes.LOCATION_DETAILS)
-                },
-                onClickFolder = { filter, title ->
-                    callbacks.onPlacesNearbyClickFolder(filter, title)
-                },
-                onClickBack = {
-                    if (uiState.level == 0) {
-                        navController.popBackStack()
-                    } else {
-                        callbacks.onPlacesNearbyClickBack()
-                    }
-                },
-                onStartBeacon = { desc ->
-                    callbacks.onStartBeacon(desc.location.latitude, desc.location.longitude, desc.name)
-                },
-            )
+            val placesFactory = callbacks.createPlacesNearbyViewModel
+            if (placesFactory != null) {
+                val holder = viewModel { placesFactory() }
+                val uiState by holder.uiState.collectAsState()
+                PlacesNearbyScreen(
+                    uiState = uiState,
+                    onSelectItem = { desc ->
+                        navStateHolder.setSelectedLocation(desc)
+                        navController.navigate(SharedRoutes.LOCATION_DETAILS)
+                    },
+                    onClickFolder = { filter, title -> holder.onClickFolder(filter, title) },
+                    onClickBack = {
+                        if (uiState.level == 0) navController.popBackStack()
+                        else holder.onClickBack()
+                    },
+                    onStartBeacon = { desc ->
+                        holder.startBeacon(desc.location, desc.name)
+                    },
+                )
+            } else {
+                // Fallback path: external state holder publishes via flows.
+                LaunchedEffect(Unit) { audioTour?.onNavigatedToPlacesNearby() }
+                val uiState by flows.placesNearbyUiState?.collectAsState()
+                    ?: remember { mutableStateOf(PlacesNearbyUiState()) }
+                PlacesNearbyScreen(
+                    uiState = uiState,
+                    onSelectItem = { desc ->
+                        navStateHolder.setSelectedLocation(desc)
+                        navController.navigate(SharedRoutes.LOCATION_DETAILS)
+                    },
+                    onClickFolder = { filter, title ->
+                        callbacks.onPlacesNearbyClickFolder(filter, title)
+                    },
+                    onClickBack = {
+                        if (uiState.level == 0) navController.popBackStack()
+                        else callbacks.onPlacesNearbyClickBack()
+                    },
+                    onStartBeacon = { desc ->
+                        callbacks.onStartBeacon(desc.location.latitude, desc.location.longitude, desc.name)
+                    },
+                )
+            }
         }
 
         composable(SharedRoutes.MARKERS_AND_ROUTES) {
@@ -330,19 +350,18 @@ fun SharedNavHost(
         }
 
         composable(SharedRoutes.ADD_ROUTE) {
-            val factory = callbacks.createAddAndEditRouteStateHolder
+            val factory = callbacks.createAddAndEditRouteViewModel
             if (factory != null) {
                 val homeState by flows.homeState?.collectAsState()
                     ?: remember { mutableStateOf(HomeState()) }
-                val holder = remember { factory() }
-                DisposableEffect(holder) {
+                val holder = viewModel { factory() }
+                LaunchedEffect(holder) {
                     holder.loadMarkers()
                     val pendingImport = navStateHolder.pendingImportRoute.value
                     if (pendingImport != null) {
                         holder.initializeFromImport(pendingImport)
                         navStateHolder.setPendingImportRoute(null)
                     }
-                    onDispose { holder.dispose() }
                 }
                 SharedAddAndEditRouteScreen(
                     holder = holder,
@@ -362,16 +381,15 @@ fun SharedNavHost(
         }
 
         composable(SharedRoutes.EDIT_ROUTE) {
-            val factory = callbacks.createAddAndEditRouteStateHolder
+            val factory = callbacks.createAddAndEditRouteViewModel
             val routeDesc = navStateHolder.selectedLocation.collectAsState().value
             if (factory != null && routeDesc != null) {
                 val homeState by flows.homeState?.collectAsState()
                     ?: remember { mutableStateOf(HomeState()) }
-                val holder = remember(routeDesc.databaseId) { factory() }
-                DisposableEffect(holder) {
+                val holder = viewModel(key = "edit-route-${routeDesc.databaseId}") { factory() }
+                LaunchedEffect(holder) {
                     holder.loadMarkers()
                     holder.initializeRouteFromDatabase(routeDesc.databaseId)
-                    onDispose { holder.dispose() }
                 }
                 SharedAddAndEditRouteScreen(
                     holder = holder,
@@ -467,12 +485,14 @@ fun SharedNavHost(
         composable(SharedRoutes.OPEN_SOURCE_LICENSES) {
             val getJson = callbacks.getOpenSourceLicensesJson
             if (getJson != null) {
-                val stateHolder = remember { OpenSourceLicensesStateHolder(getJson()) }
-                val uiState by stateHolder.uiState.collectAsState()
+                // Nav-scoped: parsing happens once per visit, expand-state survives
+                // configuration changes, and the VM is cleared when the user pops back.
+                val vm = viewModel { OpenSourceLicensesViewModel(getJson()) }
+                val uiState by vm.uiState.collectAsState()
                 SharedOpenSourceLicensesScreen(
                     licenses = uiState.licenses,
                     onNavigateUp = { navController.popBackStack() },
-                    onLicenseClick = stateHolder::toggleLicense,
+                    onLicenseClick = vm::toggleLicense,
                 )
             }
         }
@@ -564,32 +584,62 @@ private fun MarkersAndRoutesContainer(
         Box(modifier = Modifier.padding(innerPadding)) {
             when (selectedTab) {
                 0 -> {
-                    val uiState by flows.markersUiState?.collectAsState()
-                        ?: remember { mutableStateOf(MarkersAndRoutesUiState()) }
-                    MarkersScreen(
-                        uiState = uiState,
-                        clearErrorMessage = {},
-                        onToggleSortOrder = {},
-                        onToggleSortByName = {},
-                        userLocation = userLocation,
-                        onSelectItem = { onSelectMarker(it) },
-                        onStartBeacon = { loc, name ->
-                            callbacks.onStartBeacon(loc.latitude, loc.longitude, name)
-                        },
-                    )
+                    val markersFactory = callbacks.createMarkersViewModel
+                    if (markersFactory != null) {
+                        val holder = viewModel { markersFactory() }
+                        val uiState by holder.uiState.collectAsState()
+                        MarkersScreen(
+                            uiState = uiState,
+                            clearErrorMessage = { holder.clearErrorMessage() },
+                            onToggleSortOrder = { holder.toggleSortOrder() },
+                            onToggleSortByName = { holder.toggleSortByName() },
+                            userLocation = userLocation,
+                            onSelectItem = { onSelectMarker(it) },
+                            onStartBeacon = { loc, name -> holder.startBeacon(loc, name) },
+                        )
+                    } else {
+                        val uiState by flows.markersUiState?.collectAsState()
+                            ?: remember { mutableStateOf(MarkersAndRoutesUiState()) }
+                        MarkersScreen(
+                            uiState = uiState,
+                            clearErrorMessage = {},
+                            onToggleSortOrder = {},
+                            onToggleSortByName = {},
+                            userLocation = userLocation,
+                            onSelectItem = { onSelectMarker(it) },
+                            onStartBeacon = { loc, name ->
+                                callbacks.onStartBeacon(loc.latitude, loc.longitude, name)
+                            },
+                        )
+                    }
                 }
                 1 -> {
-                    val uiState by flows.routesUiState?.collectAsState()
-                        ?: remember { mutableStateOf(MarkersAndRoutesUiState()) }
-                    RoutesScreen(
-                        uiState = uiState,
-                        userLocation = userLocation,
-                        clearErrorMessage = {},
-                        onToggleSortOrder = {},
-                        onToggleSortByName = {},
-                        onSelectItem = { onSelectRoute(it) },
-                        onStartPlayback = { callbacks.onStartRoute(it) },
-                    )
+                    val routesFactory = callbacks.createRoutesViewModel
+                    if (routesFactory != null) {
+                        val holder = viewModel { routesFactory() }
+                        val uiState by holder.uiState.collectAsState()
+                        RoutesScreen(
+                            uiState = uiState,
+                            userLocation = userLocation,
+                            clearErrorMessage = { holder.clearErrorMessage() },
+                            onToggleSortOrder = { holder.toggleSortOrder() },
+                            onToggleSortByName = { holder.toggleSortByName() },
+                            onSelectItem = { onSelectRoute(it) },
+                            onStartPlayback = { holder.startRoute(it) },
+                        )
+                    } else {
+                        val uiState by flows.routesUiState?.collectAsState()
+                            ?: remember { mutableStateOf(MarkersAndRoutesUiState()) }
+                        RoutesScreen(
+                            uiState = uiState,
+                            userLocation = userLocation,
+                            clearErrorMessage = {},
+                            onToggleSortOrder = {},
+                            onToggleSortByName = {},
+                            onSelectItem = { onSelectRoute(it) },
+                            onStartPlayback = { callbacks.onStartRoute(it) },
+                        )
+                    }
                 }
             }
         }

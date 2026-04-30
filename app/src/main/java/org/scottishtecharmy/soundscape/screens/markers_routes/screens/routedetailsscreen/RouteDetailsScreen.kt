@@ -22,6 +22,7 @@ import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.services.RoutePlayerState
+import org.scottishtecharmy.soundscape.utils.shareRoute
 import org.scottishtecharmy.soundscape.resources.*
 
 @Composable
@@ -102,7 +103,7 @@ fun RouteDetailsScreenVM(
                 onEditRoute = {
                     navController.navigate("${HomeRoutes.AddAndEditRoute.route}?command=edit&data=${route.route.routeId}")
                 },
-                onShareRoute = { viewModel.shareRoute(context, routeId) },
+                onShareRoute = { shareRoute(context, route) },
             )
         }
 

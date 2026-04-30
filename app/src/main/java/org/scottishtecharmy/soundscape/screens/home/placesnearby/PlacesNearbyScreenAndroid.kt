@@ -15,7 +15,7 @@ import org.scottishtecharmy.soundscape.screens.home.locationDetails.generateLoca
 fun PlacesNearbyScreenVM(
     homeNavController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PlacesNearbyViewModel =  koinViewModel(),
+    viewModel: PlacesNearbyViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     PlacesNearbyScreen(

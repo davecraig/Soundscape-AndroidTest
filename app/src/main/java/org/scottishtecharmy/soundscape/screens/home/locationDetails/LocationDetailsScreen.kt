@@ -20,7 +20,7 @@ import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.generateOfflineMapScreenRoute
-import org.scottishtecharmy.soundscape.viewmodels.LocationDetailsViewModel
+import org.scottishtecharmy.soundscape.utils.shareLocation
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -115,7 +115,7 @@ fun LocationDetailsScreen(
                 navController.popBackStack(HomeRoutes.Home.route, false)
             },
             onShareLocation = { desc ->
-                viewModel.shareLocation(context, shareMessage, desc)
+                shareLocation(context, shareMessage, desc)
                 navController.popBackStack(HomeRoutes.Home.route, false)
             },
             onOfflineMaps = { desc ->

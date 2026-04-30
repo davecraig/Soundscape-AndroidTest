@@ -28,7 +28,9 @@ import org.scottishtecharmy.soundscape.screens.markers_routes.components.Markers
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersScreenVM
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen.RoutesScreenVM
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.viewmodels.home.HomeViewModel
+import org.koin.compose.koinInject
+import org.scottishtecharmy.soundscape.audio.AudioTour
+import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
 import org.scottishtecharmy.soundscape.resources.*
 
 @Composable
@@ -37,6 +39,7 @@ fun MarkersAndRoutesScreen(
     viewModel : HomeViewModel,
     modifier: Modifier
 ) {
+    val audioTour: AudioTour = koinInject()
     // Collect only the fields we need so that heading/beacon/other state changes
     // (which update frequently) don't cause this screen to recompose.
     val routesTabSelected by remember {
@@ -48,9 +51,9 @@ fun MarkersAndRoutesScreen(
 
     LaunchedEffect(routesTabSelected) {
         if(routesTabSelected)
-            viewModel.audioTour.onMarkerAndRoutes()
+            audioTour.onMarkerAndRoutes()
         else
-            viewModel.audioTour.onMarkers()
+            audioTour.onMarkers()
     }
     Scaffold(
         modifier = modifier,

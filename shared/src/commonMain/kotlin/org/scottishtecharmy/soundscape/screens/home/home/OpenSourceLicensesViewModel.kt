@@ -1,5 +1,6 @@
-package org.scottishtecharmy.soundscape.viewmodels
+package org.scottishtecharmy.soundscape.screens.home.home
 
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +29,7 @@ data class OpenSourceLicensesUiState(
     val error: String? = null,
 )
 
-class OpenSourceLicensesStateHolder(jsonString: String) {
+class OpenSourceLicensesViewModel(jsonString: String) : ViewModel() {
     private val _uiState = MutableStateFlow(OpenSourceLicensesUiState())
     val uiState: StateFlow<OpenSourceLicensesUiState> = _uiState.asStateFlow()
 

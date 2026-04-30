@@ -58,7 +58,7 @@ import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewM
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
 import org.scottishtecharmy.soundscape.utils.getLanguageMismatch
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
-import org.scottishtecharmy.soundscape.viewmodels.home.HomeViewModel
+import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
@@ -167,7 +167,7 @@ fun HomeScreen(
             onContactSupport = contactSupport,
             onToggleAudioTour = { audioTour.toggleState() },
             onMapLongClick = onMapLongClickListener,
-            onGoToAppSettings = { viewModel.goToAppSettings(context) },
+            onGoToAppSettings = { org.scottishtecharmy.soundscape.utils.goToAppSettings(context) },
             onGetCurrentLocationDescription = {
                 val location = viewModel.state.value.location
                 if (location != null) {

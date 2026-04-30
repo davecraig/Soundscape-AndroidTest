@@ -24,8 +24,11 @@ import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.HomeState
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyUiState
+import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteStateHolder
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersViewModel
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen.RoutesViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.language.Language
 import org.scottishtecharmy.soundscape.ui.theme.LocalAppButtonColors
 import org.scottishtecharmy.soundscape.ui.theme.defaultAppButtonColors
@@ -51,7 +54,16 @@ data class AppCallbacks(
     val onSaveRoute: (String, String, List<LocationDescription>) -> Unit = { _, _, _ -> },
     val onDeleteRoute: (Long) -> Unit = {},
     val onLoadRoute: (Long) -> List<LocationDescription>? = { null },
-    val createAddAndEditRouteStateHolder: (() -> AddAndEditRouteStateHolder)? = null,
+    val createAddAndEditRouteViewModel: (() -> AddAndEditRouteViewModel)? = null,
+    /**
+     * Factories for nav-scoped ViewModels. Used by the iOS-only shared routes
+     * that need a fresh per-navigation-entry instance. Android does not reach
+     * these shared routes (it overrides them in platformNavBuilder), so
+     * factories are typically only set on iOS.
+     */
+    val createMarkersViewModel: (() -> MarkersViewModel)? = null,
+    val createRoutesViewModel: (() -> RoutesViewModel)? = null,
+    val createPlacesNearbyViewModel: (() -> PlacesNearbyViewModel)? = null,
     val onPlacesNearbyClickFolder: (String, String) -> Unit = { _, _ -> },
     val onPlacesNearbyClickBack: () -> Unit = {},
     val onOfflineMapsRefresh: () -> Unit = {},

@@ -1,9 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,23 +21,30 @@ import org.scottishtecharmy.soundscape.resources.error_message_deleting_route
 import org.scottishtecharmy.soundscape.resources.error_message_route_not_found
 import org.scottishtecharmy.soundscape.resources.error_message_saving_route
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyStateHolder
+import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
 import org.scottishtecharmy.soundscape.services.ServiceConnection
 
-class AddAndEditRouteStateHolder(
+open class AddAndEditRouteViewModel(
     private val routeDao: RouteDao,
     private val connection: ServiceConnection,
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddAndEditRouteUiState())
     val uiState: StateFlow<AddAndEditRouteUiState> = _uiState
 
-    val logic = PlacesNearbyStateHolder(connection)
+    val logic = PlacesNearbyViewModel(connection)
     var postInit = false
 
+    override fun onCleared() {
+        super.onCleared()
+        // The embedded PlacesNearbyViewModel owns its own viewModelScope and is
+        // not registered with any ViewModelStore — cancel it manually so its
+        // collectors stop when this holder is cleared.
+        logic.dispose()
+    }
+
     fun loadMarkers() {
-        scope.launch {
+        viewModelScope.launch {
             routeDao.getAllMarkersFlow().collect { markers ->
                 val markerVMs = markers.map {
                     LocationDescription(
@@ -92,11 +97,11 @@ class AddAndEditRouteStateHolder(
     }
 
     fun initializeRouteFromData(routeData: RouteWithMarkers) {
-        scope.launch {
+        viewModelScope.launch {
             try {
                 initializeRoute(routeData)
             } catch (e: Exception) {
-                println("AddAndEditRouteStateHolder: Error loading route: ${e.message}")
+                println("AddAndEditRouteViewModel: Error loading route: ${e.message}")
                 _uiState.value = _uiState.value.copy(
                     errorMessage = runBlocking { getString(Res.string.error_message_route_not_found) },
                 )
@@ -131,12 +136,12 @@ class AddAndEditRouteStateHolder(
     }
 
     fun initializeRouteFromDatabase(routeId: Long) {
-        scope.launch {
+        viewModelScope.launch {
             try {
                 val route = routeDao.getRouteWithMarkers(routeId) ?: throw Exception("Route not found")
                 initializeRoute(route)
             } catch (e: Exception) {
-                println("AddAndEditRouteStateHolder: Error loading route: ${e.message}")
+                println("AddAndEditRouteViewModel: Error loading route: ${e.message}")
                 _uiState.value = _uiState.value.copy(
                     errorMessage = runBlocking { getString(Res.string.error_message_route_not_found) },
                 )
@@ -155,7 +160,7 @@ class AddAndEditRouteStateHolder(
     }
 
     fun deleteRoute(objectId: Long) {
-        scope.launch {
+        viewModelScope.launch {
             try {
                 routeDao.removeRoute(objectId)
                 _uiState.value = _uiState.value.copy(
@@ -163,7 +168,7 @@ class AddAndEditRouteStateHolder(
                     actionType = ActionType.DELETE,
                 )
             } catch (e: Exception) {
-                println("AddAndEditRouteStateHolder: Error deleting route: ${e.message}")
+                println("AddAndEditRouteViewModel: Error deleting route: ${e.message}")
                 _uiState.value = _uiState.value.copy(
                     errorMessage = runBlocking { getString(Res.string.error_message_deleting_route) },
                 )
@@ -181,7 +186,7 @@ class AddAndEditRouteStateHolder(
 
     fun editComplete(members: List<LocationDescription>) {
         _uiState.value = _uiState.value.copy(routeMembers = members, toggledMembers = emptyList())
-        scope.launch {
+        viewModelScope.launch {
             val routeData = RouteEntity(
                 routeId = _uiState.value.routeObjectId ?: 0L,
                 name = _uiState.value.name,
@@ -212,7 +217,7 @@ class AddAndEditRouteStateHolder(
                     actionType = ActionType.UPDATE,
                 )
             } catch (e: Exception) {
-                println("AddAndEditRouteStateHolder: Error saving route: ${e.message}")
+                println("AddAndEditRouteViewModel: Error saving route: ${e.message}")
                 _uiState.value = _uiState.value.copy(
                     errorMessage = runBlocking { getString(Res.string.error_message_saving_route) },
                 )
@@ -227,7 +232,7 @@ class AddAndEditRouteStateHolder(
     }
 
     fun onSelectLocation(locationDescription: LocationDescription) {
-        scope.launch {
+        viewModelScope.launch {
             val existingMarker = routeDao.getMarkerByLocation(
                 locationDescription.location.longitude,
                 locationDescription.location.latitude,
@@ -271,7 +276,7 @@ class AddAndEditRouteStateHolder(
         failureMessage: String,
         duplicateMessage: String,
     ) {
-        scope.launch {
+        viewModelScope.launch {
             val service = connection.service
             val existingMarker = routeDao.getMarkerByLocation(
                 locationDescription.location.longitude,
@@ -311,7 +316,7 @@ class AddAndEditRouteStateHolder(
                 }
             } else {
                 createMarker(
-                    locationDescription, routeDao, scope,
+                    locationDescription, routeDao, viewModelScope,
                     onSuccess = {
                         service?.speakCallout(
                             TrackedCallout(
@@ -342,10 +347,5 @@ class AddAndEditRouteStateHolder(
                 level = 0,
             )
         }
-    }
-
-    fun dispose() {
-        scope.cancel()
-        logic.dispose()
     }
 }

@@ -1,11 +1,9 @@
 package org.scottishtecharmy.soundscape.screens.home
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,17 +17,16 @@ import org.scottishtecharmy.soundscape.services.ServiceConnection
 import org.scottishtecharmy.soundscape.services.mediacontrol.VoiceCommandState
 
 /**
- * Shared state-holder backing the home screen on both Android and iOS.
+ * Shared ViewModel backing the home screen on both Android and iOS.
  *
  * Combines service flows (location, heading, beacon, route, voice command) into
  * a single `HomeState` and offers action methods that delegate to the bound service.
  */
 @OptIn(FlowPreview::class)
-class HomeStateHolder(
+open class HomeViewModel(
     private val connection: ServiceConnection,
     private val audioTour: AudioTour? = null,
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
@@ -38,7 +35,7 @@ class HomeStateHolder(
     private var streetPreviewJob: Job? = null
 
     init {
-        scope.launch {
+        viewModelScope.launch {
             connection.serviceBoundState.collect { bound ->
                 if (bound) {
                     startMonitoringLocation()
@@ -51,17 +48,13 @@ class HomeStateHolder(
         }
     }
 
-    fun dispose() {
-        scope.cancel()
-    }
-
     private fun startMonitoringLocation() {
         val service = connection.service ?: return
         monitoringJob?.cancel()
         val job = Job()
         monitoringJob = job
 
-        scope.launch(job) {
+        viewModelScope.launch(job) {
             service.locationFlow.collectLatest { value ->
                 if (value != null) {
                     _state.update {
@@ -70,24 +63,24 @@ class HomeStateHolder(
                 }
             }
         }
-        scope.launch(job) {
+        viewModelScope.launch(job) {
             service.orientationFlow.collectLatest { value ->
                 if (value != null) {
                     _state.update { it.copy(heading = value.headingDegrees) }
                 }
             }
         }
-        scope.launch(job) {
+        viewModelScope.launch(job) {
             service.beaconFlow.collectLatest { value ->
                 _state.update { it.copy(beaconState = value) }
             }
         }
-        scope.launch(job) {
+        viewModelScope.launch(job) {
             service.currentRouteFlow.collectLatest { value ->
                 _state.update { it.copy(currentRouteData = value) }
             }
         }
-        scope.launch(job) {
+        viewModelScope.launch(job) {
             service.voiceCommandStateFlow.collectLatest { voiceState ->
                 _state.update {
                     it.copy(voiceCommandListening = voiceState is VoiceCommandState.Listening)
@@ -107,7 +100,7 @@ class HomeStateHolder(
         val job = Job()
         streetPreviewJob = job
 
-        scope.launch(job) {
+        viewModelScope.launch(job) {
             service.streetPreviewFlow.collect { value ->
                 val previouslyEnabled = _state.value.streetPreviewState.enabled
                 _state.update { it.copy(streetPreviewState = value) }
@@ -129,43 +122,43 @@ class HomeStateHolder(
     // --- Actions ---
 
     fun myLocation() {
-        scope.launch { connection.service?.myLocation() }
+        viewModelScope.launch { connection.service?.myLocation() }
     }
 
     fun aheadOfMe() {
-        scope.launch { connection.service?.aheadOfMe() }
+        viewModelScope.launch { connection.service?.aheadOfMe() }
     }
 
     fun whatsAroundMe() {
-        scope.launch { connection.service?.whatsAroundMe() }
+        viewModelScope.launch { connection.service?.whatsAroundMe() }
     }
 
     fun nearbyMarkers() {
-        scope.launch { connection.service?.nearbyMarkers() }
+        viewModelScope.launch { connection.service?.nearbyMarkers() }
     }
 
     fun streetPreviewGo() {
-        scope.launch { connection.service?.streetPreviewGo() }
+        viewModelScope.launch { connection.service?.streetPreviewGo() }
     }
 
     fun streetPreviewExit() {
-        scope.launch { connection.service?.setStreetPreviewMode(false, null) }
+        viewModelScope.launch { connection.service?.setStreetPreviewMode(false, null) }
     }
 
     fun routeSkipPrevious() {
-        scope.launch { connection.service?.routeSkipPrevious() }
+        viewModelScope.launch { connection.service?.routeSkipPrevious() }
     }
 
     fun routeSkipNext() {
-        scope.launch { connection.service?.routeSkipNext() }
+        viewModelScope.launch { connection.service?.routeSkipNext() }
     }
 
     fun routeMute() {
-        scope.launch { connection.service?.routeMute() }
+        viewModelScope.launch { connection.service?.routeMute() }
     }
 
     fun routeStop() {
-        scope.launch {
+        viewModelScope.launch {
             connection.service?.routeStop()
             audioTour?.onBeaconStopped()
         }
@@ -176,7 +169,7 @@ class HomeStateHolder(
     }
 
     fun onTriggerSearch(text: String) {
-        scope.launch {
+        viewModelScope.launch {
             _state.update { it.copy(searchInProgress = true) }
             val result = connection.service?.searchResult(text)
             _state.update { it.copy(searchItems = result, searchInProgress = false) }

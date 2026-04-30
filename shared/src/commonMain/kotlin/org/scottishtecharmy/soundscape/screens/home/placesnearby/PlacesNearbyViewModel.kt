@@ -1,10 +1,9 @@
 package org.scottishtecharmy.soundscape.screens.home.placesnearby
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,18 +20,16 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.services.ServiceConnection
 
 /**
- * Shared state-holder backing the PlacesNearby screen on both Android and iOS.
+ * Shared ViewModel backing the PlacesNearby screen on both Android and iOS.
  *
  * Owns nearby-places UI state and folder navigation. Listens for service binding
  * and starts/stops monitoring location + grid flows accordingly.
  */
-class PlacesNearbyStateHolder(
+open class PlacesNearbyViewModel(
     private val connection: ServiceConnection,
     audioTour: AudioTour? = null,
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+) : ViewModel() {
 
-    // Public mutable view used by AddAndEditRouteViewModel until that VM migrates in Phase 3.
     val internalUiState = MutableStateFlow(PlacesNearbyUiState())
     val uiState: StateFlow<PlacesNearbyUiState> = internalUiState
 
@@ -41,7 +38,7 @@ class PlacesNearbyStateHolder(
     init {
         audioTour?.onNavigatedToPlacesNearby()
 
-        scope.launch {
+        viewModelScope.launch {
             connection.serviceBoundState.collect { bound ->
                 if (bound) startMonitoring() else stopMonitoring()
             }
@@ -60,8 +57,13 @@ class PlacesNearbyStateHolder(
         connection.service?.startBeacon(location, name)
     }
 
+    /**
+     * Manually cancel the viewModelScope. Use only when this holder is embedded
+     * inside another ViewModel (e.g. AddAndEditRouteViewModel.logic) and so
+     * the framework would never call onCleared() on it directly.
+     */
     fun dispose() {
-        scope.cancel()
+        viewModelScope.cancel()
     }
 
     private data class LocationAndGridState(val location: LngLatAlt?, val gridState: GridState?)
@@ -72,7 +74,7 @@ class PlacesNearbyStateHolder(
         val job = Job()
         monitorJob = job
         val service = connection.service ?: return
-        scope.launch(job) {
+        viewModelScope.launch(job) {
             combine(service.gridStateFlow, service.locationFlow) { gridState, location ->
                 LocationAndGridState(
                     location = location?.let { LngLatAlt(it.longitude, it.latitude) },

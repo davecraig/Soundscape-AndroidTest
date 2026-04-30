@@ -1,9 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,17 +13,16 @@ import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.error_message_route_not_found
 import org.scottishtecharmy.soundscape.services.ServiceConnection
 
-class RouteDetailsStateHolder(
+open class RouteDetailsViewModel(
     private val routeDao: RouteDao,
     private val connection: ServiceConnection,
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RouteDetailsUiState())
     val uiState: StateFlow<RouteDetailsUiState> = _uiState.asStateFlow()
 
     fun getRouteById(routeId: Long) {
-        scope.launch {
+        viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             try {
                 val route = routeDao.getRouteWithMarkers(routeId)
@@ -53,9 +50,5 @@ class RouteDetailsStateHolder(
 
     fun clearErrorMessage() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
-    }
-
-    fun dispose() {
-        scope.cancel()
     }
 }

@@ -1,9 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,12 +15,11 @@ import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
 import org.scottishtecharmy.soundscape.services.ServiceConnection
 
-class MarkersStateHolder(
+open class MarkersViewModel(
     private val routeDao: RouteDao,
     private val prefs: PreferencesProvider,
     private val connection: ServiceConnection,
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MarkersAndRoutesUiState(markers = true))
     val uiState: StateFlow<MarkersAndRoutesUiState> = _uiState
@@ -39,7 +36,7 @@ class MarkersStateHolder(
             ),
         )
 
-        scope.launch {
+        viewModelScope.launch {
             routeDao.getAllMarkersFlow().collect { markers ->
                 val locations = markers.map {
                     LocationDescription(
@@ -75,10 +72,6 @@ class MarkersStateHolder(
 
     fun startBeacon(location: LngLatAlt, name: String) {
         connection.service?.startBeacon(location, name)
-    }
-
-    fun dispose() {
-        scope.cancel()
     }
 }
 

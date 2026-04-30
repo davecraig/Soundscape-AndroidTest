@@ -57,6 +57,7 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
 import org.scottishtecharmy.soundscape.utils.Analytics
+import org.scottishtecharmy.soundscape.utils.IosNetworkUtils
 import org.scottishtecharmy.soundscape.utils.routeToShareJson
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSHomeDirectory
@@ -83,6 +84,7 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         IosHeadTrackingProvider(directionProvider, locationProvider)
     val audioEngine = IosAudioEngine()
     val preferencesProvider = IosPreferencesProvider()
+    val networkUtils = IosNetworkUtils()
 
     // GeoEngine
     val geoEngine = GeoEngine()
@@ -170,22 +172,13 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         })
     }
 
-    // Shared state-holders — replace the per-VM iOS reimplementations
-    val homeStateHolder by lazy {
-        org.scottishtecharmy.soundscape.screens.home.HomeStateHolder(this, audioTour)
-    }
-    val placesNearbyStateHolder by lazy {
-        org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyStateHolder(this, audioTour)
-    }
-    val markersStateHolder by lazy {
-        org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersStateHolder(
-            routeDao, preferencesProvider, this,
-        )
-    }
-    val routesStateHolder by lazy {
-        org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen.RoutesStateHolder(
-            routeDao, preferencesProvider, this,
-        )
+    // Home state holder is service-scoped because its location/heading flow is
+    // consumed across many shared screens. The per-screen holders (markers,
+    // routes, places-nearby, add/edit-route) are nav-scoped and instantiated by
+    // SharedNavGraph via viewModel { ... } — see MainViewController's create*
+    // factory callbacks.
+    val homeViewModel by lazy {
+        org.scottishtecharmy.soundscape.screens.home.HomeViewModel(this, audioTour)
     }
 
     private val preferencesListener = PreferencesListener { key ->
@@ -274,7 +267,8 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         if (geoEngineStarted) return
 
         val tileClient = createIosVectorTileClient(
-            baseUrl = TILE_PROVIDER_URL
+            baseUrl = TILE_PROVIDER_URL,
+            hasNetwork = { networkUtils.hasNetwork() },
         )
 
         val photonClient = createIosPhotonSearchClient(
@@ -296,7 +290,7 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
             tileClient = tileClient,
             routeDao = routeDao,
             offlineExtractPath = documentsPath,
-            hasNetwork = { true }, // TODO: check reachability
+            hasNetwork = { networkUtils.hasNetwork() },
             photonSearch = photonSearch,
             platformGeocoder = IosGeocoder(),
             streetPreviewEnabled = false,

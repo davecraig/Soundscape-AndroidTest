@@ -11,6 +11,7 @@ import org.scottishtecharmy.soundscape.preferences.AndroidPreferencesProvider
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.SoundscapeIntents
 import org.scottishtecharmy.soundscape.intents.IntentEventBus
+import org.scottishtecharmy.soundscape.services.ServiceConnection
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.audio.AudioTourHost
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
@@ -26,10 +27,10 @@ import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.Accessib
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.OffscreenStorageOnboardingViewModel
 import org.scottishtecharmy.soundscape.viewmodels.AdvancedMarkersAndRoutesSettingsViewModel
-import org.scottishtecharmy.soundscape.viewmodels.LocationDetailsViewModel
+import org.scottishtecharmy.soundscape.screens.home.locationDetails.LocationDetailsViewModel
 import org.scottishtecharmy.soundscape.viewmodels.OfflineMapsViewModel
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
-import org.scottishtecharmy.soundscape.viewmodels.home.HomeViewModel
+import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 
 val appModule = module {
@@ -51,6 +52,10 @@ val appModule = module {
     }
 
     single { SoundscapeServiceConnection() }
+    // Expose the multiplatform ServiceConnection interface so commonMain
+    // ViewModels can be constructed by Koin without going via the
+    // platform-specific SoundscapeServiceConnection type.
+    single<ServiceConnection> { get<SoundscapeServiceConnection>() }
 
     single {
         val connection = get<SoundscapeServiceConnection>()

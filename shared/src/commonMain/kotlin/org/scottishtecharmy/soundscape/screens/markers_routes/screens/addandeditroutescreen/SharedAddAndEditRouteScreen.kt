@@ -69,7 +69,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Composable
 fun SharedAddAndEditRouteScreen(
-    holder: AddAndEditRouteStateHolder,
+    holder: AddAndEditRouteViewModel,
     isEditing: Boolean,
     userLocation: LngLatAlt?,
     heading: Float,

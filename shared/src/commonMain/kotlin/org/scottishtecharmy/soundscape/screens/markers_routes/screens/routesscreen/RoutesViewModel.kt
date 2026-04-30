@@ -1,9 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,12 +17,11 @@ import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscr
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.sortMarkers
 import org.scottishtecharmy.soundscape.services.ServiceConnection
 
-class RoutesStateHolder(
+open class RoutesViewModel(
     private val routeDao: RouteDao,
     private val prefs: PreferencesProvider,
     private val connection: ServiceConnection,
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MarkersAndRoutesUiState(markers = false))
     val uiState: StateFlow<MarkersAndRoutesUiState> = _uiState
@@ -41,7 +38,7 @@ class RoutesStateHolder(
             ),
         )
 
-        scope.launch {
+        viewModelScope.launch {
             routeDao.getAllRoutesWithMarkersFlow().collect { routes ->
                 _uiState.value = _uiState.value.copy(
                     entries = sortMarkers(
@@ -80,9 +77,5 @@ class RoutesStateHolder(
 
     fun startRoute(routeId: Long) {
         connection.service?.routeStartById(routeId)
-    }
-
-    fun dispose() {
-        scope.cancel()
     }
 }

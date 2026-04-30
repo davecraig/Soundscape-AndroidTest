@@ -81,7 +81,7 @@ fun AddAndEditRouteScreenVM(
 ) {
     val context = LocalContext.current
     SharedAddAndEditRouteScreen(
-        holder = viewModel.holder,
+        holder = viewModel,
         isEditing = editRoute,
         userLocation = userLocation,
         heading = heading,

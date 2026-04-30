@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.map
 import org.scottishtecharmy.soundscape.screens.markers_routes.navigation.ScreensForMarkersAndRoutes
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.viewmodels.home.HomeViewModel
+import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
 
 val items = listOf(
     ScreensForMarkersAndRoutes.Markers,
