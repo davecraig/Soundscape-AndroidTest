@@ -17,16 +17,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.scottishtecharmy.soundscape.AppCallbacks
@@ -43,24 +41,14 @@ import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.screens.home.home.OfflineMapsScreenVM
 import org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsScreenVM
-import org.scottishtecharmy.soundscape.screens.home.locationDetails.LocationDetailsScreen
-import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyScreenVM
 import org.scottishtecharmy.soundscape.screens.home.settings.Settings
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesScreen
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteScreenVM
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.parseSimpleRouteData
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.RouteDetailsScreenVM
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
 import org.scottishtecharmy.soundscape.utils.getLanguageMismatch
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
-import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
+import androidx.core.content.edit
 
 class Navigator {
     var destination = MutableStateFlow(SharedRoutes.HOME)
@@ -82,11 +70,13 @@ fun HomeScreen(
     contactSupport: () -> Unit,
     permissionsRequired: Boolean,
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val activity = LocalActivity.current as MainActivity
     val serviceConnection: SoundscapeServiceConnection = koinInject()
     val intentBus: IntentEventBus = koinInject()
+    val routeDao: org.scottishtecharmy.soundscape.database.local.dao.RouteDao = koinInject()
+    val prefsProvider: PreferencesProvider = koinInject()
+    val offlineMaps: org.scottishtecharmy.soundscape.utils.AndroidOfflineMapsManager = koinInject()
 
     val audioTourRunningFlow = remember(audioTour) { MutableStateFlow(audioTour.isRunning()) }
     LaunchedEffect(audioTour) {
@@ -115,21 +105,39 @@ fun HomeScreen(
                 initialValue = false,
             )
     }
+    val locationFlow: StateFlow<org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation?> =
+        remember(viewModel) {
+            viewModel.state
+                .map { state ->
+                    state.location?.let {
+                        org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation(
+                            latitude = it.latitude,
+                            longitude = it.longitude,
+                        )
+                    }
+                }
+                .stateIn(
+                    scope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main.immediate),
+                    started = SharingStarted.Eagerly,
+                    initialValue = null,
+                )
+        }
 
     val navStateHolder = remember { NavigationStateHolder() }
+    val callbackScope = androidx.compose.runtime.rememberCoroutineScope()
 
     val onMapLongClickListener: (LngLatAlt) -> Boolean = remember(viewModel, navStateHolder) {
         { lngLatAlt: LngLatAlt ->
             val ld = viewModel.getLocationDescription(lngLatAlt) ?: LocationDescription("", lngLatAlt)
-            navStateHolder.setSelectedLocation(ld)
-            navController.navigate(SharedRoutes.LOCATION_DETAILS)
+            navStateHolder.navigateWithLocation(navController, SharedRoutes.LOCATION_DETAILS, ld)
             AnalyticsProvider.getInstance().logEvent("longPressOnMap", null)
             true
         }
     }
 
-    val flows = remember(audioTour, audioTourRunningFlow, recordingEnabledFlow, permissionsRequiredFlow, voiceCommandListeningFlow, intentBus) {
+    val flows = remember(audioTour, audioTourRunningFlow, recordingEnabledFlow, permissionsRequiredFlow, voiceCommandListeningFlow, intentBus, offlineMaps, locationFlow) {
         AppFlows(
+            locationFlow = locationFlow,
             homeState = viewModel.state,
             audioTourRunning = audioTourRunningFlow.asStateFlow(),
             audioTourInstruction = audioTour.currentInstruction,
@@ -138,16 +146,25 @@ fun HomeScreen(
             voiceCommandListening = voiceCommandListeningFlow,
             pendingIntent = intentBus.pendingIntent,
             onPendingIntentHandled = { intentBus.handled() },
+            offlineMapsNearbyExtracts = offlineMaps.availableExtracts,
+            offlineMapsDownloadedFc = offlineMaps.downloadedExtractsFc,
+            offlineMapsDownloadState = offlineMaps.downloadState,
         )
     }
 
-    val callbacks = remember(viewModel, audioTour, activity, rateSoundscape, contactSupport, serviceConnection) {
+    val callbacks = remember(
+        viewModel, audioTour, activity, rateSoundscape, contactSupport,
+        serviceConnection, routeDao, prefsProvider, callbackScope, offlineMaps,
+    ) {
         AppCallbacks(
             onStartBeacon = { lat, lng, _ ->
                 serviceConnection.soundscapeService?.createBeacon(LngLatAlt(lng, lat), headingOnly = false)
             },
             onStopBeacon = { serviceConnection.soundscapeService?.destroyBeacon() },
             onStartRoute = { routeId -> serviceConnection.routeStart(routeId) },
+            onStartRouteInReverse = { routeId ->
+                serviceConnection.soundscapeService?.routeStartReverse(routeId)
+            },
             onStartRouteByName = { name -> activity.startRouteByName(name) },
             onMyLocation = { viewModel.myLocation(); audioTour.onButtonPressed(TourButton.MY_LOCATION) },
             onWhatsAroundMe = { viewModel.whatsAroundMe(); audioTour.onButtonPressed(TourButton.AROUND_ME) },
@@ -166,6 +183,7 @@ fun HomeScreen(
             onRateApp = rateSoundscape,
             onContactSupport = contactSupport,
             onToggleAudioTour = { audioTour.toggleState() },
+            onAudioTourInstructionAcknowledged = { audioTour.onInstructionAcknowledged() },
             onMapLongClick = onMapLongClickListener,
             onGoToAppSettings = { org.scottishtecharmy.soundscape.utils.goToAppSettings(context) },
             onGetCurrentLocationDescription = {
@@ -189,6 +207,80 @@ fun HomeScreen(
                     .bufferedReader()
                     .use { it.readText() }
             },
+            // Markers / Routes / Places-nearby / AddRoute factories: the shared
+            // NavGraph instantiates these via `viewModel { factory() }` so they
+            // are scoped to the destination's NavBackStackEntry. Captured deps
+            // come from Koin in the enclosing composable.
+            createPlacesNearbyViewModel = {
+                org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel(
+                    serviceConnection, audioTour,
+                )
+            },
+            createMarkersViewModel = {
+                org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersViewModel(
+                    routeDao, prefsProvider, serviceConnection,
+                )
+            },
+            createRoutesViewModel = {
+                org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen.RoutesViewModel(
+                    routeDao, prefsProvider, serviceConnection,
+                )
+            },
+            createAddAndEditRouteViewModel = {
+                org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel(
+                    routeDao, serviceConnection,
+                )
+            },
+            // Marker / route persistence callbacks used by EDIT_MARKER and
+            // ROUTE_DETAILS in the shared graph.
+            onSaveMarker = { desc ->
+                callbackScope.launch {
+                    val name = desc.name.ifEmpty { desc.description ?: "Unknown" }
+                    val marker = org.scottishtecharmy.soundscape.database.local.model.MarkerEntity(
+                        markerId = desc.databaseId,
+                        name = name,
+                        fullAddress = desc.description ?: "",
+                        longitude = desc.location.longitude,
+                        latitude = desc.location.latitude,
+                    )
+                    if (desc.databaseId != 0L) routeDao.updateMarker(marker)
+                    else routeDao.insertMarker(marker)
+                    audioTour.onMarkerCreateDone()
+                }
+            },
+            onDeleteMarker = { markerId ->
+                callbackScope.launch { runCatching { routeDao.removeMarker(markerId) } }
+            },
+            onLoadRoute = { routeId ->
+                kotlinx.coroutines.runBlocking {
+                    val routeWithMarkers = runCatching { routeDao.getRouteWithMarkers(routeId) }.getOrNull()
+                    routeWithMarkers?.markers?.map { marker ->
+                        LocationDescription(
+                            name = marker.name,
+                            description = marker.fullAddress,
+                            location = LngLatAlt(marker.longitude, marker.latitude),
+                            databaseId = marker.markerId,
+                        )
+                    } ?: emptyList()
+                }
+            },
+            onShareLocation = { desc, shareMessage ->
+                org.scottishtecharmy.soundscape.utils.shareLocation(context, shareMessage, desc)
+            },
+            onShareRoute = { routeId ->
+                callbackScope.launch {
+                    val route = runCatching { routeDao.getRouteWithMarkers(routeId) }.getOrNull()
+                        ?: return@launch
+                    org.scottishtecharmy.soundscape.utils.shareRoute(context, route)
+                }
+            },
+            // Offline-maps surface: routes through AndroidOfflineMapsManager so the
+            // shared OFFLINE_MAPS composable behaves identically to iOS.
+            onOfflineMapsRefresh = { offlineMaps.refresh() },
+            onOfflineMapsGetExtracts = { location -> offlineMaps.getExtractsContaining(location) },
+            onOfflineMapsDownload = { name, feature -> offlineMaps.startDownload(name, feature) },
+            onOfflineMapsDelete = { feature -> offlineMaps.deleteExtractByFeature(feature) },
+            onOfflineMapsCancelDownload = { offlineMaps.cancelDownload() },
         )
     }
 
@@ -229,7 +321,9 @@ fun HomeScreen(
                 )
             },
             platformNavBuilder = {
-                composable(HomeRoutes.Language.route) {
+                // Android-only destinations that have no shared equivalent — both
+                // are app-settings UIs that don't make sense on iOS today.
+                composable(SharedRoutes.LANGUAGE) {
                     LanguageScreen(
                         onNavigate = { navController.navigateUp() },
                         modifier = Modifier
@@ -237,146 +331,9 @@ fun HomeScreen(
                             .semantics { testTagsAsResourceId = true },
                     )
                 }
-
-                composable(HomeRoutes.LocationDetails.route + "/{json}") { navBackStackEntry ->
-                    val urlEncodedJson = navBackStackEntry.arguments?.getString("json")
-                    val locationDescription = remember(urlEncodedJson) {
-                        val gson = GsonBuilder().create()
-                        val json = URLDecoder.decode(urlEncodedJson, StandardCharsets.UTF_8.toString())
-                        gson.fromJson(json, LocationDescription::class.java)
-                    }
-                    LocationDetailsScreen(
-                        locationDescription = locationDescription,
-                        location = state.location,
-                        navController = navController,
-                        heading = state.heading,
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                    )
-                }
-
-                composable(
-                    HomeRoutes.MarkersAndRoutes.route + "?tab={tab}",
-                    arguments = listOf(navArgument("tab") {
-                        type = NavType.StringType
-                        defaultValue = ""
-                    }),
-                ) { backStackEntry ->
-                    val tab = backStackEntry.arguments?.getString("tab") ?: ""
-                    LaunchedEffect(tab) {
-                        if (tab == "markers") {
-                            viewModel.setRoutesAndMarkersTab(false)
-                        } else if (tab == "routes") {
-                            viewModel.setRoutesAndMarkersTab(true)
-                        }
-                    }
-                    MarkersAndRoutesScreen(
-                        navController = navController,
-                        viewModel = viewModel,
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                    )
-                }
-
-                composable(HomeRoutes.RouteDetails.route + "/{routeId}") { backStackEntry ->
-                    val routeId = backStackEntry.arguments?.getString("routeId") ?: ""
-                    RouteDetailsScreenVM(
-                        routeId = routeId.toLong(),
-                        navController = navController,
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                        userLocation = state.location,
-                        heading = state.heading,
-                        routePlayerState = state.currentRouteData,
-                    )
-                }
-
-                composable(HomeRoutes.AddAndEditRoute.route + "?command={command}&data={data}",
-                    arguments = listOf(
-                        navArgument("command") {
-                            type = NavType.StringType
-                            defaultValue = ""
-                        },
-                        navArgument("data") {
-                            type = NavType.StringType
-                            defaultValue = ""
-                        },
-                    ),
-                ) { backStackEntry ->
-                    val command = backStackEntry.arguments?.getString("command") ?: ""
-                    val data = backStackEntry.arguments?.getString("data") ?: ""
-                    val routeData = remember(command, data) {
-                        when (command) {
-                            "import" -> {
-                                try {
-                                    val json = URLDecoder.decode(data, StandardCharsets.UTF_8.toString())
-                                    parseSimpleRouteData(json)
-                                } catch (e: Exception) {
-                                    Log.e("RouteDetailsScreen", "Error parsing route data: $e")
-                                    null
-                                }
-                            }
-                            else -> null
-                        }
-                    }
-                    val addAndEditRouteViewModel: AddAndEditRouteViewModel = koinViewModel()
-                    LaunchedEffect(data) {
-                        addAndEditRouteViewModel.loadMarkers()
-                        if (routeData != null) {
-                            addAndEditRouteViewModel.initializeRouteFromData(routeData)
-                        } else if (command == "edit") {
-                            addAndEditRouteViewModel.initializeRouteFromDatabase(data.toLong())
-                        }
-                    }
-                    AddAndEditRouteScreenVM(
-                        navController = navController,
-                        viewModel = addAndEditRouteViewModel,
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                        userLocation = state.location,
-                        heading = state.heading,
-                        editRoute = (command == "edit"),
-                        getCurrentLocationDescription = {
-                            val location = state.location
-                            if (location != null) {
-                                viewModel.getLocationDescription(location) ?: LocationDescription("", location)
-                            } else {
-                                LocationDescription("", LngLatAlt())
-                            }
-                        },
-                    )
-                }
-
-                composable(HomeRoutes.PlacesNearby.route) {
-                    PlacesNearbyScreenVM(
-                        homeNavController = navController,
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                    )
-                }
-                composable(HomeRoutes.AdvancedMarkersAndRoutesSettings.route) {
+                composable(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS) {
                     AdvancedMarkersAndRoutesSettingsScreenVM(
                         navController = navController,
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                    )
-                }
-                composable(HomeRoutes.OfflineMaps.route + "/{json}") { navBackStackEntry ->
-                    val urlEncodedJson = navBackStackEntry.arguments?.getString("json")
-                    val locationDescription = remember(urlEncodedJson) {
-                        val gson = GsonBuilder().create()
-                        val json = URLDecoder.decode(urlEncodedJson, StandardCharsets.UTF_8.toString())
-                        gson.fromJson(json, LocationDescription::class.java)
-                    }
-                    OfflineMapsScreenVM(
-                        navController = navController,
-                        locationDescription = locationDescription,
                         modifier = Modifier
                             .windowInsetsPadding(WindowInsets.safeDrawing)
                             .semantics { testTagsAsResourceId = true },
@@ -393,10 +350,10 @@ private class AndroidSharedPreferencesAdapter(
     override fun getString(key: String, default: String): String = prefs.getString(key, default) ?: default
     override fun getFloat(key: String, default: Float): Float = prefs.getFloat(key, default)
     override fun putBoolean(key: String, value: Boolean) {
-        prefs.edit().putBoolean(key, value).apply()
+        prefs.edit { putBoolean(key, value) }
     }
     override fun putString(key: String, value: String) {
-        prefs.edit().putString(key, value).apply()
+        prefs.edit { putString(key, value) }
     }
     override fun addListener(listener: PreferencesListener) {}
     override fun removeListener(listener: PreferencesListener) {}

@@ -26,12 +26,11 @@ import org.scottishtecharmy.soundscape.screens.onboarding.AudioOnboardingViewMod
 import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.AccessibilityOnboardingViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.OffscreenStorageOnboardingViewModel
+import org.scottishtecharmy.soundscape.utils.AndroidOfflineMapsManager
 import org.scottishtecharmy.soundscape.viewmodels.AdvancedMarkersAndRoutesSettingsViewModel
 import org.scottishtecharmy.soundscape.screens.home.locationDetails.LocationDetailsViewModel
-import org.scottishtecharmy.soundscape.viewmodels.OfflineMapsViewModel
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
 import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
-import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 
 val appModule = module {
 
@@ -87,7 +86,5 @@ val appModule = module {
     viewModelOf(::AddAndEditRouteViewModel)
     viewModelOf(::OffscreenStorageOnboardingViewModel)
 
-    viewModel { (locationDescription: LocationDescription) ->
-        OfflineMapsViewModel(androidContext(), locationDescription)
-    }
+    single { AndroidOfflineMapsManager(androidContext()) }
 }

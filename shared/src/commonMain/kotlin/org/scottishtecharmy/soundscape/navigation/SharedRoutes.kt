@@ -1,8 +1,9 @@
 package org.scottishtecharmy.soundscape.navigation
 
 /**
- * Shared route definitions used by both Android and iOS navigation.
- * Route strings match the existing Android HomeRoutes patterns for backward compatibility.
+ * Route definitions for the shared navigation graph used by both Android and iOS.
+ * Per-entry data (e.g. selected location, offline-maps target) travels through
+ * NavigationStateHolder keyed by NavBackStackEntry.id rather than via path args.
  */
 object SharedRoutes {
     const val WELCOME = "welcome"
@@ -21,4 +22,5 @@ object SharedRoutes {
     const val HELP = "help_screen"
     const val LANGUAGE = "language_screen"
     const val OPEN_SOURCE_LICENSES = "open_source_licenses"
+    const val ADVANCED_MARKERS_AND_ROUTES_SETTINGS = "advanced_markers_and_routes_settings"
 }

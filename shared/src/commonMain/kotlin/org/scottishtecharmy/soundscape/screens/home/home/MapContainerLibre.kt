@@ -37,6 +37,7 @@ import org.maplibre.compose.map.GestureOptions
 import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.OrnamentOptions
+import org.scottishtecharmy.soundscape.platform.nativeMapRenderOptions
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.compose.style.BaseStyle
@@ -155,7 +156,12 @@ fun MapContainerLibre(
                     compassAlignment = Alignment.TopEnd,
                     isScaleBarEnabled = true,
                     scaleBarAlignment = Alignment.BottomEnd
-                )
+                ),
+                // Platform-specific render options: Android uses TextureView so
+                // the map participates in Compose's fade/slide nav transitions
+                // (the default SurfaceView is a hardware overlay that doesn't
+                // animate). iOS keeps Standard.
+                renderOptions = nativeMapRenderOptions(),
             )
         ) {
             if (extractGeometry != null) {

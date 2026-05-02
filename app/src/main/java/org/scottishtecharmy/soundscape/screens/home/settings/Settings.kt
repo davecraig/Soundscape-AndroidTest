@@ -23,7 +23,7 @@ import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
-import org.scottishtecharmy.soundscape.screens.home.HomeRoutes
+import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
 import org.scottishtecharmy.soundscape.screens.onboarding.language.Language
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageDropDownMenu
@@ -237,7 +237,7 @@ fun Settings(
             item {
                 Column(modifier = expandedSectionModifier.fillMaxWidth()) {
                     CustomButton(
-                        onClick = { navController.navigate(HomeRoutes.AdvancedMarkersAndRoutesSettings.route) },
+                        onClick = { navController.navigate(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.surface)

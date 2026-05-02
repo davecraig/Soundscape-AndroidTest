@@ -77,18 +77,20 @@ fun SharedNavHost(
         val intent = pendingIntent ?: return@LaunchedEffect
         when (intent) {
             is IncomingIntent.OpenLocation -> {
-                navStateHolder.setSelectedLocation(intent.locationDescription)
-                navController.navigate(SharedRoutes.LOCATION_DETAILS)
+                navStateHolder.navigateWithLocation(
+                    navController, SharedRoutes.LOCATION_DETAILS, intent.locationDescription,
+                )
             }
             is IncomingIntent.OpenLatLon -> {
                 val displayName = intent.displayName ?: "${intent.latitude},${intent.longitude}"
-                navStateHolder.setSelectedLocation(
+                navStateHolder.navigateWithLocation(
+                    navController,
+                    SharedRoutes.LOCATION_DETAILS,
                     org.scottishtecharmy.soundscape.screens.home.data.LocationDescription(
                         name = displayName,
                         location = LngLatAlt(intent.longitude, intent.latitude),
-                    )
+                    ),
                 )
-                navController.navigate(SharedRoutes.LOCATION_DETAILS)
             }
             is IncomingIntent.StartRoute -> callbacks.onStartRoute(intent.routeId)
             IncomingIntent.StopRoute -> callbacks.onRouteStop()
@@ -103,6 +105,14 @@ fun SharedNavHost(
             is IncomingIntent.StartRouteByName -> callbacks.onStartRouteByName(intent.name)
         }
         flows.onPendingIntentHandled?.invoke()
+    }
+
+    // Prune navStateHolder's per-entry maps as entries leave the back stack so
+    // it doesn't grow unbounded as the user navigates around the app.
+    LaunchedEffect(navController) {
+        navController.currentBackStack.collect { entries ->
+            navStateHolder.prune(entries.map { it.id }.toSet())
+        }
     }
 
     Box(modifier = Modifier) {
@@ -149,8 +159,9 @@ fun SharedNavHost(
                     state = homeState,
                     onNavigate = { dest -> navController.navigate(dest) },
                     onSelectLocation = { desc ->
-                        navStateHolder.setSelectedLocation(desc)
-                        navController.navigate(SharedRoutes.LOCATION_DETAILS)
+                        navStateHolder.navigateWithLocation(
+                            navController, SharedRoutes.LOCATION_DETAILS, desc,
+                        )
                     },
                     preferencesProvider = preferencesProvider,
                     onMapLongClick = callbacks.onMapLongClick,
@@ -201,8 +212,9 @@ fun SharedNavHost(
                 PlacesNearbyScreen(
                     uiState = uiState,
                     onSelectItem = { desc ->
-                        navStateHolder.setSelectedLocation(desc)
-                        navController.navigate(SharedRoutes.LOCATION_DETAILS)
+                        navStateHolder.navigateWithLocation(
+                            navController, SharedRoutes.LOCATION_DETAILS, desc,
+                        )
                     },
                     onClickFolder = { filter, title -> holder.onClickFolder(filter, title) },
                     onClickBack = {
@@ -221,8 +233,9 @@ fun SharedNavHost(
                 PlacesNearbyScreen(
                     uiState = uiState,
                     onSelectItem = { desc ->
-                        navStateHolder.setSelectedLocation(desc)
-                        navController.navigate(SharedRoutes.LOCATION_DETAILS)
+                        navStateHolder.navigateWithLocation(
+                            navController, SharedRoutes.LOCATION_DETAILS, desc,
+                        )
                     },
                     onClickFolder = { filter, title ->
                         callbacks.onPlacesNearbyClickFolder(filter, title)
@@ -246,21 +259,25 @@ fun SharedNavHost(
                 onBack = { navController.popBackStack() },
                 onAddRoute = { navController.navigate(SharedRoutes.ADD_ROUTE) },
                 onSelectMarker = { desc ->
-                    navStateHolder.setSelectedLocation(desc)
-                    navController.navigate(SharedRoutes.LOCATION_DETAILS)
+                    navStateHolder.navigateWithLocation(
+                        navController, SharedRoutes.LOCATION_DETAILS, desc,
+                    )
                 },
                 onSelectRoute = { desc ->
-                    navStateHolder.setSelectedLocation(desc)
-                    navController.navigate(SharedRoutes.ROUTE_DETAILS)
+                    navStateHolder.navigateWithLocation(
+                        navController, SharedRoutes.ROUTE_DETAILS, desc,
+                    )
                 },
             )
         }
 
-        composable(SharedRoutes.LOCATION_DETAILS) {
+        composable(SharedRoutes.LOCATION_DETAILS) { entry ->
             LaunchedEffect(Unit) { audioTour?.onPlaceSelected() }
             val homeState by flows.homeState?.collectAsState()
                 ?: remember { mutableStateOf(HomeState()) }
-            val desc = navStateHolder.selectedLocation.collectAsState().value
+            // Capture the seed once for this back-stack entry so the screen
+            // keeps rendering during the pop animation even after pruning.
+            val desc = remember(entry.id) { navStateHolder.selectedLocationFor(entry.id) }
             val shareMessage = stringResource(Res.string.universal_links_marker_share_message)
             if (desc != null) {
                 SharedLocationDetailsScreen(
@@ -275,13 +292,15 @@ fun SharedNavHost(
                     },
                     onSaveMarker = { updatedDesc ->
                         audioTour?.onMarkerCreateStarted()
-                        navStateHolder.setSelectedLocation(updatedDesc)
-                        navController.navigate(SharedRoutes.EDIT_MARKER)
+                        navStateHolder.navigateWithLocation(
+                            navController, SharedRoutes.EDIT_MARKER, updatedDesc,
+                        )
                     },
                     onEditMarker = { updatedDesc ->
                         audioTour?.onMarkerCreateStarted()
-                        navStateHolder.setSelectedLocation(updatedDesc)
-                        navController.navigate(SharedRoutes.EDIT_MARKER)
+                        navStateHolder.navigateWithLocation(
+                            navController, SharedRoutes.EDIT_MARKER, updatedDesc,
+                        )
                     },
                     onEnableStreetPreview = { loc ->
                         // TODO: wire street preview
@@ -290,17 +309,20 @@ fun SharedNavHost(
                         callbacks.onShareLocation(sharedDesc, shareMessage)
                     },
                     onOfflineMaps = { locationDesc ->
-                        navStateHolder.setOfflineMapsTargetLocation(locationDesc.location)
-                        navController.navigate(SharedRoutes.OFFLINE_MAPS)
+                        navStateHolder.navigateWithOfflineMapsTarget(
+                            navController, SharedRoutes.OFFLINE_MAPS, locationDesc.location,
+                        )
                     },
                 )
             }
         }
 
-        composable(SharedRoutes.OFFLINE_MAPS) {
+        composable(SharedRoutes.OFFLINE_MAPS) { entry ->
             val location by flows.locationFlow?.collectAsState()
                 ?: remember { mutableStateOf(null) }
-            val targetLocation by navStateHolder.offlineMapsTargetLocation.collectAsState()
+            val targetLocation = remember(entry.id) {
+                navStateHolder.offlineMapsTargetFor(entry.id)
+            }
             val allExtracts by flows.offlineMapsNearbyExtracts?.collectAsState()
                 ?: remember { mutableStateOf(emptyList()) }
             val downloadedFc by flows.offlineMapsDownloadedFc?.collectAsState()
@@ -326,10 +348,6 @@ fun SharedNavHost(
                 org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection().apply {
                     list.forEach { addFeature(it) }
                 }
-            }
-
-            DisposableEffect(Unit) {
-                onDispose { navStateHolder.setOfflineMapsTargetLocation(null) }
             }
 
             val uiState = OfflineMapsUiState(
@@ -380,9 +398,9 @@ fun SharedNavHost(
             }
         }
 
-        composable(SharedRoutes.EDIT_ROUTE) {
+        composable(SharedRoutes.EDIT_ROUTE) { entry ->
             val factory = callbacks.createAddAndEditRouteViewModel
-            val routeDesc = navStateHolder.selectedLocation.collectAsState().value
+            val routeDesc = remember(entry.id) { navStateHolder.selectedLocationFor(entry.id) }
             if (factory != null && routeDesc != null) {
                 val homeState by flows.homeState?.collectAsState()
                     ?: remember { mutableStateOf(HomeState()) }
@@ -408,10 +426,10 @@ fun SharedNavHost(
             }
         }
 
-        composable(SharedRoutes.ROUTE_DETAILS) {
+        composable(SharedRoutes.ROUTE_DETAILS) { entry ->
             val homeState by flows.homeState?.collectAsState()
                 ?: remember { mutableStateOf(HomeState()) }
-            val routeDesc = navStateHolder.selectedLocation.collectAsState().value
+            val routeDesc = remember(entry.id) { navStateHolder.selectedLocationFor(entry.id) }
             if (routeDesc != null) {
                 val routeWaypoints = remember(routeDesc.databaseId) {
                     callbacks.onLoadRoute(routeDesc.databaseId) ?: emptyList()
@@ -436,7 +454,9 @@ fun SharedNavHost(
                     },
                     onStopRoute = { callbacks.onRouteStop() },
                     onEditRoute = {
-                        navController.navigate(SharedRoutes.EDIT_ROUTE)
+                        navStateHolder.navigateWithLocation(
+                            navController, SharedRoutes.EDIT_ROUTE, routeDesc,
+                        )
                     },
                     onShareRoute = {
                         callbacks.onShareRoute(routeDesc.databaseId)
@@ -445,10 +465,10 @@ fun SharedNavHost(
             }
         }
 
-        composable(SharedRoutes.EDIT_MARKER) {
+        composable(SharedRoutes.EDIT_MARKER) { entry ->
             val homeState by flows.homeState?.collectAsState()
                 ?: remember { mutableStateOf(HomeState()) }
-            val desc = navStateHolder.selectedLocation.collectAsState().value
+            val desc = remember(entry.id) { navStateHolder.selectedLocationFor(entry.id) }
             if (desc != null) {
                 SharedSaveAndEditMarkerScreen(
                     locationDescription = desc,

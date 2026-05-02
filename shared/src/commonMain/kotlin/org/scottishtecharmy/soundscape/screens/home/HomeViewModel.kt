@@ -2,14 +2,19 @@ package org.scottishtecharmy.soundscape.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
@@ -31,8 +36,12 @@ open class HomeViewModel(
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
-    private var monitoringJob: Job? = null
-    private var streetPreviewJob: Job? = null
+    // Child scopes parented to viewModelScope: cancelling them stops just the
+    // grouped collectors; viewModel onCleared() also cancels them transitively
+    // because their root Job is a child of viewModelScope's Job. SupervisorJob
+    // means a failure in one collector doesn't cancel the others in the group.
+    private var monitoringScope: CoroutineScope? = null
+    private var streetPreviewScope: CoroutineScope? = null
 
     init {
         viewModelScope.launch {
@@ -48,13 +57,15 @@ open class HomeViewModel(
         }
     }
 
+    private fun childScope(): CoroutineScope =
+        CoroutineScope(viewModelScope.coroutineContext + SupervisorJob(viewModelScope.coroutineContext[Job]))
+
     private fun startMonitoringLocation() {
         val service = connection.service ?: return
-        monitoringJob?.cancel()
-        val job = Job()
-        monitoringJob = job
+        stopMonitoringLocation()
+        val scope = childScope().also { monitoringScope = it }
 
-        viewModelScope.launch(job) {
+        scope.launch {
             service.locationFlow.collectLatest { value ->
                 if (value != null) {
                     _state.update {
@@ -63,24 +74,24 @@ open class HomeViewModel(
                 }
             }
         }
-        viewModelScope.launch(job) {
+        scope.launch {
             service.orientationFlow.collectLatest { value ->
                 if (value != null) {
                     _state.update { it.copy(heading = value.headingDegrees) }
                 }
             }
         }
-        viewModelScope.launch(job) {
+        scope.launch {
             service.beaconFlow.collectLatest { value ->
                 _state.update { it.copy(beaconState = value) }
             }
         }
-        viewModelScope.launch(job) {
+        scope.launch {
             service.currentRouteFlow.collectLatest { value ->
                 _state.update { it.copy(currentRouteData = value) }
             }
         }
-        viewModelScope.launch(job) {
+        scope.launch {
             service.voiceCommandStateFlow.collectLatest { voiceState ->
                 _state.update {
                     it.copy(voiceCommandListening = voiceState is VoiceCommandState.Listening)
@@ -90,17 +101,16 @@ open class HomeViewModel(
     }
 
     private fun stopMonitoringLocation() {
-        monitoringJob?.cancel()
-        monitoringJob = null
+        monitoringScope?.cancel()
+        monitoringScope = null
     }
 
     private fun startMonitoringStreetPreview() {
         val service = connection.service ?: return
-        streetPreviewJob?.cancel()
-        val job = Job()
-        streetPreviewJob = job
+        stopMonitoringStreetPreview()
+        val scope = childScope().also { streetPreviewScope = it }
 
-        viewModelScope.launch(job) {
+        scope.launch {
             service.streetPreviewFlow.collect { value ->
                 val previouslyEnabled = _state.value.streetPreviewState.enabled
                 _state.update { it.copy(streetPreviewState = value) }
@@ -115,50 +125,57 @@ open class HomeViewModel(
     }
 
     private fun stopMonitoringStreetPreview() {
-        streetPreviewJob?.cancel()
-        streetPreviewJob = null
+        streetPreviewScope?.cancel()
+        streetPreviewScope = null
     }
 
     // --- Actions ---
+    //
+    // viewModelScope defaults to Dispatchers.Main.immediate. The service action
+    // methods (myLocation/aheadOfMe/whatsAroundMe/nearbyMarkers/search/etc.)
+    // are synchronous and may walk the GeoEngine, so we launch them on
+    // Dispatchers.Default to keep the UI thread responsive.
 
     fun myLocation() {
-        viewModelScope.launch { connection.service?.myLocation() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.myLocation() }
     }
 
     fun aheadOfMe() {
-        viewModelScope.launch { connection.service?.aheadOfMe() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.aheadOfMe() }
     }
 
     fun whatsAroundMe() {
-        viewModelScope.launch { connection.service?.whatsAroundMe() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.whatsAroundMe() }
     }
 
     fun nearbyMarkers() {
-        viewModelScope.launch { connection.service?.nearbyMarkers() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.nearbyMarkers() }
     }
 
     fun streetPreviewGo() {
-        viewModelScope.launch { connection.service?.streetPreviewGo() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.streetPreviewGo() }
     }
 
     fun streetPreviewExit() {
-        viewModelScope.launch { connection.service?.setStreetPreviewMode(false, null) }
+        viewModelScope.launch(Dispatchers.Default) {
+            connection.service?.setStreetPreviewMode(false, null)
+        }
     }
 
     fun routeSkipPrevious() {
-        viewModelScope.launch { connection.service?.routeSkipPrevious() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.routeSkipPrevious() }
     }
 
     fun routeSkipNext() {
-        viewModelScope.launch { connection.service?.routeSkipNext() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.routeSkipNext() }
     }
 
     fun routeMute() {
-        viewModelScope.launch { connection.service?.routeMute() }
+        viewModelScope.launch(Dispatchers.Default) { connection.service?.routeMute() }
     }
 
     fun routeStop() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             connection.service?.routeStop()
             audioTour?.onBeaconStopped()
         }
@@ -171,7 +188,9 @@ open class HomeViewModel(
     fun onTriggerSearch(text: String) {
         viewModelScope.launch {
             _state.update { it.copy(searchInProgress = true) }
-            val result = connection.service?.searchResult(text)
+            val result = withContext(Dispatchers.Default) {
+                connection.service?.searchResult(text)
+            }
             _state.update { it.copy(searchItems = result, searchInProgress = false) }
         }
     }
