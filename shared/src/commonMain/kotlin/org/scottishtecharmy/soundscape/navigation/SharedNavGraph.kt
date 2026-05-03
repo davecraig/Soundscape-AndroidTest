@@ -305,7 +305,8 @@ fun SharedNavHost(
                         )
                     },
                     onEnableStreetPreview = { loc ->
-                        // TODO: wire street preview
+                        callbacks.onEnableStreetPreview(loc)
+                        navController.popBackStack(SharedRoutes.HOME, inclusive = false)
                     },
                     onShareLocation = { sharedDesc ->
                         callbacks.onShareLocation(sharedDesc, shareMessage)

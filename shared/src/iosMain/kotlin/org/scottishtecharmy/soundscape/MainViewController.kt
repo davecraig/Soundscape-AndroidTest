@@ -180,6 +180,7 @@ fun MainViewController() = ComposeUIViewController {
             onWakeUp = { service.setSleeping(false) },
             onStreetPreviewGo = { homeViewModel.streetPreviewGo() },
             onStreetPreviewExit = { homeViewModel.streetPreviewExit() },
+            onEnableStreetPreview = { loc -> homeViewModel.enableStreetPreview(loc) },
             onShareRecording = {
                 val fileUrl = service.writeRecordingFile()
                 if (fileUrl != null) presentShareSheet(fileUrl)

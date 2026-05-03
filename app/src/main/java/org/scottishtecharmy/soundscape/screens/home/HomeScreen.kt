@@ -181,6 +181,7 @@ fun HomeScreen(
             onSearch = { viewModel.onTriggerSearch(it) },
             onStreetPreviewGo = { viewModel.streetPreviewGo() },
             onStreetPreviewExit = { viewModel.streetPreviewExit() },
+            onEnableStreetPreview = { loc -> viewModel.enableStreetPreview(loc) },
             onSleep = { activity.setServiceState(newServiceState = false, sleeping = true) },
             onWakeUp = { activity.setServiceState(newServiceState = true, sleeping = false) },
             onShareRecording = { activity.shareRecording() },

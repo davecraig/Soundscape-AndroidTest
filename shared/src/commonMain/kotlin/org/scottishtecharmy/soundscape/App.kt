@@ -78,6 +78,7 @@ data class AppCallbacks(
     val onWakeUp: () -> Unit = {},
     val onStreetPreviewGo: () -> Unit = {},
     val onStreetPreviewExit: () -> Unit = {},
+    val onEnableStreetPreview: (LngLatAlt) -> Unit = {},
     val onShareRecording: () -> Unit = {},
     val onShareRoute: (routeId: Long) -> Unit = {},
     val onShareLocation: (LocationDescription, message: String) -> Unit = { _, _ -> },

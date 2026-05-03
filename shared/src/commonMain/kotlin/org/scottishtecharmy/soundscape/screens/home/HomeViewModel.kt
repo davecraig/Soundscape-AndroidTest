@@ -162,6 +162,12 @@ open class HomeViewModel(
         }
     }
 
+    fun enableStreetPreview(location: LngLatAlt) {
+        viewModelScope.launch(Dispatchers.Default) {
+            connection.service?.setStreetPreviewMode(true, location)
+        }
+    }
+
     fun routeSkipPrevious() {
         viewModelScope.launch(Dispatchers.Default) { connection.service?.routeSkipPrevious() }
     }
