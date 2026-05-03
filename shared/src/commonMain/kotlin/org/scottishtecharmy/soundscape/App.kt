@@ -23,6 +23,7 @@ import org.scottishtecharmy.soundscape.network.DownloadStateCommon
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.HomeState
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
+import org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsViewModel
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyUiState
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
@@ -64,6 +65,7 @@ data class AppCallbacks(
     val createMarkersViewModel: (() -> MarkersViewModel)? = null,
     val createRoutesViewModel: (() -> RoutesViewModel)? = null,
     val createPlacesNearbyViewModel: (() -> PlacesNearbyViewModel)? = null,
+    val createAdvancedMarkersAndRoutesSettingsViewModel: (() -> AdvancedMarkersAndRoutesSettingsViewModel)? = null,
     val onPlacesNearbyClickFolder: (String, String) -> Unit = { _, _ -> },
     val onPlacesNearbyClickBack: () -> Unit = {},
     val onOfflineMapsRefresh: () -> Unit = {},
@@ -89,6 +91,12 @@ data class AppCallbacks(
     val onSetApplicationLocale: (String?) -> Unit = {},
     val onGetLanguageMismatch: () -> Language? = { null },
     val getOpenSourceLicensesJson: (() -> String)? = null,
+    /**
+     * Wipes preferences and immediately restarts the app. When non-null,
+     * SharedSettingsScreen renders a "Reset settings to defaults" button in
+     * the Debug section.
+     */
+    val onResetSettings: (() -> Unit)? = null,
 )
 
 data class AppFlows(

@@ -10,10 +10,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -39,9 +37,6 @@ class SettingsViewModel(
         var microphoneDescriptions : List<String> = listOf("Auto"),
         var microphoneValues : List<String> = listOf(MainActivity.VOICE_COMMAND_MICROPHONE_DEFAULT),
     )
-
-    private val _restartAppEvent = MutableSharedFlow<Unit>()
-    val restartAppEvent = _restartAppEvent.asSharedFlow()
 
     private val _state: MutableStateFlow<SettingsUiState> = MutableStateFlow(SettingsUiState())
     val state: StateFlow<SettingsUiState> = _state.asStateFlow()
@@ -200,16 +195,6 @@ class SettingsViewModel(
             currentStoragePath = path,
             selectedStorageIndex = currentIndex
         )
-    }
-
-    fun resetToDefaults() {
-        viewModelScope.launch {
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
-            sharedPreferences.edit(commit = true) {
-                clear()
-            }
-            _restartAppEvent.emit(Unit)
-        }
     }
 
     companion object {

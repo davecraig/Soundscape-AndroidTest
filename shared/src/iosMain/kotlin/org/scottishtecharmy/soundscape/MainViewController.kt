@@ -17,6 +17,7 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
+import org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsViewModel
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersViewModel
@@ -137,6 +138,11 @@ fun MainViewController() = ComposeUIViewController {
             createPlacesNearbyViewModel = {
                 PlacesNearbyViewModel(service, audioTour)
             },
+            createAdvancedMarkersAndRoutesSettingsViewModel = {
+                AdvancedMarkersAndRoutesSettingsViewModel(
+                    service.routeDao, service.markersAndRoutesIo,
+                )
+            },
             onMyLocation = {
                 homeViewModel.myLocation()
                 audioTour.onButtonPressed(TourButton.MY_LOCATION)
@@ -208,6 +214,9 @@ fun MainViewController() = ComposeUIViewController {
             onSetApplicationLocale = { /* TODO iOS NSUserDefaults AppleLanguages */ },
             onGetLanguageMismatch = { null },
             getOpenSourceLicensesJson = { readResourceText("open_source_licenses.json") },
+            // No onResetSettings hook — SharedNavGraph clears the
+            // PreferencesProvider and navigates to the onboarding flow when
+            // the platform leaves this null.
         ),
         startDestination = startDestination,
         audioEngine = service.audioEngine,

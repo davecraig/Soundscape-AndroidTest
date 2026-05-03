@@ -25,6 +25,10 @@ class AndroidPreferencesProvider(
         sharedPreferences.edit { putString(key, value) }
     }
 
+    override fun clearAll() {
+        sharedPreferences.edit(commit = true) { clear() }
+    }
+
     override fun addListener(listener: PreferencesListener) {
         val androidListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key != null) listener.onPreferenceChanged(key)

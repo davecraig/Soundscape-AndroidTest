@@ -1,8 +1,5 @@
 package org.scottishtecharmy.soundscape.screens.home.home
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,20 +19,31 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import org.koin.androidx.compose.koinViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import org.scottishtecharmy.soundscape.R
+import org.jetbrains.compose.resources.stringResource
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.advanced_markers_and_routes_clear_all_alert_message
+import org.scottishtecharmy.soundscape.resources.advanced_markers_and_routes_clear_all_button
+import org.scottishtecharmy.soundscape.resources.advanced_markers_and_routes_description
+import org.scottishtecharmy.soundscape.resources.advanced_markers_and_routes_export
+import org.scottishtecharmy.soundscape.resources.advanced_markers_and_routes_export_button
+import org.scottishtecharmy.soundscape.resources.advanced_markers_and_routes_import_button
+import org.scottishtecharmy.soundscape.resources.general_alert_cancel
+import org.scottishtecharmy.soundscape.resources.markers_and_routes_import_failure
+import org.scottishtecharmy.soundscape.resources.markers_and_routes_import_success
+import org.scottishtecharmy.soundscape.resources.menu_advanced_markers_and_routes
+import org.scottishtecharmy.soundscape.resources.menu_advanced_markers_and_routes_clear_all_success
+import org.scottishtecharmy.soundscape.resources.settings_reset_button_hint
+import org.scottishtecharmy.soundscape.resources.settings_reset_dialog_title
+import org.scottishtecharmy.soundscape.resources.ui_back_button_title
+import org.scottishtecharmy.soundscape.resources.ui_continue
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.FlexibleAppBar
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.IconWithTextButton
@@ -43,59 +51,40 @@ import org.scottishtecharmy.soundscape.screens.talkbackHint
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.smallPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.viewmodels.AdvancedMarkersAndRoutesSettingsViewModel
-import org.scottishtecharmy.soundscape.resources.*
 
 @Composable
-fun AdvancedMarkersAndRoutesSettingsScreenVM(
-    navController: NavHostController,
-    modifier: Modifier
+fun SharedAdvancedMarkersAndRoutesSettingsScreen(
+    holder: AdvancedMarkersAndRoutesSettingsViewModel,
+    onNavigateUp: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-    val viewModel = koinViewModel<AdvancedMarkersAndRoutesSettingsViewModel>()
     val successString = stringResource(Res.string.markers_and_routes_import_success)
     val failureString = stringResource(Res.string.markers_and_routes_import_failure)
-    val clearAllSuccessString = stringResource(Res.string.menu_advanced_markers_and_routes_clear_all_success)
-    val filePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri: Uri? ->
-            uri?.let {
-                // 3. When a file is selected, pass the URI back to the ViewModel
-                viewModel.importMarkersAndRoutes(context, uri, successString, failureString)
-            }
-        }
-    )
-    val userFeedback = viewModel.userFeedback.collectAsStateWithLifecycle("")
-    println("userFeedback ${userFeedback.value}")
-
-    LaunchedEffect(Unit) {
-        viewModel.importEvent.collect {
-            // When the event is received, launch the file picker
-            filePickerLauncher.launch("application/zip")
-        }
-    }
+    val clearAllSuccessString =
+        stringResource(Res.string.menu_advanced_markers_and_routes_clear_all_success)
     val chooserText = stringResource(Res.string.advanced_markers_and_routes_export)
-    AdvancedMarkersAndRoutesSettingsScreen(
-        navController,
-        { viewModel.exportMarkersAndRoutes(context, chooserText) },
-        { viewModel.triggerImport() },
-        { viewModel.deleteAllMarkersAndRoutes(context, clearAllSuccessString) },
-        userFeedback.value,
-        viewModel::userFeedbackShown,
-        modifier
+
+    SharedAdvancedMarkersAndRoutesSettingsScreen(
+        userFeedback = holder.userFeedback.collectAsState("").value,
+        onUserFeedbackShown = holder::userFeedbackShown,
+        onExport = { holder.exportMarkersAndRoutes(chooserText) },
+        onImport = { holder.importMarkersAndRoutes(successString, failureString) },
+        onClearAll = { holder.deleteAllMarkersAndRoutes(clearAllSuccessString) },
+        onNavigateUp = onNavigateUp,
+        modifier = modifier,
     )
 }
 
 @Composable
-fun AdvancedMarkersAndRoutesSettingsScreen(
-    navController: NavHostController,
-    exportMarkersAndRoutes: () -> Unit = {},
-    importMarkersAndRoutes: () -> Unit = {},
-    clearMarkersAndRoutes: () -> Unit = {},
+fun SharedAdvancedMarkersAndRoutesSettingsScreen(
     userFeedback: String,
     onUserFeedbackShown: () -> Unit,
-    modifier: Modifier) {
-
+    onExport: () -> Unit,
+    onImport: () -> Unit,
+    onClearAll: () -> Unit,
+    onNavigateUp: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val snackBarHostState = remember { SnackbarHostState() }
     val showConfirmationDialog = remember { mutableStateOf(false) }
 
@@ -103,7 +92,7 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
         if (userFeedback.isNotEmpty()) {
             snackBarHostState.showSnackbar(
                 message = userFeedback,
-                duration = SnackbarDuration.Short
+                duration = SnackbarDuration.Short,
             )
             onUserFeedbackShown()
         }
@@ -117,32 +106,30 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        clearMarkersAndRoutes()
+                        onClearAll()
                         showConfirmationDialog.value = false
-                    }
+                    },
                 ) {
                     Text(
                         text = stringResource(Res.string.ui_continue),
                         modifier = Modifier
-                            .talkbackHint(stringResource(Res.string.settings_reset_button_hint))
+                            .talkbackHint(stringResource(Res.string.settings_reset_button_hint)),
                     )
                 }
             },
             dismissButton = {
                 TextButton(
-                    onClick = { showConfirmationDialog.value = false }
+                    onClick = { showConfirmationDialog.value = false },
                 ) {
                     Text(stringResource(Res.string.general_alert_cancel))
                 }
-            }
+            },
         )
     }
 
     Scaffold(
         modifier = modifier,
-        snackbarHost = {
-            SnackbarHost(hostState = snackBarHostState)
-        },
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
             FlexibleAppBar(
                 title = stringResource(Res.string.menu_advanced_markers_and_routes),
@@ -150,17 +137,14 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
                     IconWithTextButton(
                         text = stringResource(Res.string.ui_back_button_title),
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.testTag("appBarLeft")
-                    ) {
-                        navController.navigateUp()
-                    }
-                }
+                        modifier = Modifier.testTag("appBarLeft"),
+                    ) { onNavigateUp() }
+                },
             )
         },
-
         content = { padding ->
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
                     .background(MaterialTheme.colorScheme.surface)
@@ -170,13 +154,10 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
             ) {
                 Text(
                     text = stringResource(Res.string.advanced_markers_and_routes_description),
-                    modifier = Modifier
-                        .mediumPadding(),
+                    modifier = Modifier.mediumPadding(),
                 )
                 CustomButton(
-                    onClick = {
-                        showConfirmationDialog.value = true
-                    },
+                    onClick = { showConfirmationDialog.value = true },
                     text = stringResource(Res.string.advanced_markers_and_routes_clear_all_button),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -186,9 +167,7 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
                     fontWeight = FontWeight.Bold,
                 )
                 CustomButton(
-                    onClick = {
-                        exportMarkersAndRoutes()
-                    },
+                    onClick = onExport,
                     text = stringResource(Res.string.advanced_markers_and_routes_export_button),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -198,9 +177,7 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
                     fontWeight = FontWeight.Bold,
                 )
                 CustomButton(
-                    onClick = {
-                        importMarkersAndRoutes()
-                    },
+                    onClick = onImport,
                     text = stringResource(Res.string.advanced_markers_and_routes_import_button),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -210,28 +187,6 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
                     fontWeight = FontWeight.Bold,
                 )
             }
-        }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AdvancedMarkersAndRoutesSettingsPreview() {
-    AdvancedMarkersAndRoutesSettingsScreen(
-        navController = rememberNavController(),
-        modifier = Modifier,
-        userFeedback = "",
-        onUserFeedbackShown = {}
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AdvancedMarkersAndRoutesSettingsAlertPreview() {
-    AdvancedMarkersAndRoutesSettingsScreen(
-        navController = rememberNavController(),
-        modifier = Modifier,
-        userFeedback = "What's going on?",
-        onUserFeedbackShown = {},
+        },
     )
 }

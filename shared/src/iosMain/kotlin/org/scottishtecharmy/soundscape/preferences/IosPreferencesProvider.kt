@@ -53,6 +53,18 @@ class IosPreferencesProvider : PreferencesProvider {
         defaults.setObject(value, forKey = key)
     }
 
+    override fun clearAll() {
+        // Drop every key in the app domain. NSUserDefaults posts a single
+        // change notification, so any registered listeners will be notified
+        // for each key that actually changed via notifyChangedKeys().
+        @Suppress("UNCHECKED_CAST")
+        val keys = (defaults.dictionaryRepresentation() as? Map<String, Any?>)?.keys
+            ?: emptySet()
+        for (key in keys) {
+            defaults.removeObjectForKey(key)
+        }
+    }
+
     override fun addListener(listener: PreferencesListener) {
         listeners.add(listener)
     }

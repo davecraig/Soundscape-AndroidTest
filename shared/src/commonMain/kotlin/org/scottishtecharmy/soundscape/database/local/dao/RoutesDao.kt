@@ -107,6 +107,22 @@ interface RouteDao {
     @Query("DELETE FROM markers WHERE marker_id = :markerId")
     suspend fun removeMarker(markerId: Long)
 
+    @Query("DELETE FROM route_marker_cross_ref")
+    suspend fun deleteAllRouteMarkerCrossRefs()
+
+    @Query("DELETE FROM markers")
+    suspend fun deleteAllMarkers()
+
+    @Query("DELETE FROM routes")
+    suspend fun deleteAllRoutes()
+
+    @Transaction
+    suspend fun clearAll() {
+        deleteAllRouteMarkerCrossRefs()
+        deleteAllRoutes()
+        deleteAllMarkers()
+    }
+
     @Transaction
     suspend fun insertRouteWithExistingMarkers(route: RouteEntity, markers: List<MarkerEntity>) : Long {
         val routeId = insertRoute(route)

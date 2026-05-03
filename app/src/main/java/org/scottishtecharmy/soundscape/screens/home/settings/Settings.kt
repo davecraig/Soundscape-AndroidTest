@@ -47,11 +47,9 @@ fun Settings(
     storages: List<StorageUtils.StorageSpace>,
     onStorageSelected: (String) -> Unit,
     selectedStorageIndex: Int,
-    resetSettings: () -> Unit,
+    onResetSettings: (() -> Unit)?,
     previewExpandedSection: String? = null,
 ) {
-    val showConfirmationDialog = remember { mutableStateOf(false) }
-
     val beaconValues = uiState.beaconValues
     val beaconDescriptions = uiState.beaconDescriptions.map { stringResource(it) }
 
@@ -83,32 +81,6 @@ fun Settings(
     val microphoneDescriptions = uiState.microphoneDescriptions
     val microphoneValues = uiState.microphoneValues
 
-    if (showConfirmationDialog.value) {
-        AlertDialog(
-            onDismissRequest = { showConfirmationDialog.value = false },
-            title = { Text(stringResource(Res.string.settings_reset_dialog_title)) },
-            text = { Text(stringResource(Res.string.settings_reset_dialog_message)) },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        resetSettings()
-                        showConfirmationDialog.value = false
-                    }
-                ) {
-                    Text(
-                        text = stringResource(Res.string.ui_continue),
-                        modifier = Modifier.talkbackHint(stringResource(Res.string.settings_reset_button_hint)),
-                    )
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showConfirmationDialog.value = false }) {
-                    Text(stringResource(Res.string.general_alert_cancel))
-                }
-            },
-        )
-    }
-
     val preferencesProvider: PreferencesProvider = koinInject()
 
     SharedSettingsScreen(
@@ -117,6 +89,10 @@ fun Settings(
         preferencesProvider = preferencesProvider,
         mediaControlsValues = mediaControlsValues,
         mediaControlsDescriptions = mediaControlsDescriptions,
+        onNavigateToAdvancedMarkersAndRoutes = {
+            navController.navigate(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS)
+        },
+        onResetSettings = onResetSettings,
         modifier = modifier,
 
         platformAccessibilityContent = {
@@ -233,35 +209,5 @@ fun Settings(
             )
         },
 
-        platformDebugContent = {
-            item {
-                Column(modifier = expandedSectionModifier.fillMaxWidth()) {
-                    CustomButton(
-                        onClick = { navController.navigate(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .mediumPadding(),
-                        shape = RoundedCornerShape(spacing.extraSmall),
-                        text = stringResource(Res.string.menu_advanced_markers_and_routes),
-                        textStyle = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
-                    )
-                    CustomButton(
-                        onClick = { showConfirmationDialog.value = true },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .mediumPadding()
-                            .talkbackHint(stringResource(Res.string.settings_reset_button_hint)),
-                        buttonColor = MaterialTheme.colorScheme.errorContainer,
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                        shape = RoundedCornerShape(spacing.small),
-                        text = stringResource(Res.string.settings_reset_button),
-                        textStyle = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-            }
-        },
     )
 }

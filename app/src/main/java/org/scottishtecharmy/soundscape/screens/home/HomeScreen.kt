@@ -1,6 +1,8 @@
 package org.scottishtecharmy.soundscape.screens.home
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Process
 import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.WindowInsets
@@ -38,17 +40,15 @@ import org.scottishtecharmy.soundscape.intents.IntentEventBus
 import org.scottishtecharmy.soundscape.navigation.NavigationStateHolder
 import org.scottishtecharmy.soundscape.navigation.SharedNavHost
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
-import org.scottishtecharmy.soundscape.preferences.PreferencesListener
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsScreenVM
 import org.scottishtecharmy.soundscape.screens.home.settings.Settings
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
 import org.scottishtecharmy.soundscape.utils.getLanguageMismatch
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
-import androidx.core.content.edit
+import kotlin.system.exitProcess
 
 class Navigator {
     var destination = MutableStateFlow(SharedRoutes.HOME)
@@ -75,6 +75,7 @@ fun HomeScreen(
     val serviceConnection: SoundscapeServiceConnection = koinInject()
     val intentBus: IntentEventBus = koinInject()
     val routeDao: org.scottishtecharmy.soundscape.database.local.dao.RouteDao = koinInject()
+    val markersAndRoutesIo: org.scottishtecharmy.soundscape.utils.MarkersAndRoutesIo = koinInject()
     val prefsProvider: PreferencesProvider = koinInject()
     val offlineMaps: org.scottishtecharmy.soundscape.utils.AndroidOfflineMapsManager = koinInject()
 
@@ -154,11 +155,16 @@ fun HomeScreen(
 
     val callbacks = remember(
         viewModel, audioTour, activity, rateSoundscape, contactSupport,
-        serviceConnection, routeDao, prefsProvider, callbackScope, offlineMaps,
+        serviceConnection, routeDao, markersAndRoutesIo,
+        prefsProvider, callbackScope, offlineMaps,
     ) {
         AppCallbacks(
-            onStartBeacon = { lat, lng, _ ->
-                serviceConnection.soundscapeService?.createBeacon(LngLatAlt(lng, lat), headingOnly = false)
+            onStartBeacon = { lat, lng, name ->
+                // Route through SoundscapeService.startBeacon so RoutePlayer
+                // wraps the beacon in a single-waypoint route. That's what
+                // populates currentRouteFlow and lets SharedHomeContent render
+                // the playback card with stop/mute controls.
+                serviceConnection.soundscapeService?.startBeacon(LngLatAlt(lng, lat), name)
             },
             onStopBeacon = { serviceConnection.soundscapeService?.destroyBeacon() },
             onStartRoute = { routeId -> serviceConnection.routeStart(routeId) },
@@ -231,6 +237,11 @@ fun HomeScreen(
                     routeDao, serviceConnection,
                 )
             },
+            createAdvancedMarkersAndRoutesSettingsViewModel = {
+                org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsViewModel(
+                    routeDao, markersAndRoutesIo,
+                )
+            },
             // Marker / route persistence callbacks used by EDIT_MARKER and
             // ROUTE_DETAILS in the shared graph.
             onSaveMarker = { desc ->
@@ -281,6 +292,18 @@ fun HomeScreen(
             onOfflineMapsDownload = { name, feature -> offlineMaps.startDownload(name, feature) },
             onOfflineMapsDelete = { feature -> offlineMaps.deleteExtractByFeature(feature) },
             onOfflineMapsCancelDownload = { offlineMaps.cancelDownload() },
+            onResetSettings = {
+                // SharedNavGraph has already cleared the preferences. Relaunch
+                // MainActivity in a fresh task and kill the current process so
+                // the rebuilt app sees the cleared state from a clean slate.
+                val launch = activity.packageManager.getLaunchIntentForPackage(activity.packageName)
+                if (launch != null) {
+                    launch.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    activity.startActivity(launch)
+                }
+                Process.killProcess(Process.myPid())
+                exitProcess(0)
+            },
         )
     }
 
@@ -291,16 +314,12 @@ fun HomeScreen(
             callbacks = callbacks,
             startDestination = SharedRoutes.HOME,
             audioTour = audioTour,
-            preferencesProvider = remember(preferences) { AndroidSharedPreferencesAdapter(preferences) },
+            preferencesProvider = prefsProvider,
             settingsContent = { navCtrl ->
                 val settingsViewModel: SettingsViewModel = koinViewModel()
                 val uiState by settingsViewModel.state.collectAsStateWithLifecycle()
                 val languageViewModel: LanguageViewModel = koinViewModel()
                 val languageUiState by languageViewModel.state.collectAsStateWithLifecycle()
-
-                LaunchedEffect(Unit) {
-                    settingsViewModel.restartAppEvent.collect { activity.recreate() }
-                }
 
                 Settings(
                     navController = navCtrl,
@@ -317,23 +336,15 @@ fun HomeScreen(
                     storages = uiState.storages,
                     onStorageSelected = { path -> settingsViewModel.selectStorage(path) },
                     selectedStorageIndex = uiState.selectedStorageIndex,
-                    resetSettings = { settingsViewModel.resetToDefaults() },
+                    onResetSettings = callbacks.onResetSettings,
                 )
             },
             platformNavBuilder = {
-                // Android-only destinations that have no shared equivalent — both
-                // are app-settings UIs that don't make sense on iOS today.
+                // Android-only destination: language picker is a SAF/locale UI
+                // that doesn't have a shared equivalent today.
                 composable(SharedRoutes.LANGUAGE) {
                     LanguageScreen(
                         onNavigate = { navController.navigateUp() },
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                    )
-                }
-                composable(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS) {
-                    AdvancedMarkersAndRoutesSettingsScreenVM(
-                        navController = navController,
                         modifier = Modifier
                             .windowInsetsPadding(WindowInsets.safeDrawing)
                             .semantics { testTagsAsResourceId = true },
@@ -343,18 +354,3 @@ fun HomeScreen(
         )
 }
 
-private class AndroidSharedPreferencesAdapter(
-    private val prefs: SharedPreferences,
-) : PreferencesProvider {
-    override fun getBoolean(key: String, default: Boolean): Boolean = prefs.getBoolean(key, default)
-    override fun getString(key: String, default: String): String = prefs.getString(key, default) ?: default
-    override fun getFloat(key: String, default: Float): Float = prefs.getFloat(key, default)
-    override fun putBoolean(key: String, value: Boolean) {
-        prefs.edit { putBoolean(key, value) }
-    }
-    override fun putString(key: String, value: String) {
-        prefs.edit { putString(key, value) }
-    }
-    override fun addListener(listener: PreferencesListener) {}
-    override fun removeListener(listener: PreferencesListener) {}
-}

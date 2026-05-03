@@ -2,8 +2,6 @@ package org.scottishtecharmy.soundscape.di
 
 import androidx.preference.PreferenceManager
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
@@ -17,18 +15,13 @@ import org.scottishtecharmy.soundscape.audio.AudioTourHost
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
 import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider
 import org.scottishtecharmy.soundscape.screens.home.Navigator
-import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersViewModel
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.RouteDetailsViewModel
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen.RoutesViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.AudioOnboardingViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.AccessibilityOnboardingViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.OffscreenStorageOnboardingViewModel
+import org.scottishtecharmy.soundscape.utils.AndroidMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.AndroidOfflineMapsManager
-import org.scottishtecharmy.soundscape.viewmodels.AdvancedMarkersAndRoutesSettingsViewModel
-import org.scottishtecharmy.soundscape.screens.home.locationDetails.LocationDetailsViewModel
+import org.scottishtecharmy.soundscape.utils.MarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
 import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
 
@@ -71,20 +64,18 @@ val appModule = module {
     single { IntentEventBus() }
     single { SoundscapeIntents(get()) }
 
-    // ViewModels
+    // ViewModels — only the ones still injected via Koin in Android-only
+    // composables. Shared per-screen ViewModels are constructed by SharedNavGraph
+    // via the createXxxViewModel factories in AppCallbacks.
     viewModelOf(::HomeViewModel)
     viewModelOf(::SettingsViewModel)
-    viewModelOf(::LocationDetailsViewModel)
-    viewModelOf(::AdvancedMarkersAndRoutesSettingsViewModel)
     viewModelOf(::LanguageViewModel)
     viewModelOf(::AccessibilityOnboardingViewModel)
     viewModelOf(::AudioOnboardingViewModel)
-    viewModelOf(::PlacesNearbyViewModel)
-    viewModelOf(::MarkersViewModel)
-    viewModelOf(::RoutesViewModel)
-    viewModelOf(::RouteDetailsViewModel)
-    viewModelOf(::AddAndEditRouteViewModel)
     viewModelOf(::OffscreenStorageOnboardingViewModel)
 
     single { AndroidOfflineMapsManager(androidContext()) }
+
+    single { AndroidMarkersAndRoutesIo(androidContext()) }
+    single<MarkersAndRoutesIo> { get<AndroidMarkersAndRoutesIo>() }
 }

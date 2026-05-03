@@ -32,6 +32,7 @@ import org.scottishtecharmy.soundscape.intents.IncomingIntent
 import org.scottishtecharmy.soundscape.network.DownloadStateCommon
 import org.scottishtecharmy.soundscape.screens.home.HomeState
 import org.scottishtecharmy.soundscape.screens.home.home.AudioTourInstructionDialog
+import org.scottishtecharmy.soundscape.screens.home.home.SharedAdvancedMarkersAndRoutesSettingsScreen
 import org.scottishtecharmy.soundscape.screens.home.home.SharedHelpScreen
 import org.scottishtecharmy.soundscape.screens.home.home.SharedHomeScreen
 import org.scottishtecharmy.soundscape.screens.home.home.SharedOpenSourceLicensesScreen
@@ -534,6 +535,37 @@ fun SharedNavHost(
                     onNavigateUp = { navController.popBackStack() },
                     beaconTypes = flows.beaconTypes,
                     preferencesProvider = preferencesProvider,
+                    onNavigateToAdvancedMarkersAndRoutes = if (callbacks.createAdvancedMarkersAndRoutesSettingsViewModel != null) {
+                        { navController.navigate(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS) }
+                    } else {
+                        null
+                    },
+                    onResetSettings = if (preferencesProvider != null) {
+                        {
+                            preferencesProvider.clearAll()
+                            // Hand off to the platform first. Android kills its
+                            // own process here so this call never returns and
+                            // the navigate-to-onboarding below is unreachable.
+                            // iOS leaves it null and falls through to the
+                            // in-app navigation, landing the user on the first
+                            // onboarding screen of a freshly-defaulted app.
+                            callbacks.onResetSettings?.invoke()
+                            navController.navigate(SharedRoutes.ONBOARDING) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    } else null,
+                )
+            }
+        }
+
+        composable(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS) {
+            val factory = callbacks.createAdvancedMarkersAndRoutesSettingsViewModel
+            if (factory != null) {
+                val holder = viewModel { factory() }
+                SharedAdvancedMarkersAndRoutesSettingsScreen(
+                    holder = holder,
+                    onNavigateUp = { navController.popBackStack() },
                 )
             }
         }

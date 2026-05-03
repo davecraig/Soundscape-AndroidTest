@@ -2,18 +2,24 @@ package org.scottishtecharmy.soundscape.screens.home.settings
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import me.zhanghai.compose.preference.ProvidePreferenceLocals
 import me.zhanghai.compose.preference.listPreference
 import me.zhanghai.compose.preference.rememberPreferenceState
@@ -26,6 +32,10 @@ import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.preferences.rememberBooleanPreferenceState
 import org.scottishtecharmy.soundscape.resources.*
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomAppBar
+import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
+import org.scottishtecharmy.soundscape.screens.talkbackHint
+import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
+import org.scottishtecharmy.soundscape.ui.theme.smallPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -42,8 +52,42 @@ fun SharedSettingsScreen(
     platformLanguageContent: (LazyListScope.() -> Unit)? = null,
     platformMediaControlsContent: (LazyListScope.() -> Unit)? = null,
     platformDebugContent: (LazyListScope.() -> Unit)? = null,
+    onNavigateToAdvancedMarkersAndRoutes: (() -> Unit)? = null,
+    /**
+     * If non-null, the Debug section shows a "Reset settings to defaults" button
+     * that pops a confirmation dialog and invokes this callback on confirmation.
+     * The platform implementation is expected to clear preferences and restart
+     * the app (Android relaunches the activity, iOS exits via `exit(0)`).
+     */
+    onResetSettings: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
+    val showResetDialog = rememberSaveable { mutableStateOf(false) }
+    if (showResetDialog.value && onResetSettings != null) {
+        AlertDialog(
+            onDismissRequest = { showResetDialog.value = false },
+            title = { Text(stringResource(Res.string.settings_reset_dialog_title)) },
+            text = { Text(stringResource(Res.string.settings_reset_dialog_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showResetDialog.value = false
+                        onResetSettings()
+                    },
+                ) {
+                    Text(
+                        text = stringResource(Res.string.ui_continue),
+                        modifier = Modifier.talkbackHint(stringResource(Res.string.settings_reset_button_hint)),
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showResetDialog.value = false }) {
+                    Text(stringResource(Res.string.general_alert_cancel))
+                }
+            },
+        )
+    }
     val expandedSection = rememberSaveable { mutableStateOf<String?>(null) }
 
     val textColor = MaterialTheme.colorScheme.onBackground
@@ -376,7 +420,45 @@ fun SharedSettingsScreen(
                     title = { Text(text = stringResource(Res.string.settings_travel_recording), color = textColor) },
                 )
 
+                if (onNavigateToAdvancedMarkersAndRoutes != null) {
+                    item(key = "advanced_markers_and_routes") {
+                        Column(modifier = expandedSectionModifier.fillMaxWidth()) {
+                            CustomButton(
+                                onClick = onNavigateToAdvancedMarkersAndRoutes,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(MaterialTheme.colorScheme.surface)
+                                    .mediumPadding(),
+                                shape = RoundedCornerShape(spacing.extraSmall),
+                                text = stringResource(Res.string.menu_advanced_markers_and_routes),
+                                textStyle = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
+                }
+
                 platformDebugContent?.invoke(this)
+
+                if (onResetSettings != null) {
+                    item(key = "reset_settings") {
+                        Column(modifier = expandedSectionModifier.fillMaxWidth()) {
+                            CustomButton(
+                                onClick = { showResetDialog.value = true },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .smallPadding()
+                                    .talkbackHint(stringResource(Res.string.settings_reset_button_hint)),
+                                buttonColor = MaterialTheme.colorScheme.errorContainer,
+                                contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                                shape = RoundedCornerShape(spacing.small),
+                                text = stringResource(Res.string.settings_reset_button),
+                                textStyle = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
+                }
             }
         }
     }

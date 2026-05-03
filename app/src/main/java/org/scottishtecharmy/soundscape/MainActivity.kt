@@ -58,6 +58,7 @@ import org.scottishtecharmy.soundscape.screens.home.Navigator
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
+import org.scottishtecharmy.soundscape.utils.AndroidMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.LogcatHelper
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.utils.findExtracts
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity() {
     internal val navigator : Navigator by inject()
     private val soundscapeIntents : SoundscapeIntents by inject()
     private val audioTour : AudioTour by inject()
+    private val markersAndRoutesIo : AndroidMarkersAndRoutesIo by inject()
 
     // we need notification permission to be able to display a notification for the foreground service
     private val notificationPermissionLauncher =
@@ -345,6 +347,10 @@ class MainActivity : AppCompatActivity() {
         // We delay starting the service until the splash screen is gone so that we don't have a
         // clash of audio with the splash screen sound.
         super.onCreate(savedInstanceState)
+
+        // Hook the file picker for the advanced markers/routes import flow into
+        // the activity result registry now that super.onCreate has run.
+        markersAndRoutesIo.attach(this)
 
         println("${Build.FINGERPRINT}")
         println("${Build.MODEL}")

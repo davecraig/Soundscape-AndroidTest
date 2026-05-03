@@ -57,7 +57,9 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
 import org.scottishtecharmy.soundscape.utils.Analytics
+import org.scottishtecharmy.soundscape.utils.IosMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.IosNetworkUtils
+import org.scottishtecharmy.soundscape.utils.MarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.routeToShareJson
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSHomeDirectory
@@ -92,9 +94,8 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     private val gpxRecorder = GpxRecorder()
 
     // Database
-    val routeDao: RouteDao by lazy {
-        MarkersAndRoutesDatabaseProvider.getInstance().routeDao()
-    }
+    val routeDao: RouteDao by lazy { MarkersAndRoutesDatabaseProvider.getInstance().routeDao() }
+    val markersAndRoutesIo: MarkersAndRoutesIo = IosMarkersAndRoutesIo()
 
     // Offline maps
     private val documentsPath = platform.Foundation.NSHomeDirectory() + "/Documents"

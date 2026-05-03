@@ -15,6 +15,13 @@ interface PreferencesProvider {
     fun putBoolean(key: String, value: Boolean)
     fun putString(key: String, value: String)
 
+    /**
+     * Clear every key, restoring defaults on next read. Used by the "Reset
+     * settings to defaults" action; on Android the host then recreates the
+     * activity, on iOS the change takes effect on next launch.
+     */
+    fun clearAll()
+
     fun addListener(listener: PreferencesListener)
     fun removeListener(listener: PreferencesListener)
 }
