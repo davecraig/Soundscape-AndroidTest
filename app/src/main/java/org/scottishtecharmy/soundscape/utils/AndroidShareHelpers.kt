@@ -9,7 +9,6 @@ import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import java.io.File
-import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -20,21 +19,18 @@ fun goToAppSettings(context: Context) {
 }
 
 fun shareLocation(context: Context, message: String, locationDescription: LocationDescription) {
-    val location = locationDescription.location
+    val body = buildShareLocationText(
+        desc = locationDescription,
+        messageTemplate = message,
+        mapsName = "Google Maps",
+        mapsUrlBuilder = { lat, lon, _ ->
+            "https://www.google.com/maps/?q=$lat,$lon"
+        },
+    )
     val sendIntent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TITLE, locationDescription.name)
-        val latitude = "%.5f".format(location.latitude)
-        val longitude = "%.5f".format(location.longitude)
-        val soundscapeUrl =
-            "https://links.soundscape.scottishtecharmy.org/v1/sharemarker?" +
-                "lat=$latitude&lon=$longitude&name=" +
-                URLEncoder.encode(locationDescription.name, Charsets.UTF_8.name())
-        val googleMapsUrl = "https://www.google.com/maps/?q=$latitude,$longitude"
-        putExtra(
-            Intent.EXTRA_TEXT,
-            message.format(locationDescription.name, soundscapeUrl, googleMapsUrl)
-        )
+        putExtra(Intent.EXTRA_TEXT, body)
         type = "text/plain"
     }
     context.startActivity(Intent.createChooser(sendIntent, null))

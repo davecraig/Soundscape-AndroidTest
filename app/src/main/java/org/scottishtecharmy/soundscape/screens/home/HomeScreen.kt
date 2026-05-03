@@ -43,8 +43,6 @@ import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.settings.Settings
-import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageScreen
-import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
 import org.scottishtecharmy.soundscape.utils.getLanguageMismatch
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
@@ -206,6 +204,14 @@ fun HomeScreen(
                         androidx.core.os.LocaleListCompat.forLanguageTags(tag),
                     )
                 }
+                // Bounce the foreground service so the native audio/TTS engine
+                // re-initialises with the new locale rather than continuing to
+                // speak in the previously-loaded language.
+                callbackScope.launch {
+                    activity.setServiceState(false)
+                    kotlinx.coroutines.delay(1000)
+                    activity.setServiceState(true)
+                }
             },
             onGetLanguageMismatch = { getLanguageMismatch(context) },
             getOpenSourceLicensesJson = {
@@ -318,8 +324,6 @@ fun HomeScreen(
             settingsContent = { navCtrl ->
                 val settingsViewModel: SettingsViewModel = koinViewModel()
                 val uiState by settingsViewModel.state.collectAsStateWithLifecycle()
-                val languageViewModel: LanguageViewModel = koinViewModel()
-                val languageUiState by languageViewModel.state.collectAsStateWithLifecycle()
 
                 Settings(
                     navController = navCtrl,
@@ -327,29 +331,12 @@ fun HomeScreen(
                     modifier = Modifier
                         .windowInsetsPadding(WindowInsets.safeDrawing)
                         .semantics { testTagsAsResourceId = true },
-                    supportedLanguages = languageUiState.supportedLanguages,
-                    onLanguageSelected = { selectedLanguage ->
-                        languageViewModel.updateLanguage(selectedLanguage)
-                        settingsViewModel.updateLanguage(activity)
-                    },
-                    selectedLanguageIndex = languageUiState.selectedLanguageIndex,
                     storages = uiState.storages,
                     onStorageSelected = { path -> settingsViewModel.selectStorage(path) },
                     selectedStorageIndex = uiState.selectedStorageIndex,
                     onResetSettings = callbacks.onResetSettings,
+                    onSetApplicationLocale = callbacks.onSetApplicationLocale,
                 )
-            },
-            platformNavBuilder = {
-                // Android-only destination: language picker is a SAF/locale UI
-                // that doesn't have a shared equivalent today.
-                composable(SharedRoutes.LANGUAGE) {
-                    LanguageScreen(
-                        onNavigate = { navController.navigateUp() },
-                        modifier = Modifier
-                            .windowInsetsPadding(WindowInsets.safeDrawing)
-                            .semantics { testTagsAsResourceId = true },
-                    )
-                }
             },
         )
 }

@@ -18,57 +18,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import org.koin.androidx.compose.koinViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.scottishtecharmy.soundscape.R
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.OnboardButton
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.first_launch_soundscape_language
+import org.scottishtecharmy.soundscape.resources.first_launch_soundscape_language_text
+import org.scottishtecharmy.soundscape.resources.ui_continue
 import org.scottishtecharmy.soundscape.screens.onboarding.component.BoxWithGradientBackground
-import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.utils.supportedLanguages
-import org.scottishtecharmy.soundscape.resources.*
 
+/**
+ * Picker UI shown both in onboarding and from Settings → Language. Pure
+ * presentation: the caller owns selection state and triggers the locale
+ * change, since locale persistence is platform-specific.
+ */
 @Composable
-fun LanguageScreen(
-    onNavigate: () -> Unit,
-    modifier : Modifier = Modifier,
-    viewModel: LanguageViewModel = koinViewModel<LanguageViewModel>()
-){
-    val uiState: LanguageViewModel.LanguageUiState
-    by viewModel.state.collectAsStateWithLifecycle()
-
-    LanguageComposable(
-        onNavigate = onNavigate,
-        supportedLanguages = uiState.supportedLanguages,
-        onLanguageSelected = { selectedLanguage ->
-            viewModel.updateLanguage(selectedLanguage)
-        },
-        selectedLanguageIndex = uiState.selectedLanguageIndex,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun LanguageComposable(
+fun SharedLanguageScreen(
     supportedLanguages: List<Language>,
-    onNavigate: () -> Unit,
-    onLanguageSelected: (Language) -> Unit,
     selectedLanguageIndex: Int,
-    modifier : Modifier = Modifier
-){
-
-    /*TODO move to the test if(mockData != null) {
-        supportedLanguages = MockLanguagePreviewData.languages
-    }*/
-
+    onLanguageSelected: (Language) -> Unit,
+    onContinue: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     BoxWithGradientBackground(
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surface
+        color = MaterialTheme.colorScheme.surface,
     ) {
         Column(
             modifier = Modifier
@@ -77,76 +54,64 @@ fun LanguageComposable(
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.Top,
         ) {
             Text(
                 text = stringResource(Res.string.first_launch_soundscape_language),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.semantics {
-                    heading()
-                },
+                modifier = Modifier.semantics { heading() },
             )
             Spacer(modifier = Modifier.height(spacing.small))
             Text(
                 text = stringResource(Res.string.first_launch_soundscape_language_text),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
-
             Spacer(modifier = Modifier.height(spacing.large))
 
             LanguageDropDownMenu(
                 allLanguages = supportedLanguages,
                 onLanguageSelected = onLanguageSelected,
-                selectedLanguageIndex = selectedLanguageIndex
+                selectedLanguageIndex = selectedLanguageIndex,
             )
 
             Spacer(modifier = Modifier.height(spacing.large))
 
-            //val selectedLocale = AppCompatDelegate.getApplicationLocales()[0]
-            //Log.d("Locales", "Locale is set to: $selectedLocale")
-
             val isContinueEnabled by remember(selectedLanguageIndex) {
-                derivedStateOf {
-                    selectedLanguageIndex != -1
-                }
+                derivedStateOf { selectedLanguageIndex != -1 }
             }
 
             Column(modifier = Modifier.padding(horizontal = spacing.large)) {
                 OnboardButton(
                     text = stringResource(Res.string.ui_continue),
-                    onClick = {
-                        onNavigate()
-                    },
+                    onClick = onContinue,
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag("languageScreenContinueButton"),
-                    enabled = isContinueEnabled
+                    enabled = isContinueEnabled,
                 )
             }
-
         }
     }
 }
 
-// Data used by preview
-data object MockLanguagePreviewData {
-    val languages = supportedLanguages
-}
-
-@Preview(device = "spec:parent=pixel_5,orientation=landscape")
-@Preview
-@Composable
-fun LanguagePreview() {
-    SoundscapeTheme {
-        LanguageComposable(
-            supportedLanguages = MockLanguagePreviewData.languages,
-            onNavigate = {},
-            onLanguageSelected = {},
-            selectedLanguageIndex = -1,
-        )
+/**
+ * Returns the index of the [Language] in [supportedLanguages] that best
+ * matches the given locale snapshot, or -1 if there's no language-only match.
+ * Prefers an exact language+region match.
+ */
+fun indexOfBestLanguageMatch(locale: LocaleSnapshot): Int {
+    var bestIndex = -1
+    for ((index, language) in supportedLanguages.withIndex()) {
+        if (language.code == locale.language && language.region == locale.region) {
+            return index
+        }
+        if (language.code == locale.language && bestIndex == -1) {
+            bestIndex = index
+        }
     }
+    return bestIndex
 }

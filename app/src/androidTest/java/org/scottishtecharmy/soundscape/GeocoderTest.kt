@@ -38,7 +38,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.data.LocationType
 import org.scottishtecharmy.soundscape.screens.onboarding.language.Language
-import org.scottishtecharmy.soundscape.utils.supportedLanguages
+import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
 import org.scottishtecharmy.soundscape.utils.toLocationDescription
 import org.scottishtecharmy.soundscape.utils.process
 import org.scottishtecharmy.soundscape.network.PhotonSearchProvider

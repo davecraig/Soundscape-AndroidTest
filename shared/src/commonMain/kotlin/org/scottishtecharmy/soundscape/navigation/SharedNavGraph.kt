@@ -137,6 +137,7 @@ fun SharedNavHost(
                             popUpTo(SharedRoutes.ONBOARDING) { inclusive = true }
                         }
                     },
+                    onSetApplicationLocale = callbacks.onSetApplicationLocale,
                 )
             }
         }
@@ -540,6 +541,7 @@ fun SharedNavHost(
                     } else {
                         null
                     },
+                    onSetApplicationLocale = callbacks.onSetApplicationLocale,
                     onResetSettings = if (preferencesProvider != null) {
                         {
                             preferencesProvider.clearAll()

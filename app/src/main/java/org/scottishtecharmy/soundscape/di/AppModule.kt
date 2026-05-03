@@ -17,7 +17,6 @@ import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabasePr
 import org.scottishtecharmy.soundscape.screens.home.Navigator
 import org.scottishtecharmy.soundscape.screens.onboarding.AudioOnboardingViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.AccessibilityOnboardingViewModel
-import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.OffscreenStorageOnboardingViewModel
 import org.scottishtecharmy.soundscape.utils.AndroidMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.AndroidOfflineMapsManager
@@ -69,7 +68,6 @@ val appModule = module {
     // via the createXxxViewModel factories in AppCallbacks.
     viewModelOf(::HomeViewModel)
     viewModelOf(::SettingsViewModel)
-    viewModelOf(::LanguageViewModel)
     viewModelOf(::AccessibilityOnboardingViewModel)
     viewModelOf(::AudioOnboardingViewModel)
     viewModelOf(::OffscreenStorageOnboardingViewModel)

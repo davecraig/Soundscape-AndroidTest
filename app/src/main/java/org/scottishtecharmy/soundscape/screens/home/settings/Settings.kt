@@ -25,8 +25,6 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
-import org.scottishtecharmy.soundscape.screens.onboarding.language.Language
-import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageDropDownMenu
 import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.StorageDropDownMenu
 import org.scottishtecharmy.soundscape.screens.talkbackHint
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
@@ -41,13 +39,11 @@ fun Settings(
     navController: NavHostController,
     uiState: SettingsViewModel.SettingsUiState,
     modifier: Modifier = Modifier,
-    supportedLanguages: List<Language>,
-    onLanguageSelected: (Language) -> Unit,
-    selectedLanguageIndex: Int,
     storages: List<StorageUtils.StorageSpace>,
     onStorageSelected: (String) -> Unit,
     selectedStorageIndex: Int,
     onResetSettings: (() -> Unit)?,
+    onSetApplicationLocale: ((String?) -> Unit)?,
     previewExpandedSection: String? = null,
 ) {
     val beaconValues = uiState.beaconValues
@@ -93,6 +89,7 @@ fun Settings(
             navController.navigate(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS)
         },
         onResetSettings = onResetSettings,
+        onSetApplicationLocale = onSetApplicationLocale,
         modifier = modifier,
 
         platformAccessibilityContent = {
@@ -163,25 +160,6 @@ fun Settings(
                 },
                 summary = { ClickableOption(it, textColor) },
             )
-        },
-
-        platformLanguageContent = {
-            item {
-                Column(modifier = expandedSectionModifier.fillMaxWidth()) {
-                    Text(
-                        text = stringResource(Res.string.first_launch_change_language),
-                        color = textColor,
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                    LanguageDropDownMenu(
-                        allLanguages = supportedLanguages,
-                        onLanguageSelected = onLanguageSelected,
-                        selectedLanguageIndex = selectedLanguageIndex,
-                        modifier = Modifier.smallPadding(),
-                        backgroundColor = MaterialTheme.colorScheme.surface,
-                    )
-                }
-            }
         },
 
         platformMediaControlsContent = {

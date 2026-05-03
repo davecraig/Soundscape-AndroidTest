@@ -189,7 +189,16 @@ fun MainViewController() = ComposeUIViewController {
                 if (fileUrl != null) presentShareSheet(fileUrl)
             },
             onShareLocation = { desc, message ->
-                presentShareText(buildShareLocationText(desc, message))
+                presentShareText(
+                    org.scottishtecharmy.soundscape.utils.buildShareLocationText(
+                        desc = desc,
+                        messageTemplate = message,
+                        mapsName = "Apple Maps",
+                        mapsUrlBuilder = { lat, lon, encodedName ->
+                            "https://maps.apple.com/?q=$encodedName&ll=$lat,$lon"
+                        },
+                    ),
+                )
             },
             onRateApp = {
                 val url = NSURL.URLWithString("itms-apps://itunes.apple.com/app/idXXXXXXXX?action=write-review")
@@ -211,8 +220,26 @@ fun MainViewController() = ComposeUIViewController {
                     LocationDescription("", LngLatAlt())
                 }
             },
-            onSetApplicationLocale = { /* TODO iOS NSUserDefaults AppleLanguages */ },
-            onGetLanguageMismatch = { null },
+            onSetApplicationLocale = { tag ->
+                // iOS reads the per-app language override from
+                // NSUserDefaults["AppleLanguages"] at launch. Writing it now
+                // takes effect on the next launch — terminate the process so
+                // the user re-launches into the chosen language.
+                if (tag != null) {
+                    platform.Foundation.NSUserDefaults.standardUserDefaults.setObject(
+                        listOf(tag),
+                        forKey = "AppleLanguages",
+                    )
+                } else {
+                    platform.Foundation.NSUserDefaults.standardUserDefaults.removeObjectForKey(
+                        "AppleLanguages",
+                    )
+                }
+                platform.posix.exit(0)
+            },
+            onGetLanguageMismatch = {
+                org.scottishtecharmy.soundscape.screens.onboarding.language.getLanguageMismatch()
+            },
             getOpenSourceLicensesJson = { readResourceText("open_source_licenses.json") },
             // No onResetSettings hook — SharedNavGraph clears the
             // PreferencesProvider and navigates to the onboarding flow when
@@ -261,51 +288,3 @@ internal fun openExternalUrl(url: NSURL) {
     )
 }
 
-private fun buildShareLocationText(
-    desc: LocationDescription,
-    messageTemplate: String,
-): String {
-    val latitude = formatCoordinate(desc.location.latitude)
-    val longitude = formatCoordinate(desc.location.longitude)
-    val encodedName = urlEncode(desc.name)
-    val soundscapeUrl =
-        "https://links.soundscape.scottishtecharmy.org/v1/sharemarker?" +
-            "lat=$latitude&lon=$longitude&name=$encodedName"
-    val appleMapsUrl =
-        "https://maps.apple.com/?q=$encodedName&ll=$latitude,$longitude"
-    return messageTemplate
-        .replace("Google Maps", "Apple Maps")
-        .replace("%1\$s", desc.name)
-        .replace("%2\$s", soundscapeUrl)
-        .replace("%3\$s", appleMapsUrl)
-}
-
-private fun formatCoordinate(value: Double): String {
-    val scaled = kotlin.math.round(value * 100000.0) / 100000.0
-    val asString = scaled.toString()
-    val dot = asString.indexOf('.')
-    return when {
-        dot < 0 -> "$asString.00000"
-        asString.length - dot - 1 >= 5 -> asString.substring(0, dot + 6)
-        else -> asString + "0".repeat(5 - (asString.length - dot - 1))
-    }
-}
-
-private fun urlEncode(value: String): String {
-    val bytes = value.encodeToByteArray()
-    val builder = StringBuilder(bytes.size)
-    for (b in bytes) {
-        val c = b.toInt() and 0xFF
-        val isUnreserved = (c in 0x30..0x39) || // 0-9
-            (c in 0x41..0x5A) || // A-Z
-            (c in 0x61..0x7A) || // a-z
-            c == '-'.code || c == '_'.code || c == '.'.code || c == '~'.code
-        if (isUnreserved) {
-            builder.append(c.toChar())
-        } else {
-            builder.append('%')
-            builder.append(c.toString(16).uppercase().padStart(2, '0'))
-        }
-    }
-    return builder.toString()
-}

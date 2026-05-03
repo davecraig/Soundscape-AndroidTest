@@ -12,11 +12,21 @@ import org.koin.androidx.compose.koinViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.AccessibilityOnboardingScreenVM
 import org.scottishtecharmy.soundscape.screens.onboarding.audiobeacons.AudioBeaconsScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.finish.FinishScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.hearing.HearingScreen
-import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageScreen
+import org.scottishtecharmy.soundscape.screens.onboarding.language.SharedLanguageScreen
+import org.scottishtecharmy.soundscape.screens.onboarding.language.getAppLocale
+import org.scottishtecharmy.soundscape.screens.onboarding.language.getSystemLocale
+import org.scottishtecharmy.soundscape.screens.onboarding.language.indexOfBestLanguageMatch
+import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
 import org.scottishtecharmy.soundscape.screens.onboarding.listening.ListeningScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.battery.BatteryOptimizationScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.navigating.NavigatingScreen
@@ -44,11 +54,23 @@ fun SetUpOnboardingNavGraph(
             )
         }
         composable(OnboardingScreens.Language.route) {
-            LanguageScreen(
-                onNavigate = { navController.navigate(OnboardingScreens.Navigating.route) },
+            val initialIndex = remember {
+                indexOfBestLanguageMatch(getAppLocale() ?: getSystemLocale())
+            }
+            var selectedIndex by remember { mutableIntStateOf(initialIndex) }
+            SharedLanguageScreen(
+                supportedLanguages = supportedLanguages,
+                selectedLanguageIndex = selectedIndex,
+                onLanguageSelected = { language ->
+                    selectedIndex = supportedLanguages.indexOf(language)
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags("${language.code}-${language.region}"),
+                    )
+                },
+                onContinue = { navController.navigate(OnboardingScreens.Navigating.route) },
                 modifier = Modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing)
-                    .semantics { testTagsAsResourceId = true }
+                    .semantics { testTagsAsResourceId = true },
             )
         }
         composable(OnboardingScreens.Listening.route) {

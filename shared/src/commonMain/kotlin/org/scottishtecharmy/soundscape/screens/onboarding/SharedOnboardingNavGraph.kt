@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -25,6 +26,12 @@ import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.isScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.audiobeacons.AudioBeacons
 import org.scottishtecharmy.soundscape.screens.onboarding.finish.FinishScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.hearing.Hearing
+import org.scottishtecharmy.soundscape.screens.onboarding.language.Language
+import org.scottishtecharmy.soundscape.screens.onboarding.language.SharedLanguageScreen
+import org.scottishtecharmy.soundscape.screens.onboarding.language.getAppLocale
+import org.scottishtecharmy.soundscape.screens.onboarding.language.getSystemLocale
+import org.scottishtecharmy.soundscape.screens.onboarding.language.indexOfBestLanguageMatch
+import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
 import org.scottishtecharmy.soundscape.screens.onboarding.listening.Listening
 import org.scottishtecharmy.soundscape.screens.onboarding.permissions.PermissionsScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.terms.TermsScreen
@@ -32,6 +39,7 @@ import org.scottishtecharmy.soundscape.screens.onboarding.welcome.Welcome
 
 private object OnboardingRoutes {
     const val WELCOME = "onboarding_welcome"
+    const val LANGUAGE = "onboarding_language"
     const val LISTENING = "onboarding_listening"
     const val HEARING = "onboarding_hearing"
     const val PERMISSIONS = "onboarding_permissions"
@@ -47,6 +55,8 @@ fun SharedOnboardingNavHost(
     preferencesProvider: PreferencesProvider,
     beaconTypes: List<String>,
     onFinish: () -> Unit,
+    /** Persists the user's language choice. Default is a no-op. */
+    onSetApplicationLocale: (String?) -> Unit = {},
 ) {
     val navController = rememberNavController()
 
@@ -70,7 +80,26 @@ fun SharedOnboardingNavHost(
     ) {
         composable(OnboardingRoutes.WELCOME) {
             Welcome(
-                onNavigate = { navController.navigate(OnboardingRoutes.LISTENING) },
+                onNavigate = { navController.navigate(OnboardingRoutes.LANGUAGE) },
+            )
+        }
+
+        composable(OnboardingRoutes.LANGUAGE) {
+            // Seed selection from the current effective locale (app override
+            // first, falling back to the system locale) so the user sees what
+            // they'll get if they tap Continue without changing anything.
+            val initialIndex = remember {
+                indexOfBestLanguageMatch(getAppLocale() ?: getSystemLocale())
+            }
+            var selectedIndex by remember { mutableIntStateOf(initialIndex) }
+            SharedLanguageScreen(
+                supportedLanguages = supportedLanguages,
+                selectedLanguageIndex = selectedIndex,
+                onLanguageSelected = { language: Language ->
+                    selectedIndex = supportedLanguages.indexOf(language)
+                    onSetApplicationLocale("${language.code}-${language.region}")
+                },
+                onContinue = { navController.navigate(OnboardingRoutes.LISTENING) },
             )
         }
 

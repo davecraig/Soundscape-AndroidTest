@@ -16,8 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import me.zhanghai.compose.preference.ProvidePreferenceLocals
@@ -33,6 +34,11 @@ import org.scottishtecharmy.soundscape.preferences.rememberBooleanPreferenceStat
 import org.scottishtecharmy.soundscape.resources.*
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomAppBar
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
+import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageDropDownMenu
+import org.scottishtecharmy.soundscape.screens.onboarding.language.getAppLocale
+import org.scottishtecharmy.soundscape.screens.onboarding.language.getSystemLocale
+import org.scottishtecharmy.soundscape.screens.onboarding.language.indexOfBestLanguageMatch
+import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages as appSupportedLanguages
 import org.scottishtecharmy.soundscape.screens.talkbackHint
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.smallPadding
@@ -60,6 +66,11 @@ fun SharedSettingsScreen(
      * the app (Android relaunches the activity, iOS exits via `exit(0)`).
      */
     onResetSettings: (() -> Unit)? = null,
+    /**
+     * Persists the user's per-app language choice. When non-null, the Language
+     * section renders a [LanguageDropDownMenu] reflecting the current locale.
+     */
+    onSetApplicationLocale: ((String?) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val showResetDialog = rememberSaveable { mutableStateOf(false) }
@@ -374,6 +385,25 @@ fun SharedSettingsScreen(
                     },
                     summary = { ClickableOption(unitsDescriptions[unitsValues.indexOf(it)], textColor) },
                 )
+
+                if (onSetApplicationLocale != null) {
+                    item(key = "language_picker") {
+                        // Re-derive on each show so that returning to Settings
+                        // after a per-app locale change reflects the new choice.
+                        val selectedIndex = remember(expandedSection.value) {
+                            indexOfBestLanguageMatch(getAppLocale() ?: getSystemLocale())
+                        }
+                        Column(modifier = expandedSectionModifier.fillMaxWidth().mediumPadding()) {
+                            LanguageDropDownMenu(
+                                allLanguages = appSupportedLanguages,
+                                onLanguageSelected = { language ->
+                                    onSetApplicationLocale("${language.code}-${language.region}")
+                                },
+                                selectedLanguageIndex = selectedIndex,
+                            )
+                        }
+                    }
+                }
 
                 platformLanguageContent?.invoke(this)
             }
