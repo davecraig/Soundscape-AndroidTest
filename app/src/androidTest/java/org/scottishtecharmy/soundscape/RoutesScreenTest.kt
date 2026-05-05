@@ -171,7 +171,8 @@ class RoutesScreenTest {
                     userLocation = null,
                     clearErrorMessage = {},
                     onToggleSortOrder = {},
-                    onToggleSortByName = { sortByNameToggled = true }
+                    onToggleSortByName = { sortByNameToggled = true },
+                    onSelectItem = {}
                 )
             }
         }

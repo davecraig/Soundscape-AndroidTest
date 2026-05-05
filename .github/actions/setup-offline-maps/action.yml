@@ -1,0 +1,23 @@
+name: Setup offline maps for tests
+description: Downloads the pmtiles and manifest fixtures used by the Android test suite.
+
+inputs:
+  output_dir:
+    description: Directory where pmtiles and the manifest are written.
+    required: false
+    default: app/src/test/res/org/scottishtecharmy/soundscape
+
+runs:
+  using: composite
+  steps:
+    - name: Download pmtiles + manifest
+      shell: bash
+      env:
+        OUTPUT_DIR: ${{ inputs.output_dir }}
+      run: |
+        mkdir -p "$OUTPUT_DIR"
+        base=https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev
+        wget --no-verbose --show-progress --progress=dot:giga "$base/street-metadata/bristol-gb.pmtiles"   -O "$OUTPUT_DIR/bristol-gb.pmtiles"
+        wget --no-verbose --show-progress --progress=dot:giga "$base/street-metadata/glasgow-gb.pmtiles"   -O "$OUTPUT_DIR/glasgow-gb.pmtiles"
+        wget --no-verbose --show-progress --progress=dot:giga "$base/street-metadata/liverpool-gb.pmtiles" -O "$OUTPUT_DIR/liverpool-gb.pmtiles"
+        wget --no-verbose --show-progress --progress=dot:giga "$base/manifest.geojson.gz"                  -O "$OUTPUT_DIR/manifest.geojson.gz"

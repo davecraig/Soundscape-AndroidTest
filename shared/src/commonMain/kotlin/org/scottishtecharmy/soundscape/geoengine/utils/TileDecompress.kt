@@ -28,7 +28,7 @@ fun decompressTile(compressionType: Byte?, rawTileData: ByteArray): Tile? {
             return decompressedTile?.let { Tile.ADAPTER.decode(it) }
         }
 
-        else -> assert(false)
+        else -> check(false) { "Unsupported tile compression byte: ${rawTileData.firstOrNull()}" }
     }
     return null
 }

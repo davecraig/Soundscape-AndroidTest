@@ -7,9 +7,8 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.analytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.crashlytics
-import javax.inject.Inject
 
-class FirebaseAnalyticsImpl @Inject constructor(context: Context) : Analytics {
+class FirebaseAnalyticsImpl(context: Context) : Analytics {
     init {
         // We disabled auto initialization, so initialize now
         FirebaseApp.initializeApp(context)

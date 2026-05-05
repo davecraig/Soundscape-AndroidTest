@@ -26,21 +26,12 @@ jobs:
           fetch-depth: 0
 
       - name: Setup offline maps for tests
-        run: |
-          pwd
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/street-metadata/bristol-gb.pmtiles  -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/bristol-gb.pmtiles
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/street-metadata/glasgow-gb.pmtiles -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/glasgow-gb.pmtiles
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/street-metadata/liverpool-gb.pmtiles -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/liverpool-gb.pmtiles
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/manifest.geojson.gz -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/manifest.geojson.gz
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-
-      - name: Set Up JDK
-        uses: actions/setup-java@v5
+        uses: ./.github/actions/setup-offline-maps
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '19'
+          output_dir: ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape
+
+      - name: Setup JDK + Gradle
+        uses: ./.github/actions/setup-jdk-gradle
 
 #      Setting up the tile and search providers from secrets won't work for runners which are
 #      triggered from forks e.g. to test a pull request. The tests that require tiles check if the
@@ -48,18 +39,14 @@ jobs:
 #      the tile provider will be available.
 
       - name: Setup tile and search providers
-        env:
-          TILE_PROVIDER_API_KEY: ${{ secrets.TILE_PROVIDER_API_KEY }}
-          TILE_PROVIDER_URL: ${{ secrets.TILE_PROVIDER_URL }}
-          SEARCH_PROVIDER_API_KEY: ${{ secrets.SEARCH_PROVIDER_API_KEY }}
-          SEARCH_PROVIDER_URL: ${{ secrets.SEARCH_PROVIDER_URL }}
-          EXTRACT_PROVIDER_URL: ${{ secrets.EXTRACT_PROVIDER_URL }}
-        run: |
-          echo tileProviderUrl="$TILE_PROVIDER_URL" > local.properties
-          echo tileProviderApiKey="$TILE_PROVIDER_API_KEY" >> local.properties
-          echo searchProviderUrl="$SEARCH_PROVIDER_URL" >> local.properties
-          echo searchProviderApiKey="$SEARCH_PROVIDER_API_KEY" >> local.properties
-          echo extractProviderUrl="$EXTRACT_PROVIDER_URL" >> local.properties
+        uses: ./.github/actions/write-provider-config
+        with:
+          platform: android
+          tile_provider_url: ${{ secrets.TILE_PROVIDER_URL }}
+          tile_provider_api_key: ${{ secrets.TILE_PROVIDER_API_KEY }}
+          search_provider_url: ${{ secrets.SEARCH_PROVIDER_URL }}
+          search_provider_api_key: ${{ secrets.SEARCH_PROVIDER_API_KEY }}
+          extract_provider_url: ${{ secrets.EXTRACT_PROVIDER_URL }}
 
       - name: Generate test screenshots
         run: |
@@ -116,4 +103,93 @@ jobs:
 
       - name: Raise error on test fail # set a red tick on the workflow run if the tests failed
         if: steps.instrumentation-tests.outcome != 'success'
+        run: exit 1
+
+  ios-test:
+    name: Build and test iOS app
+    runs-on: macos-15
+    environment: development
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup iOS toolchain
+        uses: ./.github/actions/setup-ios-toolchain
+
+      # As with Android, secrets won't be available on fork-triggered PRs.
+      # iOS tests that require provider URLs check at runtime, so an empty
+      # Local.xcconfig is acceptable.
+      - name: Setup tile and search providers
+        uses: ./.github/actions/write-provider-config
+        with:
+          platform: ios
+          tile_provider_url: ${{ secrets.TILE_PROVIDER_URL }}
+          search_provider_url: ${{ secrets.SEARCH_PROVIDER_URL }}
+          extract_provider_url: ${{ secrets.EXTRACT_PROVIDER_URL }}
+
+      - name: Generate Xcode project
+        working-directory: iosApp
+        run: xcodegen generate
+
+      # We can't link the iOS test binary because maplibre-compose's published
+      # .klib has linker flags pointing at MapLibre.framework that our build
+      # has no way to provide outside the Xcode/SPM toolchain. Compile the
+      # test sources to catch Kotlin/iOS errors; the XCTest step below
+      # exercises the linked code via xcodebuild.
+      - name: Compile shared Kotlin/Native tests for iOS simulator
+        run: ./gradlew :shared:compileTestKotlinIosSimulatorArm64
+
+      # The runner image does not always pre-register a concrete simulator
+      # device (xcodebuild only sees the "Any iOS Simulator" placeholder), so
+      # pin the destination to a real UDID at runtime.
+      - name: Pick iOS simulator
+        run: |
+          xcrun simctl list runtimes
+          xcrun simctl list devices available
+          UDID=$(xcrun simctl list devices available --json \
+            | jq -r '[.devices | to_entries[] | select(.key | test("iOS")) | .value[] | select(.isAvailable and (.name | startswith("iPhone")))][0].udid // empty')
+          if [ -z "$UDID" ]; then
+            echo "No iPhone simulator pre-registered; creating one."
+            RUNTIME=$(xcrun simctl list runtimes available -j \
+              | jq -r '[.runtimes[] | select(.isAvailable and .platform == "iOS")] | sort_by(.version) | reverse | .[0].identifier')
+            DEVICETYPE=$(xcrun simctl list devicetypes -j \
+              | jq -r '[.devicetypes[] | select(.productFamily == "iPhone")] | sort_by(.name) | reverse | .[0].identifier')
+            UDID=$(xcrun simctl create "CI iPhone" "$DEVICETYPE" "$RUNTIME")
+          fi
+          echo "Using simulator $UDID"
+          echo "SIMULATOR_DESTINATION=platform=iOS Simulator,id=$UDID" >> "$GITHUB_ENV"
+
+      - name: Build iOS app for simulator
+        run: |
+          xcodebuild build-for-testing \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination "$SIMULATOR_DESTINATION" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run XCTest suite
+        id: xctest
+        continue-on-error: true
+        run: |
+          xcodebuild test-without-building \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination "$SIMULATOR_DESTINATION" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload xcresult bundle
+        if: steps.xctest.outcome != 'success'
+        uses: actions/upload-artifact@v6
+        with:
+          name: ios-xcresult
+          path: ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
+
+      - name: Raise error on test fail
+        if: steps.xctest.outcome != 'success'
         run: exit 1

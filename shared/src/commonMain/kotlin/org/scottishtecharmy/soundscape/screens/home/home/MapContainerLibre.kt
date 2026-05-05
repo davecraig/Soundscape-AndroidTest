@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
@@ -143,20 +142,13 @@ fun MapContainerLibre(
             cameraState = cameraState,
             styleState = styleState,
             options = MapOptions(
-                gestureOptions = GestureOptions(
-                    isScrollEnabled = allowScrolling,
-                    isTiltEnabled = false,
-                    isRotateEnabled = false
-                ),
-                ornamentOptions = OrnamentOptions(
-                    isLogoEnabled = false,
-                    isAttributionEnabled = true,
-                    attributionAlignment = Alignment.BottomEnd,
-                    isCompassEnabled = true,
-                    compassAlignment = Alignment.TopEnd,
-                    isScaleBarEnabled = true,
-                    scaleBarAlignment = Alignment.BottomEnd
-                ),
+                // maplibre-compose 0.12.1 only exposes companion-object presets
+                // for these option types in commonMain; per-ornament alignment
+                // customisation requires expect/actual code.
+                // RotationLocked = scroll + zoom on, rotation + tilt off.
+                gestureOptions = if (allowScrolling) GestureOptions.RotationLocked
+                                 else GestureOptions.AllDisabled,
+                ornamentOptions = OrnamentOptions.AllEnabled,
                 // Platform-specific render options: Android uses TextureView so
                 // the map participates in Compose's fade/slide nav transitions
                 // (the default SurfaceView is a hardware overlay that doesn't

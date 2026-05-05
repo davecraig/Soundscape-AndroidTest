@@ -2,12 +2,12 @@ package org.scottishtecharmy.soundscape
 
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
-import org.scottishtecharmy.soundscape.screens.home.Navigator
+import org.scottishtecharmy.soundscape.intents.IntentEventBus
 
 class IntentTest {
 
     private fun testRedirectUrl(url: String, expectedResult: String) {
-        val si = SoundscapeIntents(Navigator())
+        val si = SoundscapeIntents(IntentEventBus())
         val result = si.getRedirectUrlSync(url, InstrumentationRegistry.getInstrumentation().targetContext)
         assert(expectedResult == result)
     }

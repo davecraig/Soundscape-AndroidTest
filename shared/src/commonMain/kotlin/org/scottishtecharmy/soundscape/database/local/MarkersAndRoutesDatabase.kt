@@ -21,4 +21,6 @@ abstract class MarkersAndRoutesDatabase : RoomDatabase() {
 
 // Room KMP generates the implementation via KSP
 @Suppress("NO_ACTUAL_FOR_EXPECT")
-expect object MarkersAndRoutesDatabaseConstructor : RoomDatabaseConstructor<MarkersAndRoutesDatabase>
+expect object MarkersAndRoutesDatabaseConstructor : RoomDatabaseConstructor<MarkersAndRoutesDatabase> {
+    override fun initialize(): MarkersAndRoutesDatabase
+}

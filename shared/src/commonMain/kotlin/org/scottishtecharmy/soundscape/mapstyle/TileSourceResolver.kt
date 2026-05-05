@@ -1,12 +1,12 @@
 package org.scottishtecharmy.soundscape.mapstyle
 
-import okio.FileSystem
 import okio.Path.Companion.toPath
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.PROTOMAPS_SERVER_PATH
 import org.scottishtecharmy.soundscape.geoengine.utils.getXYTile
 import org.scottishtecharmy.soundscape.geoengine.utils.pmtiles.PmTilesReader
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.platform.systemFileSystem
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 
 /**
@@ -50,7 +50,7 @@ fun resolveTileSourceUrl(
             reader.close()
 
             if (tile != null) {
-                val fileSize = FileSystem.SYSTEM.metadata(extract.toPath()).size ?: 0L
+                val fileSize = systemFileSystem.metadata(extract.toPath()).size ?: 0L
                 if (fileSize > bestSize) {
                     bestPath = extract
                     bestSize = fileSize

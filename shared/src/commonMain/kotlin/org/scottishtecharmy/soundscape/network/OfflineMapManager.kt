@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import okio.FileSystem
 import okio.Path.Companion.toPath
+import org.scottishtecharmy.soundscape.platform.systemFileSystem
 import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
@@ -193,8 +193,8 @@ class OfflineMapManager(
                             // Rename temp file to final
                             val tempFile = tempPath.toPath()
                             val finalFile = outputPath.toPath()
-                            try { FileSystem.SYSTEM.delete(finalFile) } catch (_: Exception) {}
-                            FileSystem.SYSTEM.atomicMove(tempFile, finalFile)
+                            try { systemFileSystem.delete(finalFile) } catch (_: Exception) {}
+                            systemFileSystem.atomicMove(tempFile, finalFile)
                             _downloadState.value = DownloadStateCommon.Success
                             refreshDownloaded()
                             return@launch
@@ -220,10 +220,10 @@ class OfflineMapManager(
                 }
             } catch (e: CancellationException) {
                 _downloadState.value = DownloadStateCommon.Canceled
-                try { FileSystem.SYSTEM.delete(tempPath.toPath()) } catch (_: Exception) {}
+                try { systemFileSystem.delete(tempPath.toPath()) } catch (_: Exception) {}
             } catch (e: Exception) {
                 _downloadState.value = DownloadStateCommon.Error(e.message ?: "Download failed")
-                try { FileSystem.SYSTEM.delete(tempPath.toPath()) } catch (_: Exception) {}
+                try { systemFileSystem.delete(tempPath.toPath()) } catch (_: Exception) {}
             }
         }
     }
@@ -237,9 +237,9 @@ class OfflineMapManager(
      */
     fun deleteExtract(path: String) {
         try {
-            FileSystem.SYSTEM.delete(path.toPath())
+            systemFileSystem.delete(path.toPath())
             // Also delete the metadata file if it exists
-            try { FileSystem.SYSTEM.delete("$path.geojson".toPath()) } catch (_: Exception) {}
+            try { systemFileSystem.delete("$path.geojson".toPath()) } catch (_: Exception) {}
             refreshDownloaded()
         } catch (e: Exception) {
             println("OfflineMapManager: Error deleting extract: ${e.message}")

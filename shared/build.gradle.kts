@@ -43,6 +43,7 @@ kotlin {
             api(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.maplibre.compose)
+            implementation(libs.okio)
             implementation(libs.composepreferencelibrary)
             implementation(libs.jetbrains.navigation.compose)
             implementation(libs.jetbrains.lifecycle.viewmodel)

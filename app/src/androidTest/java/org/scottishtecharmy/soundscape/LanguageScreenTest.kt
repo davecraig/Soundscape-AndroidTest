@@ -14,8 +14,8 @@ import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Rule
 import org.junit.Test
-import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageComposable
-import org.scottishtecharmy.soundscape.screens.onboarding.language.MockLanguagePreviewData
+import org.scottishtecharmy.soundscape.screens.onboarding.language.SharedLanguageScreen
+import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.utils.TestTags
 
@@ -31,9 +31,9 @@ class LanguageScreenTest {
     fun whenNoLanguageSelectedThenNoLanguageLabelDisplayedAndContinueButtonDisabled(){
         composeTestRule.setContent {
             SoundscapeTheme {
-                LanguageComposable(
-                    supportedLanguages = MockLanguagePreviewData.languages,
-                    onNavigate = {},
+                SharedLanguageScreen(
+                    supportedLanguages = supportedLanguages,
+                    onContinue = {},
                     onLanguageSelected = {},
                     selectedLanguageIndex = -1,
                 )
@@ -59,20 +59,20 @@ class LanguageScreenTest {
         val selectedIndex = 1
         composeTestRule.setContent {
             SoundscapeTheme {
-                LanguageComposable(
-                    supportedLanguages = MockLanguagePreviewData.languages,
+                SharedLanguageScreen(
+                    supportedLanguages = supportedLanguages,
                     onLanguageSelected = {},
                     selectedLanguageIndex = selectedIndex,
-                    onNavigate = {}
+                    onContinue = {}
                 )
             }
         }
 
-        composeTestRule.onNodeWithText(MockLanguagePreviewData.languages[selectedIndex].name)
+        composeTestRule.onNodeWithText(supportedLanguages[selectedIndex].name)
             .assertIsDisplayed()
             .performClick()
 
-        MockLanguagePreviewData.languages.forEachIndexed { index, language ->
+        supportedLanguages.forEachIndexed { index, language ->
             if( index == selectedIndex ) {
                 composeTestRule.onNodeWithTag(
                     testTag = "${TestTags.LANGUAGE_DROPDOWN_ITEM}${language.code}-${language.region}",

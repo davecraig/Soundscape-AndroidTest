@@ -8,9 +8,10 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.navigation.NavController
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.junit.Rule
 import org.junit.Test
@@ -26,9 +27,7 @@ import org.scottishtecharmy.soundscape.screens.home.home.SectionType
 import org.scottishtecharmy.soundscape.screens.home.home.SharedHomeScreen
 import org.scottishtecharmy.soundscape.screens.home.home.StreetPreviewFunctions
 import org.scottishtecharmy.soundscape.screens.home.home.helpPages
-import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyUiState
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.RouteDetailsScreen
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.RouteDetailsUiState
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.SharedRouteDetailsScreen
 import org.scottishtecharmy.soundscape.services.RoutePlayerState
 import org.scottishtecharmy.soundscape.screens.home.HomeState
 import java.io.File
@@ -200,28 +199,27 @@ class DocumentationScreens {
 
     @Test
     fun routeDetailsScreen(){
-        val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val waypoints = routeToShops.markers.map { marker ->
+            LocationDescription(
+                name = marker.name,
+                location = LngLatAlt(marker.longitude, marker.latitude),
+            )
+        }
 
         runScreenTest("routeDetails") {
-            RouteDetailsScreen(
-                navController = NavController(targetContext),
-                routeId = 1,
-                modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
-                uiState = RouteDetailsUiState(
-                    route = routeToShops
-                ),
-                routePlayerState = RoutePlayerState(
-                    null,
-                    0
-                ),
-                getRouteById = { },
-                startRoute = { },
-                startRouteInReverse = { },
-                stopRoute = { },
-                shareRoute = { },
-                clearErrorMessage = { },
+            SharedRouteDetailsScreen(
+                routeName = routeToShops.route.name,
+                routeDescription = routeToShops.route.description,
+                waypoints = waypoints,
+                isRoutePlaying = false,
                 userLocation = location,
-                heading = 45.0F
+                heading = 45.0F,
+                onNavigateUp = { },
+                onStartRoute = { },
+                onStartRouteInReverse = { },
+                onStopRoute = { },
+                onEditRoute = { },
+                onShareRoute = { },
             )
         }
     }
@@ -242,7 +240,7 @@ class DocumentationScreens {
 
             if(page.titleId == Res.string.menu_help)
                 continue
-            val pageTitle = targetContext.getString(page.titleId)
+            val pageTitle = runBlocking { getString(page.titleId) }
 
             val markdownOutput = StringBuilder()
             markdownOutput.append("---\n")
@@ -260,18 +258,20 @@ class DocumentationScreens {
                     SectionType.Faq -> {
                         markdownOutput.append("\n")
                         markdownOutput.append("### ")
-                        markdownOutput.append(targetContext.getString(section.textId))
+                        markdownOutput.append(runBlocking { getString(section.textId) })
                         markdownOutput.append("\n")
-                        markdownOutput.append(targetContext.getString(section.faqAnswer))
+                        section.faqAnswer?.let { answer ->
+                            markdownOutput.append(runBlocking { getString(answer) })
+                        }
                     }
                     SectionType.Title -> {
                         markdownOutput.append("\n")
                         markdownOutput.append("## ")
-                        markdownOutput.append(targetContext.getString(section.textId))
+                        markdownOutput.append(runBlocking { getString(section.textId) })
                     }
                     else -> {
                         markdownOutput.append("\n")
-                        markdownOutput.append(targetContext.getString(section.textId))
+                        markdownOutput.append(runBlocking { getString(section.textId) })
                     }
                 }
                 markdownOutput.append("\n")

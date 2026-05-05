@@ -45,8 +45,8 @@ android {
         applicationId = "org.scottishtecharmy.soundscape"
         minSdk = 30
         targetSdk = 35
-        versionCode = 188
-        versionName = "0.4.14"
+        versionCode = 1000
+        versionName = "2.0.0"
 
         // Maintaining this list means that we can exclude translations that aren't complete yet
         resourceConfigurations.addAll(listOf(
@@ -151,6 +151,9 @@ android {
         create("releaseTest") {
             initWith(getByName("release"))
             buildConfigField("Boolean", "DUMMY_ANALYTICS", "true")
+            // The :shared module only declares `debug` and `release`, so fall
+            // back to its `release` variant when consuming it from this build.
+            matchingFallbacks += listOf("release")
         }
     }
     compileOptions {

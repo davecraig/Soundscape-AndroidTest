@@ -1,0 +1,31 @@
+name: Setup iOS toolchain
+description: |
+  Pins Xcode, installs xcodegen, and sets up JDK + Gradle (needed by the
+  Kotlin shared module's Xcode pre-build script). The caller is responsible
+  for running `xcodegen generate` AFTER writing iosApp/Local.xcconfig (it is
+  gitignored, so a fresh checkout has no copy and xcodegen would fail).
+
+inputs:
+  xcode_version:
+    # Kotlin 2.2.x's bundled Native toolchain references the Xcode 16.4
+    # default toolchain path (see Kotlin/Native release notes). Mismatching
+    # versions produce `ld: search path '/Applications/Xcode_16.4.app/...
+    # not found` warnings followed by link failures.
+    description: Xcode version to select on the runner.
+    required: false
+    default: '16.4'
+
+runs:
+  using: composite
+  steps:
+    - name: Select Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: ${{ inputs.xcode_version }}
+
+    - name: Install xcodegen
+      shell: bash
+      run: brew install xcodegen
+
+    - name: Setup JDK + Gradle
+      uses: ./.github/actions/setup-jdk-gradle

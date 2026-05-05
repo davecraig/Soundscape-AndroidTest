@@ -226,7 +226,7 @@ fun vectorTileToGeoJson(tileX: Int,
             // Convert coordinates to GeoJSON. This is where we find out how many features
             // we're actually dealing with as there can be multiple features that have the
             // same properties.
-            assert(feature.type != null)
+            check(feature.type != null)
             val listOfGeometries = mutableListOf<GeoJsonObject>()
 
             // Parse tags
@@ -447,7 +447,7 @@ fun vectorTileToGeoJson(tileX: Int,
                 // Assert on all other geometry enum values
                 null,
                 Tile.GeomType.UNKNOWN -> {
-                    assert(false)
+                    check(false) { "Unexpected geometry type: ${feature.type}" }
                 }
             }
 

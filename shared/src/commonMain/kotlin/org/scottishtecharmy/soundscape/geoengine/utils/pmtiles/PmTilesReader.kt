@@ -6,8 +6,9 @@ import okio.FileSystem
 import okio.GzipSource
 import okio.Path
 import okio.buffer
+import org.scottishtecharmy.soundscape.platform.systemFileSystem
 
-class PmTilesReader(path: Path, fileSystem: FileSystem = FileSystem.SYSTEM) : AutoCloseable {
+class PmTilesReader(path: Path, fileSystem: FileSystem = systemFileSystem) : AutoCloseable {
 
     private val fileHandle: FileHandle = fileSystem.openReadOnly(path)
     private val header = Header()

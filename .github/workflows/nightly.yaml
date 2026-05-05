@@ -49,44 +49,28 @@ jobs:
           fetch-depth: 0
 
       - name: Setup offline maps for tests
-        run: |
-          pwd
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/street-metadata/bristol-gb.pmtiles  -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/bristol-gb.pmtiles
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/street-metadata/glasgow-gb.pmtiles -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/glasgow-gb.pmtiles
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/street-metadata/liverpool-gb.pmtiles -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/liverpool-gb.pmtiles
-          wget --no-verbose --show-progress --progress=dot:giga https://pub-0a3501283b024ab3bbfbb6d1e217f5d0.r2.dev/manifest.geojson.gz -O ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape/manifest.geojson.gz
+        uses: ./.github/actions/setup-offline-maps
+        with:
+          output_dir: ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape
 
       - name: Setup tile and search providers
-        env:
-          TILE_PROVIDER_API_KEY: ${{ secrets.TILE_PROVIDER_API_KEY }}
-          TILE_PROVIDER_URL: ${{ secrets.TILE_PROVIDER_URL }}
-          SEARCH_PROVIDER_API_KEY: ${{ secrets.SEARCH_PROVIDER_API_KEY }}
-          SEARCH_PROVIDER_URL: ${{ secrets.SEARCH_PROVIDER_URL }}
-          EXTRACT_PROVIDER_URL: ${{ secrets.EXTRACT_PROVIDER_URL }}
-        run: |
-          echo tileProviderUrl="$TILE_PROVIDER_URL" > local.properties
-          echo tileProviderApiKey="$TILE_PROVIDER_API_KEY" >> local.properties
-          echo searchProviderUrl="$SEARCH_PROVIDER_URL" >> local.properties
-          echo searchProviderApiKey="$SEARCH_PROVIDER_API_KEY" >> local.properties
-          echo extractProviderUrl="$EXTRACT_PROVIDER_URL" >> local.properties
+        uses: ./.github/actions/write-provider-config
+        with:
+          platform: android
+          tile_provider_url: ${{ secrets.TILE_PROVIDER_URL }}
+          tile_provider_api_key: ${{ secrets.TILE_PROVIDER_API_KEY }}
+          search_provider_url: ${{ secrets.SEARCH_PROVIDER_URL }}
+          search_provider_api_key: ${{ secrets.SEARCH_PROVIDER_API_KEY }}
+          extract_provider_url: ${{ secrets.EXTRACT_PROVIDER_URL }}
 
       - name: Decode Google services
-        env:
-          ENCODED_STRING: ${{ secrets.GOOGLE_SERVICES }}
-          GOOGLE_SERVICES_PATH: ${{ secrets.GOOGLE_SERVICES_PATH }}
-
-        run: |
-          echo $ENCODED_STRING > google-services-b64.txt
-          base64 -d google-services-b64.txt > ${{ env.main_project_module }}/$GOOGLE_SERVICES_PATH
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-
-      - name: Set Up JDK
-        uses: actions/setup-java@v5
+        uses: ./.github/actions/decode-base64-secret
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '19'
+          encoded: ${{ secrets.GOOGLE_SERVICES }}
+          output_path: ${{ env.main_project_module }}/${{ secrets.GOOGLE_SERVICES_PATH }}
+
+      - name: Setup JDK + Gradle
+        uses: ./.github/actions/setup-jdk-gradle
 
       - name: Run lint over the repo
         run: ./gradlew lint
@@ -97,13 +81,10 @@ jobs:
 
       # Setup release build keys
       - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
-          SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
-
-        run: |
-          echo $ENCODED_STRING > keystore-b64.txt
-          base64 -d keystore-b64.txt > ${{ env.main_project_module }}/$SIGNING_KEY_STORE_PATH
+        uses: ./.github/actions/decode-base64-secret
+        with:
+          encoded: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
+          output_path: ${{ env.main_project_module }}/${{ secrets.SIGNING_KEY_STORE_PATH }}
 
       # Create APK Release
       - name: Build apk project (APK)
@@ -231,3 +212,119 @@ jobs:
 
       - name: Run Robo test in Firebase Test Lab
         run: gcloud firebase test android run --type robo --app=app-releaseTest.apk --timeout=1800s --device model=shiba,version=34,locale=en,orientation=portrait
+
+  ios-build:
+    name: Build iOS app
+    runs-on: macos-15
+    environment: development
+    needs: check_date
+    if: ${{ needs.check_date.outputs.should_run != 'false' }}
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup iOS toolchain
+        uses: ./.github/actions/setup-ios-toolchain
+
+      - name: Setup tile and search providers
+        uses: ./.github/actions/write-provider-config
+        with:
+          platform: ios
+          tile_provider_url: ${{ secrets.TILE_PROVIDER_URL }}
+          search_provider_url: ${{ secrets.SEARCH_PROVIDER_URL }}
+          extract_provider_url: ${{ secrets.EXTRACT_PROVIDER_URL }}
+
+      - name: Generate Xcode project
+        working-directory: iosApp
+        run: xcodegen generate
+
+      # See run-tests.yaml: linking iosSimulatorArm64Test fails because of
+      # maplibre-compose's embedded linker flags. xcodebuild archive below
+      # builds via the Xcode/SPM toolchain that resolves MapLibre.
+      - name: Compile shared Kotlin/Native tests for iOS simulator
+        run: ./gradlew :shared:compileTestKotlinIosSimulatorArm64
+
+      - name: Setup iOS signing
+        uses: ./.github/actions/setup-ios-signing
+        with:
+          cert_base64: ${{ secrets.IOS_DIST_CERT_BASE64 }}
+          cert_password: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
+          provisioning_profile_base64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+          shareext_provisioning_profile_base64: ${{ secrets.IOS_SHAREEXT_PROVISIONING_PROFILE_BASE64 }}
+          keychain_password: ${{ secrets.IOS_KEYCHAIN_PASSWORD }}
+
+      # `-allowProvisioningUpdates` lets xcodebuild fetch/update profiles
+      # automatically — but on a CI runner with no Apple ID logged in, it must
+      # authenticate via an App Store Connect API key instead, otherwise it
+      # fails with "No Accounts: Add a new account in Accounts settings."
+      - name: Decode App Store Connect API key
+        uses: ./.github/actions/decode-base64-secret
+        with:
+          encoded: ${{ secrets.APPSTORE_CONNECT_API_KEY_BASE64 }}
+          output_path: ${{ runner.temp }}/private_keys/AuthKey_${{ secrets.APPSTORE_CONNECT_API_KEY_ID }}.p8
+
+      - name: Archive iOS app
+        env:
+          KEY_ID: ${{ secrets.APPSTORE_CONNECT_API_KEY_ID }}
+          ISSUER_ID: ${{ secrets.APPSTORE_CONNECT_API_ISSUER_ID }}
+        run: |
+          xcodebuild archive \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/Soundscape.xcarchive" \
+            -authenticationKeyPath "$RUNNER_TEMP/private_keys/AuthKey_$KEY_ID.p8" \
+            -authenticationKeyID "$KEY_ID" \
+            -authenticationKeyIssuerID "$ISSUER_ID" \
+            -allowProvisioningUpdates
+
+      # Manual signing during export so xcodebuild reuses the profile we
+      # imported in setup-ios-signing instead of asking Apple to mint a fresh
+      # managed profile (which may lack capabilities like Associated Domains
+      # that exist on the App ID but can't be granted under the API key role).
+      - name: Write export options
+        run: |
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store</string>
+            <key>teamID</key><string>48N3J4V5KM</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>org.scottishtecharmy.soundscape</key>
+              <string>${IOS_PROFILE_NAME}</string>
+              <key>org.scottishtecharmy.soundscape.share</key>
+              <string>${IOS_SHAREEXT_PROFILE_NAME}</string>
+            </dict>
+            <key>uploadBitcode</key><false/>
+            <key>uploadSymbols</key><true/>
+          </dict>
+          </plist>
+          PLIST
+
+      - name: Export .ipa
+        env:
+          KEY_ID: ${{ secrets.APPSTORE_CONNECT_API_KEY_ID }}
+          ISSUER_ID: ${{ secrets.APPSTORE_CONNECT_API_ISSUER_ID }}
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/Soundscape.xcarchive" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            -authenticationKeyPath "$RUNNER_TEMP/private_keys/AuthKey_$KEY_ID.p8" \
+            -authenticationKeyID "$KEY_ID" \
+            -authenticationKeyIssuerID "$ISSUER_ID" \
+            -allowProvisioningUpdates
+
+      - name: Upload .ipa
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-ipa
+          path: ${{ runner.temp }}/export/*.ipa
