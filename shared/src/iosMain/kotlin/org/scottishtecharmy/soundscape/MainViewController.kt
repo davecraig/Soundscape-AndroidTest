@@ -44,7 +44,7 @@ fun MainViewController() = ComposeUIViewController {
     // For returning users, ask now so the location provider can resume — iOS no-ops if the
     // status is already determined.
     if (!isFirstLaunch) {
-        remember { service.locationProvider.requestPermission() }
+        remember { service.iosLocationProvider.requestPermission() }
     }
 
     val audioTourRunning = remember { MutableStateFlow(false) }

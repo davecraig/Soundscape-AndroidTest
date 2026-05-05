@@ -26,10 +26,13 @@ import org.scottishtecharmy.soundscape.geoengine.GeoEngine
 import org.scottishtecharmy.soundscape.geoengine.GeoEngineListener
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewChoice
+import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
+import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.IosGeocoder
+import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.speakCalloutCommon
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
@@ -46,6 +49,10 @@ import org.scottishtecharmy.soundscape.locationprovider.IosHeadTrackingProvider
 import org.scottishtecharmy.soundscape.locationprovider.IosLocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.LocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation
+import org.scottishtecharmy.soundscape.locationprovider.StaticLocationProvider
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.preview_go_title
+import org.jetbrains.compose.resources.getString
 import org.scottishtecharmy.soundscape.network.IosFileDownloader
 import org.scottishtecharmy.soundscape.network.KmpPhotonSearch
 import org.scottishtecharmy.soundscape.network.ManifestClient
@@ -79,11 +86,16 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     private val scope = CoroutineScope(Dispatchers.Default + Job())
     private var suppressionJob: Job? = null
 
-    // Providers
-    val locationProvider: IosLocationProvider = IosLocationProvider()
+    // Providers — iosLocationProvider is the device GPS. locationProvider is the
+    // currently active provider, which is swapped to a StaticLocationProvider while
+    // street preview is on. Head tracking holds a reference to iosLocationProvider
+    // directly so it keeps tracking course from real GPS even while previewing.
+    val iosLocationProvider: IosLocationProvider = IosLocationProvider()
+    var locationProvider: LocationProvider = iosLocationProvider
+        private set
     val directionProvider: IosDirectionProvider = IosDirectionProvider()
     val headTrackingProvider: IosHeadTrackingProvider =
-        IosHeadTrackingProvider(directionProvider, locationProvider)
+        IosHeadTrackingProvider(directionProvider, iosLocationProvider)
     val audioEngine = IosAudioEngine()
     val preferencesProvider = IosPreferencesProvider()
     val networkUtils = IosNetworkUtils()
@@ -120,6 +132,10 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     private val _beaconFlow = MutableStateFlow(BeaconState())
     override val beaconFlow: StateFlow<BeaconState> = _beaconFlow.asStateFlow()
     private var beaconHandle: Long? = null
+
+    // Street preview state
+    private val _streetPreviewFlow = MutableStateFlow(StreetPreviewState(StreetPreviewEnabled.OFF))
+    override val streetPreviewFlow: StateFlow<StreetPreviewState> = _streetPreviewFlow.asStateFlow()
 
     // Pending intent flow — populated by Swift IntentBridge from onOpenURL etc.
     private val _pendingIntent = MutableStateFlow<IncomingIntent?>(null)
@@ -264,9 +280,7 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         }
     }
 
-    private fun startGeoEngine() {
-        if (geoEngineStarted) return
-
+    private fun startGeoEngine(streetPreviewEnabled: Boolean = false) {
         val tileClient = createIosVectorTileClient(
             baseUrl = TILE_PROVIDER_URL,
             hasNetwork = { networkUtils.hasNetwork() },
@@ -294,7 +308,7 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
             hasNetwork = { networkUtils.hasNetwork() },
             photonSearch = photonSearch,
             platformGeocoder = IosGeocoder(),
-            streetPreviewEnabled = false,
+            streetPreviewEnabled = streetPreviewEnabled,
         )
         geoEngineStarted = true
     }
@@ -325,13 +339,64 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     }
 
     override fun tileGridUpdated() {
+        if (_streetPreviewFlow.value.enabled == StreetPreviewEnabled.INITIALIZING) {
+            val choices = geoEngine.streetPreviewGo()
+            _streetPreviewFlow.value = StreetPreviewState(StreetPreviewEnabled.ON, choices)
+            geoEngine.recomputeStreetPreviewBestChoice()
+        }
         _gridStateFlow.value = geoEngine.gridState
     }
 
-    override fun updateStreetPreviewBestChoice(bestChoice: StreetPreviewChoice) {}
-    override fun announceStreetPreviewBestChoice(bestChoice: StreetPreviewChoice) {}
-    override fun getStreetPreviewChoices(): List<StreetPreviewChoice> = emptyList()
-    override fun getStreetPreviewBestChoice(): StreetPreviewChoice? = null
+    override fun setStreetPreviewMode(on: Boolean, location: LngLatAlt?) {
+        // geoEngine.stop() destroys both providers it was started with — that's
+        // the iOS GPS + IosDirectionProvider when entering preview, or the
+        // static provider + IosDirectionProvider when leaving it. We replace
+        // the location provider as needed and always restart the direction
+        // provider, since the phone's compass drives heading in both modes.
+        geoEngine.stop()
+        geoEngineStarted = false
+
+        if (on) {
+            if (location == null) return
+            val staticProvider = StaticLocationProvider(location)
+            locationProvider = staticProvider
+            staticProvider.start()
+        } else {
+            locationProvider = iosLocationProvider
+            iosLocationProvider.start()
+        }
+        directionProvider.start()
+
+        // Set the StreetPreview state prior to starting the geo engine, otherwise
+        // there's a race in the tileGridUpdated callback (mirrors Android).
+        _streetPreviewFlow.value =
+            StreetPreviewState(if (on) StreetPreviewEnabled.INITIALIZING else StreetPreviewEnabled.OFF)
+
+        startGeoEngine(streetPreviewEnabled = on)
+    }
+
+    override fun streetPreviewGo() {
+        val choices = geoEngine.streetPreviewGo()
+        _streetPreviewFlow.value = _streetPreviewFlow.value.copy(choices = choices, bestChoice = null)
+        geoEngine.recomputeStreetPreviewBestChoice()
+    }
+
+    override fun updateStreetPreviewBestChoice(bestChoice: StreetPreviewChoice) {
+        _streetPreviewFlow.value = _streetPreviewFlow.value.copy(bestChoice = bestChoice)
+    }
+
+    override fun announceStreetPreviewBestChoice(bestChoice: StreetPreviewChoice) {
+        val compassLabel = ComposeLocalizedStrings().get(getCompassLabel(bestChoice.heading.toInt()))
+        val go = kotlinx.coroutines.runBlocking { getString(Res.string.preview_go_title) }
+        speakText("$go ${bestChoice.name} $compassLabel", AudioType.STANDARD)
+    }
+
+    override fun getStreetPreviewChoices(): List<StreetPreviewChoice> =
+        _streetPreviewFlow.value.choices
+
+    override fun getStreetPreviewBestChoice(): StreetPreviewChoice? =
+        _streetPreviewFlow.value.bestChoice
+
     override var menuActive: Boolean = false
 
     // --- Routes ---
@@ -649,12 +714,12 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         // gate any callouts that slip through via the existing menuActive flag.
         menuActive = sleeping
         if (sleeping) {
-            locationProvider.pause()
+            iosLocationProvider.pause()
             directionProvider.pause()
             audioEngine.clearTextToSpeechQueue()
             destroyBeacon()
         } else {
-            locationProvider.start()
+            iosLocationProvider.start()
             directionProvider.start()
         }
     }
@@ -667,7 +732,10 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
             geoEngineStarted = false
         }
         destroyBeacon()
-        locationProvider.destroy()
+        if (locationProvider !== iosLocationProvider) {
+            locationProvider.destroy()
+        }
+        iosLocationProvider.destroy()
         directionProvider.destroy()
     }
 
