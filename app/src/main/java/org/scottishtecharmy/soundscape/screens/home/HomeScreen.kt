@@ -43,8 +43,8 @@ import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.settings.Settings
+import org.scottishtecharmy.soundscape.screens.onboarding.language.getLanguageMismatch
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
-import org.scottishtecharmy.soundscape.utils.getLanguageMismatch
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
 import kotlin.system.exitProcess
 
@@ -214,7 +214,7 @@ fun HomeScreen(
                     activity.setServiceState(true)
                 }
             },
-            onGetLanguageMismatch = { getLanguageMismatch(context) },
+            onGetLanguageMismatch = { getLanguageMismatch() },
             getOpenSourceLicensesJson = {
                 context.assets.open("open_source_licenses.json")
                     .bufferedReader()
