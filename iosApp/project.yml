@@ -13,6 +13,9 @@ packages:
   MapLibre:
     url: https://github.com/maplibre/maplibre-gl-native-distribution
     version: 6.17.1
+  RealmSwift:
+    url: https://github.com/realm/realm-swift
+    from: 20.0.4
 targets:
   iosApp:
     type: application
@@ -20,6 +23,9 @@ targets:
     dependencies:
       - package: MapLibre
         product: MapLibre
+      - package: RealmSwift
+        product: RealmSwift
+        embed: true
       - target: ShareExtension
         embed: true
     sources:
@@ -99,6 +105,21 @@ targets:
           ./gradlew :shared:embedAndSignAppleFrameworkForXcode
         basedOnDependencyAnalysis: false
 
+  iosAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: iosAppTests
+    dependencies:
+      - target: iosApp
+    settings:
+      # The host app's target is `iosApp` but PRODUCT_NAME is `Soundscape`,
+      # so xcodegen's auto-derived TEST_HOST (based on target name) points
+      # at a non-existent binary. Override it to the real product path.
+      TEST_HOST: $(BUILT_PRODUCTS_DIR)/Soundscape.app/Soundscape
+      BUNDLE_LOADER: $(TEST_HOST)
+      GENERATE_INFOPLIST_FILE: "YES"
+
   ShareExtension:
     type: app-extension
     platform: iOS
@@ -120,3 +141,22 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: org.scottishtecharmy.soundscape.shareextension
       SKIP_INSTALL: "YES"
+
+schemes:
+  iosApp:
+    build:
+      targets:
+        iosApp: all
+        iosAppTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - iosAppTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

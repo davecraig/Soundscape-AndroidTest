@@ -3,6 +3,14 @@ import Shared
 
 @main
 struct iOSApp: App {
+    init() {
+        // Run the legacy → multiplatform data migration before the Compose
+        // UI mounts. Synchronous so the new app's preferences and Room
+        // database are populated before MainViewController reads them.
+        // See LegacyMigrator.swift.
+        LegacyMigrator.runIfNeeded()
+    }
+
     var body: some Scene {
         WindowGroup {
             ComposeView()
