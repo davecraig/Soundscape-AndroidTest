@@ -392,6 +392,10 @@ jobs:
     environment: development
 
     steps:
+      # Local composite actions live in .github/actions/, so the workflow
+      # must check the repo out before referencing them.
+      - uses: actions/checkout@v6
+
       - name: Download .ipa
         uses: actions/download-artifact@v8
         with:
