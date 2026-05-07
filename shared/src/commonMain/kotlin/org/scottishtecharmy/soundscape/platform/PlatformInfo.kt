@@ -18,3 +18,9 @@ fun appVersionMinorTrimmed(): String = appVersionName().substringBeforeLast(".")
  * iOS: always true.
  */
 expect val analyticsEnabled: Boolean
+
+/**
+ * `true` on iOS builds, `false` on Android. Used to switch help strings whose
+ * content is fundamentally platform-specific (e.g. TTS setup steps).
+ */
+expect val isIos: Boolean

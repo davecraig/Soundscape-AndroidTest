@@ -31,6 +31,7 @@ import org.intellij.markdown.parser.MarkdownParser
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
+import org.scottishtecharmy.soundscape.platform.isIos
 import org.scottishtecharmy.soundscape.resources.*
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomAppBar
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
@@ -58,6 +59,9 @@ data class Sections(
     val titleId: StringResource,
     val sections: List<Section>
 )
+
+private fun platformString(android: StringResource, ios: StringResource): StringResource =
+    if (isIos) ios else android
 
 private val stringResourceByKey: Map<String, StringResource> by lazy {
     val map = mutableMapOf<String, StringResource>()
@@ -101,7 +105,14 @@ val helpPages = listOf(
     Sections(
         Res.string.voice_voices,
         listOf(
-            Section(Res.string.help_config_voices_content, SectionType.Paragraph, markdown = true),
+            Section(
+                platformString(
+                    Res.string.help_config_voices_content,
+                    Res.string.help_config_voices_content_ios
+                ),
+                SectionType.Paragraph,
+                markdown = true
+            ),
         )
     ),
 
@@ -310,7 +321,14 @@ val helpPages = listOf(
             Section(Res.string.faq_miss_a_callout_question, SectionType.Faq, faqAnswer = Res.string.faq_miss_a_callout_answer),
 
             Section(Res.string.faq_section_how_soundscape_works, SectionType.Title),
-            Section(Res.string.faq_supported_phones_question, SectionType.Faq, faqAnswer = Res.string.faq_supported_phones_answer),
+            Section(
+                Res.string.faq_supported_phones_question,
+                SectionType.Faq,
+                faqAnswer = platformString(
+                    Res.string.faq_supported_phones_answer,
+                    Res.string.faq_supported_phones_answer_ios
+                )
+            ),
             Section(Res.string.faq_supported_headsets_question, SectionType.Faq, faqAnswer = Res.string.faq_supported_headsets_answer),
             Section(Res.string.faq_battery_impact_question, SectionType.Faq, faqAnswer = Res.string.faq_battery_impact_answer),
             Section(Res.string.faq_sleep_mode_battery_question, SectionType.Faq, faqAnswer = Res.string.faq_sleep_mode_battery_answer),

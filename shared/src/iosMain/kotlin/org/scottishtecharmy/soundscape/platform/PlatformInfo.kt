@@ -6,3 +6,5 @@ actual fun appVersionName(): String =
     NSBundle.mainBundle.objectForInfoDictionaryKey("CFBundleShortVersionString") as? String ?: "0.0.0"
 
 actual val analyticsEnabled: Boolean = true
+
+actual val isIos: Boolean = true

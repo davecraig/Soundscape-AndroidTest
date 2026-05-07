@@ -548,6 +548,8 @@
 <string name="settings_help_section_home_screen_buttons">Home Screen Buttons</string>
 <!-- Help content describing how user can choose a voice and download additional voices -->
 <string name="help_config_voices_content">Soundscape can use any of the voices you have downloaded to your Android phone in the Text-to-speech output settings. Within the Soundscape app, you can select a voice other than the default Android one by going to Settings from the main menu and then selecting *"Voices"*.</string>
+<!-- iOS variant of help_config_voices_content. Used on iOS builds only. -->
+<string name="help_config_voices_content_ios">Soundscape can use any of the voices you have downloaded in the iOS Settings app except for the Siri voices which are not available to Soundscape. We recommend choosing one of the *"Enhanced"* voices as they have a much higher voice quality, but in order to do so, you will first need to download an enhanced voice. You can download voices in the iOS Settings app by going to Accessibility &gt; Spoken Content &gt; Voices and tapping on a voice. Within the Soundscape app, you can select the voice you want to use by going to Settings from the main menu and then selecting *"Voices"*.</string>
 <!-- Help Page Title, Offline -->
 <string name="help_offline_page_title">Why is Soundscape working offline?</string>
 <!-- Help Description, Offline -->
@@ -794,6 +796,8 @@
 <string name="faq_supported_phones_question">What phone does Soundscape run on?</string>
 <!-- Android 11 phones and later -->
 <string name="faq_supported_phones_answer">Soundscape for Android is currently available for Android phones running Android 11 or later.</string>
+<!-- iOS variant of faq_supported_phones_answer. Used on iOS builds only. -->
+<string name="faq_supported_phones_answer_ios">Soundscape for iOS is currently available for iPhones running iOS 16 or later.</string>
 <!-- Soundscape frequently asked questions -->
 <string name="faq_supported_headsets_question">What headphones should I use with Soundscape?</string>
 <!-- Soundscape frequently asked questions-->

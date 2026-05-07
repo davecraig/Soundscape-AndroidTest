@@ -13,3 +13,5 @@ actual val analyticsEnabled: Boolean = try {
 } catch (_: Throwable) {
     true
 }
+
+actual val isIos: Boolean = false
