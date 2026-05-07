@@ -60,6 +60,14 @@ class AndroidOfflineMapsManager(private val appContext: Context) {
 
     private var manifestTree: FeatureTree? = null
 
+    init {
+        scope.launch {
+            downloader.downloadState.collect { state ->
+                if (state == DownloadState.Success) refreshDownloaded()
+            }
+        }
+    }
+
     private fun extractsDir(): File {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
         val path = sharedPreferences.getString(
