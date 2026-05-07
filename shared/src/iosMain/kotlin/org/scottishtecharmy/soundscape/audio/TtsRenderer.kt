@@ -48,7 +48,7 @@ class TtsRenderer {
         if (selectedVoice != null) {
             utterance.voice = selectedVoice
         }
-        utterance.rate = (rateMultiplier * AVSpeechUtteranceDefaultSpeechRate)
+        utterance.rate = perceivedMultiplierToAvRate(rateMultiplier)
             .coerceIn(AVSpeechUtteranceMinimumSpeechRate, AVSpeechUtteranceMaximumSpeechRate)
 
         val collectedBuffers = mutableListOf<AVAudioPCMBuffer>()
@@ -70,6 +70,25 @@ class TtsRenderer {
     @Suppress("DEPRECATION")
     fun cancel() {
         synthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.byValue(0))
+    }
+}
+
+/**
+ * Maps the user-facing speed multiplier (1.0 = normal, 2.0 = "twice as fast",
+ * 0.5 = "half speed") to AVSpeechUtterance.rate, which is highly non-linear
+ * in perceived speed above the default. Empirically default rate (0.5) ≈ 175
+ * wpm and max rate (1.0) ≈ 575 wpm, so a linear "multiplier × default" mapping
+ * makes the slider's top end roughly 3× faster than its label claims. This
+ * piecewise mapping compresses the upper half to track perceived speed:
+ * multiplier 1.0 → 0.5, 1.5 → 0.6, 2.0 → 0.7. Below the default the slider
+ * already reads about right, so we keep proportional scaling.
+ */
+private fun perceivedMultiplierToAvRate(multiplier: Float): Float {
+    val default = AVSpeechUtteranceDefaultSpeechRate
+    return if (multiplier >= 1.0f) {
+        default + 0.2f * (multiplier - 1.0f)
+    } else {
+        default * multiplier
     }
 }
 
