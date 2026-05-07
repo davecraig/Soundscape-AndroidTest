@@ -43,6 +43,8 @@ targets:
       properties:
         CFBundleDisplayName: Soundscape
         CFBundleName: Soundscape
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CADisableMinimumFrameDurationOnPhone: true
         NSLocationWhenInUseUsageDescription: "Soundscape needs your location to provide audio navigation and describe your surroundings."
         NSLocationAlwaysAndWhenInUseUsageDescription: "Soundscape needs your location to provide audio navigation even when the app is in the background."
@@ -50,6 +52,16 @@ targets:
           - audio
           - location
         UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
         TileProviderURL: "$(TILE_PROVIDER_URL)"
         SearchProviderURL: "$(SEARCH_PROVIDER_URL)"
         ExtractProviderURL: "$(EXTRACT_PROVIDER_URL)"
@@ -131,6 +143,8 @@ targets:
       path: ShareExtension/Info.plist
       properties:
         CFBundleDisplayName: Soundscape
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSApplicationQueriesSchemes:
           - soundscape
         NSExtension:
