@@ -1,10 +1,19 @@
 package org.scottishtecharmy.soundscape
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.coroutines.flow.MutableStateFlow
+import me.zhanghai.compose.preference.listPreference
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.audio.TourButton
+import org.scottishtecharmy.soundscape.audio.availableTtsVoicesForCurrentLanguage
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.settings_theme_auto
+import org.scottishtecharmy.soundscape.resources.voice_voices
+import org.scottishtecharmy.soundscape.screens.home.settings.ClickableOption
+import org.scottishtecharmy.soundscape.screens.home.settings.ListPreferenceItem
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.intents.IncomingIntent
 import org.scottishtecharmy.soundscape.intents.resolveRouteByName
@@ -73,6 +82,45 @@ fun MainViewController() = ComposeUIViewController {
     // Stub flows for features iOS doesn't yet have its own state for.
     val permissionsRequired = remember { MutableStateFlow(false) }
     val voiceCommandListening = remember { MutableStateFlow(false) }
+
+    // TTS voice picker contents for the Audio section of the iOS settings
+    // screen. Voices are enumerated once per launch — adding/removing voices
+    // requires re-launching the app, which matches the legacy iOS behaviour.
+    val ttsVoices = remember { availableTtsVoicesForCurrentLanguage() }
+    val systemDefaultLabel = stringResource(Res.string.settings_theme_auto)
+    val ttsVoiceValues = remember(ttsVoices) {
+        listOf("") + ttsVoices.map { it.identifier }
+    }
+    val ttsVoiceDescriptions = remember(ttsVoices, systemDefaultLabel) {
+        listOf(systemDefaultLabel) + ttsVoices.map { it.displayName }
+    }
+    val voiceSettingTitle = stringResource(Res.string.voice_voices)
+    val settingsPlatformAudioContent: androidx.compose.foundation.lazy.LazyListScope.() -> Unit = {
+        listPreference(
+            key = PreferenceKeys.SELECTED_TTS_VOICE_ID,
+            defaultValue = PreferenceDefaults.SELECTED_TTS_VOICE_ID,
+            values = ttsVoiceValues,
+            title = { Text(text = voiceSettingTitle) },
+            item = { value, currentValue, onClick ->
+                val idx = ttsVoiceValues.indexOf(value).coerceAtLeast(0)
+                ListPreferenceItem(
+                    description = ttsVoiceDescriptions[idx],
+                    value = value,
+                    currentValue = currentValue,
+                    onClick = onClick,
+                    index = idx,
+                    listSize = ttsVoiceValues.size,
+                )
+            },
+            summary = {
+                val idx = ttsVoiceValues.indexOf(it).coerceAtLeast(0)
+                ClickableOption(
+                    text = ttsVoiceDescriptions[idx],
+                    textColor = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
+                )
+            },
+        )
+    }
 
     App(
         flows = AppFlows(
@@ -250,6 +298,7 @@ fun MainViewController() = ComposeUIViewController {
         audioEngine = service.audioEngine,
         audioTour = audioTour,
         preferencesProvider = prefs,
+        settingsPlatformAudioContent = settingsPlatformAudioContent,
     )
 }
 

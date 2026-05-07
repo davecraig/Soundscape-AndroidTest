@@ -40,6 +40,7 @@ object PreferenceKeys {
 
     const val BEACON_TYPE = "BeaconType"
     const val SPEECH_RATE = "SpeechRate"
+    const val SELECTED_TTS_VOICE_ID = "SelectedTtsVoiceId"
 
     const val RECORD_TRAVEL = "RecordTravel"
     const val MEASUREMENT_UNITS = "MeasurementUnits"
@@ -67,6 +68,7 @@ object PreferenceDefaults {
 
     const val BEACON_TYPE = "Classic"
     const val SPEECH_RATE = 1.0f
+    const val SELECTED_TTS_VOICE_ID = ""
 
     const val RECORD_TRAVEL = false
     const val MEASUREMENT_UNITS = "Auto"

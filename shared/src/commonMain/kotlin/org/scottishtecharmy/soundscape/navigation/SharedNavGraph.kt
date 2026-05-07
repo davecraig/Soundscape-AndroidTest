@@ -3,6 +3,7 @@ package org.scottishtecharmy.soundscape.navigation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -70,6 +71,7 @@ fun SharedNavHost(
     preferencesProvider: PreferencesProvider? = null,
     homeContent: (@Composable (NavHostController, NavigationStateHolder) -> Unit)? = null,
     settingsContent: (@Composable (NavHostController) -> Unit)? = null,
+    settingsPlatformAudioContent: (LazyListScope.() -> Unit)? = null,
     platformNavBuilder: (NavGraphBuilder.() -> Unit)? = null,
 ) {
     val pendingIntent by flows.pendingIntent?.collectAsState()
@@ -537,6 +539,7 @@ fun SharedNavHost(
                     onNavigateUp = { navController.popBackStack() },
                     beaconTypes = flows.beaconTypes,
                     preferencesProvider = preferencesProvider,
+                    platformAudioContent = settingsPlatformAudioContent,
                     onNavigateToAdvancedMarkersAndRoutes = if (callbacks.createAdvancedMarkersAndRoutesSettingsViewModel != null) {
                         { navController.navigate(SharedRoutes.ADVANCED_MARKERS_AND_ROUTES_SETTINGS) }
                     } else {

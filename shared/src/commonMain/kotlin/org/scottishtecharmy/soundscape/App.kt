@@ -1,5 +1,6 @@
 package org.scottishtecharmy.soundscape
 
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -137,6 +138,13 @@ fun App(
     preferencesProvider: PreferencesProvider? = null,
     homeContent: (@Composable (NavHostController, NavigationStateHolder) -> Unit)? = null,
     settingsContent: (@Composable (NavHostController) -> Unit)? = null,
+    /**
+     * Platform-specific items inserted into the Audio section of the default
+     * settings screen. Only consumed when [settingsContent] is null — Android
+     * supplies a full custom settings screen, iOS uses this slot to add the
+     * voice picker.
+     */
+    settingsPlatformAudioContent: (LazyListScope.() -> Unit)? = null,
     platformNavBuilder: (NavGraphBuilder.() -> Unit)? = null,
 ) {
     MaterialTheme {
@@ -156,6 +164,7 @@ fun App(
                 preferencesProvider = preferencesProvider,
                 homeContent = homeContent,
                 settingsContent = settingsContent,
+                settingsPlatformAudioContent = settingsPlatformAudioContent,
                 platformNavBuilder = platformNavBuilder,
             )
         }

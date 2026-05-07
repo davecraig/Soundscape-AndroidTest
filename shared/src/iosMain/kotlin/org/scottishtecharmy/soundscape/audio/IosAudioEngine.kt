@@ -520,6 +520,14 @@ class IosAudioEngine : AudioEngine {
         return true
     }
 
+    fun setSpeechVoice(voiceId: String?) {
+        ttsRenderer.setVoiceId(voiceId)
+    }
+
+    fun setSpeechRate(multiplier: Float) {
+        ttsRenderer.setRateMultiplier(multiplier)
+    }
+
     override fun onAllBeaconsCleared() {
         val beaconHandles = withActivePlayersLock {
             activePlayers.entries

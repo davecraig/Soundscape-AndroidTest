@@ -51,6 +51,7 @@ import org.scottishtecharmy.soundscape.locationprovider.LocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation
 import org.scottishtecharmy.soundscape.locationprovider.StaticLocationProvider
 import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.first_launch_callouts_example_3
 import org.scottishtecharmy.soundscape.resources.preview_go_title
 import org.jetbrains.compose.resources.getString
 import org.scottishtecharmy.soundscape.network.IosFileDownloader
@@ -223,6 +224,24 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
             PreferenceKeys.HEAD_TRACKING_ENABLED -> {
                 applyHeadTrackingEnabled()
             }
+            PreferenceKeys.SELECTED_TTS_VOICE_ID -> {
+                audioEngine.setSpeechVoice(
+                    preferencesProvider.getString(
+                        PreferenceKeys.SELECTED_TTS_VOICE_ID,
+                        PreferenceDefaults.SELECTED_TTS_VOICE_ID,
+                    )
+                )
+                playTtsSample()
+            }
+            PreferenceKeys.SPEECH_RATE -> {
+                audioEngine.setSpeechRate(
+                    preferencesProvider.getFloat(
+                        PreferenceKeys.SPEECH_RATE,
+                        PreferenceDefaults.SPEECH_RATE,
+                    )
+                )
+                playTtsSample()
+            }
         }
     }
 
@@ -251,6 +270,18 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
             preferencesProvider.getString(
                 PreferenceKeys.BEACON_TYPE,
                 PreferenceDefaults.BEACON_TYPE,
+            )
+        )
+        audioEngine.setSpeechVoice(
+            preferencesProvider.getString(
+                PreferenceKeys.SELECTED_TTS_VOICE_ID,
+                PreferenceDefaults.SELECTED_TTS_VOICE_ID,
+            )
+        )
+        audioEngine.setSpeechRate(
+            preferencesProvider.getFloat(
+                PreferenceKeys.SPEECH_RATE,
+                PreferenceDefaults.SPEECH_RATE,
             )
         )
         preferencesProvider.addListener(preferencesListener)
@@ -556,6 +587,19 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
 
     fun speakCallout(text: String) {
         audioEngine.createTextToSpeech(text, AudioType.STANDARD)
+    }
+
+    /**
+     * Mirrors NativeAudioEngine on Android: when the user picks a different
+     * voice or moves the speech-rate slider, clear any pending callouts and
+     * play a short sample so they can hear the change immediately.
+     */
+    private fun playTtsSample() {
+        audioEngine.clearTextToSpeechQueue()
+        val sample = kotlinx.coroutines.runBlocking {
+            getString(Res.string.first_launch_callouts_example_3)
+        }
+        audioEngine.createTextToSpeech(sample, AudioType.STANDARD)
     }
 
     // --- Mix Audio Setting ---
