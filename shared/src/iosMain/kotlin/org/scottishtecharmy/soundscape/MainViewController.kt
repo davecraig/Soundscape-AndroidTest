@@ -1,8 +1,11 @@
 package org.scottishtecharmy.soundscape
 
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.zhanghai.compose.preference.listPreference
@@ -43,6 +46,9 @@ fun MainViewController() = ComposeUIViewController {
     val prefs = service.preferencesProvider
     val audioTour = service.audioTour
     val homeViewModel = service.homeViewModel
+
+    val textColor = MaterialTheme.colorScheme.onBackground
+    val expandedSectionModifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
 
     val isFirstLaunch = remember {
         prefs.getBoolean(PreferenceKeys.FIRST_LAUNCH, PreferenceDefaults.FIRST_LAUNCH)
@@ -100,7 +106,8 @@ fun MainViewController() = ComposeUIViewController {
             key = PreferenceKeys.SELECTED_TTS_VOICE_ID,
             defaultValue = PreferenceDefaults.SELECTED_TTS_VOICE_ID,
             values = ttsVoiceValues,
-            title = { Text(text = voiceSettingTitle) },
+            modifier = expandedSectionModifier,
+            title = { Text(text = voiceSettingTitle, color = textColor) },
             item = { value, currentValue, onClick ->
                 val idx = ttsVoiceValues.indexOf(value).coerceAtLeast(0)
                 ListPreferenceItem(
@@ -116,7 +123,7 @@ fun MainViewController() = ComposeUIViewController {
                 val idx = ttsVoiceValues.indexOf(it).coerceAtLeast(0)
                 ClickableOption(
                     text = ttsVoiceDescriptions[idx],
-                    textColor = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
+                    textColor = textColor,
                 )
             },
         )
