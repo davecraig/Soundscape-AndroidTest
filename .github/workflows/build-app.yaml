@@ -341,6 +341,10 @@ jobs:
           KEY_ID: ${{ secrets.APPSTORE_CONNECT_API_KEY_ID }}
           ISSUER_ID: ${{ secrets.APPSTORE_CONNECT_API_ISSUER_ID }}
         run: |
+          # Strip the patch component so TestFlight groups all 2.0.x builds
+          # under one "2.0" train; uniqueness within the train comes from
+          # CURRENT_PROJECT_VERSION (the build number).
+          SHORT_VERSION=$(echo "$VERSION_NAME" | cut -d. -f1,2)
           xcodebuild archive \
             -project iosApp/iosApp.xcodeproj \
             -scheme iosApp \
@@ -352,7 +356,7 @@ jobs:
             -authenticationKeyID "$KEY_ID" \
             -authenticationKeyIssuerID "$ISSUER_ID" \
             -allowProvisioningUpdates \
-            MARKETING_VERSION="$VERSION_NAME" \
+            MARKETING_VERSION="$SHORT_VERSION" \
             CURRENT_PROJECT_VERSION="$VERSION_CODE"
 
       # Manual signing during export so xcodebuild reuses the profile we
