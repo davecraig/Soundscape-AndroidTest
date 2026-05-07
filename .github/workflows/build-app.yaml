@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  prepare-version:
     runs-on: ubuntu-latest
     environment: development
     permissions:
@@ -26,11 +26,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.PAT_TOKEN }}
-
-      - name: Setup offline maps for tests
-        uses: ./.github/actions/setup-offline-maps
-        with:
-          output_dir: ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape
 
       - name: Extract existing version code from build.gradle
         id: current-version
@@ -72,6 +67,27 @@ jobs:
         with:
           commit_message: "Bump version to ${{ env.VERSION_NAME }}, version code ${{ env.VERSION_CODE }}"
           tagging_message: "soundscape-${{ env.VERSION_NAME }}"
+
+  build:
+    needs: prepare-version
+    runs-on: ubuntu-latest
+    environment: development
+    permissions:
+      contents: write
+
+    steps:
+      # Check out the branch tip so we pick up the version-bump commit
+      # that prepare-version pushed.
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup offline maps for tests
+        uses: ./.github/actions/setup-offline-maps
+        with:
+          output_dir: ${{ env.main_project_module }}/src/test/res/org/scottishtecharmy/soundscape
 
       # Set version
       - name: Set 'git describe --tags' as version
@@ -253,8 +269,8 @@ jobs:
 
   ios-build:
     name: Build and sign iOS app
-    needs: build
-    runs-on: self-hosted
+    needs: prepare-version
+    runs-on: [self-hosted, macOS, ARM64]
     environment: development
     permissions:
       contents: write
@@ -313,8 +329,8 @@ jobs:
       # CFBundleVersion when passed as xcodebuild build settings.
       - name: Archive iOS app
         env:
-          VERSION_CODE: ${{ needs.build.outputs.version_code }}
-          VERSION_NAME: ${{ needs.build.outputs.version_name }}
+          VERSION_CODE: ${{ needs.prepare-version.outputs.version_code }}
+          VERSION_NAME: ${{ needs.prepare-version.outputs.version_name }}
           KEY_ID: ${{ secrets.APPSTORE_CONNECT_API_KEY_ID }}
           ISSUER_ID: ${{ secrets.APPSTORE_CONNECT_API_ISSUER_ID }}
         run: |
@@ -429,7 +445,7 @@ jobs:
     # against real devices via Test Lab as a release smoke test.
     name: Run iOS XCTest suite via Firebase Test Lab
     needs: ios-build
-    runs-on: macos-15
+    runs-on: [self-hosted, macOS, ARM64]
     environment: development
 
     steps:
