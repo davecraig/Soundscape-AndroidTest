@@ -148,7 +148,7 @@ fun MapContainerLibre(
                 // RotationLocked = scroll + zoom on, rotation + tilt off.
                 gestureOptions = if (allowScrolling) GestureOptions.RotationLocked
                                  else GestureOptions.AllDisabled,
-                ornamentOptions = OrnamentOptions.AllEnabled,
+                ornamentOptions = OrnamentOptions.AllDisabled,
                 // Platform-specific render options: Android uses TextureView so
                 // the map participates in Compose's fade/slide nav transitions
                 // (the default SurfaceView is a hardware overlay that doesn't
