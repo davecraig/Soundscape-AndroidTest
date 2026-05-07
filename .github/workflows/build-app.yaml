@@ -84,6 +84,13 @@ jobs:
           ref: ${{ github.ref }}
           token: ${{ secrets.PAT_TOKEN }}
 
+      # actions/checkout shortcuts to github.sha (the trigger SHA) when the
+      # given ref matches github.ref, so we'd otherwise miss the version-bump
+      # commit pushed by prepare-version. Fast-forward to the real remote tip
+      # so the later screenshot auto-commit can push without conflict.
+      - name: Fast-forward to remote tip
+        run: git pull --ff-only origin ${{ github.ref_name }}
+
       - name: Setup offline maps for tests
         uses: ./.github/actions/setup-offline-maps
         with:
@@ -498,7 +505,8 @@ jobs:
             -authenticationKeyPath "$RUNNER_TEMP/private_keys/AuthKey_$KEY_ID.p8" \
             -authenticationKeyID "$KEY_ID" \
             -authenticationKeyIssuerID "$ISSUER_ID" \
-            -allowProvisioningUpdates
+            -allowProvisioningUpdates \
+            ENABLE_TESTABILITY=YES
 
       - name: Package test bundle for Test Lab
         run: |
