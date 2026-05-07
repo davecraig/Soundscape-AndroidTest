@@ -107,7 +107,7 @@ jobs:
 
   ios-test:
     name: Build and test iOS app
-    runs-on: macos-15
+    runs-on: self-hosted
     environment: development
 
     steps:

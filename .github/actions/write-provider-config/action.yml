@@ -35,7 +35,6 @@ runs:
   using: composite
   steps:
     - name: Write Android local.properties
-      if: inputs.platform == 'android'
       shell: bash
       env:
         TILE_PROVIDER_URL: ${{ inputs.tile_provider_url }}
@@ -51,7 +50,6 @@ runs:
         echo extractProviderUrl="$EXTRACT_PROVIDER_URL" >> local.properties
 
     - name: Write iOS Local.xcconfig
-      if: inputs.platform == 'ios'
       shell: bash
       env:
         TILE_PROVIDER_URL: ${{ inputs.tile_provider_url }}

@@ -19,6 +19,9 @@ runs:
   using: composite
   steps:
     - name: Select Xcode
+      # Self-hosted runners use whatever Xcode is already installed; only
+      # GitHub-hosted runners need the version pinned via setup-xcode.
+      if: runner.environment != 'self-hosted'
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: ${{ inputs.xcode_version }}
@@ -29,3 +32,23 @@ runs:
 
     - name: Setup JDK + Gradle
       uses: ./.github/actions/setup-jdk-gradle
+
+    - name: Ensure ANDROID_HOME on self-hosted
+      # The shared Kotlin Multiplatform module has an `android` target, so the
+      # Xcode pre-build script that invokes Gradle needs the SDK location.
+      # GitHub-hosted runners ship with ANDROID_HOME pre-set; self-hosted
+      # macOS runners do not, so resolve the default user install location.
+      if: runner.environment == 'self-hosted'
+      shell: bash
+      run: |
+        if [ -n "${ANDROID_HOME:-}" ]; then
+          echo "ANDROID_HOME already set: $ANDROID_HOME"
+          exit 0
+        fi
+        sdk="$HOME/Library/Android/sdk"
+        if [ ! -d "$sdk" ]; then
+          echo "::error::ANDROID_HOME is unset and no SDK found at $sdk"
+          exit 1
+        fi
+        echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+        echo "ANDROID_SDK_ROOT=$sdk" >> "$GITHUB_ENV"

@@ -254,7 +254,7 @@ jobs:
   ios-build:
     name: Build and sign iOS app
     needs: build
-    runs-on: macos-15
+    runs-on: self-hosted
     environment: development
     permissions:
       contents: write
