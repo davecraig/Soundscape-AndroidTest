@@ -794,10 +794,8 @@
 <string name="faq_section_how_soundscape_works">How does Soundscape work?</string>
 <!-- Soundscape frequently asked questions -->
 <string name="faq_supported_phones_question">What phone does Soundscape run on?</string>
-<!-- Android 11 phones and later -->
-<string name="faq_supported_phones_answer">Soundscape for Android is currently available for Android phones running Android 11 or later.</string>
-<!-- iOS variant of faq_supported_phones_answer. Used on iOS builds only. -->
-<string name="faq_supported_phones_answer_ios">Soundscape for iOS is currently available for iPhones running iOS 16 or later.</string>
+<!-- Combined supported phone requirements covering both iOS and Android. -->
+<string name="faq_supported_phones_answer">Soundscape is currently available for iPhones running iOS 16 or later, and for Android phones running Android 11 or later.</string>
 <!-- Soundscape frequently asked questions -->
 <string name="faq_supported_headsets_question">What headphones should I use with Soundscape?</string>
 <!-- Soundscape frequently asked questions-->

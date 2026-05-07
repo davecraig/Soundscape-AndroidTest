@@ -321,14 +321,7 @@ val helpPages = listOf(
             Section(Res.string.faq_miss_a_callout_question, SectionType.Faq, faqAnswer = Res.string.faq_miss_a_callout_answer),
 
             Section(Res.string.faq_section_how_soundscape_works, SectionType.Title),
-            Section(
-                Res.string.faq_supported_phones_question,
-                SectionType.Faq,
-                faqAnswer = platformString(
-                    Res.string.faq_supported_phones_answer,
-                    Res.string.faq_supported_phones_answer_ios
-                )
-            ),
+            Section(Res.string.faq_supported_phones_question, SectionType.Faq, faqAnswer = Res.string.faq_supported_phones_answer),
             Section(Res.string.faq_supported_headsets_question, SectionType.Faq, faqAnswer = Res.string.faq_supported_headsets_answer),
             Section(Res.string.faq_battery_impact_question, SectionType.Faq, faqAnswer = Res.string.faq_battery_impact_answer),
             Section(Res.string.faq_sleep_mode_battery_question, SectionType.Faq, faqAnswer = Res.string.faq_sleep_mode_battery_answer),
