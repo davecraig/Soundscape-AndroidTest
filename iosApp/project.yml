@@ -9,6 +9,12 @@ configFiles:
 settings:
   ENABLE_BITCODE: "NO"
   DEVELOPMENT_TEAM: 48N3J4V5KM
+  # Defaults for local Xcode runs. CI overrides both via the xcodebuild
+  # command line (see .github/workflows/build-app.yaml). Without defaults,
+  # Info.plist substitution leaves CFBundleVersion empty and installd
+  # refuses to install the Share Extension (MissingBundleVersion).
+  MARKETING_VERSION: "0.0.0"
+  CURRENT_PROJECT_VERSION: "1"
 packages:
   MapLibre:
     url: https://github.com/maplibre/maplibre-gl-native-distribution
@@ -38,6 +44,8 @@ targets:
         type: folder
       - path: ../app/src/main/assets/Sounds
         type: folder
+      - path: ../app/src/main/assets/DoubleTap/dt_soundscape.mp3
+        buildPhase: resources
     info:
       path: iosApp/Info.plist
       properties:
@@ -54,7 +62,10 @@ targets:
         UIBackgroundModes:
           - audio
           - location
-        UILaunchScreen: {}
+        UILaunchScreen:
+          UIColorName: SplashBackground
+          UIImageName: SoundscapeLogo
+          UIImageRespectsSafeAreaInsets: false
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationPortraitUpsideDown
