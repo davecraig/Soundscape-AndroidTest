@@ -54,3 +54,4 @@ google-services.json
 
 iosApp/Local.xcconfig
 iosApp/iosApp.xcodeproj/
+iosApp/iosApp/Info.plist

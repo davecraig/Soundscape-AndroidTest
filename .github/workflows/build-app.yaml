@@ -530,4 +530,4 @@ jobs:
             --type xctest \
             --test "$RUNNER_TEMP/ios_tests.zip" \
             --timeout=1800s \
-            --device model=iphone15pro,version=18.0,locale=en_US,orientation=portrait
+            --device model=iphonese3,version=18.4,locale=en_US,orientation=portrait
