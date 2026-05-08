@@ -20,11 +20,9 @@ fun BatteryOptimizationScreen(
 ) {
     val context = LocalContext.current
     BatteryOptimization(
-        onContinue = {
-            requestBatteryOptimizationExemption(context)
-            onNavigate()
-        },
+        onContinue = onNavigate,
         modifier = modifier,
+        onGrantPermission = { requestBatteryOptimizationExemption(context) },
     )
 }
 

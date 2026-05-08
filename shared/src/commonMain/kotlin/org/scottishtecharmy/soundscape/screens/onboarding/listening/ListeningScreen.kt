@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.onboarding.listening
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +15,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -37,6 +42,8 @@ fun Listening(
     onNavigate: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
     BoxWithGradientBackground(
         modifier = modifier,
         color = MaterialTheme.colorScheme.surface
@@ -74,20 +81,23 @@ fun Listening(
                             color = MaterialTheme.colorScheme.onSurface,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.semantics { heading() }
+                                .focusRequester(focusRequester).focusable()
                         )
                         Spacer(modifier = Modifier.height(spacing.extraLarge))
                         Text(
                             text = stringResource(Res.string.first_launch_headphones_message_1),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.focusable(),
                         )
                         Spacer(modifier = Modifier.height(spacing.small))
                         Text(
                             text = stringResource(Res.string.first_launch_headphones_message_2),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.focusable(),
                         )
                         Spacer(modifier = Modifier.height(spacing.extraLarge))
 
@@ -96,12 +106,17 @@ fun Listening(
                             onClick = { onNavigate() },
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .focusable()
                                 .testTag("listeningScreenContinueButton"),
                         )
                     }
                 }
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
 

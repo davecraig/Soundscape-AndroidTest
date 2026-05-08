@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.onboarding.accessibility
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -42,6 +46,8 @@ fun AccessibilityOnboardingScreen(
     onNavigate: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
     BoxWithGradientBackground(
         modifier = modifier,
         color = MaterialTheme.colorScheme.surface
@@ -82,14 +88,19 @@ fun AccessibilityOnboardingScreen(
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.semantics { heading() }
+                        modifier = Modifier
+                            .semantics { heading() }
+                            .focusRequester(focusRequester)
+                            .focusable()
                     )
                     Spacer(modifier = Modifier.height(spacing.large))
                     Text(
                         text = text,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.smallPadding()
+                        modifier = Modifier
+                            .smallPadding()
+                            .focusable()
                     )
                     Spacer(modifier = Modifier.height(spacing.large))
                 }
@@ -102,6 +113,7 @@ fun AccessibilityOnboardingScreen(
                         Text(
                             text = stringResource(Res.string.settings_show_map),
                             color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.focusable()
                         )
                     },
                 )
@@ -112,10 +124,15 @@ fun AccessibilityOnboardingScreen(
                         onClick = { onNavigate() },
                         modifier = Modifier
                             .fillMaxWidth()
+                            .focusable()
                             .testTag("accessibilityOnboardingScreenContinueButton"),
                     )
                 }
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }

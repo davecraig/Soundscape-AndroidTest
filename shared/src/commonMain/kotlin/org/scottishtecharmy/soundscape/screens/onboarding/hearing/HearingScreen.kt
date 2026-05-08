@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.onboarding.hearing
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -22,8 +23,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -47,6 +52,8 @@ fun Hearing(
     onPlaySpeech: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
     BoxWithGradientBackground(
         modifier = modifier,
         color = MaterialTheme.colorScheme.surface
@@ -86,7 +93,8 @@ fun Hearing(
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onSurface,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth().semantics { heading() },
+                            modifier = Modifier.fillMaxWidth().semantics { heading() }
+                                .focusRequester(focusRequester).focusable(),
                         )
                         Spacer(modifier = Modifier.height(spacing.extraLarge))
                         Text(
@@ -95,19 +103,23 @@ fun Hearing(
                             color = MaterialTheme.colorScheme.onSurface,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth()
+                                .focusable()
                         )
                         Spacer(modifier = Modifier.height(spacing.large))
                         Text(
                             text = stringResource(Res.string.first_launch_callouts_listen),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.focusable()
                         )
                         Spacer(modifier = Modifier.height(spacing.small))
 
                         Button(
                             onClick = { onPlaySpeech() },
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusable(),
                             shape = RoundedCornerShape(spacing.tiny),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -128,6 +140,7 @@ fun Hearing(
                                 Text(
                                     text = stringResource(Res.string.first_launch_callouts_listen_accessibility_label),
                                     color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.focusable()
                                 )
                             }
                         }
@@ -138,12 +151,17 @@ fun Hearing(
                             onClick = { onContinue() },
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .focusable()
                                 .testTag("hearingScreenContinueButton")
                         )
                     }
                 }
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
 

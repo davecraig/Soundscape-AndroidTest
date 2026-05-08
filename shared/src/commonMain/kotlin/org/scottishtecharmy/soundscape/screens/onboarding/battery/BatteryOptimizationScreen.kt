@@ -1,5 +1,6 @@
 package org.scottishtecharmy.soundscape.screens.onboarding.battery
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +13,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.heading
@@ -24,14 +32,19 @@ import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.battery_optimization_message
 import org.scottishtecharmy.soundscape.resources.battery_optimization_title
 import org.scottishtecharmy.soundscape.resources.ui_continue
+import org.scottishtecharmy.soundscape.resources.ui_grant_permission
 import org.scottishtecharmy.soundscape.screens.onboarding.component.BoxWithGradientBackground
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 
 @Composable
 fun BatteryOptimization(
     onContinue: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onGrantPermission: (() -> Unit)? = null,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    var canContinue by remember { mutableStateOf(onGrantPermission == null) }
+
     BoxWithGradientBackground(
         modifier = modifier,
         color = MaterialTheme.colorScheme.surface
@@ -50,26 +63,48 @@ fun BatteryOptimization(
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.semantics { heading() },
+                modifier = Modifier
+                    .semantics { heading() }
+                    .focusRequester(focusRequester)
+                    .focusable(),
             )
             Spacer(modifier = Modifier.height(spacing.large))
             Text(
                 text = stringResource(Res.string.battery_optimization_message),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.focusable()
             )
             Spacer(modifier = Modifier.height(spacing.extraLarge))
 
             Column(modifier = Modifier.padding(horizontal = spacing.medium)) {
+                if (onGrantPermission != null) {
+                    OnboardButton(
+                        text = stringResource(Res.string.ui_grant_permission),
+                        onClick = {
+                            onGrantPermission()
+                            canContinue = true
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusable()
+                            .testTag("batteryOptimizationGrantPermissionButton"),
+                    )
+                }
                 OnboardButton(
                     text = stringResource(Res.string.ui_continue),
                     onClick = { onContinue() },
+                    enabled = canContinue,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .focusable()
                         .testTag("batteryOptimizationContinueButton"),
                 )
             }
         }
+    }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
