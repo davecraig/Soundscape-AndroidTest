@@ -6,14 +6,10 @@ import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.liveRegion
-import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 
 @Composable
-fun Modifier.talkbackHint(hint: String) =
-    semantics {
-        onClick(label = hint, action = { false })
-    }
+expect fun Modifier.talkbackHint(hint: String): Modifier
 
 @Composable
 fun Modifier.talkbackDescription(contentDescription: String) =

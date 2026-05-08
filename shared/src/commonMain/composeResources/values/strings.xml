@@ -124,6 +124,8 @@
 <string name="preview_go_title">Go</string>
 <!-- Hint for button that in street preview goes to the next intersection. This is always preceded by "Double tap to  -->
 <string name="preview_go_hint">Move in this direction to the next intersection.</string>
+<!-- Prefix prepended to onClick hints on iOS to match Android TalkBack's "Double tap to" gesture announcement. Trailing space is intentional. -->
+<string name="talkback_double_tap_prefix">Double tap to </string>
 <!-- Initial location simulation state for Go button which is indicating that pressing the button will take the user to the nearest intersection -->
 <string name="preview_go_nearest_intersection">Go to nearest intersection</string>
 <!-- Notification, %s is the last entry in a comma delimited list e.g. roads within an intersection. e.g. " and Moor Road" -->
