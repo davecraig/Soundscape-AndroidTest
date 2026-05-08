@@ -7,6 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.CompletableDeferred
 import java.io.File
 import java.io.FileOutputStream
@@ -31,10 +33,20 @@ class AndroidMarkersAndRoutesIo(
     private var pickContinuation: CompletableDeferred<List<NamedGpx>?>? = null
     private var picker: ActivityResultLauncher<String>? = null
 
-    /** Wire the import file-picker launcher to the host activity's registry. */
+    /**
+     * Wire the import file-picker launcher to the host activity's registry.
+     *
+     * The launcher is auto-unregistered when the activity is destroyed so that
+     * this app-scoped singleton does not retain a reference back to the
+     * Activity via the ActivityResultRegistry.
+     */
     fun attach(activity: ComponentActivity) {
+        // Drop any previous launcher so we don't leak the prior activity's
+        // registry if attach() is called twice without a destroy in between.
+        picker?.unregister()
         picker = activity.activityResultRegistry.register(
             "soundscape-markers-and-routes-pick",
+            activity,
             ActivityResultContracts.GetContent(),
         ) { uri ->
             val cont = pickContinuation
@@ -63,6 +75,19 @@ class AndroidMarkersAndRoutesIo(
                 cont.complete(null)
             }
         }
+        // Even with the lifecycle-aware register() above, the registry itself
+        // keeps the callback (and therefore this singleton's launcher field)
+        // alive until the activity is destroyed. Clear our own reference at
+        // that point so the singleton doesn't transitively retain the dead
+        // activity, and cancel any in-flight import.
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                picker = null
+                pickContinuation?.complete(null)
+                pickContinuation = null
+                owner.lifecycle.removeObserver(this)
+            }
+        })
     }
 
     override suspend fun exportGpxZip(
