@@ -357,7 +357,8 @@ jobs:
             -authenticationKeyIssuerID "$ISSUER_ID" \
             -allowProvisioningUpdates \
             MARKETING_VERSION="$SHORT_VERSION" \
-            CURRENT_PROJECT_VERSION="$VERSION_CODE"
+            CURRENT_PROJECT_VERSION="$VERSION_CODE" \
+            APP_VERSION_NAME="$VERSION_NAME"
 
       # Manual signing during export so xcodebuild reuses the profile we
       # imported in setup-ios-signing instead of asking Apple to mint a fresh

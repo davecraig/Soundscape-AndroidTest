@@ -15,6 +15,10 @@ settings:
   # refuses to install the Share Extension (MissingBundleVersion).
   MARKETING_VERSION: "0.0.0"
   CURRENT_PROJECT_VERSION: "1"
+  # Full x.y.z version. MARKETING_VERSION is trimmed to x.y on CI so TestFlight
+  # groups builds into one train; APP_VERSION_NAME preserves the patch for the
+  # AppVersionName Info.plist key that PlatformInfo.appVersionName() reads.
+  APP_VERSION_NAME: "0.0.0"
 packages:
   MapLibre:
     url: https://github.com/maplibre/maplibre-gl-native-distribution
@@ -54,6 +58,7 @@ targets:
         CFBundleIconName: AppIcon
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        AppVersionName: $(APP_VERSION_NAME)
         ITSAppUsesNonExemptEncryption: false
         CADisableMinimumFrameDurationOnPhone: true
         NSLocationWhenInUseUsageDescription: "Soundscape needs your location to provide audio navigation and describe your surroundings."
