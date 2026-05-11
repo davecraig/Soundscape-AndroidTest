@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -360,6 +361,7 @@ private fun OfflineExtractRow(
 ) {
     val details = remember(extract) { ExtractDetails(extract) }
     val size = extract.properties?.get("extract-size-string") ?: return
+    val sizeA11y = (extract.properties?.get("extract-size-a11y-string") ?: size).toString()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -391,7 +393,9 @@ private fun OfflineExtractRow(
             text = size.toString(),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.align(Alignment.CenterVertically),
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .semantics { contentDescription = sizeA11y },
         )
     }
 }

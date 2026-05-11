@@ -21,6 +21,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
+import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 import org.scottishtecharmy.soundscape.utils.formatBytes
 
@@ -136,7 +137,10 @@ class OfflineMapManager(
             ?: (sizeProp as? String)?.toDoubleOrNull()
             ?: return this
         val props = HashMap<String, Any?>(properties ?: emptyMap())
-        props["extract-size-string"] = formatBytes(sizeBytes.toLong())
+        val sizeLong = sizeBytes.toLong()
+        val localized = ComposeLocalizedStrings()
+        props["extract-size-string"] = formatBytes(sizeLong, localized)
+        props["extract-size-a11y-string"] = formatBytes(sizeLong, localized, forAccessibility = true)
         properties = props
         return this
     }

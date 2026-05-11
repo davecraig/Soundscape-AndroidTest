@@ -24,6 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import org.jetbrains.compose.resources.stringResource
 import org.maplibre.spatialk.geojson.Position
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
@@ -168,10 +170,13 @@ private fun MapExtractTextsSection(
         }
         val size = extract.properties?.get("extract-size-string")
         if (size != null) {
-            val sizeString = if (local)
-                stringResource(Res.string.offline_map_details_size_on_phone, size.toString())
+            val sizeA11y = extract.properties?.get("extract-size-a11y-string") ?: size
+            val template = if (local)
+                Res.string.offline_map_details_size_on_phone
             else
-                stringResource(Res.string.offline_map_details_size_on_server, size.toString())
+                Res.string.offline_map_details_size_on_server
+            val sizeString = stringResource(template, size.toString())
+            val sizeStringA11y = stringResource(template, sizeA11y.toString())
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(spacing.small),
@@ -193,6 +198,7 @@ private fun MapExtractTextsSection(
                     text = sizeString,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.semantics { contentDescription = sizeStringA11y },
                 )
             }
         }

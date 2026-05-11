@@ -78,6 +78,18 @@ import org.scottishtecharmy.soundscape.resources.directions_traveling_s
 import org.scottishtecharmy.soundscape.resources.directions_traveling_se
 import org.scottishtecharmy.soundscape.resources.directions_traveling_sw
 import org.scottishtecharmy.soundscape.resources.directions_traveling_w
+import org.scottishtecharmy.soundscape.resources.bytes_format_b
+import org.scottishtecharmy.soundscape.resources.bytes_format_b_a11y
+import org.scottishtecharmy.soundscape.resources.bytes_format_gb
+import org.scottishtecharmy.soundscape.resources.bytes_format_gb_a11y
+import org.scottishtecharmy.soundscape.resources.bytes_format_kb
+import org.scottishtecharmy.soundscape.resources.bytes_format_kb_a11y
+import org.scottishtecharmy.soundscape.resources.bytes_format_mb
+import org.scottishtecharmy.soundscape.resources.bytes_format_mb_a11y
+import org.scottishtecharmy.soundscape.resources.bytes_format_tb
+import org.scottishtecharmy.soundscape.resources.bytes_format_tb_a11y
+import org.scottishtecharmy.soundscape.resources.number_decimal_separator
+import org.scottishtecharmy.soundscape.resources.number_decimal_separator_a11y
 import org.scottishtecharmy.soundscape.resources.distance_format_feet
 import org.scottishtecharmy.soundscape.resources.distance_format_km
 import org.scottishtecharmy.soundscape.resources.distance_format_km_a11y
@@ -151,6 +163,18 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.DistanceFormatKm          -> Res.string.distance_format_km
         StringKey.DistanceFormatKmA11y      -> Res.string.distance_format_km_a11y
         StringKey.DistanceFormatMiles       -> Res.string.distance_format_miles
+        StringKey.BytesFormatB              -> Res.string.bytes_format_b
+        StringKey.BytesFormatBA11y          -> Res.string.bytes_format_b_a11y
+        StringKey.BytesFormatKb             -> Res.string.bytes_format_kb
+        StringKey.BytesFormatKbA11y         -> Res.string.bytes_format_kb_a11y
+        StringKey.BytesFormatMb             -> Res.string.bytes_format_mb
+        StringKey.BytesFormatMbA11y         -> Res.string.bytes_format_mb_a11y
+        StringKey.BytesFormatGb             -> Res.string.bytes_format_gb
+        StringKey.BytesFormatGbA11y         -> Res.string.bytes_format_gb_a11y
+        StringKey.BytesFormatTb             -> Res.string.bytes_format_tb
+        StringKey.BytesFormatTbA11y         -> Res.string.bytes_format_tb_a11y
+        StringKey.NumberDecimalSeparator    -> Res.string.number_decimal_separator
+        StringKey.NumberDecimalSeparatorA11y -> Res.string.number_decimal_separator_a11y
         StringKey.RelativeClockDirection    -> Res.string.relative_clock_direction
         StringKey.RelativeDegreesDirection  -> Res.string.relative_degrees_direction
         StringKey.RelativeLeftRightDirectionAhead       -> Res.string.relative_left_right_direction_ahead

@@ -157,7 +157,13 @@ fun formatDistanceAndDirection(
         ) ?: "$wholeUnits metres"
     } else {
         val bigUnits = (roundedDistance.toInt() / 10).toFloat() / bigUnitDivisor
-        val formatted = formatDecimal(bigUnits.toDouble(), 2)
+        val separator = decimalSeparator(localized, forAccessibility)
+        val formatted = formatDecimal(
+            bigUnits.toDouble(),
+            decimals = 2,
+            separator = separator,
+            spaceFractionalDigits = forAccessibility,
+        )
         val bigUnitKey = if (metric) {
             if (forAccessibility) StringKey.DistanceFormatKmA11y else StringKey.DistanceFormatKm
         } else {
@@ -206,7 +212,18 @@ fun formatDistanceAndDirection(
     return "$distanceText$headingText"
 }
 
-private fun formatDecimal(value: Double, decimals: Int): String {
+internal fun decimalSeparator(localized: LocalizedStrings?, forAccessibility: Boolean): String {
+    val key = if (forAccessibility) StringKey.NumberDecimalSeparatorA11y
+              else StringKey.NumberDecimalSeparator
+    return localized?.get(key) ?: if (forAccessibility) " point " else "."
+}
+
+internal fun formatDecimal(
+    value: Double,
+    decimals: Int,
+    separator: String = ".",
+    spaceFractionalDigits: Boolean = false,
+): String {
     val factor = when (decimals) {
         0 -> 1L
         1 -> 10L
@@ -219,8 +236,10 @@ private fun formatDecimal(value: Double, decimals: Int): String {
     val absVal = abs(rounded)
     val whole = absVal / factor
     val frac = absVal % factor
-    return if (decimals == 0) "$sign$whole"
-    else "$sign$whole.${frac.toString().padStart(decimals, '0')}"
+    if (decimals == 0) return "$sign$whole"
+    val fracStr = frac.toString().padStart(decimals, '0')
+    val fracOut = if (spaceFractionalDigits) fracStr.toCharArray().joinToString(" ") else fracStr
+    return "$sign$whole$separator$fracOut"
 }
 
 private fun travellingReverseGeocodeName(
