@@ -80,6 +80,7 @@ import org.scottishtecharmy.soundscape.resources.directions_traveling_sw
 import org.scottishtecharmy.soundscape.resources.directions_traveling_w
 import org.scottishtecharmy.soundscape.resources.distance_format_feet
 import org.scottishtecharmy.soundscape.resources.distance_format_km
+import org.scottishtecharmy.soundscape.resources.distance_format_km_a11y
 import org.scottishtecharmy.soundscape.resources.distance_format_meters
 import org.scottishtecharmy.soundscape.resources.distance_format_miles
 import org.scottishtecharmy.soundscape.resources.general_error_location_services_find_location_error
@@ -148,6 +149,7 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.DistanceFormatMeters      -> Res.string.distance_format_meters
         StringKey.DistanceFormatFeet        -> Res.string.distance_format_feet
         StringKey.DistanceFormatKm          -> Res.string.distance_format_km
+        StringKey.DistanceFormatKmA11y      -> Res.string.distance_format_km_a11y
         StringKey.DistanceFormatMiles       -> Res.string.distance_format_miles
         StringKey.RelativeClockDirection    -> Res.string.relative_clock_direction
         StringKey.RelativeDegreesDirection  -> Res.string.relative_degrees_direction

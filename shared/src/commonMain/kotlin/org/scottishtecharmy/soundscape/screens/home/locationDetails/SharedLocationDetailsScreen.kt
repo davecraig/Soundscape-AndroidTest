@@ -31,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
@@ -168,15 +170,16 @@ private fun LocationDescriptionTextsSection(
             }
         }
 
-        val distanceString = remember(userLocation) {
-            if (userLocation == null) return@remember ""
+        val distanceStrings = remember(userLocation) {
+            if (userLocation == null) return@remember "" to ""
             val ruler = userLocation.createCheapRuler()
-            formatDistanceAndDirection(
-                ruler.distance(userLocation, locationDescription.location),
-                ruler.bearing(userLocation, locationDescription.location),
-                ComposeLocalizedStrings()
-            )
+            val distance = ruler.distance(userLocation, locationDescription.location)
+            val bearing = ruler.bearing(userLocation, locationDescription.location)
+            val localized = ComposeLocalizedStrings()
+            formatDistanceAndDirection(distance, bearing, localized) to
+                formatDistanceAndDirection(distance, bearing, localized, forAccessibility = true)
         }
+        val (distanceString, distanceStringA11y) = distanceStrings
         if (distanceString.isNotEmpty()) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -192,6 +195,7 @@ private fun LocationDescriptionTextsSection(
                     text = distanceString,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.semantics { contentDescription = distanceStringA11y },
                 )
             }
         }

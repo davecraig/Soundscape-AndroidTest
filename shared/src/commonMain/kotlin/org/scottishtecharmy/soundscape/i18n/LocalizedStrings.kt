@@ -25,6 +25,7 @@ enum class StringKey {
     DistanceFormatFeet,
     DistanceFormatKm,
     DistanceFormatMiles,
+    DistanceFormatKmA11y,
     RelativeClockDirection,
     RelativeDegreesDirection,
     RelativeLeftRightDirectionAhead,

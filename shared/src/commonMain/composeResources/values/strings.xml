@@ -492,6 +492,8 @@
 <string name="distance_format_meters">%1$s meters</string>
 <!-- Preserve km unit - Do not convert but can translate abbreviation of kilometer. Distance string. %s is a number, "15 km" -->
 <string name="distance_format_km">%1$s km</string>
+<!-- Accessibility variant of distance_format_km. Used for screen-reader content descriptions where the abbreviation "km" gets mispronounced (e.g. iOS VoiceOver reads "km" as "K M"). Spell the unit out fully. %s is a number, "1.05 kilometres" -->
+<string name="distance_format_km_a11y">%1$s kilometres</string>
 <!-- Preserve feet unit - Do not convert but can translate. Distance string, plural. %s is a plural number, "15 feet" -->
 <string name="distance_format_feet">%1$s feet</string>
 <!-- Preserve miles unit - Do not convert but can translate. Distance string, plural.%s is a plural number, "15 miles" -->

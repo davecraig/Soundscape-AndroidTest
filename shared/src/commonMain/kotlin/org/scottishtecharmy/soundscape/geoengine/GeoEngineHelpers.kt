@@ -135,6 +135,7 @@ fun formatDistanceAndDirection(
     localized: LocalizedStrings?,
     userHeading: Double? = null,
     relativeTimeMode: String = "ClockFace",
+    forAccessibility: Boolean = false,
 ): String {
     var units = distance
     var bigUnitDivisor = 100
@@ -157,10 +158,12 @@ fun formatDistanceAndDirection(
     } else {
         val bigUnits = (roundedDistance.toInt() / 10).toFloat() / bigUnitDivisor
         val formatted = formatDecimal(bigUnits.toDouble(), 2)
-        distanceText = localized?.get(
-            if (metric) StringKey.DistanceFormatKm else StringKey.DistanceFormatMiles,
-            formatted
-        ) ?: "$formatted km"
+        val bigUnitKey = if (metric) {
+            if (forAccessibility) StringKey.DistanceFormatKmA11y else StringKey.DistanceFormatKm
+        } else {
+            StringKey.DistanceFormatMiles
+        }
+        distanceText = localized?.get(bigUnitKey, formatted) ?: "$formatted km"
     }
 
     var headingText = ""

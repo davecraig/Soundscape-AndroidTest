@@ -72,6 +72,7 @@ fun LocationItem(
     decoration: LocationItemDecoration = LocationItemDecoration(),
 ) {
     var distanceString = ""
+    var distanceStringA11y = ""
     val selectionText = if (decoration.editRoute.value) stringResource(Res.string.location_item_selected) else stringResource(Res.string.location_item_not_selected)
     val moveUpLabel = stringResource(Res.string.location_item_move_up)
     val moveUpDown = stringResource(Res.string.location_item_move_down)
@@ -79,10 +80,12 @@ fun LocationItem(
     val startPlaybackLabel = decoration.startPlayback.hint.ifEmpty { defaultStartPlaybackLabel }
     if(userLocation != null) {
         val ruler = item.location.createCheapRuler()
-        distanceString = formatDistanceAndDirection(
-            ruler.distance(userLocation, item.location),
-            ruler.bearing(userLocation, item.location),
-            ComposeLocalizedStrings()
+        val distance = ruler.distance(userLocation, item.location)
+        val bearing = ruler.bearing(userLocation, item.location)
+        val localized = ComposeLocalizedStrings()
+        distanceString = formatDistanceAndDirection(distance, bearing, localized)
+        distanceStringA11y = formatDistanceAndDirection(
+            distance, bearing, localized, forAccessibility = true
         )
     }
     Row(
@@ -108,7 +111,7 @@ fun LocationItem(
                         "${decoration.indexDescription} ${decoration.index + 1}. ${item.name}"
 
                     else -> item.description?.takeIf { it.startsWith(item.name) }
-                        ?: listOfNotNull(item.name, item.typeDescription?.additionalText, item.description, distanceString).joinToString(", ")
+                        ?: listOfNotNull(item.name, item.typeDescription?.additionalText, item.description, distanceStringA11y).joinToString(", ")
                 }
 
                 if (decoration.editRoute.enabled) {
