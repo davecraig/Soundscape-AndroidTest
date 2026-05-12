@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="general_alert_cancel">Anulează</string>
     <string name="general_alert_done">Gata</string>
     <string name="general_loading_start">Se pregătește totul…</string>
     <string name="general_error_location_services_find_location_error">Avem dificultăți în a determina locația ta curentă.</string>
     <string name="general_error_add_marker_error">Avem dificultăți în a marca acest loc. Încearcă din nou mai târziu.</string>
-    <string name="general_error_add_marker_duplicate" tools:ignore="MissingTranslation">Există deja un marcaj în rută la această locație, nu îl putem adăuga din nou.</string>
+    <string name="general_error_add_marker_duplicate">Există deja un marcaj în rută la această locație, nu îl putem adăuga din nou.</string>
     <string name="settings_screen_title">Setări</string>
-    <string name="settings_explanation" tools:ignore="MissingTranslation">Diferitele setări ale aplicației sunt organizate în grupuri mai jos. Atinge un grup pentru a-l extinde și a vedea opțiunile disponibile.</string>
+    <string name="settings_explanation">Diferitele setări ale aplicației sunt organizate în grupuri mai jos. Atinge un grup pentru a-l extinde și a vedea opțiunile disponibile.</string>
     <string name="settings_about_app">Despre Soundscape</string>
-    <string name="settings_section_units" tools:ignore="MissingTranslation">Unități de măsură</string>
-    <string name="settings_section_units_description" tools:ignore="MissingTranslation">Selectează unitățile de măsură pentru distanță</string>
-    <string name="settings_units_imperial" tools:ignore="MissingTranslation">Imperial (Picioare)</string>
-    <string name="settings_units_metric" tools:ignore="MissingTranslation">Metric (Metri)</string>
-    <string name="settings_section_search" tools:ignore="MissingTranslation">Căutare</string>
-    <string name="search_bar_hint" tools:ignore="MissingTranslation">Introdu un nume de destinație sau o adresă</string>
-    <string name="settings_section_search_network" tools:ignore="MissingTranslation">Mod de căutare</string>
-    <string name="settings_section_search_network_description" tools:ignore="MissingTranslation">Controlează dacă căutarea folosește doar date offline</string>
-    <string name="settings_search_online" tools:ignore="MissingTranslation">Online</string>
-    <string name="settings_search_offline" tools:ignore="MissingTranslation">Offline</string>
-    <string name="settings_search_auto" tools:ignore="MissingTranslation">Automat</string>
-    <string name="search_no_results" tools:ignore="MissingTranslation">Nu s-au găsit rezultate</string>
-    <string name="search_searching" tools:ignore="MissingTranslation">Se caută…</string>
+    <string name="settings_section_units">Unități de măsură</string>
+    <string name="settings_section_units_description">Selectează unitățile de măsură pentru distanță</string>
+    <string name="settings_units_imperial">Imperial (Picioare)</string>
+    <string name="settings_units_metric">Metric (Metri)</string>
+    <string name="settings_section_search">Căutare</string>
+    <string name="search_bar_hint">Introdu un nume de destinație sau o adresă</string>
+    <string name="settings_section_search_network">Mod de căutare</string>
+    <string name="settings_section_search_network_description">Controlează dacă căutarea folosește doar date offline</string>
+    <string name="settings_search_online">Online</string>
+    <string name="settings_search_offline">Offline</string>
+    <string name="settings_search_auto">Automat</string>
+    <string name="search_no_results">Nu s-au găsit rezultate</string>
+    <string name="search_searching">Se caută…</string>
     <string name="voice_settings_speaking_rate">Viteza vorbirii</string>
-    <string name="voice_engine" tools:ignore="MissingTranslation">Motor text-în-vorbire</string>
+    <string name="voice_engine">Motor text-în-vorbire</string>
     <string name="voice_voices">Voci</string>
     <string name="beacon_settings_style">Stiluri de baliză audio</string>
-    <string name="beacon_settings_style_description" tools:ignore="MissingTranslation">Alege stilul de baliză audio pe care dorești să îl folosești</string>
+    <string name="beacon_settings_style_description">Alege stilul de baliză audio pe care dorești să îl folosești</string>
     <string name="beacon_styles_current">Current</string>
     <string name="beacon_styles_original">Original</string>
     <string name="beacon_styles_flare">Flare</string>
@@ -47,13 +47,13 @@
     <string name="beacon_action_unmute_beacon_acc_hint">Activează sunetul balizei audio.</string>
     <string name="preview_title">Simulare locație</string>
     <string name="preview_go_title">Mergi</string>
-    <string name="preview_go_nearest_intersection" tools:ignore="MissingTranslation">Mergi la cea mai apropiată intersecție</string>
-    <string name="last_entry_in_list" tools:ignore="MissingTranslation"> și %1$s</string>
+    <string name="preview_go_nearest_intersection">Mergi la cea mai apropiată intersecție</string>
+    <string name="last_entry_in_list"> și %1$s</string>
     <string name="preview_include_unnamed_roads_title">Drumuri fără nume</string>
-    <string name="preview_include_unnamed_roads_title_description" tools:ignore="MissingTranslation">Include drumuri fără nume în timpul simulării locației</string>
+    <string name="preview_include_unnamed_roads_title_description">Include drumuri fără nume în timpul simulării locației</string>
     <string name="location_detail_title_default">Detalii locație</string>
     <string name="location_detail_action_beacon">Pornește baliza audio</string>
-    <string name="location_detail_action_beacon_from_markers" tools:ignore="MissingTranslation">Pornește baliza audio la acest marcaj</string>
+    <string name="location_detail_action_beacon_from_markers">Pornește baliza audio la acest marcaj</string>
     <string name="location_detail_action_beacon_hint">Te ghidează spre această locație cu ajutorul sunetului.</string>
     <string name="location_detail_action_save_hint">Salvează această locație pentru utilizare ulterioară</string>
     <string name="location_detail_action_edit_hint">Schimbă numele marcajului sau adaugă note suplimentare</string>
@@ -61,10 +61,10 @@
     <string name="location_detail_action_preview_hint">Începe previzualizarea la această locație</string>
     <string name="location_detail_add_waypoint_existing_hint">Elimină acest marcaj din ruta ta.</string>
     <string name="location_detail_add_waypoint_new_hint">Adaugă acest marcaj ca punct de traseu pe ruta ta.</string>
-    <string name="location_detail_full_screen_hint" tools:ignore="MissingTranslation">Afișează harta pe tot ecranul</string>
-    <string name="location_detail_exit_full_screen_hint" tools:ignore="MissingTranslation">Ieși din harta pe tot ecranul</string>
-    <string name="location_detail_full_screen_for_edit_hint" tools:ignore="MissingTranslation">Afișează harta pe tot ecranul și editează locația marcajului</string>
-    <string name="location_detail_exit_full_screen_for_edit_hint" tools:ignore="MissingTranslation">Ieși din modul de editare a locației marcajului</string>
+    <string name="location_detail_full_screen_hint">Afișează harta pe tot ecranul</string>
+    <string name="location_detail_exit_full_screen_hint">Ieși din harta pe tot ecranul</string>
+    <string name="location_detail_full_screen_for_edit_hint">Afișează harta pe tot ecranul și editează locația marcajului</string>
+    <string name="location_detail_exit_full_screen_for_edit_hint">Ieși din modul de editare a locației marcajului</string>
     <string name="route_detail_action_start_route">Pornește ruta</string>
     <string name="route_detail_action_stop_route">Oprește ruta</string>
     <string name="route_detail_action_edit">Editează ruta</string>
@@ -78,16 +78,16 @@
     <string name="route_end_completed_accessibility">Rută finalizată! %1$s</string>
     <string name="route_detail_action_previous">Punctul de traseu anterior</string>
     <string name="route_detail_action_previous_hint">Mută baliza la punctul de traseu anterior</string>
-    <string name="route_detail_action_previous_disabled_hint" tools:ignore="MissingTranslation">Inactiv deoarece ruta este deja la început</string>
+    <string name="route_detail_action_previous_disabled_hint">Inactiv deoarece ruta este deja la început</string>
     <string name="route_detail_action_next">Punctul de traseu următor</string>
     <string name="route_detail_action_next_hint">Mută baliza la punctul de traseu următor</string>
-    <string name="route_detail_action_next_disabled_hint" tools:ignore="MissingTranslation">Inactiv deoarece ruta este deja la final</string>
+    <string name="route_detail_action_next_disabled_hint">Inactiv deoarece ruta este deja la final</string>
     <string name="route_detail_edit_description">Descriere</string>
     <string name="route_detail_edit_waypoints_button">Adaugă puncte de traseu</string>
     <string name="route_detail_edit_delete">Șterge ruta</string>
     <string name="route_update_success_title">Actualizare finalizată!</string>
     <string name="waypoint_title">Punct de traseu</string>
-    <string name="route_not_found" tools:ignore="MissingTranslation">Ruta nu a fost găsită</string>
+    <string name="route_not_found">Ruta nu a fost găsită</string>
     <string name="universal_links_alert_action_marker">Salvează ca marcaj</string>
     <string name="universal_links_marker_share_message">Ți-am partajat un marcaj Soundscape: "%1$s".\n\nPentru a deschide în Soundscape folosește %2$s.\n\n Pentru a deschide în Google Maps folosește %3$s.</string>
     <string name="user_activity_save_marker_title">Salvează marcaj</string>
@@ -120,26 +120,26 @@
     <string name="search_button_nearby_accessibility_hint">Explorează restaurante, stații de transport și altele din apropiere</string>
     <string name="search_button_current_location_accessibility_hint">Previzualizează, marchează sau partajează locația ta curentă cu un prieten</string>
     <string name="filter_all">Toate locurile</string>
-    <string name="all_places_nearby_description" tools:ignore="MissingTranslation">vezi o listă nefiltrată a tuturor locurilor din apropiere</string>
-    <string name="public_transit_places_nearby_description" tools:ignore="MissingTranslation">vezi o listă a transportului public din apropiere</string>
-    <string name="food_drink_places_nearby_description" tools:ignore="MissingTranslation">vezi o listă a restaurantelor și barurilor din apropiere</string>
-    <string name="groceries_places_nearby_description" tools:ignore="MissingTranslation">vezi o listă a magazinelor alimentare din apropiere</string>
-    <string name="banks_places_nearby_description" tools:ignore="MissingTranslation">vezi o listă a băncilor din apropiere</string>
-    <string name="intersections_places_nearby_description" tools:ignore="MissingTranslation">vezi o listă a intersecțiilor din apropiere</string>
-    <string name="places_nearby_selection_description" tools:ignore="MissingTranslation">pentru a alege dintr-o listă de locuri din apropiere</string>
+    <string name="all_places_nearby_description">vezi o listă nefiltrată a tuturor locurilor din apropiere</string>
+    <string name="public_transit_places_nearby_description">vezi o listă a transportului public din apropiere</string>
+    <string name="food_drink_places_nearby_description">vezi o listă a restaurantelor și barurilor din apropiere</string>
+    <string name="groceries_places_nearby_description">vezi o listă a magazinelor alimentare din apropiere</string>
+    <string name="banks_places_nearby_description">vezi o listă a băncilor din apropiere</string>
+    <string name="intersections_places_nearby_description">vezi o listă a intersecțiilor din apropiere</string>
+    <string name="places_nearby_selection_description">pentru a alege dintr-o listă de locuri din apropiere</string>
     <string name="filter_transit">Transport public</string>
     <string name="filter_food_drink">Mâncare și băuturi</string>
     <string name="filter_groceries">Magazine alimentare</string>
     <string name="filter_banks">Bănci și bancomate</string>
     <string name="callouts_panel_title">Ascultă împrejurimile</string>
     <string name="callouts_allow_callouts">Permite anunțurile</string>
-    <string name="callouts_allow_callouts_description" tools:ignore="MissingTranslation">Activează sau dezactivează toate anunțurile</string>
+    <string name="callouts_allow_callouts_description">Activează sau dezactivează toate anunțurile</string>
     <string name="callouts_places_and_landmarks">Locuri și repere</string>
-    <string name="callouts_places_and_landmarks_description" tools:ignore="MissingTranslation">Locuri din apropiere precum magazine și restaurante</string>
+    <string name="callouts_places_and_landmarks_description">Locuri din apropiere precum magazine și restaurante</string>
     <string name="callouts_mobility">Mobilitate</string>
-    <string name="callouts_mobility_description" tools:ignore="MissingTranslation">Informații despre intersecții și transport</string>
+    <string name="callouts_mobility_description">Informații despre intersecții și transport</string>
     <string name="callouts_audio_beacon">Distanța până la baliza audio</string>
-    <string name="callouts_audio_beacon_description" tools:ignore="MissingTranslation">Actualizări despre distanța până la baliza audio când aceasta este setată</string>
+    <string name="callouts_audio_beacon_description">Actualizări despre distanța până la baliza audio când aceasta este setată</string>
     <string name="callouts_automatic_callouts">Anunțuri automate</string>
     <string name="callouts_nothing_to_call_out_now">Nu există nimic de anunțat în acest moment</string>
     <string name="callouts_nearby_markers">Marcaje din apropiere</string>
@@ -156,7 +156,7 @@
     <string name="directions_name_goes_right">%1$s, continuă la dreapta</string>
     <string name="directions_name_continues_ahead">%1$s, continuă înainte</string>
     <string name="directions_direction_ahead">înainte</string>
-    <string name="directions_near_road_and_settlement" tools:ignore="MissingTranslation">Lângă %1$s și în apropierea %2$s</string>
+    <string name="directions_near_road_and_settlement">Lângă %1$s și în apropierea %2$s</string>
     <string name="directions_traveling_n">Deplasare spre nord</string>
     <string name="directions_traveling_ne">Deplasare spre nord-est</string>
     <string name="directions_traveling_e">Deplasare spre est</string>
@@ -205,22 +205,22 @@
     <string name="directions_along_heading_sw">Mergi spre sud-vest pe %1$s</string>
     <string name="directions_along_heading_w">Mergi spre vest pe %1$s</string>
     <string name="directions_along_heading_nw">Mergi spre nord-vest pe %1$s</string>
-    <string name="directions_cardinal_north" tools:ignore="MissingTranslation">Nord</string>
-    <string name="directions_cardinal_north_east" tools:ignore="MissingTranslation">Nord-Est</string>
-    <string name="directions_cardinal_east" tools:ignore="MissingTranslation">Est</string>
-    <string name="directions_cardinal_south_east" tools:ignore="MissingTranslation">Sud-Est</string>
-    <string name="directions_cardinal_south" tools:ignore="MissingTranslation">Sud</string>
-    <string name="directions_cardinal_south_west" tools:ignore="MissingTranslation">Sud-Vest</string>
-    <string name="directions_cardinal_west" tools:ignore="MissingTranslation">Vest</string>
-    <string name="directions_cardinal_north_west" tools:ignore="MissingTranslation">Nord-Vest</string>
-    <string name="directions_cardinal_north_abb" tools:ignore="MissingTranslation">N</string>
-    <string name="directions_cardinal_north_east_abb" tools:ignore="MissingTranslation">NE</string>
-    <string name="directions_cardinal_east_abb" tools:ignore="MissingTranslation">E</string>
-    <string name="directions_cardinal_south_east_abb" tools:ignore="MissingTranslation">SE</string>
-    <string name="directions_cardinal_south_abb" tools:ignore="MissingTranslation">S</string>
-    <string name="directions_cardinal_south_west_abb" tools:ignore="MissingTranslation">SV</string>
-    <string name="directions_cardinal_west_abb" tools:ignore="MissingTranslation">V</string>
-    <string name="directions_cardinal_north_west_abb" tools:ignore="MissingTranslation">NV</string>
+    <string name="directions_cardinal_north">Nord</string>
+    <string name="directions_cardinal_north_east">Nord-Est</string>
+    <string name="directions_cardinal_east">Est</string>
+    <string name="directions_cardinal_south_east">Sud-Est</string>
+    <string name="directions_cardinal_south">Sud</string>
+    <string name="directions_cardinal_south_west">Sud-Vest</string>
+    <string name="directions_cardinal_west">Vest</string>
+    <string name="directions_cardinal_north_west">Nord-Vest</string>
+    <string name="directions_cardinal_north_abb">N</string>
+    <string name="directions_cardinal_north_east_abb">NE</string>
+    <string name="directions_cardinal_east_abb">E</string>
+    <string name="directions_cardinal_south_east_abb">SE</string>
+    <string name="directions_cardinal_south_abb">S</string>
+    <string name="directions_cardinal_south_west_abb">SV</string>
+    <string name="directions_cardinal_west_abb">V</string>
+    <string name="directions_cardinal_north_west_abb">NV</string>
     <string name="distance_format_meters">%1$s metri</string>
     <string name="distance_format_km">%1$s km</string>
     <string name="distance_format_feet">%1$s picioare</string>
@@ -238,13 +238,13 @@
     <string name="ui_menu_close">Închide meniul</string>
     <string name="ui_continue">Continuă</string>
     <string name="menu_manage_callouts">Gestionare anunțuri</string>
-    <string name="menu_manage_search" tools:ignore="MissingTranslation">Căutare</string>
-    <string name="menu_help_and_tutorials" tools:ignore="MissingTranslation">Ajutor și tutoriale</string>
-    <string name="menu_help" tools:ignore="MissingTranslation">Ajutor</string>
+    <string name="menu_manage_search">Căutare</string>
+    <string name="menu_help_and_tutorials">Ajutor și tutoriale</string>
+    <string name="menu_help">Ajutor</string>
     <string name="menu_rate">Evaluează</string>
-    <string name="menu_contact_support" tools:ignore="MissingTranslation">Contactează asistența</string>
-    <string name="menu_advanced_markers_and_routes" tools:ignore="MissingTranslation">Marcaje și rute avansate</string>
-    <string name="advanced_markers_and_routes_description" tools:ignore="MissingTranslation">Acest ecran îți permite să exporti și să importi marcaje și rute, precum și să ștergi toate marcajele și rutele existente.</string>
+    <string name="menu_contact_support">Contactează asistența</string>
+    <string name="menu_advanced_markers_and_routes">Marcaje și rute avansate</string>
+    <string name="advanced_markers_and_routes_description">Acest ecran îți permite să exporti și să importi marcaje și rute, precum și să ștergi toate marcajele și rutele existente.</string>
     <string name="ui_back_button_title">Înapoi</string>
     <string name="behavior_experiences_route_nav_title">Detalii rută</string>
     <string name="behavior_scavenger_hunt_callout_next_flag">Baliză setată pe %1$s, la %2$s distanță, %3$s din %4$s</string>
@@ -291,8 +291,8 @@
     <string name="first_launch_permissions_location">Servicii de localizare cu locație precisă</string>
     <string name="first_launch_permissions_motion">Mișcare și fitness</string>
     <string name="first_launch_permissions_required">Această permisiune este necesară</string>
-    <string name="permissions_required" tools:ignore="MissingTranslation">Aplicația necesită permisiuni de localizare pentru a putea funcționa.</string>
-    <string name="permissions_button" tools:ignore="MissingTranslation">Modifică permisiunile din setările aplicației</string>
+    <string name="permissions_required">Aplicația necesită permisiuni de localizare pentru a putea funcționa.</string>
+    <string name="permissions_button">Modifică permisiunile din setările aplicației</string>
     <string name="first_launch_beacon_title">Alege o baliză audio</string>
     <string name="first_launch_beacon_message_1">Când navighezi cu Soundscape, vei auzi baliza audio din direcția destinației tale. Urmând sunetul acesteia, vei ști întotdeauna în ce direcție să mergi.</string>
     <string name="first_launch_beacon_message_2">Ascultă balizele audio disponibile și selecteaz-o pe cea preferată.</string>
@@ -300,8 +300,8 @@
     <string name="first_launch_prompt_title">Ești pregătit!</string>
     <string name="first_launch_prompt_message">Ești pregătit pentru prima ta plimbare cu Soundscape. Pentru a încerca acum, alege o destinație din apropiere, pornește baliza audio și o vei auzi din direcția destinației tale.</string>
     <string name="first_launch_prompt_button">Finalizare</string>
-    <string name="first_launch_change_language" tools:ignore="MissingTranslation">Schimbă limba</string>
-    <string name="first_launch_change_language_hint" tools:ignore="MissingTranslation">pentru a schimba limba folosită în aplicație</string>
+    <string name="first_launch_change_language">Schimbă limba</string>
+    <string name="first_launch_change_language_hint">pentru a schimba limba folosită în aplicație</string>
     <string name="help_text_destination_beacons_what">Setarea unei balize pe o locație din apropiere permite Soundscape să te țină informat prin redarea unui sunet de baliză audibilă din direcția locației respective. Această baliză poate fi dezactivată sau activată de pe ecranul principal. În plus, Soundscape afișează informații despre locație pe ecranul principal, inclusiv distanța până la aceasta și adresa stradală, dacă este cunoscută.</string>
     <string name="help_text_destination_beacons_when">Setarea unei balize este utilă atunci când vrei să urmărești un reper familiar în timp ce explorezi o zonă nouă sau când te deplasezi undeva și vrei să fii informat despre împrejurimi pe parcurs. Funcția de baliză nu îți oferă indicații pas cu pas, dar îți oferă un sunet audibil continuu care îți indică direcția balizei, relativ la locația ta actuală. Folosind baliza audio, abilitățile tale de orientare existente și chiar aplicația ta preferată de navigare, poți alege singur cum să ajungi la locațiile din apropiere.</string>
     <string name="help_text_destination_beacons_how_1">**Pentru a seta o baliză:**\n\n Mai întâi, vizualizează detaliile unei locații fie folosind bara de căutare pentru a căuta un loc, fie apăsând unul dintre butoanele *"Locuri din apropiere"*, *"Marcaje salvate"* sau *"Locație curentă"* și selectând o locație. Din ecranul cu detalii despre locație poți selecta butonul *"Pornește baliza audio"*. Apăsarea acestuia te va readuce la ecranul principal și va porni o baliză audibilă din direcția locului selectat. Numele locului selectat, împreună cu distanța și adresa fizică, dacă sunt disponibile, vor fi acum afișate pe ecranul principal al aplicației.</string>
@@ -408,928 +408,928 @@
     <string name="faq_tip_create_marker_at_bus_stop">Dacă există o rută de autobuz pe care o iei regulat, setează stațiile de urcare și coborâre ca marcaje. În acest fel vor fi salvate și le poți găsi ușor din nou, accesând *"Gestionează marcajele"* din meniu și găsindu-le în listă. Poți seta o baliză pe ele și vei primi actualizări periodice despre cât de aproape ești de stația de coborâre. Notă: poți dezactiva sunetul ritmic și vei primi în continuare actualizări de distanță pe parcurs.</string>
     <string name="no_language_selected">Nicio limbă selectată</string>
     <string name="first_launch_permissions_notification">Notificări</string>
-    <string name="notification_text" tools:ignore="MissingTranslation">Serviciul de localizare Soundscape rulează chiar și atunci când telefonul este blocat.</string>
-    <string name="cancel_search_contentDescription" tools:ignore="MissingTranslation">Anulează căutarea</string>
-    <string name="menu_manage_audio" tools:ignore="MissingTranslation">Audio</string>
-    <string name="menu_manage_language" tools:ignore="MissingTranslation">Limbă și regiune </string>
-    <string name="menu_manage_accessibility" tools:ignore="MissingTranslation">Accesibilitate</string>
-    <string name="settings_theme_light_dark" tools:ignore="MissingTranslation">Temă deschisă sau întunecată</string>
-    <string name="settings_theme_auto" tools:ignore="MissingTranslation">Automat</string>
-    <string name="settings_theme_is_light" tools:ignore="MissingTranslation">Folosește tema deschisă</string>
-    <string name="settings_theme_light" tools:ignore="MissingTranslation">Deschisă</string>
-    <string name="settings_theme_dark" tools:ignore="MissingTranslation">Întunecată</string>
-    <string name="settings_theme_contrast" tools:ignore="MissingTranslation">Contrastul temei</string>
-    <string name="settings_theme_contrast_regular" tools:ignore="MissingTranslation">Normal</string>
-    <string name="settings_theme_contrast_medium" tools:ignore="MissingTranslation">Mediu</string>
-    <string name="settings_theme_contrast_high" tools:ignore="MissingTranslation">Ridicat</string>
-    <string name="settings_list_item_description" tools:ignore="MissingTranslation">%1$s este opțiunea %2$s din %3$s</string>
-    <string name="settings_keep_value" tools:ignore="MissingTranslation">păstrează</string>
-    <string name="settings_use_value" tools:ignore="MissingTranslation">folosește</string>
-    <string name="street_preview_exit" tools:ignore="MissingTranslation">Ieși din simularea locației</string>
-    <string name="settings_travel_recording" tools:ignore="MissingTranslation">Activează înregistrarea deplasării</string>
-    <string name="settings_show_map" tools:ignore="MissingTranslation">Afișează hărțile pe ecran</string>
-    <string name="settings_debug_heading" tools:ignore="MissingTranslation">Opțiuni de depanare</string>
-    <string name="settings_search_results_language" tools:ignore="MissingTranslation">Limba de căutare</string>
-    <string name="settings_search_results_language_description" tools:ignore="MissingTranslation">Căutarea online poate folosi limba locală a rezultatului sau poate fi forțată să returneze rezultate în engleză, franceză sau germană.</string>
-    <string name="menu_share_recorded_route" tools:ignore="MissingTranslation">Partajează înregistrarea deplasării</string>
-    <string name="confect_name_to_via" tools:ignore="MissingTranslation">%1$s spre %2$s prin %3$s</string>
-    <string name="confect_name_to" tools:ignore="MissingTranslation">%1$s spre %2$s</string>
-    <string name="confect_name_joins" tools:ignore="MissingTranslation">%1$s care leagă %2$s și %3$s</string>
-    <string name="confect_name_via" tools:ignore="MissingTranslation">%1$s prin %2$s</string>
-    <string name="confect_name_pavement_next_to" tools:ignore="MissingTranslation">Trotuar lângă %1$s</string>
-    <string name="confect_name_pavement" tools:ignore="MissingTranslation">Trotuar</string>
-    <string name="confect_name_dead_end" tools:ignore="MissingTranslation">fundătură</string>
-    <string name="offline_maps_title" tools:ignore="MissingTranslation">Hărți offline</string>
-    <string name="offline_map_details_title" tools:ignore="MissingTranslation">Detalii hartă offline</string>
-    <string name="offline_maps_loading" tools:ignore="MissingTranslation">Se încarcă…</string>
-    <string name="offline_maps_downloading" tools:ignore="MissingTranslation">Se descarcă %1$s</string>
-    <string name="offline_maps_caching" tools:ignore="MissingTranslation">Serverul pregătește %1$s pentru descărcare. Aceasta poate dura câteva minute, apoi descărcarea va începe automat.</string>
-    <string name="offline_maps_free_space" tools:ignore="MissingTranslation">%1$s liber</string>
-    <string name="offline_maps_storage" tools:ignore="MissingTranslation">Hărțile sunt salvate pe %1$s care are %2$s liber</string>
-    <string name="offline_maps_already_downloaded" tools:ignore="MissingTranslation">Hărți deja descărcate</string>
-    <string name="offline_maps_nearby" tools:ignore="MissingTranslation">Hărți offline din apropiere</string>
-    <string name="offline_maps_loading_manifest" tools:ignore="MissingTranslation">Se încarcă lista hărților offline</string>
-    <string name="offline_maps_manifest_failed" tools:ignore="MissingTranslation">Descărcarea datelor hărții offline a eșuat</string>
-    <string name="offline_map_details_delete" tools:ignore="MissingTranslation">Șterge harta offline</string>
-    <string name="offline_map_details_download" tools:ignore="MissingTranslation">Descarcă harta offline</string>
-    <string name="offline_map_details_size_on_phone" tools:ignore="MissingTranslation">Dimensiune pe telefon: %1$s</string>
-    <string name="offline_map_details_size_on_server" tools:ignore="MissingTranslation">Dimensiune descărcare: %1$s</string>
-    <string name="offline_map_details_name" tools:ignore="MissingTranslation">Nume hartă: %1$s</string>
-    <string name="offline_map_details_city_list" tools:ignore="MissingTranslation">Harta include aceste locuri: %1$s</string>
-    <string name="offline_map_details_alternate_city_list" tools:ignore="MissingTranslation">Aceste locuri sunt cunoscute și ca: %1$s</string>
-    <string name="offline_map_storage_title" tools:ignore="MissingTranslation">Stocare hărți offline</string>
-    <string name="offline_map_storage_description" tools:ignore="MissingTranslation">Pentru ca Soundscape să poată fi utilizat fără o conexiune la internet, este posibil să descărcați hărți și să le stocați pe telefon. Spațiul de stocare implicit este orice stocare externă de pe telefon, dar puteți selecta o destinație alternativă aici.</string>
-    <string name="offline_map_wifi_only" tools:ignore="MissingTranslation">Folosește doar WiFi pentru descărcarea hărților</string>
-    <string name="accessibility_title" tools:ignore="MissingTranslation">Accesibilitate</string>
-    <string name="accessibility_screen_reader_enabled" tools:ignore="MissingTranslation">Deoarece aveți un cititor de ecran activat, vă recomandăm să rulați aplicația cu hărțile grafice ale interfeței dezactivate. Puteți modifica această setare aici sau pur și simplu să continuați.</string>
-    <string name="accessibility_screen_reader_disabled" tools:ignore="MissingTranslation">Deoarece nu aveți un cititor de ecran activat, presupunem că doriți ca hărțile grafice din interfață să fie afișate. Puteți modifica această setare aici sau pur și simplu să continuați.</string>
-    <string name="text_field_clear_text" tools:ignore="MissingTranslation">Șterge textul</string>
-    <string name="marker_name_description_hint" tools:ignore="MissingTranslation">editați numele marcajului</string>
-    <string name="annotation_description_hint" tools:ignore="MissingTranslation">adăugați o notă opțională pentru a vă ajuta să recunoașteți acest marcaj mai târziu</string>
-    <string name="route_name_description_hint" tools:ignore="MissingTranslation">editați numele rutei</string>
-    <string name="route_description_description_hint" tools:ignore="MissingTranslation">adăugați o descriere opțională pentru această rută</string>
-    <string name="fab_add_item" tools:ignore="MissingTranslation">Adăugare element</string>
-    <string name="fab_add_route" tools:ignore="MissingTranslation">Adăugare rută</string>
-    <string name="route_waypoint_progress" tools:ignore="MissingTranslation">Ruta %1$s la punctul de traseu %2$s din %3$s</string>
-    <string name="home_screen_title" tools:ignore="MissingTranslation">Soundscape Acasă</string>
-    <string name="settings_reset_button" tools:ignore="MissingTranslation">Resetare setări la valorile implicite</string>
-    <string name="settings_reset_button_hint" tools:ignore="MissingTranslation">resetați setările la valorile implicite și apoi reporniți aplicația.</string>
-    <string name="settings_reset_dialog_title" tools:ignore="MissingTranslation">Sunteți sigur?</string>
-    <string name="settings_reset_dialog_message" tools:ignore="MissingTranslation">Resetarea setărilor va șterge toate setările configurate în aplicație, doriți să continuați?</string>
-    <string name="advanced_markers_and_routes_export_button" tools:ignore="MissingTranslation">Exportă baza de date a marcajelor și rutelor</string>
-    <string name="advanced_markers_and_routes_import_button" tools:ignore="MissingTranslation">Importă baza de date a marcajelor și rutelor</string>
-    <string name="advanced_markers_and_routes_export" tools:ignore="MissingTranslation">Exportă</string>
-    <string name="markers_and_routes_import_success" tools:ignore="MissingTranslation">Importul marcajelor și rutelor a fost finalizat.</string>
-    <string name="markers_and_routes_import_failure" tools:ignore="MissingTranslation">Importul marcajelor și rutelor a eșuat.</string>
-    <string name="advanced_markers_and_routes_clear_all_button" tools:ignore="MissingTranslation">Șterge toate marcajele și rutele</string>
-    <string name="advanced_markers_and_routes_clear_all_alert_message" tools:ignore="MissingTranslation">Ștergerea tuturor marcajelor și rutelor nu poate fi anulată, doriți să continuați?</string>
-    <string name="menu_advanced_markers_and_routes_clear_all_success" tools:ignore="MissingTranslation">Marcaje și rute șterse</string>
-    <string name="location_item_selected" tools:ignore="MissingTranslation">Selectat</string>
-    <string name="location_item_not_selected" tools:ignore="MissingTranslation">Neselectat</string>
-    <string name="location_item_move_up" tools:ignore="MissingTranslation">Mută mai sus în listă</string>
-    <string name="location_item_move_down" tools:ignore="MissingTranslation">Mută mai jos în listă</string>
-    <string name="street_description_between" tools:ignore="MissingTranslation">Pe %1$s între %2$s și %3$s</string>
-    <string name="street_description_until" tools:ignore="MissingTranslation">Pe %1$s, %2$s până la %3$s</string>
-    <string name="street_description_since" tools:ignore="MissingTranslation">Pe %1$s, %2$s de la %3$s</string>
-    <string name="street_description_relative_before" tools:ignore="MissingTranslation">Pe %1$s chiar înainte de %2$s</string>
-    <string name="street_description_relative_after" tools:ignore="MissingTranslation">Pe %1$s chiar după %2$s</string>
-    <string name="street_description_intersection" tools:ignore="MissingTranslation">Lângă intersecția %1$s</string>
-    <string name="new_version_info_text" tools:ignore="MissingTranslation">Informații despre noua versiune</string>
-    <string name="new_version_info_completed" tools:ignore="MissingTranslation">Închide dialogul noii versiuni</string>
-    <string name="menu_open_source_licenses" tools:ignore="MissingTranslation">Licențe open source</string>
-    <string name="new_version_info_details" tools:ignore="MissingTranslation">\nÎn această versiune există două funcții noi care permit controlul de la distanță al aplicației, chiar și atunci când telefonul este blocat. Asta înseamnă că îl poți păstra în buzunar în timp ce controlezi funcțiile principale ale aplicației.\n\nAmbele metode de control la distanță folosesc butoanele media Bluetooth, fie cele de pe căști, fie telecomenzi mici pe care le poți cumpăra pentru a le ține în mână sau în buzunar. Modul de control la distanță se selectează din Setări/Controale media și poți alege „Comandă vocală” pentru a vorbi cu aplicația, sau „Meniu audio”, unde ți se citesc meniuri cu opțiuni de selectat. „Mod original” înseamnă că butoanele Bluetooth funcționează în același fel ca în versiunile anterioare.\n\nÎn modul comandă vocală, apăsarea butonului Redare/Pauză de pe căști pornește ascultarea aplicației pentru comenzi vocale și vei auzi un sunet scurt care indică acest lucru. Dacă spui „Help” (Ajutor) se va lista comenzile disponibile pe care le poți folosi. Apoi poți apăsa din nou butonul și încerca celelalte comenzi. Din păcate, funcția de recunoaștere vocală Android nu acceptă toate limbile și nu este disponibilă pe toate telefoanele.\n\nPrincipala dificultate la modul comandă vocală este că unele căști pornesc microfonul mai lent decât altele. Asta înseamnă că după ce apeși butonul Redare/Pauză poate fi nevoie să aștepți până la 5 secunde înainte de a putea vorbi. Pentru a afla cât durează, cea mai bună abordare este să apeși Redare/Pauză și să numeri de la 1 la 10. Telefonul îți va spune ce text a recunoscut, iar numărul la care pornește recunoașterea va fi primul recunoscut. Aceasta te poate ajuta să înveți cât să aștepți înainte de a vorbi. Unele căști fac un sunet clar atunci când microfonul este activ, ceea ce facilitează acest lucru, dar altele nu fac niciun zgomot. Din păcate, poate necesita exercițiu.\n\nCelălalt mod nou la distanță, Meniul audio, va funcționa în toate limbile și pe toate telefoanele. Butoanele media Următorul/Anterior avansează sau revin prin opțiunile din meniu. Butonul Redare/Pauză selectează opțiunea curentă. Există un meniu principal, urmat de un strat de submeniuri care grupează comenzile similare.\n\nAceste funcții sunt foarte noi și ne-ar plăcea foarte mult să primim feedback despre cât de bine funcționează și ce alte comenzi ați dori.\n\nVă rugăm să raportați orice problemă, oricât de mică, prin opțiunea *Contactează asistența* din meniul principal.\n</string>
-    <string name="about_soundscape" tools:ignore="MissingTranslation">Soundscape explorează utilizarea tehnologiei audio inovatoare pentru a permite oamenilor să își dezvolte o conștientizare mai bogată a împrejurimilor, devenind astfel mai încrezători și mai autonomi în deplasări.</string>
-    <string name="osm_office_building" tools:ignore="MissingTranslation">Clădire de birouri</string>
-    <string name="osm_school_building" tools:ignore="MissingTranslation">Clădire de școală</string>
-    <string name="osm_covered_pavilion" tools:ignore="MissingTranslation">Pavilion acoperit</string>
-    <string name="osm_convenience_store" tools:ignore="MissingTranslation">Magazin alimentar</string>
-    <string name="osm_building_entrance" tools:ignore="MissingTranslation">Intrare în clădire</string>
-    <string name="osm_restroom" tools:ignore="MissingTranslation">Toaletă</string>
-    <string name="osm_parking_lot" tools:ignore="MissingTranslation">Parcare</string>
-    <string name="osm_taxi_waiting_area" tools:ignore="MissingTranslation">Zonă de așteptare taxi</string>
-    <string name="osm_bike_parking" tools:ignore="MissingTranslation">Parcare biciclete</string>
-    <string name="osm_gas_station" tools:ignore="MissingTranslation">Benzinărie</string>
-    <string name="osm_bus_stop_named" tools:ignore="MissingTranslation">Stație de autobuz %1$s</string>
-    <string name="osm_recycling_bin" tools:ignore="MissingTranslation">Coș de reciclare</string>
-    <string name="osm_water_fountain" tools:ignore="MissingTranslation">Cișmea</string>
-    <string name="osm_sports_field" tools:ignore="MissingTranslation">Teren de sport</string>
-    <string name="osm_picnic_area" tools:ignore="MissingTranslation">Zonă de picnic</string>
-    <string name="osm_main_entrance" tools:ignore="MissingTranslation">intrare principală</string>
-    <string name="osm_entrance_named_with_destination" tools:ignore="MissingTranslation">%1$s %2$s din %3$s</string>
-    <string name="osm_entrance_with_destination" tools:ignore="MissingTranslation">%1$s %2$s</string>
-    <string name="osm_tag_ferry_terminal" tools:ignore="MissingTranslation">Terminal de feribot</string>
-    <string name="osm_tag_ferry_terminal_named" tools:ignore="MissingTranslation">Terminal de feribot %1$s</string>
-    <string name="osm_crossing" tools:ignore="MissingTranslation">Trecere de pietoni</string>
-    <string name="osm_construction" tools:ignore="MissingTranslation">Construcție</string>
-    <string name="osm_dangerous_area" tools:ignore="MissingTranslation">Zonă periculoasă</string>
-    <string name="osm_townhall" tools:ignore="MissingTranslation">Primărie</string>
-    <string name="osm_steps" tools:ignore="MissingTranslation">Scări</string>
-    <string name="osm_elevator" tools:ignore="MissingTranslation">Lift</string>
-    <string name="osm_walking_path" tools:ignore="MissingTranslation">Cărare pietonală</string>
-    <string name="osm_pedestrian_street" tools:ignore="MissingTranslation">Stradă pietonală</string>
-    <string name="osm_bicycle_path" tools:ignore="MissingTranslation">Pistă de biciclete</string>
-    <string name="osm_residential_street" tools:ignore="MissingTranslation">Stradă rezidențială</string>
-    <string name="osm_service_road" tools:ignore="MissingTranslation">Drum de serviciu</string>
-    <string name="osm_road" tools:ignore="MissingTranslation">Drum</string>
-    <string name="osm_highway" tools:ignore="MissingTranslation">Autostradă</string>
-    <string name="osm_highway_named" tools:ignore="MissingTranslation">Nume autostradă</string>
-    <string name="osm_highway_refed" tools:ignore="MissingTranslation">Referință autostradă</string>
-    <string name="osm_intersection" tools:ignore="MissingTranslation">Intersecție</string>
-    <string name="osm_roundabout" tools:ignore="MissingTranslation">Sens giratoriu</string>
-    <string name="osm_highway_ramp" tools:ignore="MissingTranslation">Rampă de autostradă</string>
-    <string name="osm_merging_lane" tools:ignore="MissingTranslation">Bandă de inserție</string>
-    <string name="osm_office" tools:ignore="MissingTranslation">Birou</string>
-    <string name="osm_school" tools:ignore="MissingTranslation">Școală</string>
-    <string name="osm_roof" tools:ignore="MissingTranslation">Acoperiș</string>
-    <string name="osm_convenience" tools:ignore="MissingTranslation">Magazin alimentar</string>
-    <string name="osm_entrance" tools:ignore="MissingTranslation">Intrare</string>
-    <string name="osm_assembly_point" tools:ignore="MissingTranslation">Punct de adunare</string>
-    <string name="osm_cycle_barrier" tools:ignore="MissingTranslation">Barieră pentru biciclete</string>
-    <string name="osm_turnstile" tools:ignore="MissingTranslation">Turnichet</string>
-    <string name="osm_cattle_grid" tools:ignore="MissingTranslation">Grătar pentru vite</string>
-    <string name="osm_gate" tools:ignore="MissingTranslation">Poartă</string>
-    <string name="osm_lift_gate" tools:ignore="MissingTranslation">Barieră</string>
-    <string name="osm_toilets" tools:ignore="MissingTranslation">Toalete</string>
-    <string name="osm_parking" tools:ignore="MissingTranslation">Parcare</string>
-    <string name="osm_parking_entrance" tools:ignore="MissingTranslation">Intrare parcare</string>
-    <string name="osm_bench" tools:ignore="MissingTranslation">Bancă</string>
-    <string name="osm_taxi" tools:ignore="MissingTranslation">Stație de taxi</string>
-    <string name="osm_post_office" tools:ignore="MissingTranslation">Oficiu poștal</string>
-    <string name="osm_post_box" tools:ignore="MissingTranslation">Cutie poștală</string>
-    <string name="osm_waste_basket" tools:ignore="MissingTranslation">Coș de gunoi</string>
-    <string name="osm_shower" tools:ignore="MissingTranslation">Duș</string>
-    <string name="osm_bicycle_parking" tools:ignore="MissingTranslation">Parcare biciclete</string>
-    <string name="osm_cafe" tools:ignore="MissingTranslation">Cafenea</string>
-    <string name="osm_restaurant" tools:ignore="MissingTranslation">Restaurant</string>
-    <string name="osm_telephone" tools:ignore="MissingTranslation">Telefon</string>
-    <string name="osm_fuel" tools:ignore="MissingTranslation">Stație de combustibil</string>
-    <string name="osm_bank" tools:ignore="MissingTranslation">Bancă</string>
-    <string name="osm_atm" tools:ignore="MissingTranslation">Bancomat</string>
-    <string name="osm_atm_named" tools:ignore="MissingTranslation">Bancomat cu denumire</string>
-    <string name="osm_atm_refed" tools:ignore="MissingTranslation">Referință bancomat</string>
-    <string name="osm_bus_stop" tools:ignore="MissingTranslation">Stație de autobuz</string>
-    <string name="osm_recycling" tools:ignore="MissingTranslation">Reciclare</string>
-    <string name="osm_fountain" tools:ignore="MissingTranslation">Fântână</string>
-    <string name="osm_place_of_worship" tools:ignore="MissingTranslation">Lăcaș de cult</string>
-    <string name="osm_drinking_water" tools:ignore="MissingTranslation">Apă potabilă</string>
-    <string name="osm_car_wash" tools:ignore="MissingTranslation">Spălătorie auto</string>
-    <string name="osm_vending_machine" tools:ignore="MissingTranslation">Automat de vânzare</string>
-    <string name="osm_playground" tools:ignore="MissingTranslation">Loc de joacă</string>
-    <string name="osm_pitch" tools:ignore="MissingTranslation">Teren de sport</string>
-    <string name="osm_swimming_pool" tools:ignore="MissingTranslation">Piscină</string>
-    <string name="osm_garden" tools:ignore="MissingTranslation">Grădină</string>
-    <string name="osm_park" tools:ignore="MissingTranslation">Parc</string>
-    <string name="osm_picnic_table" tools:ignore="MissingTranslation">Masă de picnic</string>
-    <string name="osm_picnic_site" tools:ignore="MissingTranslation">Zonă de picnic</string>
-    <string name="osm_information" tools:ignore="MissingTranslation">Informații</string>
-    <string name="osm_fire_extinguisher" tools:ignore="MissingTranslation">Stingător de incendiu</string>
-    <string name="osm_defibrillator" tools:ignore="MissingTranslation">Defibrilator</string>
-    <string name="osm_guide" tools:ignore="MissingTranslation">Indicator direcțional</string>
-    <string name="osm_water" tools:ignore="MissingTranslation">Apă</string>
-    <string name="osm_fire_hose" tools:ignore="MissingTranslation">Furtun de incendiu</string>
-    <string name="osm_fire_flapper" tools:ignore="MissingTranslation">Bătător de foc</string>
-    <string name="osm_information_point" tools:ignore="MissingTranslation">Punct de informare</string>
-    <string name="osm_wetland" tools:ignore="MissingTranslation">Zonă umedă</string>
-    <string name="osm_mud" tools:ignore="MissingTranslation">Noroi</string>
-    <string name="osm_access_point" tools:ignore="MissingTranslation">Punct de acces</string>
-    <string name="osm_life_ring" tools:ignore="MissingTranslation">Colac de salvare</string>
-    <string name="osm_generic_info" tools:ignore="MissingTranslation">Informații generale</string>
-    <string name="osm_turntable" tools:ignore="MissingTranslation">Placă turnantă</string>
-    <string name="osm_survey_point" tools:ignore="MissingTranslation">Punct geodezic</string>
-    <string name="osm_snow_net" tools:ignore="MissingTranslation">Plasă pentru zăpadă</string>
-    <string name="osm_silo" tools:ignore="MissingTranslation">Siloz</string>
-    <string name="osm_mast" tools:ignore="MissingTranslation">Catarg</string>
-    <string name="osm_bird_hide" tools:ignore="MissingTranslation">Observator de păsări</string>
-    <string name="osm_transformer_tower" tools:ignore="MissingTranslation">Turn de transformare</string>
-    <string name="osm_generic_object" tools:ignore="MissingTranslation">Obiect generic</string>
-    <string name="osm_signal" tools:ignore="MissingTranslation">Semnal</string>
-    <string name="osm_rock" tools:ignore="MissingTranslation">Stâncă</string>
-    <string name="osm_kiln" tools:ignore="MissingTranslation">Cuptor</string>
-    <string name="osm_crane" tools:ignore="MissingTranslation">Macara</string>
-    <string name="osm_rune_stone" tools:ignore="MissingTranslation">Piatră runică</string>
-    <string name="osm_milestone" tools:ignore="MissingTranslation">Bornă kilometrică</string>
-    <string name="osm_lifeguard_platform" tools:ignore="MissingTranslation">Platformă de salvamar</string>
-    <string name="osm_water_tank" tools:ignore="MissingTranslation">Rezervor de apă</string>
-    <string name="osm_sty" tools:ignore="MissingTranslation">Cocină</string>
-    <string name="osm_navigationaid" tools:ignore="MissingTranslation">Ajutor de navigație</string>
-    <string name="osm_terminal" tools:ignore="MissingTranslation">Terminal</string>
-    <string name="osm_water_tap" tools:ignore="MissingTranslation">Robinet de apă</string>
-    <string name="osm_water_well" tools:ignore="MissingTranslation">Fântână</string>
-    <string name="osm_petroleum_well" tools:ignore="MissingTranslation">Puț de petrol</string>
-    <string name="osm_cross" tools:ignore="MissingTranslation">Cruce</string>
-    <string name="osm_gallows" tools:ignore="MissingTranslation">Spânzurătoare</string>
-    <string name="osm_speed_camera" tools:ignore="MissingTranslation">Cameră de viteză</string>
-    <string name="osm_siren" tools:ignore="MissingTranslation">Sirenă</string>
-    <string name="osm_pylon" tools:ignore="MissingTranslation">Pilon</string>
-    <string name="osm_mineshaft" tools:ignore="MissingTranslation">Puț de mină</string>
-    <string name="osm_flagpole" tools:ignore="MissingTranslation">Catarg de steag</string>
-    <string name="osm_optical_telegraph" tools:ignore="MissingTranslation">Telegraf optic</string>
-    <string name="osm_cannon" tools:ignore="MissingTranslation">Tun</string>
-    <string name="osm_boundary_stone" tools:ignore="MissingTranslation">Piatră de hotar</string>
-    <string name="osm_shed" tools:ignore="MissingTranslation">Șopron</string>
-    <string name="osm_traffic_cones" tools:ignore="MissingTranslation">Conuri de trafic</string>
-    <string name="osm_firepit" tools:ignore="MissingTranslation">Vatră de foc</string>
-    <string name="osm_stone" tools:ignore="MissingTranslation">Piatră</string>
-    <string name="osm_surveillance" tools:ignore="MissingTranslation">Supraveghere</string>
-    <string name="osm_monitoring_station" tools:ignore="MissingTranslation">Stație de monitorizare</string>
-    <string name="osm_wayside_shrine" tools:ignore="MissingTranslation">Troiță</string>
-    <string name="osm_wayside_cross" tools:ignore="MissingTranslation">Cruce de drum</string>
-    <string name="osm_tomb" tools:ignore="MissingTranslation">Mormânt</string>
-    <string name="osm_traffic_signals" tools:ignore="MissingTranslation">Semafoare</string>
-    <string name="osm_hut" tools:ignore="MissingTranslation">Colibă</string>
-    <string name="osm_static_caravan" tools:ignore="MissingTranslation">Rulotă staționară</string>
-    <string name="osm_bollard" tools:ignore="MissingTranslation">Bolarzi</string>
-    <string name="osm_block" tools:ignore="MissingTranslation">Bloc</string>
-    <string name="osm_waste_disposal" tools:ignore="MissingTranslation">Punct de eliminare a deșeurilor</string>
-    <string name="osm_photo_booth" tools:ignore="MissingTranslation">Cabină foto</string>
-    <string name="osm_bbq" tools:ignore="MissingTranslation">Grătar</string>
-    <string name="osm_shop" tools:ignore="MissingTranslation">Magazin</string>
-    <string name="osm_newsagent" tools:ignore="MissingTranslation">Magazin de presă</string>
-    <string name="osm_anime" tools:ignore="MissingTranslation">Magazin de anime</string>
-    <string name="osm_musical_instrument" tools:ignore="MissingTranslation">Magazin de instrumente muzicale</string>
-    <string name="osm_vacuum_cleaner" tools:ignore="MissingTranslation">Magazin de aspiratoare</string>
-    <string name="osm_mobile_phone" tools:ignore="MissingTranslation">Magazin de telefoane mobile</string>
-    <string name="osm_carpet" tools:ignore="MissingTranslation">Magazin de covoare</string>
-    <string name="osm_trade" tools:ignore="MissingTranslation">Magazin en-gros</string>
-    <string name="osm_garden_centre" tools:ignore="MissingTranslation">Centru de grădinărit</string>
-    <string name="osm_florist" tools:ignore="MissingTranslation">Florărie</string>
-    <string name="osm_fireplace" tools:ignore="MissingTranslation">Șemineu</string>
-    <string name="osm_massage" tools:ignore="MissingTranslation">Masaj</string>
-    <string name="osm_herbalist" tools:ignore="MissingTranslation">Plafar</string>
-    <string name="osm_bag" tools:ignore="MissingTranslation">Magazin de genți</string>
-    <string name="osm_pastry" tools:ignore="MissingTranslation">Patiserie</string>
-    <string name="osm_deli" tools:ignore="MissingTranslation">Magazin de delicatese</string>
-    <string name="osm_beverages" tools:ignore="MissingTranslation">Magazin de băuturi</string>
-    <string name="osm_alcohol" tools:ignore="MissingTranslation">Magazin de băuturi alcoolice</string>
-    <string name="osm_substation" tools:ignore="MissingTranslation">Substație electrică</string>
-    <string name="osm_travel_agent" tools:ignore="MissingTranslation">Agenție de turism</string>
-    <string name="osm_research" tools:ignore="MissingTranslation">Centru de cercetare</string>
-    <string name="osm_newspaper" tools:ignore="MissingTranslation">Magazin de ziare</string>
-    <string name="osm_ammunition" tools:ignore="MissingTranslation">Magazin de muniție</string>
-    <string name="osm_wildlife_hide" tools:ignore="MissingTranslation">Observator de animale sălbatice</string>
-    <string name="osm_watchmaker" tools:ignore="MissingTranslation">Ceasornicărie</string>
-    <string name="osm_tinsmith" tools:ignore="MissingTranslation">Tinichigerie</string>
-    <string name="osm_sun_protection" tools:ignore="MissingTranslation">Magazin de protecție solară</string>
-    <string name="osm_sculptor" tools:ignore="MissingTranslation">Atelier de sculptură</string>
-    <string name="osm_metal_construction" tools:ignore="MissingTranslation">Construcții metalice</string>
-    <string name="osm_handicraft" tools:ignore="MissingTranslation">Magazin de artizanat</string>
-    <string name="osm_cowshed" tools:ignore="MissingTranslation">Grajd</string>
-    <string name="osm_cabin" tools:ignore="MissingTranslation">Cabană</string>
-    <string name="osm_barn" tools:ignore="MissingTranslation">Hambar</string>
-    <string name="osm_warehouse" tools:ignore="MissingTranslation">Depozit</string>
-    <string name="osm_houseboat" tools:ignore="MissingTranslation">Casă plutitoare</string>
-    <string name="osm_book_store" tools:ignore="MissingTranslation">Librărie</string>
-    <string name="osm_generic_place" tools:ignore="MissingTranslation">Loc</string>
-    <string name="osm_hunting_stand" tools:ignore="MissingTranslation">Foișor de vânătoare</string>
-    <string name="osm_game_feeding" tools:ignore="MissingTranslation">Loc de hrănire a vânatului</string>
-    <string name="osm_crypt" tools:ignore="MissingTranslation">Criptă</string>
-    <string name="osm_animal_shelter" tools:ignore="MissingTranslation">Adăpost de animale</string>
-    <string name="osm_animal_boarding" tools:ignore="MissingTranslation">Pensiune pentru animale</string>
-    <string name="osm_blood_donation" tools:ignore="MissingTranslation">Centru de donare de sânge</string>
-    <string name="osm_nursing_home" tools:ignore="MissingTranslation">Cămin de bătrâni</string>
-    <string name="osm_dentist" tools:ignore="MissingTranslation">Dentist</string>
-    <string name="osm_baby_hatch" tools:ignore="MissingTranslation">Cutie pentru bebeluși abandonați</string>
-    <string name="osm_language_school" tools:ignore="MissingTranslation">Școală de limbi străine</string>
-    <string name="osm_public_bookcase" tools:ignore="MissingTranslation">Bibliotecă publică stradală</string>
-    <string name="osm_biergarten" tools:ignore="MissingTranslation">Grădină de bere</string>
-    <string name="osm_running" tools:ignore="MissingTranslation">Pistă de alergare</string>
-    <string name="osm_glaziery" tools:ignore="MissingTranslation">Sticlărie</string>
-    <string name="osm_garages" tools:ignore="MissingTranslation">Garaje</string>
-    <string name="osm_retail" tools:ignore="MissingTranslation">Magazin cu amănuntul</string>
-    <string name="osm_hotel" tools:ignore="MissingTranslation">Hotel</string>
-    <string name="osm_camp_site" tools:ignore="MissingTranslation">Loc de campare</string>
-    <string name="osm_rugby_league" tools:ignore="MissingTranslation">Rugby în treisprezece</string>
-    <string name="osm_roller_skating" tools:ignore="MissingTranslation">Patinaj cu rotile</string>
-    <string name="osm_multi" tools:ignore="MissingTranslation">Utilizare multiplă</string>
-    <string name="osm_ice_hockey" tools:ignore="MissingTranslation">Hochei pe gheață</string>
-    <string name="osm_hapkido" tools:ignore="MissingTranslation">Hapkido</string>
-    <string name="osm_croquet" tools:ignore="MissingTranslation">Crochet</string>
-    <string name="osm_cricket" tools:ignore="MissingTranslation">Cricket</string>
-    <string name="osm_cockfighting" tools:ignore="MissingTranslation">Lupte de cocoși</string>
-    <string name="osm_boxing" tools:ignore="MissingTranslation">Box</string>
-    <string name="osm_bmx" tools:ignore="MissingTranslation">BMX</string>
-    <string name="osm_billiards" tools:ignore="MissingTranslation">Biliard</string>
-    <string name="osm_toys" tools:ignore="MissingTranslation">Magazin de jucării</string>
-    <string name="osm_pyrotechnics" tools:ignore="MissingTranslation">Magazin de artificii</string>
-    <string name="osm_laundry" tools:ignore="MissingTranslation">Spălătorie</string>
-    <string name="osm_funeral_directors" tools:ignore="MissingTranslation">Servicii funerare</string>
-    <string name="osm_dry_cleaning" tools:ignore="MissingTranslation">Curățătorie chimică</string>
-    <string name="osm_copyshop" tools:ignore="MissingTranslation">Centru de copiere</string>
-    <string name="osm_chalet" tools:ignore="MissingTranslation">Cabană</string>
-    <string name="osm_apartment" tools:ignore="MissingTranslation">Apartament</string>
-    <string name="osm_water_ski" tools:ignore="MissingTranslation">Schi nautic</string>
-    <string name="osm_water_polo" tools:ignore="MissingTranslation">Polo pe apă</string>
-    <string name="osm_table_soccer" tools:ignore="MissingTranslation">Fotbal de masă</string>
-    <string name="osm_table_tennis" tools:ignore="MissingTranslation">Tenis de masă</string>
-    <string name="osm_skateboard" tools:ignore="MissingTranslation">Skateboarding</string>
-    <string name="osm_sailing" tools:ignore="MissingTranslation">Navigație cu velă</string>
-    <string name="osm_safety_training" tools:ignore="MissingTranslation">Instruire de siguranță</string>
-    <string name="osm_rowing" tools:ignore="MissingTranslation">Canotaj</string>
-    <string name="osm_model_aerodrome" tools:ignore="MissingTranslation">Aerodrom pentru aeromodele</string>
-    <string name="osm_korfball" tools:ignore="MissingTranslation">Korfbal</string>
-    <string name="osm_ice_stock" tools:ignore="MissingTranslation">Eisstock</string>
-    <string name="osm_gymnastics" tools:ignore="MissingTranslation">Gimnastică</string>
-    <string name="osm_football" tools:ignore="MissingTranslation">Fotbal</string>
-    <string name="osm_field_hockey" tools:ignore="MissingTranslation">Hochei pe iarbă</string>
-    <string name="osm_equestrian" tools:ignore="MissingTranslation">Echitație</string>
-    <string name="osm_cycling" tools:ignore="MissingTranslation">Ciclism</string>
-    <string name="osm_curling" tools:ignore="MissingTranslation">Curling</string>
-    <string name="osm_cricket_nets" tools:ignore="MissingTranslation">Fileu de cricket</string>
-    <string name="osm_cliff_diving" tools:ignore="MissingTranslation">Sărituri de pe stâncă</string>
-    <string name="osm_boules" tools:ignore="MissingTranslation">Petancă</string>
-    <string name="osm_bobsleigh" tools:ignore="MissingTranslation">Bob</string>
-    <string name="osm_baseball" tools:ignore="MissingTranslation">Baseball</string>
-    <string name="osm_aikido" tools:ignore="MissingTranslation">Aikido</string>
-    <string name="osm_10pin" tools:ignore="MissingTranslation">Bowling cu zece popice</string>
-    <string name="osm_weapons" tools:ignore="MissingTranslation">Magazin de arme</string>
-    <string name="osm_pet" tools:ignore="MissingTranslation">Magazin de animale</string>
-    <string name="osm_money_lender" tools:ignore="MissingTranslation">Casă de împrumuturi</string>
-    <string name="osm_gift" tools:ignore="MissingTranslation">Magazin de cadouri</string>
-    <string name="osm_books" tools:ignore="MissingTranslation">Librărie</string>
-    <string name="osm_bookmaker" tools:ignore="MissingTranslation">Agenție de pariuri</string>
-    <string name="osm_photo" tools:ignore="MissingTranslation">Magazin foto</string>
-    <string name="osm_craft" tools:ignore="MissingTranslation">Magazin de artizanat</string>
-    <string name="osm_motorcycle" tools:ignore="MissingTranslation">Magazin de motociclete</string>
-    <string name="osm_hunting" tools:ignore="MissingTranslation">Magazin de vânătoare</string>
-    <string name="osm_window_blind" tools:ignore="MissingTranslation">Magazin de jaluzele</string>
-    <string name="osm_curtain" tools:ignore="MissingTranslation">Magazin de perdele</string>
-    <string name="osm_antiques" tools:ignore="MissingTranslation">Magazin de antichități</string>
-    <string name="osm_paint" tools:ignore="MissingTranslation">Magazin de vopsele</string>
-    <string name="osm_tattoo" tools:ignore="MissingTranslation">Studio de tatuaje</string>
-    <string name="osm_nutrition_supplements" tools:ignore="MissingTranslation">Magazin de suplimente nutritive</string>
-    <string name="osm_hearing_aids" tools:ignore="MissingTranslation">Magazin de aparate auditive</string>
-    <string name="osm_cosmetics" tools:ignore="MissingTranslation">Magazin de cosmetice</string>
-    <string name="osm_watches" tools:ignore="MissingTranslation">Magazin de ceasuri</string>
-    <string name="osm_jewelry" tools:ignore="MissingTranslation">Magazin de bijuterii</string>
-    <string name="osm_boutique" tools:ignore="MissingTranslation">Butic</string>
-    <string name="osm_baby_goods" tools:ignore="MissingTranslation">Magazin de articole pentru bebeluși</string>
-    <string name="osm_tea" tools:ignore="MissingTranslation">Magazin de ceai</string>
-    <string name="osm_pasta" tools:ignore="MissingTranslation">Magazin de paste</string>
-    <string name="osm_coffee" tools:ignore="MissingTranslation">Cafenea</string>
-    <string name="osm_quango" tools:ignore="MissingTranslation">Organizație cvasi-autonomă</string>
-    <string name="osm_political_party" tools:ignore="MissingTranslation">Partid politic</string>
-    <string name="osm_association" tools:ignore="MissingTranslation">Asociație</string>
-    <string name="osm_architect" tools:ignore="MissingTranslation">Birou de arhitectură</string>
-    <string name="osm_advertising_agency" tools:ignore="MissingTranslation">Agenție de publicitate</string>
-    <string name="osm_summer_camp" tools:ignore="MissingTranslation">Tabără de vară</string>
-    <string name="osm_dance" tools:ignore="MissingTranslation">Studio de dans</string>
-    <string name="osm_amusement_arcade" tools:ignore="MissingTranslation">Salon de jocuri</string>
-    <string name="osm_adult_gaming_centre" tools:ignore="MissingTranslation">Centru de jocuri pentru adulți</string>
-    <string name="osm_window_construction" tools:ignore="MissingTranslation">Confecții de ferestre</string>
-    <string name="osm_upholsterer" tools:ignore="MissingTranslation">Tapițer</string>
-    <string name="osm_shoemaker" tools:ignore="MissingTranslation">Cizmar</string>
-    <string name="osm_sawmill" tools:ignore="MissingTranslation">Gater</string>
-    <string name="osm_pottery" tools:ignore="MissingTranslation">Atelier de ceramică</string>
-    <string name="osm_key_cutter" tools:ignore="MissingTranslation">Cheiărie</string>
-    <string name="osm_hvac" tools:ignore="MissingTranslation">Instalator HVAC</string>
-    <string name="osm_clockmaker" tools:ignore="MissingTranslation">Ceasornicar</string>
-    <string name="osm_carpenter" tools:ignore="MissingTranslation">Tâmplar</string>
-    <string name="osm_builder" tools:ignore="MissingTranslation">Constructor</string>
-    <string name="osm_bookbinder" tools:ignore="MissingTranslation">Legătorie de cărți</string>
-    <string name="osm_boatbuilder" tools:ignore="MissingTranslation">Constructor de bărci</string>
-    <string name="osm_brewery" tools:ignore="MissingTranslation">Berărie</string>
-    <string name="osm_blacksmith" tools:ignore="MissingTranslation">Fierar</string>
-    <string name="osm_basket_maker" tools:ignore="MissingTranslation">Împletitor de coșuri</string>
-    <string name="osm_greenhouse" tools:ignore="MissingTranslation">Seră</string>
-    <string name="osm_farm_auxiliary" tools:ignore="MissingTranslation">Anexă agricolă</string>
-    <string name="osm_civic" tools:ignore="MissingTranslation">Clădire civică</string>
-    <string name="osm_bungalow" tools:ignore="MissingTranslation">Bungalou</string>
-    <string name="osm_detached" tools:ignore="MissingTranslation">Casă individuală</string>
-    <string name="osm_hair_dresser" tools:ignore="MissingTranslation">Coafor</string>
-    <string name="osm_clothing_store" tools:ignore="MissingTranslation">Magazin de îmbrăcăminte</string>
-    <string name="osm_user" tools:ignore="MissingTranslation">Utilizator</string>
-    <string name="osm_dojo" tools:ignore="MissingTranslation">Dojo</string>
-    <string name="osm_nightclub" tools:ignore="MissingTranslation">Club de noapte</string>
-    <string name="osm_community_centre" tools:ignore="MissingTranslation">Centru comunitar</string>
-    <string name="osm_brothel" tools:ignore="MissingTranslation">Bordel</string>
-    <string name="osm_veterinary" tools:ignore="MissingTranslation">Clinică veterinară</string>
-    <string name="osm_social_facility" tools:ignore="MissingTranslation">Centru de asistență socială</string>
-    <string name="osm_clinic" tools:ignore="MissingTranslation">Clinică</string>
-    <string name="osm_charging_station" tools:ignore="MissingTranslation">Stație de încărcare</string>
-    <string name="osm_kindergarten" tools:ignore="MissingTranslation">Grădiniță</string>
-    <string name="osm_ice_cream" tools:ignore="MissingTranslation">Gelaterie</string>
-    <string name="osm_fast_food" tools:ignore="MissingTranslation">Restaurant fast-food</string>
-    <string name="osm_commercial" tools:ignore="MissingTranslation">Clădire comercială</string>
-    <string name="osm_canoe" tools:ignore="MissingTranslation">Canotaj</string>
-    <string name="osm_scuba_diving" tools:ignore="MissingTranslation">Scufundări</string>
-    <string name="osm_fishing" tools:ignore="MissingTranslation">Pescuit</string>
-    <string name="osm_optician" tools:ignore="MissingTranslation">Optician</string>
-    <string name="osm_confectionery" tools:ignore="MissingTranslation">Cofetărie</string>
-    <string name="osm_bunker" tools:ignore="MissingTranslation">Buncăr</string>
-    <string name="osm_sleeping_pods" tools:ignore="MissingTranslation">Capsule de dormit</string>
-    <string name="osm_motel" tools:ignore="MissingTranslation">Motel</string>
-    <string name="osm_guest_house" tools:ignore="MissingTranslation">Pensiune</string>
-    <string name="osm_wrestling" tools:ignore="MissingTranslation">Lupte</string>
-    <string name="osm_toboggan" tools:ignore="MissingTranslation">Tobogan</string>
-    <string name="osm_skiing" tools:ignore="MissingTranslation">Schi</string>
-    <string name="osm_rc_car" tools:ignore="MissingTranslation">Mașinuțe RC</string>
-    <string name="osm_paddle_tennis" tools:ignore="MissingTranslation">Padel</string>
-    <string name="osm_hockey" tools:ignore="MissingTranslation">Hochei</string>
-    <string name="osm_fencing" tools:ignore="MissingTranslation">Scrimă</string>
-    <string name="osm_bowls" tools:ignore="MissingTranslation">Bowling pe gazon</string>
-    <string name="osm_badminton" tools:ignore="MissingTranslation">Badminton</string>
-    <string name="osm_archery" tools:ignore="MissingTranslation">Tir cu arcul</string>
-    <string name="osm_american_football" tools:ignore="MissingTranslation">Fotbal american</string>
-    <string name="osm_travel_agency" tools:ignore="MissingTranslation">Agenție de turism</string>
-    <string name="osm_tobacco" tools:ignore="MissingTranslation">Tutungerie</string>
-    <string name="osm_e_cigarette" tools:ignore="MissingTranslation">Magazin de țigări electronice</string>
-    <string name="osm_video" tools:ignore="MissingTranslation">Magazin video</string>
-    <string name="osm_car_repair" tools:ignore="MissingTranslation">Service auto</string>
-    <string name="osm_hifi" tools:ignore="MissingTranslation">Magazin Hi-Fi</string>
-    <string name="osm_lamps" tools:ignore="MissingTranslation">Magazin de corpuri de iluminat</string>
-    <string name="osm_kitchen" tools:ignore="MissingTranslation">Magazin de bucătării</string>
-    <string name="osm_interior_decoration" tools:ignore="MissingTranslation">Magazin de decorațiuni interioare</string>
-    <string name="osm_houseware" tools:ignore="MissingTranslation">Magazin de articole de menaj</string>
-    <string name="osm_erotic" tools:ignore="MissingTranslation">Magazin erotic</string>
-    <string name="osm_beauty" tools:ignore="MissingTranslation">Salon de frumusețe</string>
-    <string name="osm_wine" tools:ignore="MissingTranslation">Vinotecă</string>
-    <string name="osm_dairy" tools:ignore="MissingTranslation">Magazin de lactate</string>
-    <string name="osm_cheese" tools:ignore="MissingTranslation">Magazin de brânzeturi</string>
-    <string name="osm_bakery" tools:ignore="MissingTranslation">Brutărie</string>
-    <string name="osm_telecommunication" tools:ignore="MissingTranslation">Magazin de telecomunicații</string>
-    <string name="osm_tax" tools:ignore="MissingTranslation">Birou fiscal</string>
-    <string name="osm_real_estate_agent" tools:ignore="MissingTranslation">Agenție imobiliară</string>
-    <string name="osm_notary" tools:ignore="MissingTranslation">Notar</string>
-    <string name="osm_ngo" tools:ignore="MissingTranslation">Birou ONG</string>
-    <string name="osm_lawyer" tools:ignore="MissingTranslation">Avocat</string>
-    <string name="osm_it" tools:ignore="MissingTranslation">Servicii IT</string>
-    <string name="osm_foundation" tools:ignore="MissingTranslation">Fundație</string>
-    <string name="osm_employment_agency" tools:ignore="MissingTranslation">Agenție de ocupare a forței de muncă</string>
-    <string name="osm_educational_institution" tools:ignore="MissingTranslation">Instituție de învățământ</string>
-    <string name="osm_adoption_agency" tools:ignore="MissingTranslation">Agenție de adopții</string>
-    <string name="osm_miniature_golf" tools:ignore="MissingTranslation">Minigolf</string>
-    <string name="osm_building" tools:ignore="MissingTranslation">Clădire</string>
-    <string name="osm_winery" tools:ignore="MissingTranslation">Cramă</string>
-    <string name="osm_tiler" tools:ignore="MissingTranslation">Faianțar</string>
-    <string name="osm_chimney_sweeper" tools:ignore="MissingTranslation">Coșar</string>
-    <string name="osm_stand_builder" tools:ignore="MissingTranslation">Constructor de standuri</string>
-    <string name="osm_saddler" tools:ignore="MissingTranslation">Șelar</string>
-    <string name="osm_plumber" tools:ignore="MissingTranslation">Instalator</string>
-    <string name="osm_plasterer" tools:ignore="MissingTranslation">Tencuitor</string>
-    <string name="osm_painter" tools:ignore="MissingTranslation">Zugrav</string>
-    <string name="osm_jeweller" tools:ignore="MissingTranslation">Bijuterie</string>
-    <string name="osm_floorer" tools:ignore="MissingTranslation">Parchetar</string>
-    <string name="osm_distillery" tools:ignore="MissingTranslation">Distilerie</string>
-    <string name="osm_carpet_layer" tools:ignore="MissingTranslation">Montator de covoare</string>
-    <string name="osm_beekeeper" tools:ignore="MissingTranslation">Apicultor</string>
-    <string name="osm_public" tools:ignore="MissingTranslation">Public</string>
-    <string name="osm_dormitory" tools:ignore="MissingTranslation">Cămin</string>
-    <string name="osm_apartments" tools:ignore="MissingTranslation">Apartamente</string>
-    <string name="osm_internet_cafe" tools:ignore="MissingTranslation">Internet cafe</string>
-    <string name="osm_shoe_shop" tools:ignore="MissingTranslation">Magazin de încălțăminte</string>
-    <string name="osm_generic_shop" tools:ignore="MissingTranslation">Magazin</string>
-    <string name="osm_coffee_shop" tools:ignore="MissingTranslation">Cafenea</string>
-    <string name="osm_coworking_space" tools:ignore="MissingTranslation">Spațiu de coworking</string>
-    <string name="osm_stripclub" tools:ignore="MissingTranslation">Club de striptease</string>
-    <string name="osm_ev_charging" tools:ignore="MissingTranslation">Stație de încărcare EV</string>
-    <string name="osm_pub" tools:ignore="MissingTranslation">Pub</string>
-    <string name="osm_obstacle_course" tools:ignore="MissingTranslation">Traseu cu obstacole</string>
-    <string name="osm_volleyball" tools:ignore="MissingTranslation">Volei</string>
-    <string name="osm_tennis" tools:ignore="MissingTranslation">Tenis</string>
-    <string name="osm_soccer" tools:ignore="MissingTranslation">Fotbal</string>
-    <string name="osm_shooting" tools:ignore="MissingTranslation">Poligon de tir</string>
-    <string name="osm_rugby_union" tools:ignore="MissingTranslation">Rugby</string>
-    <string name="osm_orienteering" tools:ignore="MissingTranslation">Orientare sportivă</string>
-    <string name="osm_netball" tools:ignore="MissingTranslation">Netball</string>
-    <string name="osm_motor" tools:ignore="MissingTranslation">Magazin auto</string>
-    <string name="osm_kitesurfing" tools:ignore="MissingTranslation">Kitesurfing</string>
-    <string name="osm_karting" tools:ignore="MissingTranslation">Karting</string>
-    <string name="osm_judo" tools:ignore="MissingTranslation">Judo</string>
-    <string name="osm_horseshoes" tools:ignore="MissingTranslation">Potcoave</string>
-    <string name="osm_handball" tools:ignore="MissingTranslation">Handbal</string>
-    <string name="osm_golf" tools:ignore="MissingTranslation">Golf</string>
-    <string name="osm_gaelic_games" tools:ignore="MissingTranslation">Sporturi gaelice</string>
-    <string name="osm_diving" tools:ignore="MissingTranslation">Scufundări</string>
-    <string name="osm_darts" tools:ignore="MissingTranslation">Darts</string>
-    <string name="osm_climbing_adventure" tools:ignore="MissingTranslation">Aventură de escaladă</string>
-    <string name="osm_basketball" tools:ignore="MissingTranslation">Baschet</string>
-    <string name="osm_bandy" tools:ignore="MissingTranslation">Bandy</string>
-    <string name="osm_australian_football" tools:ignore="MissingTranslation">Fotbal australian</string>
-    <string name="osm_9pin" tools:ignore="MissingTranslation">Popice cu 9 birili</string>
-    <string name="osm_vacant" tools:ignore="MissingTranslation">Vacant</string>
-    <string name="osm_lottery" tools:ignore="MissingTranslation">Agenție de loterie</string>
-    <string name="osm_trophy" tools:ignore="MissingTranslation">Magazin de trofee</string>
-    <string name="osm_music" tools:ignore="MissingTranslation">Magazin de muzică</string>
-    <string name="osm_games" tools:ignore="MissingTranslation">Magazin de jocuri</string>
-    <string name="osm_tyres" tools:ignore="MissingTranslation">Magazin de anvelope</string>
-    <string name="osm_sports" tools:ignore="MissingTranslation">Magazin de sport</string>
-    <string name="osm_outdoor" tools:ignore="MissingTranslation">Magazin de echipament outdoor</string>
-    <string name="osm_car" tools:ignore="MissingTranslation">Dealer auto</string>
-    <string name="osm_electronics" tools:ignore="MissingTranslation">Magazin de electronice</string>
-    <string name="osm_computer" tools:ignore="MissingTranslation">Magazin de calculatoare</string>
-    <string name="osm_furniture" tools:ignore="MissingTranslation">Magazin de mobilă</string>
-    <string name="osm_candles" tools:ignore="MissingTranslation">Magazin de lumânări</string>
-    <string name="osm_hardware" tools:ignore="MissingTranslation">Magazin de fierărie</string>
-    <string name="osm_gas" tools:ignore="MissingTranslation">Benzinărie</string>
-    <string name="osm_energy" tools:ignore="MissingTranslation">Companie de energie</string>
-    <string name="osm_doityourself" tools:ignore="MissingTranslation">Magazin de bricolaj</string>
-    <string name="osm_bathroom_furnishing" tools:ignore="MissingTranslation">Magazin de băi</string>
-    <string name="osm_medical_supply" tools:ignore="MissingTranslation">Magazin de echipamente medicale</string>
-    <string name="osm_variety_store" tools:ignore="MissingTranslation">Magazin de diverse</string>
-    <string name="osm_second_hand" tools:ignore="MissingTranslation">Magazin second hand</string>
-    <string name="osm_charity" tools:ignore="MissingTranslation">Magazin caritabil</string>
-    <string name="osm_fashion" tools:ignore="MissingTranslation">Magazin de modă</string>
-    <string name="osm_fabric" tools:ignore="MissingTranslation">Magazin de țesături</string>
-    <string name="osm_clothes" tools:ignore="MissingTranslation">Magazin de îmbrăcăminte</string>
-    <string name="osm_butcher" tools:ignore="MissingTranslation">Măcelărie</string>
-    <string name="osm_water_utility" tools:ignore="MissingTranslation">Companie de apă</string>
-    <string name="osm_realtor" tools:ignore="MissingTranslation">Agent imobiliar</string>
-    <string name="osm_company" tools:ignore="MissingTranslation">Companie</string>
-    <string name="osm_accountant" tools:ignore="MissingTranslation">Contabil</string>
-    <string name="osm_bunker_silo" tools:ignore="MissingTranslation">Siloz buncăr</string>
-    <string name="osm_hackerspace" tools:ignore="MissingTranslation">Hackerspace</string>
-    <string name="osm_lifeguard_base" tools:ignore="MissingTranslation">Post de salvare</string>
-    <string name="osm_roofer" tools:ignore="MissingTranslation">Acoperișar</string>
-    <string name="osm_rigger" tools:ignore="MissingTranslation">Montator de schele</string>
-    <string name="osm_parquet_layer" tools:ignore="MissingTranslation">Parchetar</string>
-    <string name="osm_gardener" tools:ignore="MissingTranslation">Grădinar</string>
-    <string name="osm_stable" tools:ignore="MissingTranslation">Grajd</string>
-    <string name="osm_garage" tools:ignore="MissingTranslation">Garaj</string>
-    <string name="osm_transportation" tools:ignore="MissingTranslation">Centru de transport</string>
-    <string name="osm_house" tools:ignore="MissingTranslation">Casă</string>
-    <string name="osm_helipad" tools:ignore="MissingTranslation">Heliport</string>
-    <string name="osm_apron" tools:ignore="MissingTranslation">Platformă de staționare</string>
-    <string name="osm_consumer_electronics_store" tools:ignore="MissingTranslation">Magazin de electronice</string>
-    <string name="osm_speciality_store" tools:ignore="MissingTranslation">Magazin de specialitate</string>
-    <string name="osm_defined" tools:ignore="MissingTranslation">Definit</string>
-    <string name="osm_sauna" tools:ignore="MissingTranslation">Saună</string>
-    <string name="osm_gym" tools:ignore="MissingTranslation">Sală de fitness</string>
-    <string name="osm_crematorium" tools:ignore="MissingTranslation">Crematoriu</string>
-    <string name="osm_gambling" tools:ignore="MissingTranslation">Sală de jocuri de noroc</string>
-    <string name="osm_music_school" tools:ignore="MissingTranslation">Școală de muzică</string>
-    <string name="osm_bar" tools:ignore="MissingTranslation">Bar</string>
-    <string name="osm_farm" tools:ignore="MissingTranslation">Fermă</string>
-    <string name="osm_bicycle" tools:ignore="MissingTranslation">Magazin de biciclete</string>
-    <string name="osm_tailor" tools:ignore="MissingTranslation">Croitor</string>
-    <string name="osm_locksmith" tools:ignore="MissingTranslation">Lăcătuș</string>
-    <string name="osm_industrial" tools:ignore="MissingTranslation">Zonă industrială</string>
-    <string name="osm_wilderness_hut" tools:ignore="MissingTranslation">Refugiu montan</string>
-    <string name="osm_hostel" tools:ignore="MissingTranslation">Hostel</string>
-    <string name="osm_caravan_site" tools:ignore="MissingTranslation">Camping pentru rulote</string>
-    <string name="osm_weightlifting" tools:ignore="MissingTranslation">Sală de haltere</string>
-    <string name="osm_taekwondo" tools:ignore="MissingTranslation">Club de taekwondo</string>
-    <string name="osm_swimming" tools:ignore="MissingTranslation">Piscină</string>
-    <string name="osm_surfing" tools:ignore="MissingTranslation">Zonă de surfing</string>
-    <string name="osm_skating" tools:ignore="MissingTranslation">Patinoar</string>
-    <string name="osm_racquet" tools:ignore="MissingTranslation">Sală de sporturi cu rachetă</string>
-    <string name="osm_pelota" tools:ignore="MissingTranslation">Teren de pelotă</string>
-    <string name="osm_paragliding" tools:ignore="MissingTranslation">Zonă de parapantă</string>
-    <string name="osm_parachuting" tools:ignore="MissingTranslation">Zonă de parașutism</string>
-    <string name="osm_motocross" tools:ignore="MissingTranslation">Pistă de motocross</string>
-    <string name="osm_ice_skating" tools:ignore="MissingTranslation">Patinoar</string>
-    <string name="osm_horse_racing" tools:ignore="MissingTranslation">Hipodrom</string>
-    <string name="osm_dog_racing" tools:ignore="MissingTranslation">Cursă de ogari</string>
-    <string name="osm_climbing" tools:ignore="MissingTranslation">Zonă de escaladă</string>
-    <string name="osm_chess" tools:ignore="MissingTranslation">Club de șah</string>
-    <string name="osm_canadian_football" tools:ignore="MissingTranslation">Teren de fotbal canadian</string>
-    <string name="osm_beachvolleyball" tools:ignore="MissingTranslation">Teren de volei pe plajă</string>
-    <string name="osm_base" tools:ignore="MissingTranslation">Bază</string>
-    <string name="osm_athletics" tools:ignore="MissingTranslation">Pistă de atletism</string>
-    <string name="osm_pawnbroker" tools:ignore="MissingTranslation">Casa de amanet</string>
-    <string name="osm_ticket" tools:ignore="MissingTranslation">Casă de bilete</string>
-    <string name="osm_stationery" tools:ignore="MissingTranslation">Papetărie</string>
-    <string name="osm_video_games" tools:ignore="MissingTranslation">Magazin de jocuri video</string>
-    <string name="osm_model" tools:ignore="MissingTranslation">Magazin de machete</string>
-    <string name="osm_frame" tools:ignore="MissingTranslation">Atelier de înrămat</string>
-    <string name="osm_art" tools:ignore="MissingTranslation">Magazin de artă</string>
-    <string name="osm_car_parts" tools:ignore="MissingTranslation">Magazin de piese auto</string>
-    <string name="osm_radiotechnics" tools:ignore="MissingTranslation">Magazin de echipamente radio</string>
-    <string name="osm_bed" tools:ignore="MissingTranslation">Magazin de paturi</string>
-    <string name="osm_garden_furniture" tools:ignore="MissingTranslation">Magazin de mobilier de grădină</string>
-    <string name="osm_electrical" tools:ignore="MissingTranslation">Magazin de materiale electrice</string>
-    <string name="osm_perfumery" tools:ignore="MissingTranslation">Parfumerie</string>
-    <string name="osm_hairdresser" tools:ignore="MissingTranslation">Frizerie</string>
-    <string name="osm_drugstore" tools:ignore="MissingTranslation">Drogherie</string>
-    <string name="osm_shoes" tools:ignore="MissingTranslation">Magazin de încălțăminte</string>
-    <string name="osm_leather" tools:ignore="MissingTranslation">Magazin de piele</string>
-    <string name="osm_general" tools:ignore="MissingTranslation">Magazin universal</string>
-    <string name="osm_seafood" tools:ignore="MissingTranslation">Pescărie</string>
-    <string name="osm_organic" tools:ignore="MissingTranslation">Magazin de produse bio</string>
-    <string name="osm_greengrocer" tools:ignore="MissingTranslation">Legumărie</string>
-    <string name="osm_chocolate" tools:ignore="MissingTranslation">Ciocolaterie</string>
-    <string name="osm_brewing_supplies" tools:ignore="MissingTranslation">Magazin de accesorii pentru bere</string>
-    <string name="osm_tax_advisor" tools:ignore="MissingTranslation">Consultant fiscal</string>
-    <string name="osm_private_investigator" tools:ignore="MissingTranslation">Detectiv particular</string>
-    <string name="osm_government" tools:ignore="MissingTranslation">Instituție guvernamentală</string>
-    <string name="osm_forestry" tools:ignore="MissingTranslation">Silvicultură</string>
-    <string name="osm_estate_agent" tools:ignore="MissingTranslation">Agenție imobiliară</string>
-    <string name="osm_spring" tools:ignore="MissingTranslation">Izvor</string>
-    <string name="osm_golf_course" tools:ignore="MissingTranslation">Teren de golf</string>
-    <string name="osm_ses_station" tools:ignore="MissingTranslation">Stație SES</string>
-    <string name="osm_lifeguard_place" tools:ignore="MissingTranslation">Post de salvare</string>
-    <string name="osm_stonemason" tools:ignore="MissingTranslation">Pietrar</string>
-    <string name="osm_scaffolder" tools:ignore="MissingTranslation">Schelărist</string>
-    <string name="osm_sailmaker" tools:ignore="MissingTranslation">Velărie</string>
-    <string name="osm_photographic_laboratory" tools:ignore="MissingTranslation">Laborator fotografic</string>
-    <string name="osm_photographer" tools:ignore="MissingTranslation">Fotograf</string>
-    <string name="osm_insulation" tools:ignore="MissingTranslation">Izolații</string>
-    <string name="osm_electrician" tools:ignore="MissingTranslation">Electrician</string>
-    <string name="osm_dressmaker" tools:ignore="MissingTranslation">Croitoreasă</string>
-    <string name="osm_caterer" tools:ignore="MissingTranslation">Catering</string>
-    <string name="osm_terrace" tools:ignore="MissingTranslation">Terasă</string>
-    <string name="osm_toy_shop" tools:ignore="MissingTranslation">Magazin de jucării</string>
-    <string name="osm_dive_centre" tools:ignore="MissingTranslation">Centru de scufundări</string>
-    <string name="osm_swingerclub" tools:ignore="MissingTranslation">Club de swingeri</string>
-    <string name="osm_doctors" tools:ignore="MissingTranslation">Cabinet medical</string>
-    <string name="osm_driving_school" tools:ignore="MissingTranslation">Școală de șoferi</string>
-    <string name="osm_free_flying" tools:ignore="MissingTranslation">Zbor liber</string>
-    <string name="osm_religion" tools:ignore="MissingTranslation">Lăcaș de cult</string>
-    <string name="osm_kiosk" tools:ignore="MissingTranslation">Chioșc</string>
-    <string name="osm_residential" tools:ignore="MissingTranslation">Zonă rezidențială</string>
-    <string name="osm_food" tools:ignore="MissingTranslation">Alimentație</string>
-    <string name="osm_waterfall" tools:ignore="MissingTranslation">Cascadă</string>
-    <string name="osm_boatyard" tools:ignore="MissingTranslation">Șantier naval</string>
-    <string name="osm_theme_park" tools:ignore="MissingTranslation">Parc de distracții</string>
-    <string name="osm_roundhouse" tools:ignore="MissingTranslation">Rotondă feroviară</string>
-    <string name="osm_generator" tools:ignore="MissingTranslation">Generator</string>
-    <string name="osm_beach" tools:ignore="MissingTranslation">Plajă</string>
-    <string name="osm_naval_base" tools:ignore="MissingTranslation">Bază navală</string>
-    <string name="osm_works" tools:ignore="MissingTranslation">Uzină</string>
-    <string name="osm_water_works" tools:ignore="MissingTranslation">Stație de apă</string>
-    <string name="osm_telescope" tools:ignore="MissingTranslation">Telescop</string>
-    <string name="osm_pier" tools:ignore="MissingTranslation">Ponton</string>
-    <string name="osm_observatory" tools:ignore="MissingTranslation">Observator astronomic</string>
-    <string name="osm_reservoir" tools:ignore="MissingTranslation">Rezervor</string>
-    <string name="osm_monument" tools:ignore="MissingTranslation">Monument</string>
-    <string name="osm_battlefield" tools:ignore="MissingTranslation">Câmp de luptă</string>
-    <string name="osm_planetarium" tools:ignore="MissingTranslation">Planetariu</string>
-    <string name="osm_social_centre" tools:ignore="MissingTranslation">Centru social</string>
-    <string name="osm_prison" tools:ignore="MissingTranslation">Închisoare</string>
-    <string name="osm_courthouse" tools:ignore="MissingTranslation">Tribunal</string>
-    <string name="osm_bridge" tools:ignore="MissingTranslation">Pod</string>
-    <string name="osm_hangar" tools:ignore="MissingTranslation">Hangar</string>
-    <string name="osm_tower" tools:ignore="MissingTranslation">Turn</string>
-    <string name="osm_attraction" tools:ignore="MissingTranslation">Atracție turistică</string>
-    <string name="osm_zoo" tools:ignore="MissingTranslation">Grădină zoologică</string>
-    <string name="osm_gallery" tools:ignore="MissingTranslation">Galerie de artă</string>
-    <string name="osm_artwork" tools:ignore="MissingTranslation">Operă de artă</string>
-    <string name="osm_alpine_hut" tools:ignore="MissingTranslation">Cabană alpină</string>
-    <string name="osm_plant" tools:ignore="MissingTranslation">Uzină industrială</string>
-    <string name="osm_insurance" tools:ignore="MissingTranslation">Birou de asigurări</string>
-    <string name="osm_airfield" tools:ignore="MissingTranslation">Aerodrom</string>
-    <string name="osm_water_tower" tools:ignore="MissingTranslation">Turn de apă</string>
-    <string name="osm_pumping_station" tools:ignore="MissingTranslation">Stație de pompare</string>
-    <string name="osm_hot_water_tank" tools:ignore="MissingTranslation">Rezervor de apă caldă</string>
-    <string name="osm_campanile" tools:ignore="MissingTranslation">Clopotniță</string>
-    <string name="osm_sports_centre" tools:ignore="MissingTranslation">Centru sportiv</string>
-    <string name="osm_fitness_centre" tools:ignore="MissingTranslation">Sală de fitness</string>
-    <string name="osm_beach_resort" tools:ignore="MissingTranslation">Stațiune balneară</string>
-    <string name="osm_village_green" tools:ignore="MissingTranslation">Pajiște comunală</string>
-    <string name="osm_ship" tools:ignore="MissingTranslation">Navă</string>
-    <string name="osm_memorial" tools:ignore="MissingTranslation">Memorial</string>
-    <string name="osm_synagogue" tools:ignore="MissingTranslation">Sinagogă</string>
-    <string name="osm_mosque" tools:ignore="MissingTranslation">Moschee</string>
-    <string name="osm_chapel" tools:ignore="MissingTranslation">Capelă</string>
-    <string name="osm_cathedral" tools:ignore="MissingTranslation">Catedrală</string>
-    <string name="osm_train_terminal" tools:ignore="MissingTranslation">Terminal feroviar</string>
-    <string name="osm_college" tools:ignore="MissingTranslation">Colegiu</string>
-    <string name="osm_arts_centre" tools:ignore="MissingTranslation">Centru de artă</string>
-    <string name="osm_ranger_station" tools:ignore="MissingTranslation">Post de rangeri</string>
-    <string name="osm_hospital" tools:ignore="MissingTranslation">Spital</string>
-    <string name="osm_track" tools:ignore="MissingTranslation">Pistă</string>
-    <string name="osm_conference_centre" tools:ignore="MissingTranslation">Centru de conferințe</string>
-    <string name="osm_viewpoint" tools:ignore="MissingTranslation">Punct panoramic</string>
-    <string name="osm_supermarket" tools:ignore="MissingTranslation">Supermarket</string>
-    <string name="osm_peak" tools:ignore="MissingTranslation">Vârf</string>
-    <string name="osm_storage_tank" tools:ignore="MissingTranslation">Rezervor de stocare</string>
-    <string name="osm_lighthouse" tools:ignore="MissingTranslation">Far</string>
-    <string name="osm_beacon" tools:ignore="MissingTranslation">Baliză</string>
-    <string name="osm_port" tools:ignore="MissingTranslation">Port</string>
-    <string name="osm_archaeological_site" tools:ignore="MissingTranslation">Sit arheologic</string>
-    <string name="osm_train_station" tools:ignore="MissingTranslation">Gară</string>
-    <string name="osm_train_station_named" tools:ignore="MissingTranslation">Gara %1$s</string>
-    <string name="osm_shrine" tools:ignore="MissingTranslation">Altar</string>
-    <string name="osm_church" tools:ignore="MissingTranslation">Biserică</string>
-    <string name="osm_historic_monument" tools:ignore="MissingTranslation">Monument istoric</string>
-    <string name="osm_generic_landmark" tools:ignore="MissingTranslation">Reper</string>
-    <string name="osm_tourism_museum" tools:ignore="MissingTranslation">Muzeu</string>
-    <string name="osm_register_office" tools:ignore="MissingTranslation">Oficiul stării civile</string>
-    <string name="osm_grave_yard" tools:ignore="MissingTranslation">Cimitir</string>
-    <string name="osm_marketplace" tools:ignore="MissingTranslation">Piață</string>
-    <string name="osm_fire_station" tools:ignore="MissingTranslation">Stație de pompieri</string>
-    <string name="osm_ruins" tools:ignore="MissingTranslation">Ruine</string>
-    <string name="osm_weir" tools:ignore="MissingTranslation">Stăvilar</string>
-    <string name="osm_museum" tools:ignore="MissingTranslation">Muzeu</string>
-    <string name="osm_mall" tools:ignore="MissingTranslation">Mall</string>
-    <string name="osm_volcano" tools:ignore="MissingTranslation">Vulcan</string>
-    <string name="osm_hot_spring" tools:ignore="MissingTranslation">Izvor termal</string>
-    <string name="osm_glacier" tools:ignore="MissingTranslation">Ghețar</string>
-    <string name="osm_wastewater_plant" tools:ignore="MissingTranslation">Stație de epurare</string>
-    <string name="osm_offshore_platform" tools:ignore="MissingTranslation">Platformă maritimă</string>
-    <string name="osm_gasometer" tools:ignore="MissingTranslation">Gazometru</string>
-    <string name="osm_water_park" tools:ignore="MissingTranslation">Aquapark</string>
-    <string name="osm_bandstand" tools:ignore="MissingTranslation">Scenă în aer liber</string>
-    <string name="osm_wreck" tools:ignore="MissingTranslation">Epavă</string>
-    <string name="osm_pillory" tools:ignore="MissingTranslation">Stâlp de infamie</string>
-    <string name="osm_monastery" tools:ignore="MissingTranslation">Mănăstire</string>
-    <string name="osm_locomotive" tools:ignore="MissingTranslation">Locomotivă</string>
-    <string name="osm_fort" tools:ignore="MissingTranslation">Fort</string>
-    <string name="osm_services" tools:ignore="MissingTranslation">Zonă de servicii</string>
-    <string name="osm_lifeguard_tower" tools:ignore="MissingTranslation">Turn de salvamari</string>
-    <string name="osm_temple" tools:ignore="MissingTranslation">Templu</string>
-    <string name="osm_national_park" tools:ignore="MissingTranslation">Parc național</string>
-    <string name="osm_heliport" tools:ignore="MissingTranslation">Heliport</string>
-    <string name="osm_public_park" tools:ignore="MissingTranslation">Parc public</string>
-    <string name="osm_department_store" tools:ignore="MissingTranslation">Magazin universal</string>
-    <string name="osm_studio" tools:ignore="MissingTranslation">Studio</string>
-    <string name="osm_public_building" tools:ignore="MissingTranslation">Clădire publică</string>
-    <string name="osm_clock" tools:ignore="MissingTranslation">Ceas public</string>
-    <string name="osm_casino" tools:ignore="MissingTranslation">Cazinou</string>
-    <string name="osm_ferry_terminal" tools:ignore="MissingTranslation">Terminal de feribot</string>
-    <string name="osm_ferry_terminal_named" tools:ignore="MissingTranslation">Terminalul de feribot %1$s</string>
-    <string name="osm_stadium" tools:ignore="MissingTranslation">Stadion</string>
-    <string name="osm_dam" tools:ignore="MissingTranslation">Baraj</string>
-    <string name="osm_dock" tools:ignore="MissingTranslation">Doc</string>
-    <string name="osm_geyser" tools:ignore="MissingTranslation">Gheizer</string>
-    <string name="osm_bay" tools:ignore="MissingTranslation">Golf</string>
-    <string name="osm_barracks" tools:ignore="MissingTranslation">Cazarmă</string>
-    <string name="osm_windmill" tools:ignore="MissingTranslation">Moară de vânt</string>
-    <string name="osm_watermill" tools:ignore="MissingTranslation">Moară de apă</string>
-    <string name="osm_communications_tower" tools:ignore="MissingTranslation">Turn de telecomunicații</string>
-    <string name="osm_swimming_area" tools:ignore="MissingTranslation">Zonă de înot</string>
-    <string name="osm_slipway" tools:ignore="MissingTranslation">Rampă de lansare</string>
-    <string name="osm_nature_reserve" tools:ignore="MissingTranslation">Rezervație naturală</string>
-    <string name="osm_marina" tools:ignore="MissingTranslation">Port de agrement</string>
-    <string name="osm_ice_rink" tools:ignore="MissingTranslation">Patinoar</string>
-    <string name="osm_manor" tools:ignore="MissingTranslation">Conac</string>
-    <string name="osm_city_gate" tools:ignore="MissingTranslation">Poartă de cetate</string>
-    <string name="osm_castle" tools:ignore="MissingTranslation">Castel</string>
-    <string name="osm_aircraft" tools:ignore="MissingTranslation">Aeronavă</string>
-    <string name="osm_digester" tools:ignore="MissingTranslation">Digestor</string>
-    <string name="osm_sally_port" tools:ignore="MissingTranslation">Poartă de ieșire</string>
-    <string name="osm_aerodrome" tools:ignore="MissingTranslation">Aerodrom</string>
-    <string name="osm_shopping_mall" tools:ignore="MissingTranslation">Centru comercial</string>
-    <string name="osm_cinema" tools:ignore="MissingTranslation">Cinema</string>
-    <string name="osm_rescue_station" tools:ignore="MissingTranslation">Stație de salvare</string>
-    <string name="osm_airport" tools:ignore="MissingTranslation">Aeroport</string>
-    <string name="osm_theatre" tools:ignore="MissingTranslation">Teatru</string>
-    <string name="osm_library" tools:ignore="MissingTranslation">Bibliotecă</string>
-    <string name="osm_university" tools:ignore="MissingTranslation">Universitate</string>
-    <string name="osm_police" tools:ignore="MissingTranslation">Secție de poliție</string>
-    <string name="osm_embassy" tools:ignore="MissingTranslation">Ambasadă</string>
-    <string name="osm_bus_station" tools:ignore="MissingTranslation">Stație de autobuz</string>
-    <string name="osm_station" tools:ignore="MissingTranslation">Stație</string>
-    <string name="osm_toll_booth" tools:ignore="MissingTranslation">Punct de taxare</string>
-    <string name="osm_lift" tools:ignore="MissingTranslation">Lift</string>
-    <string name="osm_unmanaged_crossing" tools:ignore="MissingTranslation">Trecere de pietoni nesemaforizată</string>
-    <string name="osm_pharmacy" tools:ignore="MissingTranslation">Farmacie</string>
-    <string name="osm_kneipp_water_cure" tools:ignore="MissingTranslation">Cură Kneipp cu apă</string>
-    <string name="osm_food_court" tools:ignore="MissingTranslation">Zonă de alimentație</string>
-    <string name="osm_chemist" tools:ignore="MissingTranslation">Drogherie</string>
-    <string name="osm_checkpoint" tools:ignore="MissingTranslation">Punct de control</string>
-    <string name="osm_dog_park" tools:ignore="MissingTranslation">Parc pentru câini</string>
-    <string name="osm_kissing_gate" tools:ignore="MissingTranslation">Portiță cu balama</string>
-    <string name="osm_car_rental" tools:ignore="MissingTranslation">Închirieri auto</string>
-    <string name="osm_pedestrianised_area" tools:ignore="MissingTranslation">Zonă pietonală</string>
-    <string name="osm_escalator" tools:ignore="MissingTranslation">Scară rulantă</string>
-    <string name="osm_shelter" tools:ignore="MissingTranslation">Adăpost</string>
-    <string name="osm_water_point" tools:ignore="MissingTranslation">Punct de apă</string>
-    <string name="osm_subway_entrance" tools:ignore="MissingTranslation">Intrare metrou</string>
-    <string name="osm_cave_entrance" tools:ignore="MissingTranslation">Intrare în peșteră</string>
-    <string name="osm_swing_gate" tools:ignore="MissingTranslation">Poartă batantă</string>
-    <string name="osm_stile" tools:ignore="MissingTranslation">Scăriță de gard</string>
-    <string name="osm_car_sharing" tools:ignore="MissingTranslation">Car sharing</string>
-    <string name="osm_customer_service" tools:ignore="MissingTranslation">Serviciu clienți</string>
-    <string name="osm_watering_place" tools:ignore="MissingTranslation">Adăpătoare</string>
-    <string name="osm_platform" tools:ignore="MissingTranslation">Peron</string>
-    <string name="osm_horse_stile" tools:ignore="MissingTranslation">Trecătoare pentru cai</string>
-    <string name="osm_bureau_de_change" tools:ignore="MissingTranslation">Casă de schimb valutar</string>
-    <string name="osm_stairs" tools:ignore="MissingTranslation">Scări</string>
-    <string name="osm_bicycle_rental" tools:ignore="MissingTranslation">Închirieri biciclete</string>
-    <string name="osm_tram_stop" tools:ignore="MissingTranslation">Stație de tramvai</string>
-    <string name="osm_tram_stop_named" tools:ignore="MissingTranslation">Stația de tramvai %1$s</string>
-    <string name="osm_subway" tools:ignore="MissingTranslation">Stație de metrou</string>
-    <string name="osm_subway_named" tools:ignore="MissingTranslation">Stația de metrou %1$s</string>
-    <string name="osm_hampshire_gate" tools:ignore="MissingTranslation">Poartă Hampshire</string>
-    <string name="osm_full_height_turnstile" tools:ignore="MissingTranslation">Turnichet de înălțime completă</string>
-    <string name="osm_boat_sharing" tools:ignore="MissingTranslation">Partajare bărci</string>
-    <string name="osm_help_point" tools:ignore="MissingTranslation">Punct de asistență</string>
-    <string name="osm_open_space" tools:ignore="MissingTranslation">Spațiu deschis</string>
-    <string name="osm_spending_area" tools:ignore="MissingTranslation">Zonă de agrement</string>
-    <string name="osm_bicycle_repair_station" tools:ignore="MissingTranslation">Stație de reparații biciclete</string>
-    <string name="osm_motorcycle_barrier" tools:ignore="MissingTranslation">Barieră pentru motociclete</string>
-    <string name="osm_kent_carriage_gap" tools:ignore="MissingTranslation">Trecere Kent pentru atelaje</string>
-    <string name="osm_shared_space" tools:ignore="MissingTranslation">Spațiu partajat</string>
-    <string name="osm_cliff" tools:ignore="MissingTranslation">Faleza</string>
-    <string name="osm_training_area" tools:ignore="MissingTranslation">Teren de antrenament</string>
-    <string name="osm_log" tools:ignore="MissingTranslation">Buștean</string>
-    <string name="osm_jersey_barrier" tools:ignore="MissingTranslation">Barieră Jersey</string>
-    <string name="osm_construction_site" tools:ignore="MissingTranslation">Șantier de construcții</string>
-    <string name="osm_ridge" tools:ignore="MissingTranslation">Creastă</string>
-    <string name="osm_nuclear_explosion_site" tools:ignore="MissingTranslation">Loc de explozie nucleară</string>
-    <string name="osm_dyke" tools:ignore="MissingTranslation">Dig</string>
-    <string name="osm_sump_buster" tools:ignore="MissingTranslation">Obstacol pentru vehicule joase</string>
-    <string name="osm_rope" tools:ignore="MissingTranslation">Frânghie</string>
-    <string name="osm_debris" tools:ignore="MissingTranslation">Dărâmături</string>
-    <string name="osm_road_works" tools:ignore="MissingTranslation">Lucrări la drum</string>
-    <string name="osm_lock_gate" tools:ignore="MissingTranslation">Poartă de ecluză</string>
-    <string name="osm_sinkhole" tools:ignore="MissingTranslation">Doline</string>
-    <string name="osm_range" tools:ignore="MissingTranslation">Poligon de tragere</string>
-    <string name="osm_ambulance_station" tools:ignore="MissingTranslation">Stație de ambulanță</string>
-    <string name="osm_spikes" tools:ignore="MissingTranslation">Cuie de drum</string>
-    <string name="osm_generic_hazard" tools:ignore="MissingTranslation">Pericol general</string>
-    <string name="osm_contact_line" tools:ignore="MissingTranslation">Linie de contact</string>
-    <string name="osm_danger_area" tools:ignore="MissingTranslation">Zonă periculoasă</string>
-    <string name="osm_chain" tools:ignore="MissingTranslation">Barieră cu lanț</string>
-    <string name="osm_parking_space" tools:ignore="MissingTranslation">Loc de parcare</string>
-    <string name="osm_motorcycle_parking" tools:ignore="MissingTranslation">Parcare pentru motociclete</string>
-    <string name="osm_city" tools:ignore="MissingTranslation">Oraș</string>
-    <string name="osm_town" tools:ignore="MissingTranslation">Localitate</string>
-    <string name="osm_neighbourhood" tools:ignore="MissingTranslation">Cartier</string>
-    <string name="osm_village" tools:ignore="MissingTranslation">Sat</string>
-    <string name="osm_hamlet" tools:ignore="MissingTranslation">Cătun</string>
-    <string name="osm_recreation_ground" tools:ignore="MissingTranslation">Teren de recreere</string>
-    <string name="osm_river" tools:ignore="MissingTranslation">Râu</string>
-    <string name="osm_railway" tools:ignore="MissingTranslation">Cale ferată</string>
-    <string name="osm_wood" tools:ignore="MissingTranslation">Pădure</string>
-    <string name="osm_pavillion" tools:ignore="MissingTranslation">Pavilion</string>
-    <string name="osm_sport" tools:ignore="MissingTranslation">Sport</string>
-    <string name="osm_health_food" tools:ignore="MissingTranslation">Alimente naturiste</string>
-    <string name="osm_events_venue" tools:ignore="MissingTranslation">Loc de evenimente</string>
-    <string name="tour_welcome" tools:ignore="MissingTranslation">Bun venit la tutorialul Soundscape. Acest tutorial te va ghida prin funcțiile principale ale aplicației. Poți opri tutorialul în orice moment atingând Anulează tutorialul audio din meniul principal. Să începem cu Locuri din apropiere, care îți permite să descoperi puncte de interes. Butonul Locuri din apropiere se află pe ecranul principal, chiar sub bara de căutare. Atinge-l acum pentru a-l încerca.</string>
-    <string name="tour_select_place" tools:ignore="MissingTranslation">Locuri din apropiere grupează punctele de interes după tip. Răsfoiește locurile din liste și selectează unul.</string>
-    <string name="tour_create_marker_started" tools:ignore="MissingTranslation">Excelent! Te afli acum pe ecranul Detalii locație. Acest ecran îți permite să selectezi diverse acțiuni, inclusiv salvarea locației ca marcaj. Cu Soundscape, poți marca orice loc din jurul tău care contează pentru tine. De exemplu, poți marca casa ta, stația de autobuz sau chiar locul în care te afli. Să încercăm. Salvează această locație ca marcaj atingând Salvează ca marcaj.</string>
-    <string name="tour_create_marker_done" tools:ignore="MissingTranslation">Minunat! Când creezi un marcaj, poți edita numele acestuia și adăuga note suplimentare. Încearcă acum, iar când ești gata, atinge Finalizare.</string>
-    <string name="tour_my_location" tools:ignore="MissingTranslation">Acum că știi cum să folosești marcajele, să descoperim și alte funcții. În partea de jos a ecranului sunt patru butoane pe care le vom încerca pe rând. Butonul din stânga este Locația mea, care descrie locația ta curentă. Încearcă să-l atingi acum.</string>
-    <string name="tour_around_me" tools:ignore="MissingTranslation">Următorul buton este În jurul meu. Acesta îți spune ce se află în apropiere în fiecare direcție. Atinge În jurul meu.</string>
-    <string name="tour_ahead" tools:ignore="MissingTranslation">Următorul buton este Înaintea mea. Acesta îți spune ce se află în fața ta. Atinge Înaintea mea.</string>
-    <string name="tour_nearby_markers" tools:ignore="MissingTranslation">Ultimul buton este Marcaje din apropiere, care anunță locurile salvate din jurul tău. Atinge Marcaje din apropiere pentru a încerca.</string>
-    <string name="tour_markers_and_routes" tools:ignore="MissingTranslation">Ai creat cu succes un marcaj. Să pornim o baliză audio care să ne ghideze către acea locație. Atinge Marcaje și rute, care se află chiar sub Locuri din apropiere.</string>
-    <string name="tour_markers" tools:ignore="MissingTranslation">Ecranul Marcaje și rute are două file: una cu lista rutelor, care sunt liste de marcaje, și alta cu marcajele individuale. Atinge Marcaje pentru a trece la fila Marcaje și a găsi marcajul pe care l-ai creat.</string>
-    <string name="tour_start_beacon" tools:ignore="MissingTranslation">Te afli acum pe fila Marcaje, care listează toate marcajele salvate. Selectează un marcaj, iar când apare ecranul Detalii locație, atinge Pornește baliza audio.</string>
-    <string name="tour_beacon_demo" tools:ignore="MissingTranslation">Acum poți auzi baliza audio. Aceasta se aude din direcția destinației tale. Pe măsură ce schimbi direcția în care este îndreptat telefonul, poți auzi cum baliza audio se mișcă și își schimbă sunetul. Încearcă acum.</string>
-    <string name="tour_beacon_demo_locked" tools:ignore="MissingTranslation">Când telefonul este blocat, baliza audio va continua să se audă. Dacă mergi pe jos sau te afli într-un vehicul, aplicația folosește direcția de deplasare pentru redarea balizei audio. Cu toate acestea, chiar și cu telefonul blocat, poți ține telefonul orizontal în fața ta, ca o busolă, iar aplicația va folosi direcția în care este îndreptat telefonul. Încearcă.</string>
-    <string name="tour_stop_beacon" tools:ignore="MissingTranslation">Când ești gata să oprești baliza, atinge butonul Oprește ruta.</string>
-    <string name="tour_finish" tools:ignore="MissingTranslation">Tutorialul s-a încheiat. Îl poți rula din nou din meniul principal. Sperăm că aplicația îți va fi de folos!</string>
-    <string name="tour_cancel" tools:ignore="MissingTranslation">Tutorialul audio a fost anulat. Dacă dorești, îl poți rula din nou din meniul principal.</string>
-    <string name="menu_audio_tutorial" tools:ignore="MissingTranslation">Tutorial</string>
-    <string name="menu_audio_tutorial_cancel" tools:ignore="MissingTranslation">Anulează tutorialul</string>
-    <string name="tour_continue_button" tools:ignore="MissingTranslation">Continuă</string>
-    <string name="tour_continue_hint" tools:ignore="MissingTranslation">Închide fereastra și continuă tutorialul</string>
-    <string name="language_mismatch_title" tools:ignore="MissingTranslation">Limbă nouă disponibilă</string>
-    <string name="language_mismatch_message" tools:ignore="MissingTranslation">Telefonul tău este setat la %1$s și acea limbă este acum disponibilă în Soundscape. Dorești să schimbi Soundscape pentru a folosi %1$s?</string>
-    <string name="language_mismatch_switch" tools:ignore="MissingTranslation">Comută la %1$s</string>
-    <string name="language_mismatch_keep" tools:ignore="MissingTranslation">Păstrează limba curentă</string>
-    <string name="preview_go_hint" tools:ignore="MissingTranslation">Mergi în această direcție până la următoarea intersecție.</string>
-    <string name="error_message_route_not_found" tools:ignore="MissingTranslation">Nu s-a putut găsi ruta în baza de date.</string>
-    <string name="error_message_deleting_route" tools:ignore="MissingTranslation">Ștergerea rutei a eșuat.</string>
-    <string name="error_message_saving_route" tools:ignore="MissingTranslation">Salvarea rutei a eșuat.</string>
-    <string name="service_still_running" tools:ignore="MissingTranslation">Serviciul de localizare Soundscape este încă activ.</string>
-    <string name="offline_map_download_complete" tools:ignore="MissingTranslation">Descărcare finalizată</string>
-    <string name="offline_map_download_cancelled" tools:ignore="MissingTranslation">Descărcare anulată</string>
-    <string name="offline_map_download_error" tools:ignore="MissingTranslation">Eroare la descărcare</string>
-    <string name="behavior_scavenger_hunt_callout_next_flag_short_route" tools:ignore="MissingTranslation">Baliză setată pe %1$s, la %2$s distanță</string>
-    <string name="route_beacon_progress" tools:ignore="MissingTranslation">Baliză la %1$s</string>
-    <string name="menu_route" tools:ignore="MissingTranslation">Control rută</string>
-    <string name="menu_route_next_waypoint" tools:ignore="MissingTranslation">Punctul de traseu următor</string>
-    <string name="menu_route_previous_waypoint" tools:ignore="MissingTranslation">Punctul de traseu anterior</string>
-    <string name="menu_no_routes" tools:ignore="MissingTranslation">Nu există rute salvate</string>
-    <string name="menu_main_menu" tools:ignore="MissingTranslation">Meniu principal</string>
-    <string name="first_launch_permissions_record_audio" tools:ignore="MissingTranslation">Înregistrare audio</string>
-    <string name="first_launch_permissions_required_for_voice_control" tools:ignore="MissingTranslation">Această permisiune este opțională, dar este necesară dacă dorești să folosești comenzi vocale pentru a controla aplicația.</string>
-    <string name="menu_media_controls" tools:ignore="MissingTranslation">Controale media</string>
-    <string name="settings_section_media_controls" tools:ignore="MissingTranslation">Modul controalelor media</string>
-    <string name="settings_section_media_controls_description" tools:ignore="MissingTranslation">Butoanele de control media de pe căști sau de pe telecomandă pot fi configurate să funcționeze în moduri diferite, în funcție de această opțiune.</string>
-    <string name="settings_media_controls_original" tools:ignore="MissingTranslation">Mod original</string>
-    <string name="settings_media_controls_voice_command" tools:ignore="MissingTranslation">Comandă vocală</string>
-    <string name="settings_media_controls_audio_menu" tools:ignore="MissingTranslation">Meniu audio</string>
-    <string name="voice_cmd_help_response" tools:ignore="MissingTranslation">Comenzi vocale disponibile:</string>
-    <string name="voice_cmd_listening" tools:ignore="MissingTranslation">Ascult…</string>
-    <string name="voice_cmd_not_recognized" tools:ignore="MissingTranslation">Îmi pare rău, nu găsesc comanda %1$s. Comanda vocală %2$s va lista comenzile disponibile.</string>
-    <string name="voice_cmd_list_routes" tools:ignore="MissingTranslation">Listează rutele</string>
-    <string name="voice_cmd_routes_list" tools:ignore="MissingTranslation">Rutele disponibile sunt,</string>
-    <string name="voice_cmd_list_markers" tools:ignore="MissingTranslation">Listează marcajele</string>
-    <string name="voice_cmd_markers_list" tools:ignore="MissingTranslation">Marcajele disponibile sunt,</string>
-    <string name="voice_cmd_no_routes" tools:ignore="MissingTranslation">Nu au fost salvate rute</string>
-    <string name="voice_cmd_no_markers" tools:ignore="MissingTranslation">Nu au fost salvate marcaje</string>
-    <string name="voice_cmd_route_not_found" tools:ignore="MissingTranslation">Ruta nu a fost găsită: %1$s</string>
-    <string name="voice_cmd_starting_route" tools:ignore="MissingTranslation">Pornește ruta %1$s</string>
-    <string name="voice_cmd_start_route" tools:ignore="MissingTranslation">Pornește ruta %1$s</string>
-    <string name="voice_cmd_start_beacon_at_marker_with_name" tools:ignore="MissingTranslation">Pornește baliza audio la %1$s</string>
-    <string name="voice_cmd_starting_beacon_at_marker" tools:ignore="MissingTranslation">Pornește baliza audio la %1$s</string>
-    <string name="voice_cmd_marker_not_found" tools:ignore="MissingTranslation">Marcajul nu a fost găsit: %1$s</string>
-    <string name="voice_cmd_explain_dynamic_markers" tools:ignore="MissingTranslation">De asemenea, poți porni rute și marcaje după nume, de exemplu.</string>
-    <string name="voice_cmd_speech_recognition_error_network_timeout" tools:ignore="MissingTranslation">Eroare: timpul de așteptare al rețelei pentru recunoașterea vocală a expirat.</string>
-    <string name="voice_cmd_speech_recognition_error_network" tools:ignore="MissingTranslation">Eroare de rețea la recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_audio" tools:ignore="MissingTranslation">Eroare la înregistrarea audio pentru recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_server" tools:ignore="MissingTranslation">Eroare de server la recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_client" tools:ignore="MissingTranslation">Eroare de client la recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_speech_timeout" tools:ignore="MissingTranslation">Așteptarea vorbirii a expirat, astfel ascultarea s-a oprit. Încearcă din nou.</string>
-    <string name="voice_cmd_speech_recognition_not_match" tools:ignore="MissingTranslation">Nu s-a detectat vorbire, astfel ascultarea s-a oprit. Încearcă din nou.</string>
-    <string name="voice_cmd_speech_recognition_busy" tools:ignore="MissingTranslation">Eroare: recunoașterea vocală este ocupată.</string>
-    <string name="voice_cmd_speech_recognition_error_permissions" tools:ignore="MissingTranslation">Nu sunt suficiente permisiuni pentru a rula recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_too_many_requests" tools:ignore="MissingTranslation">Eroare: prea multe cereri pentru recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_server_disconnected" tools:ignore="MissingTranslation">Eroare: serverul de recunoaștere vocală s-a deconectat.</string>
-    <string name="voice_cmd_speech_recognition_error_language_not_supported" tools:ignore="MissingTranslation">Limba curentă nu este acceptată de Android pentru recunoaștere vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_language_unavailable" tools:ignore="MissingTranslation">Limba curentă este acceptată, dar nu a fost descărcată pe acest telefon.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_check_support" tools:ignore="MissingTranslation">Eroare la verificarea suportului pentru recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events" tools:ignore="MissingTranslation">Eroare la ascultarea evenimentelor de descărcare pentru recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_unknown" tools:ignore="MissingTranslation">Eroare necunoscută la recunoașterea vocală.</string>
-    <string name="voice_cmd_speech_recognition_error_unsupported" tools:ignore="MissingTranslation">Recunoașterea vocală nu este acceptată pe acest telefon.</string>
-    <string name="settings_voice_command_listening_prompt" tools:ignore="MissingTranslation">Anunță ascultarea</string>
-    <string name="settings_voice_command_listening_prompt_description" tools:ignore="MissingTranslation">Redă un prompt de ascultare înainte ca recunoașterea vocală să înceapă.</string>
-    <string name="settings_voice_command_microphone" tools:ignore="MissingTranslation">Microfon</string>
-    <string name="settings_voice_command_microphone_description" tools:ignore="MissingTranslation">Alege ce microfon să fie folosit pentru comenzile vocale.</string>
+    <string name="notification_text">Serviciul de localizare Soundscape rulează chiar și atunci când telefonul este blocat.</string>
+    <string name="cancel_search_contentDescription">Anulează căutarea</string>
+    <string name="menu_manage_audio">Audio</string>
+    <string name="menu_manage_language">Limbă și regiune </string>
+    <string name="menu_manage_accessibility">Accesibilitate</string>
+    <string name="settings_theme_light_dark">Temă deschisă sau întunecată</string>
+    <string name="settings_theme_auto">Automat</string>
+    <string name="settings_theme_is_light">Folosește tema deschisă</string>
+    <string name="settings_theme_light">Deschisă</string>
+    <string name="settings_theme_dark">Întunecată</string>
+    <string name="settings_theme_contrast">Contrastul temei</string>
+    <string name="settings_theme_contrast_regular">Normal</string>
+    <string name="settings_theme_contrast_medium">Mediu</string>
+    <string name="settings_theme_contrast_high">Ridicat</string>
+    <string name="settings_list_item_description">%1$s este opțiunea %2$s din %3$s</string>
+    <string name="settings_keep_value">păstrează</string>
+    <string name="settings_use_value">folosește</string>
+    <string name="street_preview_exit">Ieși din simularea locației</string>
+    <string name="settings_travel_recording">Activează înregistrarea deplasării</string>
+    <string name="settings_show_map">Afișează hărțile pe ecran</string>
+    <string name="settings_debug_heading">Opțiuni de depanare</string>
+    <string name="settings_search_results_language">Limba de căutare</string>
+    <string name="settings_search_results_language_description">Căutarea online poate folosi limba locală a rezultatului sau poate fi forțată să returneze rezultate în engleză, franceză sau germană.</string>
+    <string name="menu_share_recorded_route">Partajează înregistrarea deplasării</string>
+    <string name="confect_name_to_via">%1$s spre %2$s prin %3$s</string>
+    <string name="confect_name_to">%1$s spre %2$s</string>
+    <string name="confect_name_joins">%1$s care leagă %2$s și %3$s</string>
+    <string name="confect_name_via">%1$s prin %2$s</string>
+    <string name="confect_name_pavement_next_to">Trotuar lângă %1$s</string>
+    <string name="confect_name_pavement">Trotuar</string>
+    <string name="confect_name_dead_end">fundătură</string>
+    <string name="offline_maps_title">Hărți offline</string>
+    <string name="offline_map_details_title">Detalii hartă offline</string>
+    <string name="offline_maps_loading">Se încarcă…</string>
+    <string name="offline_maps_downloading">Se descarcă %1$s</string>
+    <string name="offline_maps_caching">Serverul pregătește %1$s pentru descărcare. Aceasta poate dura câteva minute, apoi descărcarea va începe automat.</string>
+    <string name="offline_maps_free_space">%1$s liber</string>
+    <string name="offline_maps_storage">Hărțile sunt salvate pe %1$s care are %2$s liber</string>
+    <string name="offline_maps_already_downloaded">Hărți deja descărcate</string>
+    <string name="offline_maps_nearby">Hărți offline din apropiere</string>
+    <string name="offline_maps_loading_manifest">Se încarcă lista hărților offline</string>
+    <string name="offline_maps_manifest_failed">Descărcarea datelor hărții offline a eșuat</string>
+    <string name="offline_map_details_delete">Șterge harta offline</string>
+    <string name="offline_map_details_download">Descarcă harta offline</string>
+    <string name="offline_map_details_size_on_phone">Dimensiune pe telefon: %1$s</string>
+    <string name="offline_map_details_size_on_server">Dimensiune descărcare: %1$s</string>
+    <string name="offline_map_details_name">Nume hartă: %1$s</string>
+    <string name="offline_map_details_city_list">Harta include aceste locuri: %1$s</string>
+    <string name="offline_map_details_alternate_city_list">Aceste locuri sunt cunoscute și ca: %1$s</string>
+    <string name="offline_map_storage_title">Stocare hărți offline</string>
+    <string name="offline_map_storage_description">Pentru ca Soundscape să poată fi utilizat fără o conexiune la internet, este posibil să descărcați hărți și să le stocați pe telefon. Spațiul de stocare implicit este orice stocare externă de pe telefon, dar puteți selecta o destinație alternativă aici.</string>
+    <string name="offline_map_wifi_only">Folosește doar WiFi pentru descărcarea hărților</string>
+    <string name="accessibility_title">Accesibilitate</string>
+    <string name="accessibility_screen_reader_enabled">Deoarece aveți un cititor de ecran activat, vă recomandăm să rulați aplicația cu hărțile grafice ale interfeței dezactivate. Puteți modifica această setare aici sau pur și simplu să continuați.</string>
+    <string name="accessibility_screen_reader_disabled">Deoarece nu aveți un cititor de ecran activat, presupunem că doriți ca hărțile grafice din interfață să fie afișate. Puteți modifica această setare aici sau pur și simplu să continuați.</string>
+    <string name="text_field_clear_text">Șterge textul</string>
+    <string name="marker_name_description_hint">editați numele marcajului</string>
+    <string name="annotation_description_hint">adăugați o notă opțională pentru a vă ajuta să recunoașteți acest marcaj mai târziu</string>
+    <string name="route_name_description_hint">editați numele rutei</string>
+    <string name="route_description_description_hint">adăugați o descriere opțională pentru această rută</string>
+    <string name="fab_add_item">Adăugare element</string>
+    <string name="fab_add_route">Adăugare rută</string>
+    <string name="route_waypoint_progress">Ruta %1$s la punctul de traseu %2$s din %3$s</string>
+    <string name="home_screen_title">Soundscape Acasă</string>
+    <string name="settings_reset_button">Resetare setări la valorile implicite</string>
+    <string name="settings_reset_button_hint">resetați setările la valorile implicite și apoi reporniți aplicația.</string>
+    <string name="settings_reset_dialog_title">Sunteți sigur?</string>
+    <string name="settings_reset_dialog_message">Resetarea setărilor va șterge toate setările configurate în aplicație, doriți să continuați?</string>
+    <string name="advanced_markers_and_routes_export_button">Exportă baza de date a marcajelor și rutelor</string>
+    <string name="advanced_markers_and_routes_import_button">Importă baza de date a marcajelor și rutelor</string>
+    <string name="advanced_markers_and_routes_export">Exportă</string>
+    <string name="markers_and_routes_import_success">Importul marcajelor și rutelor a fost finalizat.</string>
+    <string name="markers_and_routes_import_failure">Importul marcajelor și rutelor a eșuat.</string>
+    <string name="advanced_markers_and_routes_clear_all_button">Șterge toate marcajele și rutele</string>
+    <string name="advanced_markers_and_routes_clear_all_alert_message">Ștergerea tuturor marcajelor și rutelor nu poate fi anulată, doriți să continuați?</string>
+    <string name="menu_advanced_markers_and_routes_clear_all_success">Marcaje și rute șterse</string>
+    <string name="location_item_selected">Selectat</string>
+    <string name="location_item_not_selected">Neselectat</string>
+    <string name="location_item_move_up">Mută mai sus în listă</string>
+    <string name="location_item_move_down">Mută mai jos în listă</string>
+    <string name="street_description_between">Pe %1$s între %2$s și %3$s</string>
+    <string name="street_description_until">Pe %1$s, %2$s până la %3$s</string>
+    <string name="street_description_since">Pe %1$s, %2$s de la %3$s</string>
+    <string name="street_description_relative_before">Pe %1$s chiar înainte de %2$s</string>
+    <string name="street_description_relative_after">Pe %1$s chiar după %2$s</string>
+    <string name="street_description_intersection">Lângă intersecția %1$s</string>
+    <string name="new_version_info_text">Informații despre noua versiune</string>
+    <string name="new_version_info_completed">Închide dialogul noii versiuni</string>
+    <string name="menu_open_source_licenses">Licențe open source</string>
+    <string name="new_version_info_details">\nÎn această versiune există două funcții noi care permit controlul de la distanță al aplicației, chiar și atunci când telefonul este blocat. Asta înseamnă că îl poți păstra în buzunar în timp ce controlezi funcțiile principale ale aplicației.\n\nAmbele metode de control la distanță folosesc butoanele media Bluetooth, fie cele de pe căști, fie telecomenzi mici pe care le poți cumpăra pentru a le ține în mână sau în buzunar. Modul de control la distanță se selectează din Setări/Controale media și poți alege „Comandă vocală” pentru a vorbi cu aplicația, sau „Meniu audio”, unde ți se citesc meniuri cu opțiuni de selectat. „Mod original” înseamnă că butoanele Bluetooth funcționează în același fel ca în versiunile anterioare.\n\nÎn modul comandă vocală, apăsarea butonului Redare/Pauză de pe căști pornește ascultarea aplicației pentru comenzi vocale și vei auzi un sunet scurt care indică acest lucru. Dacă spui „Help” (Ajutor) se va lista comenzile disponibile pe care le poți folosi. Apoi poți apăsa din nou butonul și încerca celelalte comenzi. Din păcate, funcția de recunoaștere vocală Android nu acceptă toate limbile și nu este disponibilă pe toate telefoanele.\n\nPrincipala dificultate la modul comandă vocală este că unele căști pornesc microfonul mai lent decât altele. Asta înseamnă că după ce apeși butonul Redare/Pauză poate fi nevoie să aștepți până la 5 secunde înainte de a putea vorbi. Pentru a afla cât durează, cea mai bună abordare este să apeși Redare/Pauză și să numeri de la 1 la 10. Telefonul îți va spune ce text a recunoscut, iar numărul la care pornește recunoașterea va fi primul recunoscut. Aceasta te poate ajuta să înveți cât să aștepți înainte de a vorbi. Unele căști fac un sunet clar atunci când microfonul este activ, ceea ce facilitează acest lucru, dar altele nu fac niciun zgomot. Din păcate, poate necesita exercițiu.\n\nCelălalt mod nou la distanță, Meniul audio, va funcționa în toate limbile și pe toate telefoanele. Butoanele media Următorul/Anterior avansează sau revin prin opțiunile din meniu. Butonul Redare/Pauză selectează opțiunea curentă. Există un meniu principal, urmat de un strat de submeniuri care grupează comenzile similare.\n\nAceste funcții sunt foarte noi și ne-ar plăcea foarte mult să primim feedback despre cât de bine funcționează și ce alte comenzi ați dori.\n\nVă rugăm să raportați orice problemă, oricât de mică, prin opțiunea *Contactează asistența* din meniul principal.\n</string>
+    <string name="about_soundscape">Soundscape explorează utilizarea tehnologiei audio inovatoare pentru a permite oamenilor să își dezvolte o conștientizare mai bogată a împrejurimilor, devenind astfel mai încrezători și mai autonomi în deplasări.</string>
+    <string name="osm_office_building">Clădire de birouri</string>
+    <string name="osm_school_building">Clădire de școală</string>
+    <string name="osm_covered_pavilion">Pavilion acoperit</string>
+    <string name="osm_convenience_store">Magazin alimentar</string>
+    <string name="osm_building_entrance">Intrare în clădire</string>
+    <string name="osm_restroom">Toaletă</string>
+    <string name="osm_parking_lot">Parcare</string>
+    <string name="osm_taxi_waiting_area">Zonă de așteptare taxi</string>
+    <string name="osm_bike_parking">Parcare biciclete</string>
+    <string name="osm_gas_station">Benzinărie</string>
+    <string name="osm_bus_stop_named">Stație de autobuz %1$s</string>
+    <string name="osm_recycling_bin">Coș de reciclare</string>
+    <string name="osm_water_fountain">Cișmea</string>
+    <string name="osm_sports_field">Teren de sport</string>
+    <string name="osm_picnic_area">Zonă de picnic</string>
+    <string name="osm_main_entrance">intrare principală</string>
+    <string name="osm_entrance_named_with_destination">%1$s %2$s din %3$s</string>
+    <string name="osm_entrance_with_destination">%1$s %2$s</string>
+    <string name="osm_tag_ferry_terminal">Terminal de feribot</string>
+    <string name="osm_tag_ferry_terminal_named">Terminal de feribot %1$s</string>
+    <string name="osm_crossing">Trecere de pietoni</string>
+    <string name="osm_construction">Construcție</string>
+    <string name="osm_dangerous_area">Zonă periculoasă</string>
+    <string name="osm_townhall">Primărie</string>
+    <string name="osm_steps">Scări</string>
+    <string name="osm_elevator">Lift</string>
+    <string name="osm_walking_path">Cărare pietonală</string>
+    <string name="osm_pedestrian_street">Stradă pietonală</string>
+    <string name="osm_bicycle_path">Pistă de biciclete</string>
+    <string name="osm_residential_street">Stradă rezidențială</string>
+    <string name="osm_service_road">Drum de serviciu</string>
+    <string name="osm_road">Drum</string>
+    <string name="osm_highway">Autostradă</string>
+    <string name="osm_highway_named">Nume autostradă</string>
+    <string name="osm_highway_refed">Referință autostradă</string>
+    <string name="osm_intersection">Intersecție</string>
+    <string name="osm_roundabout">Sens giratoriu</string>
+    <string name="osm_highway_ramp">Rampă de autostradă</string>
+    <string name="osm_merging_lane">Bandă de inserție</string>
+    <string name="osm_office">Birou</string>
+    <string name="osm_school">Școală</string>
+    <string name="osm_roof">Acoperiș</string>
+    <string name="osm_convenience">Magazin alimentar</string>
+    <string name="osm_entrance">Intrare</string>
+    <string name="osm_assembly_point">Punct de adunare</string>
+    <string name="osm_cycle_barrier">Barieră pentru biciclete</string>
+    <string name="osm_turnstile">Turnichet</string>
+    <string name="osm_cattle_grid">Grătar pentru vite</string>
+    <string name="osm_gate">Poartă</string>
+    <string name="osm_lift_gate">Barieră</string>
+    <string name="osm_toilets">Toalete</string>
+    <string name="osm_parking">Parcare</string>
+    <string name="osm_parking_entrance">Intrare parcare</string>
+    <string name="osm_bench">Bancă</string>
+    <string name="osm_taxi">Stație de taxi</string>
+    <string name="osm_post_office">Oficiu poștal</string>
+    <string name="osm_post_box">Cutie poștală</string>
+    <string name="osm_waste_basket">Coș de gunoi</string>
+    <string name="osm_shower">Duș</string>
+    <string name="osm_bicycle_parking">Parcare biciclete</string>
+    <string name="osm_cafe">Cafenea</string>
+    <string name="osm_restaurant">Restaurant</string>
+    <string name="osm_telephone">Telefon</string>
+    <string name="osm_fuel">Stație de combustibil</string>
+    <string name="osm_bank">Bancă</string>
+    <string name="osm_atm">Bancomat</string>
+    <string name="osm_atm_named">Bancomat cu denumire</string>
+    <string name="osm_atm_refed">Referință bancomat</string>
+    <string name="osm_bus_stop">Stație de autobuz</string>
+    <string name="osm_recycling">Reciclare</string>
+    <string name="osm_fountain">Fântână</string>
+    <string name="osm_place_of_worship">Lăcaș de cult</string>
+    <string name="osm_drinking_water">Apă potabilă</string>
+    <string name="osm_car_wash">Spălătorie auto</string>
+    <string name="osm_vending_machine">Automat de vânzare</string>
+    <string name="osm_playground">Loc de joacă</string>
+    <string name="osm_pitch">Teren de sport</string>
+    <string name="osm_swimming_pool">Piscină</string>
+    <string name="osm_garden">Grădină</string>
+    <string name="osm_park">Parc</string>
+    <string name="osm_picnic_table">Masă de picnic</string>
+    <string name="osm_picnic_site">Zonă de picnic</string>
+    <string name="osm_information">Informații</string>
+    <string name="osm_fire_extinguisher">Stingător de incendiu</string>
+    <string name="osm_defibrillator">Defibrilator</string>
+    <string name="osm_guide">Indicator direcțional</string>
+    <string name="osm_water">Apă</string>
+    <string name="osm_fire_hose">Furtun de incendiu</string>
+    <string name="osm_fire_flapper">Bătător de foc</string>
+    <string name="osm_information_point">Punct de informare</string>
+    <string name="osm_wetland">Zonă umedă</string>
+    <string name="osm_mud">Noroi</string>
+    <string name="osm_access_point">Punct de acces</string>
+    <string name="osm_life_ring">Colac de salvare</string>
+    <string name="osm_generic_info">Informații generale</string>
+    <string name="osm_turntable">Placă turnantă</string>
+    <string name="osm_survey_point">Punct geodezic</string>
+    <string name="osm_snow_net">Plasă pentru zăpadă</string>
+    <string name="osm_silo">Siloz</string>
+    <string name="osm_mast">Catarg</string>
+    <string name="osm_bird_hide">Observator de păsări</string>
+    <string name="osm_transformer_tower">Turn de transformare</string>
+    <string name="osm_generic_object">Obiect generic</string>
+    <string name="osm_signal">Semnal</string>
+    <string name="osm_rock">Stâncă</string>
+    <string name="osm_kiln">Cuptor</string>
+    <string name="osm_crane">Macara</string>
+    <string name="osm_rune_stone">Piatră runică</string>
+    <string name="osm_milestone">Bornă kilometrică</string>
+    <string name="osm_lifeguard_platform">Platformă de salvamar</string>
+    <string name="osm_water_tank">Rezervor de apă</string>
+    <string name="osm_sty">Cocină</string>
+    <string name="osm_navigationaid">Ajutor de navigație</string>
+    <string name="osm_terminal">Terminal</string>
+    <string name="osm_water_tap">Robinet de apă</string>
+    <string name="osm_water_well">Fântână</string>
+    <string name="osm_petroleum_well">Puț de petrol</string>
+    <string name="osm_cross">Cruce</string>
+    <string name="osm_gallows">Spânzurătoare</string>
+    <string name="osm_speed_camera">Cameră de viteză</string>
+    <string name="osm_siren">Sirenă</string>
+    <string name="osm_pylon">Pilon</string>
+    <string name="osm_mineshaft">Puț de mină</string>
+    <string name="osm_flagpole">Catarg de steag</string>
+    <string name="osm_optical_telegraph">Telegraf optic</string>
+    <string name="osm_cannon">Tun</string>
+    <string name="osm_boundary_stone">Piatră de hotar</string>
+    <string name="osm_shed">Șopron</string>
+    <string name="osm_traffic_cones">Conuri de trafic</string>
+    <string name="osm_firepit">Vatră de foc</string>
+    <string name="osm_stone">Piatră</string>
+    <string name="osm_surveillance">Supraveghere</string>
+    <string name="osm_monitoring_station">Stație de monitorizare</string>
+    <string name="osm_wayside_shrine">Troiță</string>
+    <string name="osm_wayside_cross">Cruce de drum</string>
+    <string name="osm_tomb">Mormânt</string>
+    <string name="osm_traffic_signals">Semafoare</string>
+    <string name="osm_hut">Colibă</string>
+    <string name="osm_static_caravan">Rulotă staționară</string>
+    <string name="osm_bollard">Bolarzi</string>
+    <string name="osm_block">Bloc</string>
+    <string name="osm_waste_disposal">Punct de eliminare a deșeurilor</string>
+    <string name="osm_photo_booth">Cabină foto</string>
+    <string name="osm_bbq">Grătar</string>
+    <string name="osm_shop">Magazin</string>
+    <string name="osm_newsagent">Magazin de presă</string>
+    <string name="osm_anime">Magazin de anime</string>
+    <string name="osm_musical_instrument">Magazin de instrumente muzicale</string>
+    <string name="osm_vacuum_cleaner">Magazin de aspiratoare</string>
+    <string name="osm_mobile_phone">Magazin de telefoane mobile</string>
+    <string name="osm_carpet">Magazin de covoare</string>
+    <string name="osm_trade">Magazin en-gros</string>
+    <string name="osm_garden_centre">Centru de grădinărit</string>
+    <string name="osm_florist">Florărie</string>
+    <string name="osm_fireplace">Șemineu</string>
+    <string name="osm_massage">Masaj</string>
+    <string name="osm_herbalist">Plafar</string>
+    <string name="osm_bag">Magazin de genți</string>
+    <string name="osm_pastry">Patiserie</string>
+    <string name="osm_deli">Magazin de delicatese</string>
+    <string name="osm_beverages">Magazin de băuturi</string>
+    <string name="osm_alcohol">Magazin de băuturi alcoolice</string>
+    <string name="osm_substation">Substație electrică</string>
+    <string name="osm_travel_agent">Agenție de turism</string>
+    <string name="osm_research">Centru de cercetare</string>
+    <string name="osm_newspaper">Magazin de ziare</string>
+    <string name="osm_ammunition">Magazin de muniție</string>
+    <string name="osm_wildlife_hide">Observator de animale sălbatice</string>
+    <string name="osm_watchmaker">Ceasornicărie</string>
+    <string name="osm_tinsmith">Tinichigerie</string>
+    <string name="osm_sun_protection">Magazin de protecție solară</string>
+    <string name="osm_sculptor">Atelier de sculptură</string>
+    <string name="osm_metal_construction">Construcții metalice</string>
+    <string name="osm_handicraft">Magazin de artizanat</string>
+    <string name="osm_cowshed">Grajd</string>
+    <string name="osm_cabin">Cabană</string>
+    <string name="osm_barn">Hambar</string>
+    <string name="osm_warehouse">Depozit</string>
+    <string name="osm_houseboat">Casă plutitoare</string>
+    <string name="osm_book_store">Librărie</string>
+    <string name="osm_generic_place">Loc</string>
+    <string name="osm_hunting_stand">Foișor de vânătoare</string>
+    <string name="osm_game_feeding">Loc de hrănire a vânatului</string>
+    <string name="osm_crypt">Criptă</string>
+    <string name="osm_animal_shelter">Adăpost de animale</string>
+    <string name="osm_animal_boarding">Pensiune pentru animale</string>
+    <string name="osm_blood_donation">Centru de donare de sânge</string>
+    <string name="osm_nursing_home">Cămin de bătrâni</string>
+    <string name="osm_dentist">Dentist</string>
+    <string name="osm_baby_hatch">Cutie pentru bebeluși abandonați</string>
+    <string name="osm_language_school">Școală de limbi străine</string>
+    <string name="osm_public_bookcase">Bibliotecă publică stradală</string>
+    <string name="osm_biergarten">Grădină de bere</string>
+    <string name="osm_running">Pistă de alergare</string>
+    <string name="osm_glaziery">Sticlărie</string>
+    <string name="osm_garages">Garaje</string>
+    <string name="osm_retail">Magazin cu amănuntul</string>
+    <string name="osm_hotel">Hotel</string>
+    <string name="osm_camp_site">Loc de campare</string>
+    <string name="osm_rugby_league">Rugby în treisprezece</string>
+    <string name="osm_roller_skating">Patinaj cu rotile</string>
+    <string name="osm_multi">Utilizare multiplă</string>
+    <string name="osm_ice_hockey">Hochei pe gheață</string>
+    <string name="osm_hapkido">Hapkido</string>
+    <string name="osm_croquet">Crochet</string>
+    <string name="osm_cricket">Cricket</string>
+    <string name="osm_cockfighting">Lupte de cocoși</string>
+    <string name="osm_boxing">Box</string>
+    <string name="osm_bmx">BMX</string>
+    <string name="osm_billiards">Biliard</string>
+    <string name="osm_toys">Magazin de jucării</string>
+    <string name="osm_pyrotechnics">Magazin de artificii</string>
+    <string name="osm_laundry">Spălătorie</string>
+    <string name="osm_funeral_directors">Servicii funerare</string>
+    <string name="osm_dry_cleaning">Curățătorie chimică</string>
+    <string name="osm_copyshop">Centru de copiere</string>
+    <string name="osm_chalet">Cabană</string>
+    <string name="osm_apartment">Apartament</string>
+    <string name="osm_water_ski">Schi nautic</string>
+    <string name="osm_water_polo">Polo pe apă</string>
+    <string name="osm_table_soccer">Fotbal de masă</string>
+    <string name="osm_table_tennis">Tenis de masă</string>
+    <string name="osm_skateboard">Skateboarding</string>
+    <string name="osm_sailing">Navigație cu velă</string>
+    <string name="osm_safety_training">Instruire de siguranță</string>
+    <string name="osm_rowing">Canotaj</string>
+    <string name="osm_model_aerodrome">Aerodrom pentru aeromodele</string>
+    <string name="osm_korfball">Korfbal</string>
+    <string name="osm_ice_stock">Eisstock</string>
+    <string name="osm_gymnastics">Gimnastică</string>
+    <string name="osm_football">Fotbal</string>
+    <string name="osm_field_hockey">Hochei pe iarbă</string>
+    <string name="osm_equestrian">Echitație</string>
+    <string name="osm_cycling">Ciclism</string>
+    <string name="osm_curling">Curling</string>
+    <string name="osm_cricket_nets">Fileu de cricket</string>
+    <string name="osm_cliff_diving">Sărituri de pe stâncă</string>
+    <string name="osm_boules">Petancă</string>
+    <string name="osm_bobsleigh">Bob</string>
+    <string name="osm_baseball">Baseball</string>
+    <string name="osm_aikido">Aikido</string>
+    <string name="osm_10pin">Bowling cu zece popice</string>
+    <string name="osm_weapons">Magazin de arme</string>
+    <string name="osm_pet">Magazin de animale</string>
+    <string name="osm_money_lender">Casă de împrumuturi</string>
+    <string name="osm_gift">Magazin de cadouri</string>
+    <string name="osm_books">Librărie</string>
+    <string name="osm_bookmaker">Agenție de pariuri</string>
+    <string name="osm_photo">Magazin foto</string>
+    <string name="osm_craft">Magazin de artizanat</string>
+    <string name="osm_motorcycle">Magazin de motociclete</string>
+    <string name="osm_hunting">Magazin de vânătoare</string>
+    <string name="osm_window_blind">Magazin de jaluzele</string>
+    <string name="osm_curtain">Magazin de perdele</string>
+    <string name="osm_antiques">Magazin de antichități</string>
+    <string name="osm_paint">Magazin de vopsele</string>
+    <string name="osm_tattoo">Studio de tatuaje</string>
+    <string name="osm_nutrition_supplements">Magazin de suplimente nutritive</string>
+    <string name="osm_hearing_aids">Magazin de aparate auditive</string>
+    <string name="osm_cosmetics">Magazin de cosmetice</string>
+    <string name="osm_watches">Magazin de ceasuri</string>
+    <string name="osm_jewelry">Magazin de bijuterii</string>
+    <string name="osm_boutique">Butic</string>
+    <string name="osm_baby_goods">Magazin de articole pentru bebeluși</string>
+    <string name="osm_tea">Magazin de ceai</string>
+    <string name="osm_pasta">Magazin de paste</string>
+    <string name="osm_coffee">Cafenea</string>
+    <string name="osm_quango">Organizație cvasi-autonomă</string>
+    <string name="osm_political_party">Partid politic</string>
+    <string name="osm_association">Asociație</string>
+    <string name="osm_architect">Birou de arhitectură</string>
+    <string name="osm_advertising_agency">Agenție de publicitate</string>
+    <string name="osm_summer_camp">Tabără de vară</string>
+    <string name="osm_dance">Studio de dans</string>
+    <string name="osm_amusement_arcade">Salon de jocuri</string>
+    <string name="osm_adult_gaming_centre">Centru de jocuri pentru adulți</string>
+    <string name="osm_window_construction">Confecții de ferestre</string>
+    <string name="osm_upholsterer">Tapițer</string>
+    <string name="osm_shoemaker">Cizmar</string>
+    <string name="osm_sawmill">Gater</string>
+    <string name="osm_pottery">Atelier de ceramică</string>
+    <string name="osm_key_cutter">Cheiărie</string>
+    <string name="osm_hvac">Instalator HVAC</string>
+    <string name="osm_clockmaker">Ceasornicar</string>
+    <string name="osm_carpenter">Tâmplar</string>
+    <string name="osm_builder">Constructor</string>
+    <string name="osm_bookbinder">Legătorie de cărți</string>
+    <string name="osm_boatbuilder">Constructor de bărci</string>
+    <string name="osm_brewery">Berărie</string>
+    <string name="osm_blacksmith">Fierar</string>
+    <string name="osm_basket_maker">Împletitor de coșuri</string>
+    <string name="osm_greenhouse">Seră</string>
+    <string name="osm_farm_auxiliary">Anexă agricolă</string>
+    <string name="osm_civic">Clădire civică</string>
+    <string name="osm_bungalow">Bungalou</string>
+    <string name="osm_detached">Casă individuală</string>
+    <string name="osm_hair_dresser">Coafor</string>
+    <string name="osm_clothing_store">Magazin de îmbrăcăminte</string>
+    <string name="osm_user">Utilizator</string>
+    <string name="osm_dojo">Dojo</string>
+    <string name="osm_nightclub">Club de noapte</string>
+    <string name="osm_community_centre">Centru comunitar</string>
+    <string name="osm_brothel">Bordel</string>
+    <string name="osm_veterinary">Clinică veterinară</string>
+    <string name="osm_social_facility">Centru de asistență socială</string>
+    <string name="osm_clinic">Clinică</string>
+    <string name="osm_charging_station">Stație de încărcare</string>
+    <string name="osm_kindergarten">Grădiniță</string>
+    <string name="osm_ice_cream">Gelaterie</string>
+    <string name="osm_fast_food">Restaurant fast-food</string>
+    <string name="osm_commercial">Clădire comercială</string>
+    <string name="osm_canoe">Canotaj</string>
+    <string name="osm_scuba_diving">Scufundări</string>
+    <string name="osm_fishing">Pescuit</string>
+    <string name="osm_optician">Optician</string>
+    <string name="osm_confectionery">Cofetărie</string>
+    <string name="osm_bunker">Buncăr</string>
+    <string name="osm_sleeping_pods">Capsule de dormit</string>
+    <string name="osm_motel">Motel</string>
+    <string name="osm_guest_house">Pensiune</string>
+    <string name="osm_wrestling">Lupte</string>
+    <string name="osm_toboggan">Tobogan</string>
+    <string name="osm_skiing">Schi</string>
+    <string name="osm_rc_car">Mașinuțe RC</string>
+    <string name="osm_paddle_tennis">Padel</string>
+    <string name="osm_hockey">Hochei</string>
+    <string name="osm_fencing">Scrimă</string>
+    <string name="osm_bowls">Bowling pe gazon</string>
+    <string name="osm_badminton">Badminton</string>
+    <string name="osm_archery">Tir cu arcul</string>
+    <string name="osm_american_football">Fotbal american</string>
+    <string name="osm_travel_agency">Agenție de turism</string>
+    <string name="osm_tobacco">Tutungerie</string>
+    <string name="osm_e_cigarette">Magazin de țigări electronice</string>
+    <string name="osm_video">Magazin video</string>
+    <string name="osm_car_repair">Service auto</string>
+    <string name="osm_hifi">Magazin Hi-Fi</string>
+    <string name="osm_lamps">Magazin de corpuri de iluminat</string>
+    <string name="osm_kitchen">Magazin de bucătării</string>
+    <string name="osm_interior_decoration">Magazin de decorațiuni interioare</string>
+    <string name="osm_houseware">Magazin de articole de menaj</string>
+    <string name="osm_erotic">Magazin erotic</string>
+    <string name="osm_beauty">Salon de frumusețe</string>
+    <string name="osm_wine">Vinotecă</string>
+    <string name="osm_dairy">Magazin de lactate</string>
+    <string name="osm_cheese">Magazin de brânzeturi</string>
+    <string name="osm_bakery">Brutărie</string>
+    <string name="osm_telecommunication">Magazin de telecomunicații</string>
+    <string name="osm_tax">Birou fiscal</string>
+    <string name="osm_real_estate_agent">Agenție imobiliară</string>
+    <string name="osm_notary">Notar</string>
+    <string name="osm_ngo">Birou ONG</string>
+    <string name="osm_lawyer">Avocat</string>
+    <string name="osm_it">Servicii IT</string>
+    <string name="osm_foundation">Fundație</string>
+    <string name="osm_employment_agency">Agenție de ocupare a forței de muncă</string>
+    <string name="osm_educational_institution">Instituție de învățământ</string>
+    <string name="osm_adoption_agency">Agenție de adopții</string>
+    <string name="osm_miniature_golf">Minigolf</string>
+    <string name="osm_building">Clădire</string>
+    <string name="osm_winery">Cramă</string>
+    <string name="osm_tiler">Faianțar</string>
+    <string name="osm_chimney_sweeper">Coșar</string>
+    <string name="osm_stand_builder">Constructor de standuri</string>
+    <string name="osm_saddler">Șelar</string>
+    <string name="osm_plumber">Instalator</string>
+    <string name="osm_plasterer">Tencuitor</string>
+    <string name="osm_painter">Zugrav</string>
+    <string name="osm_jeweller">Bijuterie</string>
+    <string name="osm_floorer">Parchetar</string>
+    <string name="osm_distillery">Distilerie</string>
+    <string name="osm_carpet_layer">Montator de covoare</string>
+    <string name="osm_beekeeper">Apicultor</string>
+    <string name="osm_public">Public</string>
+    <string name="osm_dormitory">Cămin</string>
+    <string name="osm_apartments">Apartamente</string>
+    <string name="osm_internet_cafe">Internet cafe</string>
+    <string name="osm_shoe_shop">Magazin de încălțăminte</string>
+    <string name="osm_generic_shop">Magazin</string>
+    <string name="osm_coffee_shop">Cafenea</string>
+    <string name="osm_coworking_space">Spațiu de coworking</string>
+    <string name="osm_stripclub">Club de striptease</string>
+    <string name="osm_ev_charging">Stație de încărcare EV</string>
+    <string name="osm_pub">Pub</string>
+    <string name="osm_obstacle_course">Traseu cu obstacole</string>
+    <string name="osm_volleyball">Volei</string>
+    <string name="osm_tennis">Tenis</string>
+    <string name="osm_soccer">Fotbal</string>
+    <string name="osm_shooting">Poligon de tir</string>
+    <string name="osm_rugby_union">Rugby</string>
+    <string name="osm_orienteering">Orientare sportivă</string>
+    <string name="osm_netball">Netball</string>
+    <string name="osm_motor">Magazin auto</string>
+    <string name="osm_kitesurfing">Kitesurfing</string>
+    <string name="osm_karting">Karting</string>
+    <string name="osm_judo">Judo</string>
+    <string name="osm_horseshoes">Potcoave</string>
+    <string name="osm_handball">Handbal</string>
+    <string name="osm_golf">Golf</string>
+    <string name="osm_gaelic_games">Sporturi gaelice</string>
+    <string name="osm_diving">Scufundări</string>
+    <string name="osm_darts">Darts</string>
+    <string name="osm_climbing_adventure">Aventură de escaladă</string>
+    <string name="osm_basketball">Baschet</string>
+    <string name="osm_bandy">Bandy</string>
+    <string name="osm_australian_football">Fotbal australian</string>
+    <string name="osm_9pin">Popice cu 9 birili</string>
+    <string name="osm_vacant">Vacant</string>
+    <string name="osm_lottery">Agenție de loterie</string>
+    <string name="osm_trophy">Magazin de trofee</string>
+    <string name="osm_music">Magazin de muzică</string>
+    <string name="osm_games">Magazin de jocuri</string>
+    <string name="osm_tyres">Magazin de anvelope</string>
+    <string name="osm_sports">Magazin de sport</string>
+    <string name="osm_outdoor">Magazin de echipament outdoor</string>
+    <string name="osm_car">Dealer auto</string>
+    <string name="osm_electronics">Magazin de electronice</string>
+    <string name="osm_computer">Magazin de calculatoare</string>
+    <string name="osm_furniture">Magazin de mobilă</string>
+    <string name="osm_candles">Magazin de lumânări</string>
+    <string name="osm_hardware">Magazin de fierărie</string>
+    <string name="osm_gas">Benzinărie</string>
+    <string name="osm_energy">Companie de energie</string>
+    <string name="osm_doityourself">Magazin de bricolaj</string>
+    <string name="osm_bathroom_furnishing">Magazin de băi</string>
+    <string name="osm_medical_supply">Magazin de echipamente medicale</string>
+    <string name="osm_variety_store">Magazin de diverse</string>
+    <string name="osm_second_hand">Magazin second hand</string>
+    <string name="osm_charity">Magazin caritabil</string>
+    <string name="osm_fashion">Magazin de modă</string>
+    <string name="osm_fabric">Magazin de țesături</string>
+    <string name="osm_clothes">Magazin de îmbrăcăminte</string>
+    <string name="osm_butcher">Măcelărie</string>
+    <string name="osm_water_utility">Companie de apă</string>
+    <string name="osm_realtor">Agent imobiliar</string>
+    <string name="osm_company">Companie</string>
+    <string name="osm_accountant">Contabil</string>
+    <string name="osm_bunker_silo">Siloz buncăr</string>
+    <string name="osm_hackerspace">Hackerspace</string>
+    <string name="osm_lifeguard_base">Post de salvare</string>
+    <string name="osm_roofer">Acoperișar</string>
+    <string name="osm_rigger">Montator de schele</string>
+    <string name="osm_parquet_layer">Parchetar</string>
+    <string name="osm_gardener">Grădinar</string>
+    <string name="osm_stable">Grajd</string>
+    <string name="osm_garage">Garaj</string>
+    <string name="osm_transportation">Centru de transport</string>
+    <string name="osm_house">Casă</string>
+    <string name="osm_helipad">Heliport</string>
+    <string name="osm_apron">Platformă de staționare</string>
+    <string name="osm_consumer_electronics_store">Magazin de electronice</string>
+    <string name="osm_speciality_store">Magazin de specialitate</string>
+    <string name="osm_defined">Definit</string>
+    <string name="osm_sauna">Saună</string>
+    <string name="osm_gym">Sală de fitness</string>
+    <string name="osm_crematorium">Crematoriu</string>
+    <string name="osm_gambling">Sală de jocuri de noroc</string>
+    <string name="osm_music_school">Școală de muzică</string>
+    <string name="osm_bar">Bar</string>
+    <string name="osm_farm">Fermă</string>
+    <string name="osm_bicycle">Magazin de biciclete</string>
+    <string name="osm_tailor">Croitor</string>
+    <string name="osm_locksmith">Lăcătuș</string>
+    <string name="osm_industrial">Zonă industrială</string>
+    <string name="osm_wilderness_hut">Refugiu montan</string>
+    <string name="osm_hostel">Hostel</string>
+    <string name="osm_caravan_site">Camping pentru rulote</string>
+    <string name="osm_weightlifting">Sală de haltere</string>
+    <string name="osm_taekwondo">Club de taekwondo</string>
+    <string name="osm_swimming">Piscină</string>
+    <string name="osm_surfing">Zonă de surfing</string>
+    <string name="osm_skating">Patinoar</string>
+    <string name="osm_racquet">Sală de sporturi cu rachetă</string>
+    <string name="osm_pelota">Teren de pelotă</string>
+    <string name="osm_paragliding">Zonă de parapantă</string>
+    <string name="osm_parachuting">Zonă de parașutism</string>
+    <string name="osm_motocross">Pistă de motocross</string>
+    <string name="osm_ice_skating">Patinoar</string>
+    <string name="osm_horse_racing">Hipodrom</string>
+    <string name="osm_dog_racing">Cursă de ogari</string>
+    <string name="osm_climbing">Zonă de escaladă</string>
+    <string name="osm_chess">Club de șah</string>
+    <string name="osm_canadian_football">Teren de fotbal canadian</string>
+    <string name="osm_beachvolleyball">Teren de volei pe plajă</string>
+    <string name="osm_base">Bază</string>
+    <string name="osm_athletics">Pistă de atletism</string>
+    <string name="osm_pawnbroker">Casa de amanet</string>
+    <string name="osm_ticket">Casă de bilete</string>
+    <string name="osm_stationery">Papetărie</string>
+    <string name="osm_video_games">Magazin de jocuri video</string>
+    <string name="osm_model">Magazin de machete</string>
+    <string name="osm_frame">Atelier de înrămat</string>
+    <string name="osm_art">Magazin de artă</string>
+    <string name="osm_car_parts">Magazin de piese auto</string>
+    <string name="osm_radiotechnics">Magazin de echipamente radio</string>
+    <string name="osm_bed">Magazin de paturi</string>
+    <string name="osm_garden_furniture">Magazin de mobilier de grădină</string>
+    <string name="osm_electrical">Magazin de materiale electrice</string>
+    <string name="osm_perfumery">Parfumerie</string>
+    <string name="osm_hairdresser">Frizerie</string>
+    <string name="osm_drugstore">Drogherie</string>
+    <string name="osm_shoes">Magazin de încălțăminte</string>
+    <string name="osm_leather">Magazin de piele</string>
+    <string name="osm_general">Magazin universal</string>
+    <string name="osm_seafood">Pescărie</string>
+    <string name="osm_organic">Magazin de produse bio</string>
+    <string name="osm_greengrocer">Legumărie</string>
+    <string name="osm_chocolate">Ciocolaterie</string>
+    <string name="osm_brewing_supplies">Magazin de accesorii pentru bere</string>
+    <string name="osm_tax_advisor">Consultant fiscal</string>
+    <string name="osm_private_investigator">Detectiv particular</string>
+    <string name="osm_government">Instituție guvernamentală</string>
+    <string name="osm_forestry">Silvicultură</string>
+    <string name="osm_estate_agent">Agenție imobiliară</string>
+    <string name="osm_spring">Izvor</string>
+    <string name="osm_golf_course">Teren de golf</string>
+    <string name="osm_ses_station">Stație SES</string>
+    <string name="osm_lifeguard_place">Post de salvare</string>
+    <string name="osm_stonemason">Pietrar</string>
+    <string name="osm_scaffolder">Schelărist</string>
+    <string name="osm_sailmaker">Velărie</string>
+    <string name="osm_photographic_laboratory">Laborator fotografic</string>
+    <string name="osm_photographer">Fotograf</string>
+    <string name="osm_insulation">Izolații</string>
+    <string name="osm_electrician">Electrician</string>
+    <string name="osm_dressmaker">Croitoreasă</string>
+    <string name="osm_caterer">Catering</string>
+    <string name="osm_terrace">Terasă</string>
+    <string name="osm_toy_shop">Magazin de jucării</string>
+    <string name="osm_dive_centre">Centru de scufundări</string>
+    <string name="osm_swingerclub">Club de swingeri</string>
+    <string name="osm_doctors">Cabinet medical</string>
+    <string name="osm_driving_school">Școală de șoferi</string>
+    <string name="osm_free_flying">Zbor liber</string>
+    <string name="osm_religion">Lăcaș de cult</string>
+    <string name="osm_kiosk">Chioșc</string>
+    <string name="osm_residential">Zonă rezidențială</string>
+    <string name="osm_food">Alimentație</string>
+    <string name="osm_waterfall">Cascadă</string>
+    <string name="osm_boatyard">Șantier naval</string>
+    <string name="osm_theme_park">Parc de distracții</string>
+    <string name="osm_roundhouse">Rotondă feroviară</string>
+    <string name="osm_generator">Generator</string>
+    <string name="osm_beach">Plajă</string>
+    <string name="osm_naval_base">Bază navală</string>
+    <string name="osm_works">Uzină</string>
+    <string name="osm_water_works">Stație de apă</string>
+    <string name="osm_telescope">Telescop</string>
+    <string name="osm_pier">Ponton</string>
+    <string name="osm_observatory">Observator astronomic</string>
+    <string name="osm_reservoir">Rezervor</string>
+    <string name="osm_monument">Monument</string>
+    <string name="osm_battlefield">Câmp de luptă</string>
+    <string name="osm_planetarium">Planetariu</string>
+    <string name="osm_social_centre">Centru social</string>
+    <string name="osm_prison">Închisoare</string>
+    <string name="osm_courthouse">Tribunal</string>
+    <string name="osm_bridge">Pod</string>
+    <string name="osm_hangar">Hangar</string>
+    <string name="osm_tower">Turn</string>
+    <string name="osm_attraction">Atracție turistică</string>
+    <string name="osm_zoo">Grădină zoologică</string>
+    <string name="osm_gallery">Galerie de artă</string>
+    <string name="osm_artwork">Operă de artă</string>
+    <string name="osm_alpine_hut">Cabană alpină</string>
+    <string name="osm_plant">Uzină industrială</string>
+    <string name="osm_insurance">Birou de asigurări</string>
+    <string name="osm_airfield">Aerodrom</string>
+    <string name="osm_water_tower">Turn de apă</string>
+    <string name="osm_pumping_station">Stație de pompare</string>
+    <string name="osm_hot_water_tank">Rezervor de apă caldă</string>
+    <string name="osm_campanile">Clopotniță</string>
+    <string name="osm_sports_centre">Centru sportiv</string>
+    <string name="osm_fitness_centre">Sală de fitness</string>
+    <string name="osm_beach_resort">Stațiune balneară</string>
+    <string name="osm_village_green">Pajiște comunală</string>
+    <string name="osm_ship">Navă</string>
+    <string name="osm_memorial">Memorial</string>
+    <string name="osm_synagogue">Sinagogă</string>
+    <string name="osm_mosque">Moschee</string>
+    <string name="osm_chapel">Capelă</string>
+    <string name="osm_cathedral">Catedrală</string>
+    <string name="osm_train_terminal">Terminal feroviar</string>
+    <string name="osm_college">Colegiu</string>
+    <string name="osm_arts_centre">Centru de artă</string>
+    <string name="osm_ranger_station">Post de rangeri</string>
+    <string name="osm_hospital">Spital</string>
+    <string name="osm_track">Pistă</string>
+    <string name="osm_conference_centre">Centru de conferințe</string>
+    <string name="osm_viewpoint">Punct panoramic</string>
+    <string name="osm_supermarket">Supermarket</string>
+    <string name="osm_peak">Vârf</string>
+    <string name="osm_storage_tank">Rezervor de stocare</string>
+    <string name="osm_lighthouse">Far</string>
+    <string name="osm_beacon">Baliză</string>
+    <string name="osm_port">Port</string>
+    <string name="osm_archaeological_site">Sit arheologic</string>
+    <string name="osm_train_station">Gară</string>
+    <string name="osm_train_station_named">Gara %1$s</string>
+    <string name="osm_shrine">Altar</string>
+    <string name="osm_church">Biserică</string>
+    <string name="osm_historic_monument">Monument istoric</string>
+    <string name="osm_generic_landmark">Reper</string>
+    <string name="osm_tourism_museum">Muzeu</string>
+    <string name="osm_register_office">Oficiul stării civile</string>
+    <string name="osm_grave_yard">Cimitir</string>
+    <string name="osm_marketplace">Piață</string>
+    <string name="osm_fire_station">Stație de pompieri</string>
+    <string name="osm_ruins">Ruine</string>
+    <string name="osm_weir">Stăvilar</string>
+    <string name="osm_museum">Muzeu</string>
+    <string name="osm_mall">Mall</string>
+    <string name="osm_volcano">Vulcan</string>
+    <string name="osm_hot_spring">Izvor termal</string>
+    <string name="osm_glacier">Ghețar</string>
+    <string name="osm_wastewater_plant">Stație de epurare</string>
+    <string name="osm_offshore_platform">Platformă maritimă</string>
+    <string name="osm_gasometer">Gazometru</string>
+    <string name="osm_water_park">Aquapark</string>
+    <string name="osm_bandstand">Scenă în aer liber</string>
+    <string name="osm_wreck">Epavă</string>
+    <string name="osm_pillory">Stâlp de infamie</string>
+    <string name="osm_monastery">Mănăstire</string>
+    <string name="osm_locomotive">Locomotivă</string>
+    <string name="osm_fort">Fort</string>
+    <string name="osm_services">Zonă de servicii</string>
+    <string name="osm_lifeguard_tower">Turn de salvamari</string>
+    <string name="osm_temple">Templu</string>
+    <string name="osm_national_park">Parc național</string>
+    <string name="osm_heliport">Heliport</string>
+    <string name="osm_public_park">Parc public</string>
+    <string name="osm_department_store">Magazin universal</string>
+    <string name="osm_studio">Studio</string>
+    <string name="osm_public_building">Clădire publică</string>
+    <string name="osm_clock">Ceas public</string>
+    <string name="osm_casino">Cazinou</string>
+    <string name="osm_ferry_terminal">Terminal de feribot</string>
+    <string name="osm_ferry_terminal_named">Terminalul de feribot %1$s</string>
+    <string name="osm_stadium">Stadion</string>
+    <string name="osm_dam">Baraj</string>
+    <string name="osm_dock">Doc</string>
+    <string name="osm_geyser">Gheizer</string>
+    <string name="osm_bay">Golf</string>
+    <string name="osm_barracks">Cazarmă</string>
+    <string name="osm_windmill">Moară de vânt</string>
+    <string name="osm_watermill">Moară de apă</string>
+    <string name="osm_communications_tower">Turn de telecomunicații</string>
+    <string name="osm_swimming_area">Zonă de înot</string>
+    <string name="osm_slipway">Rampă de lansare</string>
+    <string name="osm_nature_reserve">Rezervație naturală</string>
+    <string name="osm_marina">Port de agrement</string>
+    <string name="osm_ice_rink">Patinoar</string>
+    <string name="osm_manor">Conac</string>
+    <string name="osm_city_gate">Poartă de cetate</string>
+    <string name="osm_castle">Castel</string>
+    <string name="osm_aircraft">Aeronavă</string>
+    <string name="osm_digester">Digestor</string>
+    <string name="osm_sally_port">Poartă de ieșire</string>
+    <string name="osm_aerodrome">Aerodrom</string>
+    <string name="osm_shopping_mall">Centru comercial</string>
+    <string name="osm_cinema">Cinema</string>
+    <string name="osm_rescue_station">Stație de salvare</string>
+    <string name="osm_airport">Aeroport</string>
+    <string name="osm_theatre">Teatru</string>
+    <string name="osm_library">Bibliotecă</string>
+    <string name="osm_university">Universitate</string>
+    <string name="osm_police">Secție de poliție</string>
+    <string name="osm_embassy">Ambasadă</string>
+    <string name="osm_bus_station">Stație de autobuz</string>
+    <string name="osm_station">Stație</string>
+    <string name="osm_toll_booth">Punct de taxare</string>
+    <string name="osm_lift">Lift</string>
+    <string name="osm_unmanaged_crossing">Trecere de pietoni nesemaforizată</string>
+    <string name="osm_pharmacy">Farmacie</string>
+    <string name="osm_kneipp_water_cure">Cură Kneipp cu apă</string>
+    <string name="osm_food_court">Zonă de alimentație</string>
+    <string name="osm_chemist">Drogherie</string>
+    <string name="osm_checkpoint">Punct de control</string>
+    <string name="osm_dog_park">Parc pentru câini</string>
+    <string name="osm_kissing_gate">Portiță cu balama</string>
+    <string name="osm_car_rental">Închirieri auto</string>
+    <string name="osm_pedestrianised_area">Zonă pietonală</string>
+    <string name="osm_escalator">Scară rulantă</string>
+    <string name="osm_shelter">Adăpost</string>
+    <string name="osm_water_point">Punct de apă</string>
+    <string name="osm_subway_entrance">Intrare metrou</string>
+    <string name="osm_cave_entrance">Intrare în peșteră</string>
+    <string name="osm_swing_gate">Poartă batantă</string>
+    <string name="osm_stile">Scăriță de gard</string>
+    <string name="osm_car_sharing">Car sharing</string>
+    <string name="osm_customer_service">Serviciu clienți</string>
+    <string name="osm_watering_place">Adăpătoare</string>
+    <string name="osm_platform">Peron</string>
+    <string name="osm_horse_stile">Trecătoare pentru cai</string>
+    <string name="osm_bureau_de_change">Casă de schimb valutar</string>
+    <string name="osm_stairs">Scări</string>
+    <string name="osm_bicycle_rental">Închirieri biciclete</string>
+    <string name="osm_tram_stop">Stație de tramvai</string>
+    <string name="osm_tram_stop_named">Stația de tramvai %1$s</string>
+    <string name="osm_subway">Stație de metrou</string>
+    <string name="osm_subway_named">Stația de metrou %1$s</string>
+    <string name="osm_hampshire_gate">Poartă Hampshire</string>
+    <string name="osm_full_height_turnstile">Turnichet de înălțime completă</string>
+    <string name="osm_boat_sharing">Partajare bărci</string>
+    <string name="osm_help_point">Punct de asistență</string>
+    <string name="osm_open_space">Spațiu deschis</string>
+    <string name="osm_spending_area">Zonă de agrement</string>
+    <string name="osm_bicycle_repair_station">Stație de reparații biciclete</string>
+    <string name="osm_motorcycle_barrier">Barieră pentru motociclete</string>
+    <string name="osm_kent_carriage_gap">Trecere Kent pentru atelaje</string>
+    <string name="osm_shared_space">Spațiu partajat</string>
+    <string name="osm_cliff">Faleza</string>
+    <string name="osm_training_area">Teren de antrenament</string>
+    <string name="osm_log">Buștean</string>
+    <string name="osm_jersey_barrier">Barieră Jersey</string>
+    <string name="osm_construction_site">Șantier de construcții</string>
+    <string name="osm_ridge">Creastă</string>
+    <string name="osm_nuclear_explosion_site">Loc de explozie nucleară</string>
+    <string name="osm_dyke">Dig</string>
+    <string name="osm_sump_buster">Obstacol pentru vehicule joase</string>
+    <string name="osm_rope">Frânghie</string>
+    <string name="osm_debris">Dărâmături</string>
+    <string name="osm_road_works">Lucrări la drum</string>
+    <string name="osm_lock_gate">Poartă de ecluză</string>
+    <string name="osm_sinkhole">Doline</string>
+    <string name="osm_range">Poligon de tragere</string>
+    <string name="osm_ambulance_station">Stație de ambulanță</string>
+    <string name="osm_spikes">Cuie de drum</string>
+    <string name="osm_generic_hazard">Pericol general</string>
+    <string name="osm_contact_line">Linie de contact</string>
+    <string name="osm_danger_area">Zonă periculoasă</string>
+    <string name="osm_chain">Barieră cu lanț</string>
+    <string name="osm_parking_space">Loc de parcare</string>
+    <string name="osm_motorcycle_parking">Parcare pentru motociclete</string>
+    <string name="osm_city">Oraș</string>
+    <string name="osm_town">Localitate</string>
+    <string name="osm_neighbourhood">Cartier</string>
+    <string name="osm_village">Sat</string>
+    <string name="osm_hamlet">Cătun</string>
+    <string name="osm_recreation_ground">Teren de recreere</string>
+    <string name="osm_river">Râu</string>
+    <string name="osm_railway">Cale ferată</string>
+    <string name="osm_wood">Pădure</string>
+    <string name="osm_pavillion">Pavilion</string>
+    <string name="osm_sport">Sport</string>
+    <string name="osm_health_food">Alimente naturiste</string>
+    <string name="osm_events_venue">Loc de evenimente</string>
+    <string name="tour_welcome">Bun venit la tutorialul Soundscape. Acest tutorial te va ghida prin funcțiile principale ale aplicației. Poți opri tutorialul în orice moment atingând Anulează tutorialul audio din meniul principal. Să începem cu Locuri din apropiere, care îți permite să descoperi puncte de interes. Butonul Locuri din apropiere se află pe ecranul principal, chiar sub bara de căutare. Atinge-l acum pentru a-l încerca.</string>
+    <string name="tour_select_place">Locuri din apropiere grupează punctele de interes după tip. Răsfoiește locurile din liste și selectează unul.</string>
+    <string name="tour_create_marker_started">Excelent! Te afli acum pe ecranul Detalii locație. Acest ecran îți permite să selectezi diverse acțiuni, inclusiv salvarea locației ca marcaj. Cu Soundscape, poți marca orice loc din jurul tău care contează pentru tine. De exemplu, poți marca casa ta, stația de autobuz sau chiar locul în care te afli. Să încercăm. Salvează această locație ca marcaj atingând Salvează ca marcaj.</string>
+    <string name="tour_create_marker_done">Minunat! Când creezi un marcaj, poți edita numele acestuia și adăuga note suplimentare. Încearcă acum, iar când ești gata, atinge Finalizare.</string>
+    <string name="tour_my_location">Acum că știi cum să folosești marcajele, să descoperim și alte funcții. În partea de jos a ecranului sunt patru butoane pe care le vom încerca pe rând. Butonul din stânga este Locația mea, care descrie locația ta curentă. Încearcă să-l atingi acum.</string>
+    <string name="tour_around_me">Următorul buton este În jurul meu. Acesta îți spune ce se află în apropiere în fiecare direcție. Atinge În jurul meu.</string>
+    <string name="tour_ahead">Următorul buton este Înaintea mea. Acesta îți spune ce se află în fața ta. Atinge Înaintea mea.</string>
+    <string name="tour_nearby_markers">Ultimul buton este Marcaje din apropiere, care anunță locurile salvate din jurul tău. Atinge Marcaje din apropiere pentru a încerca.</string>
+    <string name="tour_markers_and_routes">Ai creat cu succes un marcaj. Să pornim o baliză audio care să ne ghideze către acea locație. Atinge Marcaje și rute, care se află chiar sub Locuri din apropiere.</string>
+    <string name="tour_markers">Ecranul Marcaje și rute are două file: una cu lista rutelor, care sunt liste de marcaje, și alta cu marcajele individuale. Atinge Marcaje pentru a trece la fila Marcaje și a găsi marcajul pe care l-ai creat.</string>
+    <string name="tour_start_beacon">Te afli acum pe fila Marcaje, care listează toate marcajele salvate. Selectează un marcaj, iar când apare ecranul Detalii locație, atinge Pornește baliza audio.</string>
+    <string name="tour_beacon_demo">Acum poți auzi baliza audio. Aceasta se aude din direcția destinației tale. Pe măsură ce schimbi direcția în care este îndreptat telefonul, poți auzi cum baliza audio se mișcă și își schimbă sunetul. Încearcă acum.</string>
+    <string name="tour_beacon_demo_locked">Când telefonul este blocat, baliza audio va continua să se audă. Dacă mergi pe jos sau te afli într-un vehicul, aplicația folosește direcția de deplasare pentru redarea balizei audio. Cu toate acestea, chiar și cu telefonul blocat, poți ține telefonul orizontal în fața ta, ca o busolă, iar aplicația va folosi direcția în care este îndreptat telefonul. Încearcă.</string>
+    <string name="tour_stop_beacon">Când ești gata să oprești baliza, atinge butonul Oprește ruta.</string>
+    <string name="tour_finish">Tutorialul s-a încheiat. Îl poți rula din nou din meniul principal. Sperăm că aplicația îți va fi de folos!</string>
+    <string name="tour_cancel">Tutorialul audio a fost anulat. Dacă dorești, îl poți rula din nou din meniul principal.</string>
+    <string name="menu_audio_tutorial">Tutorial</string>
+    <string name="menu_audio_tutorial_cancel">Anulează tutorialul</string>
+    <string name="tour_continue_button">Continuă</string>
+    <string name="tour_continue_hint">Închide fereastra și continuă tutorialul</string>
+    <string name="language_mismatch_title">Limbă nouă disponibilă</string>
+    <string name="language_mismatch_message">Telefonul tău este setat la %1$s și acea limbă este acum disponibilă în Soundscape. Dorești să schimbi Soundscape pentru a folosi %1$s?</string>
+    <string name="language_mismatch_switch">Comută la %1$s</string>
+    <string name="language_mismatch_keep">Păstrează limba curentă</string>
+    <string name="preview_go_hint">Mergi în această direcție până la următoarea intersecție.</string>
+    <string name="error_message_route_not_found">Nu s-a putut găsi ruta în baza de date.</string>
+    <string name="error_message_deleting_route">Ștergerea rutei a eșuat.</string>
+    <string name="error_message_saving_route">Salvarea rutei a eșuat.</string>
+    <string name="service_still_running">Serviciul de localizare Soundscape este încă activ.</string>
+    <string name="offline_map_download_complete">Descărcare finalizată</string>
+    <string name="offline_map_download_cancelled">Descărcare anulată</string>
+    <string name="offline_map_download_error">Eroare la descărcare</string>
+    <string name="behavior_scavenger_hunt_callout_next_flag_short_route">Baliză setată pe %1$s, la %2$s distanță</string>
+    <string name="route_beacon_progress">Baliză la %1$s</string>
+    <string name="menu_route">Control rută</string>
+    <string name="menu_route_next_waypoint">Punctul de traseu următor</string>
+    <string name="menu_route_previous_waypoint">Punctul de traseu anterior</string>
+    <string name="menu_no_routes">Nu există rute salvate</string>
+    <string name="menu_main_menu">Meniu principal</string>
+    <string name="first_launch_permissions_record_audio">Înregistrare audio</string>
+    <string name="first_launch_permissions_required_for_voice_control">Această permisiune este opțională, dar este necesară dacă dorești să folosești comenzi vocale pentru a controla aplicația.</string>
+    <string name="menu_media_controls">Controale media</string>
+    <string name="settings_section_media_controls">Modul controalelor media</string>
+    <string name="settings_section_media_controls_description">Butoanele de control media de pe căști sau de pe telecomandă pot fi configurate să funcționeze în moduri diferite, în funcție de această opțiune.</string>
+    <string name="settings_media_controls_original">Mod original</string>
+    <string name="settings_media_controls_voice_command">Comandă vocală</string>
+    <string name="settings_media_controls_audio_menu">Meniu audio</string>
+    <string name="voice_cmd_help_response">Comenzi vocale disponibile:</string>
+    <string name="voice_cmd_listening">Ascult…</string>
+    <string name="voice_cmd_not_recognized">Îmi pare rău, nu găsesc comanda %1$s. Comanda vocală %2$s va lista comenzile disponibile.</string>
+    <string name="voice_cmd_list_routes">Listează rutele</string>
+    <string name="voice_cmd_routes_list">Rutele disponibile sunt,</string>
+    <string name="voice_cmd_list_markers">Listează marcajele</string>
+    <string name="voice_cmd_markers_list">Marcajele disponibile sunt,</string>
+    <string name="voice_cmd_no_routes">Nu au fost salvate rute</string>
+    <string name="voice_cmd_no_markers">Nu au fost salvate marcaje</string>
+    <string name="voice_cmd_route_not_found">Ruta nu a fost găsită: %1$s</string>
+    <string name="voice_cmd_starting_route">Pornește ruta %1$s</string>
+    <string name="voice_cmd_start_route">Pornește ruta %1$s</string>
+    <string name="voice_cmd_start_beacon_at_marker_with_name">Pornește baliza audio la %1$s</string>
+    <string name="voice_cmd_starting_beacon_at_marker">Pornește baliza audio la %1$s</string>
+    <string name="voice_cmd_marker_not_found">Marcajul nu a fost găsit: %1$s</string>
+    <string name="voice_cmd_explain_dynamic_markers">De asemenea, poți porni rute și marcaje după nume, de exemplu.</string>
+    <string name="voice_cmd_speech_recognition_error_network_timeout">Eroare: timpul de așteptare al rețelei pentru recunoașterea vocală a expirat.</string>
+    <string name="voice_cmd_speech_recognition_error_network">Eroare de rețea la recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_audio">Eroare la înregistrarea audio pentru recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_server">Eroare de server la recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_client">Eroare de client la recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_speech_timeout">Așteptarea vorbirii a expirat, astfel ascultarea s-a oprit. Încearcă din nou.</string>
+    <string name="voice_cmd_speech_recognition_not_match">Nu s-a detectat vorbire, astfel ascultarea s-a oprit. Încearcă din nou.</string>
+    <string name="voice_cmd_speech_recognition_busy">Eroare: recunoașterea vocală este ocupată.</string>
+    <string name="voice_cmd_speech_recognition_error_permissions">Nu sunt suficiente permisiuni pentru a rula recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_too_many_requests">Eroare: prea multe cereri pentru recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_server_disconnected">Eroare: serverul de recunoaștere vocală s-a deconectat.</string>
+    <string name="voice_cmd_speech_recognition_error_language_not_supported">Limba curentă nu este acceptată de Android pentru recunoaștere vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_language_unavailable">Limba curentă este acceptată, dar nu a fost descărcată pe acest telefon.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_check_support">Eroare la verificarea suportului pentru recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events">Eroare la ascultarea evenimentelor de descărcare pentru recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_unknown">Eroare necunoscută la recunoașterea vocală.</string>
+    <string name="voice_cmd_speech_recognition_error_unsupported">Recunoașterea vocală nu este acceptată pe acest telefon.</string>
+    <string name="settings_voice_command_listening_prompt">Anunță ascultarea</string>
+    <string name="settings_voice_command_listening_prompt_description">Redă un prompt de ascultare înainte ca recunoașterea vocală să înceapă.</string>
+    <string name="settings_voice_command_microphone">Microfon</string>
+    <string name="settings_voice_command_microphone_description">Alege ce microfon să fie folosit pentru comenzile vocale.</string>
     <string name="battery_optimization_title">Utilizare baterie în fundal</string>
     <string name="battery_optimization_message">Soundscape necesită utilizarea neîngrădită a bateriei pentru a continua să ofere navigare audio chiar și când telefonul este blocat. Te rugăm să permiți acest lucru în dialogul următor. Dacă închizi Soundscape, toate serviciile se vor opri și aplicația nu va mai consuma baterie.</string>
     <string name="route_detail_action_start_route_reverse">Pornește ruta în sens invers</string>

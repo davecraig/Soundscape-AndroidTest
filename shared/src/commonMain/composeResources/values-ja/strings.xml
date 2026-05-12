@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="general_alert_cancel">キャンセル</string>
     <string name="general_alert_done">完了</string>
     <string name="general_loading_start">準備しています…</string>
@@ -405,931 +405,931 @@
     <string name="faq_tip_create_marker_at_bus_stop">よく利用するバス路線がある場合は、乗車停留所と降車停留所をマーカーとして設定してください。こうして保存しておけば、メニューの「マーカーを管理」で一覧から簡単に見つけられます。それらにビーコンを設定すれば、降車停留所までの距離を定期的に知らせてもらえます。注: リズミカルな音をオフにしても、移動中の距離更新は受け取れます。</string>
     <string name="first_launch_permissions_notification">通知</string>
     <string name="no_language_selected">言語が選択されていません</string>
-    <string name="settings_section_units" tools:ignore="MissingTranslation">測定単位</string>
-    <string name="settings_units_imperial" tools:ignore="MissingTranslation">インペリアル（フィート）</string>
-    <string name="settings_units_metric" tools:ignore="MissingTranslation">メートル法（メートル）</string>
-    <string name="voice_engine" tools:ignore="MissingTranslation">テキスト読み上げエンジン</string>
-    <string name="preview_go_nearest_intersection" tools:ignore="MissingTranslation">最寄りの交差点へ移動</string>
-    <string name="last_entry_in_list" tools:ignore="MissingTranslation"> と %1$s</string>
-    <string name="location_detail_full_screen_hint" tools:ignore="MissingTranslation">地図を全画面表示にする</string>
-    <string name="location_detail_exit_full_screen_hint" tools:ignore="MissingTranslation">全画面表示を終了する</string>
-    <string name="route_detail_action_previous_disabled_hint" tools:ignore="MissingTranslation">ルートが既に開始地点にあるため無効です</string>
-    <string name="route_detail_action_next_disabled_hint" tools:ignore="MissingTranslation">ルートが既に終了地点にあるため無効です</string>
-    <string name="directions_near_road_and_settlement" tools:ignore="MissingTranslation">%1$s 付近、%2$s の近く</string>
-    <string name="directions_cardinal_north" tools:ignore="MissingTranslation">北</string>
-    <string name="directions_cardinal_north_east" tools:ignore="MissingTranslation">北東</string>
-    <string name="directions_cardinal_east" tools:ignore="MissingTranslation">東</string>
-    <string name="directions_cardinal_south_east" tools:ignore="MissingTranslation">南東</string>
-    <string name="directions_cardinal_south" tools:ignore="MissingTranslation">南</string>
-    <string name="directions_cardinal_south_west" tools:ignore="MissingTranslation">南西</string>
-    <string name="directions_cardinal_west" tools:ignore="MissingTranslation">西</string>
-    <string name="directions_cardinal_north_west" tools:ignore="MissingTranslation">北西</string>
-    <string name="directions_cardinal_north_abb" tools:ignore="MissingTranslation">N</string>
-    <string name="directions_cardinal_north_east_abb" tools:ignore="MissingTranslation">NE</string>
-    <string name="directions_cardinal_east_abb" tools:ignore="MissingTranslation">E</string>
-    <string name="directions_cardinal_south_east_abb" tools:ignore="MissingTranslation">SE</string>
-    <string name="directions_cardinal_south_abb" tools:ignore="MissingTranslation">S</string>
-    <string name="directions_cardinal_south_west_abb" tools:ignore="MissingTranslation">SW</string>
-    <string name="directions_cardinal_west_abb" tools:ignore="MissingTranslation">W</string>
-    <string name="directions_cardinal_north_west_abb" tools:ignore="MissingTranslation">NW</string>
-    <string name="menu_contact_support" tools:ignore="MissingTranslation">サポートに連絡</string>
-    <string name="permissions_required" tools:ignore="MissingTranslation">アプリを実行するには位置情報の許可が必要です。</string>
-    <string name="permissions_button" tools:ignore="MissingTranslation">アプリの設定で権限を変更する</string>
-    <string name="first_launch_change_language" tools:ignore="MissingTranslation">言語を変更</string>
-    <string name="first_launch_change_language_hint" tools:ignore="MissingTranslation">アプリで使用する言語を変更するには</string>
-    <string name="osm_entrance" tools:ignore="MissingTranslation">入口</string>
-    <string name="osm_main_entrance" tools:ignore="MissingTranslation">正面入口</string>
-    <string name="osm_entrance_named_with_destination" tools:ignore="MissingTranslation">%1$s の %2$s（%3$s から）</string>
-    <string name="osm_entrance_with_destination" tools:ignore="MissingTranslation">%1$s の %2$s</string>
-    <string name="notification_text" tools:ignore="MissingTranslation">Soundscape の位置情報サービスは端末がロックされていても動作します。</string>
-    <string name="cancel_search_contentDescription" tools:ignore="MissingTranslation">検索をキャンセル</string>
-    <string name="osm_train_station" tools:ignore="MissingTranslation">駅</string>
-    <string name="osm_train_station_named" tools:ignore="MissingTranslation">%1$s 駅</string>
-    <string name="osm_tram_stop" tools:ignore="MissingTranslation">トラム停留所</string>
-    <string name="osm_tram_stop_named" tools:ignore="MissingTranslation">%1$s 路面電車停留所</string>
-    <string name="osm_subway" tools:ignore="MissingTranslation">地下鉄駅</string>
-    <string name="osm_subway_named" tools:ignore="MissingTranslation">%1$s 地下鉄駅</string>
-    <string name="osm_ferry_terminal" tools:ignore="MissingTranslation">フェリーターミナル</string>
-    <string name="osm_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s フェリーターミナル</string>
-    <string name="menu_manage_audio" tools:ignore="MissingTranslation">音声</string>
-    <string name="menu_manage_accessibility" tools:ignore="MissingTranslation">アクセシビリティ</string>
-    <string name="settings_theme_light_dark" tools:ignore="MissingTranslation">ライトまたはダーク テーマ</string>
-    <string name="settings_theme_auto" tools:ignore="MissingTranslation">自動</string>
-    <string name="settings_theme_is_light" tools:ignore="MissingTranslation">ライトテーマを使用</string>
-    <string name="settings_theme_light" tools:ignore="MissingTranslation">ライト</string>
-    <string name="settings_theme_dark" tools:ignore="MissingTranslation">ダーク</string>
-    <string name="settings_theme_contrast" tools:ignore="MissingTranslation">テーマのコントラスト</string>
-    <string name="settings_theme_contrast_regular" tools:ignore="MissingTranslation">標準</string>
-    <string name="settings_theme_contrast_medium" tools:ignore="MissingTranslation">中</string>
-    <string name="settings_theme_contrast_high" tools:ignore="MissingTranslation">高</string>
-    <string name="settings_list_item_description" tools:ignore="MissingTranslation">%1$s は %3$s のうち %2$s 番目の選択肢です</string>
-    <string name="settings_keep_value" tools:ignore="MissingTranslation">保持</string>
-    <string name="settings_use_value" tools:ignore="MissingTranslation">使用</string>
-    <string name="street_preview_exit" tools:ignore="MissingTranslation">位置シミュレーションを終了する</string>
-    <string name="settings_travel_recording" tools:ignore="MissingTranslation">移動の記録を有効にする</string>
-    <string name="settings_show_map" tools:ignore="MissingTranslation">画面に地図を表示する</string>
-    <string name="settings_debug_heading" tools:ignore="MissingTranslation">デバッグオプション</string>
-    <string name="settings_search_results_language" tools:ignore="MissingTranslation">検索言語</string>
-    <string name="menu_share_recorded_route" tools:ignore="MissingTranslation">移動記録を共有</string>
-    <string name="confect_name_to_via" tools:ignore="MissingTranslation">%1$s から %2$s へ（%3$s 経由）</string>
-    <string name="confect_name_to" tools:ignore="MissingTranslation">%1$s から %2$s へ</string>
-    <string name="confect_name_joins" tools:ignore="MissingTranslation">%2$s と %3$s を結ぶ %1$s</string>
-    <string name="confect_name_via" tools:ignore="MissingTranslation">%1$s（%2$s 経由）</string>
-    <string name="confect_name_pavement_next_to" tools:ignore="MissingTranslation">%1$s 沿いの歩道</string>
-    <string name="confect_name_pavement" tools:ignore="MissingTranslation">歩道</string>
-    <string name="confect_name_dead_end" tools:ignore="MissingTranslation">行き止まり</string>
-    <string name="offline_maps_title" tools:ignore="MissingTranslation">オフライン地図</string>
-    <string name="offline_map_details_title" tools:ignore="MissingTranslation">オフライン地図の詳細</string>
-    <string name="offline_maps_loading" tools:ignore="MissingTranslation">読み込み中…</string>
-    <string name="offline_maps_downloading" tools:ignore="MissingTranslation">%1$s をダウンロード中</string>
-    <string name="offline_maps_caching" tools:ignore="MissingTranslation">サーバーが %1$s のダウンロードを準備しています。数分かかることがあり、その後ダウンロードが自動的に開始されます。</string>
-    <string name="offline_maps_free_space" tools:ignore="MissingTranslation">空き容量: %1$s</string>
-    <string name="offline_maps_storage" tools:ignore="MissingTranslation">マップは %1$s に保存されており、空き容量は %2$s です</string>
-    <string name="offline_maps_already_downloaded" tools:ignore="MissingTranslation">ダウンロード済みのマップ</string>
-    <string name="offline_maps_nearby" tools:ignore="MissingTranslation">近くのオフラインマップ</string>
-    <string name="offline_maps_loading_manifest" tools:ignore="MissingTranslation">オフラインマップの一覧を読み込んでいます</string>
-    <string name="offline_map_details_delete" tools:ignore="MissingTranslation">オフラインマップを削除する</string>
-    <string name="offline_map_details_download" tools:ignore="MissingTranslation">オフラインマップをダウンロードする</string>
-    <string name="offline_map_details_size_on_phone" tools:ignore="MissingTranslation">端末上のサイズ: %1$s</string>
-    <string name="offline_map_details_size_on_server" tools:ignore="MissingTranslation">ダウンロードサイズ: %1$s</string>
-    <string name="offline_map_details_name" tools:ignore="MissingTranslation">マップ名: %1$s</string>
-    <string name="offline_map_details_city_list" tools:ignore="MissingTranslation">このマップには次の場所が含まれます: %1$s</string>
-    <string name="offline_map_details_alternate_city_list" tools:ignore="MissingTranslation">これらの場所は別名でも知られています: %1$s</string>
-    <string name="offline_map_storage_title" tools:ignore="MissingTranslation">オフラインマップの保存先</string>
-    <string name="offline_map_storage_description" tools:ignore="MissingTranslation">Soundscape をインターネット接続がない環境でも使えるように、マップをダウンロードして端末に保存できます。デフォルトの保存先は端末の外部ストレージですが、ここで別の保存先を選択できます。</string>
-    <string name="offline_map_wifi_only" tools:ignore="MissingTranslation">マップのダウンロードは Wi‑Fi のみを使用する</string>
-    <string name="text_field_clear_text" tools:ignore="MissingTranslation">テキストをクリア</string>
-    <string name="marker_name_description_hint" tools:ignore="MissingTranslation">マーカー名を編集します</string>
-    <string name="annotation_description_hint" tools:ignore="MissingTranslation">後でこのマーカーを認識するのに役立つ任意のメモを追加します</string>
-    <string name="route_name_description_hint" tools:ignore="MissingTranslation">ルート名を編集します</string>
-    <string name="route_description_description_hint" tools:ignore="MissingTranslation">このルートの任意の説明を追加します</string>
-    <string name="fab_add_item" tools:ignore="MissingTranslation">アイテムを追加</string>
-    <string name="fab_add_route" tools:ignore="MissingTranslation">ルートを追加</string>
-    <string name="route_waypoint_progress" tools:ignore="MissingTranslation">ルート %1$s、ウェイポイント %2$s／%3$s</string>
-    <string name="home_screen_title" tools:ignore="MissingTranslation">Soundscape ホーム</string>
-    <string name="about_soundscape" tools:ignore="MissingTranslation">Soundscape は、革新的な音声ベースの技術の活用を通じて、人々が周囲の環境に対するより豊かな認識を築けるようにし、その結果、外出時の自信と自立を高めることを目指すアプリです。</string>
-    <string name="offline_maps_manifest_failed" tools:ignore="MissingTranslation">オフライン地図データのダウンロードに失敗しました</string>
-    <string name="settings_reset_button" tools:ignore="MissingTranslation">設定をデフォルトに戻す</string>
-    <string name="settings_reset_button_hint" tools:ignore="MissingTranslation">設定をデフォルトに戻してアプリを再起動する</string>
-    <string name="settings_reset_dialog_title" tools:ignore="MissingTranslation">よろしいですか?</string>
-    <string name="settings_reset_dialog_message" tools:ignore="MissingTranslation">設定をリセットするとアプリの設定がすべて削除されます。続行しますか?</string>
-    <string name="menu_advanced_markers_and_routes" tools:ignore="MissingTranslation">マーカーおよびルートの詳細設定</string>
-    <string name="advanced_markers_and_routes_description" tools:ignore="MissingTranslation">この画面では、マーカーおよびルートをエクスポート／インポートしたり、既存のすべてのマーカーおよびルートを削除したりできます。</string>
-    <string name="advanced_markers_and_routes_export_button" tools:ignore="MissingTranslation">マーカーおよびルートのデータベースをエクスポートする</string>
-    <string name="advanced_markers_and_routes_import_button" tools:ignore="MissingTranslation">マーカーおよびルートのデータベースをインポートする</string>
-    <string name="markers_and_routes_import_success" tools:ignore="MissingTranslation">マーカーおよびルートのインポートが完了しました。</string>
-    <string name="markers_and_routes_import_failure" tools:ignore="MissingTranslation">マーカーおよびルートのインポートに失敗しました。</string>
-    <string name="advanced_markers_and_routes_clear_all_button" tools:ignore="MissingTranslation">すべてのマーカーおよびルートを削除する</string>
-    <string name="advanced_markers_and_routes_clear_all_alert_message" tools:ignore="MissingTranslation">すべてのマーカーおよびルートを削除すると元に戻せません。続行しますか?</string>
-    <string name="menu_advanced_markers_and_routes_clear_all_success" tools:ignore="MissingTranslation">マーカーおよびルートを削除しました</string>
-    <string name="new_version_info_text" tools:ignore="MissingTranslation">新しいリリース情報</string>
-    <string name="new_version_info_completed" tools:ignore="MissingTranslation">新しいリリース情報を閉じる</string>
-    <string name="new_version_info_details" tools:ignore="MissingTranslation">\nこのリリースでは、端末がロックされているときでもアプリをリモート操作できる新機能が 2 つ追加されました。これにより、端末をポケットに入れたままでもアプリの主要機能を操作できます。\n\nどちらのリモート操作方法も、ヘッドホンにある Bluetooth のメディアコントロールボタン、あるいは手に持ったりポケットに入れて使える小型のリモコンのボタンを使用します。リモートコントロールのモードは「設定」→「メディアコントロール」セクションで選択できます。話しかけて操作する「音声コマンド」モード、メニューが読み上げられて選択できる「音声メニュー」モード、または従来と同じ動作にする「オリジナルモード」を選べます。\n\n音声コマンドモードでは、ヘッドホンの再生/一時停止ボタンを押すとアプリが音声の聞き取りを開始し、その合図として短い音が鳴ります。「Help（ヘルプ）」と言うと利用可能なコマンド一覧が読み上げられます。その後もう一度ボタンを押して、他のコマンドを試すことができます。残念ながら、Android の音声認識はすべての言語をサポートしているわけではなく、すべての端末で利用できるわけではありません。\n\n音声コマンドモードの主な難点は、ヘッドホンによってマイクが有効になるまでの時間に差がある点です。再生/一時停止を押してから話せるようになるまで最大で数秒（5 秒程度）待つ必要がある場合があります。どのくらい待てばよいかを知るには、再生/一時停止をタップしてから 1 から 10 まで数えてみるのが最もよい方法です。端末は認識した音声（例えば数えた数字）を読み上げ、最初に認識された数字が話し始めるまでの目安になります。マイクがオンになったときに明確な音を出すヘッドホンもあり、その場合は扱いやすいですが、まったく音がしない機種もあります。残念ながら、慣れが必要な場合があります。\n\nもう一方の新しいリモートモードである「音声メニュー」モードは、すべての言語とすべての端末で動作します。次へ/前へ のメディアコントロールボタンでメニュー内の項目を前後に移動し、再生/一時停止ボタンで現在の項目を選択します。最上位のメニューが一つあり、その下に同種の操作をまとめた一層のサブメニューがあります。\n\nこれらの機能は非常に新しいため、うまく動作するかどうか、またどのような追加コマンドが欲しいかについてのフィードバックをぜひお寄せください。\n\nどんなに小さな問題でも、メインメニューの *「サポートに連絡」* からご報告ください。\n</string>
-    <string name="menu_open_source_licenses" tools:ignore="MissingTranslation">オープンソースライセンス</string>
-    <string name="osm_tag_ferry_terminal" tools:ignore="MissingTranslation">フェリーターミナル</string>
-    <string name="osm_tag_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s フェリーターミナル</string>
-    <string name="osm_office" tools:ignore="MissingTranslation">事務所</string>
-    <string name="osm_school" tools:ignore="MissingTranslation">学校</string>
-    <string name="osm_roof" tools:ignore="MissingTranslation">屋根</string>
-    <string name="osm_convenience" tools:ignore="MissingTranslation">コンビニ</string>
-    <string name="osm_lift_gate" tools:ignore="MissingTranslation">昇降ゲート</string>
-    <string name="osm_toilets" tools:ignore="MissingTranslation">トイレ</string>
-    <string name="osm_parking" tools:ignore="MissingTranslation">駐車場</string>
-    <string name="osm_taxi" tools:ignore="MissingTranslation">タクシー乗り場</string>
-    <string name="osm_bicycle_parking" tools:ignore="MissingTranslation">駐輪場</string>
-    <string name="osm_fuel" tools:ignore="MissingTranslation">ガソリンスタンド</string>
-    <string name="osm_recycling" tools:ignore="MissingTranslation">リサイクル回収所</string>
-    <string name="osm_drinking_water" tools:ignore="MissingTranslation">飲料水</string>
-    <string name="osm_pitch" tools:ignore="MissingTranslation">運動場</string>
-    <string name="osm_picnic_site" tools:ignore="MissingTranslation">ピクニック場</string>
-    <string name="osm_information" tools:ignore="MissingTranslation">案内所</string>
-    <string name="osm_fire_extinguisher" tools:ignore="MissingTranslation">消火器</string>
-    <string name="osm_defibrillator" tools:ignore="MissingTranslation">除細動器（AED）</string>
-    <string name="osm_guide" tools:ignore="MissingTranslation">案内標識</string>
-    <string name="osm_water" tools:ignore="MissingTranslation">水域</string>
-    <string name="osm_fire_hose" tools:ignore="MissingTranslation">消火ホース</string>
-    <string name="osm_fire_flapper" tools:ignore="MissingTranslation">消火ばたき</string>
-    <string name="osm_information_point" tools:ignore="MissingTranslation">案内カウンター</string>
-    <string name="osm_wetland" tools:ignore="MissingTranslation">湿地</string>
-    <string name="osm_mud" tools:ignore="MissingTranslation">ぬかるみ</string>
-    <string name="osm_access_point" tools:ignore="MissingTranslation">アクセスポイント</string>
-    <string name="osm_life_ring" tools:ignore="MissingTranslation">救命輪</string>
-    <string name="osm_generic_info" tools:ignore="MissingTranslation">一般情報</string>
-    <string name="osm_turntable" tools:ignore="MissingTranslation">旋回台</string>
-    <string name="osm_survey_point" tools:ignore="MissingTranslation">測量点</string>
-    <string name="osm_snow_net" tools:ignore="MissingTranslation">雪よけネット</string>
-    <string name="osm_silo" tools:ignore="MissingTranslation">サイロ</string>
-    <string name="osm_mast" tools:ignore="MissingTranslation">マスト</string>
-    <string name="osm_bird_hide" tools:ignore="MissingTranslation">観察小屋</string>
-    <string name="osm_transformer_tower" tools:ignore="MissingTranslation">変圧器塔</string>
-    <string name="osm_generic_object" tools:ignore="MissingTranslation">汎用オブジェクト</string>
-    <string name="osm_signal" tools:ignore="MissingTranslation">信号</string>
-    <string name="osm_rock" tools:ignore="MissingTranslation">岩</string>
-    <string name="osm_kiln" tools:ignore="MissingTranslation">窯</string>
-    <string name="osm_crane" tools:ignore="MissingTranslation">クレーン</string>
-    <string name="osm_rune_stone" tools:ignore="MissingTranslation">ルーンストーン</string>
-    <string name="osm_milestone" tools:ignore="MissingTranslation">里程標</string>
-    <string name="osm_lifeguard_platform" tools:ignore="MissingTranslation">監視台</string>
-    <string name="osm_water_tank" tools:ignore="MissingTranslation">貯水槽</string>
-    <string name="osm_sty" tools:ignore="MissingTranslation">豚小屋</string>
-    <string name="osm_navigationaid" tools:ignore="MissingTranslation">航行補助標識</string>
-    <string name="osm_terminal" tools:ignore="MissingTranslation">ターミナル</string>
-    <string name="osm_water_tap" tools:ignore="MissingTranslation">水栓</string>
-    <string name="osm_water_well" tools:ignore="MissingTranslation">井戸</string>
-    <string name="osm_petroleum_well" tools:ignore="MissingTranslation">油井</string>
-    <string name="osm_cross" tools:ignore="MissingTranslation">十字架</string>
-    <string name="osm_gallows" tools:ignore="MissingTranslation">絞首台</string>
-    <string name="osm_speed_camera" tools:ignore="MissingTranslation">速度取締カメラ</string>
-    <string name="osm_siren" tools:ignore="MissingTranslation">サイレン</string>
-    <string name="osm_pylon" tools:ignore="MissingTranslation">鉄塔</string>
-    <string name="osm_mineshaft" tools:ignore="MissingTranslation">鉱山立坑</string>
-    <string name="osm_flagpole" tools:ignore="MissingTranslation">旗竿</string>
-    <string name="osm_optical_telegraph" tools:ignore="MissingTranslation">光学電信塔</string>
-    <string name="osm_cannon" tools:ignore="MissingTranslation">大砲</string>
-    <string name="osm_boundary_stone" tools:ignore="MissingTranslation">境界石</string>
-    <string name="osm_shed" tools:ignore="MissingTranslation">物置小屋</string>
-    <string name="osm_traffic_cones" tools:ignore="MissingTranslation">カラーコーン</string>
-    <string name="osm_firepit" tools:ignore="MissingTranslation">焚き火場</string>
-    <string name="osm_stone" tools:ignore="MissingTranslation">立石</string>
-    <string name="osm_surveillance" tools:ignore="MissingTranslation">監視</string>
-    <string name="osm_monitoring_station" tools:ignore="MissingTranslation">観測所</string>
-    <string name="osm_wayside_shrine" tools:ignore="MissingTranslation">道端の祠</string>
-    <string name="osm_wayside_cross" tools:ignore="MissingTranslation">道端の十字架</string>
-    <string name="osm_tomb" tools:ignore="MissingTranslation">墓</string>
-    <string name="osm_traffic_signals" tools:ignore="MissingTranslation">信号機</string>
-    <string name="osm_hut" tools:ignore="MissingTranslation">小屋</string>
-    <string name="osm_static_caravan" tools:ignore="MissingTranslation">常設トレーラーハウス</string>
-    <string name="osm_bollard" tools:ignore="MissingTranslation">車止め</string>
-    <string name="osm_block" tools:ignore="MissingTranslation">ブロック</string>
-    <string name="osm_waste_disposal" tools:ignore="MissingTranslation">廃棄物処理施設</string>
-    <string name="osm_photo_booth" tools:ignore="MissingTranslation">証明写真ボックス</string>
-    <string name="osm_bbq" tools:ignore="MissingTranslation">バーベキュー場</string>
-    <string name="osm_shop" tools:ignore="MissingTranslation">店舗</string>
-    <string name="osm_newsagent" tools:ignore="MissingTranslation">新聞雑誌店</string>
-    <string name="osm_anime" tools:ignore="MissingTranslation">アニメショップ</string>
-    <string name="osm_musical_instrument" tools:ignore="MissingTranslation">楽器店</string>
-    <string name="osm_vacuum_cleaner" tools:ignore="MissingTranslation">掃除機販売店</string>
-    <string name="osm_mobile_phone" tools:ignore="MissingTranslation">携帯電話販売店</string>
-    <string name="osm_carpet" tools:ignore="MissingTranslation">カーペット店</string>
-    <string name="osm_trade" tools:ignore="MissingTranslation">一般商店</string>
-    <string name="osm_garden_centre" tools:ignore="MissingTranslation">園芸店</string>
-    <string name="osm_florist" tools:ignore="MissingTranslation">花屋</string>
-    <string name="osm_fireplace" tools:ignore="MissingTranslation">暖炉</string>
-    <string name="osm_massage" tools:ignore="MissingTranslation">マッサージ店</string>
-    <string name="osm_herbalist" tools:ignore="MissingTranslation">ハーブ専門店</string>
-    <string name="osm_bag" tools:ignore="MissingTranslation">鞄店</string>
-    <string name="osm_pastry" tools:ignore="MissingTranslation">ペストリー店</string>
-    <string name="osm_deli" tools:ignore="MissingTranslation">デリカテッセン</string>
-    <string name="osm_beverages" tools:ignore="MissingTranslation">飲料販売店</string>
-    <string name="osm_alcohol" tools:ignore="MissingTranslation">酒屋</string>
-    <string name="osm_substation" tools:ignore="MissingTranslation">変電所</string>
-    <string name="osm_travel_agent" tools:ignore="MissingTranslation">旅行代理店</string>
-    <string name="osm_research" tools:ignore="MissingTranslation">研究施設</string>
-    <string name="osm_newspaper" tools:ignore="MissingTranslation">新聞販売店</string>
-    <string name="osm_ammunition" tools:ignore="MissingTranslation">弾薬店</string>
-    <string name="osm_wildlife_hide" tools:ignore="MissingTranslation">野生動物観察小屋</string>
-    <string name="osm_watchmaker" tools:ignore="MissingTranslation">時計修理店</string>
-    <string name="osm_tinsmith" tools:ignore="MissingTranslation">ブリキ細工店</string>
-    <string name="osm_sun_protection" tools:ignore="MissingTranslation">日よけ用品店</string>
-    <string name="osm_sculptor" tools:ignore="MissingTranslation">彫刻工房</string>
-    <string name="osm_metal_construction" tools:ignore="MissingTranslation">金属加工工房</string>
-    <string name="osm_handicraft" tools:ignore="MissingTranslation">手工芸店</string>
-    <string name="osm_cowshed" tools:ignore="MissingTranslation">牛舎</string>
-    <string name="osm_cabin" tools:ignore="MissingTranslation">小屋</string>
-    <string name="osm_barn" tools:ignore="MissingTranslation">納屋</string>
-    <string name="osm_warehouse" tools:ignore="MissingTranslation">倉庫</string>
-    <string name="osm_houseboat" tools:ignore="MissingTranslation">ハウスボート</string>
-    <string name="osm_book_store" tools:ignore="MissingTranslation">書店</string>
-    <string name="osm_generic_place" tools:ignore="MissingTranslation">場所</string>
-    <string name="osm_hunting_stand" tools:ignore="MissingTranslation">狩猟用見張り台</string>
-    <string name="osm_game_feeding" tools:ignore="MissingTranslation">野生動物の給餌場</string>
-    <string name="osm_crypt" tools:ignore="MissingTranslation">地下納骨室</string>
-    <string name="osm_animal_shelter" tools:ignore="MissingTranslation">動物保護施設</string>
-    <string name="osm_animal_boarding" tools:ignore="MissingTranslation">ペットホテル</string>
-    <string name="osm_blood_donation" tools:ignore="MissingTranslation">献血会場</string>
-    <string name="osm_nursing_home" tools:ignore="MissingTranslation">介護施設</string>
-    <string name="osm_dentist" tools:ignore="MissingTranslation">歯科医院</string>
-    <string name="osm_baby_hatch" tools:ignore="MissingTranslation">赤ちゃんポスト</string>
-    <string name="osm_language_school" tools:ignore="MissingTranslation">語学学校</string>
-    <string name="osm_public_bookcase" tools:ignore="MissingTranslation">共用本棚</string>
-    <string name="osm_biergarten" tools:ignore="MissingTranslation">ビアガーデン</string>
-    <string name="osm_running" tools:ignore="MissingTranslation">ランニングコース</string>
-    <string name="osm_glaziery" tools:ignore="MissingTranslation">ガラス工事店</string>
-    <string name="osm_garages" tools:ignore="MissingTranslation">自動車整備工場</string>
-    <string name="osm_retail" tools:ignore="MissingTranslation">小売店</string>
-    <string name="osm_hotel" tools:ignore="MissingTranslation">ホテル</string>
-    <string name="osm_camp_site" tools:ignore="MissingTranslation">キャンプ場</string>
-    <string name="osm_rugby_league" tools:ignore="MissingTranslation">ラグビー場</string>
-    <string name="osm_roller_skating" tools:ignore="MissingTranslation">ローラースケート場</string>
-    <string name="osm_multi" tools:ignore="MissingTranslation">多目的施設</string>
-    <string name="osm_ice_hockey" tools:ignore="MissingTranslation">アイスホッケー場</string>
-    <string name="osm_hapkido" tools:ignore="MissingTranslation">ハプキドー道場</string>
-    <string name="osm_croquet" tools:ignore="MissingTranslation">クロッケー場</string>
-    <string name="osm_cricket" tools:ignore="MissingTranslation">クリケット場</string>
-    <string name="osm_cockfighting" tools:ignore="MissingTranslation">闘鶏場</string>
-    <string name="osm_boxing" tools:ignore="MissingTranslation">ボクシングジム</string>
-    <string name="osm_bmx" tools:ignore="MissingTranslation">BMXコース</string>
-    <string name="osm_billiards" tools:ignore="MissingTranslation">ビリヤード場</string>
-    <string name="osm_toys" tools:ignore="MissingTranslation">玩具店</string>
-    <string name="osm_pyrotechnics" tools:ignore="MissingTranslation">花火店</string>
-    <string name="osm_laundry" tools:ignore="MissingTranslation">コインランドリー</string>
-    <string name="osm_funeral_directors" tools:ignore="MissingTranslation">葬儀社</string>
-    <string name="osm_dry_cleaning" tools:ignore="MissingTranslation">クリーニング店</string>
-    <string name="osm_copyshop" tools:ignore="MissingTranslation">コピーショップ</string>
-    <string name="osm_chalet" tools:ignore="MissingTranslation">シャレー（山小屋）</string>
-    <string name="osm_apartment" tools:ignore="MissingTranslation">アパート</string>
-    <string name="osm_water_ski" tools:ignore="MissingTranslation">ウォータースキー場</string>
-    <string name="osm_water_polo" tools:ignore="MissingTranslation">水球場</string>
-    <string name="osm_table_soccer" tools:ignore="MissingTranslation">テーブルサッカー（フーズボール）</string>
-    <string name="osm_table_tennis" tools:ignore="MissingTranslation">卓球場</string>
-    <string name="osm_skateboard" tools:ignore="MissingTranslation">スケートボード場（スケートパーク）</string>
-    <string name="osm_sailing" tools:ignore="MissingTranslation">セーリング施設</string>
-    <string name="osm_safety_training" tools:ignore="MissingTranslation">安全訓練施設</string>
-    <string name="osm_rowing" tools:ignore="MissingTranslation">ローイング（ボート）施設</string>
-    <string name="osm_model_aerodrome" tools:ignore="MissingTranslation">模型飛行場</string>
-    <string name="osm_korfball" tools:ignore="MissingTranslation">コーフボール場</string>
-    <string name="osm_ice_stock" tools:ignore="MissingTranslation">アイスストック場</string>
-    <string name="osm_gymnastics" tools:ignore="MissingTranslation">体操場</string>
-    <string name="osm_football" tools:ignore="MissingTranslation">サッカー場</string>
-    <string name="osm_field_hockey" tools:ignore="MissingTranslation">フィールドホッケー場</string>
-    <string name="osm_equestrian" tools:ignore="MissingTranslation">乗馬施設</string>
-    <string name="osm_cycling" tools:ignore="MissingTranslation">サイクリング施設</string>
-    <string name="osm_curling" tools:ignore="MissingTranslation">カーリング場</string>
-    <string name="osm_cricket_nets" tools:ignore="MissingTranslation">クリケット練習ネット</string>
-    <string name="osm_cliff_diving" tools:ignore="MissingTranslation">崖飛びスポット</string>
-    <string name="osm_boules" tools:ignore="MissingTranslation">ブール・ペタンク場</string>
-    <string name="osm_bobsleigh" tools:ignore="MissingTranslation">ボブスレー場</string>
-    <string name="osm_baseball" tools:ignore="MissingTranslation">野球場</string>
-    <string name="osm_aikido" tools:ignore="MissingTranslation">合気道道場</string>
-    <string name="osm_10pin" tools:ignore="MissingTranslation">ボウリング場</string>
-    <string name="osm_weapons" tools:ignore="MissingTranslation">武器店</string>
-    <string name="osm_pet" tools:ignore="MissingTranslation">ペットショップ</string>
-    <string name="osm_money_lender" tools:ignore="MissingTranslation">貸金業者</string>
-    <string name="osm_gift" tools:ignore="MissingTranslation">ギフト・土産店</string>
-    <string name="osm_books" tools:ignore="MissingTranslation">書店</string>
-    <string name="osm_bookmaker" tools:ignore="MissingTranslation">ブックメーカー（賭け屋）</string>
-    <string name="osm_photo" tools:ignore="MissingTranslation">写真店</string>
-    <string name="osm_craft" tools:ignore="MissingTranslation">手芸・クラフト用品店</string>
-    <string name="osm_motorcycle" tools:ignore="MissingTranslation">バイク店</string>
-    <string name="osm_hunting" tools:ignore="MissingTranslation">狩猟用品店</string>
-    <string name="osm_window_blind" tools:ignore="MissingTranslation">ブラインド販売店</string>
-    <string name="osm_curtain" tools:ignore="MissingTranslation">カーテン販売店</string>
-    <string name="osm_antiques" tools:ignore="MissingTranslation">アンティークショップ（骨董品店）</string>
-    <string name="osm_paint" tools:ignore="MissingTranslation">塗料店</string>
-    <string name="osm_tattoo" tools:ignore="MissingTranslation">タトゥースタジオ</string>
-    <string name="osm_nutrition_supplements" tools:ignore="MissingTranslation">サプリメント販売店</string>
-    <string name="osm_hearing_aids" tools:ignore="MissingTranslation">補聴器販売店</string>
-    <string name="osm_cosmetics" tools:ignore="MissingTranslation">化粧品店</string>
-    <string name="osm_watches" tools:ignore="MissingTranslation">時計店</string>
-    <string name="osm_jewelry" tools:ignore="MissingTranslation">宝飾店</string>
-    <string name="osm_boutique" tools:ignore="MissingTranslation">ブティック</string>
-    <string name="osm_baby_goods" tools:ignore="MissingTranslation">ベビー用品店</string>
-    <string name="osm_tea" tools:ignore="MissingTranslation">茶専門店</string>
-    <string name="osm_pasta" tools:ignore="MissingTranslation">パスタ店</string>
-    <string name="osm_coffee" tools:ignore="MissingTranslation">カフェ</string>
-    <string name="osm_quango" tools:ignore="MissingTranslation">準政府機関</string>
-    <string name="osm_political_party" tools:ignore="MissingTranslation">政党事務所</string>
-    <string name="osm_association" tools:ignore="MissingTranslation">非営利団体</string>
-    <string name="osm_architect" tools:ignore="MissingTranslation">建築家事務所</string>
-    <string name="osm_advertising_agency" tools:ignore="MissingTranslation">広告代理店</string>
-    <string name="osm_summer_camp" tools:ignore="MissingTranslation">サマーキャンプ</string>
-    <string name="osm_dance" tools:ignore="MissingTranslation">ダンス教室</string>
-    <string name="osm_amusement_arcade" tools:ignore="MissingTranslation">ゲームセンター</string>
-    <string name="osm_adult_gaming_centre" tools:ignore="MissingTranslation">成人向けゲームセンター</string>
-    <string name="osm_window_construction" tools:ignore="MissingTranslation">窓の製作・取付業者</string>
-    <string name="osm_upholsterer" tools:ignore="MissingTranslation">家具の張り替え業者</string>
-    <string name="osm_shoemaker" tools:ignore="MissingTranslation">靴修理店</string>
-    <string name="osm_sawmill" tools:ignore="MissingTranslation">製材所</string>
-    <string name="osm_pottery" tools:ignore="MissingTranslation">陶芸工房</string>
-    <string name="osm_key_cutter" tools:ignore="MissingTranslation">合鍵作製</string>
-    <string name="osm_hvac" tools:ignore="MissingTranslation">空調設備業者</string>
-    <string name="osm_clockmaker" tools:ignore="MissingTranslation">時計修理店</string>
-    <string name="osm_carpenter" tools:ignore="MissingTranslation">大工</string>
-    <string name="osm_builder" tools:ignore="MissingTranslation">建設業者</string>
-    <string name="osm_bookbinder" tools:ignore="MissingTranslation">製本業者</string>
-    <string name="osm_boatbuilder" tools:ignore="MissingTranslation">造船業者</string>
-    <string name="osm_brewery" tools:ignore="MissingTranslation">ビール醸造所</string>
-    <string name="osm_blacksmith" tools:ignore="MissingTranslation">鍛冶屋</string>
-    <string name="osm_basket_maker" tools:ignore="MissingTranslation">かご職人</string>
-    <string name="osm_greenhouse" tools:ignore="MissingTranslation">温室</string>
-    <string name="osm_farm_auxiliary" tools:ignore="MissingTranslation">農場付属施設</string>
-    <string name="osm_civic" tools:ignore="MissingTranslation">公的建物</string>
-    <string name="osm_bungalow" tools:ignore="MissingTranslation">平屋</string>
-    <string name="osm_detached" tools:ignore="MissingTranslation">一戸建て住宅</string>
-    <string name="osm_hair_dresser" tools:ignore="MissingTranslation">理髪店・美容室</string>
-    <string name="osm_clothing_store" tools:ignore="MissingTranslation">衣料品店</string>
-    <string name="osm_user" tools:ignore="MissingTranslation">ユーザー（利用者）</string>
-    <string name="osm_dojo" tools:ignore="MissingTranslation">道場</string>
-    <string name="osm_nightclub" tools:ignore="MissingTranslation">ナイトクラブ</string>
-    <string name="osm_community_centre" tools:ignore="MissingTranslation">コミュニティセンター</string>
-    <string name="osm_brothel" tools:ignore="MissingTranslation">売春施設</string>
-    <string name="osm_veterinary" tools:ignore="MissingTranslation">動物病院</string>
-    <string name="osm_social_facility" tools:ignore="MissingTranslation">福祉施設</string>
-    <string name="osm_clinic" tools:ignore="MissingTranslation">診療所</string>
-    <string name="osm_charging_station" tools:ignore="MissingTranslation">電気自動車充電スタンド</string>
-    <string name="osm_kindergarten" tools:ignore="MissingTranslation">幼稚園</string>
-    <string name="osm_ice_cream" tools:ignore="MissingTranslation">アイスクリーム店</string>
-    <string name="osm_fast_food" tools:ignore="MissingTranslation">ファストフード店</string>
-    <string name="osm_commercial" tools:ignore="MissingTranslation">商業施設</string>
-    <string name="osm_canoe" tools:ignore="MissingTranslation">カヌー場</string>
-    <string name="osm_scuba_diving" tools:ignore="MissingTranslation">ダイビングスポット</string>
-    <string name="osm_fishing" tools:ignore="MissingTranslation">釣り場</string>
-    <string name="osm_optician" tools:ignore="MissingTranslation">眼鏡店</string>
-    <string name="osm_confectionery" tools:ignore="MissingTranslation">菓子店</string>
-    <string name="osm_bunker" tools:ignore="MissingTranslation">地下壕（バンカー）</string>
-    <string name="osm_sleeping_pods" tools:ignore="MissingTranslation">カプセル式宿泊ポッド</string>
-    <string name="osm_motel" tools:ignore="MissingTranslation">モーテル</string>
-    <string name="osm_guest_house" tools:ignore="MissingTranslation">ゲストハウス</string>
-    <string name="osm_wrestling" tools:ignore="MissingTranslation">レスリング場</string>
-    <string name="osm_toboggan" tools:ignore="MissingTranslation">トボガン／そりコース</string>
-    <string name="osm_skiing" tools:ignore="MissingTranslation">スキー場</string>
-    <string name="osm_rc_car" tools:ignore="MissingTranslation">RCカーコース（ラジコン）</string>
-    <string name="osm_paddle_tennis" tools:ignore="MissingTranslation">パデル（パドルテニス）コート</string>
-    <string name="osm_hockey" tools:ignore="MissingTranslation">ホッケー場</string>
-    <string name="osm_fencing" tools:ignore="MissingTranslation">フェンシング場</string>
-    <string name="osm_bowls" tools:ignore="MissingTranslation">ローンボウルズ場</string>
-    <string name="osm_badminton" tools:ignore="MissingTranslation">バドミントンコート</string>
-    <string name="osm_archery" tools:ignore="MissingTranslation">アーチェリー場</string>
-    <string name="osm_american_football" tools:ignore="MissingTranslation">アメリカンフットボール場</string>
-    <string name="osm_travel_agency" tools:ignore="MissingTranslation">旅行代理店</string>
-    <string name="osm_tobacco" tools:ignore="MissingTranslation">たばこ店</string>
-    <string name="osm_e_cigarette" tools:ignore="MissingTranslation">電子タバコ販売店（VAPE）</string>
-    <string name="osm_video" tools:ignore="MissingTranslation">ビデオ店（レンタル・販売）</string>
-    <string name="osm_car_repair" tools:ignore="MissingTranslation">自動車整備工場</string>
-    <string name="osm_hifi" tools:ignore="MissingTranslation">オーディオショップ（ハイファイ）</string>
-    <string name="osm_lamps" tools:ignore="MissingTranslation">照明器具店</string>
-    <string name="osm_kitchen" tools:ignore="MissingTranslation">キッチン用品・設備店</string>
-    <string name="osm_interior_decoration" tools:ignore="MissingTranslation">インテリア用品店</string>
-    <string name="osm_houseware" tools:ignore="MissingTranslation">家庭用品店</string>
-    <string name="osm_erotic" tools:ignore="MissingTranslation">アダルトショップ</string>
-    <string name="osm_beauty" tools:ignore="MissingTranslation">美容店</string>
-    <string name="osm_wine" tools:ignore="MissingTranslation">ワイン専門店</string>
-    <string name="osm_dairy" tools:ignore="MissingTranslation">乳製品店</string>
-    <string name="osm_cheese" tools:ignore="MissingTranslation">チーズ専門店</string>
-    <string name="osm_bakery" tools:ignore="MissingTranslation">ベーカリー（パン屋）</string>
-    <string name="osm_telecommunication" tools:ignore="MissingTranslation">携帯電話・通信サービス店</string>
-    <string name="osm_tax" tools:ignore="MissingTranslation">税務事務所</string>
-    <string name="osm_real_estate_agent" tools:ignore="MissingTranslation">不動産仲介業者</string>
-    <string name="osm_notary" tools:ignore="MissingTranslation">公証人役場</string>
-    <string name="osm_ngo" tools:ignore="MissingTranslation">NGO事務所</string>
-    <string name="osm_lawyer" tools:ignore="MissingTranslation">弁護士事務所</string>
-    <string name="osm_it" tools:ignore="MissingTranslation">ITサービス</string>
-    <string name="osm_foundation" tools:ignore="MissingTranslation">財団事務所</string>
-    <string name="osm_employment_agency" tools:ignore="MissingTranslation">人材紹介会社</string>
-    <string name="osm_educational_institution" tools:ignore="MissingTranslation">教育機関</string>
-    <string name="osm_adoption_agency" tools:ignore="MissingTranslation">養子縁組仲介機関</string>
-    <string name="osm_miniature_golf" tools:ignore="MissingTranslation">ミニゴルフ場</string>
-    <string name="osm_building" tools:ignore="MissingTranslation">建物</string>
-    <string name="osm_winery" tools:ignore="MissingTranslation">ワイナリー</string>
-    <string name="osm_tiler" tools:ignore="MissingTranslation">タイル業者</string>
-    <string name="osm_chimney_sweeper" tools:ignore="MissingTranslation">煙突掃除業者</string>
-    <string name="osm_stand_builder" tools:ignore="MissingTranslation">展示ブース施工業者</string>
-    <string name="osm_saddler" tools:ignore="MissingTranslation">鞍職人（サドル製作・修理）</string>
-    <string name="osm_plumber" tools:ignore="MissingTranslation">配管工</string>
-    <string name="osm_plasterer" tools:ignore="MissingTranslation">左官</string>
-    <string name="osm_painter" tools:ignore="MissingTranslation">塗装業者</string>
-    <string name="osm_jeweller" tools:ignore="MissingTranslation">宝飾店</string>
-    <string name="osm_floorer" tools:ignore="MissingTranslation">床施工業者</string>
-    <string name="osm_distillery" tools:ignore="MissingTranslation">蒸留所</string>
-    <string name="osm_carpet_layer" tools:ignore="MissingTranslation">カーペット施工業者</string>
-    <string name="osm_beekeeper" tools:ignore="MissingTranslation">養蜂家</string>
-    <string name="osm_public" tools:ignore="MissingTranslation">公共</string>
-    <string name="osm_dormitory" tools:ignore="MissingTranslation">寮</string>
-    <string name="osm_apartments" tools:ignore="MissingTranslation">集合住宅</string>
-    <string name="osm_internet_cafe" tools:ignore="MissingTranslation">インターネットカフェ</string>
-    <string name="osm_shoe_shop" tools:ignore="MissingTranslation">靴屋</string>
-    <string name="osm_generic_shop" tools:ignore="MissingTranslation">店舗</string>
-    <string name="osm_coffee_shop" tools:ignore="MissingTranslation">喫茶店</string>
-    <string name="osm_coworking_space" tools:ignore="MissingTranslation">コワーキングスペース</string>
-    <string name="osm_stripclub" tools:ignore="MissingTranslation">ストリップクラブ</string>
-    <string name="osm_ev_charging" tools:ignore="MissingTranslation">EV充電</string>
-    <string name="osm_pub" tools:ignore="MissingTranslation">パブ</string>
-    <string name="osm_obstacle_course" tools:ignore="MissingTranslation">障害物コース</string>
-    <string name="osm_volleyball" tools:ignore="MissingTranslation">バレーボール</string>
-    <string name="osm_tennis" tools:ignore="MissingTranslation">テニス</string>
-    <string name="osm_soccer" tools:ignore="MissingTranslation">サッカー</string>
-    <string name="osm_shooting" tools:ignore="MissingTranslation">射撃場</string>
-    <string name="osm_rugby_union" tools:ignore="MissingTranslation">ラグビー場</string>
-    <string name="osm_orienteering" tools:ignore="MissingTranslation">オリエンテーリング</string>
-    <string name="osm_netball" tools:ignore="MissingTranslation">ネットボール</string>
-    <string name="osm_motor" tools:ignore="MissingTranslation">自動車販売店</string>
-    <string name="osm_kitesurfing" tools:ignore="MissingTranslation">カイトサーフィン</string>
-    <string name="osm_karting" tools:ignore="MissingTranslation">カート場</string>
-    <string name="osm_judo" tools:ignore="MissingTranslation">柔道</string>
-    <string name="osm_horseshoes" tools:ignore="MissingTranslation">ホースシュー投げ場</string>
-    <string name="osm_handball" tools:ignore="MissingTranslation">ハンドボール</string>
-    <string name="osm_golf" tools:ignore="MissingTranslation">ゴルフ場</string>
-    <string name="osm_gaelic_games" tools:ignore="MissingTranslation">ゲーリックゲーム場（ハーリング等）</string>
-    <string name="osm_diving" tools:ignore="MissingTranslation">ダイビング</string>
-    <string name="osm_darts" tools:ignore="MissingTranslation">ダーツ</string>
-    <string name="osm_climbing_adventure" tools:ignore="MissingTranslation">クライミング施設</string>
-    <string name="osm_basketball" tools:ignore="MissingTranslation">バスケットボール</string>
-    <string name="osm_bandy" tools:ignore="MissingTranslation">バンディ競技場</string>
-    <string name="osm_australian_football" tools:ignore="MissingTranslation">オーストラリアンフットボール場</string>
-    <string name="osm_9pin" tools:ignore="MissingTranslation">9ピンボウリング場</string>
-    <string name="osm_vacant" tools:ignore="MissingTranslation">空き</string>
-    <string name="osm_lottery" tools:ignore="MissingTranslation">宝くじ売り場</string>
-    <string name="osm_trophy" tools:ignore="MissingTranslation">トロフィー店</string>
-    <string name="osm_music" tools:ignore="MissingTranslation">楽器・音楽ショップ</string>
-    <string name="osm_games" tools:ignore="MissingTranslation">ゲームショップ</string>
-    <string name="osm_tyres" tools:ignore="MissingTranslation">タイヤショップ</string>
-    <string name="osm_sports" tools:ignore="MissingTranslation">スポーツ用品店</string>
-    <string name="osm_outdoor" tools:ignore="MissingTranslation">アウトドア用品店</string>
-    <string name="osm_car" tools:ignore="MissingTranslation">自動車販売店</string>
-    <string name="osm_electronics" tools:ignore="MissingTranslation">家電店</string>
-    <string name="osm_computer" tools:ignore="MissingTranslation">コンピュータショップ</string>
-    <string name="osm_furniture" tools:ignore="MissingTranslation">家具店</string>
-    <string name="osm_candles" tools:ignore="MissingTranslation">キャンドル店</string>
-    <string name="osm_hardware" tools:ignore="MissingTranslation">金物店</string>
-    <string name="osm_gas" tools:ignore="MissingTranslation">ガソリンスタンド</string>
-    <string name="osm_energy" tools:ignore="MissingTranslation">エネルギー会社</string>
-    <string name="osm_doityourself" tools:ignore="MissingTranslation">ホームセンター</string>
-    <string name="osm_bathroom_furnishing" tools:ignore="MissingTranslation">浴室設備店</string>
-    <string name="osm_medical_supply" tools:ignore="MissingTranslation">医療用品店</string>
-    <string name="osm_variety_store" tools:ignore="MissingTranslation">雑貨店</string>
-    <string name="osm_second_hand" tools:ignore="MissingTranslation">中古品店</string>
-    <string name="osm_charity" tools:ignore="MissingTranslation">チャリティーショップ</string>
-    <string name="osm_fashion" tools:ignore="MissingTranslation">ファッション店</string>
-    <string name="osm_fabric" tools:ignore="MissingTranslation">生地店</string>
-    <string name="osm_clothes" tools:ignore="MissingTranslation">衣料品店</string>
-    <string name="osm_butcher" tools:ignore="MissingTranslation">精肉店</string>
-    <string name="osm_water_utility" tools:ignore="MissingTranslation">水道事業者</string>
-    <string name="osm_realtor" tools:ignore="MissingTranslation">不動産業者</string>
-    <string name="osm_company" tools:ignore="MissingTranslation">会社</string>
-    <string name="osm_accountant" tools:ignore="MissingTranslation">会計士</string>
-    <string name="osm_bunker_silo" tools:ignore="MissingTranslation">バンカーサイロ</string>
-    <string name="osm_hackerspace" tools:ignore="MissingTranslation">ハッカースペース</string>
-    <string name="osm_lifeguard_base" tools:ignore="MissingTranslation">ライフガード詰所</string>
-    <string name="osm_roofer" tools:ignore="MissingTranslation">屋根職人</string>
-    <string name="osm_rigger" tools:ignore="MissingTranslation">リガー</string>
-    <string name="osm_parquet_layer" tools:ignore="MissingTranslation">パーケット張り職人</string>
-    <string name="osm_gardener" tools:ignore="MissingTranslation">庭師</string>
-    <string name="osm_stable" tools:ignore="MissingTranslation">馬小屋</string>
-    <string name="osm_garage" tools:ignore="MissingTranslation">ガレージ</string>
-    <string name="osm_transportation" tools:ignore="MissingTranslation">交通施設</string>
-    <string name="osm_house" tools:ignore="MissingTranslation">住宅</string>
-    <string name="osm_helipad" tools:ignore="MissingTranslation">ヘリポート</string>
-    <string name="osm_apron" tools:ignore="MissingTranslation">エプロン（駐機場）</string>
-    <string name="osm_consumer_electronics_store" tools:ignore="MissingTranslation">家電店</string>
-    <string name="osm_speciality_store" tools:ignore="MissingTranslation">専門店</string>
-    <string name="osm_defined" tools:ignore="MissingTranslation">定義済み</string>
-    <string name="osm_sauna" tools:ignore="MissingTranslation">サウナ</string>
-    <string name="osm_gym" tools:ignore="MissingTranslation">ジム</string>
-    <string name="osm_crematorium" tools:ignore="MissingTranslation">火葬場</string>
-    <string name="osm_gambling" tools:ignore="MissingTranslation">ギャンブル施設</string>
-    <string name="osm_music_school" tools:ignore="MissingTranslation">音楽教室</string>
-    <string name="osm_bar" tools:ignore="MissingTranslation">バー</string>
-    <string name="osm_farm" tools:ignore="MissingTranslation">農場</string>
-    <string name="osm_bicycle" tools:ignore="MissingTranslation">自転車店</string>
-    <string name="osm_tailor" tools:ignore="MissingTranslation">仕立て屋</string>
-    <string name="osm_locksmith" tools:ignore="MissingTranslation">鍵屋</string>
-    <string name="osm_industrial" tools:ignore="MissingTranslation">工業地域</string>
-    <string name="osm_wilderness_hut" tools:ignore="MissingTranslation">避難小屋</string>
-    <string name="osm_hostel" tools:ignore="MissingTranslation">ホステル</string>
-    <string name="osm_caravan_site" tools:ignore="MissingTranslation">キャラバンサイト</string>
-    <string name="osm_weightlifting" tools:ignore="MissingTranslation">ウエイトリフティング施設</string>
-    <string name="osm_taekwondo" tools:ignore="MissingTranslation">テコンドー道場</string>
-    <string name="osm_swimming" tools:ignore="MissingTranslation">プール</string>
-    <string name="osm_surfing" tools:ignore="MissingTranslation">サーフスポット</string>
-    <string name="osm_skating" tools:ignore="MissingTranslation">スケート場</string>
-    <string name="osm_racquet" tools:ignore="MissingTranslation">ラケットスポーツ施設</string>
-    <string name="osm_pelota" tools:ignore="MissingTranslation">バスク・ペロタのコート</string>
-    <string name="osm_paragliding" tools:ignore="MissingTranslation">パラグライディング場</string>
-    <string name="osm_parachuting" tools:ignore="MissingTranslation">パラシューティング（スカイダイビング）降下地点</string>
-    <string name="osm_motocross" tools:ignore="MissingTranslation">モトクロスコース</string>
-    <string name="osm_ice_skating" tools:ignore="MissingTranslation">アイススケートリンク</string>
-    <string name="osm_horse_racing" tools:ignore="MissingTranslation">競馬場</string>
-    <string name="osm_dog_racing" tools:ignore="MissingTranslation">ドッグレース場</string>
-    <string name="osm_climbing" tools:ignore="MissingTranslation">クライミングエリア</string>
-    <string name="osm_chess" tools:ignore="MissingTranslation">チェスクラブ</string>
-    <string name="osm_canadian_football" tools:ignore="MissingTranslation">カナディアンフットボール用フィールド</string>
-    <string name="osm_beachvolleyball" tools:ignore="MissingTranslation">ビーチバレーボールコート</string>
-    <string name="osm_base" tools:ignore="MissingTranslation">拠点</string>
-    <string name="osm_athletics" tools:ignore="MissingTranslation">陸上競技トラック</string>
-    <string name="osm_pawnbroker" tools:ignore="MissingTranslation">質屋</string>
-    <string name="osm_ticket" tools:ignore="MissingTranslation">チケット窓口</string>
-    <string name="osm_stationery" tools:ignore="MissingTranslation">文房具店</string>
-    <string name="osm_video_games" tools:ignore="MissingTranslation">ゲームショップ</string>
-    <string name="osm_model" tools:ignore="MissingTranslation">模型店</string>
-    <string name="osm_frame" tools:ignore="MissingTranslation">額縁店</string>
-    <string name="osm_art" tools:ignore="MissingTranslation">アートショップ</string>
-    <string name="osm_car_parts" tools:ignore="MissingTranslation">自動車部品店</string>
-    <string name="osm_radiotechnics" tools:ignore="MissingTranslation">無線機器店</string>
-    <string name="osm_bed" tools:ignore="MissingTranslation">寝具店</string>
-    <string name="osm_garden_furniture" tools:ignore="MissingTranslation">ガーデン家具店</string>
-    <string name="osm_electrical" tools:ignore="MissingTranslation">電気用品店</string>
-    <string name="osm_perfumery" tools:ignore="MissingTranslation">香水店</string>
-    <string name="osm_hairdresser" tools:ignore="MissingTranslation">美容室</string>
-    <string name="osm_drugstore" tools:ignore="MissingTranslation">ドラッグストア</string>
-    <string name="osm_shoes" tools:ignore="MissingTranslation">靴屋</string>
-    <string name="osm_leather" tools:ignore="MissingTranslation">革製品店</string>
-    <string name="osm_general" tools:ignore="MissingTranslation">雑貨店</string>
-    <string name="osm_seafood" tools:ignore="MissingTranslation">鮮魚店</string>
-    <string name="osm_organic" tools:ignore="MissingTranslation">オーガニックショップ</string>
-    <string name="osm_greengrocer" tools:ignore="MissingTranslation">八百屋</string>
-    <string name="osm_chocolate" tools:ignore="MissingTranslation">チョコレート店</string>
-    <string name="osm_brewing_supplies" tools:ignore="MissingTranslation">ホームブルーイング用品店</string>
-    <string name="osm_tax_advisor" tools:ignore="MissingTranslation">税理士</string>
-    <string name="osm_private_investigator" tools:ignore="MissingTranslation">私立探偵</string>
-    <string name="osm_government" tools:ignore="MissingTranslation">行政機関</string>
-    <string name="osm_forestry" tools:ignore="MissingTranslation">林業</string>
-    <string name="osm_estate_agent" tools:ignore="MissingTranslation">不動産仲介業者</string>
-    <string name="osm_spring" tools:ignore="MissingTranslation">湧き水</string>
-    <string name="osm_golf_course" tools:ignore="MissingTranslation">ゴルフコース</string>
-    <string name="osm_ses_station" tools:ignore="MissingTranslation">州緊急サービス（SES）施設</string>
-    <string name="osm_lifeguard_place" tools:ignore="MissingTranslation">ライフガード（救護監視所）</string>
-    <string name="osm_stonemason" tools:ignore="MissingTranslation">石工（ストーンメイソン）</string>
-    <string name="osm_scaffolder" tools:ignore="MissingTranslation">足場職人</string>
-    <string name="osm_sailmaker" tools:ignore="MissingTranslation">帆製作・修理店</string>
-    <string name="osm_photographic_laboratory" tools:ignore="MissingTranslation">写真現像所</string>
-    <string name="osm_photographer" tools:ignore="MissingTranslation">写真家・写真館</string>
-    <string name="osm_insulation" tools:ignore="MissingTranslation">断熱材・防音材</string>
-    <string name="osm_electrician" tools:ignore="MissingTranslation">電気工事士</string>
-    <string name="osm_dressmaker" tools:ignore="MissingTranslation">洋裁師（仕立て屋）</string>
-    <string name="osm_caterer" tools:ignore="MissingTranslation">ケータリング業者</string>
-    <string name="osm_terrace" tools:ignore="MissingTranslation">テラス（屋外の平坦スペース）</string>
-    <string name="osm_toy_shop" tools:ignore="MissingTranslation">玩具店</string>
-    <string name="osm_dive_centre" tools:ignore="MissingTranslation">ダイビングセンター</string>
-    <string name="osm_swingerclub" tools:ignore="MissingTranslation">スウィンガークラブ（成人向け）</string>
-    <string name="osm_doctors" tools:ignore="MissingTranslation">診療所（一般開業医）</string>
-    <string name="osm_driving_school" tools:ignore="MissingTranslation">自動車教習所</string>
-    <string name="osm_free_flying" tools:ignore="MissingTranslation">無動力飛行エリア（パラグライダー等）</string>
-    <string name="osm_religion" tools:ignore="MissingTranslation">宗教</string>
-    <string name="osm_kiosk" tools:ignore="MissingTranslation">キオスク（売店）</string>
-    <string name="osm_residential" tools:ignore="MissingTranslation">住宅地</string>
-    <string name="osm_food" tools:ignore="MissingTranslation">飲食店・食品店</string>
-    <string name="osm_waterfall" tools:ignore="MissingTranslation">滝</string>
-    <string name="osm_boatyard" tools:ignore="MissingTranslation">造船・船舶修理場</string>
-    <string name="osm_theme_park" tools:ignore="MissingTranslation">テーマパーク</string>
-    <string name="osm_roundhouse" tools:ignore="MissingTranslation">円形機関車庫（ラウンドハウス）</string>
-    <string name="osm_generator" tools:ignore="MissingTranslation">発電機</string>
-    <string name="osm_beach" tools:ignore="MissingTranslation">海岸（ビーチ）</string>
-    <string name="osm_naval_base" tools:ignore="MissingTranslation">海軍基地</string>
-    <string name="osm_works" tools:ignore="MissingTranslation">工場・製造所</string>
-    <string name="osm_water_works" tools:ignore="MissingTranslation">水処理・給水施設</string>
-    <string name="osm_telescope" tools:ignore="MissingTranslation">望遠鏡</string>
-    <string name="osm_pier" tools:ignore="MissingTranslation">桟橋</string>
-    <string name="osm_observatory" tools:ignore="MissingTranslation">天文台</string>
-    <string name="osm_reservoir" tools:ignore="MissingTranslation">貯水池</string>
-    <string name="osm_monument" tools:ignore="MissingTranslation">記念碑</string>
-    <string name="osm_battlefield" tools:ignore="MissingTranslation">戦場跡</string>
-    <string name="osm_planetarium" tools:ignore="MissingTranslation">プラネタリウム</string>
-    <string name="osm_social_centre" tools:ignore="MissingTranslation">コミュニティセンター</string>
-    <string name="osm_prison" tools:ignore="MissingTranslation">刑務所</string>
-    <string name="osm_courthouse" tools:ignore="MissingTranslation">裁判所</string>
-    <string name="osm_bridge" tools:ignore="MissingTranslation">橋</string>
-    <string name="osm_hangar" tools:ignore="MissingTranslation">格納庫</string>
-    <string name="osm_tower" tools:ignore="MissingTranslation">塔</string>
-    <string name="osm_attraction" tools:ignore="MissingTranslation">観光名所</string>
-    <string name="osm_zoo" tools:ignore="MissingTranslation">動物園</string>
-    <string name="osm_gallery" tools:ignore="MissingTranslation">ギャラリー</string>
-    <string name="osm_artwork" tools:ignore="MissingTranslation">芸術作品</string>
-    <string name="osm_alpine_hut" tools:ignore="MissingTranslation">山小屋（登山者用避難小屋）</string>
-    <string name="osm_plant" tools:ignore="MissingTranslation">工場</string>
-    <string name="osm_insurance" tools:ignore="MissingTranslation">保険事務所</string>
-    <string name="osm_airfield" tools:ignore="MissingTranslation">飛行場</string>
-    <string name="osm_water_tower" tools:ignore="MissingTranslation">給水塔</string>
-    <string name="osm_pumping_station" tools:ignore="MissingTranslation">ポンプ場</string>
-    <string name="osm_hot_water_tank" tools:ignore="MissingTranslation">温水タンク</string>
-    <string name="osm_campanile" tools:ignore="MissingTranslation">鐘楼</string>
-    <string name="osm_sports_centre" tools:ignore="MissingTranslation">スポーツセンター</string>
-    <string name="osm_fitness_centre" tools:ignore="MissingTranslation">フィットネスセンター（ジム）</string>
-    <string name="osm_beach_resort" tools:ignore="MissingTranslation">ビーチリゾート</string>
-    <string name="osm_village_green" tools:ignore="MissingTranslation">村の共有芝地</string>
-    <string name="osm_ship" tools:ignore="MissingTranslation">船</string>
-    <string name="osm_memorial" tools:ignore="MissingTranslation">記念碑</string>
-    <string name="osm_synagogue" tools:ignore="MissingTranslation">シナゴーグ</string>
-    <string name="osm_mosque" tools:ignore="MissingTranslation">モスク</string>
-    <string name="osm_chapel" tools:ignore="MissingTranslation">礼拝堂</string>
-    <string name="osm_cathedral" tools:ignore="MissingTranslation">大聖堂</string>
-    <string name="osm_train_terminal" tools:ignore="MissingTranslation">ターミナル駅</string>
-    <string name="osm_college" tools:ignore="MissingTranslation">カレッジ</string>
-    <string name="osm_arts_centre" tools:ignore="MissingTranslation">アートセンター</string>
-    <string name="osm_ranger_station" tools:ignore="MissingTranslation">レンジャー事務所</string>
-    <string name="osm_hospital" tools:ignore="MissingTranslation">病院</string>
-    <string name="osm_track" tools:ignore="MissingTranslation">トラック</string>
-    <string name="osm_conference_centre" tools:ignore="MissingTranslation">会議センター</string>
-    <string name="osm_viewpoint" tools:ignore="MissingTranslation">展望地</string>
-    <string name="osm_supermarket" tools:ignore="MissingTranslation">スーパーマーケット</string>
-    <string name="osm_peak" tools:ignore="MissingTranslation">山頂</string>
-    <string name="osm_storage_tank" tools:ignore="MissingTranslation">貯蔵タンク</string>
-    <string name="osm_lighthouse" tools:ignore="MissingTranslation">灯台</string>
-    <string name="osm_beacon" tools:ignore="MissingTranslation">ビーコン</string>
-    <string name="osm_port" tools:ignore="MissingTranslation">港</string>
-    <string name="osm_archaeological_site" tools:ignore="MissingTranslation">遺跡</string>
-    <string name="osm_shrine" tools:ignore="MissingTranslation">祠</string>
-    <string name="osm_church" tools:ignore="MissingTranslation">教会</string>
-    <string name="osm_historic_monument" tools:ignore="MissingTranslation">歴史的記念物</string>
-    <string name="osm_generic_landmark" tools:ignore="MissingTranslation">ランドマーク</string>
-    <string name="osm_tourism_museum" tools:ignore="MissingTranslation">博物館</string>
-    <string name="osm_register_office" tools:ignore="MissingTranslation">登録事務所</string>
-    <string name="osm_grave_yard" tools:ignore="MissingTranslation">墓地</string>
-    <string name="osm_marketplace" tools:ignore="MissingTranslation">市場</string>
-    <string name="osm_fire_station" tools:ignore="MissingTranslation">消防署</string>
-    <string name="osm_ruins" tools:ignore="MissingTranslation">廃墟</string>
-    <string name="osm_weir" tools:ignore="MissingTranslation">堰</string>
-    <string name="osm_museum" tools:ignore="MissingTranslation">博物館</string>
-    <string name="osm_mall" tools:ignore="MissingTranslation">ショッピングモール</string>
-    <string name="osm_volcano" tools:ignore="MissingTranslation">火山</string>
-    <string name="osm_hot_spring" tools:ignore="MissingTranslation">温泉</string>
-    <string name="osm_glacier" tools:ignore="MissingTranslation">氷河</string>
-    <string name="osm_wastewater_plant" tools:ignore="MissingTranslation">下水処理場</string>
-    <string name="osm_offshore_platform" tools:ignore="MissingTranslation">海上プラットフォーム</string>
-    <string name="osm_gasometer" tools:ignore="MissingTranslation">ガスホルダー</string>
-    <string name="osm_water_park" tools:ignore="MissingTranslation">ウォーターパーク</string>
-    <string name="osm_bandstand" tools:ignore="MissingTranslation">バンドスタンド</string>
-    <string name="osm_wreck" tools:ignore="MissingTranslation">残骸</string>
-    <string name="osm_pillory" tools:ignore="MissingTranslation">さらし台</string>
-    <string name="osm_monastery" tools:ignore="MissingTranslation">修道院</string>
-    <string name="osm_locomotive" tools:ignore="MissingTranslation">機関車</string>
-    <string name="osm_fort" tools:ignore="MissingTranslation">要塞</string>
-    <string name="osm_services" tools:ignore="MissingTranslation">サービスエリア</string>
-    <string name="osm_lifeguard_tower" tools:ignore="MissingTranslation">ライフガード塔</string>
-    <string name="osm_temple" tools:ignore="MissingTranslation">寺院</string>
-    <string name="osm_national_park" tools:ignore="MissingTranslation">国立公園</string>
-    <string name="osm_heliport" tools:ignore="MissingTranslation">ヘリポート</string>
-    <string name="osm_public_park" tools:ignore="MissingTranslation">公園</string>
-    <string name="osm_department_store" tools:ignore="MissingTranslation">百貨店</string>
-    <string name="osm_studio" tools:ignore="MissingTranslation">スタジオ</string>
-    <string name="osm_public_building" tools:ignore="MissingTranslation">公共建築物</string>
-    <string name="osm_clock" tools:ignore="MissingTranslation">時計</string>
-    <string name="osm_casino" tools:ignore="MissingTranslation">カジノ</string>
-    <string name="osm_stadium" tools:ignore="MissingTranslation">スタジアム</string>
-    <string name="osm_dam" tools:ignore="MissingTranslation">ダム</string>
-    <string name="osm_dock" tools:ignore="MissingTranslation">ドック</string>
-    <string name="osm_geyser" tools:ignore="MissingTranslation">間欠泉</string>
-    <string name="osm_bay" tools:ignore="MissingTranslation">湾</string>
-    <string name="osm_barracks" tools:ignore="MissingTranslation">兵舎</string>
-    <string name="osm_windmill" tools:ignore="MissingTranslation">風車</string>
-    <string name="osm_watermill" tools:ignore="MissingTranslation">水車</string>
-    <string name="osm_communications_tower" tools:ignore="MissingTranslation">通信塔</string>
-    <string name="osm_swimming_area" tools:ignore="MissingTranslation">遊泳区域</string>
-    <string name="osm_slipway" tools:ignore="MissingTranslation">スリップウェイ（船揚場）</string>
-    <string name="osm_nature_reserve" tools:ignore="MissingTranslation">自然保護区</string>
-    <string name="osm_marina" tools:ignore="MissingTranslation">マリーナ</string>
-    <string name="osm_ice_rink" tools:ignore="MissingTranslation">アイスリンク</string>
-    <string name="osm_manor" tools:ignore="MissingTranslation">大邸宅</string>
-    <string name="osm_city_gate" tools:ignore="MissingTranslation">市門</string>
-    <string name="osm_castle" tools:ignore="MissingTranslation">城</string>
-    <string name="osm_aircraft" tools:ignore="MissingTranslation">航空機</string>
-    <string name="osm_digester" tools:ignore="MissingTranslation">消化槽</string>
-    <string name="osm_sally_port" tools:ignore="MissingTranslation">サリーポート（管理出入口）</string>
-    <string name="osm_aerodrome" tools:ignore="MissingTranslation">飛行場</string>
-    <string name="osm_shopping_mall" tools:ignore="MissingTranslation">ショッピングモール</string>
-    <string name="osm_cinema" tools:ignore="MissingTranslation">映画館</string>
-    <string name="osm_rescue_station" tools:ignore="MissingTranslation">救助基地</string>
-    <string name="osm_airport" tools:ignore="MissingTranslation">空港</string>
-    <string name="osm_theatre" tools:ignore="MissingTranslation">劇場</string>
-    <string name="osm_library" tools:ignore="MissingTranslation">図書館</string>
-    <string name="osm_university" tools:ignore="MissingTranslation">大学</string>
-    <string name="osm_police" tools:ignore="MissingTranslation">警察署</string>
-    <string name="osm_embassy" tools:ignore="MissingTranslation">大使館</string>
-    <string name="osm_bus_station" tools:ignore="MissingTranslation">バスターミナル</string>
-    <string name="osm_station" tools:ignore="MissingTranslation">駅</string>
-    <string name="osm_toll_booth" tools:ignore="MissingTranslation">料金所</string>
-    <string name="osm_lift" tools:ignore="MissingTranslation">エレベーター</string>
-    <string name="osm_unmanaged_crossing" tools:ignore="MissingTranslation">無信号横断歩道</string>
-    <string name="osm_pharmacy" tools:ignore="MissingTranslation">薬局</string>
-    <string name="osm_kneipp_water_cure" tools:ignore="MissingTranslation">クナイプ式水治療施設</string>
-    <string name="osm_food_court" tools:ignore="MissingTranslation">フードコート</string>
-    <string name="osm_chemist" tools:ignore="MissingTranslation">薬局</string>
-    <string name="osm_checkpoint" tools:ignore="MissingTranslation">検問所</string>
-    <string name="osm_dog_park" tools:ignore="MissingTranslation">ドッグラン</string>
-    <string name="osm_kissing_gate" tools:ignore="MissingTranslation">キッシングゲート（人のみ通れる小門）</string>
-    <string name="osm_car_rental" tools:ignore="MissingTranslation">レンタカー</string>
-    <string name="osm_pedestrianised_area" tools:ignore="MissingTranslation">歩行者専用区域</string>
-    <string name="osm_escalator" tools:ignore="MissingTranslation">エスカレーター</string>
-    <string name="osm_shelter" tools:ignore="MissingTranslation">シェルター（屋根付き休憩所）</string>
-    <string name="osm_water_point" tools:ignore="MissingTranslation">給水所</string>
-    <string name="osm_subway_entrance" tools:ignore="MissingTranslation">地下鉄入口</string>
-    <string name="osm_cave_entrance" tools:ignore="MissingTranslation">洞窟入口</string>
-    <string name="osm_swing_gate" tools:ignore="MissingTranslation">スイングゲート（開閉式の門）</string>
-    <string name="osm_stile" tools:ignore="MissingTranslation">スタイル（柵越え通路）</string>
-    <string name="osm_car_sharing" tools:ignore="MissingTranslation">カーシェアリング</string>
-    <string name="osm_customer_service" tools:ignore="MissingTranslation">案内窓口（カスタマーサービス）</string>
-    <string name="osm_watering_place" tools:ignore="MissingTranslation">動物用の水飲み場</string>
-    <string name="osm_platform" tools:ignore="MissingTranslation">ホーム（プラットフォーム）</string>
-    <string name="osm_horse_stile" tools:ignore="MissingTranslation">馬用通路（馬が通れる隙間）</string>
-    <string name="osm_bureau_de_change" tools:ignore="MissingTranslation">両替所</string>
-    <string name="osm_stairs" tools:ignore="MissingTranslation">階段</string>
-    <string name="osm_bicycle_rental" tools:ignore="MissingTranslation">レンタサイクル（自転車レンタル）</string>
-    <string name="osm_hampshire_gate" tools:ignore="MissingTranslation">ハンプシャーゲート（英国式の歩行者用ゲート）</string>
-    <string name="osm_full_height_turnstile" tools:ignore="MissingTranslation">全高回転ゲート（ターンスタイル）</string>
-    <string name="osm_boat_sharing" tools:ignore="MissingTranslation">ボートシェアリング</string>
-    <string name="osm_help_point" tools:ignore="MissingTranslation">ヘルプポイント（案内・非常通報）</string>
-    <string name="osm_open_space" tools:ignore="MissingTranslation">オープンスペース（開放地）</string>
-    <string name="osm_spending_area" tools:ignore="MissingTranslation">短時間滞在エリア</string>
-    <string name="osm_bicycle_repair_station" tools:ignore="MissingTranslation">自転車修理ステーション</string>
-    <string name="osm_motorcycle_barrier" tools:ignore="MissingTranslation">オートバイ進入防止柵</string>
-    <string name="osm_kent_carriage_gap" tools:ignore="MissingTranslation">ケント式馬車用隙間（ケント・キャリッジギャップ）</string>
-    <string name="osm_shared_space" tools:ignore="MissingTranslation">共用空間（車両・歩行者共用）</string>
-    <string name="osm_cliff" tools:ignore="MissingTranslation">崖</string>
-    <string name="osm_training_area" tools:ignore="MissingTranslation">訓練場</string>
-    <string name="osm_log" tools:ignore="MissingTranslation">丸太</string>
-    <string name="osm_jersey_barrier" tools:ignore="MissingTranslation">ジャージー・バリア（道路分離柵）</string>
-    <string name="osm_construction_site" tools:ignore="MissingTranslation">工事現場</string>
-    <string name="osm_ridge" tools:ignore="MissingTranslation">尾根</string>
-    <string name="osm_nuclear_explosion_site" tools:ignore="MissingTranslation">核実験跡地</string>
-    <string name="osm_dyke" tools:ignore="MissingTranslation">堤防</string>
-    <string name="osm_sump_buster" tools:ignore="MissingTranslation">サンプバスター（低車高車進入防止）</string>
-    <string name="osm_rope" tools:ignore="MissingTranslation">ロープ</string>
-    <string name="osm_debris" tools:ignore="MissingTranslation">がれき</string>
-    <string name="osm_road_works" tools:ignore="MissingTranslation">道路工事</string>
-    <string name="osm_lock_gate" tools:ignore="MissingTranslation">閘門</string>
-    <string name="osm_sinkhole" tools:ignore="MissingTranslation">陥没穴</string>
-    <string name="osm_range" tools:ignore="MissingTranslation">射撃場</string>
-    <string name="osm_ambulance_station" tools:ignore="MissingTranslation">救急車基地</string>
-    <string name="osm_spikes" tools:ignore="MissingTranslation">スパイク（タイヤを損傷する装置）</string>
-    <string name="osm_generic_hazard" tools:ignore="MissingTranslation">危険箇所</string>
-    <string name="osm_contact_line" tools:ignore="MissingTranslation">架線</string>
-    <string name="osm_danger_area" tools:ignore="MissingTranslation">危険区域</string>
-    <string name="osm_chain" tools:ignore="MissingTranslation">チェーン柵</string>
-    <string name="osm_parking_space" tools:ignore="MissingTranslation">駐車スペース</string>
-    <string name="osm_motorcycle_parking" tools:ignore="MissingTranslation">二輪車駐車場</string>
-    <string name="settings_section_search" tools:ignore="MissingTranslation">検索</string>
-    <string name="settings_search_online" tools:ignore="MissingTranslation">オンライン</string>
-    <string name="settings_search_offline" tools:ignore="MissingTranslation">オフライン</string>
-    <string name="settings_search_auto" tools:ignore="MissingTranslation">自動</string>
-    <string name="search_no_results" tools:ignore="MissingTranslation">検索結果が見つかりませんでした</string>
-    <string name="search_searching" tools:ignore="MissingTranslation">検索中…</string>
-    <string name="menu_manage_search" tools:ignore="MissingTranslation">検索</string>
-    <string name="route_not_found" tools:ignore="MissingTranslation">ルートが見つかりません</string>
-    <string name="advanced_markers_and_routes_export" tools:ignore="MissingTranslation">エクスポート</string>
-    <string name="location_item_selected" tools:ignore="MissingTranslation">選択済み</string>
-    <string name="location_item_not_selected" tools:ignore="MissingTranslation">未選択</string>
-    <string name="location_item_move_up" tools:ignore="MissingTranslation">リスト内で上に移動します</string>
-    <string name="location_item_move_down" tools:ignore="MissingTranslation">リスト内で下に移動します</string>
-    <string name="street_description_between" tools:ignore="MissingTranslation">%1$s（%2$s と %3$s の間）</string>
-    <string name="street_description_until" tools:ignore="MissingTranslation">%1$s、%3$s まで %2$s</string>
-    <string name="street_description_since" tools:ignore="MissingTranslation">%1$s、%3$s から %2$s 進んでいます</string>
-    <string name="osm_city" tools:ignore="MissingTranslation">都市</string>
-    <string name="osm_town" tools:ignore="MissingTranslation">町</string>
-    <string name="osm_neighbourhood" tools:ignore="MissingTranslation">地区</string>
-    <string name="osm_village" tools:ignore="MissingTranslation">村</string>
-    <string name="osm_hamlet" tools:ignore="MissingTranslation">集落</string>
-    <string name="osm_recreation_ground" tools:ignore="MissingTranslation">運動場</string>
-    <string name="osm_river" tools:ignore="MissingTranslation">川</string>
-    <string name="osm_railway" tools:ignore="MissingTranslation">鉄道</string>
-    <string name="osm_wood" tools:ignore="MissingTranslation">林</string>
-    <string name="osm_pavillion" tools:ignore="MissingTranslation">パビリオン</string>
-    <string name="osm_sport" tools:ignore="MissingTranslation">スポーツ施設</string>
-    <string name="osm_health_food" tools:ignore="MissingTranslation">健康食品店</string>
-    <string name="osm_events_venue" tools:ignore="MissingTranslation">イベント会場</string>
-    <string name="menu_help" tools:ignore="MissingTranslation">ヘルプ</string>
-    <string name="tour_welcome" tools:ignore="MissingTranslation">Soundscape のチュートリアルへようこそ。このチュートリアルではアプリの主な機能を案内します。チュートリアルはいつでもメインメニューの「音声チュートリアルを中止する」をタップして停止できます。まずは「近くの場所」を使って、興味のある場所を探してみましょう。「近くの場所」ボタンはホーム画面の検索バーのすぐ下にあります。今すぐタップして試してください。</string>
-    <string name="tour_select_place" tools:ignore="MissingTranslation">「近くの場所」では特定地点を種類別にグループ化しています。リストを見て回り、ひとつ選択してください。</string>
-    <string name="tour_create_marker_started" tools:ignore="MissingTranslation">いいですね！現在は「場所の詳細」画面にいます。この画面では場所をマーカーとして保存するなどの操作ができます。Soundscape では自宅やバス停、今いる地点など、関心のある場所を何でもマークできます。試してみましょう。[マーカーを保存] をタップしてこの場所をマーカーとして保存してください。</string>
-    <string name="tour_create_marker_done" tools:ignore="MissingTranslation">完了です！マーカー作成時は名前を編集したり追加のメモを付けたりできます。今それを試してみて、準備ができたら [完了] をタップしてください。</string>
-    <string name="tour_my_location" tools:ignore="MissingTranslation">マーカーの使い方がわかったところで、他の機能も見てみましょう。画面下部には順に試す 4 つのボタンがあります。左端のボタンは「現在地」で、現在地に関する説明をしてくれます。今すぐタップしてみてください。</string>
-    <string name="tour_around_me" tools:ignore="MissingTranslation">次のボタンは「周辺」です。各方向にある近くの場所について教えてくれます。「周辺」をタップしてください。</string>
-    <string name="tour_ahead" tools:ignore="MissingTranslation">次のボタンは「前方」です。あなたの前方にあるものについて教えてくれます。「前方」をタップしてください。</string>
-    <string name="tour_nearby_markers" tools:ignore="MissingTranslation">最後のボタンは「近くのマーカー」で、保存した場所を周囲から案内します。「近くのマーカー」をタップして試してみてください。</string>
-    <string name="tour_markers_and_routes" tools:ignore="MissingTranslation">これでマーカーが作成されました。次に、その場所へ誘導する音声ビーコンを鳴らしてみましょう。「近くの場所」のすぐ下にある「マーカーおよびルート」をタップしてください。</string>
-    <string name="tour_markers" tools:ignore="MissingTranslation">「マーカーおよびルート」画面には 2 つのタブがあります。ルートはマーカーのプレイリストを一覧表示するタブ、もう一方は個別のマーカーを一覧表示するタブです。作成したマーカーを探すために「マーカー」タブをタップしてください。</string>
-    <string name="tour_start_beacon" tools:ignore="MissingTranslation">いま「マーカー」タブを表示しており、保存したマーカーが一覧で表示されています。マーカーを選択し、「場所の詳細」画面が表示されたら [音声ビーコンを開始] をタップしてください。</string>
-    <string name="tour_beacon_demo" tools:ignore="MissingTranslation">音声ビーコンが聞こえるはずです。目的地の方向から再生されます。端末の向きを変えるとビーコンの音が移動して聞こえ方が変わるのが分かります。今試してみてください。</string>
-    <string name="tour_beacon_demo_locked" tools:ignore="MissingTranslation">端末がロックされていてもビーコンは再生されます。歩行中や乗り物に乗っているときは、移動方向を基にビーコンが再生されます。ただしロック中でも、コンパスのように端末を水平に前方に向ければ、その向きを使って音が再生されます。試してみてください。</string>
-    <string name="tour_stop_beacon" tools:ignore="MissingTranslation">ビーコンを止める準備ができたら、[ルートを中止する] ボタンをタップしてください。</string>
-    <string name="tour_finish" tools:ignore="MissingTranslation">これでチュートリアルは終了です。メインメニューからいつでも再度実行できます。アプリがお役に立てることを願っています！</string>
-    <string name="tour_cancel" tools:ignore="MissingTranslation">音声チュートリアルは中止されました。必要であれば、メインメニューから再度実行できます。</string>
-    <string name="menu_audio_tutorial" tools:ignore="MissingTranslation">音声チュートリアル</string>
-    <string name="menu_audio_tutorial_cancel" tools:ignore="MissingTranslation">音声チュートリアルを中止する</string>
-    <string name="search_bar_hint" tools:ignore="MissingTranslation">目的地の名前または住所を入力してください</string>
-    <string name="all_places_nearby_description" tools:ignore="MissingTranslation">近くのすべての場所をフィルタなしで表示する</string>
-    <string name="public_transit_places_nearby_description" tools:ignore="MissingTranslation">近くの公共交通機関の一覧を表示する</string>
-    <string name="food_drink_places_nearby_description" tools:ignore="MissingTranslation">近くのレストランやバーの一覧を表示する</string>
-    <string name="groceries_places_nearby_description" tools:ignore="MissingTranslation">近くの食料品店の一覧を表示する</string>
-    <string name="banks_places_nearby_description" tools:ignore="MissingTranslation">近くの銀行やATMの一覧を表示する</string>
-    <string name="intersections_places_nearby_description" tools:ignore="MissingTranslation">近くの交差点の一覧を表示する</string>
-    <string name="places_nearby_selection_description" tools:ignore="MissingTranslation">近くの場所の一覧から選択する</string>
-    <string name="accessibility_title" tools:ignore="MissingTranslation">アクセシビリティ</string>
-    <string name="accessibility_screen_reader_enabled" tools:ignore="MissingTranslation">スクリーンリーダーが有効になっているため、ユーザーインターフェースの地図表示はオフにしてアプリを実行することをおすすめします。ここで設定を変更するか、そのまま続行してください。</string>
-    <string name="accessibility_screen_reader_disabled" tools:ignore="MissingTranslation">スクリーンリーダーが有効になっていないため、ユーザーインターフェースに地図を表示することを想定しています。ここで設定を変更するか、そのまま続行してください。</string>
-    <string name="tour_continue_button" tools:ignore="MissingTranslation">続行</string>
-    <string name="tour_continue_hint" tools:ignore="MissingTranslation">ポップアップを閉じてチュートリアルを続行します</string>
-    <string name="location_detail_action_beacon_from_markers" tools:ignore="MissingTranslation">このマーカーで音声ビーコンを開始する</string>
-    <string name="location_detail_full_screen_for_edit_hint" tools:ignore="MissingTranslation">地図を全画面表示にしてマーカーの位置を編集する</string>
-    <string name="location_detail_exit_full_screen_for_edit_hint" tools:ignore="MissingTranslation">マーカーの位置編集モードを終了する</string>
-    <string name="street_description_relative_before" tools:ignore="MissingTranslation">%1$s（%2$s の手前）</string>
-    <string name="street_description_relative_after" tools:ignore="MissingTranslation">%1$s（%2$s の直後）</string>
-    <string name="street_description_intersection" tools:ignore="MissingTranslation">%1$s の交差点付近</string>
-    <string name="general_error_add_marker_duplicate" tools:ignore="MissingTranslation">この場所は既にルートに含まれているため、再度追加することはできません。</string>
-    <string name="settings_explanation" tools:ignore="MissingTranslation">アプリの各種設定は下のグループに分類されています。グループをタップして展開し、利用可能なオプションを表示してください。</string>
-    <string name="settings_section_units_description" tools:ignore="MissingTranslation">距離に使用する測定単位を選択します</string>
-    <string name="settings_section_search_network" tools:ignore="MissingTranslation">検索モード</string>
-    <string name="settings_section_search_network_description" tools:ignore="MissingTranslation">検索がオフラインデータのみを使用するかどうかを制御します</string>
-    <string name="beacon_settings_style_description" tools:ignore="MissingTranslation">使用する音声ビーコンのスタイルを選択します</string>
-    <string name="preview_include_unnamed_roads_title_description" tools:ignore="MissingTranslation">位置シミュレーション中に無名道路を含めます</string>
-    <string name="callouts_allow_callouts_description" tools:ignore="MissingTranslation">すべてのコールアウトをオンまたはオフにします</string>
-    <string name="callouts_places_and_landmarks_description" tools:ignore="MissingTranslation">近くの店舗やレストランなど</string>
-    <string name="callouts_mobility_description" tools:ignore="MissingTranslation">交差点および交通に関する情報</string>
-    <string name="callouts_audio_beacon_description" tools:ignore="MissingTranslation">音声ビーコンが設定されているときの距離に関する更新</string>
-    <string name="menu_manage_language" tools:ignore="MissingTranslation">言語と地域 </string>
-    <string name="settings_search_results_language_description" tools:ignore="MissingTranslation">オンライン検索は、結果の現地言語を使用するか、英語・フランス語・ドイツ語のいずれかで返すように設定できます。</string>
-    <string name="language_mismatch_title" tools:ignore="MissingTranslation">新しい言語が利用可能です</string>
-    <string name="language_mismatch_message" tools:ignore="MissingTranslation">お使いの端末の言語が %1$s に設定されており、その言語が Soundscape で利用できるようになりました。Soundscape を %1$s に切り替えますか?</string>
-    <string name="language_mismatch_switch" tools:ignore="MissingTranslation">%1$s に切り替える</string>
-    <string name="language_mismatch_keep" tools:ignore="MissingTranslation">現在の言語を保持する</string>
-    <string name="preview_go_hint" tools:ignore="MissingTranslation">この方向に進んで次の交差点へ移動する</string>
-    <string name="error_message_route_not_found" tools:ignore="MissingTranslation">データベースでルートが見つかりませんでした。</string>
-    <string name="error_message_deleting_route" tools:ignore="MissingTranslation">ルートの削除に失敗しました。</string>
-    <string name="error_message_saving_route" tools:ignore="MissingTranslation">ルートの保存に失敗しました。</string>
-    <string name="service_still_running" tools:ignore="MissingTranslation">Soundscape の位置情報サービスはまだ実行中です。</string>
-    <string name="offline_map_download_complete" tools:ignore="MissingTranslation">ダウンロードが完了しました</string>
-    <string name="offline_map_download_cancelled" tools:ignore="MissingTranslation">ダウンロードがキャンセルされました</string>
-    <string name="offline_map_download_error" tools:ignore="MissingTranslation">ダウンロードエラー</string>
-    <string name="behavior_scavenger_hunt_callout_next_flag_short_route" tools:ignore="MissingTranslation">ビーコンが %1$s で設定されました。距離は %2$s です。</string>
-    <string name="route_beacon_progress" tools:ignore="MissingTranslation">ビーコン: %1$s</string>
-    <string name="menu_route" tools:ignore="MissingTranslation">ルートの操作</string>
-    <string name="menu_route_next_waypoint" tools:ignore="MissingTranslation">次のウェイポイント</string>
-    <string name="menu_route_previous_waypoint" tools:ignore="MissingTranslation">以前のウェイポイント</string>
-    <string name="menu_no_routes" tools:ignore="MissingTranslation">保存されたルートはありません</string>
-    <string name="menu_main_menu" tools:ignore="MissingTranslation">トップメニュー</string>
-    <string name="first_launch_permissions_record_audio" tools:ignore="MissingTranslation">音声を録音</string>
-    <string name="first_launch_permissions_required_for_voice_control" tools:ignore="MissingTranslation">この許可は任意ですが、音声コマンドでアプリを操作したい場合は必要です。</string>
-    <string name="menu_media_controls" tools:ignore="MissingTranslation">メディアコントロール</string>
-    <string name="settings_section_media_controls" tools:ignore="MissingTranslation">メディアコントロールのモード</string>
-    <string name="settings_section_media_controls_description" tools:ignore="MissingTranslation">ヘッドホンやリモコンのメディアコントロールボタンは、この設定に応じて異なる動作に設定できます。</string>
-    <string name="settings_media_controls_original" tools:ignore="MissingTranslation">オリジナルモード</string>
-    <string name="settings_media_controls_voice_command" tools:ignore="MissingTranslation">音声コマンド</string>
-    <string name="settings_media_controls_audio_menu" tools:ignore="MissingTranslation">音声メニュー</string>
-    <string name="voice_cmd_help_response" tools:ignore="MissingTranslation">利用可能な音声コマンド:</string>
-    <string name="voice_cmd_listening" tools:ignore="MissingTranslation">聞き取り中…</string>
-    <string name="voice_cmd_not_recognized" tools:ignore="MissingTranslation">申し訳ありません。コマンド「%1$s」が見つかりません。利用可能なコマンドを一覧表示するには、音声コマンド「%2$s」を実行してください。</string>
-    <string name="voice_cmd_list_routes" tools:ignore="MissingTranslation">ルート一覧</string>
-    <string name="voice_cmd_routes_list" tools:ignore="MissingTranslation">利用可能なルートは次のとおりです:</string>
-    <string name="voice_cmd_list_markers" tools:ignore="MissingTranslation">マーカー一覧</string>
-    <string name="voice_cmd_markers_list" tools:ignore="MissingTranslation">利用可能なマーカーは次のとおりです:</string>
-    <string name="voice_cmd_no_routes" tools:ignore="MissingTranslation">保存されたルートはありません</string>
-    <string name="voice_cmd_no_markers" tools:ignore="MissingTranslation">保存されたマーカーはありません</string>
-    <string name="voice_cmd_route_not_found" tools:ignore="MissingTranslation">ルート「%1$s」が見つかりません</string>
-    <string name="voice_cmd_starting_route" tools:ignore="MissingTranslation">ルート「%1$s」を開始します</string>
-    <string name="voice_cmd_start_route" tools:ignore="MissingTranslation">ルート %1$s を開始する</string>
-    <string name="voice_cmd_start_beacon_at_marker_with_name" tools:ignore="MissingTranslation">音声ビーコンを %1$s で開始する</string>
-    <string name="voice_cmd_starting_beacon_at_marker" tools:ignore="MissingTranslation">音声ビーコンを %1$s で開始します</string>
-    <string name="voice_cmd_marker_not_found" tools:ignore="MissingTranslation">マーカーが見つかりません: %1$s</string>
-    <string name="voice_cmd_explain_dynamic_markers" tools:ignore="MissingTranslation">名前でルートやマーカーを開始することもできます。例えば、</string>
-    <string name="voice_cmd_speech_recognition_error_network_timeout" tools:ignore="MissingTranslation">音声認識でネットワークのタイムアウトが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_network" tools:ignore="MissingTranslation">音声認識のネットワークエラーが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_audio" tools:ignore="MissingTranslation">音声の録音中に音声認識エラーが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_server" tools:ignore="MissingTranslation">音声認識サーバーでエラーが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_client" tools:ignore="MissingTranslation">音声認識クライアントでエラーが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_speech_timeout" tools:ignore="MissingTranslation">音声入力の待機がタイムアウトしたため、リスニングを停止しました。もう一度お試しください。</string>
-    <string name="voice_cmd_speech_recognition_not_match" tools:ignore="MissingTranslation">音声が検出されなかったため、リスニングを停止しました。もう一度お試しください。</string>
-    <string name="voice_cmd_speech_recognition_busy" tools:ignore="MissingTranslation">音声認識がビジー状態です。</string>
-    <string name="voice_cmd_speech_recognition_error_permissions" tools:ignore="MissingTranslation">音声認識を実行するための権限が不足しています。</string>
-    <string name="voice_cmd_speech_recognition_error_too_many_requests" tools:ignore="MissingTranslation">音声認識へのリクエストが多すぎます。</string>
-    <string name="voice_cmd_speech_recognition_error_server_disconnected" tools:ignore="MissingTranslation">音声認識サーバーの切断が発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_language_not_supported" tools:ignore="MissingTranslation">この言語は Android の音声認識でサポートされていません。</string>
-    <string name="voice_cmd_speech_recognition_error_language_unavailable" tools:ignore="MissingTranslation">この言語はサポートされていますが、この端末にはダウンロードされていません。</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_check_support" tools:ignore="MissingTranslation">音声認識のサポート確認中にエラーが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events" tools:ignore="MissingTranslation">音声認識のダウンロード監視中にエラーが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_unknown" tools:ignore="MissingTranslation">音声認識で不明なエラーが発生しました。</string>
-    <string name="voice_cmd_speech_recognition_error_unsupported" tools:ignore="MissingTranslation">この端末では音声認識はサポートされていません。</string>
-    <string name="settings_voice_command_listening_prompt" tools:ignore="MissingTranslation">聞き取り開始を通知</string>
-    <string name="settings_voice_command_listening_prompt_description" tools:ignore="MissingTranslation">音声認識が開始される前に、聞き取り開始を知らせるプロンプト（合図）を再生します。</string>
-    <string name="settings_voice_command_microphone" tools:ignore="MissingTranslation">マイク</string>
-    <string name="settings_voice_command_microphone_description" tools:ignore="MissingTranslation">音声コマンドに使用するマイクを選択します。</string>
+    <string name="settings_section_units">測定単位</string>
+    <string name="settings_units_imperial">インペリアル（フィート）</string>
+    <string name="settings_units_metric">メートル法（メートル）</string>
+    <string name="voice_engine">テキスト読み上げエンジン</string>
+    <string name="preview_go_nearest_intersection">最寄りの交差点へ移動</string>
+    <string name="last_entry_in_list"> と %1$s</string>
+    <string name="location_detail_full_screen_hint">地図を全画面表示にする</string>
+    <string name="location_detail_exit_full_screen_hint">全画面表示を終了する</string>
+    <string name="route_detail_action_previous_disabled_hint">ルートが既に開始地点にあるため無効です</string>
+    <string name="route_detail_action_next_disabled_hint">ルートが既に終了地点にあるため無効です</string>
+    <string name="directions_near_road_and_settlement">%1$s 付近、%2$s の近く</string>
+    <string name="directions_cardinal_north">北</string>
+    <string name="directions_cardinal_north_east">北東</string>
+    <string name="directions_cardinal_east">東</string>
+    <string name="directions_cardinal_south_east">南東</string>
+    <string name="directions_cardinal_south">南</string>
+    <string name="directions_cardinal_south_west">南西</string>
+    <string name="directions_cardinal_west">西</string>
+    <string name="directions_cardinal_north_west">北西</string>
+    <string name="directions_cardinal_north_abb">N</string>
+    <string name="directions_cardinal_north_east_abb">NE</string>
+    <string name="directions_cardinal_east_abb">E</string>
+    <string name="directions_cardinal_south_east_abb">SE</string>
+    <string name="directions_cardinal_south_abb">S</string>
+    <string name="directions_cardinal_south_west_abb">SW</string>
+    <string name="directions_cardinal_west_abb">W</string>
+    <string name="directions_cardinal_north_west_abb">NW</string>
+    <string name="menu_contact_support">サポートに連絡</string>
+    <string name="permissions_required">アプリを実行するには位置情報の許可が必要です。</string>
+    <string name="permissions_button">アプリの設定で権限を変更する</string>
+    <string name="first_launch_change_language">言語を変更</string>
+    <string name="first_launch_change_language_hint">アプリで使用する言語を変更するには</string>
+    <string name="osm_entrance">入口</string>
+    <string name="osm_main_entrance">正面入口</string>
+    <string name="osm_entrance_named_with_destination">%1$s の %2$s（%3$s から）</string>
+    <string name="osm_entrance_with_destination">%1$s の %2$s</string>
+    <string name="notification_text">Soundscape の位置情報サービスは端末がロックされていても動作します。</string>
+    <string name="cancel_search_contentDescription">検索をキャンセル</string>
+    <string name="osm_train_station">駅</string>
+    <string name="osm_train_station_named">%1$s 駅</string>
+    <string name="osm_tram_stop">トラム停留所</string>
+    <string name="osm_tram_stop_named">%1$s 路面電車停留所</string>
+    <string name="osm_subway">地下鉄駅</string>
+    <string name="osm_subway_named">%1$s 地下鉄駅</string>
+    <string name="osm_ferry_terminal">フェリーターミナル</string>
+    <string name="osm_ferry_terminal_named">%1$s フェリーターミナル</string>
+    <string name="menu_manage_audio">音声</string>
+    <string name="menu_manage_accessibility">アクセシビリティ</string>
+    <string name="settings_theme_light_dark">ライトまたはダーク テーマ</string>
+    <string name="settings_theme_auto">自動</string>
+    <string name="settings_theme_is_light">ライトテーマを使用</string>
+    <string name="settings_theme_light">ライト</string>
+    <string name="settings_theme_dark">ダーク</string>
+    <string name="settings_theme_contrast">テーマのコントラスト</string>
+    <string name="settings_theme_contrast_regular">標準</string>
+    <string name="settings_theme_contrast_medium">中</string>
+    <string name="settings_theme_contrast_high">高</string>
+    <string name="settings_list_item_description">%1$s は %3$s のうち %2$s 番目の選択肢です</string>
+    <string name="settings_keep_value">保持</string>
+    <string name="settings_use_value">使用</string>
+    <string name="street_preview_exit">位置シミュレーションを終了する</string>
+    <string name="settings_travel_recording">移動の記録を有効にする</string>
+    <string name="settings_show_map">画面に地図を表示する</string>
+    <string name="settings_debug_heading">デバッグオプション</string>
+    <string name="settings_search_results_language">検索言語</string>
+    <string name="menu_share_recorded_route">移動記録を共有</string>
+    <string name="confect_name_to_via">%1$s から %2$s へ（%3$s 経由）</string>
+    <string name="confect_name_to">%1$s から %2$s へ</string>
+    <string name="confect_name_joins">%2$s と %3$s を結ぶ %1$s</string>
+    <string name="confect_name_via">%1$s（%2$s 経由）</string>
+    <string name="confect_name_pavement_next_to">%1$s 沿いの歩道</string>
+    <string name="confect_name_pavement">歩道</string>
+    <string name="confect_name_dead_end">行き止まり</string>
+    <string name="offline_maps_title">オフライン地図</string>
+    <string name="offline_map_details_title">オフライン地図の詳細</string>
+    <string name="offline_maps_loading">読み込み中…</string>
+    <string name="offline_maps_downloading">%1$s をダウンロード中</string>
+    <string name="offline_maps_caching">サーバーが %1$s のダウンロードを準備しています。数分かかることがあり、その後ダウンロードが自動的に開始されます。</string>
+    <string name="offline_maps_free_space">空き容量: %1$s</string>
+    <string name="offline_maps_storage">マップは %1$s に保存されており、空き容量は %2$s です</string>
+    <string name="offline_maps_already_downloaded">ダウンロード済みのマップ</string>
+    <string name="offline_maps_nearby">近くのオフラインマップ</string>
+    <string name="offline_maps_loading_manifest">オフラインマップの一覧を読み込んでいます</string>
+    <string name="offline_map_details_delete">オフラインマップを削除する</string>
+    <string name="offline_map_details_download">オフラインマップをダウンロードする</string>
+    <string name="offline_map_details_size_on_phone">端末上のサイズ: %1$s</string>
+    <string name="offline_map_details_size_on_server">ダウンロードサイズ: %1$s</string>
+    <string name="offline_map_details_name">マップ名: %1$s</string>
+    <string name="offline_map_details_city_list">このマップには次の場所が含まれます: %1$s</string>
+    <string name="offline_map_details_alternate_city_list">これらの場所は別名でも知られています: %1$s</string>
+    <string name="offline_map_storage_title">オフラインマップの保存先</string>
+    <string name="offline_map_storage_description">Soundscape をインターネット接続がない環境でも使えるように、マップをダウンロードして端末に保存できます。デフォルトの保存先は端末の外部ストレージですが、ここで別の保存先を選択できます。</string>
+    <string name="offline_map_wifi_only">マップのダウンロードは Wi‑Fi のみを使用する</string>
+    <string name="text_field_clear_text">テキストをクリア</string>
+    <string name="marker_name_description_hint">マーカー名を編集します</string>
+    <string name="annotation_description_hint">後でこのマーカーを認識するのに役立つ任意のメモを追加します</string>
+    <string name="route_name_description_hint">ルート名を編集します</string>
+    <string name="route_description_description_hint">このルートの任意の説明を追加します</string>
+    <string name="fab_add_item">アイテムを追加</string>
+    <string name="fab_add_route">ルートを追加</string>
+    <string name="route_waypoint_progress">ルート %1$s、ウェイポイント %2$s／%3$s</string>
+    <string name="home_screen_title">Soundscape ホーム</string>
+    <string name="about_soundscape">Soundscape は、革新的な音声ベースの技術の活用を通じて、人々が周囲の環境に対するより豊かな認識を築けるようにし、その結果、外出時の自信と自立を高めることを目指すアプリです。</string>
+    <string name="offline_maps_manifest_failed">オフライン地図データのダウンロードに失敗しました</string>
+    <string name="settings_reset_button">設定をデフォルトに戻す</string>
+    <string name="settings_reset_button_hint">設定をデフォルトに戻してアプリを再起動する</string>
+    <string name="settings_reset_dialog_title">よろしいですか?</string>
+    <string name="settings_reset_dialog_message">設定をリセットするとアプリの設定がすべて削除されます。続行しますか?</string>
+    <string name="menu_advanced_markers_and_routes">マーカーおよびルートの詳細設定</string>
+    <string name="advanced_markers_and_routes_description">この画面では、マーカーおよびルートをエクスポート／インポートしたり、既存のすべてのマーカーおよびルートを削除したりできます。</string>
+    <string name="advanced_markers_and_routes_export_button">マーカーおよびルートのデータベースをエクスポートする</string>
+    <string name="advanced_markers_and_routes_import_button">マーカーおよびルートのデータベースをインポートする</string>
+    <string name="markers_and_routes_import_success">マーカーおよびルートのインポートが完了しました。</string>
+    <string name="markers_and_routes_import_failure">マーカーおよびルートのインポートに失敗しました。</string>
+    <string name="advanced_markers_and_routes_clear_all_button">すべてのマーカーおよびルートを削除する</string>
+    <string name="advanced_markers_and_routes_clear_all_alert_message">すべてのマーカーおよびルートを削除すると元に戻せません。続行しますか?</string>
+    <string name="menu_advanced_markers_and_routes_clear_all_success">マーカーおよびルートを削除しました</string>
+    <string name="new_version_info_text">新しいリリース情報</string>
+    <string name="new_version_info_completed">新しいリリース情報を閉じる</string>
+    <string name="new_version_info_details">\nこのリリースでは、端末がロックされているときでもアプリをリモート操作できる新機能が 2 つ追加されました。これにより、端末をポケットに入れたままでもアプリの主要機能を操作できます。\n\nどちらのリモート操作方法も、ヘッドホンにある Bluetooth のメディアコントロールボタン、あるいは手に持ったりポケットに入れて使える小型のリモコンのボタンを使用します。リモートコントロールのモードは「設定」→「メディアコントロール」セクションで選択できます。話しかけて操作する「音声コマンド」モード、メニューが読み上げられて選択できる「音声メニュー」モード、または従来と同じ動作にする「オリジナルモード」を選べます。\n\n音声コマンドモードでは、ヘッドホンの再生/一時停止ボタンを押すとアプリが音声の聞き取りを開始し、その合図として短い音が鳴ります。「Help（ヘルプ）」と言うと利用可能なコマンド一覧が読み上げられます。その後もう一度ボタンを押して、他のコマンドを試すことができます。残念ながら、Android の音声認識はすべての言語をサポートしているわけではなく、すべての端末で利用できるわけではありません。\n\n音声コマンドモードの主な難点は、ヘッドホンによってマイクが有効になるまでの時間に差がある点です。再生/一時停止を押してから話せるようになるまで最大で数秒（5 秒程度）待つ必要がある場合があります。どのくらい待てばよいかを知るには、再生/一時停止をタップしてから 1 から 10 まで数えてみるのが最もよい方法です。端末は認識した音声（例えば数えた数字）を読み上げ、最初に認識された数字が話し始めるまでの目安になります。マイクがオンになったときに明確な音を出すヘッドホンもあり、その場合は扱いやすいですが、まったく音がしない機種もあります。残念ながら、慣れが必要な場合があります。\n\nもう一方の新しいリモートモードである「音声メニュー」モードは、すべての言語とすべての端末で動作します。次へ/前へ のメディアコントロールボタンでメニュー内の項目を前後に移動し、再生/一時停止ボタンで現在の項目を選択します。最上位のメニューが一つあり、その下に同種の操作をまとめた一層のサブメニューがあります。\n\nこれらの機能は非常に新しいため、うまく動作するかどうか、またどのような追加コマンドが欲しいかについてのフィードバックをぜひお寄せください。\n\nどんなに小さな問題でも、メインメニューの *「サポートに連絡」* からご報告ください。\n</string>
+    <string name="menu_open_source_licenses">オープンソースライセンス</string>
+    <string name="osm_tag_ferry_terminal">フェリーターミナル</string>
+    <string name="osm_tag_ferry_terminal_named">%1$s フェリーターミナル</string>
+    <string name="osm_office">事務所</string>
+    <string name="osm_school">学校</string>
+    <string name="osm_roof">屋根</string>
+    <string name="osm_convenience">コンビニ</string>
+    <string name="osm_lift_gate">昇降ゲート</string>
+    <string name="osm_toilets">トイレ</string>
+    <string name="osm_parking">駐車場</string>
+    <string name="osm_taxi">タクシー乗り場</string>
+    <string name="osm_bicycle_parking">駐輪場</string>
+    <string name="osm_fuel">ガソリンスタンド</string>
+    <string name="osm_recycling">リサイクル回収所</string>
+    <string name="osm_drinking_water">飲料水</string>
+    <string name="osm_pitch">運動場</string>
+    <string name="osm_picnic_site">ピクニック場</string>
+    <string name="osm_information">案内所</string>
+    <string name="osm_fire_extinguisher">消火器</string>
+    <string name="osm_defibrillator">除細動器（AED）</string>
+    <string name="osm_guide">案内標識</string>
+    <string name="osm_water">水域</string>
+    <string name="osm_fire_hose">消火ホース</string>
+    <string name="osm_fire_flapper">消火ばたき</string>
+    <string name="osm_information_point">案内カウンター</string>
+    <string name="osm_wetland">湿地</string>
+    <string name="osm_mud">ぬかるみ</string>
+    <string name="osm_access_point">アクセスポイント</string>
+    <string name="osm_life_ring">救命輪</string>
+    <string name="osm_generic_info">一般情報</string>
+    <string name="osm_turntable">旋回台</string>
+    <string name="osm_survey_point">測量点</string>
+    <string name="osm_snow_net">雪よけネット</string>
+    <string name="osm_silo">サイロ</string>
+    <string name="osm_mast">マスト</string>
+    <string name="osm_bird_hide">観察小屋</string>
+    <string name="osm_transformer_tower">変圧器塔</string>
+    <string name="osm_generic_object">汎用オブジェクト</string>
+    <string name="osm_signal">信号</string>
+    <string name="osm_rock">岩</string>
+    <string name="osm_kiln">窯</string>
+    <string name="osm_crane">クレーン</string>
+    <string name="osm_rune_stone">ルーンストーン</string>
+    <string name="osm_milestone">里程標</string>
+    <string name="osm_lifeguard_platform">監視台</string>
+    <string name="osm_water_tank">貯水槽</string>
+    <string name="osm_sty">豚小屋</string>
+    <string name="osm_navigationaid">航行補助標識</string>
+    <string name="osm_terminal">ターミナル</string>
+    <string name="osm_water_tap">水栓</string>
+    <string name="osm_water_well">井戸</string>
+    <string name="osm_petroleum_well">油井</string>
+    <string name="osm_cross">十字架</string>
+    <string name="osm_gallows">絞首台</string>
+    <string name="osm_speed_camera">速度取締カメラ</string>
+    <string name="osm_siren">サイレン</string>
+    <string name="osm_pylon">鉄塔</string>
+    <string name="osm_mineshaft">鉱山立坑</string>
+    <string name="osm_flagpole">旗竿</string>
+    <string name="osm_optical_telegraph">光学電信塔</string>
+    <string name="osm_cannon">大砲</string>
+    <string name="osm_boundary_stone">境界石</string>
+    <string name="osm_shed">物置小屋</string>
+    <string name="osm_traffic_cones">カラーコーン</string>
+    <string name="osm_firepit">焚き火場</string>
+    <string name="osm_stone">立石</string>
+    <string name="osm_surveillance">監視</string>
+    <string name="osm_monitoring_station">観測所</string>
+    <string name="osm_wayside_shrine">道端の祠</string>
+    <string name="osm_wayside_cross">道端の十字架</string>
+    <string name="osm_tomb">墓</string>
+    <string name="osm_traffic_signals">信号機</string>
+    <string name="osm_hut">小屋</string>
+    <string name="osm_static_caravan">常設トレーラーハウス</string>
+    <string name="osm_bollard">車止め</string>
+    <string name="osm_block">ブロック</string>
+    <string name="osm_waste_disposal">廃棄物処理施設</string>
+    <string name="osm_photo_booth">証明写真ボックス</string>
+    <string name="osm_bbq">バーベキュー場</string>
+    <string name="osm_shop">店舗</string>
+    <string name="osm_newsagent">新聞雑誌店</string>
+    <string name="osm_anime">アニメショップ</string>
+    <string name="osm_musical_instrument">楽器店</string>
+    <string name="osm_vacuum_cleaner">掃除機販売店</string>
+    <string name="osm_mobile_phone">携帯電話販売店</string>
+    <string name="osm_carpet">カーペット店</string>
+    <string name="osm_trade">一般商店</string>
+    <string name="osm_garden_centre">園芸店</string>
+    <string name="osm_florist">花屋</string>
+    <string name="osm_fireplace">暖炉</string>
+    <string name="osm_massage">マッサージ店</string>
+    <string name="osm_herbalist">ハーブ専門店</string>
+    <string name="osm_bag">鞄店</string>
+    <string name="osm_pastry">ペストリー店</string>
+    <string name="osm_deli">デリカテッセン</string>
+    <string name="osm_beverages">飲料販売店</string>
+    <string name="osm_alcohol">酒屋</string>
+    <string name="osm_substation">変電所</string>
+    <string name="osm_travel_agent">旅行代理店</string>
+    <string name="osm_research">研究施設</string>
+    <string name="osm_newspaper">新聞販売店</string>
+    <string name="osm_ammunition">弾薬店</string>
+    <string name="osm_wildlife_hide">野生動物観察小屋</string>
+    <string name="osm_watchmaker">時計修理店</string>
+    <string name="osm_tinsmith">ブリキ細工店</string>
+    <string name="osm_sun_protection">日よけ用品店</string>
+    <string name="osm_sculptor">彫刻工房</string>
+    <string name="osm_metal_construction">金属加工工房</string>
+    <string name="osm_handicraft">手工芸店</string>
+    <string name="osm_cowshed">牛舎</string>
+    <string name="osm_cabin">小屋</string>
+    <string name="osm_barn">納屋</string>
+    <string name="osm_warehouse">倉庫</string>
+    <string name="osm_houseboat">ハウスボート</string>
+    <string name="osm_book_store">書店</string>
+    <string name="osm_generic_place">場所</string>
+    <string name="osm_hunting_stand">狩猟用見張り台</string>
+    <string name="osm_game_feeding">野生動物の給餌場</string>
+    <string name="osm_crypt">地下納骨室</string>
+    <string name="osm_animal_shelter">動物保護施設</string>
+    <string name="osm_animal_boarding">ペットホテル</string>
+    <string name="osm_blood_donation">献血会場</string>
+    <string name="osm_nursing_home">介護施設</string>
+    <string name="osm_dentist">歯科医院</string>
+    <string name="osm_baby_hatch">赤ちゃんポスト</string>
+    <string name="osm_language_school">語学学校</string>
+    <string name="osm_public_bookcase">共用本棚</string>
+    <string name="osm_biergarten">ビアガーデン</string>
+    <string name="osm_running">ランニングコース</string>
+    <string name="osm_glaziery">ガラス工事店</string>
+    <string name="osm_garages">自動車整備工場</string>
+    <string name="osm_retail">小売店</string>
+    <string name="osm_hotel">ホテル</string>
+    <string name="osm_camp_site">キャンプ場</string>
+    <string name="osm_rugby_league">ラグビー場</string>
+    <string name="osm_roller_skating">ローラースケート場</string>
+    <string name="osm_multi">多目的施設</string>
+    <string name="osm_ice_hockey">アイスホッケー場</string>
+    <string name="osm_hapkido">ハプキドー道場</string>
+    <string name="osm_croquet">クロッケー場</string>
+    <string name="osm_cricket">クリケット場</string>
+    <string name="osm_cockfighting">闘鶏場</string>
+    <string name="osm_boxing">ボクシングジム</string>
+    <string name="osm_bmx">BMXコース</string>
+    <string name="osm_billiards">ビリヤード場</string>
+    <string name="osm_toys">玩具店</string>
+    <string name="osm_pyrotechnics">花火店</string>
+    <string name="osm_laundry">コインランドリー</string>
+    <string name="osm_funeral_directors">葬儀社</string>
+    <string name="osm_dry_cleaning">クリーニング店</string>
+    <string name="osm_copyshop">コピーショップ</string>
+    <string name="osm_chalet">シャレー（山小屋）</string>
+    <string name="osm_apartment">アパート</string>
+    <string name="osm_water_ski">ウォータースキー場</string>
+    <string name="osm_water_polo">水球場</string>
+    <string name="osm_table_soccer">テーブルサッカー（フーズボール）</string>
+    <string name="osm_table_tennis">卓球場</string>
+    <string name="osm_skateboard">スケートボード場（スケートパーク）</string>
+    <string name="osm_sailing">セーリング施設</string>
+    <string name="osm_safety_training">安全訓練施設</string>
+    <string name="osm_rowing">ローイング（ボート）施設</string>
+    <string name="osm_model_aerodrome">模型飛行場</string>
+    <string name="osm_korfball">コーフボール場</string>
+    <string name="osm_ice_stock">アイスストック場</string>
+    <string name="osm_gymnastics">体操場</string>
+    <string name="osm_football">サッカー場</string>
+    <string name="osm_field_hockey">フィールドホッケー場</string>
+    <string name="osm_equestrian">乗馬施設</string>
+    <string name="osm_cycling">サイクリング施設</string>
+    <string name="osm_curling">カーリング場</string>
+    <string name="osm_cricket_nets">クリケット練習ネット</string>
+    <string name="osm_cliff_diving">崖飛びスポット</string>
+    <string name="osm_boules">ブール・ペタンク場</string>
+    <string name="osm_bobsleigh">ボブスレー場</string>
+    <string name="osm_baseball">野球場</string>
+    <string name="osm_aikido">合気道道場</string>
+    <string name="osm_10pin">ボウリング場</string>
+    <string name="osm_weapons">武器店</string>
+    <string name="osm_pet">ペットショップ</string>
+    <string name="osm_money_lender">貸金業者</string>
+    <string name="osm_gift">ギフト・土産店</string>
+    <string name="osm_books">書店</string>
+    <string name="osm_bookmaker">ブックメーカー（賭け屋）</string>
+    <string name="osm_photo">写真店</string>
+    <string name="osm_craft">手芸・クラフト用品店</string>
+    <string name="osm_motorcycle">バイク店</string>
+    <string name="osm_hunting">狩猟用品店</string>
+    <string name="osm_window_blind">ブラインド販売店</string>
+    <string name="osm_curtain">カーテン販売店</string>
+    <string name="osm_antiques">アンティークショップ（骨董品店）</string>
+    <string name="osm_paint">塗料店</string>
+    <string name="osm_tattoo">タトゥースタジオ</string>
+    <string name="osm_nutrition_supplements">サプリメント販売店</string>
+    <string name="osm_hearing_aids">補聴器販売店</string>
+    <string name="osm_cosmetics">化粧品店</string>
+    <string name="osm_watches">時計店</string>
+    <string name="osm_jewelry">宝飾店</string>
+    <string name="osm_boutique">ブティック</string>
+    <string name="osm_baby_goods">ベビー用品店</string>
+    <string name="osm_tea">茶専門店</string>
+    <string name="osm_pasta">パスタ店</string>
+    <string name="osm_coffee">カフェ</string>
+    <string name="osm_quango">準政府機関</string>
+    <string name="osm_political_party">政党事務所</string>
+    <string name="osm_association">非営利団体</string>
+    <string name="osm_architect">建築家事務所</string>
+    <string name="osm_advertising_agency">広告代理店</string>
+    <string name="osm_summer_camp">サマーキャンプ</string>
+    <string name="osm_dance">ダンス教室</string>
+    <string name="osm_amusement_arcade">ゲームセンター</string>
+    <string name="osm_adult_gaming_centre">成人向けゲームセンター</string>
+    <string name="osm_window_construction">窓の製作・取付業者</string>
+    <string name="osm_upholsterer">家具の張り替え業者</string>
+    <string name="osm_shoemaker">靴修理店</string>
+    <string name="osm_sawmill">製材所</string>
+    <string name="osm_pottery">陶芸工房</string>
+    <string name="osm_key_cutter">合鍵作製</string>
+    <string name="osm_hvac">空調設備業者</string>
+    <string name="osm_clockmaker">時計修理店</string>
+    <string name="osm_carpenter">大工</string>
+    <string name="osm_builder">建設業者</string>
+    <string name="osm_bookbinder">製本業者</string>
+    <string name="osm_boatbuilder">造船業者</string>
+    <string name="osm_brewery">ビール醸造所</string>
+    <string name="osm_blacksmith">鍛冶屋</string>
+    <string name="osm_basket_maker">かご職人</string>
+    <string name="osm_greenhouse">温室</string>
+    <string name="osm_farm_auxiliary">農場付属施設</string>
+    <string name="osm_civic">公的建物</string>
+    <string name="osm_bungalow">平屋</string>
+    <string name="osm_detached">一戸建て住宅</string>
+    <string name="osm_hair_dresser">理髪店・美容室</string>
+    <string name="osm_clothing_store">衣料品店</string>
+    <string name="osm_user">ユーザー（利用者）</string>
+    <string name="osm_dojo">道場</string>
+    <string name="osm_nightclub">ナイトクラブ</string>
+    <string name="osm_community_centre">コミュニティセンター</string>
+    <string name="osm_brothel">売春施設</string>
+    <string name="osm_veterinary">動物病院</string>
+    <string name="osm_social_facility">福祉施設</string>
+    <string name="osm_clinic">診療所</string>
+    <string name="osm_charging_station">電気自動車充電スタンド</string>
+    <string name="osm_kindergarten">幼稚園</string>
+    <string name="osm_ice_cream">アイスクリーム店</string>
+    <string name="osm_fast_food">ファストフード店</string>
+    <string name="osm_commercial">商業施設</string>
+    <string name="osm_canoe">カヌー場</string>
+    <string name="osm_scuba_diving">ダイビングスポット</string>
+    <string name="osm_fishing">釣り場</string>
+    <string name="osm_optician">眼鏡店</string>
+    <string name="osm_confectionery">菓子店</string>
+    <string name="osm_bunker">地下壕（バンカー）</string>
+    <string name="osm_sleeping_pods">カプセル式宿泊ポッド</string>
+    <string name="osm_motel">モーテル</string>
+    <string name="osm_guest_house">ゲストハウス</string>
+    <string name="osm_wrestling">レスリング場</string>
+    <string name="osm_toboggan">トボガン／そりコース</string>
+    <string name="osm_skiing">スキー場</string>
+    <string name="osm_rc_car">RCカーコース（ラジコン）</string>
+    <string name="osm_paddle_tennis">パデル（パドルテニス）コート</string>
+    <string name="osm_hockey">ホッケー場</string>
+    <string name="osm_fencing">フェンシング場</string>
+    <string name="osm_bowls">ローンボウルズ場</string>
+    <string name="osm_badminton">バドミントンコート</string>
+    <string name="osm_archery">アーチェリー場</string>
+    <string name="osm_american_football">アメリカンフットボール場</string>
+    <string name="osm_travel_agency">旅行代理店</string>
+    <string name="osm_tobacco">たばこ店</string>
+    <string name="osm_e_cigarette">電子タバコ販売店（VAPE）</string>
+    <string name="osm_video">ビデオ店（レンタル・販売）</string>
+    <string name="osm_car_repair">自動車整備工場</string>
+    <string name="osm_hifi">オーディオショップ（ハイファイ）</string>
+    <string name="osm_lamps">照明器具店</string>
+    <string name="osm_kitchen">キッチン用品・設備店</string>
+    <string name="osm_interior_decoration">インテリア用品店</string>
+    <string name="osm_houseware">家庭用品店</string>
+    <string name="osm_erotic">アダルトショップ</string>
+    <string name="osm_beauty">美容店</string>
+    <string name="osm_wine">ワイン専門店</string>
+    <string name="osm_dairy">乳製品店</string>
+    <string name="osm_cheese">チーズ専門店</string>
+    <string name="osm_bakery">ベーカリー（パン屋）</string>
+    <string name="osm_telecommunication">携帯電話・通信サービス店</string>
+    <string name="osm_tax">税務事務所</string>
+    <string name="osm_real_estate_agent">不動産仲介業者</string>
+    <string name="osm_notary">公証人役場</string>
+    <string name="osm_ngo">NGO事務所</string>
+    <string name="osm_lawyer">弁護士事務所</string>
+    <string name="osm_it">ITサービス</string>
+    <string name="osm_foundation">財団事務所</string>
+    <string name="osm_employment_agency">人材紹介会社</string>
+    <string name="osm_educational_institution">教育機関</string>
+    <string name="osm_adoption_agency">養子縁組仲介機関</string>
+    <string name="osm_miniature_golf">ミニゴルフ場</string>
+    <string name="osm_building">建物</string>
+    <string name="osm_winery">ワイナリー</string>
+    <string name="osm_tiler">タイル業者</string>
+    <string name="osm_chimney_sweeper">煙突掃除業者</string>
+    <string name="osm_stand_builder">展示ブース施工業者</string>
+    <string name="osm_saddler">鞍職人（サドル製作・修理）</string>
+    <string name="osm_plumber">配管工</string>
+    <string name="osm_plasterer">左官</string>
+    <string name="osm_painter">塗装業者</string>
+    <string name="osm_jeweller">宝飾店</string>
+    <string name="osm_floorer">床施工業者</string>
+    <string name="osm_distillery">蒸留所</string>
+    <string name="osm_carpet_layer">カーペット施工業者</string>
+    <string name="osm_beekeeper">養蜂家</string>
+    <string name="osm_public">公共</string>
+    <string name="osm_dormitory">寮</string>
+    <string name="osm_apartments">集合住宅</string>
+    <string name="osm_internet_cafe">インターネットカフェ</string>
+    <string name="osm_shoe_shop">靴屋</string>
+    <string name="osm_generic_shop">店舗</string>
+    <string name="osm_coffee_shop">喫茶店</string>
+    <string name="osm_coworking_space">コワーキングスペース</string>
+    <string name="osm_stripclub">ストリップクラブ</string>
+    <string name="osm_ev_charging">EV充電</string>
+    <string name="osm_pub">パブ</string>
+    <string name="osm_obstacle_course">障害物コース</string>
+    <string name="osm_volleyball">バレーボール</string>
+    <string name="osm_tennis">テニス</string>
+    <string name="osm_soccer">サッカー</string>
+    <string name="osm_shooting">射撃場</string>
+    <string name="osm_rugby_union">ラグビー場</string>
+    <string name="osm_orienteering">オリエンテーリング</string>
+    <string name="osm_netball">ネットボール</string>
+    <string name="osm_motor">自動車販売店</string>
+    <string name="osm_kitesurfing">カイトサーフィン</string>
+    <string name="osm_karting">カート場</string>
+    <string name="osm_judo">柔道</string>
+    <string name="osm_horseshoes">ホースシュー投げ場</string>
+    <string name="osm_handball">ハンドボール</string>
+    <string name="osm_golf">ゴルフ場</string>
+    <string name="osm_gaelic_games">ゲーリックゲーム場（ハーリング等）</string>
+    <string name="osm_diving">ダイビング</string>
+    <string name="osm_darts">ダーツ</string>
+    <string name="osm_climbing_adventure">クライミング施設</string>
+    <string name="osm_basketball">バスケットボール</string>
+    <string name="osm_bandy">バンディ競技場</string>
+    <string name="osm_australian_football">オーストラリアンフットボール場</string>
+    <string name="osm_9pin">9ピンボウリング場</string>
+    <string name="osm_vacant">空き</string>
+    <string name="osm_lottery">宝くじ売り場</string>
+    <string name="osm_trophy">トロフィー店</string>
+    <string name="osm_music">楽器・音楽ショップ</string>
+    <string name="osm_games">ゲームショップ</string>
+    <string name="osm_tyres">タイヤショップ</string>
+    <string name="osm_sports">スポーツ用品店</string>
+    <string name="osm_outdoor">アウトドア用品店</string>
+    <string name="osm_car">自動車販売店</string>
+    <string name="osm_electronics">家電店</string>
+    <string name="osm_computer">コンピュータショップ</string>
+    <string name="osm_furniture">家具店</string>
+    <string name="osm_candles">キャンドル店</string>
+    <string name="osm_hardware">金物店</string>
+    <string name="osm_gas">ガソリンスタンド</string>
+    <string name="osm_energy">エネルギー会社</string>
+    <string name="osm_doityourself">ホームセンター</string>
+    <string name="osm_bathroom_furnishing">浴室設備店</string>
+    <string name="osm_medical_supply">医療用品店</string>
+    <string name="osm_variety_store">雑貨店</string>
+    <string name="osm_second_hand">中古品店</string>
+    <string name="osm_charity">チャリティーショップ</string>
+    <string name="osm_fashion">ファッション店</string>
+    <string name="osm_fabric">生地店</string>
+    <string name="osm_clothes">衣料品店</string>
+    <string name="osm_butcher">精肉店</string>
+    <string name="osm_water_utility">水道事業者</string>
+    <string name="osm_realtor">不動産業者</string>
+    <string name="osm_company">会社</string>
+    <string name="osm_accountant">会計士</string>
+    <string name="osm_bunker_silo">バンカーサイロ</string>
+    <string name="osm_hackerspace">ハッカースペース</string>
+    <string name="osm_lifeguard_base">ライフガード詰所</string>
+    <string name="osm_roofer">屋根職人</string>
+    <string name="osm_rigger">リガー</string>
+    <string name="osm_parquet_layer">パーケット張り職人</string>
+    <string name="osm_gardener">庭師</string>
+    <string name="osm_stable">馬小屋</string>
+    <string name="osm_garage">ガレージ</string>
+    <string name="osm_transportation">交通施設</string>
+    <string name="osm_house">住宅</string>
+    <string name="osm_helipad">ヘリポート</string>
+    <string name="osm_apron">エプロン（駐機場）</string>
+    <string name="osm_consumer_electronics_store">家電店</string>
+    <string name="osm_speciality_store">専門店</string>
+    <string name="osm_defined">定義済み</string>
+    <string name="osm_sauna">サウナ</string>
+    <string name="osm_gym">ジム</string>
+    <string name="osm_crematorium">火葬場</string>
+    <string name="osm_gambling">ギャンブル施設</string>
+    <string name="osm_music_school">音楽教室</string>
+    <string name="osm_bar">バー</string>
+    <string name="osm_farm">農場</string>
+    <string name="osm_bicycle">自転車店</string>
+    <string name="osm_tailor">仕立て屋</string>
+    <string name="osm_locksmith">鍵屋</string>
+    <string name="osm_industrial">工業地域</string>
+    <string name="osm_wilderness_hut">避難小屋</string>
+    <string name="osm_hostel">ホステル</string>
+    <string name="osm_caravan_site">キャラバンサイト</string>
+    <string name="osm_weightlifting">ウエイトリフティング施設</string>
+    <string name="osm_taekwondo">テコンドー道場</string>
+    <string name="osm_swimming">プール</string>
+    <string name="osm_surfing">サーフスポット</string>
+    <string name="osm_skating">スケート場</string>
+    <string name="osm_racquet">ラケットスポーツ施設</string>
+    <string name="osm_pelota">バスク・ペロタのコート</string>
+    <string name="osm_paragliding">パラグライディング場</string>
+    <string name="osm_parachuting">パラシューティング（スカイダイビング）降下地点</string>
+    <string name="osm_motocross">モトクロスコース</string>
+    <string name="osm_ice_skating">アイススケートリンク</string>
+    <string name="osm_horse_racing">競馬場</string>
+    <string name="osm_dog_racing">ドッグレース場</string>
+    <string name="osm_climbing">クライミングエリア</string>
+    <string name="osm_chess">チェスクラブ</string>
+    <string name="osm_canadian_football">カナディアンフットボール用フィールド</string>
+    <string name="osm_beachvolleyball">ビーチバレーボールコート</string>
+    <string name="osm_base">拠点</string>
+    <string name="osm_athletics">陸上競技トラック</string>
+    <string name="osm_pawnbroker">質屋</string>
+    <string name="osm_ticket">チケット窓口</string>
+    <string name="osm_stationery">文房具店</string>
+    <string name="osm_video_games">ゲームショップ</string>
+    <string name="osm_model">模型店</string>
+    <string name="osm_frame">額縁店</string>
+    <string name="osm_art">アートショップ</string>
+    <string name="osm_car_parts">自動車部品店</string>
+    <string name="osm_radiotechnics">無線機器店</string>
+    <string name="osm_bed">寝具店</string>
+    <string name="osm_garden_furniture">ガーデン家具店</string>
+    <string name="osm_electrical">電気用品店</string>
+    <string name="osm_perfumery">香水店</string>
+    <string name="osm_hairdresser">美容室</string>
+    <string name="osm_drugstore">ドラッグストア</string>
+    <string name="osm_shoes">靴屋</string>
+    <string name="osm_leather">革製品店</string>
+    <string name="osm_general">雑貨店</string>
+    <string name="osm_seafood">鮮魚店</string>
+    <string name="osm_organic">オーガニックショップ</string>
+    <string name="osm_greengrocer">八百屋</string>
+    <string name="osm_chocolate">チョコレート店</string>
+    <string name="osm_brewing_supplies">ホームブルーイング用品店</string>
+    <string name="osm_tax_advisor">税理士</string>
+    <string name="osm_private_investigator">私立探偵</string>
+    <string name="osm_government">行政機関</string>
+    <string name="osm_forestry">林業</string>
+    <string name="osm_estate_agent">不動産仲介業者</string>
+    <string name="osm_spring">湧き水</string>
+    <string name="osm_golf_course">ゴルフコース</string>
+    <string name="osm_ses_station">州緊急サービス（SES）施設</string>
+    <string name="osm_lifeguard_place">ライフガード（救護監視所）</string>
+    <string name="osm_stonemason">石工（ストーンメイソン）</string>
+    <string name="osm_scaffolder">足場職人</string>
+    <string name="osm_sailmaker">帆製作・修理店</string>
+    <string name="osm_photographic_laboratory">写真現像所</string>
+    <string name="osm_photographer">写真家・写真館</string>
+    <string name="osm_insulation">断熱材・防音材</string>
+    <string name="osm_electrician">電気工事士</string>
+    <string name="osm_dressmaker">洋裁師（仕立て屋）</string>
+    <string name="osm_caterer">ケータリング業者</string>
+    <string name="osm_terrace">テラス（屋外の平坦スペース）</string>
+    <string name="osm_toy_shop">玩具店</string>
+    <string name="osm_dive_centre">ダイビングセンター</string>
+    <string name="osm_swingerclub">スウィンガークラブ（成人向け）</string>
+    <string name="osm_doctors">診療所（一般開業医）</string>
+    <string name="osm_driving_school">自動車教習所</string>
+    <string name="osm_free_flying">無動力飛行エリア（パラグライダー等）</string>
+    <string name="osm_religion">宗教</string>
+    <string name="osm_kiosk">キオスク（売店）</string>
+    <string name="osm_residential">住宅地</string>
+    <string name="osm_food">飲食店・食品店</string>
+    <string name="osm_waterfall">滝</string>
+    <string name="osm_boatyard">造船・船舶修理場</string>
+    <string name="osm_theme_park">テーマパーク</string>
+    <string name="osm_roundhouse">円形機関車庫（ラウンドハウス）</string>
+    <string name="osm_generator">発電機</string>
+    <string name="osm_beach">海岸（ビーチ）</string>
+    <string name="osm_naval_base">海軍基地</string>
+    <string name="osm_works">工場・製造所</string>
+    <string name="osm_water_works">水処理・給水施設</string>
+    <string name="osm_telescope">望遠鏡</string>
+    <string name="osm_pier">桟橋</string>
+    <string name="osm_observatory">天文台</string>
+    <string name="osm_reservoir">貯水池</string>
+    <string name="osm_monument">記念碑</string>
+    <string name="osm_battlefield">戦場跡</string>
+    <string name="osm_planetarium">プラネタリウム</string>
+    <string name="osm_social_centre">コミュニティセンター</string>
+    <string name="osm_prison">刑務所</string>
+    <string name="osm_courthouse">裁判所</string>
+    <string name="osm_bridge">橋</string>
+    <string name="osm_hangar">格納庫</string>
+    <string name="osm_tower">塔</string>
+    <string name="osm_attraction">観光名所</string>
+    <string name="osm_zoo">動物園</string>
+    <string name="osm_gallery">ギャラリー</string>
+    <string name="osm_artwork">芸術作品</string>
+    <string name="osm_alpine_hut">山小屋（登山者用避難小屋）</string>
+    <string name="osm_plant">工場</string>
+    <string name="osm_insurance">保険事務所</string>
+    <string name="osm_airfield">飛行場</string>
+    <string name="osm_water_tower">給水塔</string>
+    <string name="osm_pumping_station">ポンプ場</string>
+    <string name="osm_hot_water_tank">温水タンク</string>
+    <string name="osm_campanile">鐘楼</string>
+    <string name="osm_sports_centre">スポーツセンター</string>
+    <string name="osm_fitness_centre">フィットネスセンター（ジム）</string>
+    <string name="osm_beach_resort">ビーチリゾート</string>
+    <string name="osm_village_green">村の共有芝地</string>
+    <string name="osm_ship">船</string>
+    <string name="osm_memorial">記念碑</string>
+    <string name="osm_synagogue">シナゴーグ</string>
+    <string name="osm_mosque">モスク</string>
+    <string name="osm_chapel">礼拝堂</string>
+    <string name="osm_cathedral">大聖堂</string>
+    <string name="osm_train_terminal">ターミナル駅</string>
+    <string name="osm_college">カレッジ</string>
+    <string name="osm_arts_centre">アートセンター</string>
+    <string name="osm_ranger_station">レンジャー事務所</string>
+    <string name="osm_hospital">病院</string>
+    <string name="osm_track">トラック</string>
+    <string name="osm_conference_centre">会議センター</string>
+    <string name="osm_viewpoint">展望地</string>
+    <string name="osm_supermarket">スーパーマーケット</string>
+    <string name="osm_peak">山頂</string>
+    <string name="osm_storage_tank">貯蔵タンク</string>
+    <string name="osm_lighthouse">灯台</string>
+    <string name="osm_beacon">ビーコン</string>
+    <string name="osm_port">港</string>
+    <string name="osm_archaeological_site">遺跡</string>
+    <string name="osm_shrine">祠</string>
+    <string name="osm_church">教会</string>
+    <string name="osm_historic_monument">歴史的記念物</string>
+    <string name="osm_generic_landmark">ランドマーク</string>
+    <string name="osm_tourism_museum">博物館</string>
+    <string name="osm_register_office">登録事務所</string>
+    <string name="osm_grave_yard">墓地</string>
+    <string name="osm_marketplace">市場</string>
+    <string name="osm_fire_station">消防署</string>
+    <string name="osm_ruins">廃墟</string>
+    <string name="osm_weir">堰</string>
+    <string name="osm_museum">博物館</string>
+    <string name="osm_mall">ショッピングモール</string>
+    <string name="osm_volcano">火山</string>
+    <string name="osm_hot_spring">温泉</string>
+    <string name="osm_glacier">氷河</string>
+    <string name="osm_wastewater_plant">下水処理場</string>
+    <string name="osm_offshore_platform">海上プラットフォーム</string>
+    <string name="osm_gasometer">ガスホルダー</string>
+    <string name="osm_water_park">ウォーターパーク</string>
+    <string name="osm_bandstand">バンドスタンド</string>
+    <string name="osm_wreck">残骸</string>
+    <string name="osm_pillory">さらし台</string>
+    <string name="osm_monastery">修道院</string>
+    <string name="osm_locomotive">機関車</string>
+    <string name="osm_fort">要塞</string>
+    <string name="osm_services">サービスエリア</string>
+    <string name="osm_lifeguard_tower">ライフガード塔</string>
+    <string name="osm_temple">寺院</string>
+    <string name="osm_national_park">国立公園</string>
+    <string name="osm_heliport">ヘリポート</string>
+    <string name="osm_public_park">公園</string>
+    <string name="osm_department_store">百貨店</string>
+    <string name="osm_studio">スタジオ</string>
+    <string name="osm_public_building">公共建築物</string>
+    <string name="osm_clock">時計</string>
+    <string name="osm_casino">カジノ</string>
+    <string name="osm_stadium">スタジアム</string>
+    <string name="osm_dam">ダム</string>
+    <string name="osm_dock">ドック</string>
+    <string name="osm_geyser">間欠泉</string>
+    <string name="osm_bay">湾</string>
+    <string name="osm_barracks">兵舎</string>
+    <string name="osm_windmill">風車</string>
+    <string name="osm_watermill">水車</string>
+    <string name="osm_communications_tower">通信塔</string>
+    <string name="osm_swimming_area">遊泳区域</string>
+    <string name="osm_slipway">スリップウェイ（船揚場）</string>
+    <string name="osm_nature_reserve">自然保護区</string>
+    <string name="osm_marina">マリーナ</string>
+    <string name="osm_ice_rink">アイスリンク</string>
+    <string name="osm_manor">大邸宅</string>
+    <string name="osm_city_gate">市門</string>
+    <string name="osm_castle">城</string>
+    <string name="osm_aircraft">航空機</string>
+    <string name="osm_digester">消化槽</string>
+    <string name="osm_sally_port">サリーポート（管理出入口）</string>
+    <string name="osm_aerodrome">飛行場</string>
+    <string name="osm_shopping_mall">ショッピングモール</string>
+    <string name="osm_cinema">映画館</string>
+    <string name="osm_rescue_station">救助基地</string>
+    <string name="osm_airport">空港</string>
+    <string name="osm_theatre">劇場</string>
+    <string name="osm_library">図書館</string>
+    <string name="osm_university">大学</string>
+    <string name="osm_police">警察署</string>
+    <string name="osm_embassy">大使館</string>
+    <string name="osm_bus_station">バスターミナル</string>
+    <string name="osm_station">駅</string>
+    <string name="osm_toll_booth">料金所</string>
+    <string name="osm_lift">エレベーター</string>
+    <string name="osm_unmanaged_crossing">無信号横断歩道</string>
+    <string name="osm_pharmacy">薬局</string>
+    <string name="osm_kneipp_water_cure">クナイプ式水治療施設</string>
+    <string name="osm_food_court">フードコート</string>
+    <string name="osm_chemist">薬局</string>
+    <string name="osm_checkpoint">検問所</string>
+    <string name="osm_dog_park">ドッグラン</string>
+    <string name="osm_kissing_gate">キッシングゲート（人のみ通れる小門）</string>
+    <string name="osm_car_rental">レンタカー</string>
+    <string name="osm_pedestrianised_area">歩行者専用区域</string>
+    <string name="osm_escalator">エスカレーター</string>
+    <string name="osm_shelter">シェルター（屋根付き休憩所）</string>
+    <string name="osm_water_point">給水所</string>
+    <string name="osm_subway_entrance">地下鉄入口</string>
+    <string name="osm_cave_entrance">洞窟入口</string>
+    <string name="osm_swing_gate">スイングゲート（開閉式の門）</string>
+    <string name="osm_stile">スタイル（柵越え通路）</string>
+    <string name="osm_car_sharing">カーシェアリング</string>
+    <string name="osm_customer_service">案内窓口（カスタマーサービス）</string>
+    <string name="osm_watering_place">動物用の水飲み場</string>
+    <string name="osm_platform">ホーム（プラットフォーム）</string>
+    <string name="osm_horse_stile">馬用通路（馬が通れる隙間）</string>
+    <string name="osm_bureau_de_change">両替所</string>
+    <string name="osm_stairs">階段</string>
+    <string name="osm_bicycle_rental">レンタサイクル（自転車レンタル）</string>
+    <string name="osm_hampshire_gate">ハンプシャーゲート（英国式の歩行者用ゲート）</string>
+    <string name="osm_full_height_turnstile">全高回転ゲート（ターンスタイル）</string>
+    <string name="osm_boat_sharing">ボートシェアリング</string>
+    <string name="osm_help_point">ヘルプポイント（案内・非常通報）</string>
+    <string name="osm_open_space">オープンスペース（開放地）</string>
+    <string name="osm_spending_area">短時間滞在エリア</string>
+    <string name="osm_bicycle_repair_station">自転車修理ステーション</string>
+    <string name="osm_motorcycle_barrier">オートバイ進入防止柵</string>
+    <string name="osm_kent_carriage_gap">ケント式馬車用隙間（ケント・キャリッジギャップ）</string>
+    <string name="osm_shared_space">共用空間（車両・歩行者共用）</string>
+    <string name="osm_cliff">崖</string>
+    <string name="osm_training_area">訓練場</string>
+    <string name="osm_log">丸太</string>
+    <string name="osm_jersey_barrier">ジャージー・バリア（道路分離柵）</string>
+    <string name="osm_construction_site">工事現場</string>
+    <string name="osm_ridge">尾根</string>
+    <string name="osm_nuclear_explosion_site">核実験跡地</string>
+    <string name="osm_dyke">堤防</string>
+    <string name="osm_sump_buster">サンプバスター（低車高車進入防止）</string>
+    <string name="osm_rope">ロープ</string>
+    <string name="osm_debris">がれき</string>
+    <string name="osm_road_works">道路工事</string>
+    <string name="osm_lock_gate">閘門</string>
+    <string name="osm_sinkhole">陥没穴</string>
+    <string name="osm_range">射撃場</string>
+    <string name="osm_ambulance_station">救急車基地</string>
+    <string name="osm_spikes">スパイク（タイヤを損傷する装置）</string>
+    <string name="osm_generic_hazard">危険箇所</string>
+    <string name="osm_contact_line">架線</string>
+    <string name="osm_danger_area">危険区域</string>
+    <string name="osm_chain">チェーン柵</string>
+    <string name="osm_parking_space">駐車スペース</string>
+    <string name="osm_motorcycle_parking">二輪車駐車場</string>
+    <string name="settings_section_search">検索</string>
+    <string name="settings_search_online">オンライン</string>
+    <string name="settings_search_offline">オフライン</string>
+    <string name="settings_search_auto">自動</string>
+    <string name="search_no_results">検索結果が見つかりませんでした</string>
+    <string name="search_searching">検索中…</string>
+    <string name="menu_manage_search">検索</string>
+    <string name="route_not_found">ルートが見つかりません</string>
+    <string name="advanced_markers_and_routes_export">エクスポート</string>
+    <string name="location_item_selected">選択済み</string>
+    <string name="location_item_not_selected">未選択</string>
+    <string name="location_item_move_up">リスト内で上に移動します</string>
+    <string name="location_item_move_down">リスト内で下に移動します</string>
+    <string name="street_description_between">%1$s（%2$s と %3$s の間）</string>
+    <string name="street_description_until">%1$s、%3$s まで %2$s</string>
+    <string name="street_description_since">%1$s、%3$s から %2$s 進んでいます</string>
+    <string name="osm_city">都市</string>
+    <string name="osm_town">町</string>
+    <string name="osm_neighbourhood">地区</string>
+    <string name="osm_village">村</string>
+    <string name="osm_hamlet">集落</string>
+    <string name="osm_recreation_ground">運動場</string>
+    <string name="osm_river">川</string>
+    <string name="osm_railway">鉄道</string>
+    <string name="osm_wood">林</string>
+    <string name="osm_pavillion">パビリオン</string>
+    <string name="osm_sport">スポーツ施設</string>
+    <string name="osm_health_food">健康食品店</string>
+    <string name="osm_events_venue">イベント会場</string>
+    <string name="menu_help">ヘルプ</string>
+    <string name="tour_welcome">Soundscape のチュートリアルへようこそ。このチュートリアルではアプリの主な機能を案内します。チュートリアルはいつでもメインメニューの「音声チュートリアルを中止する」をタップして停止できます。まずは「近くの場所」を使って、興味のある場所を探してみましょう。「近くの場所」ボタンはホーム画面の検索バーのすぐ下にあります。今すぐタップして試してください。</string>
+    <string name="tour_select_place">「近くの場所」では特定地点を種類別にグループ化しています。リストを見て回り、ひとつ選択してください。</string>
+    <string name="tour_create_marker_started">いいですね！現在は「場所の詳細」画面にいます。この画面では場所をマーカーとして保存するなどの操作ができます。Soundscape では自宅やバス停、今いる地点など、関心のある場所を何でもマークできます。試してみましょう。[マーカーを保存] をタップしてこの場所をマーカーとして保存してください。</string>
+    <string name="tour_create_marker_done">完了です！マーカー作成時は名前を編集したり追加のメモを付けたりできます。今それを試してみて、準備ができたら [完了] をタップしてください。</string>
+    <string name="tour_my_location">マーカーの使い方がわかったところで、他の機能も見てみましょう。画面下部には順に試す 4 つのボタンがあります。左端のボタンは「現在地」で、現在地に関する説明をしてくれます。今すぐタップしてみてください。</string>
+    <string name="tour_around_me">次のボタンは「周辺」です。各方向にある近くの場所について教えてくれます。「周辺」をタップしてください。</string>
+    <string name="tour_ahead">次のボタンは「前方」です。あなたの前方にあるものについて教えてくれます。「前方」をタップしてください。</string>
+    <string name="tour_nearby_markers">最後のボタンは「近くのマーカー」で、保存した場所を周囲から案内します。「近くのマーカー」をタップして試してみてください。</string>
+    <string name="tour_markers_and_routes">これでマーカーが作成されました。次に、その場所へ誘導する音声ビーコンを鳴らしてみましょう。「近くの場所」のすぐ下にある「マーカーおよびルート」をタップしてください。</string>
+    <string name="tour_markers">「マーカーおよびルート」画面には 2 つのタブがあります。ルートはマーカーのプレイリストを一覧表示するタブ、もう一方は個別のマーカーを一覧表示するタブです。作成したマーカーを探すために「マーカー」タブをタップしてください。</string>
+    <string name="tour_start_beacon">いま「マーカー」タブを表示しており、保存したマーカーが一覧で表示されています。マーカーを選択し、「場所の詳細」画面が表示されたら [音声ビーコンを開始] をタップしてください。</string>
+    <string name="tour_beacon_demo">音声ビーコンが聞こえるはずです。目的地の方向から再生されます。端末の向きを変えるとビーコンの音が移動して聞こえ方が変わるのが分かります。今試してみてください。</string>
+    <string name="tour_beacon_demo_locked">端末がロックされていてもビーコンは再生されます。歩行中や乗り物に乗っているときは、移動方向を基にビーコンが再生されます。ただしロック中でも、コンパスのように端末を水平に前方に向ければ、その向きを使って音が再生されます。試してみてください。</string>
+    <string name="tour_stop_beacon">ビーコンを止める準備ができたら、[ルートを中止する] ボタンをタップしてください。</string>
+    <string name="tour_finish">これでチュートリアルは終了です。メインメニューからいつでも再度実行できます。アプリがお役に立てることを願っています！</string>
+    <string name="tour_cancel">音声チュートリアルは中止されました。必要であれば、メインメニューから再度実行できます。</string>
+    <string name="menu_audio_tutorial">音声チュートリアル</string>
+    <string name="menu_audio_tutorial_cancel">音声チュートリアルを中止する</string>
+    <string name="search_bar_hint">目的地の名前または住所を入力してください</string>
+    <string name="all_places_nearby_description">近くのすべての場所をフィルタなしで表示する</string>
+    <string name="public_transit_places_nearby_description">近くの公共交通機関の一覧を表示する</string>
+    <string name="food_drink_places_nearby_description">近くのレストランやバーの一覧を表示する</string>
+    <string name="groceries_places_nearby_description">近くの食料品店の一覧を表示する</string>
+    <string name="banks_places_nearby_description">近くの銀行やATMの一覧を表示する</string>
+    <string name="intersections_places_nearby_description">近くの交差点の一覧を表示する</string>
+    <string name="places_nearby_selection_description">近くの場所の一覧から選択する</string>
+    <string name="accessibility_title">アクセシビリティ</string>
+    <string name="accessibility_screen_reader_enabled">スクリーンリーダーが有効になっているため、ユーザーインターフェースの地図表示はオフにしてアプリを実行することをおすすめします。ここで設定を変更するか、そのまま続行してください。</string>
+    <string name="accessibility_screen_reader_disabled">スクリーンリーダーが有効になっていないため、ユーザーインターフェースに地図を表示することを想定しています。ここで設定を変更するか、そのまま続行してください。</string>
+    <string name="tour_continue_button">続行</string>
+    <string name="tour_continue_hint">ポップアップを閉じてチュートリアルを続行します</string>
+    <string name="location_detail_action_beacon_from_markers">このマーカーで音声ビーコンを開始する</string>
+    <string name="location_detail_full_screen_for_edit_hint">地図を全画面表示にしてマーカーの位置を編集する</string>
+    <string name="location_detail_exit_full_screen_for_edit_hint">マーカーの位置編集モードを終了する</string>
+    <string name="street_description_relative_before">%1$s（%2$s の手前）</string>
+    <string name="street_description_relative_after">%1$s（%2$s の直後）</string>
+    <string name="street_description_intersection">%1$s の交差点付近</string>
+    <string name="general_error_add_marker_duplicate">この場所は既にルートに含まれているため、再度追加することはできません。</string>
+    <string name="settings_explanation">アプリの各種設定は下のグループに分類されています。グループをタップして展開し、利用可能なオプションを表示してください。</string>
+    <string name="settings_section_units_description">距離に使用する測定単位を選択します</string>
+    <string name="settings_section_search_network">検索モード</string>
+    <string name="settings_section_search_network_description">検索がオフラインデータのみを使用するかどうかを制御します</string>
+    <string name="beacon_settings_style_description">使用する音声ビーコンのスタイルを選択します</string>
+    <string name="preview_include_unnamed_roads_title_description">位置シミュレーション中に無名道路を含めます</string>
+    <string name="callouts_allow_callouts_description">すべてのコールアウトをオンまたはオフにします</string>
+    <string name="callouts_places_and_landmarks_description">近くの店舗やレストランなど</string>
+    <string name="callouts_mobility_description">交差点および交通に関する情報</string>
+    <string name="callouts_audio_beacon_description">音声ビーコンが設定されているときの距離に関する更新</string>
+    <string name="menu_manage_language">言語と地域 </string>
+    <string name="settings_search_results_language_description">オンライン検索は、結果の現地言語を使用するか、英語・フランス語・ドイツ語のいずれかで返すように設定できます。</string>
+    <string name="language_mismatch_title">新しい言語が利用可能です</string>
+    <string name="language_mismatch_message">お使いの端末の言語が %1$s に設定されており、その言語が Soundscape で利用できるようになりました。Soundscape を %1$s に切り替えますか?</string>
+    <string name="language_mismatch_switch">%1$s に切り替える</string>
+    <string name="language_mismatch_keep">現在の言語を保持する</string>
+    <string name="preview_go_hint">この方向に進んで次の交差点へ移動する</string>
+    <string name="error_message_route_not_found">データベースでルートが見つかりませんでした。</string>
+    <string name="error_message_deleting_route">ルートの削除に失敗しました。</string>
+    <string name="error_message_saving_route">ルートの保存に失敗しました。</string>
+    <string name="service_still_running">Soundscape の位置情報サービスはまだ実行中です。</string>
+    <string name="offline_map_download_complete">ダウンロードが完了しました</string>
+    <string name="offline_map_download_cancelled">ダウンロードがキャンセルされました</string>
+    <string name="offline_map_download_error">ダウンロードエラー</string>
+    <string name="behavior_scavenger_hunt_callout_next_flag_short_route">ビーコンが %1$s で設定されました。距離は %2$s です。</string>
+    <string name="route_beacon_progress">ビーコン: %1$s</string>
+    <string name="menu_route">ルートの操作</string>
+    <string name="menu_route_next_waypoint">次のウェイポイント</string>
+    <string name="menu_route_previous_waypoint">以前のウェイポイント</string>
+    <string name="menu_no_routes">保存されたルートはありません</string>
+    <string name="menu_main_menu">トップメニュー</string>
+    <string name="first_launch_permissions_record_audio">音声を録音</string>
+    <string name="first_launch_permissions_required_for_voice_control">この許可は任意ですが、音声コマンドでアプリを操作したい場合は必要です。</string>
+    <string name="menu_media_controls">メディアコントロール</string>
+    <string name="settings_section_media_controls">メディアコントロールのモード</string>
+    <string name="settings_section_media_controls_description">ヘッドホンやリモコンのメディアコントロールボタンは、この設定に応じて異なる動作に設定できます。</string>
+    <string name="settings_media_controls_original">オリジナルモード</string>
+    <string name="settings_media_controls_voice_command">音声コマンド</string>
+    <string name="settings_media_controls_audio_menu">音声メニュー</string>
+    <string name="voice_cmd_help_response">利用可能な音声コマンド:</string>
+    <string name="voice_cmd_listening">聞き取り中…</string>
+    <string name="voice_cmd_not_recognized">申し訳ありません。コマンド「%1$s」が見つかりません。利用可能なコマンドを一覧表示するには、音声コマンド「%2$s」を実行してください。</string>
+    <string name="voice_cmd_list_routes">ルート一覧</string>
+    <string name="voice_cmd_routes_list">利用可能なルートは次のとおりです:</string>
+    <string name="voice_cmd_list_markers">マーカー一覧</string>
+    <string name="voice_cmd_markers_list">利用可能なマーカーは次のとおりです:</string>
+    <string name="voice_cmd_no_routes">保存されたルートはありません</string>
+    <string name="voice_cmd_no_markers">保存されたマーカーはありません</string>
+    <string name="voice_cmd_route_not_found">ルート「%1$s」が見つかりません</string>
+    <string name="voice_cmd_starting_route">ルート「%1$s」を開始します</string>
+    <string name="voice_cmd_start_route">ルート %1$s を開始する</string>
+    <string name="voice_cmd_start_beacon_at_marker_with_name">音声ビーコンを %1$s で開始する</string>
+    <string name="voice_cmd_starting_beacon_at_marker">音声ビーコンを %1$s で開始します</string>
+    <string name="voice_cmd_marker_not_found">マーカーが見つかりません: %1$s</string>
+    <string name="voice_cmd_explain_dynamic_markers">名前でルートやマーカーを開始することもできます。例えば、</string>
+    <string name="voice_cmd_speech_recognition_error_network_timeout">音声認識でネットワークのタイムアウトが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_network">音声認識のネットワークエラーが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_audio">音声の録音中に音声認識エラーが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_server">音声認識サーバーでエラーが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_client">音声認識クライアントでエラーが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_speech_timeout">音声入力の待機がタイムアウトしたため、リスニングを停止しました。もう一度お試しください。</string>
+    <string name="voice_cmd_speech_recognition_not_match">音声が検出されなかったため、リスニングを停止しました。もう一度お試しください。</string>
+    <string name="voice_cmd_speech_recognition_busy">音声認識がビジー状態です。</string>
+    <string name="voice_cmd_speech_recognition_error_permissions">音声認識を実行するための権限が不足しています。</string>
+    <string name="voice_cmd_speech_recognition_error_too_many_requests">音声認識へのリクエストが多すぎます。</string>
+    <string name="voice_cmd_speech_recognition_error_server_disconnected">音声認識サーバーの切断が発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_language_not_supported">この言語は Android の音声認識でサポートされていません。</string>
+    <string name="voice_cmd_speech_recognition_error_language_unavailable">この言語はサポートされていますが、この端末にはダウンロードされていません。</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_check_support">音声認識のサポート確認中にエラーが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events">音声認識のダウンロード監視中にエラーが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_unknown">音声認識で不明なエラーが発生しました。</string>
+    <string name="voice_cmd_speech_recognition_error_unsupported">この端末では音声認識はサポートされていません。</string>
+    <string name="settings_voice_command_listening_prompt">聞き取り開始を通知</string>
+    <string name="settings_voice_command_listening_prompt_description">音声認識が開始される前に、聞き取り開始を知らせるプロンプト（合図）を再生します。</string>
+    <string name="settings_voice_command_microphone">マイク</string>
+    <string name="settings_voice_command_microphone_description">音声コマンドに使用するマイクを選択します。</string>
     <string name="battery_optimization_title">バックグラウンドでのバッテリー使用</string>
     <string name="battery_optimization_message">端末がロックされている間も音声ナビゲーションを提供し続けるため、Soundscape ではバッテリー使用の制限を解除する必要があります。次のダイアログでこれを許可してください。Soundscape を閉じると、すべてのサービスが停止し、バッテリーの消費はなくなります。</string>
     <string name="route_detail_action_start_route_reverse">ルートを逆順で開始する</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="general_alert_cancel">Annuleren</string>
     <string name="general_alert_done">Gereed</string>
     <string name="general_loading_start">Alles voorbereiden…</string>
@@ -405,931 +405,931 @@
     <string name="faq_tip_create_marker_at_bus_stop">Als u regelmatig een bepaalde buslijn neemt, zet uw instap- en uitstaphaltes als Markeringen. Zo worden ze opgeslagen en kunt u ze eenvoudig terugvinden via *"Markeringen beheren"* in het menu en de lijst. U kunt er een baken op instellen en u ontvangt periodieke updates over hoe dicht u bij uw uitstaphalte bent. Let op: u kunt het ritmische geluid uitschakelen en blijft nog steeds afstandsupdates ontvangen.</string>
     <string name="first_launch_permissions_notification">Meldingen</string>
     <string name="no_language_selected">Geen taal geselecteerd</string>
-    <string name="settings_section_units" tools:ignore="MissingTranslation">Eenheden</string>
-    <string name="settings_units_imperial" tools:ignore="MissingTranslation">Imperiaal (voet)</string>
-    <string name="settings_units_metric" tools:ignore="MissingTranslation">Metrisch (meter)</string>
-    <string name="voice_engine" tools:ignore="MissingTranslation">Tekst-naar-spraakmotor</string>
-    <string name="preview_go_nearest_intersection" tools:ignore="MissingTranslation">Ga naar het dichtstbijzijnde kruispunt</string>
-    <string name="last_entry_in_list" tools:ignore="MissingTranslation"> en %1$s</string>
-    <string name="location_detail_full_screen_hint" tools:ignore="MissingTranslation">Kaart op volledig scherm weergeven</string>
-    <string name="location_detail_exit_full_screen_hint" tools:ignore="MissingTranslation">Volledig scherm van de kaart sluiten</string>
-    <string name="route_detail_action_previous_disabled_hint" tools:ignore="MissingTranslation">Inactief omdat de route al bij het begin is</string>
-    <string name="route_detail_action_next_disabled_hint" tools:ignore="MissingTranslation">Inactief omdat de route al bij het einde is</string>
-    <string name="directions_near_road_and_settlement" tools:ignore="MissingTranslation">Bij %1$s en dicht bij %2$s</string>
-    <string name="directions_cardinal_north" tools:ignore="MissingTranslation">Noord</string>
-    <string name="directions_cardinal_north_east" tools:ignore="MissingTranslation">Noordoost</string>
-    <string name="directions_cardinal_east" tools:ignore="MissingTranslation">Oost</string>
-    <string name="directions_cardinal_south_east" tools:ignore="MissingTranslation">Zuidoost</string>
-    <string name="directions_cardinal_south" tools:ignore="MissingTranslation">Zuid</string>
-    <string name="directions_cardinal_south_west" tools:ignore="MissingTranslation">Zuidwest</string>
-    <string name="directions_cardinal_west" tools:ignore="MissingTranslation">West</string>
-    <string name="directions_cardinal_north_west" tools:ignore="MissingTranslation">Noordwest</string>
-    <string name="directions_cardinal_north_abb" tools:ignore="MissingTranslation">N</string>
-    <string name="directions_cardinal_north_east_abb" tools:ignore="MissingTranslation">NO</string>
-    <string name="directions_cardinal_east_abb" tools:ignore="MissingTranslation">O</string>
-    <string name="directions_cardinal_south_east_abb" tools:ignore="MissingTranslation">ZO</string>
-    <string name="directions_cardinal_south_abb" tools:ignore="MissingTranslation">Z</string>
-    <string name="directions_cardinal_south_west_abb" tools:ignore="MissingTranslation">ZW</string>
-    <string name="directions_cardinal_west_abb" tools:ignore="MissingTranslation">W</string>
-    <string name="directions_cardinal_north_west_abb" tools:ignore="MissingTranslation">NW</string>
-    <string name="menu_contact_support" tools:ignore="MissingTranslation">Contact opnemen met ondersteuning</string>
-    <string name="permissions_required" tools:ignore="MissingTranslation">De app heeft locatie-machtigingen nodig om te kunnen werken.</string>
-    <string name="permissions_button" tools:ignore="MissingTranslation">Wijzig de machtigingen in de app-instellingen</string>
-    <string name="first_launch_change_language" tools:ignore="MissingTranslation">Taal wijzigen</string>
-    <string name="first_launch_change_language_hint" tools:ignore="MissingTranslation">om de taal te wijzigen die in de app wordt gebruikt</string>
-    <string name="osm_entrance" tools:ignore="MissingTranslation">Ingang</string>
-    <string name="osm_main_entrance" tools:ignore="MissingTranslation">Hoofdingang</string>
-    <string name="osm_entrance_named_with_destination" tools:ignore="MissingTranslation">%1$s %2$s van %3$s</string>
-    <string name="osm_entrance_with_destination" tools:ignore="MissingTranslation">%1$s %2$s</string>
-    <string name="notification_text" tools:ignore="MissingTranslation">De Soundscape-locatieservice blijft actief, ook wanneer de telefoon vergrendeld is.</string>
-    <string name="cancel_search_contentDescription" tools:ignore="MissingTranslation">Zoekopdracht annuleren</string>
-    <string name="osm_train_station" tools:ignore="MissingTranslation">Treinstation</string>
-    <string name="osm_train_station_named" tools:ignore="MissingTranslation">%1$s treinstation</string>
-    <string name="osm_tram_stop" tools:ignore="MissingTranslation">Tramhalte</string>
-    <string name="osm_tram_stop_named" tools:ignore="MissingTranslation">%1$s tramhalte</string>
-    <string name="osm_subway" tools:ignore="MissingTranslation">Metrostation</string>
-    <string name="osm_subway_named" tools:ignore="MissingTranslation">%1$s metrostation</string>
-    <string name="osm_ferry_terminal" tools:ignore="MissingTranslation">Veerterminal</string>
-    <string name="osm_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s veerterminal</string>
-    <string name="menu_manage_audio" tools:ignore="MissingTranslation">Audio</string>
-    <string name="menu_manage_accessibility" tools:ignore="MissingTranslation">Toegankelijkheid</string>
-    <string name="settings_theme_light_dark" tools:ignore="MissingTranslation">Licht- of donker thema</string>
-    <string name="settings_theme_auto" tools:ignore="MissingTranslation">Automatisch</string>
-    <string name="settings_theme_is_light" tools:ignore="MissingTranslation">Licht thema gebruiken</string>
-    <string name="settings_theme_light" tools:ignore="MissingTranslation">Licht</string>
-    <string name="settings_theme_dark" tools:ignore="MissingTranslation">Donker</string>
-    <string name="settings_theme_contrast" tools:ignore="MissingTranslation">Thema-contrast</string>
-    <string name="settings_theme_contrast_regular" tools:ignore="MissingTranslation">Normaal</string>
-    <string name="settings_theme_contrast_medium" tools:ignore="MissingTranslation">Gemiddeld</string>
-    <string name="settings_theme_contrast_high" tools:ignore="MissingTranslation">Hoog</string>
-    <string name="settings_list_item_description" tools:ignore="MissingTranslation">%1$s is keuze %2$s van %3$s</string>
-    <string name="settings_keep_value" tools:ignore="MissingTranslation">behouden</string>
-    <string name="settings_use_value" tools:ignore="MissingTranslation">gebruiken</string>
-    <string name="street_preview_exit" tools:ignore="MissingTranslation">Locatiesimulatie afsluiten</string>
-    <string name="settings_travel_recording" tools:ignore="MissingTranslation">Reisregistratie inschakelen</string>
-    <string name="settings_show_map" tools:ignore="MissingTranslation">Kaarten op het scherm weergeven</string>
-    <string name="settings_debug_heading" tools:ignore="MissingTranslation">Debugopties</string>
-    <string name="settings_search_results_language" tools:ignore="MissingTranslation">Taal van zoekresultaten</string>
-    <string name="menu_share_recorded_route" tools:ignore="MissingTranslation">Reisopname delen</string>
-    <string name="confect_name_to_via" tools:ignore="MissingTranslation">%1$s naar %2$s via %3$s</string>
-    <string name="confect_name_to" tools:ignore="MissingTranslation">%1$s naar %2$s</string>
-    <string name="confect_name_joins" tools:ignore="MissingTranslation">%1$s dat %2$s en %3$s verbindt</string>
-    <string name="confect_name_via" tools:ignore="MissingTranslation">%1$s via %2$s</string>
-    <string name="confect_name_pavement_next_to" tools:ignore="MissingTranslation">Stoep naast %1$s</string>
-    <string name="confect_name_pavement" tools:ignore="MissingTranslation">Stoep</string>
-    <string name="confect_name_dead_end" tools:ignore="MissingTranslation">Doodlopende weg</string>
-    <string name="offline_maps_title" tools:ignore="MissingTranslation">Offline kaarten</string>
-    <string name="offline_map_details_title" tools:ignore="MissingTranslation">Offline kaartdetails</string>
-    <string name="offline_maps_loading" tools:ignore="MissingTranslation">Laden…</string>
-    <string name="offline_maps_downloading" tools:ignore="MissingTranslation">Downloaden: %1$s</string>
-    <string name="offline_maps_caching" tools:ignore="MissingTranslation">De server bereidt %1$s voor om te downloaden. Dit kan enkele minuten duren; daarna begint de download automatisch.</string>
-    <string name="offline_maps_free_space" tools:ignore="MissingTranslation">%1$s vrij</string>
-    <string name="offline_maps_storage" tools:ignore="MissingTranslation">Kaarten worden opgeslagen op %1$s, dat %2$s vrij heeft</string>
-    <string name="offline_maps_already_downloaded" tools:ignore="MissingTranslation">Gedownloade kaarten</string>
-    <string name="offline_maps_nearby" tools:ignore="MissingTranslation">Offline kaarten in de buurt</string>
-    <string name="offline_maps_loading_manifest" tools:ignore="MissingTranslation">Lijst met offline kaarten laden</string>
-    <string name="offline_map_details_delete" tools:ignore="MissingTranslation">Offline kaart verwijderen</string>
-    <string name="offline_map_details_download" tools:ignore="MissingTranslation">Offline kaart downloaden</string>
-    <string name="offline_map_details_size_on_phone" tools:ignore="MissingTranslation">Grootte op telefoon: %1$s</string>
-    <string name="offline_map_details_size_on_server" tools:ignore="MissingTranslation">Downloadgrootte: %1$s</string>
-    <string name="offline_map_details_name" tools:ignore="MissingTranslation">Kaartnaam: %1$s</string>
-    <string name="offline_map_details_city_list" tools:ignore="MissingTranslation">De kaart bevat de volgende plaatsen: %1$s</string>
-    <string name="offline_map_details_alternate_city_list" tools:ignore="MissingTranslation">Deze plaatsen zijn ook bekend als: %1$s</string>
-    <string name="offline_map_storage_title" tools:ignore="MissingTranslation">Offline kaartopslag</string>
-    <string name="offline_map_storage_description" tools:ignore="MissingTranslation">Zodat Soundscape zonder internetverbinding kan worden gebruikt, kunt u kaarten downloaden en op uw telefoon opslaan. De standaardopslag is de externe opslag op uw telefoon, maar u kunt hier een alternatieve bestemming kiezen.</string>
-    <string name="offline_map_wifi_only" tools:ignore="MissingTranslation">Alleen Wi‑Fi gebruiken voor kaartdownload</string>
-    <string name="text_field_clear_text" tools:ignore="MissingTranslation">Tekst wissen</string>
-    <string name="marker_name_description_hint" tools:ignore="MissingTranslation">de naam van de markering bewerken</string>
-    <string name="annotation_description_hint" tools:ignore="MissingTranslation">een optionele aantekening toevoegen om u later te helpen deze markering te herkennen</string>
-    <string name="route_name_description_hint" tools:ignore="MissingTranslation">de naam van de route bewerken</string>
-    <string name="route_description_description_hint" tools:ignore="MissingTranslation">een optionele beschrijving voor deze route toevoegen</string>
-    <string name="fab_add_item" tools:ignore="MissingTranslation">Item toevoegen</string>
-    <string name="fab_add_route" tools:ignore="MissingTranslation">Route toevoegen</string>
-    <string name="route_waypoint_progress" tools:ignore="MissingTranslation">Route %1$s, routepunt %2$s van %3$s</string>
-    <string name="home_screen_title" tools:ignore="MissingTranslation">Soundscape-startscherm</string>
-    <string name="about_soundscape" tools:ignore="MissingTranslation">Soundscape onderzoekt het gebruik van innovatieve, op audio gebaseerde technologie om mensen te helpen een rijker bewustzijn van hun omgeving op te bouwen, zodat ze zich zelfverzekerder en zelfstandiger kunnen verplaatsen.</string>
-    <string name="offline_maps_manifest_failed" tools:ignore="MissingTranslation">Het downloaden van offline kaartgegevens is mislukt</string>
-    <string name="settings_reset_button" tools:ignore="MissingTranslation">Instellingen terugzetten naar standaardwaarden</string>
-    <string name="settings_reset_button_hint" tools:ignore="MissingTranslation">Zet de instellingen terug naar de standaardwaarden en start daarna de app opnieuw.</string>
-    <string name="settings_reset_dialog_title" tools:ignore="MissingTranslation">Weet u het zeker?</string>
-    <string name="settings_reset_dialog_message" tools:ignore="MissingTranslation">Het terugzetten van de instellingen verwijdert alle door u geconfigureerde instellingen in de app. Wilt u doorgaan?</string>
-    <string name="menu_advanced_markers_and_routes" tools:ignore="MissingTranslation">Geavanceerde markeringen en routes</string>
-    <string name="advanced_markers_and_routes_description" tools:ignore="MissingTranslation">Op dit scherm kunt u de database met markeringen en routes exporteren en importeren, en ook alle bestaande markeringen en routes verwijderen.</string>
-    <string name="advanced_markers_and_routes_export_button" tools:ignore="MissingTranslation">Database met markeringen en routes exporteren</string>
-    <string name="advanced_markers_and_routes_import_button" tools:ignore="MissingTranslation">Database met markeringen en routes importeren</string>
-    <string name="markers_and_routes_import_success" tools:ignore="MissingTranslation">Import van markeringen en routes voltooid.</string>
-    <string name="markers_and_routes_import_failure" tools:ignore="MissingTranslation">Import van markeringen en routes mislukt.</string>
-    <string name="advanced_markers_and_routes_clear_all_button" tools:ignore="MissingTranslation">Alle markeringen en routes verwijderen</string>
-    <string name="advanced_markers_and_routes_clear_all_alert_message" tools:ignore="MissingTranslation">Het verwijderen van alle markeringen en routes kan niet ongedaan worden gemaakt. Wilt u doorgaan?</string>
-    <string name="menu_advanced_markers_and_routes_clear_all_success" tools:ignore="MissingTranslation">Markeringen en routes verwijderd</string>
-    <string name="new_version_info_text" tools:ignore="MissingTranslation">Informatie over de nieuwe release</string>
-    <string name="new_version_info_completed" tools:ignore="MissingTranslation">Nieuwe releasedialoog sluiten</string>
-    <string name="new_version_info_details" tools:ignore="MissingTranslation">\nIn deze release zitten twee nieuwe functies waarmee u de app op afstand kunt bedienen, zelfs wanneer de telefoon vergrendeld is. Dat betekent dat u de telefoon in uw zak kunt houden terwijl u toch de belangrijkste functies van de app bedient.\n\nBeide methoden voor afstandsbediening gebruiken Bluetooth‑mediaknoppen, hetzij die op uw koptelefoon, hetzij kleine afstandsbedieningen die u in de hand of zak kunt bewaren. De afstandsbedieningsmodus kiest u in Instellingen &gt; Mediaregelaars. U kunt "Spraakbediening" kiezen om tegen de app te spreken, of "Audiomenu" waarbij menu's voorgelezen worden en u opties kunt selecteren. "Originele modus" zorgt ervoor dat de Bluetooth‑knoppen hetzelfde werken als in eerdere versies.\n\nIn de spraakbedieningsmodus start het drukken op de afspelen/pauzeren‑knop van uw koptelefoon de app die gaat luisteren naar spraak; u hoort een kort signaaltje ter bevestiging. Zegt u "Help", dan leest de app de beschikbare commando's op. Daarna kunt u de knop nogmaals indrukken en de andere commando's uitproberen. Helaas ondersteunt Android spraakherkenning niet alle talen en is het niet op alle telefoons beschikbaar.\n\nHet grootste praktische probleem met spraakbediening is dat sommige koptelefoons langer nodig hebben om hun microfoon actief te maken dan andere. Dit betekent dat u na het tikken op de afspelen/pauzeren‑knop tot ongeveer 5 seconden moet wachten voordat u kunt spreken. Om te ontdekken hoe lang dat bij uw koptelefoon duurt, is de beste aanpak: tik op afspelen/pauzeren en tel hardop van 1 tot 10. De telefoon vertelt u vervolgens welke spraak werd herkend en het eerste nummer dat werd herkend is de eerste die door de microfoon werd opgevangen. Dat helpt u inschatten hoe lang u moet wachten voordat u spreekt. Sommige koptelefoons maken een duidelijk geluid wanneer de microfoon actief is, wat het makkelijker maakt, maar andere geven geen geluid. Dit vereist helaas soms wat oefening.\n\nDe andere nieuwe afstandsbedieningsmodus, het Audiomenu, werkt in alle talen en op alle telefoons. Met de volgende/vorige‑knoppen van de mediacontrole bladert u door de opties van het menu; de afspelen/pauzeren‑knop selecteert vervolgens de huidige optie. Er is een hoofdmenu en één laag met submenu's die soortgelijke commando's groeperen.\n\nDeze functies zijn nog heel nieuw en we horen graag uw ervaringen: werken ze goed en welke extra commando's zou u willen?\n\nMeld eventuele problemen, hoe klein ook, via de optie *Contact opnemen met ondersteuning* in het hoofdmenu.\n</string>
-    <string name="menu_open_source_licenses" tools:ignore="MissingTranslation">Open-sourcelicenties</string>
-    <string name="osm_tag_ferry_terminal" tools:ignore="MissingTranslation">Veerterminal</string>
-    <string name="osm_tag_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s Veerterminal</string>
-    <string name="osm_office" tools:ignore="MissingTranslation">Kantoor</string>
-    <string name="osm_school" tools:ignore="MissingTranslation">School</string>
-    <string name="osm_roof" tools:ignore="MissingTranslation">Dak</string>
-    <string name="osm_convenience" tools:ignore="MissingTranslation">Buurtwinkel</string>
-    <string name="osm_lift_gate" tools:ignore="MissingTranslation">Hefpoort</string>
-    <string name="osm_toilets" tools:ignore="MissingTranslation">Toiletten</string>
-    <string name="osm_parking" tools:ignore="MissingTranslation">Parkeerplaats</string>
-    <string name="osm_taxi" tools:ignore="MissingTranslation">Taxistandplaats</string>
-    <string name="osm_bicycle_parking" tools:ignore="MissingTranslation">Fietsenstalling</string>
-    <string name="osm_fuel" tools:ignore="MissingTranslation">Tankstation</string>
-    <string name="osm_recycling" tools:ignore="MissingTranslation">Recyclingpunt</string>
-    <string name="osm_drinking_water" tools:ignore="MissingTranslation">Drinkwater</string>
-    <string name="osm_pitch" tools:ignore="MissingTranslation">Sportveld</string>
-    <string name="osm_picnic_site" tools:ignore="MissingTranslation">Picknickplaats</string>
-    <string name="osm_information" tools:ignore="MissingTranslation">Informatie</string>
-    <string name="osm_fire_extinguisher" tools:ignore="MissingTranslation">Brandsblusser</string>
-    <string name="osm_defibrillator" tools:ignore="MissingTranslation">AED (defibrillator)</string>
-    <string name="osm_guide" tools:ignore="MissingTranslation">Wegwijzer</string>
-    <string name="osm_water" tools:ignore="MissingTranslation">Water</string>
-    <string name="osm_fire_hose" tools:ignore="MissingTranslation">Brandslang</string>
-    <string name="osm_fire_flapper" tools:ignore="MissingTranslation">Brandflapper (gereedschap om kleine branden te smoren)</string>
-    <string name="osm_information_point" tools:ignore="MissingTranslation">Informatiepunt</string>
-    <string name="osm_wetland" tools:ignore="MissingTranslation">Moerasgebied</string>
-    <string name="osm_mud" tools:ignore="MissingTranslation">Modder</string>
-    <string name="osm_access_point" tools:ignore="MissingTranslation">Toegangspunt</string>
-    <string name="osm_life_ring" tools:ignore="MissingTranslation">Reddingsboei</string>
-    <string name="osm_generic_info" tools:ignore="MissingTranslation">Algemene informatie</string>
-    <string name="osm_turntable" tools:ignore="MissingTranslation">Draaischijf</string>
-    <string name="osm_survey_point" tools:ignore="MissingTranslation">Meetpunt</string>
-    <string name="osm_snow_net" tools:ignore="MissingTranslation">Sneeuwnet</string>
-    <string name="osm_silo" tools:ignore="MissingTranslation">Silo</string>
-    <string name="osm_mast" tools:ignore="MissingTranslation">Mast</string>
-    <string name="osm_bird_hide" tools:ignore="MissingTranslation">Vogelkijkhut</string>
-    <string name="osm_transformer_tower" tools:ignore="MissingTranslation">Transformatormast</string>
-    <string name="osm_generic_object" tools:ignore="MissingTranslation">Algemeen object</string>
-    <string name="osm_signal" tools:ignore="MissingTranslation">Signaal</string>
-    <string name="osm_rock" tools:ignore="MissingTranslation">Rots</string>
-    <string name="osm_kiln" tools:ignore="MissingTranslation">Oven</string>
-    <string name="osm_crane" tools:ignore="MissingTranslation">Kraan</string>
-    <string name="osm_rune_stone" tools:ignore="MissingTranslation">Runensteen</string>
-    <string name="osm_milestone" tools:ignore="MissingTranslation">Mijlpaal</string>
-    <string name="osm_lifeguard_platform" tools:ignore="MissingTranslation">Reddersplatform</string>
-    <string name="osm_water_tank" tools:ignore="MissingTranslation">Watertank</string>
-    <string name="osm_sty" tools:ignore="MissingTranslation">Varkensstal</string>
-    <string name="osm_navigationaid" tools:ignore="MissingTranslation">Navigatiehulpmiddel</string>
-    <string name="osm_terminal" tools:ignore="MissingTranslation">Terminal</string>
-    <string name="osm_water_tap" tools:ignore="MissingTranslation">Waterkraan</string>
-    <string name="osm_water_well" tools:ignore="MissingTranslation">Waterput</string>
-    <string name="osm_petroleum_well" tools:ignore="MissingTranslation">Olieput</string>
-    <string name="osm_cross" tools:ignore="MissingTranslation">Kruis</string>
-    <string name="osm_gallows" tools:ignore="MissingTranslation">Galg</string>
-    <string name="osm_speed_camera" tools:ignore="MissingTranslation">Snelheidscamera</string>
-    <string name="osm_siren" tools:ignore="MissingTranslation">Sirene</string>
-    <string name="osm_pylon" tools:ignore="MissingTranslation">Pyloon</string>
-    <string name="osm_mineshaft" tools:ignore="MissingTranslation">Mijnschacht</string>
-    <string name="osm_flagpole" tools:ignore="MissingTranslation">Vlaggenmast</string>
-    <string name="osm_optical_telegraph" tools:ignore="MissingTranslation">Optische telegraaf</string>
-    <string name="osm_cannon" tools:ignore="MissingTranslation">Kanon</string>
-    <string name="osm_boundary_stone" tools:ignore="MissingTranslation">Grenssteen</string>
-    <string name="osm_shed" tools:ignore="MissingTranslation">Schuur</string>
-    <string name="osm_traffic_cones" tools:ignore="MissingTranslation">Verkeerskegels</string>
-    <string name="osm_firepit" tools:ignore="MissingTranslation">Vuurplaats</string>
-    <string name="osm_stone" tools:ignore="MissingTranslation">Staande steen</string>
-    <string name="osm_surveillance" tools:ignore="MissingTranslation">Bewaking</string>
-    <string name="osm_monitoring_station" tools:ignore="MissingTranslation">Meetstation</string>
-    <string name="osm_wayside_shrine" tools:ignore="MissingTranslation">Wegkapelletje</string>
-    <string name="osm_wayside_cross" tools:ignore="MissingTranslation">Wegkruis</string>
-    <string name="osm_tomb" tools:ignore="MissingTranslation">Graf</string>
-    <string name="osm_traffic_signals" tools:ignore="MissingTranslation">Verkeerslichten</string>
-    <string name="osm_hut" tools:ignore="MissingTranslation">Hut</string>
-    <string name="osm_static_caravan" tools:ignore="MissingTranslation">Stacaravan</string>
-    <string name="osm_bollard" tools:ignore="MissingTranslation">Paaltje</string>
-    <string name="osm_block" tools:ignore="MissingTranslation">Blok</string>
-    <string name="osm_waste_disposal" tools:ignore="MissingTranslation">Afvalpunt</string>
-    <string name="osm_photo_booth" tools:ignore="MissingTranslation">Fotohokje</string>
-    <string name="osm_bbq" tools:ignore="MissingTranslation">Barbecue</string>
-    <string name="osm_shop" tools:ignore="MissingTranslation">Winkel</string>
-    <string name="osm_newsagent" tools:ignore="MissingTranslation">Krantenwinkel</string>
-    <string name="osm_anime" tools:ignore="MissingTranslation">Animewinkel</string>
-    <string name="osm_musical_instrument" tools:ignore="MissingTranslation">Muziekinstrumentenwinkel</string>
-    <string name="osm_vacuum_cleaner" tools:ignore="MissingTranslation">Stofzuigerwinkel</string>
-    <string name="osm_mobile_phone" tools:ignore="MissingTranslation">Telefoonwinkel</string>
-    <string name="osm_carpet" tools:ignore="MissingTranslation">Tapijtwinkel</string>
-    <string name="osm_trade" tools:ignore="MissingTranslation">Handelswinkel</string>
-    <string name="osm_garden_centre" tools:ignore="MissingTranslation">Tuincentrum</string>
-    <string name="osm_florist" tools:ignore="MissingTranslation">Bloemist</string>
-    <string name="osm_fireplace" tools:ignore="MissingTranslation">Haard</string>
-    <string name="osm_massage" tools:ignore="MissingTranslation">Massagesalon</string>
-    <string name="osm_herbalist" tools:ignore="MissingTranslation">Kruidenspeciaalzaak</string>
-    <string name="osm_bag" tools:ignore="MissingTranslation">Tassenwinkel</string>
-    <string name="osm_pastry" tools:ignore="MissingTranslation">Banketbakkerij</string>
-    <string name="osm_deli" tools:ignore="MissingTranslation">Delicatessenwinkel</string>
-    <string name="osm_beverages" tools:ignore="MissingTranslation">Drankwinkel</string>
-    <string name="osm_alcohol" tools:ignore="MissingTranslation">Slijterij</string>
-    <string name="osm_substation" tools:ignore="MissingTranslation">Transformatorstation</string>
-    <string name="osm_travel_agent" tools:ignore="MissingTranslation">Reisbureau</string>
-    <string name="osm_research" tools:ignore="MissingTranslation">Onderzoeksfaciliteit</string>
-    <string name="osm_newspaper" tools:ignore="MissingTranslation">Krantenwinkel</string>
-    <string name="osm_ammunition" tools:ignore="MissingTranslation">Munitiewinkel</string>
-    <string name="osm_wildlife_hide" tools:ignore="MissingTranslation">Observatiehut</string>
-    <string name="osm_watchmaker" tools:ignore="MissingTranslation">Horlogemaker</string>
-    <string name="osm_tinsmith" tools:ignore="MissingTranslation">Blikslagerij</string>
-    <string name="osm_sun_protection" tools:ignore="MissingTranslation">Zonnebeschermingswinkel</string>
-    <string name="osm_sculptor" tools:ignore="MissingTranslation">Beeldhouwatelier</string>
-    <string name="osm_metal_construction" tools:ignore="MissingTranslation">Metaalconstructie</string>
-    <string name="osm_handicraft" tools:ignore="MissingTranslation">Ambachtelijke winkel</string>
-    <string name="osm_cowshed" tools:ignore="MissingTranslation">Koestal</string>
-    <string name="osm_cabin" tools:ignore="MissingTranslation">Hut</string>
-    <string name="osm_barn" tools:ignore="MissingTranslation">Schuur</string>
-    <string name="osm_warehouse" tools:ignore="MissingTranslation">Magazijn</string>
-    <string name="osm_houseboat" tools:ignore="MissingTranslation">Woonboot</string>
-    <string name="osm_book_store" tools:ignore="MissingTranslation">Boekwinkel</string>
-    <string name="osm_generic_place" tools:ignore="MissingTranslation">Plaats</string>
-    <string name="osm_hunting_stand" tools:ignore="MissingTranslation">Jachtuitkijkpost</string>
-    <string name="osm_game_feeding" tools:ignore="MissingTranslation">Wildvoederplaats</string>
-    <string name="osm_crypt" tools:ignore="MissingTranslation">Crypte</string>
-    <string name="osm_animal_shelter" tools:ignore="MissingTranslation">Dierenasiel</string>
-    <string name="osm_animal_boarding" tools:ignore="MissingTranslation">Dierenpension</string>
-    <string name="osm_blood_donation" tools:ignore="MissingTranslation">Bloedinzameling</string>
-    <string name="osm_nursing_home" tools:ignore="MissingTranslation">Verpleeghuis</string>
-    <string name="osm_dentist" tools:ignore="MissingTranslation">Tandarts</string>
-    <string name="osm_baby_hatch" tools:ignore="MissingTranslation">Babykluis</string>
-    <string name="osm_language_school" tools:ignore="MissingTranslation">Taalschool</string>
-    <string name="osm_public_bookcase" tools:ignore="MissingTranslation">Openbare boekenkast</string>
-    <string name="osm_biergarten" tools:ignore="MissingTranslation">Biertuin</string>
-    <string name="osm_running" tools:ignore="MissingTranslation">Hardloopbaan</string>
-    <string name="osm_glaziery" tools:ignore="MissingTranslation">Glazenierszaak</string>
-    <string name="osm_garages" tools:ignore="MissingTranslation">Autogarages</string>
-    <string name="osm_retail" tools:ignore="MissingTranslation">Winkel</string>
-    <string name="osm_hotel" tools:ignore="MissingTranslation">Hotel</string>
-    <string name="osm_camp_site" tools:ignore="MissingTranslation">Camping</string>
-    <string name="osm_rugby_league" tools:ignore="MissingTranslation">Rugby League</string>
-    <string name="osm_roller_skating" tools:ignore="MissingTranslation">Rollerskaten</string>
-    <string name="osm_multi" tools:ignore="MissingTranslation">Multifunctioneel</string>
-    <string name="osm_ice_hockey" tools:ignore="MissingTranslation">IJshockey</string>
-    <string name="osm_hapkido" tools:ignore="MissingTranslation">Hapkido</string>
-    <string name="osm_croquet" tools:ignore="MissingTranslation">Croquet</string>
-    <string name="osm_cricket" tools:ignore="MissingTranslation">Cricket</string>
-    <string name="osm_cockfighting" tools:ignore="MissingTranslation">Hanengevecht</string>
-    <string name="osm_boxing" tools:ignore="MissingTranslation">Boksen</string>
-    <string name="osm_bmx" tools:ignore="MissingTranslation">BMX</string>
-    <string name="osm_billiards" tools:ignore="MissingTranslation">Biljart</string>
-    <string name="osm_toys" tools:ignore="MissingTranslation">Speelgoedwinkel</string>
-    <string name="osm_pyrotechnics" tools:ignore="MissingTranslation">Vuurwerkwinkel</string>
-    <string name="osm_laundry" tools:ignore="MissingTranslation">Wasserette</string>
-    <string name="osm_funeral_directors" tools:ignore="MissingTranslation">Uitvaartondernemers</string>
-    <string name="osm_dry_cleaning" tools:ignore="MissingTranslation">Stomerij</string>
-    <string name="osm_copyshop" tools:ignore="MissingTranslation">Copyshop</string>
-    <string name="osm_chalet" tools:ignore="MissingTranslation">Chalet</string>
-    <string name="osm_apartment" tools:ignore="MissingTranslation">Appartement</string>
-    <string name="osm_water_ski" tools:ignore="MissingTranslation">Waterskiën</string>
-    <string name="osm_water_polo" tools:ignore="MissingTranslation">Waterpolo</string>
-    <string name="osm_table_soccer" tools:ignore="MissingTranslation">Tafelvoetbal</string>
-    <string name="osm_table_tennis" tools:ignore="MissingTranslation">Tafeltennis</string>
-    <string name="osm_skateboard" tools:ignore="MissingTranslation">Skateboarden</string>
-    <string name="osm_sailing" tools:ignore="MissingTranslation">Zeilen</string>
-    <string name="osm_safety_training" tools:ignore="MissingTranslation">Veiligheidstraining</string>
-    <string name="osm_rowing" tools:ignore="MissingTranslation">Roeien</string>
-    <string name="osm_model_aerodrome" tools:ignore="MissingTranslation">Modelvliegveld</string>
-    <string name="osm_korfball" tools:ignore="MissingTranslation">Korfbal</string>
-    <string name="osm_ice_stock" tools:ignore="MissingTranslation">IJsstock</string>
-    <string name="osm_gymnastics" tools:ignore="MissingTranslation">Gymnastiek</string>
-    <string name="osm_football" tools:ignore="MissingTranslation">Voetbal</string>
-    <string name="osm_field_hockey" tools:ignore="MissingTranslation">Veldhockey</string>
-    <string name="osm_equestrian" tools:ignore="MissingTranslation">Paardensport</string>
-    <string name="osm_cycling" tools:ignore="MissingTranslation">Fietsen</string>
-    <string name="osm_curling" tools:ignore="MissingTranslation">Curling</string>
-    <string name="osm_cricket_nets" tools:ignore="MissingTranslation">Cricketnetten</string>
-    <string name="osm_cliff_diving" tools:ignore="MissingTranslation">Klifduiken</string>
-    <string name="osm_boules" tools:ignore="MissingTranslation">Boules</string>
-    <string name="osm_bobsleigh" tools:ignore="MissingTranslation">Bobslee</string>
-    <string name="osm_baseball" tools:ignore="MissingTranslation">Honkbal</string>
-    <string name="osm_aikido" tools:ignore="MissingTranslation">Aikido</string>
-    <string name="osm_10pin" tools:ignore="MissingTranslation">Bowling</string>
-    <string name="osm_weapons" tools:ignore="MissingTranslation">Wapenwinkel</string>
-    <string name="osm_pet" tools:ignore="MissingTranslation">Dierenspeciaalzaak</string>
-    <string name="osm_money_lender" tools:ignore="MissingTranslation">Kredietverstrekker</string>
-    <string name="osm_gift" tools:ignore="MissingTranslation">Cadeauwinkel</string>
-    <string name="osm_books" tools:ignore="MissingTranslation">Boekhandel</string>
-    <string name="osm_bookmaker" tools:ignore="MissingTranslation">Wedkantoor</string>
-    <string name="osm_photo" tools:ignore="MissingTranslation">Fotowinkel</string>
-    <string name="osm_craft" tools:ignore="MissingTranslation">Hobbywinkel</string>
-    <string name="osm_motorcycle" tools:ignore="MissingTranslation">Motorzaak</string>
-    <string name="osm_hunting" tools:ignore="MissingTranslation">Jachtwinkel</string>
-    <string name="osm_window_blind" tools:ignore="MissingTranslation">Jaloezieënwinkel</string>
-    <string name="osm_curtain" tools:ignore="MissingTranslation">Gordijnwinkel</string>
-    <string name="osm_antiques" tools:ignore="MissingTranslation">Antiekwinkel</string>
-    <string name="osm_paint" tools:ignore="MissingTranslation">Verfwinkel</string>
-    <string name="osm_tattoo" tools:ignore="MissingTranslation">Tattoostudio</string>
-    <string name="osm_nutrition_supplements" tools:ignore="MissingTranslation">Supplementenwinkel</string>
-    <string name="osm_hearing_aids" tools:ignore="MissingTranslation">Hoortoestelwinkel</string>
-    <string name="osm_cosmetics" tools:ignore="MissingTranslation">Cosmeticawinkel</string>
-    <string name="osm_watches" tools:ignore="MissingTranslation">Horlogewinkel</string>
-    <string name="osm_jewelry" tools:ignore="MissingTranslation">Juwelier</string>
-    <string name="osm_boutique" tools:ignore="MissingTranslation">Boetiek</string>
-    <string name="osm_baby_goods" tools:ignore="MissingTranslation">Babywinkel</string>
-    <string name="osm_tea" tools:ignore="MissingTranslation">Theewinkel</string>
-    <string name="osm_pasta" tools:ignore="MissingTranslation">Pastawinkel</string>
-    <string name="osm_coffee" tools:ignore="MissingTranslation">Koffiebar</string>
-    <string name="osm_quango" tools:ignore="MissingTranslation">Quasi-autonome overheidsorganisatie</string>
-    <string name="osm_political_party" tools:ignore="MissingTranslation">Politieke partij</string>
-    <string name="osm_association" tools:ignore="MissingTranslation">Vereniging</string>
-    <string name="osm_architect" tools:ignore="MissingTranslation">Architect</string>
-    <string name="osm_advertising_agency" tools:ignore="MissingTranslation">Reclamebureau</string>
-    <string name="osm_summer_camp" tools:ignore="MissingTranslation">Zomerkamp</string>
-    <string name="osm_dance" tools:ignore="MissingTranslation">Dansstudio</string>
-    <string name="osm_amusement_arcade" tools:ignore="MissingTranslation">Speelhal</string>
-    <string name="osm_adult_gaming_centre" tools:ignore="MissingTranslation">Speelhal voor volwassenen</string>
-    <string name="osm_window_construction" tools:ignore="MissingTranslation">Ramenmakerij</string>
-    <string name="osm_upholsterer" tools:ignore="MissingTranslation">Meubelstoffeerder</string>
-    <string name="osm_shoemaker" tools:ignore="MissingTranslation">Schoenmaker</string>
-    <string name="osm_sawmill" tools:ignore="MissingTranslation">Zagerij</string>
-    <string name="osm_pottery" tools:ignore="MissingTranslation">Keramiekatelier</string>
-    <string name="osm_key_cutter" tools:ignore="MissingTranslation">Sleutelmaker</string>
-    <string name="osm_hvac" tools:ignore="MissingTranslation">HVAC-installateur</string>
-    <string name="osm_clockmaker" tools:ignore="MissingTranslation">Klok- en horlogemaker</string>
-    <string name="osm_carpenter" tools:ignore="MissingTranslation">Timmerman</string>
-    <string name="osm_builder" tools:ignore="MissingTranslation">Aannemer</string>
-    <string name="osm_bookbinder" tools:ignore="MissingTranslation">Boekbinder</string>
-    <string name="osm_boatbuilder" tools:ignore="MissingTranslation">Bootbouwer</string>
-    <string name="osm_brewery" tools:ignore="MissingTranslation">Brouwerij</string>
-    <string name="osm_blacksmith" tools:ignore="MissingTranslation">Smederij</string>
-    <string name="osm_basket_maker" tools:ignore="MissingTranslation">Mandenmaker</string>
-    <string name="osm_greenhouse" tools:ignore="MissingTranslation">Kas</string>
-    <string name="osm_farm_auxiliary" tools:ignore="MissingTranslation">Landbouwbijgebouw</string>
-    <string name="osm_civic" tools:ignore="MissingTranslation">Publiek gebouw</string>
-    <string name="osm_bungalow" tools:ignore="MissingTranslation">Bungalow</string>
-    <string name="osm_detached" tools:ignore="MissingTranslation">Vrijstaand huis</string>
-    <string name="osm_hair_dresser" tools:ignore="MissingTranslation">Kapper</string>
-    <string name="osm_clothing_store" tools:ignore="MissingTranslation">Kledingwinkel</string>
-    <string name="osm_user" tools:ignore="MissingTranslation">Gebruiker</string>
-    <string name="osm_dojo" tools:ignore="MissingTranslation">Dojo</string>
-    <string name="osm_nightclub" tools:ignore="MissingTranslation">Nachtclub</string>
-    <string name="osm_community_centre" tools:ignore="MissingTranslation">Buurtcentrum</string>
-    <string name="osm_brothel" tools:ignore="MissingTranslation">Bordeel</string>
-    <string name="osm_veterinary" tools:ignore="MissingTranslation">Dierenkliniek</string>
-    <string name="osm_social_facility" tools:ignore="MissingTranslation">Sociale voorziening</string>
-    <string name="osm_clinic" tools:ignore="MissingTranslation">Kliniek</string>
-    <string name="osm_charging_station" tools:ignore="MissingTranslation">Laadstation</string>
-    <string name="osm_kindergarten" tools:ignore="MissingTranslation">Kleuterschool</string>
-    <string name="osm_ice_cream" tools:ignore="MissingTranslation">IJssalon</string>
-    <string name="osm_fast_food" tools:ignore="MissingTranslation">Fastfoodrestaurant</string>
-    <string name="osm_commercial" tools:ignore="MissingTranslation">Commercieel gebouw</string>
-    <string name="osm_canoe" tools:ignore="MissingTranslation">Kanoën</string>
-    <string name="osm_scuba_diving" tools:ignore="MissingTranslation">Scubaduiken</string>
-    <string name="osm_fishing" tools:ignore="MissingTranslation">Vissen</string>
-    <string name="osm_optician" tools:ignore="MissingTranslation">Opticien</string>
-    <string name="osm_confectionery" tools:ignore="MissingTranslation">Snoepwinkel</string>
-    <string name="osm_bunker" tools:ignore="MissingTranslation">Bunker</string>
-    <string name="osm_sleeping_pods" tools:ignore="MissingTranslation">Slaapcabines</string>
-    <string name="osm_motel" tools:ignore="MissingTranslation">Motel</string>
-    <string name="osm_guest_house" tools:ignore="MissingTranslation">Pension</string>
-    <string name="osm_wrestling" tools:ignore="MissingTranslation">Worstelen</string>
-    <string name="osm_toboggan" tools:ignore="MissingTranslation">Rodelbaan</string>
-    <string name="osm_skiing" tools:ignore="MissingTranslation">Skiën</string>
-    <string name="osm_rc_car" tools:ignore="MissingTranslation">RC-auto</string>
-    <string name="osm_paddle_tennis" tools:ignore="MissingTranslation">Padel (paddletennis)</string>
-    <string name="osm_hockey" tools:ignore="MissingTranslation">Hockeyveld</string>
-    <string name="osm_fencing" tools:ignore="MissingTranslation">Schermclub</string>
-    <string name="osm_bowls" tools:ignore="MissingTranslation">Bowlsbaan</string>
-    <string name="osm_badminton" tools:ignore="MissingTranslation">Badmintonbaan</string>
-    <string name="osm_archery" tools:ignore="MissingTranslation">Boogschietbaan</string>
-    <string name="osm_american_football" tools:ignore="MissingTranslation">American footballveld</string>
-    <string name="osm_travel_agency" tools:ignore="MissingTranslation">Reisbureau</string>
-    <string name="osm_tobacco" tools:ignore="MissingTranslation">Tabakswinkel</string>
-    <string name="osm_e_cigarette" tools:ignore="MissingTranslation">E-sigaretwinkel</string>
-    <string name="osm_video" tools:ignore="MissingTranslation">Videotheek</string>
-    <string name="osm_car_repair" tools:ignore="MissingTranslation">Autoreparatie</string>
-    <string name="osm_hifi" tools:ignore="MissingTranslation">Audiozaak</string>
-    <string name="osm_lamps" tools:ignore="MissingTranslation">Verlichtingswinkel</string>
-    <string name="osm_kitchen" tools:ignore="MissingTranslation">Keukenwinkel</string>
-    <string name="osm_interior_decoration" tools:ignore="MissingTranslation">Woondecoratiewinkel</string>
-    <string name="osm_houseware" tools:ignore="MissingTranslation">Huishoudwinkel</string>
-    <string name="osm_erotic" tools:ignore="MissingTranslation">Erotische winkel</string>
-    <string name="osm_beauty" tools:ignore="MissingTranslation">Schoonheidssalon</string>
-    <string name="osm_wine" tools:ignore="MissingTranslation">Wijnwinkel</string>
-    <string name="osm_dairy" tools:ignore="MissingTranslation">Zuivelwinkel</string>
-    <string name="osm_cheese" tools:ignore="MissingTranslation">Kaaswinkel</string>
-    <string name="osm_bakery" tools:ignore="MissingTranslation">Bakkerij</string>
-    <string name="osm_telecommunication" tools:ignore="MissingTranslation">Telecomwinkel</string>
-    <string name="osm_tax" tools:ignore="MissingTranslation">Belastingkantoor</string>
-    <string name="osm_real_estate_agent" tools:ignore="MissingTranslation">Makelaarskantoor</string>
-    <string name="osm_notary" tools:ignore="MissingTranslation">Notaris</string>
-    <string name="osm_ngo" tools:ignore="MissingTranslation">NGO-kantoor</string>
-    <string name="osm_lawyer" tools:ignore="MissingTranslation">Advocatenkantoor</string>
-    <string name="osm_it" tools:ignore="MissingTranslation">IT-diensten</string>
-    <string name="osm_foundation" tools:ignore="MissingTranslation">Stichting</string>
-    <string name="osm_employment_agency" tools:ignore="MissingTranslation">Uitzendbureau</string>
-    <string name="osm_educational_institution" tools:ignore="MissingTranslation">Onderwijsinstelling</string>
-    <string name="osm_adoption_agency" tools:ignore="MissingTranslation">Adoptiebureau</string>
-    <string name="osm_miniature_golf" tools:ignore="MissingTranslation">Minigolfbaan</string>
-    <string name="osm_building" tools:ignore="MissingTranslation">Gebouw</string>
-    <string name="osm_winery" tools:ignore="MissingTranslation">Wijnmakerij</string>
-    <string name="osm_tiler" tools:ignore="MissingTranslation">Tegelzetter</string>
-    <string name="osm_chimney_sweeper" tools:ignore="MissingTranslation">Schoorsteenveger</string>
-    <string name="osm_stand_builder" tools:ignore="MissingTranslation">Standbouwer</string>
-    <string name="osm_saddler" tools:ignore="MissingTranslation">Zadelmaker</string>
-    <string name="osm_plumber" tools:ignore="MissingTranslation">Loodgieter</string>
-    <string name="osm_plasterer" tools:ignore="MissingTranslation">Stucadoor</string>
-    <string name="osm_painter" tools:ignore="MissingTranslation">Schilder</string>
-    <string name="osm_jeweller" tools:ignore="MissingTranslation">Juwelier</string>
-    <string name="osm_floorer" tools:ignore="MissingTranslation">Vloerlegger</string>
-    <string name="osm_distillery" tools:ignore="MissingTranslation">Distilleerderij</string>
-    <string name="osm_carpet_layer" tools:ignore="MissingTranslation">Tapijtlegger</string>
-    <string name="osm_beekeeper" tools:ignore="MissingTranslation">Imker</string>
-    <string name="osm_public" tools:ignore="MissingTranslation">Openbaar</string>
-    <string name="osm_dormitory" tools:ignore="MissingTranslation">Slaapzaal</string>
-    <string name="osm_apartments" tools:ignore="MissingTranslation">Appartementen</string>
-    <string name="osm_internet_cafe" tools:ignore="MissingTranslation">Internetcafé</string>
-    <string name="osm_shoe_shop" tools:ignore="MissingTranslation">Schoenenwinkel</string>
-    <string name="osm_generic_shop" tools:ignore="MissingTranslation">Winkel</string>
-    <string name="osm_coffee_shop" tools:ignore="MissingTranslation">Koffiebar</string>
-    <string name="osm_coworking_space" tools:ignore="MissingTranslation">Coworkingruimte</string>
-    <string name="osm_stripclub" tools:ignore="MissingTranslation">Stripclub</string>
-    <string name="osm_ev_charging" tools:ignore="MissingTranslation">Laadpaal</string>
-    <string name="osm_pub" tools:ignore="MissingTranslation">Pub</string>
-    <string name="osm_obstacle_course" tools:ignore="MissingTranslation">Hindernisbaan</string>
-    <string name="osm_volleyball" tools:ignore="MissingTranslation">Volleybalveld</string>
-    <string name="osm_tennis" tools:ignore="MissingTranslation">Tennisbaan</string>
-    <string name="osm_soccer" tools:ignore="MissingTranslation">Voetbalveld</string>
-    <string name="osm_shooting" tools:ignore="MissingTranslation">Schietbaan</string>
-    <string name="osm_rugby_union" tools:ignore="MissingTranslation">Rugbyveld</string>
-    <string name="osm_orienteering" tools:ignore="MissingTranslation">Oriëntatieterrein</string>
-    <string name="osm_netball" tools:ignore="MissingTranslation">Netbalveld</string>
-    <string name="osm_motor" tools:ignore="MissingTranslation">Motorzaak</string>
-    <string name="osm_kitesurfing" tools:ignore="MissingTranslation">Kitesurfen</string>
-    <string name="osm_karting" tools:ignore="MissingTranslation">Kartbaan</string>
-    <string name="osm_judo" tools:ignore="MissingTranslation">Judohal</string>
-    <string name="osm_horseshoes" tools:ignore="MissingTranslation">Hoefijzerwerpen</string>
-    <string name="osm_handball" tools:ignore="MissingTranslation">Handbalveld</string>
-    <string name="osm_golf" tools:ignore="MissingTranslation">Golfbaan</string>
-    <string name="osm_gaelic_games" tools:ignore="MissingTranslation">Gaelic-spelen (hurling en Gaelic football)</string>
-    <string name="osm_diving" tools:ignore="MissingTranslation">Duiklocatie</string>
-    <string name="osm_darts" tools:ignore="MissingTranslation">Darten</string>
-    <string name="osm_climbing_adventure" tools:ignore="MissingTranslation">Klimpark</string>
-    <string name="osm_basketball" tools:ignore="MissingTranslation">Basketbalveld</string>
-    <string name="osm_bandy" tools:ignore="MissingTranslation">Bandyveld</string>
-    <string name="osm_australian_football" tools:ignore="MissingTranslation">Australisch voetbalveld</string>
-    <string name="osm_9pin" tools:ignore="MissingTranslation">9-pinsbaan</string>
-    <string name="osm_vacant" tools:ignore="MissingTranslation">Leegstaand</string>
-    <string name="osm_lottery" tools:ignore="MissingTranslation">Loterijwinkel</string>
-    <string name="osm_trophy" tools:ignore="MissingTranslation">Trofeeënwinkel</string>
-    <string name="osm_music" tools:ignore="MissingTranslation">Muziekwinkel</string>
-    <string name="osm_games" tools:ignore="MissingTranslation">Spellenwinkel</string>
-    <string name="osm_tyres" tools:ignore="MissingTranslation">Bandenwinkel</string>
-    <string name="osm_sports" tools:ignore="MissingTranslation">Sportwinkel</string>
-    <string name="osm_outdoor" tools:ignore="MissingTranslation">Outdoorwinkel</string>
-    <string name="osm_car" tools:ignore="MissingTranslation">Autodealer</string>
-    <string name="osm_electronics" tools:ignore="MissingTranslation">Elektronicawinkel</string>
-    <string name="osm_computer" tools:ignore="MissingTranslation">Computerwinkel</string>
-    <string name="osm_furniture" tools:ignore="MissingTranslation">Meubelwinkel</string>
-    <string name="osm_candles" tools:ignore="MissingTranslation">Kaarsenwinkel</string>
-    <string name="osm_hardware" tools:ignore="MissingTranslation">IJzerwarenwinkel</string>
-    <string name="osm_gas" tools:ignore="MissingTranslation">Tankstation</string>
-    <string name="osm_energy" tools:ignore="MissingTranslation">Energiebedrijf</string>
-    <string name="osm_doityourself" tools:ignore="MissingTranslation">Doe-het-zelfzaak</string>
-    <string name="osm_bathroom_furnishing" tools:ignore="MissingTranslation">Badkamerwinkel</string>
-    <string name="osm_medical_supply" tools:ignore="MissingTranslation">Winkel voor medische hulpmiddelen</string>
-    <string name="osm_variety_store" tools:ignore="MissingTranslation">Winkel met diverse artikelen</string>
-    <string name="osm_second_hand" tools:ignore="MissingTranslation">Tweedehandswinkel</string>
-    <string name="osm_charity" tools:ignore="MissingTranslation">Winkel van een goed doel</string>
-    <string name="osm_fashion" tools:ignore="MissingTranslation">Modewinkel</string>
-    <string name="osm_fabric" tools:ignore="MissingTranslation">Stoffenwinkel</string>
-    <string name="osm_clothes" tools:ignore="MissingTranslation">Kledingwinkel</string>
-    <string name="osm_butcher" tools:ignore="MissingTranslation">Slagerij</string>
-    <string name="osm_water_utility" tools:ignore="MissingTranslation">Waterbedrijf</string>
-    <string name="osm_realtor" tools:ignore="MissingTranslation">Makelaar</string>
-    <string name="osm_company" tools:ignore="MissingTranslation">Bedrijf</string>
-    <string name="osm_accountant" tools:ignore="MissingTranslation">Accountant</string>
-    <string name="osm_bunker_silo" tools:ignore="MissingTranslation">Bunkersilo</string>
-    <string name="osm_hackerspace" tools:ignore="MissingTranslation">Hackerspace</string>
-    <string name="osm_lifeguard_base" tools:ignore="MissingTranslation">Reddingspost</string>
-    <string name="osm_roofer" tools:ignore="MissingTranslation">Dakdekker</string>
-    <string name="osm_rigger" tools:ignore="MissingTranslation">Hijsmonteur</string>
-    <string name="osm_parquet_layer" tools:ignore="MissingTranslation">Parketlegger</string>
-    <string name="osm_gardener" tools:ignore="MissingTranslation">Hovenier</string>
-    <string name="osm_stable" tools:ignore="MissingTranslation">Stal</string>
-    <string name="osm_garage" tools:ignore="MissingTranslation">Garage</string>
-    <string name="osm_transportation" tools:ignore="MissingTranslation">Vervoersvoorziening</string>
-    <string name="osm_house" tools:ignore="MissingTranslation">Huis</string>
-    <string name="osm_helipad" tools:ignore="MissingTranslation">Helikopterlandingsplaats</string>
-    <string name="osm_apron" tools:ignore="MissingTranslation">Vliegtuigplatform</string>
-    <string name="osm_consumer_electronics_store" tools:ignore="MissingTranslation">Elektronicawinkel</string>
-    <string name="osm_speciality_store" tools:ignore="MissingTranslation">Speciaalzaak</string>
-    <string name="osm_defined" tools:ignore="MissingTranslation">Gedefinieerd</string>
-    <string name="osm_sauna" tools:ignore="MissingTranslation">Sauna</string>
-    <string name="osm_gym" tools:ignore="MissingTranslation">Sportschool</string>
-    <string name="osm_crematorium" tools:ignore="MissingTranslation">Crematorium</string>
-    <string name="osm_gambling" tools:ignore="MissingTranslation">Gokgelegenheid</string>
-    <string name="osm_music_school" tools:ignore="MissingTranslation">Muziekschool</string>
-    <string name="osm_bar" tools:ignore="MissingTranslation">Bar</string>
-    <string name="osm_farm" tools:ignore="MissingTranslation">Boerderij</string>
-    <string name="osm_bicycle" tools:ignore="MissingTranslation">Fietsenwinkel</string>
-    <string name="osm_tailor" tools:ignore="MissingTranslation">Kleermaker</string>
-    <string name="osm_locksmith" tools:ignore="MissingTranslation">Slotenmaker</string>
-    <string name="osm_industrial" tools:ignore="MissingTranslation">Industrieel</string>
-    <string name="osm_wilderness_hut" tools:ignore="MissingTranslation">Wildernishut</string>
-    <string name="osm_hostel" tools:ignore="MissingTranslation">Hostel</string>
-    <string name="osm_caravan_site" tools:ignore="MissingTranslation">Caravanplaats</string>
-    <string name="osm_weightlifting" tools:ignore="MissingTranslation">Gewichthefzaal</string>
-    <string name="osm_taekwondo" tools:ignore="MissingTranslation">Taekwondoclub</string>
-    <string name="osm_swimming" tools:ignore="MissingTranslation">Zwembad</string>
-    <string name="osm_surfing" tools:ignore="MissingTranslation">Surfgebied</string>
-    <string name="osm_skating" tools:ignore="MissingTranslation">Schaats- of skatebaan</string>
-    <string name="osm_racquet" tools:ignore="MissingTranslation">Racketsportaccommodatie</string>
-    <string name="osm_pelota" tools:ignore="MissingTranslation">Pelotabaan</string>
-    <string name="osm_paragliding" tools:ignore="MissingTranslation">Paraglidinglocatie</string>
-    <string name="osm_parachuting" tools:ignore="MissingTranslation">Landingsplaats voor parachutespringen</string>
-    <string name="osm_motocross" tools:ignore="MissingTranslation">Motocrossbaan</string>
-    <string name="osm_ice_skating" tools:ignore="MissingTranslation">IJsbaan</string>
-    <string name="osm_horse_racing" tools:ignore="MissingTranslation">Paardenrenbaan</string>
-    <string name="osm_dog_racing" tools:ignore="MissingTranslation">Hondenrenbaan</string>
-    <string name="osm_climbing" tools:ignore="MissingTranslation">Klimlocatie</string>
-    <string name="osm_chess" tools:ignore="MissingTranslation">Schaakclub</string>
-    <string name="osm_canadian_football" tools:ignore="MissingTranslation">Veld voor Canadese football</string>
-    <string name="osm_beachvolleyball" tools:ignore="MissingTranslation">Beachvolleybalveld</string>
-    <string name="osm_base" tools:ignore="MissingTranslation">Hoofdkwartier</string>
-    <string name="osm_athletics" tools:ignore="MissingTranslation">Atletiekbaan</string>
-    <string name="osm_pawnbroker" tools:ignore="MissingTranslation">Pandjeshuis</string>
-    <string name="osm_ticket" tools:ignore="MissingTranslation">Kaartverkoop</string>
-    <string name="osm_stationery" tools:ignore="MissingTranslation">Kantoorboekhandel</string>
-    <string name="osm_video_games" tools:ignore="MissingTranslation">Gamewinkel</string>
-    <string name="osm_model" tools:ignore="MissingTranslation">Modelbouwwinkel</string>
-    <string name="osm_frame" tools:ignore="MissingTranslation">Lijstenmakerij</string>
-    <string name="osm_art" tools:ignore="MissingTranslation">Kunstwinkel</string>
-    <string name="osm_car_parts" tools:ignore="MissingTranslation">Autoonderdelenwinkel</string>
-    <string name="osm_radiotechnics" tools:ignore="MissingTranslation">Winkel voor radioapparatuur</string>
-    <string name="osm_bed" tools:ignore="MissingTranslation">Beddenwinkel</string>
-    <string name="osm_garden_furniture" tools:ignore="MissingTranslation">Tuinmeubelwinkel</string>
-    <string name="osm_electrical" tools:ignore="MissingTranslation">Elektrozaak</string>
-    <string name="osm_perfumery" tools:ignore="MissingTranslation">Parfumerie</string>
-    <string name="osm_hairdresser" tools:ignore="MissingTranslation">Kapsalon</string>
-    <string name="osm_drugstore" tools:ignore="MissingTranslation">Drogisterij</string>
-    <string name="osm_shoes" tools:ignore="MissingTranslation">Schoenenwinkel</string>
-    <string name="osm_leather" tools:ignore="MissingTranslation">Lederwarenwinkel</string>
-    <string name="osm_general" tools:ignore="MissingTranslation">Algemene winkel</string>
-    <string name="osm_seafood" tools:ignore="MissingTranslation">Viswinkel</string>
-    <string name="osm_organic" tools:ignore="MissingTranslation">Biowinkel</string>
-    <string name="osm_greengrocer" tools:ignore="MissingTranslation">Groenteboer</string>
-    <string name="osm_chocolate" tools:ignore="MissingTranslation">Chocolaterie</string>
-    <string name="osm_brewing_supplies" tools:ignore="MissingTranslation">Winkel voor brouwbenodigdheden</string>
-    <string name="osm_tax_advisor" tools:ignore="MissingTranslation">Belastingadviseur</string>
-    <string name="osm_private_investigator" tools:ignore="MissingTranslation">Privédetective</string>
-    <string name="osm_government" tools:ignore="MissingTranslation">Overheidskantoor</string>
-    <string name="osm_forestry" tools:ignore="MissingTranslation">Bosbeheer</string>
-    <string name="osm_estate_agent" tools:ignore="MissingTranslation">Makelaarskantoor</string>
-    <string name="osm_spring" tools:ignore="MissingTranslation">Bron</string>
-    <string name="osm_golf_course" tools:ignore="MissingTranslation">Golfbaan</string>
-    <string name="osm_ses_station" tools:ignore="MissingTranslation">SES-station</string>
-    <string name="osm_lifeguard_place" tools:ignore="MissingTranslation">Reddingspost</string>
-    <string name="osm_stonemason" tools:ignore="MissingTranslation">Steenhouwer</string>
-    <string name="osm_scaffolder" tools:ignore="MissingTranslation">Steigerbouwer</string>
-    <string name="osm_sailmaker" tools:ignore="MissingTranslation">Zeilmaker</string>
-    <string name="osm_photographic_laboratory" tools:ignore="MissingTranslation">Fotolab</string>
-    <string name="osm_photographer" tools:ignore="MissingTranslation">Fotograaf</string>
-    <string name="osm_insulation" tools:ignore="MissingTranslation">Isolatie</string>
-    <string name="osm_electrician" tools:ignore="MissingTranslation">Elektricien</string>
-    <string name="osm_dressmaker" tools:ignore="MissingTranslation">Kleermaker</string>
-    <string name="osm_caterer" tools:ignore="MissingTranslation">Cateraar</string>
-    <string name="osm_terrace" tools:ignore="MissingTranslation">Terras</string>
-    <string name="osm_toy_shop" tools:ignore="MissingTranslation">Speelgoedwinkel</string>
-    <string name="osm_dive_centre" tools:ignore="MissingTranslation">Duikcentrum</string>
-    <string name="osm_swingerclub" tools:ignore="MissingTranslation">Swingerclub</string>
-    <string name="osm_doctors" tools:ignore="MissingTranslation">Huisartsenpraktijk</string>
-    <string name="osm_driving_school" tools:ignore="MissingTranslation">Rijschool</string>
-    <string name="osm_free_flying" tools:ignore="MissingTranslation">Vrijvlieggebied</string>
-    <string name="osm_religion" tools:ignore="MissingTranslation">Religie</string>
-    <string name="osm_kiosk" tools:ignore="MissingTranslation">Kiosk</string>
-    <string name="osm_residential" tools:ignore="MissingTranslation">Woongebied</string>
-    <string name="osm_food" tools:ignore="MissingTranslation">Voedselwinkel</string>
-    <string name="osm_waterfall" tools:ignore="MissingTranslation">Waterval</string>
-    <string name="osm_boatyard" tools:ignore="MissingTranslation">Scheepswerf</string>
-    <string name="osm_theme_park" tools:ignore="MissingTranslation">Pretpark</string>
-    <string name="osm_roundhouse" tools:ignore="MissingTranslation">Ronde locomotievenloods</string>
-    <string name="osm_generator" tools:ignore="MissingTranslation">Generator</string>
-    <string name="osm_beach" tools:ignore="MissingTranslation">Strand</string>
-    <string name="osm_naval_base" tools:ignore="MissingTranslation">Marinebasis</string>
-    <string name="osm_works" tools:ignore="MissingTranslation">Industrieterrein</string>
-    <string name="osm_water_works" tools:ignore="MissingTranslation">Watervoorziening</string>
-    <string name="osm_telescope" tools:ignore="MissingTranslation">Telescoop</string>
-    <string name="osm_pier" tools:ignore="MissingTranslation">Pier</string>
-    <string name="osm_observatory" tools:ignore="MissingTranslation">Observatorium</string>
-    <string name="osm_reservoir" tools:ignore="MissingTranslation">Waterreservoir</string>
-    <string name="osm_monument" tools:ignore="MissingTranslation">Monument</string>
-    <string name="osm_battlefield" tools:ignore="MissingTranslation">Slagveld</string>
-    <string name="osm_planetarium" tools:ignore="MissingTranslation">Planetarium</string>
-    <string name="osm_social_centre" tools:ignore="MissingTranslation">Sociaal centrum</string>
-    <string name="osm_prison" tools:ignore="MissingTranslation">Gevangenis</string>
-    <string name="osm_courthouse" tools:ignore="MissingTranslation">Gerechtsgebouw</string>
-    <string name="osm_bridge" tools:ignore="MissingTranslation">Brug</string>
-    <string name="osm_hangar" tools:ignore="MissingTranslation">Hangar</string>
-    <string name="osm_tower" tools:ignore="MissingTranslation">Toren</string>
-    <string name="osm_attraction" tools:ignore="MissingTranslation">Bezienswaardigheid</string>
-    <string name="osm_zoo" tools:ignore="MissingTranslation">Dierentuin</string>
-    <string name="osm_gallery" tools:ignore="MissingTranslation">Kunstgalerij</string>
-    <string name="osm_artwork" tools:ignore="MissingTranslation">Kunstwerk</string>
-    <string name="osm_alpine_hut" tools:ignore="MissingTranslation">Alpenhut</string>
-    <string name="osm_plant" tools:ignore="MissingTranslation">Fabriek</string>
-    <string name="osm_insurance" tools:ignore="MissingTranslation">Verzekeringskantoor</string>
-    <string name="osm_airfield" tools:ignore="MissingTranslation">Vliegveld</string>
-    <string name="osm_water_tower" tools:ignore="MissingTranslation">Watertoren</string>
-    <string name="osm_pumping_station" tools:ignore="MissingTranslation">Pompstation</string>
-    <string name="osm_hot_water_tank" tools:ignore="MissingTranslation">Warmwatertank</string>
-    <string name="osm_campanile" tools:ignore="MissingTranslation">Klokkentoren</string>
-    <string name="osm_sports_centre" tools:ignore="MissingTranslation">Sportcentrum</string>
-    <string name="osm_fitness_centre" tools:ignore="MissingTranslation">Fitnesscentrum</string>
-    <string name="osm_beach_resort" tools:ignore="MissingTranslation">Strandresort</string>
-    <string name="osm_village_green" tools:ignore="MissingTranslation">dorpsgroen</string>
-    <string name="osm_ship" tools:ignore="MissingTranslation">schip</string>
-    <string name="osm_memorial" tools:ignore="MissingTranslation">gedenkteken</string>
-    <string name="osm_synagogue" tools:ignore="MissingTranslation">synagoge</string>
-    <string name="osm_mosque" tools:ignore="MissingTranslation">moskee</string>
-    <string name="osm_chapel" tools:ignore="MissingTranslation">kapel</string>
-    <string name="osm_cathedral" tools:ignore="MissingTranslation">kathedraal</string>
-    <string name="osm_train_terminal" tools:ignore="MissingTranslation">eindstation</string>
-    <string name="osm_college" tools:ignore="MissingTranslation">college</string>
-    <string name="osm_arts_centre" tools:ignore="MissingTranslation">cultuurcentrum</string>
-    <string name="osm_ranger_station" tools:ignore="MissingTranslation">boswachtersstation</string>
-    <string name="osm_hospital" tools:ignore="MissingTranslation">ziekenhuis</string>
-    <string name="osm_track" tools:ignore="MissingTranslation">baan</string>
-    <string name="osm_conference_centre" tools:ignore="MissingTranslation">conferentiecentrum</string>
-    <string name="osm_viewpoint" tools:ignore="MissingTranslation">uitkijkpunt</string>
-    <string name="osm_supermarket" tools:ignore="MissingTranslation">supermarkt</string>
-    <string name="osm_peak" tools:ignore="MissingTranslation">bergtop</string>
-    <string name="osm_storage_tank" tools:ignore="MissingTranslation">opslagtank</string>
-    <string name="osm_lighthouse" tools:ignore="MissingTranslation">vuurtoren</string>
-    <string name="osm_beacon" tools:ignore="MissingTranslation">baken</string>
-    <string name="osm_port" tools:ignore="MissingTranslation">haven</string>
-    <string name="osm_archaeological_site" tools:ignore="MissingTranslation">archeologische vindplaats</string>
-    <string name="osm_shrine" tools:ignore="MissingTranslation">heiligdom</string>
-    <string name="osm_church" tools:ignore="MissingTranslation">kerk</string>
-    <string name="osm_historic_monument" tools:ignore="MissingTranslation">historisch monument</string>
-    <string name="osm_generic_landmark" tools:ignore="MissingTranslation">oriëntatiepunt</string>
-    <string name="osm_tourism_museum" tools:ignore="MissingTranslation">museum</string>
-    <string name="osm_register_office" tools:ignore="MissingTranslation">burgerlijke stand</string>
-    <string name="osm_grave_yard" tools:ignore="MissingTranslation">begraafplaats</string>
-    <string name="osm_marketplace" tools:ignore="MissingTranslation">marktplein</string>
-    <string name="osm_fire_station" tools:ignore="MissingTranslation">brandweerkazerne</string>
-    <string name="osm_ruins" tools:ignore="MissingTranslation">ruïnes</string>
-    <string name="osm_weir" tools:ignore="MissingTranslation">stuw</string>
-    <string name="osm_museum" tools:ignore="MissingTranslation">museum</string>
-    <string name="osm_mall" tools:ignore="MissingTranslation">winkelcentrum</string>
-    <string name="osm_volcano" tools:ignore="MissingTranslation">vulkaan</string>
-    <string name="osm_hot_spring" tools:ignore="MissingTranslation">warmwaterbron</string>
-    <string name="osm_glacier" tools:ignore="MissingTranslation">gletsjer</string>
-    <string name="osm_wastewater_plant" tools:ignore="MissingTranslation">rioolwaterzuiveringsinstallatie</string>
-    <string name="osm_offshore_platform" tools:ignore="MissingTranslation">offshoreplatform</string>
-    <string name="osm_gasometer" tools:ignore="MissingTranslation">gashouder</string>
-    <string name="osm_water_park" tools:ignore="MissingTranslation">waterpark</string>
-    <string name="osm_bandstand" tools:ignore="MissingTranslation">muziekkoepel</string>
-    <string name="osm_wreck" tools:ignore="MissingTranslation">wrak</string>
-    <string name="osm_pillory" tools:ignore="MissingTranslation">schandblok</string>
-    <string name="osm_monastery" tools:ignore="MissingTranslation">klooster</string>
-    <string name="osm_locomotive" tools:ignore="MissingTranslation">locomotief</string>
-    <string name="osm_fort" tools:ignore="MissingTranslation">fort</string>
-    <string name="osm_services" tools:ignore="MissingTranslation">servicegebied</string>
-    <string name="osm_lifeguard_tower" tools:ignore="MissingTranslation">reddingspost</string>
-    <string name="osm_temple" tools:ignore="MissingTranslation">Tempel</string>
-    <string name="osm_national_park" tools:ignore="MissingTranslation">Nationaal Park</string>
-    <string name="osm_heliport" tools:ignore="MissingTranslation">Heliport</string>
-    <string name="osm_public_park" tools:ignore="MissingTranslation">Openbaar Park</string>
-    <string name="osm_department_store" tools:ignore="MissingTranslation">Warenhuis</string>
-    <string name="osm_studio" tools:ignore="MissingTranslation">Studio</string>
-    <string name="osm_public_building" tools:ignore="MissingTranslation">Openbaar Gebouw</string>
-    <string name="osm_clock" tools:ignore="MissingTranslation">Klok</string>
-    <string name="osm_casino" tools:ignore="MissingTranslation">Casino</string>
-    <string name="osm_stadium" tools:ignore="MissingTranslation">Stadion</string>
-    <string name="osm_dam" tools:ignore="MissingTranslation">Dam</string>
-    <string name="osm_dock" tools:ignore="MissingTranslation">Dok</string>
-    <string name="osm_geyser" tools:ignore="MissingTranslation">Geiser</string>
-    <string name="osm_bay" tools:ignore="MissingTranslation">Baai</string>
-    <string name="osm_barracks" tools:ignore="MissingTranslation">Kazerne</string>
-    <string name="osm_windmill" tools:ignore="MissingTranslation">Windmolen</string>
-    <string name="osm_watermill" tools:ignore="MissingTranslation">Watermolen</string>
-    <string name="osm_communications_tower" tools:ignore="MissingTranslation">Zendmast</string>
-    <string name="osm_swimming_area" tools:ignore="MissingTranslation">Zwemzone</string>
-    <string name="osm_slipway" tools:ignore="MissingTranslation">Boothelling</string>
-    <string name="osm_nature_reserve" tools:ignore="MissingTranslation">Natuurreservaat</string>
-    <string name="osm_marina" tools:ignore="MissingTranslation">Jachthaven</string>
-    <string name="osm_ice_rink" tools:ignore="MissingTranslation">IJsbaan</string>
-    <string name="osm_manor" tools:ignore="MissingTranslation">Landhuis</string>
-    <string name="osm_city_gate" tools:ignore="MissingTranslation">Stadspoort</string>
-    <string name="osm_castle" tools:ignore="MissingTranslation">Kasteel</string>
-    <string name="osm_aircraft" tools:ignore="MissingTranslation">Vliegtuig</string>
-    <string name="osm_digester" tools:ignore="MissingTranslation">Vergister</string>
-    <string name="osm_sally_port" tools:ignore="MissingTranslation">Sallypoort</string>
-    <string name="osm_aerodrome" tools:ignore="MissingTranslation">Vliegveld</string>
-    <string name="osm_shopping_mall" tools:ignore="MissingTranslation">Winkelcentrum</string>
-    <string name="osm_cinema" tools:ignore="MissingTranslation">Bioscoop</string>
-    <string name="osm_rescue_station" tools:ignore="MissingTranslation">Reddingspost</string>
-    <string name="osm_airport" tools:ignore="MissingTranslation">Luchthaven</string>
-    <string name="osm_theatre" tools:ignore="MissingTranslation">Theater</string>
-    <string name="osm_library" tools:ignore="MissingTranslation">Bibliotheek</string>
-    <string name="osm_university" tools:ignore="MissingTranslation">Universiteit</string>
-    <string name="osm_police" tools:ignore="MissingTranslation">Politiebureau</string>
-    <string name="osm_embassy" tools:ignore="MissingTranslation">Ambassade</string>
-    <string name="osm_bus_station" tools:ignore="MissingTranslation">Busstation</string>
-    <string name="osm_station" tools:ignore="MissingTranslation">Station</string>
-    <string name="osm_toll_booth" tools:ignore="MissingTranslation">Tolpoort</string>
-    <string name="osm_lift" tools:ignore="MissingTranslation">Lift</string>
-    <string name="osm_unmanaged_crossing" tools:ignore="MissingTranslation">Onbewaakte Oversteekplaats</string>
-    <string name="osm_pharmacy" tools:ignore="MissingTranslation">Apotheek</string>
-    <string name="osm_kneipp_water_cure" tools:ignore="MissingTranslation">Kneipp-Waterkuur</string>
-    <string name="osm_food_court" tools:ignore="MissingTranslation">Eetplein</string>
-    <string name="osm_chemist" tools:ignore="MissingTranslation">Drogist</string>
-    <string name="osm_checkpoint" tools:ignore="MissingTranslation">Controlepost</string>
-    <string name="osm_dog_park" tools:ignore="MissingTranslation">Hondenpark</string>
-    <string name="osm_kissing_gate" tools:ignore="MissingTranslation">voetgangerspoortje</string>
-    <string name="osm_car_rental" tools:ignore="MissingTranslation">autoverhuur</string>
-    <string name="osm_pedestrianised_area" tools:ignore="MissingTranslation">voetgangersgebied</string>
-    <string name="osm_escalator" tools:ignore="MissingTranslation">roltrap</string>
-    <string name="osm_shelter" tools:ignore="MissingTranslation">beschutting</string>
-    <string name="osm_water_point" tools:ignore="MissingTranslation">waterpunt</string>
-    <string name="osm_subway_entrance" tools:ignore="MissingTranslation">metro-ingang</string>
-    <string name="osm_cave_entrance" tools:ignore="MissingTranslation">grotopening</string>
-    <string name="osm_swing_gate" tools:ignore="MissingTranslation">draaipoort</string>
-    <string name="osm_stile" tools:ignore="MissingTranslation">overstapje</string>
-    <string name="osm_car_sharing" tools:ignore="MissingTranslation">autodelen</string>
-    <string name="osm_customer_service" tools:ignore="MissingTranslation">klantenservice</string>
-    <string name="osm_watering_place" tools:ignore="MissingTranslation">drinkplaats (voor dieren)</string>
-    <string name="osm_platform" tools:ignore="MissingTranslation">perron</string>
-    <string name="osm_horse_stile" tools:ignore="MissingTranslation">paardenoversteek</string>
-    <string name="osm_bureau_de_change" tools:ignore="MissingTranslation">wisselkantoor</string>
-    <string name="osm_stairs" tools:ignore="MissingTranslation">trap</string>
-    <string name="osm_bicycle_rental" tools:ignore="MissingTranslation">fietsverhuur</string>
-    <string name="osm_hampshire_gate" tools:ignore="MissingTranslation">Hampshire-poort</string>
-    <string name="osm_full_height_turnstile" tools:ignore="MissingTranslation">volledig draaikruis</string>
-    <string name="osm_boat_sharing" tools:ignore="MissingTranslation">bootdelen</string>
-    <string name="osm_help_point" tools:ignore="MissingTranslation">hulppunt</string>
-    <string name="osm_open_space" tools:ignore="MissingTranslation">open ruimte</string>
-    <string name="osm_spending_area" tools:ignore="MissingTranslation">gebied voor kort verblijf</string>
-    <string name="osm_bicycle_repair_station" tools:ignore="MissingTranslation">fietsreparatiepunt</string>
-    <string name="osm_motorcycle_barrier" tools:ignore="MissingTranslation">motorbarrière</string>
-    <string name="osm_kent_carriage_gap" tools:ignore="MissingTranslation">opening voor koetsen (Kent‑stijl)</string>
-    <string name="osm_shared_space" tools:ignore="MissingTranslation">gedeelde ruimte</string>
-    <string name="osm_cliff" tools:ignore="MissingTranslation">klif</string>
-    <string name="osm_training_area" tools:ignore="MissingTranslation">oefenterrein</string>
-    <string name="osm_log" tools:ignore="MissingTranslation">boomstam</string>
-    <string name="osm_jersey_barrier" tools:ignore="MissingTranslation">Jersey-barrière</string>
-    <string name="osm_construction_site" tools:ignore="MissingTranslation">bouwplaats</string>
-    <string name="osm_ridge" tools:ignore="MissingTranslation">kam</string>
-    <string name="osm_nuclear_explosion_site" tools:ignore="MissingTranslation">locatie van een kernexplosie</string>
-    <string name="osm_dyke" tools:ignore="MissingTranslation">dijk</string>
-    <string name="osm_sump_buster" tools:ignore="MissingTranslation">blokkeerder voor lage voertuigen</string>
-    <string name="osm_rope" tools:ignore="MissingTranslation">touw</string>
-    <string name="osm_debris" tools:ignore="MissingTranslation">puin</string>
-    <string name="osm_road_works" tools:ignore="MissingTranslation">wegwerkzaamheden</string>
-    <string name="osm_lock_gate" tools:ignore="MissingTranslation">sluisdeur</string>
-    <string name="osm_sinkhole" tools:ignore="MissingTranslation">zinkgat</string>
-    <string name="osm_range" tools:ignore="MissingTranslation">schietterrein</string>
-    <string name="osm_ambulance_station" tools:ignore="MissingTranslation">ambulancestation</string>
-    <string name="osm_spikes" tools:ignore="MissingTranslation">spijkerstrips</string>
-    <string name="osm_generic_hazard" tools:ignore="MissingTranslation">algemeen gevaar</string>
-    <string name="osm_contact_line" tools:ignore="MissingTranslation">contactleiding</string>
-    <string name="osm_danger_area" tools:ignore="MissingTranslation">gevaarlijk gebied</string>
-    <string name="osm_chain" tools:ignore="MissingTranslation">kettingbarrière</string>
-    <string name="osm_parking_space" tools:ignore="MissingTranslation">parkeerplaats</string>
-    <string name="osm_motorcycle_parking" tools:ignore="MissingTranslation">Parkeerplaats voor motorfietsen</string>
-    <string name="settings_section_search" tools:ignore="MissingTranslation">Zoeken</string>
-    <string name="settings_search_online" tools:ignore="MissingTranslation">Online</string>
-    <string name="settings_search_offline" tools:ignore="MissingTranslation">Offline</string>
-    <string name="settings_search_auto" tools:ignore="MissingTranslation">Automatisch</string>
-    <string name="search_no_results" tools:ignore="MissingTranslation">Geen zoekresultaten gevonden</string>
-    <string name="search_searching" tools:ignore="MissingTranslation">Zoeken…</string>
-    <string name="menu_manage_search" tools:ignore="MissingTranslation">Zoeken</string>
-    <string name="route_not_found" tools:ignore="MissingTranslation">Route niet gevonden</string>
-    <string name="advanced_markers_and_routes_export" tools:ignore="MissingTranslation">Exporteren</string>
-    <string name="location_item_selected" tools:ignore="MissingTranslation">Geselecteerd</string>
-    <string name="location_item_not_selected" tools:ignore="MissingTranslation">Niet geselecteerd</string>
-    <string name="location_item_move_up" tools:ignore="MissingTranslation">Naar boven verplaatsen</string>
-    <string name="location_item_move_down" tools:ignore="MissingTranslation">Naar beneden verplaatsen</string>
-    <string name="street_description_between" tools:ignore="MissingTranslation">Op %1$s tussen %2$s en %3$s</string>
-    <string name="street_description_until" tools:ignore="MissingTranslation">Op %1$s, %2$s tot %3$s</string>
-    <string name="street_description_since" tools:ignore="MissingTranslation">Op %1$s, %2$s sinds %3$s</string>
-    <string name="osm_city" tools:ignore="MissingTranslation">Stad</string>
-    <string name="osm_town" tools:ignore="MissingTranslation">Plaats</string>
-    <string name="osm_neighbourhood" tools:ignore="MissingTranslation">Wijk</string>
-    <string name="osm_village" tools:ignore="MissingTranslation">Dorp</string>
-    <string name="osm_hamlet" tools:ignore="MissingTranslation">Gehucht</string>
-    <string name="osm_recreation_ground" tools:ignore="MissingTranslation">Sportveld</string>
-    <string name="osm_river" tools:ignore="MissingTranslation">Rivier</string>
-    <string name="osm_railway" tools:ignore="MissingTranslation">Spoorlijn</string>
-    <string name="osm_wood" tools:ignore="MissingTranslation">Bos</string>
-    <string name="osm_pavillion" tools:ignore="MissingTranslation">Paviljoen</string>
-    <string name="osm_sport" tools:ignore="MissingTranslation">Sport</string>
-    <string name="osm_health_food" tools:ignore="MissingTranslation">Natuurvoedingswinkel</string>
-    <string name="osm_events_venue" tools:ignore="MissingTranslation">Evenementenlocatie</string>
-    <string name="menu_help" tools:ignore="MissingTranslation">Help</string>
-    <string name="tour_welcome" tools:ignore="MissingTranslation">Welkom bij de Soundscape‑tutorial. Deze tutorial leidt u door de belangrijkste functies van de app. U kunt de tutorial op elk moment stoppen door in het hoofdmenu te kiezen voor Audio-tutorial annuleren. Laten we beginnen met Plaatsen in de buurt, waarmee u interessante plaatsen kunt vinden. De knop Plaatsen in de buurt staat op het startscherm direct onder de zoekbalk. Tik er nu op om het te proberen.</string>
-    <string name="tour_select_place" tools:ignore="MissingTranslation">Plaatsen in de buurt groepeert interessante plaatsen per categorie. Blader door de lijsten en selecteer er één.</string>
-    <string name="tour_create_marker_started" tools:ignore="MissingTranslation">Geweldig! U bevindt zich nu op het scherm Locatiedetails. Dit scherm geeft verschillende opties, waaronder het opslaan van de locatie als markering. Met Soundscape kunt u alles markeren wat voor u belangrijk is. Bijvoorbeeld uw huis, uw bushalte of zelfs de plek waar u zich nu bevindt. Probeer het nu: sla deze locatie op als markering door op Opslaan als markering te tikken.</string>
-    <string name="tour_create_marker_done" tools:ignore="MissingTranslation">Super! Bij het maken van een markering kunt u de naam bewerken en extra aantekeningen toevoegen. Probeer dat nu en tik op Gereed wanneer u klaar bent.</string>
-    <string name="tour_my_location" tools:ignore="MissingTranslation">Nu u weet hoe u markeringen gebruikt, bekijken we enkele andere functies. Onderaan het scherm staan vier knoppen die we één voor één gaan proberen. De knop links is Mijn locatie, die uw huidige locatie beschrijft. Tik er nu op om het te proberen.</string>
-    <string name="tour_around_me" tools:ignore="MissingTranslation">De volgende knop is Om me heen. Deze vertelt u wat er in elke richting in de buurt is. Tik op Om me heen.</string>
-    <string name="tour_ahead" tools:ignore="MissingTranslation">De volgende knop is Vóór me. Deze vertelt u wat zich voor u bevindt. Tik op Vóór me.</string>
-    <string name="tour_nearby_markers" tools:ignore="MissingTranslation">De laatste knop is Markeringen in de buurt, die opgeslagen plaatsen om u heen aankondigt. Tik op Markeringen in de buurt om het te proberen.</string>
-    <string name="tour_markers_and_routes" tools:ignore="MissingTranslation">U hebt nu succesvol een markering gemaakt. Laten we een audiobaken afspelen om ons naar die locatie te leiden. Tik op Markeringen en routes, dat net onder Plaatsen in de buurt staat.</string>
-    <string name="tour_markers" tools:ignore="MissingTranslation">Het scherm Markeringen en routes heeft twee tabbladen: één met routes (afspeellijsten van markeringen) en één met individuele markeringen. Tik op Markeringen om naar het tabblad Markeringen te schakelen en de door u gemaakte markering te vinden.</string>
-    <string name="tour_start_beacon" tools:ignore="MissingTranslation">U bevindt zich nu op het tabblad Markeringen met al uw opgeslagen markeringen. Selecteer een markering en zodra het scherm Locatiedetails verschijnt, tikt u op Audiobaken starten.</string>
-    <string name="tour_beacon_demo" tools:ignore="MissingTranslation">U hoort nu het audiobaken. Het klinkt vanuit de richting van uw bestemming. Als u de richting waarin uw telefoon wijst verandert, hoort u het audiobaken verschuiven en van klank veranderen. Probeer het nu.</string>
-    <string name="tour_beacon_demo_locked" tools:ignore="MissingTranslation">Wanneer uw telefoon vergrendeld is, blijft het audiobaken toch spelen. Als u loopt of in een voertuig zit, gebruikt de app de richting van uw beweging om het audiobaken af te spelen. U kunt de telefoon echter ook wanneer deze vergrendeld is vlak voor u houden als een kompas; de app gebruikt dan de richting waarin uw telefoon wijst. Probeer het eens.</string>
-    <string name="tour_stop_beacon" tools:ignore="MissingTranslation">Als u het baken wilt stoppen, tikt u op de knop Route stoppen.</string>
-    <string name="tour_finish" tools:ignore="MissingTranslation">Dat voltooit de zelfstudie. U kunt deze opnieuw starten via het hoofdmenu. We hopen dat u de app nuttig vindt!</string>
-    <string name="tour_cancel" tools:ignore="MissingTranslation">De audio-tutorial is geannuleerd. Als u wilt, kunt u deze opnieuw starten via het hoofdmenu.</string>
-    <string name="menu_audio_tutorial" tools:ignore="MissingTranslation">Audio-tutorial</string>
-    <string name="menu_audio_tutorial_cancel" tools:ignore="MissingTranslation">Audio-tutorial annuleren</string>
-    <string name="search_bar_hint" tools:ignore="MissingTranslation">Typ een bestemmingsnaam of adres</string>
-    <string name="all_places_nearby_description" tools:ignore="MissingTranslation">een ongefilterde lijst met alle plaatsen in de buurt bekijken</string>
-    <string name="public_transit_places_nearby_description" tools:ignore="MissingTranslation">een lijst met nabijgelegen haltes van het openbaar vervoer bekijken</string>
-    <string name="food_drink_places_nearby_description" tools:ignore="MissingTranslation">een lijst met nabijgelegen restaurants en bars bekijken</string>
-    <string name="groceries_places_nearby_description" tools:ignore="MissingTranslation">een lijst met nabijgelegen supermarkten en buurtwinkels bekijken</string>
-    <string name="banks_places_nearby_description" tools:ignore="MissingTranslation">een lijst met nabijgelegen banken en geldautomaten bekijken</string>
-    <string name="intersections_places_nearby_description" tools:ignore="MissingTranslation">een lijst met nabijgelegen kruispunten bekijken</string>
-    <string name="places_nearby_selection_description" tools:ignore="MissingTranslation">om uit een lijst met plaatsen in de buurt te kiezen</string>
-    <string name="accessibility_title" tools:ignore="MissingTranslation">Toegankelijkheid</string>
-    <string name="accessibility_screen_reader_enabled" tools:ignore="MissingTranslation">Omdat u een schermlezer hebt ingeschakeld, raden we aan de app te gebruiken met de grafische kaarten in de gebruikersinterface uitgeschakeld. U kunt die instelling hier wijzigen, of gewoon doorgaan.</string>
-    <string name="accessibility_screen_reader_disabled" tools:ignore="MissingTranslation">Omdat u geen schermlezer hebt ingeschakeld, gaan we ervan uit dat u de grafische kaarten in de gebruikersinterface wilt weergeven. U kunt die instelling hier wijzigen, of gewoon doorgaan.</string>
-    <string name="tour_continue_button" tools:ignore="MissingTranslation">Doorgaan</string>
-    <string name="tour_continue_hint" tools:ignore="MissingTranslation">het pop-upvenster sluiten en doorgaan met de tutorial</string>
-    <string name="location_detail_action_beacon_from_markers" tools:ignore="MissingTranslation">Audiobaken starten op deze markering</string>
-    <string name="location_detail_full_screen_for_edit_hint" tools:ignore="MissingTranslation">De kaart op volledig scherm weergeven en de locatie van de markering bewerken</string>
-    <string name="location_detail_exit_full_screen_for_edit_hint" tools:ignore="MissingTranslation">Bewerking van de markeringlocatie afsluiten</string>
-    <string name="street_description_relative_before" tools:ignore="MissingTranslation">Op %1$s net voor %2$s</string>
-    <string name="street_description_relative_after" tools:ignore="MissingTranslation">Op %1$s net na %2$s</string>
-    <string name="street_description_intersection" tools:ignore="MissingTranslation">Bij het kruispunt van %1$s</string>
-    <string name="general_error_add_marker_duplicate" tools:ignore="MissingTranslation">Er staat al een markering op deze locatie in de route; we kunnen deze niet opnieuw toevoegen.</string>
-    <string name="settings_explanation" tools:ignore="MissingTranslation">De verschillende appinstellingen zijn hieronder in groepen ingedeeld. Tik op een groep om deze uit te klappen en de beschikbare opties te bekijken.</string>
-    <string name="settings_section_units_description" tools:ignore="MissingTranslation">Selecteer de maateenheden die voor afstanden moeten worden gebruikt</string>
-    <string name="settings_section_search_network" tools:ignore="MissingTranslation">Zoekmodus</string>
-    <string name="settings_section_search_network_description" tools:ignore="MissingTranslation">Stel in of de zoekfunctie alleen offline-gegevens gebruikt</string>
-    <string name="beacon_settings_style_description" tools:ignore="MissingTranslation">Kies de audiobakenstijl die u wilt gebruiken</string>
-    <string name="preview_include_unnamed_roads_title_description" tools:ignore="MissingTranslation">Naamloze wegen opnemen tijdens de locatiesimulatie</string>
-    <string name="callouts_allow_callouts_description" tools:ignore="MissingTranslation">Schakel alle waarschuwingen in of uit</string>
-    <string name="callouts_places_and_landmarks_description" tools:ignore="MissingTranslation">Nabijgelegen plaatsen zoals winkels en restaurants</string>
-    <string name="callouts_mobility_description" tools:ignore="MissingTranslation">Informatie over kruispunten en vervoer</string>
-    <string name="callouts_audio_beacon_description" tools:ignore="MissingTranslation">Updates over de afstand tot het audiobaken wanneer dit is ingesteld</string>
-    <string name="menu_manage_language" tools:ignore="MissingTranslation">Taal en regio </string>
-    <string name="settings_search_results_language_description" tools:ignore="MissingTranslation">Online zoeken kan resultaten in de lokale taal tonen, of geforceerd resultaten in het Engels, Frans of Duits teruggeven.</string>
-    <string name="language_mismatch_title" tools:ignore="MissingTranslation">Nieuwe taal beschikbaar</string>
-    <string name="language_mismatch_message" tools:ignore="MissingTranslation">Uw telefoon is ingesteld op %1$s en die taal is nu beschikbaar in Soundscape. Wilt u dat Soundscape overschakelt naar %1$s?</string>
-    <string name="language_mismatch_switch" tools:ignore="MissingTranslation">Overschakelen naar %1$s</string>
-    <string name="language_mismatch_keep" tools:ignore="MissingTranslation">Huidige taal behouden</string>
-    <string name="preview_go_hint" tools:ignore="MissingTranslation">In deze richting naar het volgende kruispunt bewegen.</string>
-    <string name="error_message_route_not_found" tools:ignore="MissingTranslation">We kunnen de route niet in de database vinden.</string>
-    <string name="error_message_deleting_route" tools:ignore="MissingTranslation">Het verwijderen van de route is mislukt.</string>
-    <string name="error_message_saving_route" tools:ignore="MissingTranslation">Het opslaan van de route is mislukt.</string>
-    <string name="service_still_running" tools:ignore="MissingTranslation">De Soundscape-locatieservice is nog actief.</string>
-    <string name="offline_map_download_complete" tools:ignore="MissingTranslation">Download voltooid</string>
-    <string name="offline_map_download_cancelled" tools:ignore="MissingTranslation">Download geannuleerd</string>
-    <string name="offline_map_download_error" tools:ignore="MissingTranslation">Fout bij downloaden</string>
-    <string name="behavior_scavenger_hunt_callout_next_flag_short_route" tools:ignore="MissingTranslation">Baken ingesteld op %1$s, op %2$s afstand</string>
-    <string name="route_beacon_progress" tools:ignore="MissingTranslation">Baken bij %1$s</string>
-    <string name="menu_route" tools:ignore="MissingTranslation">Routebesturing</string>
-    <string name="menu_route_next_waypoint" tools:ignore="MissingTranslation">Volgende routepunt</string>
-    <string name="menu_route_previous_waypoint" tools:ignore="MissingTranslation">Vorige routepunt</string>
-    <string name="menu_no_routes" tools:ignore="MissingTranslation">Geen routes opgeslagen</string>
-    <string name="menu_main_menu" tools:ignore="MissingTranslation">Hoofdmenu</string>
-    <string name="first_launch_permissions_record_audio" tools:ignore="MissingTranslation">Audio opnemen</string>
-    <string name="first_launch_permissions_required_for_voice_control" tools:ignore="MissingTranslation">Deze toestemming is optioneel, maar is vereist als u spraakopdrachten wilt gebruiken om de app te bedienen.</string>
-    <string name="menu_media_controls" tools:ignore="MissingTranslation">Mediaregelaars</string>
-    <string name="settings_section_media_controls" tools:ignore="MissingTranslation">Modus voor mediaregelaars</string>
-    <string name="settings_section_media_controls_description" tools:ignore="MissingTranslation">De mediaknoppen op uw koptelefoon of afstandsbediening kunnen worden ingesteld om op verschillende manieren te werken, afhankelijk van deze optie.</string>
-    <string name="settings_media_controls_original" tools:ignore="MissingTranslation">Originele modus</string>
-    <string name="settings_media_controls_voice_command" tools:ignore="MissingTranslation">Spraakbediening</string>
-    <string name="settings_media_controls_audio_menu" tools:ignore="MissingTranslation">Audiomenu</string>
-    <string name="voice_cmd_help_response" tools:ignore="MissingTranslation">Beschikbare spraakopdrachten:</string>
-    <string name="voice_cmd_listening" tools:ignore="MissingTranslation">Luisteren…</string>
-    <string name="voice_cmd_not_recognized" tools:ignore="MissingTranslation">Het spijt me, ik kan het commando %1$s niet vinden. Het spraakcommando %2$s geeft een lijst met beschikbare commando's.</string>
-    <string name="voice_cmd_list_routes" tools:ignore="MissingTranslation">Routes weergeven</string>
-    <string name="voice_cmd_routes_list" tools:ignore="MissingTranslation">Beschikbare routes zijn,</string>
-    <string name="voice_cmd_list_markers" tools:ignore="MissingTranslation">Markeringen weergeven</string>
-    <string name="voice_cmd_markers_list" tools:ignore="MissingTranslation">Beschikbare markeringen zijn,</string>
-    <string name="voice_cmd_no_routes" tools:ignore="MissingTranslation">Er zijn geen routes opgeslagen</string>
-    <string name="voice_cmd_no_markers" tools:ignore="MissingTranslation">Er zijn geen markeringen opgeslagen</string>
-    <string name="voice_cmd_route_not_found" tools:ignore="MissingTranslation">Route niet gevonden: %1$s</string>
-    <string name="voice_cmd_starting_route" tools:ignore="MissingTranslation">Route %1$s wordt gestart</string>
-    <string name="voice_cmd_start_route" tools:ignore="MissingTranslation">Route %1$s starten</string>
-    <string name="voice_cmd_start_beacon_at_marker_with_name" tools:ignore="MissingTranslation">Audiobaken starten op %1$s</string>
-    <string name="voice_cmd_starting_beacon_at_marker" tools:ignore="MissingTranslation">Audiobaken wordt gestart op %1$s</string>
-    <string name="voice_cmd_marker_not_found" tools:ignore="MissingTranslation">Markering niet gevonden: %1$s</string>
-    <string name="voice_cmd_explain_dynamic_markers" tools:ignore="MissingTranslation">U kunt routes en markeringen ook op naam starten, bijvoorbeeld.</string>
-    <string name="voice_cmd_speech_recognition_error_network_timeout" tools:ignore="MissingTranslation">Netwerktimeout bij spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_network" tools:ignore="MissingTranslation">Netwerkfout bij spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_audio" tools:ignore="MissingTranslation">Fout bij het opnemen van audio voor spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_server" tools:ignore="MissingTranslation">Serverfout bij spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_client" tools:ignore="MissingTranslation">Clientfout bij spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_speech_timeout" tools:ignore="MissingTranslation">Het luisteren naar spraak is verlopen; het luisteren is gestopt. Probeer het opnieuw.</string>
-    <string name="voice_cmd_speech_recognition_not_match" tools:ignore="MissingTranslation">Er is geen spraak gehoord; het luisteren is gestopt. Probeer het opnieuw.</string>
-    <string name="voice_cmd_speech_recognition_busy" tools:ignore="MissingTranslation">Spraakherkenning is momenteel bezet.</string>
-    <string name="voice_cmd_speech_recognition_error_permissions" tools:ignore="MissingTranslation">Onvoldoende machtigingen om spraakherkenning uit te voeren.</string>
-    <string name="voice_cmd_speech_recognition_error_too_many_requests" tools:ignore="MissingTranslation">Te veel aanvragen voor spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_server_disconnected" tools:ignore="MissingTranslation">De verbinding met de spraakherkenningsserver is verbroken.</string>
-    <string name="voice_cmd_speech_recognition_error_language_not_supported" tools:ignore="MissingTranslation">De huidige taal wordt door Android niet ondersteund voor spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_language_unavailable" tools:ignore="MissingTranslation">De huidige taal wordt wel ondersteund, maar is niet op deze telefoon gedownload.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_check_support" tools:ignore="MissingTranslation">Fout bij het controleren van spraakherkenningsondersteuning.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events" tools:ignore="MissingTranslation">Fout bij het luisteren naar downloadgebeurtenissen voor spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_unknown" tools:ignore="MissingTranslation">Onbekende fout bij spraakherkenning.</string>
-    <string name="voice_cmd_speech_recognition_error_unsupported" tools:ignore="MissingTranslation">Spraakherkenning wordt op deze telefoon niet ondersteund.</string>
-    <string name="settings_voice_command_listening_prompt" tools:ignore="MissingTranslation">Luisteren aankondigen</string>
-    <string name="settings_voice_command_listening_prompt_description" tools:ignore="MissingTranslation">Spreek een luistermelding uit voordat de spraakherkenning begint.</string>
-    <string name="settings_voice_command_microphone" tools:ignore="MissingTranslation">Microfoon</string>
-    <string name="settings_voice_command_microphone_description" tools:ignore="MissingTranslation">Kies welke microfoon gebruikt moet worden voor spraakopdrachten.</string>
+    <string name="settings_section_units">Eenheden</string>
+    <string name="settings_units_imperial">Imperiaal (voet)</string>
+    <string name="settings_units_metric">Metrisch (meter)</string>
+    <string name="voice_engine">Tekst-naar-spraakmotor</string>
+    <string name="preview_go_nearest_intersection">Ga naar het dichtstbijzijnde kruispunt</string>
+    <string name="last_entry_in_list"> en %1$s</string>
+    <string name="location_detail_full_screen_hint">Kaart op volledig scherm weergeven</string>
+    <string name="location_detail_exit_full_screen_hint">Volledig scherm van de kaart sluiten</string>
+    <string name="route_detail_action_previous_disabled_hint">Inactief omdat de route al bij het begin is</string>
+    <string name="route_detail_action_next_disabled_hint">Inactief omdat de route al bij het einde is</string>
+    <string name="directions_near_road_and_settlement">Bij %1$s en dicht bij %2$s</string>
+    <string name="directions_cardinal_north">Noord</string>
+    <string name="directions_cardinal_north_east">Noordoost</string>
+    <string name="directions_cardinal_east">Oost</string>
+    <string name="directions_cardinal_south_east">Zuidoost</string>
+    <string name="directions_cardinal_south">Zuid</string>
+    <string name="directions_cardinal_south_west">Zuidwest</string>
+    <string name="directions_cardinal_west">West</string>
+    <string name="directions_cardinal_north_west">Noordwest</string>
+    <string name="directions_cardinal_north_abb">N</string>
+    <string name="directions_cardinal_north_east_abb">NO</string>
+    <string name="directions_cardinal_east_abb">O</string>
+    <string name="directions_cardinal_south_east_abb">ZO</string>
+    <string name="directions_cardinal_south_abb">Z</string>
+    <string name="directions_cardinal_south_west_abb">ZW</string>
+    <string name="directions_cardinal_west_abb">W</string>
+    <string name="directions_cardinal_north_west_abb">NW</string>
+    <string name="menu_contact_support">Contact opnemen met ondersteuning</string>
+    <string name="permissions_required">De app heeft locatie-machtigingen nodig om te kunnen werken.</string>
+    <string name="permissions_button">Wijzig de machtigingen in de app-instellingen</string>
+    <string name="first_launch_change_language">Taal wijzigen</string>
+    <string name="first_launch_change_language_hint">om de taal te wijzigen die in de app wordt gebruikt</string>
+    <string name="osm_entrance">Ingang</string>
+    <string name="osm_main_entrance">Hoofdingang</string>
+    <string name="osm_entrance_named_with_destination">%1$s %2$s van %3$s</string>
+    <string name="osm_entrance_with_destination">%1$s %2$s</string>
+    <string name="notification_text">De Soundscape-locatieservice blijft actief, ook wanneer de telefoon vergrendeld is.</string>
+    <string name="cancel_search_contentDescription">Zoekopdracht annuleren</string>
+    <string name="osm_train_station">Treinstation</string>
+    <string name="osm_train_station_named">%1$s treinstation</string>
+    <string name="osm_tram_stop">Tramhalte</string>
+    <string name="osm_tram_stop_named">%1$s tramhalte</string>
+    <string name="osm_subway">Metrostation</string>
+    <string name="osm_subway_named">%1$s metrostation</string>
+    <string name="osm_ferry_terminal">Veerterminal</string>
+    <string name="osm_ferry_terminal_named">%1$s veerterminal</string>
+    <string name="menu_manage_audio">Audio</string>
+    <string name="menu_manage_accessibility">Toegankelijkheid</string>
+    <string name="settings_theme_light_dark">Licht- of donker thema</string>
+    <string name="settings_theme_auto">Automatisch</string>
+    <string name="settings_theme_is_light">Licht thema gebruiken</string>
+    <string name="settings_theme_light">Licht</string>
+    <string name="settings_theme_dark">Donker</string>
+    <string name="settings_theme_contrast">Thema-contrast</string>
+    <string name="settings_theme_contrast_regular">Normaal</string>
+    <string name="settings_theme_contrast_medium">Gemiddeld</string>
+    <string name="settings_theme_contrast_high">Hoog</string>
+    <string name="settings_list_item_description">%1$s is keuze %2$s van %3$s</string>
+    <string name="settings_keep_value">behouden</string>
+    <string name="settings_use_value">gebruiken</string>
+    <string name="street_preview_exit">Locatiesimulatie afsluiten</string>
+    <string name="settings_travel_recording">Reisregistratie inschakelen</string>
+    <string name="settings_show_map">Kaarten op het scherm weergeven</string>
+    <string name="settings_debug_heading">Debugopties</string>
+    <string name="settings_search_results_language">Taal van zoekresultaten</string>
+    <string name="menu_share_recorded_route">Reisopname delen</string>
+    <string name="confect_name_to_via">%1$s naar %2$s via %3$s</string>
+    <string name="confect_name_to">%1$s naar %2$s</string>
+    <string name="confect_name_joins">%1$s dat %2$s en %3$s verbindt</string>
+    <string name="confect_name_via">%1$s via %2$s</string>
+    <string name="confect_name_pavement_next_to">Stoep naast %1$s</string>
+    <string name="confect_name_pavement">Stoep</string>
+    <string name="confect_name_dead_end">Doodlopende weg</string>
+    <string name="offline_maps_title">Offline kaarten</string>
+    <string name="offline_map_details_title">Offline kaartdetails</string>
+    <string name="offline_maps_loading">Laden…</string>
+    <string name="offline_maps_downloading">Downloaden: %1$s</string>
+    <string name="offline_maps_caching">De server bereidt %1$s voor om te downloaden. Dit kan enkele minuten duren; daarna begint de download automatisch.</string>
+    <string name="offline_maps_free_space">%1$s vrij</string>
+    <string name="offline_maps_storage">Kaarten worden opgeslagen op %1$s, dat %2$s vrij heeft</string>
+    <string name="offline_maps_already_downloaded">Gedownloade kaarten</string>
+    <string name="offline_maps_nearby">Offline kaarten in de buurt</string>
+    <string name="offline_maps_loading_manifest">Lijst met offline kaarten laden</string>
+    <string name="offline_map_details_delete">Offline kaart verwijderen</string>
+    <string name="offline_map_details_download">Offline kaart downloaden</string>
+    <string name="offline_map_details_size_on_phone">Grootte op telefoon: %1$s</string>
+    <string name="offline_map_details_size_on_server">Downloadgrootte: %1$s</string>
+    <string name="offline_map_details_name">Kaartnaam: %1$s</string>
+    <string name="offline_map_details_city_list">De kaart bevat de volgende plaatsen: %1$s</string>
+    <string name="offline_map_details_alternate_city_list">Deze plaatsen zijn ook bekend als: %1$s</string>
+    <string name="offline_map_storage_title">Offline kaartopslag</string>
+    <string name="offline_map_storage_description">Zodat Soundscape zonder internetverbinding kan worden gebruikt, kunt u kaarten downloaden en op uw telefoon opslaan. De standaardopslag is de externe opslag op uw telefoon, maar u kunt hier een alternatieve bestemming kiezen.</string>
+    <string name="offline_map_wifi_only">Alleen Wi‑Fi gebruiken voor kaartdownload</string>
+    <string name="text_field_clear_text">Tekst wissen</string>
+    <string name="marker_name_description_hint">de naam van de markering bewerken</string>
+    <string name="annotation_description_hint">een optionele aantekening toevoegen om u later te helpen deze markering te herkennen</string>
+    <string name="route_name_description_hint">de naam van de route bewerken</string>
+    <string name="route_description_description_hint">een optionele beschrijving voor deze route toevoegen</string>
+    <string name="fab_add_item">Item toevoegen</string>
+    <string name="fab_add_route">Route toevoegen</string>
+    <string name="route_waypoint_progress">Route %1$s, routepunt %2$s van %3$s</string>
+    <string name="home_screen_title">Soundscape-startscherm</string>
+    <string name="about_soundscape">Soundscape onderzoekt het gebruik van innovatieve, op audio gebaseerde technologie om mensen te helpen een rijker bewustzijn van hun omgeving op te bouwen, zodat ze zich zelfverzekerder en zelfstandiger kunnen verplaatsen.</string>
+    <string name="offline_maps_manifest_failed">Het downloaden van offline kaartgegevens is mislukt</string>
+    <string name="settings_reset_button">Instellingen terugzetten naar standaardwaarden</string>
+    <string name="settings_reset_button_hint">Zet de instellingen terug naar de standaardwaarden en start daarna de app opnieuw.</string>
+    <string name="settings_reset_dialog_title">Weet u het zeker?</string>
+    <string name="settings_reset_dialog_message">Het terugzetten van de instellingen verwijdert alle door u geconfigureerde instellingen in de app. Wilt u doorgaan?</string>
+    <string name="menu_advanced_markers_and_routes">Geavanceerde markeringen en routes</string>
+    <string name="advanced_markers_and_routes_description">Op dit scherm kunt u de database met markeringen en routes exporteren en importeren, en ook alle bestaande markeringen en routes verwijderen.</string>
+    <string name="advanced_markers_and_routes_export_button">Database met markeringen en routes exporteren</string>
+    <string name="advanced_markers_and_routes_import_button">Database met markeringen en routes importeren</string>
+    <string name="markers_and_routes_import_success">Import van markeringen en routes voltooid.</string>
+    <string name="markers_and_routes_import_failure">Import van markeringen en routes mislukt.</string>
+    <string name="advanced_markers_and_routes_clear_all_button">Alle markeringen en routes verwijderen</string>
+    <string name="advanced_markers_and_routes_clear_all_alert_message">Het verwijderen van alle markeringen en routes kan niet ongedaan worden gemaakt. Wilt u doorgaan?</string>
+    <string name="menu_advanced_markers_and_routes_clear_all_success">Markeringen en routes verwijderd</string>
+    <string name="new_version_info_text">Informatie over de nieuwe release</string>
+    <string name="new_version_info_completed">Nieuwe releasedialoog sluiten</string>
+    <string name="new_version_info_details">\nIn deze release zitten twee nieuwe functies waarmee u de app op afstand kunt bedienen, zelfs wanneer de telefoon vergrendeld is. Dat betekent dat u de telefoon in uw zak kunt houden terwijl u toch de belangrijkste functies van de app bedient.\n\nBeide methoden voor afstandsbediening gebruiken Bluetooth‑mediaknoppen, hetzij die op uw koptelefoon, hetzij kleine afstandsbedieningen die u in de hand of zak kunt bewaren. De afstandsbedieningsmodus kiest u in Instellingen &gt; Mediaregelaars. U kunt "Spraakbediening" kiezen om tegen de app te spreken, of "Audiomenu" waarbij menu's voorgelezen worden en u opties kunt selecteren. "Originele modus" zorgt ervoor dat de Bluetooth‑knoppen hetzelfde werken als in eerdere versies.\n\nIn de spraakbedieningsmodus start het drukken op de afspelen/pauzeren‑knop van uw koptelefoon de app die gaat luisteren naar spraak; u hoort een kort signaaltje ter bevestiging. Zegt u "Help", dan leest de app de beschikbare commando's op. Daarna kunt u de knop nogmaals indrukken en de andere commando's uitproberen. Helaas ondersteunt Android spraakherkenning niet alle talen en is het niet op alle telefoons beschikbaar.\n\nHet grootste praktische probleem met spraakbediening is dat sommige koptelefoons langer nodig hebben om hun microfoon actief te maken dan andere. Dit betekent dat u na het tikken op de afspelen/pauzeren‑knop tot ongeveer 5 seconden moet wachten voordat u kunt spreken. Om te ontdekken hoe lang dat bij uw koptelefoon duurt, is de beste aanpak: tik op afspelen/pauzeren en tel hardop van 1 tot 10. De telefoon vertelt u vervolgens welke spraak werd herkend en het eerste nummer dat werd herkend is de eerste die door de microfoon werd opgevangen. Dat helpt u inschatten hoe lang u moet wachten voordat u spreekt. Sommige koptelefoons maken een duidelijk geluid wanneer de microfoon actief is, wat het makkelijker maakt, maar andere geven geen geluid. Dit vereist helaas soms wat oefening.\n\nDe andere nieuwe afstandsbedieningsmodus, het Audiomenu, werkt in alle talen en op alle telefoons. Met de volgende/vorige‑knoppen van de mediacontrole bladert u door de opties van het menu; de afspelen/pauzeren‑knop selecteert vervolgens de huidige optie. Er is een hoofdmenu en één laag met submenu's die soortgelijke commando's groeperen.\n\nDeze functies zijn nog heel nieuw en we horen graag uw ervaringen: werken ze goed en welke extra commando's zou u willen?\n\nMeld eventuele problemen, hoe klein ook, via de optie *Contact opnemen met ondersteuning* in het hoofdmenu.\n</string>
+    <string name="menu_open_source_licenses">Open-sourcelicenties</string>
+    <string name="osm_tag_ferry_terminal">Veerterminal</string>
+    <string name="osm_tag_ferry_terminal_named">%1$s Veerterminal</string>
+    <string name="osm_office">Kantoor</string>
+    <string name="osm_school">School</string>
+    <string name="osm_roof">Dak</string>
+    <string name="osm_convenience">Buurtwinkel</string>
+    <string name="osm_lift_gate">Hefpoort</string>
+    <string name="osm_toilets">Toiletten</string>
+    <string name="osm_parking">Parkeerplaats</string>
+    <string name="osm_taxi">Taxistandplaats</string>
+    <string name="osm_bicycle_parking">Fietsenstalling</string>
+    <string name="osm_fuel">Tankstation</string>
+    <string name="osm_recycling">Recyclingpunt</string>
+    <string name="osm_drinking_water">Drinkwater</string>
+    <string name="osm_pitch">Sportveld</string>
+    <string name="osm_picnic_site">Picknickplaats</string>
+    <string name="osm_information">Informatie</string>
+    <string name="osm_fire_extinguisher">Brandsblusser</string>
+    <string name="osm_defibrillator">AED (defibrillator)</string>
+    <string name="osm_guide">Wegwijzer</string>
+    <string name="osm_water">Water</string>
+    <string name="osm_fire_hose">Brandslang</string>
+    <string name="osm_fire_flapper">Brandflapper (gereedschap om kleine branden te smoren)</string>
+    <string name="osm_information_point">Informatiepunt</string>
+    <string name="osm_wetland">Moerasgebied</string>
+    <string name="osm_mud">Modder</string>
+    <string name="osm_access_point">Toegangspunt</string>
+    <string name="osm_life_ring">Reddingsboei</string>
+    <string name="osm_generic_info">Algemene informatie</string>
+    <string name="osm_turntable">Draaischijf</string>
+    <string name="osm_survey_point">Meetpunt</string>
+    <string name="osm_snow_net">Sneeuwnet</string>
+    <string name="osm_silo">Silo</string>
+    <string name="osm_mast">Mast</string>
+    <string name="osm_bird_hide">Vogelkijkhut</string>
+    <string name="osm_transformer_tower">Transformatormast</string>
+    <string name="osm_generic_object">Algemeen object</string>
+    <string name="osm_signal">Signaal</string>
+    <string name="osm_rock">Rots</string>
+    <string name="osm_kiln">Oven</string>
+    <string name="osm_crane">Kraan</string>
+    <string name="osm_rune_stone">Runensteen</string>
+    <string name="osm_milestone">Mijlpaal</string>
+    <string name="osm_lifeguard_platform">Reddersplatform</string>
+    <string name="osm_water_tank">Watertank</string>
+    <string name="osm_sty">Varkensstal</string>
+    <string name="osm_navigationaid">Navigatiehulpmiddel</string>
+    <string name="osm_terminal">Terminal</string>
+    <string name="osm_water_tap">Waterkraan</string>
+    <string name="osm_water_well">Waterput</string>
+    <string name="osm_petroleum_well">Olieput</string>
+    <string name="osm_cross">Kruis</string>
+    <string name="osm_gallows">Galg</string>
+    <string name="osm_speed_camera">Snelheidscamera</string>
+    <string name="osm_siren">Sirene</string>
+    <string name="osm_pylon">Pyloon</string>
+    <string name="osm_mineshaft">Mijnschacht</string>
+    <string name="osm_flagpole">Vlaggenmast</string>
+    <string name="osm_optical_telegraph">Optische telegraaf</string>
+    <string name="osm_cannon">Kanon</string>
+    <string name="osm_boundary_stone">Grenssteen</string>
+    <string name="osm_shed">Schuur</string>
+    <string name="osm_traffic_cones">Verkeerskegels</string>
+    <string name="osm_firepit">Vuurplaats</string>
+    <string name="osm_stone">Staande steen</string>
+    <string name="osm_surveillance">Bewaking</string>
+    <string name="osm_monitoring_station">Meetstation</string>
+    <string name="osm_wayside_shrine">Wegkapelletje</string>
+    <string name="osm_wayside_cross">Wegkruis</string>
+    <string name="osm_tomb">Graf</string>
+    <string name="osm_traffic_signals">Verkeerslichten</string>
+    <string name="osm_hut">Hut</string>
+    <string name="osm_static_caravan">Stacaravan</string>
+    <string name="osm_bollard">Paaltje</string>
+    <string name="osm_block">Blok</string>
+    <string name="osm_waste_disposal">Afvalpunt</string>
+    <string name="osm_photo_booth">Fotohokje</string>
+    <string name="osm_bbq">Barbecue</string>
+    <string name="osm_shop">Winkel</string>
+    <string name="osm_newsagent">Krantenwinkel</string>
+    <string name="osm_anime">Animewinkel</string>
+    <string name="osm_musical_instrument">Muziekinstrumentenwinkel</string>
+    <string name="osm_vacuum_cleaner">Stofzuigerwinkel</string>
+    <string name="osm_mobile_phone">Telefoonwinkel</string>
+    <string name="osm_carpet">Tapijtwinkel</string>
+    <string name="osm_trade">Handelswinkel</string>
+    <string name="osm_garden_centre">Tuincentrum</string>
+    <string name="osm_florist">Bloemist</string>
+    <string name="osm_fireplace">Haard</string>
+    <string name="osm_massage">Massagesalon</string>
+    <string name="osm_herbalist">Kruidenspeciaalzaak</string>
+    <string name="osm_bag">Tassenwinkel</string>
+    <string name="osm_pastry">Banketbakkerij</string>
+    <string name="osm_deli">Delicatessenwinkel</string>
+    <string name="osm_beverages">Drankwinkel</string>
+    <string name="osm_alcohol">Slijterij</string>
+    <string name="osm_substation">Transformatorstation</string>
+    <string name="osm_travel_agent">Reisbureau</string>
+    <string name="osm_research">Onderzoeksfaciliteit</string>
+    <string name="osm_newspaper">Krantenwinkel</string>
+    <string name="osm_ammunition">Munitiewinkel</string>
+    <string name="osm_wildlife_hide">Observatiehut</string>
+    <string name="osm_watchmaker">Horlogemaker</string>
+    <string name="osm_tinsmith">Blikslagerij</string>
+    <string name="osm_sun_protection">Zonnebeschermingswinkel</string>
+    <string name="osm_sculptor">Beeldhouwatelier</string>
+    <string name="osm_metal_construction">Metaalconstructie</string>
+    <string name="osm_handicraft">Ambachtelijke winkel</string>
+    <string name="osm_cowshed">Koestal</string>
+    <string name="osm_cabin">Hut</string>
+    <string name="osm_barn">Schuur</string>
+    <string name="osm_warehouse">Magazijn</string>
+    <string name="osm_houseboat">Woonboot</string>
+    <string name="osm_book_store">Boekwinkel</string>
+    <string name="osm_generic_place">Plaats</string>
+    <string name="osm_hunting_stand">Jachtuitkijkpost</string>
+    <string name="osm_game_feeding">Wildvoederplaats</string>
+    <string name="osm_crypt">Crypte</string>
+    <string name="osm_animal_shelter">Dierenasiel</string>
+    <string name="osm_animal_boarding">Dierenpension</string>
+    <string name="osm_blood_donation">Bloedinzameling</string>
+    <string name="osm_nursing_home">Verpleeghuis</string>
+    <string name="osm_dentist">Tandarts</string>
+    <string name="osm_baby_hatch">Babykluis</string>
+    <string name="osm_language_school">Taalschool</string>
+    <string name="osm_public_bookcase">Openbare boekenkast</string>
+    <string name="osm_biergarten">Biertuin</string>
+    <string name="osm_running">Hardloopbaan</string>
+    <string name="osm_glaziery">Glazenierszaak</string>
+    <string name="osm_garages">Autogarages</string>
+    <string name="osm_retail">Winkel</string>
+    <string name="osm_hotel">Hotel</string>
+    <string name="osm_camp_site">Camping</string>
+    <string name="osm_rugby_league">Rugby League</string>
+    <string name="osm_roller_skating">Rollerskaten</string>
+    <string name="osm_multi">Multifunctioneel</string>
+    <string name="osm_ice_hockey">IJshockey</string>
+    <string name="osm_hapkido">Hapkido</string>
+    <string name="osm_croquet">Croquet</string>
+    <string name="osm_cricket">Cricket</string>
+    <string name="osm_cockfighting">Hanengevecht</string>
+    <string name="osm_boxing">Boksen</string>
+    <string name="osm_bmx">BMX</string>
+    <string name="osm_billiards">Biljart</string>
+    <string name="osm_toys">Speelgoedwinkel</string>
+    <string name="osm_pyrotechnics">Vuurwerkwinkel</string>
+    <string name="osm_laundry">Wasserette</string>
+    <string name="osm_funeral_directors">Uitvaartondernemers</string>
+    <string name="osm_dry_cleaning">Stomerij</string>
+    <string name="osm_copyshop">Copyshop</string>
+    <string name="osm_chalet">Chalet</string>
+    <string name="osm_apartment">Appartement</string>
+    <string name="osm_water_ski">Waterskiën</string>
+    <string name="osm_water_polo">Waterpolo</string>
+    <string name="osm_table_soccer">Tafelvoetbal</string>
+    <string name="osm_table_tennis">Tafeltennis</string>
+    <string name="osm_skateboard">Skateboarden</string>
+    <string name="osm_sailing">Zeilen</string>
+    <string name="osm_safety_training">Veiligheidstraining</string>
+    <string name="osm_rowing">Roeien</string>
+    <string name="osm_model_aerodrome">Modelvliegveld</string>
+    <string name="osm_korfball">Korfbal</string>
+    <string name="osm_ice_stock">IJsstock</string>
+    <string name="osm_gymnastics">Gymnastiek</string>
+    <string name="osm_football">Voetbal</string>
+    <string name="osm_field_hockey">Veldhockey</string>
+    <string name="osm_equestrian">Paardensport</string>
+    <string name="osm_cycling">Fietsen</string>
+    <string name="osm_curling">Curling</string>
+    <string name="osm_cricket_nets">Cricketnetten</string>
+    <string name="osm_cliff_diving">Klifduiken</string>
+    <string name="osm_boules">Boules</string>
+    <string name="osm_bobsleigh">Bobslee</string>
+    <string name="osm_baseball">Honkbal</string>
+    <string name="osm_aikido">Aikido</string>
+    <string name="osm_10pin">Bowling</string>
+    <string name="osm_weapons">Wapenwinkel</string>
+    <string name="osm_pet">Dierenspeciaalzaak</string>
+    <string name="osm_money_lender">Kredietverstrekker</string>
+    <string name="osm_gift">Cadeauwinkel</string>
+    <string name="osm_books">Boekhandel</string>
+    <string name="osm_bookmaker">Wedkantoor</string>
+    <string name="osm_photo">Fotowinkel</string>
+    <string name="osm_craft">Hobbywinkel</string>
+    <string name="osm_motorcycle">Motorzaak</string>
+    <string name="osm_hunting">Jachtwinkel</string>
+    <string name="osm_window_blind">Jaloezieënwinkel</string>
+    <string name="osm_curtain">Gordijnwinkel</string>
+    <string name="osm_antiques">Antiekwinkel</string>
+    <string name="osm_paint">Verfwinkel</string>
+    <string name="osm_tattoo">Tattoostudio</string>
+    <string name="osm_nutrition_supplements">Supplementenwinkel</string>
+    <string name="osm_hearing_aids">Hoortoestelwinkel</string>
+    <string name="osm_cosmetics">Cosmeticawinkel</string>
+    <string name="osm_watches">Horlogewinkel</string>
+    <string name="osm_jewelry">Juwelier</string>
+    <string name="osm_boutique">Boetiek</string>
+    <string name="osm_baby_goods">Babywinkel</string>
+    <string name="osm_tea">Theewinkel</string>
+    <string name="osm_pasta">Pastawinkel</string>
+    <string name="osm_coffee">Koffiebar</string>
+    <string name="osm_quango">Quasi-autonome overheidsorganisatie</string>
+    <string name="osm_political_party">Politieke partij</string>
+    <string name="osm_association">Vereniging</string>
+    <string name="osm_architect">Architect</string>
+    <string name="osm_advertising_agency">Reclamebureau</string>
+    <string name="osm_summer_camp">Zomerkamp</string>
+    <string name="osm_dance">Dansstudio</string>
+    <string name="osm_amusement_arcade">Speelhal</string>
+    <string name="osm_adult_gaming_centre">Speelhal voor volwassenen</string>
+    <string name="osm_window_construction">Ramenmakerij</string>
+    <string name="osm_upholsterer">Meubelstoffeerder</string>
+    <string name="osm_shoemaker">Schoenmaker</string>
+    <string name="osm_sawmill">Zagerij</string>
+    <string name="osm_pottery">Keramiekatelier</string>
+    <string name="osm_key_cutter">Sleutelmaker</string>
+    <string name="osm_hvac">HVAC-installateur</string>
+    <string name="osm_clockmaker">Klok- en horlogemaker</string>
+    <string name="osm_carpenter">Timmerman</string>
+    <string name="osm_builder">Aannemer</string>
+    <string name="osm_bookbinder">Boekbinder</string>
+    <string name="osm_boatbuilder">Bootbouwer</string>
+    <string name="osm_brewery">Brouwerij</string>
+    <string name="osm_blacksmith">Smederij</string>
+    <string name="osm_basket_maker">Mandenmaker</string>
+    <string name="osm_greenhouse">Kas</string>
+    <string name="osm_farm_auxiliary">Landbouwbijgebouw</string>
+    <string name="osm_civic">Publiek gebouw</string>
+    <string name="osm_bungalow">Bungalow</string>
+    <string name="osm_detached">Vrijstaand huis</string>
+    <string name="osm_hair_dresser">Kapper</string>
+    <string name="osm_clothing_store">Kledingwinkel</string>
+    <string name="osm_user">Gebruiker</string>
+    <string name="osm_dojo">Dojo</string>
+    <string name="osm_nightclub">Nachtclub</string>
+    <string name="osm_community_centre">Buurtcentrum</string>
+    <string name="osm_brothel">Bordeel</string>
+    <string name="osm_veterinary">Dierenkliniek</string>
+    <string name="osm_social_facility">Sociale voorziening</string>
+    <string name="osm_clinic">Kliniek</string>
+    <string name="osm_charging_station">Laadstation</string>
+    <string name="osm_kindergarten">Kleuterschool</string>
+    <string name="osm_ice_cream">IJssalon</string>
+    <string name="osm_fast_food">Fastfoodrestaurant</string>
+    <string name="osm_commercial">Commercieel gebouw</string>
+    <string name="osm_canoe">Kanoën</string>
+    <string name="osm_scuba_diving">Scubaduiken</string>
+    <string name="osm_fishing">Vissen</string>
+    <string name="osm_optician">Opticien</string>
+    <string name="osm_confectionery">Snoepwinkel</string>
+    <string name="osm_bunker">Bunker</string>
+    <string name="osm_sleeping_pods">Slaapcabines</string>
+    <string name="osm_motel">Motel</string>
+    <string name="osm_guest_house">Pension</string>
+    <string name="osm_wrestling">Worstelen</string>
+    <string name="osm_toboggan">Rodelbaan</string>
+    <string name="osm_skiing">Skiën</string>
+    <string name="osm_rc_car">RC-auto</string>
+    <string name="osm_paddle_tennis">Padel (paddletennis)</string>
+    <string name="osm_hockey">Hockeyveld</string>
+    <string name="osm_fencing">Schermclub</string>
+    <string name="osm_bowls">Bowlsbaan</string>
+    <string name="osm_badminton">Badmintonbaan</string>
+    <string name="osm_archery">Boogschietbaan</string>
+    <string name="osm_american_football">American footballveld</string>
+    <string name="osm_travel_agency">Reisbureau</string>
+    <string name="osm_tobacco">Tabakswinkel</string>
+    <string name="osm_e_cigarette">E-sigaretwinkel</string>
+    <string name="osm_video">Videotheek</string>
+    <string name="osm_car_repair">Autoreparatie</string>
+    <string name="osm_hifi">Audiozaak</string>
+    <string name="osm_lamps">Verlichtingswinkel</string>
+    <string name="osm_kitchen">Keukenwinkel</string>
+    <string name="osm_interior_decoration">Woondecoratiewinkel</string>
+    <string name="osm_houseware">Huishoudwinkel</string>
+    <string name="osm_erotic">Erotische winkel</string>
+    <string name="osm_beauty">Schoonheidssalon</string>
+    <string name="osm_wine">Wijnwinkel</string>
+    <string name="osm_dairy">Zuivelwinkel</string>
+    <string name="osm_cheese">Kaaswinkel</string>
+    <string name="osm_bakery">Bakkerij</string>
+    <string name="osm_telecommunication">Telecomwinkel</string>
+    <string name="osm_tax">Belastingkantoor</string>
+    <string name="osm_real_estate_agent">Makelaarskantoor</string>
+    <string name="osm_notary">Notaris</string>
+    <string name="osm_ngo">NGO-kantoor</string>
+    <string name="osm_lawyer">Advocatenkantoor</string>
+    <string name="osm_it">IT-diensten</string>
+    <string name="osm_foundation">Stichting</string>
+    <string name="osm_employment_agency">Uitzendbureau</string>
+    <string name="osm_educational_institution">Onderwijsinstelling</string>
+    <string name="osm_adoption_agency">Adoptiebureau</string>
+    <string name="osm_miniature_golf">Minigolfbaan</string>
+    <string name="osm_building">Gebouw</string>
+    <string name="osm_winery">Wijnmakerij</string>
+    <string name="osm_tiler">Tegelzetter</string>
+    <string name="osm_chimney_sweeper">Schoorsteenveger</string>
+    <string name="osm_stand_builder">Standbouwer</string>
+    <string name="osm_saddler">Zadelmaker</string>
+    <string name="osm_plumber">Loodgieter</string>
+    <string name="osm_plasterer">Stucadoor</string>
+    <string name="osm_painter">Schilder</string>
+    <string name="osm_jeweller">Juwelier</string>
+    <string name="osm_floorer">Vloerlegger</string>
+    <string name="osm_distillery">Distilleerderij</string>
+    <string name="osm_carpet_layer">Tapijtlegger</string>
+    <string name="osm_beekeeper">Imker</string>
+    <string name="osm_public">Openbaar</string>
+    <string name="osm_dormitory">Slaapzaal</string>
+    <string name="osm_apartments">Appartementen</string>
+    <string name="osm_internet_cafe">Internetcafé</string>
+    <string name="osm_shoe_shop">Schoenenwinkel</string>
+    <string name="osm_generic_shop">Winkel</string>
+    <string name="osm_coffee_shop">Koffiebar</string>
+    <string name="osm_coworking_space">Coworkingruimte</string>
+    <string name="osm_stripclub">Stripclub</string>
+    <string name="osm_ev_charging">Laadpaal</string>
+    <string name="osm_pub">Pub</string>
+    <string name="osm_obstacle_course">Hindernisbaan</string>
+    <string name="osm_volleyball">Volleybalveld</string>
+    <string name="osm_tennis">Tennisbaan</string>
+    <string name="osm_soccer">Voetbalveld</string>
+    <string name="osm_shooting">Schietbaan</string>
+    <string name="osm_rugby_union">Rugbyveld</string>
+    <string name="osm_orienteering">Oriëntatieterrein</string>
+    <string name="osm_netball">Netbalveld</string>
+    <string name="osm_motor">Motorzaak</string>
+    <string name="osm_kitesurfing">Kitesurfen</string>
+    <string name="osm_karting">Kartbaan</string>
+    <string name="osm_judo">Judohal</string>
+    <string name="osm_horseshoes">Hoefijzerwerpen</string>
+    <string name="osm_handball">Handbalveld</string>
+    <string name="osm_golf">Golfbaan</string>
+    <string name="osm_gaelic_games">Gaelic-spelen (hurling en Gaelic football)</string>
+    <string name="osm_diving">Duiklocatie</string>
+    <string name="osm_darts">Darten</string>
+    <string name="osm_climbing_adventure">Klimpark</string>
+    <string name="osm_basketball">Basketbalveld</string>
+    <string name="osm_bandy">Bandyveld</string>
+    <string name="osm_australian_football">Australisch voetbalveld</string>
+    <string name="osm_9pin">9-pinsbaan</string>
+    <string name="osm_vacant">Leegstaand</string>
+    <string name="osm_lottery">Loterijwinkel</string>
+    <string name="osm_trophy">Trofeeënwinkel</string>
+    <string name="osm_music">Muziekwinkel</string>
+    <string name="osm_games">Spellenwinkel</string>
+    <string name="osm_tyres">Bandenwinkel</string>
+    <string name="osm_sports">Sportwinkel</string>
+    <string name="osm_outdoor">Outdoorwinkel</string>
+    <string name="osm_car">Autodealer</string>
+    <string name="osm_electronics">Elektronicawinkel</string>
+    <string name="osm_computer">Computerwinkel</string>
+    <string name="osm_furniture">Meubelwinkel</string>
+    <string name="osm_candles">Kaarsenwinkel</string>
+    <string name="osm_hardware">IJzerwarenwinkel</string>
+    <string name="osm_gas">Tankstation</string>
+    <string name="osm_energy">Energiebedrijf</string>
+    <string name="osm_doityourself">Doe-het-zelfzaak</string>
+    <string name="osm_bathroom_furnishing">Badkamerwinkel</string>
+    <string name="osm_medical_supply">Winkel voor medische hulpmiddelen</string>
+    <string name="osm_variety_store">Winkel met diverse artikelen</string>
+    <string name="osm_second_hand">Tweedehandswinkel</string>
+    <string name="osm_charity">Winkel van een goed doel</string>
+    <string name="osm_fashion">Modewinkel</string>
+    <string name="osm_fabric">Stoffenwinkel</string>
+    <string name="osm_clothes">Kledingwinkel</string>
+    <string name="osm_butcher">Slagerij</string>
+    <string name="osm_water_utility">Waterbedrijf</string>
+    <string name="osm_realtor">Makelaar</string>
+    <string name="osm_company">Bedrijf</string>
+    <string name="osm_accountant">Accountant</string>
+    <string name="osm_bunker_silo">Bunkersilo</string>
+    <string name="osm_hackerspace">Hackerspace</string>
+    <string name="osm_lifeguard_base">Reddingspost</string>
+    <string name="osm_roofer">Dakdekker</string>
+    <string name="osm_rigger">Hijsmonteur</string>
+    <string name="osm_parquet_layer">Parketlegger</string>
+    <string name="osm_gardener">Hovenier</string>
+    <string name="osm_stable">Stal</string>
+    <string name="osm_garage">Garage</string>
+    <string name="osm_transportation">Vervoersvoorziening</string>
+    <string name="osm_house">Huis</string>
+    <string name="osm_helipad">Helikopterlandingsplaats</string>
+    <string name="osm_apron">Vliegtuigplatform</string>
+    <string name="osm_consumer_electronics_store">Elektronicawinkel</string>
+    <string name="osm_speciality_store">Speciaalzaak</string>
+    <string name="osm_defined">Gedefinieerd</string>
+    <string name="osm_sauna">Sauna</string>
+    <string name="osm_gym">Sportschool</string>
+    <string name="osm_crematorium">Crematorium</string>
+    <string name="osm_gambling">Gokgelegenheid</string>
+    <string name="osm_music_school">Muziekschool</string>
+    <string name="osm_bar">Bar</string>
+    <string name="osm_farm">Boerderij</string>
+    <string name="osm_bicycle">Fietsenwinkel</string>
+    <string name="osm_tailor">Kleermaker</string>
+    <string name="osm_locksmith">Slotenmaker</string>
+    <string name="osm_industrial">Industrieel</string>
+    <string name="osm_wilderness_hut">Wildernishut</string>
+    <string name="osm_hostel">Hostel</string>
+    <string name="osm_caravan_site">Caravanplaats</string>
+    <string name="osm_weightlifting">Gewichthefzaal</string>
+    <string name="osm_taekwondo">Taekwondoclub</string>
+    <string name="osm_swimming">Zwembad</string>
+    <string name="osm_surfing">Surfgebied</string>
+    <string name="osm_skating">Schaats- of skatebaan</string>
+    <string name="osm_racquet">Racketsportaccommodatie</string>
+    <string name="osm_pelota">Pelotabaan</string>
+    <string name="osm_paragliding">Paraglidinglocatie</string>
+    <string name="osm_parachuting">Landingsplaats voor parachutespringen</string>
+    <string name="osm_motocross">Motocrossbaan</string>
+    <string name="osm_ice_skating">IJsbaan</string>
+    <string name="osm_horse_racing">Paardenrenbaan</string>
+    <string name="osm_dog_racing">Hondenrenbaan</string>
+    <string name="osm_climbing">Klimlocatie</string>
+    <string name="osm_chess">Schaakclub</string>
+    <string name="osm_canadian_football">Veld voor Canadese football</string>
+    <string name="osm_beachvolleyball">Beachvolleybalveld</string>
+    <string name="osm_base">Hoofdkwartier</string>
+    <string name="osm_athletics">Atletiekbaan</string>
+    <string name="osm_pawnbroker">Pandjeshuis</string>
+    <string name="osm_ticket">Kaartverkoop</string>
+    <string name="osm_stationery">Kantoorboekhandel</string>
+    <string name="osm_video_games">Gamewinkel</string>
+    <string name="osm_model">Modelbouwwinkel</string>
+    <string name="osm_frame">Lijstenmakerij</string>
+    <string name="osm_art">Kunstwinkel</string>
+    <string name="osm_car_parts">Autoonderdelenwinkel</string>
+    <string name="osm_radiotechnics">Winkel voor radioapparatuur</string>
+    <string name="osm_bed">Beddenwinkel</string>
+    <string name="osm_garden_furniture">Tuinmeubelwinkel</string>
+    <string name="osm_electrical">Elektrozaak</string>
+    <string name="osm_perfumery">Parfumerie</string>
+    <string name="osm_hairdresser">Kapsalon</string>
+    <string name="osm_drugstore">Drogisterij</string>
+    <string name="osm_shoes">Schoenenwinkel</string>
+    <string name="osm_leather">Lederwarenwinkel</string>
+    <string name="osm_general">Algemene winkel</string>
+    <string name="osm_seafood">Viswinkel</string>
+    <string name="osm_organic">Biowinkel</string>
+    <string name="osm_greengrocer">Groenteboer</string>
+    <string name="osm_chocolate">Chocolaterie</string>
+    <string name="osm_brewing_supplies">Winkel voor brouwbenodigdheden</string>
+    <string name="osm_tax_advisor">Belastingadviseur</string>
+    <string name="osm_private_investigator">Privédetective</string>
+    <string name="osm_government">Overheidskantoor</string>
+    <string name="osm_forestry">Bosbeheer</string>
+    <string name="osm_estate_agent">Makelaarskantoor</string>
+    <string name="osm_spring">Bron</string>
+    <string name="osm_golf_course">Golfbaan</string>
+    <string name="osm_ses_station">SES-station</string>
+    <string name="osm_lifeguard_place">Reddingspost</string>
+    <string name="osm_stonemason">Steenhouwer</string>
+    <string name="osm_scaffolder">Steigerbouwer</string>
+    <string name="osm_sailmaker">Zeilmaker</string>
+    <string name="osm_photographic_laboratory">Fotolab</string>
+    <string name="osm_photographer">Fotograaf</string>
+    <string name="osm_insulation">Isolatie</string>
+    <string name="osm_electrician">Elektricien</string>
+    <string name="osm_dressmaker">Kleermaker</string>
+    <string name="osm_caterer">Cateraar</string>
+    <string name="osm_terrace">Terras</string>
+    <string name="osm_toy_shop">Speelgoedwinkel</string>
+    <string name="osm_dive_centre">Duikcentrum</string>
+    <string name="osm_swingerclub">Swingerclub</string>
+    <string name="osm_doctors">Huisartsenpraktijk</string>
+    <string name="osm_driving_school">Rijschool</string>
+    <string name="osm_free_flying">Vrijvlieggebied</string>
+    <string name="osm_religion">Religie</string>
+    <string name="osm_kiosk">Kiosk</string>
+    <string name="osm_residential">Woongebied</string>
+    <string name="osm_food">Voedselwinkel</string>
+    <string name="osm_waterfall">Waterval</string>
+    <string name="osm_boatyard">Scheepswerf</string>
+    <string name="osm_theme_park">Pretpark</string>
+    <string name="osm_roundhouse">Ronde locomotievenloods</string>
+    <string name="osm_generator">Generator</string>
+    <string name="osm_beach">Strand</string>
+    <string name="osm_naval_base">Marinebasis</string>
+    <string name="osm_works">Industrieterrein</string>
+    <string name="osm_water_works">Watervoorziening</string>
+    <string name="osm_telescope">Telescoop</string>
+    <string name="osm_pier">Pier</string>
+    <string name="osm_observatory">Observatorium</string>
+    <string name="osm_reservoir">Waterreservoir</string>
+    <string name="osm_monument">Monument</string>
+    <string name="osm_battlefield">Slagveld</string>
+    <string name="osm_planetarium">Planetarium</string>
+    <string name="osm_social_centre">Sociaal centrum</string>
+    <string name="osm_prison">Gevangenis</string>
+    <string name="osm_courthouse">Gerechtsgebouw</string>
+    <string name="osm_bridge">Brug</string>
+    <string name="osm_hangar">Hangar</string>
+    <string name="osm_tower">Toren</string>
+    <string name="osm_attraction">Bezienswaardigheid</string>
+    <string name="osm_zoo">Dierentuin</string>
+    <string name="osm_gallery">Kunstgalerij</string>
+    <string name="osm_artwork">Kunstwerk</string>
+    <string name="osm_alpine_hut">Alpenhut</string>
+    <string name="osm_plant">Fabriek</string>
+    <string name="osm_insurance">Verzekeringskantoor</string>
+    <string name="osm_airfield">Vliegveld</string>
+    <string name="osm_water_tower">Watertoren</string>
+    <string name="osm_pumping_station">Pompstation</string>
+    <string name="osm_hot_water_tank">Warmwatertank</string>
+    <string name="osm_campanile">Klokkentoren</string>
+    <string name="osm_sports_centre">Sportcentrum</string>
+    <string name="osm_fitness_centre">Fitnesscentrum</string>
+    <string name="osm_beach_resort">Strandresort</string>
+    <string name="osm_village_green">dorpsgroen</string>
+    <string name="osm_ship">schip</string>
+    <string name="osm_memorial">gedenkteken</string>
+    <string name="osm_synagogue">synagoge</string>
+    <string name="osm_mosque">moskee</string>
+    <string name="osm_chapel">kapel</string>
+    <string name="osm_cathedral">kathedraal</string>
+    <string name="osm_train_terminal">eindstation</string>
+    <string name="osm_college">college</string>
+    <string name="osm_arts_centre">cultuurcentrum</string>
+    <string name="osm_ranger_station">boswachtersstation</string>
+    <string name="osm_hospital">ziekenhuis</string>
+    <string name="osm_track">baan</string>
+    <string name="osm_conference_centre">conferentiecentrum</string>
+    <string name="osm_viewpoint">uitkijkpunt</string>
+    <string name="osm_supermarket">supermarkt</string>
+    <string name="osm_peak">bergtop</string>
+    <string name="osm_storage_tank">opslagtank</string>
+    <string name="osm_lighthouse">vuurtoren</string>
+    <string name="osm_beacon">baken</string>
+    <string name="osm_port">haven</string>
+    <string name="osm_archaeological_site">archeologische vindplaats</string>
+    <string name="osm_shrine">heiligdom</string>
+    <string name="osm_church">kerk</string>
+    <string name="osm_historic_monument">historisch monument</string>
+    <string name="osm_generic_landmark">oriëntatiepunt</string>
+    <string name="osm_tourism_museum">museum</string>
+    <string name="osm_register_office">burgerlijke stand</string>
+    <string name="osm_grave_yard">begraafplaats</string>
+    <string name="osm_marketplace">marktplein</string>
+    <string name="osm_fire_station">brandweerkazerne</string>
+    <string name="osm_ruins">ruïnes</string>
+    <string name="osm_weir">stuw</string>
+    <string name="osm_museum">museum</string>
+    <string name="osm_mall">winkelcentrum</string>
+    <string name="osm_volcano">vulkaan</string>
+    <string name="osm_hot_spring">warmwaterbron</string>
+    <string name="osm_glacier">gletsjer</string>
+    <string name="osm_wastewater_plant">rioolwaterzuiveringsinstallatie</string>
+    <string name="osm_offshore_platform">offshoreplatform</string>
+    <string name="osm_gasometer">gashouder</string>
+    <string name="osm_water_park">waterpark</string>
+    <string name="osm_bandstand">muziekkoepel</string>
+    <string name="osm_wreck">wrak</string>
+    <string name="osm_pillory">schandblok</string>
+    <string name="osm_monastery">klooster</string>
+    <string name="osm_locomotive">locomotief</string>
+    <string name="osm_fort">fort</string>
+    <string name="osm_services">servicegebied</string>
+    <string name="osm_lifeguard_tower">reddingspost</string>
+    <string name="osm_temple">Tempel</string>
+    <string name="osm_national_park">Nationaal Park</string>
+    <string name="osm_heliport">Heliport</string>
+    <string name="osm_public_park">Openbaar Park</string>
+    <string name="osm_department_store">Warenhuis</string>
+    <string name="osm_studio">Studio</string>
+    <string name="osm_public_building">Openbaar Gebouw</string>
+    <string name="osm_clock">Klok</string>
+    <string name="osm_casino">Casino</string>
+    <string name="osm_stadium">Stadion</string>
+    <string name="osm_dam">Dam</string>
+    <string name="osm_dock">Dok</string>
+    <string name="osm_geyser">Geiser</string>
+    <string name="osm_bay">Baai</string>
+    <string name="osm_barracks">Kazerne</string>
+    <string name="osm_windmill">Windmolen</string>
+    <string name="osm_watermill">Watermolen</string>
+    <string name="osm_communications_tower">Zendmast</string>
+    <string name="osm_swimming_area">Zwemzone</string>
+    <string name="osm_slipway">Boothelling</string>
+    <string name="osm_nature_reserve">Natuurreservaat</string>
+    <string name="osm_marina">Jachthaven</string>
+    <string name="osm_ice_rink">IJsbaan</string>
+    <string name="osm_manor">Landhuis</string>
+    <string name="osm_city_gate">Stadspoort</string>
+    <string name="osm_castle">Kasteel</string>
+    <string name="osm_aircraft">Vliegtuig</string>
+    <string name="osm_digester">Vergister</string>
+    <string name="osm_sally_port">Sallypoort</string>
+    <string name="osm_aerodrome">Vliegveld</string>
+    <string name="osm_shopping_mall">Winkelcentrum</string>
+    <string name="osm_cinema">Bioscoop</string>
+    <string name="osm_rescue_station">Reddingspost</string>
+    <string name="osm_airport">Luchthaven</string>
+    <string name="osm_theatre">Theater</string>
+    <string name="osm_library">Bibliotheek</string>
+    <string name="osm_university">Universiteit</string>
+    <string name="osm_police">Politiebureau</string>
+    <string name="osm_embassy">Ambassade</string>
+    <string name="osm_bus_station">Busstation</string>
+    <string name="osm_station">Station</string>
+    <string name="osm_toll_booth">Tolpoort</string>
+    <string name="osm_lift">Lift</string>
+    <string name="osm_unmanaged_crossing">Onbewaakte Oversteekplaats</string>
+    <string name="osm_pharmacy">Apotheek</string>
+    <string name="osm_kneipp_water_cure">Kneipp-Waterkuur</string>
+    <string name="osm_food_court">Eetplein</string>
+    <string name="osm_chemist">Drogist</string>
+    <string name="osm_checkpoint">Controlepost</string>
+    <string name="osm_dog_park">Hondenpark</string>
+    <string name="osm_kissing_gate">voetgangerspoortje</string>
+    <string name="osm_car_rental">autoverhuur</string>
+    <string name="osm_pedestrianised_area">voetgangersgebied</string>
+    <string name="osm_escalator">roltrap</string>
+    <string name="osm_shelter">beschutting</string>
+    <string name="osm_water_point">waterpunt</string>
+    <string name="osm_subway_entrance">metro-ingang</string>
+    <string name="osm_cave_entrance">grotopening</string>
+    <string name="osm_swing_gate">draaipoort</string>
+    <string name="osm_stile">overstapje</string>
+    <string name="osm_car_sharing">autodelen</string>
+    <string name="osm_customer_service">klantenservice</string>
+    <string name="osm_watering_place">drinkplaats (voor dieren)</string>
+    <string name="osm_platform">perron</string>
+    <string name="osm_horse_stile">paardenoversteek</string>
+    <string name="osm_bureau_de_change">wisselkantoor</string>
+    <string name="osm_stairs">trap</string>
+    <string name="osm_bicycle_rental">fietsverhuur</string>
+    <string name="osm_hampshire_gate">Hampshire-poort</string>
+    <string name="osm_full_height_turnstile">volledig draaikruis</string>
+    <string name="osm_boat_sharing">bootdelen</string>
+    <string name="osm_help_point">hulppunt</string>
+    <string name="osm_open_space">open ruimte</string>
+    <string name="osm_spending_area">gebied voor kort verblijf</string>
+    <string name="osm_bicycle_repair_station">fietsreparatiepunt</string>
+    <string name="osm_motorcycle_barrier">motorbarrière</string>
+    <string name="osm_kent_carriage_gap">opening voor koetsen (Kent‑stijl)</string>
+    <string name="osm_shared_space">gedeelde ruimte</string>
+    <string name="osm_cliff">klif</string>
+    <string name="osm_training_area">oefenterrein</string>
+    <string name="osm_log">boomstam</string>
+    <string name="osm_jersey_barrier">Jersey-barrière</string>
+    <string name="osm_construction_site">bouwplaats</string>
+    <string name="osm_ridge">kam</string>
+    <string name="osm_nuclear_explosion_site">locatie van een kernexplosie</string>
+    <string name="osm_dyke">dijk</string>
+    <string name="osm_sump_buster">blokkeerder voor lage voertuigen</string>
+    <string name="osm_rope">touw</string>
+    <string name="osm_debris">puin</string>
+    <string name="osm_road_works">wegwerkzaamheden</string>
+    <string name="osm_lock_gate">sluisdeur</string>
+    <string name="osm_sinkhole">zinkgat</string>
+    <string name="osm_range">schietterrein</string>
+    <string name="osm_ambulance_station">ambulancestation</string>
+    <string name="osm_spikes">spijkerstrips</string>
+    <string name="osm_generic_hazard">algemeen gevaar</string>
+    <string name="osm_contact_line">contactleiding</string>
+    <string name="osm_danger_area">gevaarlijk gebied</string>
+    <string name="osm_chain">kettingbarrière</string>
+    <string name="osm_parking_space">parkeerplaats</string>
+    <string name="osm_motorcycle_parking">Parkeerplaats voor motorfietsen</string>
+    <string name="settings_section_search">Zoeken</string>
+    <string name="settings_search_online">Online</string>
+    <string name="settings_search_offline">Offline</string>
+    <string name="settings_search_auto">Automatisch</string>
+    <string name="search_no_results">Geen zoekresultaten gevonden</string>
+    <string name="search_searching">Zoeken…</string>
+    <string name="menu_manage_search">Zoeken</string>
+    <string name="route_not_found">Route niet gevonden</string>
+    <string name="advanced_markers_and_routes_export">Exporteren</string>
+    <string name="location_item_selected">Geselecteerd</string>
+    <string name="location_item_not_selected">Niet geselecteerd</string>
+    <string name="location_item_move_up">Naar boven verplaatsen</string>
+    <string name="location_item_move_down">Naar beneden verplaatsen</string>
+    <string name="street_description_between">Op %1$s tussen %2$s en %3$s</string>
+    <string name="street_description_until">Op %1$s, %2$s tot %3$s</string>
+    <string name="street_description_since">Op %1$s, %2$s sinds %3$s</string>
+    <string name="osm_city">Stad</string>
+    <string name="osm_town">Plaats</string>
+    <string name="osm_neighbourhood">Wijk</string>
+    <string name="osm_village">Dorp</string>
+    <string name="osm_hamlet">Gehucht</string>
+    <string name="osm_recreation_ground">Sportveld</string>
+    <string name="osm_river">Rivier</string>
+    <string name="osm_railway">Spoorlijn</string>
+    <string name="osm_wood">Bos</string>
+    <string name="osm_pavillion">Paviljoen</string>
+    <string name="osm_sport">Sport</string>
+    <string name="osm_health_food">Natuurvoedingswinkel</string>
+    <string name="osm_events_venue">Evenementenlocatie</string>
+    <string name="menu_help">Help</string>
+    <string name="tour_welcome">Welkom bij de Soundscape‑tutorial. Deze tutorial leidt u door de belangrijkste functies van de app. U kunt de tutorial op elk moment stoppen door in het hoofdmenu te kiezen voor Audio-tutorial annuleren. Laten we beginnen met Plaatsen in de buurt, waarmee u interessante plaatsen kunt vinden. De knop Plaatsen in de buurt staat op het startscherm direct onder de zoekbalk. Tik er nu op om het te proberen.</string>
+    <string name="tour_select_place">Plaatsen in de buurt groepeert interessante plaatsen per categorie. Blader door de lijsten en selecteer er één.</string>
+    <string name="tour_create_marker_started">Geweldig! U bevindt zich nu op het scherm Locatiedetails. Dit scherm geeft verschillende opties, waaronder het opslaan van de locatie als markering. Met Soundscape kunt u alles markeren wat voor u belangrijk is. Bijvoorbeeld uw huis, uw bushalte of zelfs de plek waar u zich nu bevindt. Probeer het nu: sla deze locatie op als markering door op Opslaan als markering te tikken.</string>
+    <string name="tour_create_marker_done">Super! Bij het maken van een markering kunt u de naam bewerken en extra aantekeningen toevoegen. Probeer dat nu en tik op Gereed wanneer u klaar bent.</string>
+    <string name="tour_my_location">Nu u weet hoe u markeringen gebruikt, bekijken we enkele andere functies. Onderaan het scherm staan vier knoppen die we één voor één gaan proberen. De knop links is Mijn locatie, die uw huidige locatie beschrijft. Tik er nu op om het te proberen.</string>
+    <string name="tour_around_me">De volgende knop is Om me heen. Deze vertelt u wat er in elke richting in de buurt is. Tik op Om me heen.</string>
+    <string name="tour_ahead">De volgende knop is Vóór me. Deze vertelt u wat zich voor u bevindt. Tik op Vóór me.</string>
+    <string name="tour_nearby_markers">De laatste knop is Markeringen in de buurt, die opgeslagen plaatsen om u heen aankondigt. Tik op Markeringen in de buurt om het te proberen.</string>
+    <string name="tour_markers_and_routes">U hebt nu succesvol een markering gemaakt. Laten we een audiobaken afspelen om ons naar die locatie te leiden. Tik op Markeringen en routes, dat net onder Plaatsen in de buurt staat.</string>
+    <string name="tour_markers">Het scherm Markeringen en routes heeft twee tabbladen: één met routes (afspeellijsten van markeringen) en één met individuele markeringen. Tik op Markeringen om naar het tabblad Markeringen te schakelen en de door u gemaakte markering te vinden.</string>
+    <string name="tour_start_beacon">U bevindt zich nu op het tabblad Markeringen met al uw opgeslagen markeringen. Selecteer een markering en zodra het scherm Locatiedetails verschijnt, tikt u op Audiobaken starten.</string>
+    <string name="tour_beacon_demo">U hoort nu het audiobaken. Het klinkt vanuit de richting van uw bestemming. Als u de richting waarin uw telefoon wijst verandert, hoort u het audiobaken verschuiven en van klank veranderen. Probeer het nu.</string>
+    <string name="tour_beacon_demo_locked">Wanneer uw telefoon vergrendeld is, blijft het audiobaken toch spelen. Als u loopt of in een voertuig zit, gebruikt de app de richting van uw beweging om het audiobaken af te spelen. U kunt de telefoon echter ook wanneer deze vergrendeld is vlak voor u houden als een kompas; de app gebruikt dan de richting waarin uw telefoon wijst. Probeer het eens.</string>
+    <string name="tour_stop_beacon">Als u het baken wilt stoppen, tikt u op de knop Route stoppen.</string>
+    <string name="tour_finish">Dat voltooit de zelfstudie. U kunt deze opnieuw starten via het hoofdmenu. We hopen dat u de app nuttig vindt!</string>
+    <string name="tour_cancel">De audio-tutorial is geannuleerd. Als u wilt, kunt u deze opnieuw starten via het hoofdmenu.</string>
+    <string name="menu_audio_tutorial">Audio-tutorial</string>
+    <string name="menu_audio_tutorial_cancel">Audio-tutorial annuleren</string>
+    <string name="search_bar_hint">Typ een bestemmingsnaam of adres</string>
+    <string name="all_places_nearby_description">een ongefilterde lijst met alle plaatsen in de buurt bekijken</string>
+    <string name="public_transit_places_nearby_description">een lijst met nabijgelegen haltes van het openbaar vervoer bekijken</string>
+    <string name="food_drink_places_nearby_description">een lijst met nabijgelegen restaurants en bars bekijken</string>
+    <string name="groceries_places_nearby_description">een lijst met nabijgelegen supermarkten en buurtwinkels bekijken</string>
+    <string name="banks_places_nearby_description">een lijst met nabijgelegen banken en geldautomaten bekijken</string>
+    <string name="intersections_places_nearby_description">een lijst met nabijgelegen kruispunten bekijken</string>
+    <string name="places_nearby_selection_description">om uit een lijst met plaatsen in de buurt te kiezen</string>
+    <string name="accessibility_title">Toegankelijkheid</string>
+    <string name="accessibility_screen_reader_enabled">Omdat u een schermlezer hebt ingeschakeld, raden we aan de app te gebruiken met de grafische kaarten in de gebruikersinterface uitgeschakeld. U kunt die instelling hier wijzigen, of gewoon doorgaan.</string>
+    <string name="accessibility_screen_reader_disabled">Omdat u geen schermlezer hebt ingeschakeld, gaan we ervan uit dat u de grafische kaarten in de gebruikersinterface wilt weergeven. U kunt die instelling hier wijzigen, of gewoon doorgaan.</string>
+    <string name="tour_continue_button">Doorgaan</string>
+    <string name="tour_continue_hint">het pop-upvenster sluiten en doorgaan met de tutorial</string>
+    <string name="location_detail_action_beacon_from_markers">Audiobaken starten op deze markering</string>
+    <string name="location_detail_full_screen_for_edit_hint">De kaart op volledig scherm weergeven en de locatie van de markering bewerken</string>
+    <string name="location_detail_exit_full_screen_for_edit_hint">Bewerking van de markeringlocatie afsluiten</string>
+    <string name="street_description_relative_before">Op %1$s net voor %2$s</string>
+    <string name="street_description_relative_after">Op %1$s net na %2$s</string>
+    <string name="street_description_intersection">Bij het kruispunt van %1$s</string>
+    <string name="general_error_add_marker_duplicate">Er staat al een markering op deze locatie in de route; we kunnen deze niet opnieuw toevoegen.</string>
+    <string name="settings_explanation">De verschillende appinstellingen zijn hieronder in groepen ingedeeld. Tik op een groep om deze uit te klappen en de beschikbare opties te bekijken.</string>
+    <string name="settings_section_units_description">Selecteer de maateenheden die voor afstanden moeten worden gebruikt</string>
+    <string name="settings_section_search_network">Zoekmodus</string>
+    <string name="settings_section_search_network_description">Stel in of de zoekfunctie alleen offline-gegevens gebruikt</string>
+    <string name="beacon_settings_style_description">Kies de audiobakenstijl die u wilt gebruiken</string>
+    <string name="preview_include_unnamed_roads_title_description">Naamloze wegen opnemen tijdens de locatiesimulatie</string>
+    <string name="callouts_allow_callouts_description">Schakel alle waarschuwingen in of uit</string>
+    <string name="callouts_places_and_landmarks_description">Nabijgelegen plaatsen zoals winkels en restaurants</string>
+    <string name="callouts_mobility_description">Informatie over kruispunten en vervoer</string>
+    <string name="callouts_audio_beacon_description">Updates over de afstand tot het audiobaken wanneer dit is ingesteld</string>
+    <string name="menu_manage_language">Taal en regio </string>
+    <string name="settings_search_results_language_description">Online zoeken kan resultaten in de lokale taal tonen, of geforceerd resultaten in het Engels, Frans of Duits teruggeven.</string>
+    <string name="language_mismatch_title">Nieuwe taal beschikbaar</string>
+    <string name="language_mismatch_message">Uw telefoon is ingesteld op %1$s en die taal is nu beschikbaar in Soundscape. Wilt u dat Soundscape overschakelt naar %1$s?</string>
+    <string name="language_mismatch_switch">Overschakelen naar %1$s</string>
+    <string name="language_mismatch_keep">Huidige taal behouden</string>
+    <string name="preview_go_hint">In deze richting naar het volgende kruispunt bewegen.</string>
+    <string name="error_message_route_not_found">We kunnen de route niet in de database vinden.</string>
+    <string name="error_message_deleting_route">Het verwijderen van de route is mislukt.</string>
+    <string name="error_message_saving_route">Het opslaan van de route is mislukt.</string>
+    <string name="service_still_running">De Soundscape-locatieservice is nog actief.</string>
+    <string name="offline_map_download_complete">Download voltooid</string>
+    <string name="offline_map_download_cancelled">Download geannuleerd</string>
+    <string name="offline_map_download_error">Fout bij downloaden</string>
+    <string name="behavior_scavenger_hunt_callout_next_flag_short_route">Baken ingesteld op %1$s, op %2$s afstand</string>
+    <string name="route_beacon_progress">Baken bij %1$s</string>
+    <string name="menu_route">Routebesturing</string>
+    <string name="menu_route_next_waypoint">Volgende routepunt</string>
+    <string name="menu_route_previous_waypoint">Vorige routepunt</string>
+    <string name="menu_no_routes">Geen routes opgeslagen</string>
+    <string name="menu_main_menu">Hoofdmenu</string>
+    <string name="first_launch_permissions_record_audio">Audio opnemen</string>
+    <string name="first_launch_permissions_required_for_voice_control">Deze toestemming is optioneel, maar is vereist als u spraakopdrachten wilt gebruiken om de app te bedienen.</string>
+    <string name="menu_media_controls">Mediaregelaars</string>
+    <string name="settings_section_media_controls">Modus voor mediaregelaars</string>
+    <string name="settings_section_media_controls_description">De mediaknoppen op uw koptelefoon of afstandsbediening kunnen worden ingesteld om op verschillende manieren te werken, afhankelijk van deze optie.</string>
+    <string name="settings_media_controls_original">Originele modus</string>
+    <string name="settings_media_controls_voice_command">Spraakbediening</string>
+    <string name="settings_media_controls_audio_menu">Audiomenu</string>
+    <string name="voice_cmd_help_response">Beschikbare spraakopdrachten:</string>
+    <string name="voice_cmd_listening">Luisteren…</string>
+    <string name="voice_cmd_not_recognized">Het spijt me, ik kan het commando %1$s niet vinden. Het spraakcommando %2$s geeft een lijst met beschikbare commando's.</string>
+    <string name="voice_cmd_list_routes">Routes weergeven</string>
+    <string name="voice_cmd_routes_list">Beschikbare routes zijn,</string>
+    <string name="voice_cmd_list_markers">Markeringen weergeven</string>
+    <string name="voice_cmd_markers_list">Beschikbare markeringen zijn,</string>
+    <string name="voice_cmd_no_routes">Er zijn geen routes opgeslagen</string>
+    <string name="voice_cmd_no_markers">Er zijn geen markeringen opgeslagen</string>
+    <string name="voice_cmd_route_not_found">Route niet gevonden: %1$s</string>
+    <string name="voice_cmd_starting_route">Route %1$s wordt gestart</string>
+    <string name="voice_cmd_start_route">Route %1$s starten</string>
+    <string name="voice_cmd_start_beacon_at_marker_with_name">Audiobaken starten op %1$s</string>
+    <string name="voice_cmd_starting_beacon_at_marker">Audiobaken wordt gestart op %1$s</string>
+    <string name="voice_cmd_marker_not_found">Markering niet gevonden: %1$s</string>
+    <string name="voice_cmd_explain_dynamic_markers">U kunt routes en markeringen ook op naam starten, bijvoorbeeld.</string>
+    <string name="voice_cmd_speech_recognition_error_network_timeout">Netwerktimeout bij spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_network">Netwerkfout bij spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_audio">Fout bij het opnemen van audio voor spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_server">Serverfout bij spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_client">Clientfout bij spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_speech_timeout">Het luisteren naar spraak is verlopen; het luisteren is gestopt. Probeer het opnieuw.</string>
+    <string name="voice_cmd_speech_recognition_not_match">Er is geen spraak gehoord; het luisteren is gestopt. Probeer het opnieuw.</string>
+    <string name="voice_cmd_speech_recognition_busy">Spraakherkenning is momenteel bezet.</string>
+    <string name="voice_cmd_speech_recognition_error_permissions">Onvoldoende machtigingen om spraakherkenning uit te voeren.</string>
+    <string name="voice_cmd_speech_recognition_error_too_many_requests">Te veel aanvragen voor spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_server_disconnected">De verbinding met de spraakherkenningsserver is verbroken.</string>
+    <string name="voice_cmd_speech_recognition_error_language_not_supported">De huidige taal wordt door Android niet ondersteund voor spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_language_unavailable">De huidige taal wordt wel ondersteund, maar is niet op deze telefoon gedownload.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_check_support">Fout bij het controleren van spraakherkenningsondersteuning.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events">Fout bij het luisteren naar downloadgebeurtenissen voor spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_unknown">Onbekende fout bij spraakherkenning.</string>
+    <string name="voice_cmd_speech_recognition_error_unsupported">Spraakherkenning wordt op deze telefoon niet ondersteund.</string>
+    <string name="settings_voice_command_listening_prompt">Luisteren aankondigen</string>
+    <string name="settings_voice_command_listening_prompt_description">Spreek een luistermelding uit voordat de spraakherkenning begint.</string>
+    <string name="settings_voice_command_microphone">Microfoon</string>
+    <string name="settings_voice_command_microphone_description">Kies welke microfoon gebruikt moet worden voor spraakopdrachten.</string>
     <string name="battery_optimization_title">Batterijgebruik op de achtergrond</string>
     <string name="battery_optimization_message">Soundscape heeft onbeperkt batterijgebruik nodig om audio‑navigatie te blijven bieden wanneer uw telefoon vergrendeld is. Sta dit toe in het volgende dialoogvenster. Als u Soundscape sluit, stoppen alle services en gebruikt de app geen batterij meer.</string>
     <string name="route_detail_action_start_route_reverse">Route in omgekeerde volgorde starten</string>

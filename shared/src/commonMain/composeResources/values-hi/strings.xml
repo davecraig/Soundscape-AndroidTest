@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="general_alert_cancel">रद्द करें</string>
     <string name="general_alert_done">हो गया</string>
     <string name="general_loading_start">तैयारी हो रही है…</string>
     <string name="general_error_location_services_find_location_error">हमें आपका वर्तमान स्थान खोजने में समस्या हो रही है।</string>
     <string name="general_error_add_marker_error">इस स्थान को मार्कर के रूप में सहेजने में समस्या हो रही है। बाद में पुनः प्रयास करें।</string>
-    <string name="general_error_add_marker_duplicate" tools:ignore="MissingTranslation">इस स्थान पर मार्ग में पहले से एक मार्कर है, इसे दोबारा नहीं जोड़ा जा सकता।</string>
+    <string name="general_error_add_marker_duplicate">इस स्थान पर मार्ग में पहले से एक मार्कर है, इसे दोबारा नहीं जोड़ा जा सकता।</string>
     <string name="settings_screen_title">सेटिंग्स</string>
-    <string name="settings_explanation" tools:ignore="MissingTranslation">ऐप की विभिन्न सेटिंग्स नीचे समूहों में व्यवस्थित हैं। किसी समूह पर टैप करके उसे विस्तृत करें और उपलब्ध विकल्प देखें।</string>
+    <string name="settings_explanation">ऐप की विभिन्न सेटिंग्स नीचे समूहों में व्यवस्थित हैं। किसी समूह पर टैप करके उसे विस्तृत करें और उपलब्ध विकल्प देखें।</string>
     <string name="settings_about_app">Soundscape के बारे में</string>
-    <string name="settings_section_units" tools:ignore="MissingTranslation">माप की इकाइयाँ</string>
-    <string name="settings_section_units_description" tools:ignore="MissingTranslation">दूरी के लिए माप की इकाई चुनें</string>
-    <string name="settings_units_imperial" tools:ignore="MissingTranslation">इम्पीरियल (फ़ीट)</string>
-    <string name="settings_units_metric" tools:ignore="MissingTranslation">मेट्रिक (मीटर)</string>
-    <string name="settings_section_search" tools:ignore="MissingTranslation">खोज</string>
-    <string name="search_bar_hint" tools:ignore="MissingTranslation">गंतव्य का नाम या पता टाइप करें</string>
-    <string name="settings_section_search_network" tools:ignore="MissingTranslation">खोज मोड</string>
-    <string name="settings_section_search_network_description" tools:ignore="MissingTranslation">नियंत्रित करें कि खोज केवल ऑफ़लाइन डेटा का उपयोग करे या नहीं</string>
-    <string name="settings_search_online" tools:ignore="MissingTranslation">ऑनलाइन</string>
-    <string name="settings_search_offline" tools:ignore="MissingTranslation">ऑफ़लाइन</string>
-    <string name="settings_search_auto" tools:ignore="MissingTranslation">स्वचालित</string>
-    <string name="search_no_results" tools:ignore="MissingTranslation">कोई खोज परिणाम नहीं मिला</string>
-    <string name="search_searching" tools:ignore="MissingTranslation">खोज रहे हैं…</string>
+    <string name="settings_section_units">माप की इकाइयाँ</string>
+    <string name="settings_section_units_description">दूरी के लिए माप की इकाई चुनें</string>
+    <string name="settings_units_imperial">इम्पीरियल (फ़ीट)</string>
+    <string name="settings_units_metric">मेट्रिक (मीटर)</string>
+    <string name="settings_section_search">खोज</string>
+    <string name="search_bar_hint">गंतव्य का नाम या पता टाइप करें</string>
+    <string name="settings_section_search_network">खोज मोड</string>
+    <string name="settings_section_search_network_description">नियंत्रित करें कि खोज केवल ऑफ़लाइन डेटा का उपयोग करे या नहीं</string>
+    <string name="settings_search_online">ऑनलाइन</string>
+    <string name="settings_search_offline">ऑफ़लाइन</string>
+    <string name="settings_search_auto">स्वचालित</string>
+    <string name="search_no_results">कोई खोज परिणाम नहीं मिला</string>
+    <string name="search_searching">खोज रहे हैं…</string>
     <string name="voice_settings_speaking_rate">बोलने की गति</string>
-    <string name="voice_engine" tools:ignore="MissingTranslation">टेक्स्ट-टू-स्पीच इंजन</string>
+    <string name="voice_engine">टेक्स्ट-टू-स्पीच इंजन</string>
     <string name="voice_voices">आवाज़ें</string>
     <string name="beacon_settings_style">ऑडियो बीकन शैलियाँ</string>
-    <string name="beacon_settings_style_description" tools:ignore="MissingTranslation">अपनी पसंद की ऑडियो बीकन शैली चुनें</string>
+    <string name="beacon_settings_style_description">अपनी पसंद की ऑडियो बीकन शैली चुनें</string>
     <string name="beacon_styles_current">Current</string>
     <string name="beacon_styles_original">Original</string>
     <string name="beacon_styles_flare">Flare</string>
@@ -47,13 +47,13 @@
     <string name="beacon_action_unmute_beacon_acc_hint">ऑडियो बीकन को अनम्यूट करें।</string>
     <string name="preview_title">स्थान सिमुलेशन</string>
     <string name="preview_go_title">जाएँ</string>
-    <string name="preview_go_nearest_intersection" tools:ignore="MissingTranslation">निकटतम चौराहे पर जाएँ</string>
-    <string name="last_entry_in_list" tools:ignore="MissingTranslation"> और %1$s</string>
+    <string name="preview_go_nearest_intersection">निकटतम चौराहे पर जाएँ</string>
+    <string name="last_entry_in_list"> और %1$s</string>
     <string name="preview_include_unnamed_roads_title">बिना नाम वाली सड़कें</string>
-    <string name="preview_include_unnamed_roads_title_description" tools:ignore="MissingTranslation">स्थान सिमुलेशन के दौरान बिना नाम वाली सड़कें शामिल करें</string>
+    <string name="preview_include_unnamed_roads_title_description">स्थान सिमुलेशन के दौरान बिना नाम वाली सड़कें शामिल करें</string>
     <string name="location_detail_title_default">स्थान विवरण</string>
     <string name="location_detail_action_beacon">ऑडियो बीकन शुरू करें</string>
-    <string name="location_detail_action_beacon_from_markers" tools:ignore="MissingTranslation">इस मार्कर पर ऑडियो बीकन शुरू करें</string>
+    <string name="location_detail_action_beacon_from_markers">इस मार्कर पर ऑडियो बीकन शुरू करें</string>
     <string name="location_detail_action_beacon_hint">ध्वनि के माध्यम से इस स्थान की ओर आपका मार्गदर्शन करें।</string>
     <string name="location_detail_action_save_hint">इस स्थान को बाद में उपयोग के लिए सहेजें</string>
     <string name="location_detail_action_edit_hint">मार्कर का नाम बदलें या अतिरिक्त नोट्स जोड़ें</string>
@@ -61,10 +61,10 @@
     <string name="location_detail_action_preview_hint">इस स्थान पर पूर्वावलोकन शुरू करें</string>
     <string name="location_detail_add_waypoint_existing_hint">इस मार्कर को अपने मार्ग से हटाएँ।</string>
     <string name="location_detail_add_waypoint_new_hint">इस मार्कर को अपने मार्ग में मार्ग बिंदु के रूप में जोड़ें।</string>
-    <string name="location_detail_full_screen_hint" tools:ignore="MissingTranslation">मानचित्र को पूर्ण स्क्रीन बनाएँ</string>
-    <string name="location_detail_exit_full_screen_hint" tools:ignore="MissingTranslation">पूर्ण स्क्रीन मानचित्र से बाहर निकलें</string>
-    <string name="location_detail_full_screen_for_edit_hint" tools:ignore="MissingTranslation">मानचित्र को पूर्ण स्क्रीन बनाएँ और मार्कर का स्थान संपादित करें</string>
-    <string name="location_detail_exit_full_screen_for_edit_hint" tools:ignore="MissingTranslation">मार्कर स्थान संपादन मोड से बाहर निकलें</string>
+    <string name="location_detail_full_screen_hint">मानचित्र को पूर्ण स्क्रीन बनाएँ</string>
+    <string name="location_detail_exit_full_screen_hint">पूर्ण स्क्रीन मानचित्र से बाहर निकलें</string>
+    <string name="location_detail_full_screen_for_edit_hint">मानचित्र को पूर्ण स्क्रीन बनाएँ और मार्कर का स्थान संपादित करें</string>
+    <string name="location_detail_exit_full_screen_for_edit_hint">मार्कर स्थान संपादन मोड से बाहर निकलें</string>
     <string name="route_detail_action_start_route">मार्ग शुरू करें</string>
     <string name="route_detail_action_stop_route">मार्ग रोकें</string>
     <string name="route_detail_action_edit">मार्ग संपादित करें</string>
@@ -78,16 +78,16 @@
     <string name="route_end_completed_accessibility">मार्ग पूरा हुआ! %1$s</string>
     <string name="route_detail_action_previous">पिछला मार्ग बिंदु</string>
     <string name="route_detail_action_previous_hint">बीकन को पिछले मार्ग बिंदु पर ले जाएँ</string>
-    <string name="route_detail_action_previous_disabled_hint" tools:ignore="MissingTranslation">निष्क्रिय क्योंकि मार्ग पहले से शुरुआत में है</string>
+    <string name="route_detail_action_previous_disabled_hint">निष्क्रिय क्योंकि मार्ग पहले से शुरुआत में है</string>
     <string name="route_detail_action_next">अगला मार्ग बिंदु</string>
     <string name="route_detail_action_next_hint">बीकन को अगले मार्ग बिंदु पर ले जाएँ</string>
-    <string name="route_detail_action_next_disabled_hint" tools:ignore="MissingTranslation">निष्क्रिय क्योंकि मार्ग पहले से अंत में है</string>
+    <string name="route_detail_action_next_disabled_hint">निष्क्रिय क्योंकि मार्ग पहले से अंत में है</string>
     <string name="route_detail_edit_description">विवरण</string>
     <string name="route_detail_edit_waypoints_button">मार्ग बिंदु जोड़ें</string>
     <string name="route_detail_edit_delete">मार्ग हटाएँ</string>
     <string name="route_update_success_title">अपडेट पूरा हुआ!</string>
     <string name="waypoint_title">मार्ग बिंदु</string>
-    <string name="route_not_found" tools:ignore="MissingTranslation">मार्ग नहीं मिला</string>
+    <string name="route_not_found">मार्ग नहीं मिला</string>
     <string name="universal_links_alert_action_marker">मार्कर के रूप में सहेजें</string>
     <string name="universal_links_marker_share_message">मैंने आपके साथ एक Soundscape मार्कर साझा किया है: "%1$s"।\n\nSoundscape में खोलने के लिए %2$s का उपयोग करें।\n\n Google Maps में खोलने के लिए %3$s का उपयोग करें।</string>
     <string name="user_activity_save_marker_title">मार्कर सहेजें</string>
@@ -120,26 +120,26 @@
     <string name="search_button_nearby_accessibility_hint">आसपास के रेस्तराँ, ट्रांज़िट स्टॉप और अन्य स्थान खोजें</string>
     <string name="search_button_current_location_accessibility_hint">अपने वर्तमान स्थान का पूर्वावलोकन करें, मार्कर लगाएँ, या किसी मित्र के साथ साझा करें</string>
     <string name="filter_all">सभी स्थान</string>
-    <string name="all_places_nearby_description" tools:ignore="MissingTranslation">आसपास के सभी स्थानों की अनफ़िल्टर्ड सूची देखें</string>
-    <string name="public_transit_places_nearby_description" tools:ignore="MissingTranslation">आसपास के सार्वजनिक परिवहन की सूची देखें</string>
-    <string name="food_drink_places_nearby_description" tools:ignore="MissingTranslation">आसपास के रेस्तराँ और बार की सूची देखें</string>
-    <string name="groceries_places_nearby_description" tools:ignore="MissingTranslation">आसपास की किराना दुकानों की सूची देखें</string>
-    <string name="banks_places_nearby_description" tools:ignore="MissingTranslation">आसपास के बैंकों की सूची देखें</string>
-    <string name="intersections_places_nearby_description" tools:ignore="MissingTranslation">आसपास के सड़क चौराहों की सूची देखें</string>
-    <string name="places_nearby_selection_description" tools:ignore="MissingTranslation">पास के स्थानों की सूची में से चुनने के लिए</string>
+    <string name="all_places_nearby_description">आसपास के सभी स्थानों की अनफ़िल्टर्ड सूची देखें</string>
+    <string name="public_transit_places_nearby_description">आसपास के सार्वजनिक परिवहन की सूची देखें</string>
+    <string name="food_drink_places_nearby_description">आसपास के रेस्तराँ और बार की सूची देखें</string>
+    <string name="groceries_places_nearby_description">आसपास की किराना दुकानों की सूची देखें</string>
+    <string name="banks_places_nearby_description">आसपास के बैंकों की सूची देखें</string>
+    <string name="intersections_places_nearby_description">आसपास के सड़क चौराहों की सूची देखें</string>
+    <string name="places_nearby_selection_description">पास के स्थानों की सूची में से चुनने के लिए</string>
     <string name="filter_transit">सार्वजनिक परिवहन</string>
     <string name="filter_food_drink">खान-पान</string>
     <string name="filter_groceries">किराना और सुविधा स्टोर</string>
     <string name="filter_banks">बैंक और ATM</string>
     <string name="callouts_panel_title">मेरे आसपास सुनें</string>
     <string name="callouts_allow_callouts">कॉलआउट की अनुमति दें</string>
-    <string name="callouts_allow_callouts_description" tools:ignore="MissingTranslation">सभी कॉलआउट चालू या बंद करें</string>
+    <string name="callouts_allow_callouts_description">सभी कॉलआउट चालू या बंद करें</string>
     <string name="callouts_places_and_landmarks">स्थान और लैंडमार्क</string>
-    <string name="callouts_places_and_landmarks_description" tools:ignore="MissingTranslation">आसपास के स्थान जैसे दुकानें और रेस्तराँ</string>
+    <string name="callouts_places_and_landmarks_description">आसपास के स्थान जैसे दुकानें और रेस्तराँ</string>
     <string name="callouts_mobility">गतिशीलता</string>
-    <string name="callouts_mobility_description" tools:ignore="MissingTranslation">चौराहे और परिवहन की जानकारी</string>
+    <string name="callouts_mobility_description">चौराहे और परिवहन की जानकारी</string>
     <string name="callouts_audio_beacon">ऑडियो बीकन की दूरी</string>
-    <string name="callouts_audio_beacon_description" tools:ignore="MissingTranslation">ऑडियो बीकन सेट होने पर उससे दूरी की जानकारी</string>
+    <string name="callouts_audio_beacon_description">ऑडियो बीकन सेट होने पर उससे दूरी की जानकारी</string>
     <string name="callouts_automatic_callouts">स्वचालित कॉलआउट</string>
     <string name="callouts_nothing_to_call_out_now">अभी बताने के लिए कुछ नहीं है</string>
     <string name="callouts_nearby_markers">पास के मार्कर</string>
@@ -156,7 +156,7 @@
     <string name="directions_name_goes_right">%1$s, दाएँ जाती है</string>
     <string name="directions_name_continues_ahead">%1$s, आगे जारी है</string>
     <string name="directions_direction_ahead">आगे</string>
-    <string name="directions_near_road_and_settlement" tools:ignore="MissingTranslation">%1$s के पास और %2$s के नज़दीक</string>
+    <string name="directions_near_road_and_settlement">%1$s के पास और %2$s के नज़दीक</string>
     <string name="directions_traveling_n">उत्तर की ओर यात्रा</string>
     <string name="directions_traveling_ne">उत्तर-पूर्व की ओर यात्रा</string>
     <string name="directions_traveling_e">पूर्व की ओर यात्रा</string>
@@ -205,22 +205,22 @@
     <string name="directions_along_heading_sw">%1$s पर दक्षिण-पश्चिम दिशा में चलते हुए</string>
     <string name="directions_along_heading_w">%1$s पर पश्चिम दिशा में चलते हुए</string>
     <string name="directions_along_heading_nw">%1$s पर उत्तर-पश्चिम दिशा में चलते हुए</string>
-    <string name="directions_cardinal_north" tools:ignore="MissingTranslation">उत्तर</string>
-    <string name="directions_cardinal_north_east" tools:ignore="MissingTranslation">उत्तर-पूर्व</string>
-    <string name="directions_cardinal_east" tools:ignore="MissingTranslation">पूर्व</string>
-    <string name="directions_cardinal_south_east" tools:ignore="MissingTranslation">दक्षिण-पूर्व</string>
-    <string name="directions_cardinal_south" tools:ignore="MissingTranslation">दक्षिण</string>
-    <string name="directions_cardinal_south_west" tools:ignore="MissingTranslation">दक्षिण-पश्चिम</string>
-    <string name="directions_cardinal_west" tools:ignore="MissingTranslation">पश्चिम</string>
-    <string name="directions_cardinal_north_west" tools:ignore="MissingTranslation">उत्तर-पश्चिम</string>
-    <string name="directions_cardinal_north_abb" tools:ignore="MissingTranslation">उ</string>
-    <string name="directions_cardinal_north_east_abb" tools:ignore="MissingTranslation">उपू</string>
-    <string name="directions_cardinal_east_abb" tools:ignore="MissingTranslation">पू</string>
-    <string name="directions_cardinal_south_east_abb" tools:ignore="MissingTranslation">दपू</string>
-    <string name="directions_cardinal_south_abb" tools:ignore="MissingTranslation">द</string>
-    <string name="directions_cardinal_south_west_abb" tools:ignore="MissingTranslation">दप</string>
-    <string name="directions_cardinal_west_abb" tools:ignore="MissingTranslation">प</string>
-    <string name="directions_cardinal_north_west_abb" tools:ignore="MissingTranslation">उप</string>
+    <string name="directions_cardinal_north">उत्तर</string>
+    <string name="directions_cardinal_north_east">उत्तर-पूर्व</string>
+    <string name="directions_cardinal_east">पूर्व</string>
+    <string name="directions_cardinal_south_east">दक्षिण-पूर्व</string>
+    <string name="directions_cardinal_south">दक्षिण</string>
+    <string name="directions_cardinal_south_west">दक्षिण-पश्चिम</string>
+    <string name="directions_cardinal_west">पश्चिम</string>
+    <string name="directions_cardinal_north_west">उत्तर-पश्चिम</string>
+    <string name="directions_cardinal_north_abb">उ</string>
+    <string name="directions_cardinal_north_east_abb">उपू</string>
+    <string name="directions_cardinal_east_abb">पू</string>
+    <string name="directions_cardinal_south_east_abb">दपू</string>
+    <string name="directions_cardinal_south_abb">द</string>
+    <string name="directions_cardinal_south_west_abb">दप</string>
+    <string name="directions_cardinal_west_abb">प</string>
+    <string name="directions_cardinal_north_west_abb">उप</string>
     <string name="distance_format_meters">%1$s मीटर</string>
     <string name="distance_format_km">%1$s किमी</string>
     <string name="distance_format_feet">%1$s फ़ीट</string>
@@ -238,13 +238,13 @@
     <string name="ui_menu_close">मेनू बंद करें</string>
     <string name="ui_continue">जारी रखें</string>
     <string name="menu_manage_callouts">कॉलआउट प्रबंधित करें</string>
-    <string name="menu_manage_search" tools:ignore="MissingTranslation">खोजें</string>
-    <string name="menu_help_and_tutorials" tools:ignore="MissingTranslation">सहायता और ट्यूटोरियल</string>
-    <string name="menu_help" tools:ignore="MissingTranslation">सहायता</string>
+    <string name="menu_manage_search">खोजें</string>
+    <string name="menu_help_and_tutorials">सहायता और ट्यूटोरियल</string>
+    <string name="menu_help">सहायता</string>
     <string name="menu_rate">रेट करें</string>
-    <string name="menu_contact_support" tools:ignore="MissingTranslation">सहायता से संपर्क करें</string>
-    <string name="menu_advanced_markers_and_routes" tools:ignore="MissingTranslation">उन्नत मार्कर और मार्ग</string>
-    <string name="advanced_markers_and_routes_description" tools:ignore="MissingTranslation">यह स्क्रीन आपको मार्कर और मार्गों को निर्यात और आयात करने के साथ-साथ सभी मौजूदा मार्कर और मार्गों को हटाने की अनुमति देती है।</string>
+    <string name="menu_contact_support">सहायता से संपर्क करें</string>
+    <string name="menu_advanced_markers_and_routes">उन्नत मार्कर और मार्ग</string>
+    <string name="advanced_markers_and_routes_description">यह स्क्रीन आपको मार्कर और मार्गों को निर्यात और आयात करने के साथ-साथ सभी मौजूदा मार्कर और मार्गों को हटाने की अनुमति देती है।</string>
     <string name="ui_back_button_title">वापस</string>
     <string name="behavior_experiences_route_nav_title">मार्ग विवरण</string>
     <string name="behavior_scavenger_hunt_callout_next_flag">बीकन %1$s पर सेट किया गया, %2$s दूर, %4$s में से %3$s</string>
@@ -291,8 +291,8 @@
     <string name="first_launch_permissions_location">सटीक स्थान के साथ स्थान सेवाएँ</string>
     <string name="first_launch_permissions_motion">मोशन और फ़िटनेस</string>
     <string name="first_launch_permissions_required">यह अनुमति आवश्यक है</string>
-    <string name="permissions_required" tools:ignore="MissingTranslation">ऐप को चलने के लिए स्थान अनुमतियों की आवश्यकता है।</string>
-    <string name="permissions_button" tools:ignore="MissingTranslation">ऐप सेटिंग्स में अनुमतियाँ बदलें</string>
+    <string name="permissions_required">ऐप को चलने के लिए स्थान अनुमतियों की आवश्यकता है।</string>
+    <string name="permissions_button">ऐप सेटिंग्स में अनुमतियाँ बदलें</string>
     <string name="first_launch_beacon_title">ऑडियो बीकन चुनें</string>
     <string name="first_launch_beacon_message_1">Soundscape के साथ नेविगेट करते समय, आप अपनी मंज़िल की दिशा में ऑडियो बीकन सुनेंगे। इसकी आवाज़ का अनुसरण करके, आपको हमेशा पता रहेगा कि किस तरफ़ जाना है।</string>
     <string name="first_launch_beacon_message_2">उपलब्ध ऑडियो बीकन सुनें और अपनी पसंद चुनें।</string>
@@ -300,8 +300,8 @@
     <string name="first_launch_prompt_title">आप तैयार हैं!</string>
     <string name="first_launch_prompt_message">आप Soundscape के साथ अपनी पहली सैर के लिए तैयार हैं। अभी आज़माने के लिए, बस पास की कोई मंज़िल चुनें, ऑडियो बीकन शुरू करें, और आप इसे अपनी मंज़िल की दिशा में सुनेंगे।</string>
     <string name="first_launch_prompt_button">समाप्त</string>
-    <string name="first_launch_change_language" tools:ignore="MissingTranslation">भाषा बदलें</string>
-    <string name="first_launch_change_language_hint" tools:ignore="MissingTranslation">ऐप के लिए उपयोग की जाने वाली भाषा बदलने के लिए</string>
+    <string name="first_launch_change_language">भाषा बदलें</string>
+    <string name="first_launch_change_language_hint">ऐप के लिए उपयोग की जाने वाली भाषा बदलने के लिए</string>
     <string name="help_text_destination_beacons_what">पास के किसी स्थान पर बीकन सेट करने से Soundscape उस स्थान की दिशा से एक श्रव्य बीकन ध्वनि बजाकर आपको सूचित रखता है। इस बीकन को होम स्क्रीन पर म्यूट या अनम्यूट किया जा सकता है। इसके अतिरिक्त, Soundscape होम स्क्रीन पर स्थान के बारे में जानकारी प्रदर्शित करता है, जिसमें उसकी दूरी और सड़क का पता शामिल है, यदि वह ज्ञात है।</string>
     <string name="help_text_destination_beacons_when">बीकन सेट करना तब उपयोगी होता है जब आप किसी नए क्षेत्र की खोज करते हुए किसी परिचित स्थान पर नज़र रखना चाहते हैं, या जब आप कहीं जा रहे हों और रास्ते में अपने आसपास के बारे में जानकारी चाहते हों। बीकन सुविधा आपको मोड़-दर-मोड़ दिशा-निर्देश नहीं देती, लेकिन यह एक निरंतर श्रव्य ध्वनि देती है जो आपकी वर्तमान स्थिति के सापेक्ष बीकन की दिशा बताती है। ऑडियो बीकन, आपके मौजूदा मार्ग-निर्धारण कौशल, और यहाँ तक कि आपके पसंदीदा नेविगेशन ऐप का उपयोग करके, आप स्वयं चुन सकते हैं कि पास के स्थानों तक कैसे पहुँचना है।</string>
     <string name="help_text_destination_beacons_how_1">**बीकन सेट करने के लिए :**\n\n सबसे पहले, किसी स्थान का विवरण देखें, या तो खोज बार का उपयोग करके कोई जगह खोजें, या *"पास के स्थान"*, *"सहेजे गए मार्कर"*, या *"वर्तमान स्थान"* बटनों में से किसी एक पर टैप करें और एक स्थान चुनें। स्थान विवरण स्क्रीन से आप *"ऑडियो बीकन शुरू करें"* बटन चुन सकते हैं। इस पर टैप करने से आप होम स्क्रीन पर वापस आ जाएँगे और आपके द्वारा चुने गए स्थान की दिशा से एक श्रव्य बीकन चालू हो जाएगा। आपके द्वारा चुने गए स्थान का नाम, उसकी दूरी और भौतिक पता, यदि उपलब्ध हो, अब मुख्य ऐप स्क्रीन पर प्रदर्शित होगा।</string>
@@ -408,928 +408,928 @@
     <string name="faq_tip_create_marker_at_bus_stop">यदि कोई बस मार्ग है जो आप नियमित रूप से लेते हैं, तो अपने चढ़ने और उतरने के स्टॉप को मार्कर के रूप में सेट करें। इस तरह वे सहेजे जाएँगे ताकि आप उन्हें आसानी से फिर से ढूँढ सकें, बस मेनू से *"मार्कर प्रबंधित करें"* पर जाएँ और उन्हें सूची में खोजें। आप उन पर बीकन सेट कर सकते हैं और आपको समय-समय पर अपडेट मिलेंगे कि आप अपने उतरने के स्टॉप से कितने करीब हैं। नोट: आप लयबद्ध ध्वनि बंद कर सकते हैं और फिर भी रास्ते में दूरी के अपडेट मिलते रहेंगे।</string>
     <string name="no_language_selected">कोई भाषा चयनित नहीं</string>
     <string name="first_launch_permissions_notification">सूचनाएँ</string>
-    <string name="notification_text" tools:ignore="MissingTranslation">Soundscape की स्थान सेवा फोन लॉक होने पर भी चलती रहती है।</string>
-    <string name="cancel_search_contentDescription" tools:ignore="MissingTranslation">खोज रद्द करें</string>
-    <string name="menu_manage_audio" tools:ignore="MissingTranslation">ऑडियो</string>
-    <string name="menu_manage_language" tools:ignore="MissingTranslation">भाषा और क्षेत्र </string>
-    <string name="menu_manage_accessibility" tools:ignore="MissingTranslation">पहुँच-योग्यता</string>
-    <string name="settings_theme_light_dark" tools:ignore="MissingTranslation">लाइट या डार्क थीम</string>
-    <string name="settings_theme_auto" tools:ignore="MissingTranslation">स्वचालित</string>
-    <string name="settings_theme_is_light" tools:ignore="MissingTranslation">लाइट थीम का उपयोग करें</string>
-    <string name="settings_theme_light" tools:ignore="MissingTranslation">लाइट</string>
-    <string name="settings_theme_dark" tools:ignore="MissingTranslation">डार्क</string>
-    <string name="settings_theme_contrast" tools:ignore="MissingTranslation">थीम कॉन्ट्रास्ट</string>
-    <string name="settings_theme_contrast_regular" tools:ignore="MissingTranslation">सामान्य</string>
-    <string name="settings_theme_contrast_medium" tools:ignore="MissingTranslation">मध्यम</string>
-    <string name="settings_theme_contrast_high" tools:ignore="MissingTranslation">उच्च</string>
-    <string name="settings_list_item_description" tools:ignore="MissingTranslation">%1$s, %3$s में से %2$s विकल्प है</string>
-    <string name="settings_keep_value" tools:ignore="MissingTranslation">रखें</string>
-    <string name="settings_use_value" tools:ignore="MissingTranslation">उपयोग करें</string>
-    <string name="street_preview_exit" tools:ignore="MissingTranslation">स्थान सिमुलेशन से बाहर निकलें</string>
-    <string name="settings_travel_recording" tools:ignore="MissingTranslation">यात्रा की रिकॉर्डिंग सक्षम करें</string>
-    <string name="settings_show_map" tools:ignore="MissingTranslation">स्क्रीन पर नक्शा दिखाएँ</string>
-    <string name="settings_debug_heading" tools:ignore="MissingTranslation">डीबग विकल्प</string>
-    <string name="settings_search_results_language" tools:ignore="MissingTranslation">खोज भाषा</string>
-    <string name="settings_search_results_language_description" tools:ignore="MissingTranslation">ऑनलाइन खोज परिणाम की स्थानीय भाषा का उपयोग कर सकती है, या अंग्रेज़ी, फ़्रेंच या जर्मन में परिणाम देने के लिए बाध्य की जा सकती है।</string>
-    <string name="menu_share_recorded_route" tools:ignore="MissingTranslation">यात्रा की रिकॉर्डिंग साझा करें</string>
-    <string name="confect_name_to_via" tools:ignore="MissingTranslation">%1$s से %2$s, %3$s के रास्ते</string>
-    <string name="confect_name_to" tools:ignore="MissingTranslation">%1$s से %2$s तक</string>
-    <string name="confect_name_joins" tools:ignore="MissingTranslation">%1$s जो %2$s और %3$s को जोड़ता है</string>
-    <string name="confect_name_via" tools:ignore="MissingTranslation">%1$s %2$s से होकर</string>
-    <string name="confect_name_pavement_next_to" tools:ignore="MissingTranslation">%1$s के बगल में फुटपाथ</string>
-    <string name="confect_name_pavement" tools:ignore="MissingTranslation">फुटपाथ</string>
-    <string name="confect_name_dead_end" tools:ignore="MissingTranslation">बंद गली</string>
-    <string name="offline_maps_title" tools:ignore="MissingTranslation">ऑफ़लाइन मानचित्र</string>
-    <string name="offline_map_details_title" tools:ignore="MissingTranslation">ऑफ़लाइन मानचित्र विवरण</string>
-    <string name="offline_maps_loading" tools:ignore="MissingTranslation">लोड हो रहा है…</string>
-    <string name="offline_maps_downloading" tools:ignore="MissingTranslation">%1$s डाउनलोड हो रहा है</string>
-    <string name="offline_maps_caching" tools:ignore="MissingTranslation">सर्वर %1$s को डाउनलोड के लिए तैयार कर रहा है। इसमें कुछ मिनट लग सकते हैं और फिर डाउनलोड अपने आप शुरू हो जाएगा।</string>
-    <string name="offline_maps_free_space" tools:ignore="MissingTranslation">%1$s खाली</string>
-    <string name="offline_maps_storage" tools:ignore="MissingTranslation">मानचित्र %1$s में सहेजे जाते हैं जिसमें %2$s खाली है</string>
-    <string name="offline_maps_already_downloaded" tools:ignore="MissingTranslation">पहले से डाउनलोड किए गए मानचित्र</string>
-    <string name="offline_maps_nearby" tools:ignore="MissingTranslation">पास के ऑफ़लाइन मानचित्र</string>
-    <string name="offline_maps_loading_manifest" tools:ignore="MissingTranslation">ऑफ़लाइन मानचित्रों की सूची लोड हो रही है</string>
-    <string name="offline_maps_manifest_failed" tools:ignore="MissingTranslation">ऑफ़लाइन मानचित्र डेटा डाउनलोड करने में विफल</string>
-    <string name="offline_map_details_delete" tools:ignore="MissingTranslation">ऑफ़लाइन मानचित्र हटाएँ</string>
-    <string name="offline_map_details_download" tools:ignore="MissingTranslation">ऑफ़लाइन मानचित्र डाउनलोड करें</string>
-    <string name="offline_map_details_size_on_phone" tools:ignore="MissingTranslation">फ़ोन पर आकार: %1$s</string>
-    <string name="offline_map_details_size_on_server" tools:ignore="MissingTranslation">डाउनलोड आकार: %1$s</string>
-    <string name="offline_map_details_name" tools:ignore="MissingTranslation">मानचित्र का नाम: %1$s</string>
-    <string name="offline_map_details_city_list" tools:ignore="MissingTranslation">मानचित्र में ये स्थान शामिल हैं: %1$s</string>
-    <string name="offline_map_details_alternate_city_list" tools:ignore="MissingTranslation">वे स्थान इस नाम से भी जाने जाते हैं: %1$s</string>
-    <string name="offline_map_storage_title" tools:ignore="MissingTranslation">ऑफ़लाइन मानचित्र संग्रहण</string>
-    <string name="offline_map_storage_description" tools:ignore="MissingTranslation">Soundscape को बिना इंटरनेट कनेक्शन के उपयोग करने के लिए मानचित्र डाउनलोड करके फ़ोन में सहेजना संभव है। डिफ़ॉल्ट संग्रहण आपके फ़ोन का कोई भी बाहरी संग्रहण है, लेकिन आप यहाँ कोई वैकल्पिक गंतव्य चुन सकते हैं।</string>
-    <string name="offline_map_wifi_only" tools:ignore="MissingTranslation">मानचित्र डाउनलोड के लिए केवल WiFi का उपयोग करें</string>
-    <string name="accessibility_title" tools:ignore="MissingTranslation">सुगम्यता</string>
-    <string name="accessibility_screen_reader_enabled" tools:ignore="MissingTranslation">चूँकि आपने स्क्रीन रीडर सक्षम किया है, हम ऐप को यूज़र इंटरफ़ेस के ग्राफ़िकल मानचित्र बंद करके चलाने की सलाह देते हैं। आप यह सेटिंग यहाँ बदल सकते हैं, या बस आगे बढ़ सकते हैं।</string>
-    <string name="accessibility_screen_reader_disabled" tools:ignore="MissingTranslation">चूँकि आपने स्क्रीन रीडर सक्षम नहीं किया है, हम मानते हैं कि आप यूज़र इंटरफ़ेस में ग्राफ़िकल मानचित्र प्रदर्शित करना चाहते हैं। आप यह सेटिंग यहाँ बदल सकते हैं, या बस आगे बढ़ सकते हैं।</string>
-    <string name="text_field_clear_text" tools:ignore="MissingTranslation">टेक्स्ट साफ़ करें</string>
-    <string name="marker_name_description_hint" tools:ignore="MissingTranslation">मार्कर का नाम संपादित करें</string>
-    <string name="annotation_description_hint" tools:ignore="MissingTranslation">इस मार्कर को बाद में पहचानने में मदद के लिए एक वैकल्पिक नोट जोड़ें</string>
-    <string name="route_name_description_hint" tools:ignore="MissingTranslation">मार्ग का नाम संपादित करें</string>
-    <string name="route_description_description_hint" tools:ignore="MissingTranslation">इस मार्ग के लिए एक वैकल्पिक विवरण जोड़ें</string>
-    <string name="fab_add_item" tools:ignore="MissingTranslation">आइटम जोड़ें</string>
-    <string name="fab_add_route" tools:ignore="MissingTranslation">मार्ग जोड़ें</string>
-    <string name="route_waypoint_progress" tools:ignore="MissingTranslation">मार्ग %1$s, मार्ग बिंदु %2$s / %3$s पर</string>
-    <string name="home_screen_title" tools:ignore="MissingTranslation">Soundscape होम</string>
-    <string name="settings_reset_button" tools:ignore="MissingTranslation">सेटिंग्स को डिफ़ॉल्ट पर रीसेट करें</string>
-    <string name="settings_reset_button_hint" tools:ignore="MissingTranslation">सेटिंग्स को डिफ़ॉल्ट पर रीसेट करें और फिर ऐप को पुनः आरंभ करें।</string>
-    <string name="settings_reset_dialog_title" tools:ignore="MissingTranslation">क्या आप वाकई ऐसा करना चाहते हैं?</string>
-    <string name="settings_reset_dialog_message" tools:ignore="MissingTranslation">सेटिंग्स रीसेट करने से ऐप में सभी कॉन्फ़िगर की गई सेटिंग्स हट जाएँगी, क्या आप जारी रखना चाहते हैं?</string>
-    <string name="advanced_markers_and_routes_export_button" tools:ignore="MissingTranslation">मार्कर और मार्ग डेटाबेस निर्यात करें</string>
-    <string name="advanced_markers_and_routes_import_button" tools:ignore="MissingTranslation">मार्कर और मार्ग डेटाबेस आयात करें</string>
-    <string name="advanced_markers_and_routes_export" tools:ignore="MissingTranslation">निर्यात करें</string>
-    <string name="markers_and_routes_import_success" tools:ignore="MissingTranslation">मार्कर और मार्ग का आयात पूरा हुआ।</string>
-    <string name="markers_and_routes_import_failure" tools:ignore="MissingTranslation">मार्कर और मार्ग का आयात विफल रहा।</string>
-    <string name="advanced_markers_and_routes_clear_all_button" tools:ignore="MissingTranslation">सभी मार्कर और मार्ग हटाएँ</string>
-    <string name="advanced_markers_and_routes_clear_all_alert_message" tools:ignore="MissingTranslation">सभी मार्कर और मार्ग हटाना पूर्ववत नहीं किया जा सकता, क्या आप जारी रखना चाहते हैं?</string>
-    <string name="menu_advanced_markers_and_routes_clear_all_success" tools:ignore="MissingTranslation">मार्कर और मार्ग हटा दिए गए</string>
-    <string name="location_item_selected" tools:ignore="MissingTranslation">चयनित</string>
-    <string name="location_item_not_selected" tools:ignore="MissingTranslation">अचयनित</string>
-    <string name="location_item_move_up" tools:ignore="MissingTranslation">सूची में ऊपर ले जाएँ</string>
-    <string name="location_item_move_down" tools:ignore="MissingTranslation">सूची में नीचे ले जाएँ</string>
-    <string name="street_description_between" tools:ignore="MissingTranslation">%1$s पर, %2$s और %3$s के बीच</string>
-    <string name="street_description_until" tools:ignore="MissingTranslation">%1$s पर, %3$s तक %2$s</string>
-    <string name="street_description_since" tools:ignore="MissingTranslation">%1$s पर, %3$s से %2$s</string>
-    <string name="street_description_relative_before" tools:ignore="MissingTranslation">%1$s पर, %2$s से ठीक पहले</string>
-    <string name="street_description_relative_after" tools:ignore="MissingTranslation">%1$s पर, %2$s के ठीक बाद</string>
-    <string name="street_description_intersection" tools:ignore="MissingTranslation">%1$s के चौराहे के पास</string>
-    <string name="new_version_info_text" tools:ignore="MissingTranslation">नई रिलीज़ की जानकारी</string>
-    <string name="new_version_info_completed" tools:ignore="MissingTranslation">नई रिलीज़ डायलॉग बंद करें</string>
-    <string name="menu_open_source_licenses" tools:ignore="MissingTranslation">ओपन सोर्स लाइसेंस</string>
-    <string name="new_version_info_details" tools:ignore="MissingTranslation">\nइस रिलीज़ में दो नई सुविधाएँ शामिल हैं जो फ़ोन लॉक होने पर भी ऐप का रिमोट नियंत्रण करने की अनुमति देती हैं। इसका अर्थ है कि आप फ़ोन को अपनी जेब में रखकर भी ऐप की मुख्य सुविधाओं को नियंत्रित कर सकते हैं।\n\nदोनों रिमोट‑कंट्रोल विधियाँ ब्लूटूथ मीडिया नियंत्रण बटनों का उपयोग करती हैं — या तो आपके हेडफ़ोन पर मौजूद बटन या आप अपने हाथ या जेब में रखने के लिए छोटे रिमोट कंट्रोल भी खरीद सकते हैं। रिमोट नियंत्रण मोड *सेटिंग्स/मीडिया नियंत्रण* सेक्शन से चुना जाता है और आप *"वॉइस कमांड"* चुन सकते हैं ताकि आप ऐप से बात कर सकें, या *"ऑडियो मेनू"* चुन सकते हैं जहाँ आपको विकल्पों के साथ मेनू पढ़कर सुनाया जाता है जिसे आप चुनते हैं। *"मूल मोड"* का मतलब है कि ब्लूटूथ बटन पिछली रिलीज़ की तरह ही काम करेंगे।\n\nवॉइस कमांड मोड में, अपने हेडफ़ोन पर प्ले/पॉज़ बटन दबाने पर ऐप वाणी सुनना शुरू कर देता है और इसके संकेत के लिए आपको एक छोटा सा ध्वनि संकेत सुनाई देगा। यदि आप *"Help"* कहेंगे तो यह उपयोग करने के लिए उपलब्ध कमांड की सूची बताएगा। उसके बाद आप बटन फिर से दबाकर अन्य कमांड आज़मा सकते हैं। दुर्भाग्यवश, Android स्पीच रिकॉग्निशन सभी भाषाओं का समर्थन नहीं करता और यह सभी फ़ोन में उपलब्ध भी नहीं है।\n\nवॉइस कमांड मोड की मुख्य कठिनाई यह है कि कुछ हेडफ़ोन दूसरों की तुलना में माइक्रोफ़ोन चालू करने में अधिक समय लेते हैं। इसका मतलब है कि प्ले/पॉज़ बटन टैप करने के बाद आपको बोलने से पहले 5 सेकंड तक प्रतीक्षा करनी पड़ सकती है। यह जानने के लिए कि कितना समय लगता है, सबसे अच्छा तरीका यह है कि प्ले/पॉज़ टैप करें और फिर 1 से 10 तक गिनती करें। फ़ोन को यह बताना चाहिए कि उसने कौन‑सी वाणी पहचानी और जो संख्या वह पहली बार पहचानता है वह वह है जिससे पहचान शुरू हुई। इसका उपयोग यह सीखने में किया जा सकता है कि बोलने से पहले कितना इंतज़ार करना है। कुछ हेडफ़ोन माइक्रोफ़ोन चालू होने पर स्पष्ट ध्वनि देते हैं जो इसे आसान बनाती है, लेकिन अन्य बिल्कुल भी ध्वनि नहीं करते। दुर्भाग्यवश, इसके लिए अभ्यास की आवश्यकता हो सकती है।\n\nदूसरा नया रिमोट मोड ऑडियो मेनू है जो सभी भाषाओं में और सभी फ़ोन पर काम करेगा। नेक्स्ट/प्रीवियस मीडिया कंट्रोल बटन मेनू के भीतर विकल्पों के बीच आगे और पीछे जाते हैं। प्ले/पॉज़ बटन फिर वर्तमान विकल्प का चयन करता है। एक शीर्ष‑स्तरीय मेनू होता है और फिर एक परत सब‑मेनू की होती है जो समान कमांडों को समूहित करती है।\n\nये सुविधाएँ अभी बहुत नई हैं, और हम वास्तव में यह जानना चाहेंगे कि क्या ये अच्छी तरह काम कर रही हैं और आप किन अन्य कमांड्स की अपेक्षा रखेंगें।\n\nकृपया मुख्य मेनू में *"सहायता से संपर्क करें"* विकल्प के माध्यम से किसी भी समस्या की रिपोर्ट करें, चाहे वह कितनी ही छोटी क्यों न हो।\n</string>
-    <string name="about_soundscape" tools:ignore="MissingTranslation">Soundscape नवीन ऑडियो-आधारित तकनीक के उपयोग की खोज करता है ताकि लोगों को अपने आसपास की बेहतर जागरूकता बनाने में सक्षम बनाया जा सके, जिससे वे अधिक आत्मविश्वासी और सशक्त होकर घूम-फिर सकें।</string>
-    <string name="osm_office_building" tools:ignore="MissingTranslation">कार्यालय भवन</string>
-    <string name="osm_school_building" tools:ignore="MissingTranslation">विद्यालय भवन</string>
-    <string name="osm_covered_pavilion" tools:ignore="MissingTranslation">ढका हुआ मंडप</string>
-    <string name="osm_convenience_store" tools:ignore="MissingTranslation">सुविधा स्टोर</string>
-    <string name="osm_building_entrance" tools:ignore="MissingTranslation">भवन प्रवेश द्वार</string>
-    <string name="osm_restroom" tools:ignore="MissingTranslation">शौचालय</string>
-    <string name="osm_parking_lot" tools:ignore="MissingTranslation">पार्किंग स्थल</string>
-    <string name="osm_taxi_waiting_area" tools:ignore="MissingTranslation">टैक्सी प्रतीक्षा क्षेत्र</string>
-    <string name="osm_bike_parking" tools:ignore="MissingTranslation">बाइक पार्किंग</string>
-    <string name="osm_gas_station" tools:ignore="MissingTranslation">पेट्रोल पंप</string>
-    <string name="osm_bus_stop_named" tools:ignore="MissingTranslation">%1$s बस स्टॉप</string>
-    <string name="osm_recycling_bin" tools:ignore="MissingTranslation">रीसाइक्लिंग बिन</string>
-    <string name="osm_water_fountain" tools:ignore="MissingTranslation">पानी का फव्वारा</string>
-    <string name="osm_sports_field" tools:ignore="MissingTranslation">खेल का मैदान</string>
-    <string name="osm_picnic_area" tools:ignore="MissingTranslation">पिकनिक क्षेत्र</string>
-    <string name="osm_main_entrance" tools:ignore="MissingTranslation">मुख्य प्रवेश द्वार</string>
-    <string name="osm_entrance_named_with_destination" tools:ignore="MissingTranslation">%1$s %2$s %3$s से</string>
-    <string name="osm_entrance_with_destination" tools:ignore="MissingTranslation">%1$s %2$s</string>
-    <string name="osm_tag_ferry_terminal" tools:ignore="MissingTranslation">फ़ेरी टर्मिनल</string>
-    <string name="osm_tag_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s फ़ेरी टर्मिनल</string>
-    <string name="osm_crossing" tools:ignore="MissingTranslation">पैदल यात्री क्रॉसिंग</string>
-    <string name="osm_construction" tools:ignore="MissingTranslation">निर्माण कार्य</string>
-    <string name="osm_dangerous_area" tools:ignore="MissingTranslation">खतरनाक क्षेत्र</string>
-    <string name="osm_townhall" tools:ignore="MissingTranslation">टाउन हॉल</string>
-    <string name="osm_steps" tools:ignore="MissingTranslation">सीढ़ियाँ</string>
-    <string name="osm_elevator" tools:ignore="MissingTranslation">लिफ़्ट</string>
-    <string name="osm_walking_path" tools:ignore="MissingTranslation">पैदल पथ</string>
-    <string name="osm_pedestrian_street" tools:ignore="MissingTranslation">पैदल यात्री सड़क</string>
-    <string name="osm_bicycle_path" tools:ignore="MissingTranslation">साइकिल पथ</string>
-    <string name="osm_residential_street" tools:ignore="MissingTranslation">आवासीय सड़क</string>
-    <string name="osm_service_road" tools:ignore="MissingTranslation">सर्विस रोड</string>
-    <string name="osm_road" tools:ignore="MissingTranslation">सड़क</string>
-    <string name="osm_highway" tools:ignore="MissingTranslation">राजमार्ग</string>
-    <string name="osm_highway_named" tools:ignore="MissingTranslation">राजमार्ग का नाम</string>
-    <string name="osm_highway_refed" tools:ignore="MissingTranslation">राजमार्ग संदर्भ</string>
-    <string name="osm_intersection" tools:ignore="MissingTranslation">चौराहा</string>
-    <string name="osm_roundabout" tools:ignore="MissingTranslation">गोल चक्कर</string>
-    <string name="osm_highway_ramp" tools:ignore="MissingTranslation">राजमार्ग रैंप</string>
-    <string name="osm_merging_lane" tools:ignore="MissingTranslation">विलय लेन</string>
-    <string name="osm_office" tools:ignore="MissingTranslation">कार्यालय</string>
-    <string name="osm_school" tools:ignore="MissingTranslation">विद्यालय</string>
-    <string name="osm_roof" tools:ignore="MissingTranslation">छत</string>
-    <string name="osm_convenience" tools:ignore="MissingTranslation">सुविधा दुकान</string>
-    <string name="osm_entrance" tools:ignore="MissingTranslation">प्रवेश द्वार</string>
-    <string name="osm_assembly_point" tools:ignore="MissingTranslation">सभा स्थल</string>
-    <string name="osm_cycle_barrier" tools:ignore="MissingTranslation">साइकिल अवरोधक</string>
-    <string name="osm_turnstile" tools:ignore="MissingTranslation">टर्नस्टाइल</string>
-    <string name="osm_cattle_grid" tools:ignore="MissingTranslation">कैटल ग्रिड</string>
-    <string name="osm_gate" tools:ignore="MissingTranslation">गेट</string>
-    <string name="osm_lift_gate" tools:ignore="MissingTranslation">लिफ़्ट गेट</string>
-    <string name="osm_toilets" tools:ignore="MissingTranslation">शौचालय</string>
-    <string name="osm_parking" tools:ignore="MissingTranslation">पार्किंग</string>
-    <string name="osm_parking_entrance" tools:ignore="MissingTranslation">पार्किंग प्रवेश द्वार</string>
-    <string name="osm_bench" tools:ignore="MissingTranslation">बेंच</string>
-    <string name="osm_taxi" tools:ignore="MissingTranslation">टैक्सी स्टैंड</string>
-    <string name="osm_post_office" tools:ignore="MissingTranslation">डाकघर</string>
-    <string name="osm_post_box" tools:ignore="MissingTranslation">डाक पेटी</string>
-    <string name="osm_waste_basket" tools:ignore="MissingTranslation">कूड़ादान</string>
-    <string name="osm_shower" tools:ignore="MissingTranslation">शावर</string>
-    <string name="osm_bicycle_parking" tools:ignore="MissingTranslation">साइकिल पार्किंग</string>
-    <string name="osm_cafe" tools:ignore="MissingTranslation">कैफ़े</string>
-    <string name="osm_restaurant" tools:ignore="MissingTranslation">रेस्तराँ</string>
-    <string name="osm_telephone" tools:ignore="MissingTranslation">टेलीफ़ोन</string>
-    <string name="osm_fuel" tools:ignore="MissingTranslation">ईंधन स्टेशन</string>
-    <string name="osm_bank" tools:ignore="MissingTranslation">बैंक</string>
-    <string name="osm_atm" tools:ignore="MissingTranslation">ATM</string>
-    <string name="osm_atm_named" tools:ignore="MissingTranslation">नामित ATM</string>
-    <string name="osm_atm_refed" tools:ignore="MissingTranslation">ATM संदर्भ</string>
-    <string name="osm_bus_stop" tools:ignore="MissingTranslation">बस स्टॉप</string>
-    <string name="osm_recycling" tools:ignore="MissingTranslation">रीसाइक्लिंग</string>
-    <string name="osm_fountain" tools:ignore="MissingTranslation">फव्वारा</string>
-    <string name="osm_place_of_worship" tools:ignore="MissingTranslation">पूजा स्थल</string>
-    <string name="osm_drinking_water" tools:ignore="MissingTranslation">पीने का पानी</string>
-    <string name="osm_car_wash" tools:ignore="MissingTranslation">कार वॉश</string>
-    <string name="osm_vending_machine" tools:ignore="MissingTranslation">वेंडिंग मशीन</string>
-    <string name="osm_playground" tools:ignore="MissingTranslation">खेल का मैदान</string>
-    <string name="osm_pitch" tools:ignore="MissingTranslation">खेल मैदान</string>
-    <string name="osm_swimming_pool" tools:ignore="MissingTranslation">तरणताल</string>
-    <string name="osm_garden" tools:ignore="MissingTranslation">बगीचा</string>
-    <string name="osm_park" tools:ignore="MissingTranslation">पार्क</string>
-    <string name="osm_picnic_table" tools:ignore="MissingTranslation">पिकनिक टेबल</string>
-    <string name="osm_picnic_site" tools:ignore="MissingTranslation">पिकनिक स्थल</string>
-    <string name="osm_information" tools:ignore="MissingTranslation">सूचना</string>
-    <string name="osm_fire_extinguisher" tools:ignore="MissingTranslation">अग्निशामक</string>
-    <string name="osm_defibrillator" tools:ignore="MissingTranslation">डिफिब्रिलेटर</string>
-    <string name="osm_guide" tools:ignore="MissingTranslation">मार्गदर्शक स्तंभ</string>
-    <string name="osm_water" tools:ignore="MissingTranslation">जलाशय</string>
-    <string name="osm_fire_hose" tools:ignore="MissingTranslation">अग्निशमन नली</string>
-    <string name="osm_fire_flapper" tools:ignore="MissingTranslation">अग्निशमन फ्लैपर</string>
-    <string name="osm_information_point" tools:ignore="MissingTranslation">सूचना केंद्र</string>
-    <string name="osm_wetland" tools:ignore="MissingTranslation">आर्द्रभूमि</string>
-    <string name="osm_mud" tools:ignore="MissingTranslation">कीचड़</string>
-    <string name="osm_access_point" tools:ignore="MissingTranslation">प्रवेश बिंदु</string>
-    <string name="osm_life_ring" tools:ignore="MissingTranslation">लाइफ रिंग</string>
-    <string name="osm_generic_info" tools:ignore="MissingTranslation">सामान्य सूचना</string>
-    <string name="osm_turntable" tools:ignore="MissingTranslation">टर्नटेबल</string>
-    <string name="osm_survey_point" tools:ignore="MissingTranslation">सर्वेक्षण बिंदु</string>
-    <string name="osm_snow_net" tools:ignore="MissingTranslation">स्नो नेट</string>
-    <string name="osm_silo" tools:ignore="MissingTranslation">साइलो</string>
-    <string name="osm_mast" tools:ignore="MissingTranslation">मस्तूल</string>
-    <string name="osm_bird_hide" tools:ignore="MissingTranslation">पक्षी अवलोकन शाला</string>
-    <string name="osm_transformer_tower" tools:ignore="MissingTranslation">ट्रांसफार्मर टावर</string>
-    <string name="osm_generic_object" tools:ignore="MissingTranslation">सामान्य वस्तु</string>
-    <string name="osm_signal" tools:ignore="MissingTranslation">सिग्नल</string>
-    <string name="osm_rock" tools:ignore="MissingTranslation">चट्टान</string>
-    <string name="osm_kiln" tools:ignore="MissingTranslation">भट्ठा</string>
-    <string name="osm_crane" tools:ignore="MissingTranslation">क्रेन</string>
-    <string name="osm_rune_stone" tools:ignore="MissingTranslation">रूण शिला</string>
-    <string name="osm_milestone" tools:ignore="MissingTranslation">मील का पत्थर</string>
-    <string name="osm_lifeguard_platform" tools:ignore="MissingTranslation">लाइफगार्ड प्लेटफार्म</string>
-    <string name="osm_water_tank" tools:ignore="MissingTranslation">पानी की टंकी</string>
-    <string name="osm_sty" tools:ignore="MissingTranslation">सूअरबाड़ा</string>
-    <string name="osm_navigationaid" tools:ignore="MissingTranslation">नौवहन सहायक</string>
-    <string name="osm_terminal" tools:ignore="MissingTranslation">टर्मिनल</string>
-    <string name="osm_water_tap" tools:ignore="MissingTranslation">पानी का नल</string>
-    <string name="osm_water_well" tools:ignore="MissingTranslation">कुआँ</string>
-    <string name="osm_petroleum_well" tools:ignore="MissingTranslation">पेट्रोलियम कुआँ</string>
-    <string name="osm_cross" tools:ignore="MissingTranslation">क्रॉस</string>
-    <string name="osm_gallows" tools:ignore="MissingTranslation">फाँसी का तख़्ता</string>
-    <string name="osm_speed_camera" tools:ignore="MissingTranslation">स्पीड कैमरा</string>
-    <string name="osm_siren" tools:ignore="MissingTranslation">सायरन</string>
-    <string name="osm_pylon" tools:ignore="MissingTranslation">पाइलन</string>
-    <string name="osm_mineshaft" tools:ignore="MissingTranslation">खदान शाफ्ट</string>
-    <string name="osm_flagpole" tools:ignore="MissingTranslation">ध्वज स्तंभ</string>
-    <string name="osm_optical_telegraph" tools:ignore="MissingTranslation">ऑप्टिकल टेलीग्राफ</string>
-    <string name="osm_cannon" tools:ignore="MissingTranslation">तोप</string>
-    <string name="osm_boundary_stone" tools:ignore="MissingTranslation">सीमा शिला</string>
-    <string name="osm_shed" tools:ignore="MissingTranslation">शेड</string>
-    <string name="osm_traffic_cones" tools:ignore="MissingTranslation">ट्रैफिक कोन</string>
-    <string name="osm_firepit" tools:ignore="MissingTranslation">अग्निकुंड</string>
-    <string name="osm_stone" tools:ignore="MissingTranslation">पत्थर</string>
-    <string name="osm_surveillance" tools:ignore="MissingTranslation">निगरानी</string>
-    <string name="osm_monitoring_station" tools:ignore="MissingTranslation">निगरानी केंद्र</string>
-    <string name="osm_wayside_shrine" tools:ignore="MissingTranslation">मार्ग किनारे का मंदिर</string>
-    <string name="osm_wayside_cross" tools:ignore="MissingTranslation">मार्ग किनारे का क्रॉस</string>
-    <string name="osm_tomb" tools:ignore="MissingTranslation">मकबरा</string>
-    <string name="osm_traffic_signals" tools:ignore="MissingTranslation">ट्रैफिक सिग्नल</string>
-    <string name="osm_hut" tools:ignore="MissingTranslation">झोपड़ी</string>
-    <string name="osm_static_caravan" tools:ignore="MissingTranslation">स्थायी कारवाँ</string>
-    <string name="osm_bollard" tools:ignore="MissingTranslation">बोलार्ड</string>
-    <string name="osm_block" tools:ignore="MissingTranslation">ब्लॉक</string>
-    <string name="osm_waste_disposal" tools:ignore="MissingTranslation">कचरा निपटान</string>
-    <string name="osm_photo_booth" tools:ignore="MissingTranslation">फोटो बूथ</string>
-    <string name="osm_bbq" tools:ignore="MissingTranslation">बारबेक्यू</string>
-    <string name="osm_shop" tools:ignore="MissingTranslation">दुकान</string>
-    <string name="osm_newsagent" tools:ignore="MissingTranslation">अखबार की दुकान</string>
-    <string name="osm_anime" tools:ignore="MissingTranslation">एनिमे की दुकान</string>
-    <string name="osm_musical_instrument" tools:ignore="MissingTranslation">वाद्य यंत्र की दुकान</string>
-    <string name="osm_vacuum_cleaner" tools:ignore="MissingTranslation">वैक्यूम क्लीनर की दुकान</string>
-    <string name="osm_mobile_phone" tools:ignore="MissingTranslation">मोबाइल फोन की दुकान</string>
-    <string name="osm_carpet" tools:ignore="MissingTranslation">कालीन की दुकान</string>
-    <string name="osm_trade" tools:ignore="MissingTranslation">व्यापार की दुकान</string>
-    <string name="osm_garden_centre" tools:ignore="MissingTranslation">गार्डन सेंटर</string>
-    <string name="osm_florist" tools:ignore="MissingTranslation">फूलों की दुकान</string>
-    <string name="osm_fireplace" tools:ignore="MissingTranslation">चिमनी</string>
-    <string name="osm_massage" tools:ignore="MissingTranslation">मालिश</string>
-    <string name="osm_herbalist" tools:ignore="MissingTranslation">जड़ी-बूटी की दुकान</string>
-    <string name="osm_bag" tools:ignore="MissingTranslation">बैग की दुकान</string>
-    <string name="osm_pastry" tools:ignore="MissingTranslation">पेस्ट्री की दुकान</string>
-    <string name="osm_deli" tools:ignore="MissingTranslation">डेली की दुकान</string>
-    <string name="osm_beverages" tools:ignore="MissingTranslation">पेय पदार्थ की दुकान</string>
-    <string name="osm_alcohol" tools:ignore="MissingTranslation">शराब की दुकान</string>
-    <string name="osm_substation" tools:ignore="MissingTranslation">सबस्टेशन</string>
-    <string name="osm_travel_agent" tools:ignore="MissingTranslation">ट्रैवल एजेंट</string>
-    <string name="osm_research" tools:ignore="MissingTranslation">अनुसंधान केंद्र</string>
-    <string name="osm_newspaper" tools:ignore="MissingTranslation">अखबार की दुकान</string>
-    <string name="osm_ammunition" tools:ignore="MissingTranslation">गोला-बारूद की दुकान</string>
-    <string name="osm_wildlife_hide" tools:ignore="MissingTranslation">वन्यजीव अवलोकन शाला</string>
-    <string name="osm_watchmaker" tools:ignore="MissingTranslation">घड़ीसाज़ की दुकान</string>
-    <string name="osm_tinsmith" tools:ignore="MissingTranslation">कलईगर की दुकान</string>
-    <string name="osm_sun_protection" tools:ignore="MissingTranslation">धूप से सुरक्षा की दुकान</string>
-    <string name="osm_sculptor" tools:ignore="MissingTranslation">मूर्तिकार का स्टूडियो</string>
-    <string name="osm_metal_construction" tools:ignore="MissingTranslation">धातु निर्माण कार्यशाला</string>
-    <string name="osm_handicraft" tools:ignore="MissingTranslation">हस्तशिल्प की दुकान</string>
-    <string name="osm_cowshed" tools:ignore="MissingTranslation">गोशाला</string>
-    <string name="osm_cabin" tools:ignore="MissingTranslation">केबिन</string>
-    <string name="osm_barn" tools:ignore="MissingTranslation">खलिहान</string>
-    <string name="osm_warehouse" tools:ignore="MissingTranslation">गोदाम</string>
-    <string name="osm_houseboat" tools:ignore="MissingTranslation">हाउसबोट</string>
-    <string name="osm_book_store" tools:ignore="MissingTranslation">किताब की दुकान</string>
-    <string name="osm_generic_place" tools:ignore="MissingTranslation">स्थान</string>
-    <string name="osm_hunting_stand" tools:ignore="MissingTranslation">शिकार मचान</string>
-    <string name="osm_game_feeding" tools:ignore="MissingTranslation">वन्यजीव आहार स्थल</string>
-    <string name="osm_crypt" tools:ignore="MissingTranslation">भूमिगत कब्रगाह</string>
-    <string name="osm_animal_shelter" tools:ignore="MissingTranslation">पशु आश्रय</string>
-    <string name="osm_animal_boarding" tools:ignore="MissingTranslation">पशु बोर्डिंग</string>
-    <string name="osm_blood_donation" tools:ignore="MissingTranslation">रक्तदान केंद्र</string>
-    <string name="osm_nursing_home" tools:ignore="MissingTranslation">वृद्धाश्रम</string>
-    <string name="osm_dentist" tools:ignore="MissingTranslation">दंत चिकित्सक</string>
-    <string name="osm_baby_hatch" tools:ignore="MissingTranslation">शिशु सुरक्षा केंद्र</string>
-    <string name="osm_language_school" tools:ignore="MissingTranslation">भाषा विद्यालय</string>
-    <string name="osm_public_bookcase" tools:ignore="MissingTranslation">सार्वजनिक पुस्तक अलमारी</string>
-    <string name="osm_biergarten" tools:ignore="MissingTranslation">बीयर गार्डन</string>
-    <string name="osm_running" tools:ignore="MissingTranslation">दौड़ का ट्रैक</string>
-    <string name="osm_glaziery" tools:ignore="MissingTranslation">काँच की दुकान</string>
-    <string name="osm_garages" tools:ignore="MissingTranslation">गैराज</string>
-    <string name="osm_retail" tools:ignore="MissingTranslation">खुदरा दुकान</string>
-    <string name="osm_hotel" tools:ignore="MissingTranslation">होटल</string>
-    <string name="osm_camp_site" tools:ignore="MissingTranslation">शिविर स्थल</string>
-    <string name="osm_rugby_league" tools:ignore="MissingTranslation">रग्बी लीग</string>
-    <string name="osm_roller_skating" tools:ignore="MissingTranslation">रोलर स्केटिंग</string>
-    <string name="osm_multi" tools:ignore="MissingTranslation">बहुउपयोगी</string>
-    <string name="osm_ice_hockey" tools:ignore="MissingTranslation">आइस हॉकी</string>
-    <string name="osm_hapkido" tools:ignore="MissingTranslation">हापकिडो</string>
-    <string name="osm_croquet" tools:ignore="MissingTranslation">क्रोकेट</string>
-    <string name="osm_cricket" tools:ignore="MissingTranslation">क्रिकेट</string>
-    <string name="osm_cockfighting" tools:ignore="MissingTranslation">मुर्गों की लड़ाई</string>
-    <string name="osm_boxing" tools:ignore="MissingTranslation">मुक्केबाज़ी</string>
-    <string name="osm_bmx" tools:ignore="MissingTranslation">बीएमएक्स</string>
-    <string name="osm_billiards" tools:ignore="MissingTranslation">बिलियर्ड्स</string>
-    <string name="osm_toys" tools:ignore="MissingTranslation">खिलौनों की दुकान</string>
-    <string name="osm_pyrotechnics" tools:ignore="MissingTranslation">आतिशबाज़ी की दुकान</string>
-    <string name="osm_laundry" tools:ignore="MissingTranslation">लॉन्ड्री</string>
-    <string name="osm_funeral_directors" tools:ignore="MissingTranslation">अंतिम संस्कार सेवा</string>
-    <string name="osm_dry_cleaning" tools:ignore="MissingTranslation">ड्राई क्लीनिंग</string>
-    <string name="osm_copyshop" tools:ignore="MissingTranslation">फोटोकॉपी की दुकान</string>
-    <string name="osm_chalet" tools:ignore="MissingTranslation">शैले</string>
-    <string name="osm_apartment" tools:ignore="MissingTranslation">अपार्टमेंट</string>
-    <string name="osm_water_ski" tools:ignore="MissingTranslation">वॉटर स्कीइंग</string>
-    <string name="osm_water_polo" tools:ignore="MissingTranslation">वॉटर पोलो</string>
-    <string name="osm_table_soccer" tools:ignore="MissingTranslation">टेबल सॉकर</string>
-    <string name="osm_table_tennis" tools:ignore="MissingTranslation">टेबल टेनिस</string>
-    <string name="osm_skateboard" tools:ignore="MissingTranslation">स्केटबोर्डिंग</string>
-    <string name="osm_sailing" tools:ignore="MissingTranslation">नौकायन</string>
-    <string name="osm_safety_training" tools:ignore="MissingTranslation">सुरक्षा प्रशिक्षण</string>
-    <string name="osm_rowing" tools:ignore="MissingTranslation">नौकायन (रोइंग)</string>
-    <string name="osm_model_aerodrome" tools:ignore="MissingTranslation">मॉडल हवाई पट्टी</string>
-    <string name="osm_korfball" tools:ignore="MissingTranslation">कोर्फ़बॉल</string>
-    <string name="osm_ice_stock" tools:ignore="MissingTranslation">आइस स्टॉक</string>
-    <string name="osm_gymnastics" tools:ignore="MissingTranslation">जिमनास्टिक्स</string>
-    <string name="osm_football" tools:ignore="MissingTranslation">फ़ुटबॉल</string>
-    <string name="osm_field_hockey" tools:ignore="MissingTranslation">फ़ील्ड हॉकी</string>
-    <string name="osm_equestrian" tools:ignore="MissingTranslation">घुड़सवारी</string>
-    <string name="osm_cycling" tools:ignore="MissingTranslation">साइकिलिंग</string>
-    <string name="osm_curling" tools:ignore="MissingTranslation">कर्लिंग</string>
-    <string name="osm_cricket_nets" tools:ignore="MissingTranslation">क्रिकेट नेट्स</string>
-    <string name="osm_cliff_diving" tools:ignore="MissingTranslation">क्लिफ़ डाइविंग</string>
-    <string name="osm_boules" tools:ignore="MissingTranslation">बूल्स</string>
-    <string name="osm_bobsleigh" tools:ignore="MissingTranslation">बॉबस्ले</string>
-    <string name="osm_baseball" tools:ignore="MissingTranslation">बेसबॉल</string>
-    <string name="osm_aikido" tools:ignore="MissingTranslation">आइकिडो</string>
-    <string name="osm_10pin" tools:ignore="MissingTranslation">टेनपिन बॉलिंग</string>
-    <string name="osm_weapons" tools:ignore="MissingTranslation">हथियारों की दुकान</string>
-    <string name="osm_pet" tools:ignore="MissingTranslation">पालतू जानवरों की दुकान</string>
-    <string name="osm_money_lender" tools:ignore="MissingTranslation">साहूकार</string>
-    <string name="osm_gift" tools:ignore="MissingTranslation">उपहार की दुकान</string>
-    <string name="osm_books" tools:ignore="MissingTranslation">किताबों की दुकान</string>
-    <string name="osm_bookmaker" tools:ignore="MissingTranslation">सट्टेबाज़</string>
-    <string name="osm_photo" tools:ignore="MissingTranslation">फ़ोटो की दुकान</string>
-    <string name="osm_craft" tools:ignore="MissingTranslation">हस्तशिल्प की दुकान</string>
-    <string name="osm_motorcycle" tools:ignore="MissingTranslation">मोटरसाइकिल की दुकान</string>
-    <string name="osm_hunting" tools:ignore="MissingTranslation">शिकार सामग्री की दुकान</string>
-    <string name="osm_window_blind" tools:ignore="MissingTranslation">विंडो ब्लाइंड की दुकान</string>
-    <string name="osm_curtain" tools:ignore="MissingTranslation">पर्दों की दुकान</string>
-    <string name="osm_antiques" tools:ignore="MissingTranslation">प्राचीन वस्तुओं की दुकान</string>
-    <string name="osm_paint" tools:ignore="MissingTranslation">पेंट की दुकान</string>
-    <string name="osm_tattoo" tools:ignore="MissingTranslation">टैटू स्टूडियो</string>
-    <string name="osm_nutrition_supplements" tools:ignore="MissingTranslation">पोषण पूरक की दुकान</string>
-    <string name="osm_hearing_aids" tools:ignore="MissingTranslation">श्रवण यंत्र की दुकान</string>
-    <string name="osm_cosmetics" tools:ignore="MissingTranslation">सौंदर्य प्रसाधन की दुकान</string>
-    <string name="osm_watches" tools:ignore="MissingTranslation">घड़ियों की दुकान</string>
-    <string name="osm_jewelry" tools:ignore="MissingTranslation">आभूषणों की दुकान</string>
-    <string name="osm_boutique" tools:ignore="MissingTranslation">बुटीक</string>
-    <string name="osm_baby_goods" tools:ignore="MissingTranslation">शिशु सामग्री की दुकान</string>
-    <string name="osm_tea" tools:ignore="MissingTranslation">चाय की दुकान</string>
-    <string name="osm_pasta" tools:ignore="MissingTranslation">पास्ता की दुकान</string>
-    <string name="osm_coffee" tools:ignore="MissingTranslation">कॉफ़ी शॉप</string>
-    <string name="osm_quango" tools:ignore="MissingTranslation">अर्ध-सरकारी संगठन</string>
-    <string name="osm_political_party" tools:ignore="MissingTranslation">राजनीतिक दल</string>
-    <string name="osm_association" tools:ignore="MissingTranslation">संघ</string>
-    <string name="osm_architect" tools:ignore="MissingTranslation">वास्तुकार</string>
-    <string name="osm_advertising_agency" tools:ignore="MissingTranslation">विज्ञापन एजेंसी</string>
-    <string name="osm_summer_camp" tools:ignore="MissingTranslation">ग्रीष्मकालीन शिविर</string>
-    <string name="osm_dance" tools:ignore="MissingTranslation">नृत्य स्टूडियो</string>
-    <string name="osm_amusement_arcade" tools:ignore="MissingTranslation">मनोरंजन आर्केड</string>
-    <string name="osm_adult_gaming_centre" tools:ignore="MissingTranslation">वयस्क गेमिंग केंद्र</string>
-    <string name="osm_window_construction" tools:ignore="MissingTranslation">खिड़की निर्माण</string>
-    <string name="osm_upholsterer" tools:ignore="MissingTranslation">असबाबसाज़</string>
-    <string name="osm_shoemaker" tools:ignore="MissingTranslation">मोची</string>
-    <string name="osm_sawmill" tools:ignore="MissingTranslation">आरा मशीन</string>
-    <string name="osm_pottery" tools:ignore="MissingTranslation">मिट्टी के बर्तन स्टूडियो</string>
-    <string name="osm_key_cutter" tools:ignore="MissingTranslation">चाबी बनाने वाला</string>
-    <string name="osm_hvac" tools:ignore="MissingTranslation">HVAC ठेकेदार</string>
-    <string name="osm_clockmaker" tools:ignore="MissingTranslation">घड़ीसाज़</string>
-    <string name="osm_carpenter" tools:ignore="MissingTranslation">बढ़ई</string>
-    <string name="osm_builder" tools:ignore="MissingTranslation">भवन निर्माता</string>
-    <string name="osm_bookbinder" tools:ignore="MissingTranslation">जिल्दसाज़</string>
-    <string name="osm_boatbuilder" tools:ignore="MissingTranslation">नाव निर्माता</string>
-    <string name="osm_brewery" tools:ignore="MissingTranslation">शराब की भट्टी</string>
-    <string name="osm_blacksmith" tools:ignore="MissingTranslation">लोहार</string>
-    <string name="osm_basket_maker" tools:ignore="MissingTranslation">टोकरी बनाने वाला</string>
-    <string name="osm_greenhouse" tools:ignore="MissingTranslation">ग्रीनहाउस</string>
-    <string name="osm_farm_auxiliary" tools:ignore="MissingTranslation">सहायक कृषि भवन</string>
-    <string name="osm_civic" tools:ignore="MissingTranslation">नागरिक भवन</string>
-    <string name="osm_bungalow" tools:ignore="MissingTranslation">बंगला</string>
-    <string name="osm_detached" tools:ignore="MissingTranslation">स्वतंत्र मकान</string>
-    <string name="osm_hair_dresser" tools:ignore="MissingTranslation">हेयर सैलून</string>
-    <string name="osm_clothing_store" tools:ignore="MissingTranslation">कपड़ों की दुकान</string>
-    <string name="osm_user" tools:ignore="MissingTranslation">उपयोगकर्ता</string>
-    <string name="osm_dojo" tools:ignore="MissingTranslation">डोजो</string>
-    <string name="osm_nightclub" tools:ignore="MissingTranslation">नाइटक्लब</string>
-    <string name="osm_community_centre" tools:ignore="MissingTranslation">सामुदायिक केंद्र</string>
-    <string name="osm_brothel" tools:ignore="MissingTranslation">वेश्यालय</string>
-    <string name="osm_veterinary" tools:ignore="MissingTranslation">पशु चिकित्सालय</string>
-    <string name="osm_social_facility" tools:ignore="MissingTranslation">सामाजिक सेवा केंद्र</string>
-    <string name="osm_clinic" tools:ignore="MissingTranslation">क्लिनिक</string>
-    <string name="osm_charging_station" tools:ignore="MissingTranslation">चार्जिंग स्टेशन</string>
-    <string name="osm_kindergarten" tools:ignore="MissingTranslation">बालवाड़ी</string>
-    <string name="osm_ice_cream" tools:ignore="MissingTranslation">आइसक्रीम की दुकान</string>
-    <string name="osm_fast_food" tools:ignore="MissingTranslation">फ़ास्ट फ़ूड रेस्तरां</string>
-    <string name="osm_commercial" tools:ignore="MissingTranslation">व्यावसायिक भवन</string>
-    <string name="osm_canoe" tools:ignore="MissingTranslation">कैनोइंग</string>
-    <string name="osm_scuba_diving" tools:ignore="MissingTranslation">स्कूबा डाइविंग</string>
-    <string name="osm_fishing" tools:ignore="MissingTranslation">मछली पकड़ना</string>
-    <string name="osm_optician" tools:ignore="MissingTranslation">चश्मे की दुकान</string>
-    <string name="osm_confectionery" tools:ignore="MissingTranslation">मिठाई की दुकान</string>
-    <string name="osm_bunker" tools:ignore="MissingTranslation">बंकर</string>
-    <string name="osm_sleeping_pods" tools:ignore="MissingTranslation">स्लीपिंग पॉड</string>
-    <string name="osm_motel" tools:ignore="MissingTranslation">मोटेल</string>
-    <string name="osm_guest_house" tools:ignore="MissingTranslation">अतिथि गृह</string>
-    <string name="osm_wrestling" tools:ignore="MissingTranslation">कुश्ती</string>
-    <string name="osm_toboggan" tools:ignore="MissingTranslation">टोबॉगन</string>
-    <string name="osm_skiing" tools:ignore="MissingTranslation">स्कीइंग</string>
-    <string name="osm_rc_car" tools:ignore="MissingTranslation">RC कार</string>
-    <string name="osm_paddle_tennis" tools:ignore="MissingTranslation">पैडल टेनिस</string>
-    <string name="osm_hockey" tools:ignore="MissingTranslation">हॉकी</string>
-    <string name="osm_fencing" tools:ignore="MissingTranslation">तलवारबाज़ी</string>
-    <string name="osm_bowls" tools:ignore="MissingTranslation">बॉल्स</string>
-    <string name="osm_badminton" tools:ignore="MissingTranslation">बैडमिंटन</string>
-    <string name="osm_archery" tools:ignore="MissingTranslation">तीरंदाज़ी</string>
-    <string name="osm_american_football" tools:ignore="MissingTranslation">अमेरिकी फ़ुटबॉल</string>
-    <string name="osm_travel_agency" tools:ignore="MissingTranslation">ट्रैवल एजेंसी</string>
-    <string name="osm_tobacco" tools:ignore="MissingTranslation">तंबाकू की दुकान</string>
-    <string name="osm_e_cigarette" tools:ignore="MissingTranslation">ई-सिगरेट की दुकान</string>
-    <string name="osm_video" tools:ignore="MissingTranslation">वीडियो की दुकान</string>
-    <string name="osm_car_repair" tools:ignore="MissingTranslation">कार मरम्मत</string>
-    <string name="osm_hifi" tools:ignore="MissingTranslation">हाई-फ़ाई की दुकान</string>
-    <string name="osm_lamps" tools:ignore="MissingTranslation">लैंप की दुकान</string>
-    <string name="osm_kitchen" tools:ignore="MissingTranslation">रसोई सामान की दुकान</string>
-    <string name="osm_interior_decoration" tools:ignore="MissingTranslation">इंटीरियर डेकोरेशन की दुकान</string>
-    <string name="osm_houseware" tools:ignore="MissingTranslation">घरेलू सामान की दुकान</string>
-    <string name="osm_erotic" tools:ignore="MissingTranslation">वयस्क उत्पाद दुकान</string>
-    <string name="osm_beauty" tools:ignore="MissingTranslation">ब्यूटी शॉप</string>
-    <string name="osm_wine" tools:ignore="MissingTranslation">वाइन की दुकान</string>
-    <string name="osm_dairy" tools:ignore="MissingTranslation">डेयरी की दुकान</string>
-    <string name="osm_cheese" tools:ignore="MissingTranslation">पनीर की दुकान</string>
-    <string name="osm_bakery" tools:ignore="MissingTranslation">बेकरी</string>
-    <string name="osm_telecommunication" tools:ignore="MissingTranslation">दूरसंचार की दुकान</string>
-    <string name="osm_tax" tools:ignore="MissingTranslation">कर कार्यालय</string>
-    <string name="osm_real_estate_agent" tools:ignore="MissingTranslation">रियल एस्टेट एजेंट</string>
-    <string name="osm_notary" tools:ignore="MissingTranslation">नोटरी</string>
-    <string name="osm_ngo" tools:ignore="MissingTranslation">NGO कार्यालय</string>
-    <string name="osm_lawyer" tools:ignore="MissingTranslation">वकील</string>
-    <string name="osm_it" tools:ignore="MissingTranslation">IT सेवाएँ</string>
-    <string name="osm_foundation" tools:ignore="MissingTranslation">फ़ाउंडेशन</string>
-    <string name="osm_employment_agency" tools:ignore="MissingTranslation">रोज़गार एजेंसी</string>
-    <string name="osm_educational_institution" tools:ignore="MissingTranslation">शैक्षणिक संस्थान</string>
-    <string name="osm_adoption_agency" tools:ignore="MissingTranslation">गोद लेने की एजेंसी</string>
-    <string name="osm_miniature_golf" tools:ignore="MissingTranslation">मिनिएचर गोल्फ़</string>
-    <string name="osm_building" tools:ignore="MissingTranslation">भवन</string>
-    <string name="osm_winery" tools:ignore="MissingTranslation">वाइनरी</string>
-    <string name="osm_tiler" tools:ignore="MissingTranslation">टाइल मिस्त्री</string>
-    <string name="osm_chimney_sweeper" tools:ignore="MissingTranslation">चिमनी सफ़ाईकर्ता</string>
-    <string name="osm_stand_builder" tools:ignore="MissingTranslation">स्टैंड निर्माता</string>
-    <string name="osm_saddler" tools:ignore="MissingTranslation">साज़-सामान बनाने वाला</string>
-    <string name="osm_plumber" tools:ignore="MissingTranslation">प्लम्बर</string>
-    <string name="osm_plasterer" tools:ignore="MissingTranslation">पलस्तर करने वाला</string>
-    <string name="osm_painter" tools:ignore="MissingTranslation">पेंटर</string>
-    <string name="osm_jeweller" tools:ignore="MissingTranslation">आभूषण की दुकान</string>
-    <string name="osm_floorer" tools:ignore="MissingTranslation">फ़र्श लगाने वाला</string>
-    <string name="osm_distillery" tools:ignore="MissingTranslation">शराब भट्टी</string>
-    <string name="osm_carpet_layer" tools:ignore="MissingTranslation">कालीन बिछाने वाला</string>
-    <string name="osm_beekeeper" tools:ignore="MissingTranslation">मधुमक्खी पालक</string>
-    <string name="osm_public" tools:ignore="MissingTranslation">सार्वजनिक</string>
-    <string name="osm_dormitory" tools:ignore="MissingTranslation">छात्रावास</string>
-    <string name="osm_apartments" tools:ignore="MissingTranslation">अपार्टमेंट</string>
-    <string name="osm_internet_cafe" tools:ignore="MissingTranslation">इंटरनेट कैफ़े</string>
-    <string name="osm_shoe_shop" tools:ignore="MissingTranslation">जूतों की दुकान</string>
-    <string name="osm_generic_shop" tools:ignore="MissingTranslation">दुकान</string>
-    <string name="osm_coffee_shop" tools:ignore="MissingTranslation">कॉफ़ी शॉप</string>
-    <string name="osm_coworking_space" tools:ignore="MissingTranslation">सह-कार्य स्थल</string>
-    <string name="osm_stripclub" tools:ignore="MissingTranslation">स्ट्रिप क्लब</string>
-    <string name="osm_ev_charging" tools:ignore="MissingTranslation">ईवी चार्जिंग</string>
-    <string name="osm_pub" tools:ignore="MissingTranslation">पब</string>
-    <string name="osm_obstacle_course" tools:ignore="MissingTranslation">बाधा दौड़ मैदान</string>
-    <string name="osm_volleyball" tools:ignore="MissingTranslation">वॉलीबॉल</string>
-    <string name="osm_tennis" tools:ignore="MissingTranslation">टेनिस</string>
-    <string name="osm_soccer" tools:ignore="MissingTranslation">फ़ुटबॉल</string>
-    <string name="osm_shooting" tools:ignore="MissingTranslation">शूटिंग रेंज</string>
-    <string name="osm_rugby_union" tools:ignore="MissingTranslation">रग्बी यूनियन</string>
-    <string name="osm_orienteering" tools:ignore="MissingTranslation">ओरिएंटियरिंग</string>
-    <string name="osm_netball" tools:ignore="MissingTranslation">नेटबॉल</string>
-    <string name="osm_motor" tools:ignore="MissingTranslation">मोटर की दुकान</string>
-    <string name="osm_kitesurfing" tools:ignore="MissingTranslation">काइटसर्फ़िंग</string>
-    <string name="osm_karting" tools:ignore="MissingTranslation">कार्टिंग</string>
-    <string name="osm_judo" tools:ignore="MissingTranslation">जूडो</string>
-    <string name="osm_horseshoes" tools:ignore="MissingTranslation">हॉर्सशू खेल</string>
-    <string name="osm_handball" tools:ignore="MissingTranslation">हैंडबॉल</string>
-    <string name="osm_golf" tools:ignore="MissingTranslation">गोल्फ़</string>
-    <string name="osm_gaelic_games" tools:ignore="MissingTranslation">गेलिक खेल</string>
-    <string name="osm_diving" tools:ignore="MissingTranslation">डाइविंग</string>
-    <string name="osm_darts" tools:ignore="MissingTranslation">डार्ट्स</string>
-    <string name="osm_climbing_adventure" tools:ignore="MissingTranslation">रोमांचक चढ़ाई</string>
-    <string name="osm_basketball" tools:ignore="MissingTranslation">बास्केटबॉल</string>
-    <string name="osm_bandy" tools:ignore="MissingTranslation">बैंडी</string>
-    <string name="osm_australian_football" tools:ignore="MissingTranslation">ऑस्ट्रेलियन फ़ुटबॉल</string>
-    <string name="osm_9pin" tools:ignore="MissingTranslation">नौ-पिन बॉलिंग</string>
-    <string name="osm_vacant" tools:ignore="MissingTranslation">रिक्त</string>
-    <string name="osm_lottery" tools:ignore="MissingTranslation">लॉटरी की दुकान</string>
-    <string name="osm_trophy" tools:ignore="MissingTranslation">ट्रॉफ़ी की दुकान</string>
-    <string name="osm_music" tools:ignore="MissingTranslation">संगीत की दुकान</string>
-    <string name="osm_games" tools:ignore="MissingTranslation">खेल की दुकान</string>
-    <string name="osm_tyres" tools:ignore="MissingTranslation">टायर की दुकान</string>
-    <string name="osm_sports" tools:ignore="MissingTranslation">खेल-कूद की दुकान</string>
-    <string name="osm_outdoor" tools:ignore="MissingTranslation">आउटडोर सामान की दुकान</string>
-    <string name="osm_car" tools:ignore="MissingTranslation">कार डीलर</string>
-    <string name="osm_electronics" tools:ignore="MissingTranslation">इलेक्ट्रॉनिक्स की दुकान</string>
-    <string name="osm_computer" tools:ignore="MissingTranslation">कंप्यूटर की दुकान</string>
-    <string name="osm_furniture" tools:ignore="MissingTranslation">फ़र्नीचर की दुकान</string>
-    <string name="osm_candles" tools:ignore="MissingTranslation">मोमबत्ती की दुकान</string>
-    <string name="osm_hardware" tools:ignore="MissingTranslation">हार्डवेयर की दुकान</string>
-    <string name="osm_gas" tools:ignore="MissingTranslation">पेट्रोल पंप</string>
-    <string name="osm_energy" tools:ignore="MissingTranslation">ऊर्जा कंपनी</string>
-    <string name="osm_doityourself" tools:ignore="MissingTranslation">डीआईवाई दुकान</string>
-    <string name="osm_bathroom_furnishing" tools:ignore="MissingTranslation">बाथरूम सामान की दुकान</string>
-    <string name="osm_medical_supply" tools:ignore="MissingTranslation">चिकित्सा सामग्री की दुकान</string>
-    <string name="osm_variety_store" tools:ignore="MissingTranslation">विविध सामान की दुकान</string>
-    <string name="osm_second_hand" tools:ignore="MissingTranslation">पुरानी वस्तुओं की दुकान</string>
-    <string name="osm_charity" tools:ignore="MissingTranslation">दान की दुकान</string>
-    <string name="osm_fashion" tools:ignore="MissingTranslation">फ़ैशन की दुकान</string>
-    <string name="osm_fabric" tools:ignore="MissingTranslation">कपड़े की दुकान</string>
-    <string name="osm_clothes" tools:ignore="MissingTranslation">कपड़ों की दुकान</string>
-    <string name="osm_butcher" tools:ignore="MissingTranslation">कसाई की दुकान</string>
-    <string name="osm_water_utility" tools:ignore="MissingTranslation">जल आपूर्ति सेवा</string>
-    <string name="osm_realtor" tools:ignore="MissingTranslation">रियल एस्टेट एजेंट</string>
-    <string name="osm_company" tools:ignore="MissingTranslation">कंपनी</string>
-    <string name="osm_accountant" tools:ignore="MissingTranslation">लेखाकार</string>
-    <string name="osm_bunker_silo" tools:ignore="MissingTranslation">बंकर साइलो</string>
-    <string name="osm_hackerspace" tools:ignore="MissingTranslation">हैकरस्पेस</string>
-    <string name="osm_lifeguard_base" tools:ignore="MissingTranslation">लाइफ़गार्ड बेस</string>
-    <string name="osm_roofer" tools:ignore="MissingTranslation">छत बनाने वाला</string>
-    <string name="osm_rigger" tools:ignore="MissingTranslation">रिगर</string>
-    <string name="osm_parquet_layer" tools:ignore="MissingTranslation">लकड़ी का फ़र्श लगाने वाला</string>
-    <string name="osm_gardener" tools:ignore="MissingTranslation">माली</string>
-    <string name="osm_stable" tools:ignore="MissingTranslation">अस्तबल</string>
-    <string name="osm_garage" tools:ignore="MissingTranslation">गैराज</string>
-    <string name="osm_transportation" tools:ignore="MissingTranslation">परिवहन सुविधा</string>
-    <string name="osm_house" tools:ignore="MissingTranslation">मकान</string>
-    <string name="osm_helipad" tools:ignore="MissingTranslation">हेलीपैड</string>
-    <string name="osm_apron" tools:ignore="MissingTranslation">एप्रन</string>
-    <string name="osm_consumer_electronics_store" tools:ignore="MissingTranslation">इलेक्ट्रॉनिक्स की दुकान</string>
-    <string name="osm_speciality_store" tools:ignore="MissingTranslation">विशेष दुकान</string>
-    <string name="osm_defined" tools:ignore="MissingTranslation">परिभाषित</string>
-    <string name="osm_sauna" tools:ignore="MissingTranslation">सॉना</string>
-    <string name="osm_gym" tools:ignore="MissingTranslation">जिम</string>
-    <string name="osm_crematorium" tools:ignore="MissingTranslation">शवदाह गृह</string>
-    <string name="osm_gambling" tools:ignore="MissingTranslation">जुआ घर</string>
-    <string name="osm_music_school" tools:ignore="MissingTranslation">संगीत विद्यालय</string>
-    <string name="osm_bar" tools:ignore="MissingTranslation">बार</string>
-    <string name="osm_farm" tools:ignore="MissingTranslation">खेत</string>
-    <string name="osm_bicycle" tools:ignore="MissingTranslation">साइकिल की दुकान</string>
-    <string name="osm_tailor" tools:ignore="MissingTranslation">दर्ज़ी</string>
-    <string name="osm_locksmith" tools:ignore="MissingTranslation">ताला बनाने वाला</string>
-    <string name="osm_industrial" tools:ignore="MissingTranslation">औद्योगिक</string>
-    <string name="osm_wilderness_hut" tools:ignore="MissingTranslation">वन कुटिया</string>
-    <string name="osm_hostel" tools:ignore="MissingTranslation">हॉस्टल</string>
-    <string name="osm_caravan_site" tools:ignore="MissingTranslation">कारवाँ स्थल</string>
-    <string name="osm_weightlifting" tools:ignore="MissingTranslation">भारोत्तोलन सुविधा</string>
-    <string name="osm_taekwondo" tools:ignore="MissingTranslation">तायक्वोंडो क्लब</string>
-    <string name="osm_swimming" tools:ignore="MissingTranslation">तरणताल</string>
-    <string name="osm_surfing" tools:ignore="MissingTranslation">सर्फ़िंग क्षेत्र</string>
-    <string name="osm_skating" tools:ignore="MissingTranslation">स्केटिंग रिंक</string>
-    <string name="osm_racquet" tools:ignore="MissingTranslation">रैकेट खेल सुविधा</string>
-    <string name="osm_pelota" tools:ignore="MissingTranslation">पेलोटा कोर्ट</string>
-    <string name="osm_paragliding" tools:ignore="MissingTranslation">पैराग्लाइडिंग स्थल</string>
-    <string name="osm_parachuting" tools:ignore="MissingTranslation">स्काइडाइविंग स्थल</string>
-    <string name="osm_motocross" tools:ignore="MissingTranslation">मोटोक्रॉस ट्रैक</string>
-    <string name="osm_ice_skating" tools:ignore="MissingTranslation">आइस स्केटिंग रिंक</string>
-    <string name="osm_horse_racing" tools:ignore="MissingTranslation">घुड़दौड़ का मैदान</string>
-    <string name="osm_dog_racing" tools:ignore="MissingTranslation">श्वान दौड़ का मैदान</string>
-    <string name="osm_climbing" tools:ignore="MissingTranslation">चढ़ाई क्षेत्र</string>
-    <string name="osm_chess" tools:ignore="MissingTranslation">शतरंज क्लब</string>
-    <string name="osm_canadian_football" tools:ignore="MissingTranslation">कैनेडियन फ़ुटबॉल मैदान</string>
-    <string name="osm_beachvolleyball" tools:ignore="MissingTranslation">बीच वॉलीबॉल कोर्ट</string>
-    <string name="osm_base" tools:ignore="MissingTranslation">बेस</string>
-    <string name="osm_athletics" tools:ignore="MissingTranslation">एथलेटिक्स ट्रैक</string>
-    <string name="osm_pawnbroker" tools:ignore="MissingTranslation">गिरवी की दुकान</string>
-    <string name="osm_ticket" tools:ignore="MissingTranslation">टिकट कार्यालय</string>
-    <string name="osm_stationery" tools:ignore="MissingTranslation">स्टेशनरी की दुकान</string>
-    <string name="osm_video_games" tools:ignore="MissingTranslation">वीडियो गेम की दुकान</string>
-    <string name="osm_model" tools:ignore="MissingTranslation">मॉडल की दुकान</string>
-    <string name="osm_frame" tools:ignore="MissingTranslation">फ़्रेम की दुकान</string>
-    <string name="osm_art" tools:ignore="MissingTranslation">कला की दुकान</string>
-    <string name="osm_car_parts" tools:ignore="MissingTranslation">कार पार्ट्स की दुकान</string>
-    <string name="osm_radiotechnics" tools:ignore="MissingTranslation">रेडियो उपकरण की दुकान</string>
-    <string name="osm_bed" tools:ignore="MissingTranslation">बिस्तर की दुकान</string>
-    <string name="osm_garden_furniture" tools:ignore="MissingTranslation">बगीचे के फ़र्नीचर की दुकान</string>
-    <string name="osm_electrical" tools:ignore="MissingTranslation">बिजली सामान की दुकान</string>
-    <string name="osm_perfumery" tools:ignore="MissingTranslation">इत्र की दुकान</string>
-    <string name="osm_hairdresser" tools:ignore="MissingTranslation">नाई</string>
-    <string name="osm_drugstore" tools:ignore="MissingTranslation">दवा की दुकान</string>
-    <string name="osm_shoes" tools:ignore="MissingTranslation">जूतों की दुकान</string>
-    <string name="osm_leather" tools:ignore="MissingTranslation">चमड़े के सामान की दुकान</string>
-    <string name="osm_general" tools:ignore="MissingTranslation">जनरल स्टोर</string>
-    <string name="osm_seafood" tools:ignore="MissingTranslation">समुद्री भोजन की दुकान</string>
-    <string name="osm_organic" tools:ignore="MissingTranslation">जैविक उत्पादों की दुकान</string>
-    <string name="osm_greengrocer" tools:ignore="MissingTranslation">सब्ज़ी-फल की दुकान</string>
-    <string name="osm_chocolate" tools:ignore="MissingTranslation">चॉकलेट की दुकान</string>
-    <string name="osm_brewing_supplies" tools:ignore="MissingTranslation">शराब बनाने के सामान की दुकान</string>
-    <string name="osm_tax_advisor" tools:ignore="MissingTranslation">कर सलाहकार</string>
-    <string name="osm_private_investigator" tools:ignore="MissingTranslation">निजी जासूस</string>
-    <string name="osm_government" tools:ignore="MissingTranslation">सरकारी कार्यालय</string>
-    <string name="osm_forestry" tools:ignore="MissingTranslation">वानिकी</string>
-    <string name="osm_estate_agent" tools:ignore="MissingTranslation">संपत्ति एजेंट</string>
-    <string name="osm_spring" tools:ignore="MissingTranslation">जलस्रोत</string>
-    <string name="osm_golf_course" tools:ignore="MissingTranslation">गोल्फ कोर्स</string>
-    <string name="osm_ses_station" tools:ignore="MissingTranslation">आपातकालीन सेवा केंद्र</string>
-    <string name="osm_lifeguard_place" tools:ignore="MissingTranslation">लाइफगार्ड चौकी</string>
-    <string name="osm_stonemason" tools:ignore="MissingTranslation">पत्थर का कारीगर</string>
-    <string name="osm_scaffolder" tools:ignore="MissingTranslation">मचान लगाने वाला</string>
-    <string name="osm_sailmaker" tools:ignore="MissingTranslation">पाल बनाने वाला</string>
-    <string name="osm_photographic_laboratory" tools:ignore="MissingTranslation">फोटो प्रयोगशाला</string>
-    <string name="osm_photographer" tools:ignore="MissingTranslation">फोटोग्राफर</string>
-    <string name="osm_insulation" tools:ignore="MissingTranslation">इन्सुलेशन</string>
-    <string name="osm_electrician" tools:ignore="MissingTranslation">इलेक्ट्रीशियन</string>
-    <string name="osm_dressmaker" tools:ignore="MissingTranslation">दर्जी</string>
-    <string name="osm_caterer" tools:ignore="MissingTranslation">केटरर</string>
-    <string name="osm_terrace" tools:ignore="MissingTranslation">छत</string>
-    <string name="osm_toy_shop" tools:ignore="MissingTranslation">खिलौने की दुकान</string>
-    <string name="osm_dive_centre" tools:ignore="MissingTranslation">डाइविंग केंद्र</string>
-    <string name="osm_swingerclub" tools:ignore="MissingTranslation">स्विंगर क्लब</string>
-    <string name="osm_doctors" tools:ignore="MissingTranslation">डॉक्टर</string>
-    <string name="osm_driving_school" tools:ignore="MissingTranslation">ड्राइविंग स्कूल</string>
-    <string name="osm_free_flying" tools:ignore="MissingTranslation">फ्री फ्लाइंग</string>
-    <string name="osm_religion" tools:ignore="MissingTranslation">धर्म</string>
-    <string name="osm_kiosk" tools:ignore="MissingTranslation">कियोस्क</string>
-    <string name="osm_residential" tools:ignore="MissingTranslation">आवासीय क्षेत्र</string>
-    <string name="osm_food" tools:ignore="MissingTranslation">खाद्य दुकान</string>
-    <string name="osm_waterfall" tools:ignore="MissingTranslation">झरना</string>
-    <string name="osm_boatyard" tools:ignore="MissingTranslation">नाव घाट</string>
-    <string name="osm_theme_park" tools:ignore="MissingTranslation">थीम पार्क</string>
-    <string name="osm_roundhouse" tools:ignore="MissingTranslation">राउंडहाउस</string>
-    <string name="osm_generator" tools:ignore="MissingTranslation">जनरेटर</string>
-    <string name="osm_beach" tools:ignore="MissingTranslation">समुद्र तट</string>
-    <string name="osm_naval_base" tools:ignore="MissingTranslation">नौसेना अड्डा</string>
-    <string name="osm_works" tools:ignore="MissingTranslation">औद्योगिक कारखाना</string>
-    <string name="osm_water_works" tools:ignore="MissingTranslation">जल संयंत्र</string>
-    <string name="osm_telescope" tools:ignore="MissingTranslation">दूरबीन</string>
-    <string name="osm_pier" tools:ignore="MissingTranslation">घाट</string>
-    <string name="osm_observatory" tools:ignore="MissingTranslation">वेधशाला</string>
-    <string name="osm_reservoir" tools:ignore="MissingTranslation">जलाशय</string>
-    <string name="osm_monument" tools:ignore="MissingTranslation">स्मारक</string>
-    <string name="osm_battlefield" tools:ignore="MissingTranslation">रणभूमि</string>
-    <string name="osm_planetarium" tools:ignore="MissingTranslation">तारामंडल</string>
-    <string name="osm_social_centre" tools:ignore="MissingTranslation">सामुदायिक केंद्र</string>
-    <string name="osm_prison" tools:ignore="MissingTranslation">जेल</string>
-    <string name="osm_courthouse" tools:ignore="MissingTranslation">न्यायालय</string>
-    <string name="osm_bridge" tools:ignore="MissingTranslation">पुल</string>
-    <string name="osm_hangar" tools:ignore="MissingTranslation">हैंगर</string>
-    <string name="osm_tower" tools:ignore="MissingTranslation">मीनार</string>
-    <string name="osm_attraction" tools:ignore="MissingTranslation">आकर्षण स्थल</string>
-    <string name="osm_zoo" tools:ignore="MissingTranslation">चिड़ियाघर</string>
-    <string name="osm_gallery" tools:ignore="MissingTranslation">गैलरी</string>
-    <string name="osm_artwork" tools:ignore="MissingTranslation">कलाकृति</string>
-    <string name="osm_alpine_hut" tools:ignore="MissingTranslation">पर्वतीय शरणस्थल</string>
-    <string name="osm_plant" tools:ignore="MissingTranslation">औद्योगिक संयंत्र</string>
-    <string name="osm_insurance" tools:ignore="MissingTranslation">बीमा कार्यालय</string>
-    <string name="osm_airfield" tools:ignore="MissingTranslation">हवाई पट्टी</string>
-    <string name="osm_water_tower" tools:ignore="MissingTranslation">पानी की टंकी</string>
-    <string name="osm_pumping_station" tools:ignore="MissingTranslation">पंपिंग स्टेशन</string>
-    <string name="osm_hot_water_tank" tools:ignore="MissingTranslation">गर्म पानी की टंकी</string>
-    <string name="osm_campanile" tools:ignore="MissingTranslation">घंटाघर</string>
-    <string name="osm_sports_centre" tools:ignore="MissingTranslation">खेल केंद्र</string>
-    <string name="osm_fitness_centre" tools:ignore="MissingTranslation">फिटनेस केंद्र</string>
-    <string name="osm_beach_resort" tools:ignore="MissingTranslation">बीच रिज़ॉर्ट</string>
-    <string name="osm_village_green" tools:ignore="MissingTranslation">गाँव का मैदान</string>
-    <string name="osm_ship" tools:ignore="MissingTranslation">जहाज़</string>
-    <string name="osm_memorial" tools:ignore="MissingTranslation">स्मृति स्थल</string>
-    <string name="osm_synagogue" tools:ignore="MissingTranslation">सिनेगॉग</string>
-    <string name="osm_mosque" tools:ignore="MissingTranslation">मस्जिद</string>
-    <string name="osm_chapel" tools:ignore="MissingTranslation">चैपल</string>
-    <string name="osm_cathedral" tools:ignore="MissingTranslation">कैथेड्रल</string>
-    <string name="osm_train_terminal" tools:ignore="MissingTranslation">रेल टर्मिनल</string>
-    <string name="osm_college" tools:ignore="MissingTranslation">कॉलेज</string>
-    <string name="osm_arts_centre" tools:ignore="MissingTranslation">कला केंद्र</string>
-    <string name="osm_ranger_station" tools:ignore="MissingTranslation">रेंजर स्टेशन</string>
-    <string name="osm_hospital" tools:ignore="MissingTranslation">अस्पताल</string>
-    <string name="osm_track" tools:ignore="MissingTranslation">ट्रैक</string>
-    <string name="osm_conference_centre" tools:ignore="MissingTranslation">सम्मेलन केंद्र</string>
-    <string name="osm_viewpoint" tools:ignore="MissingTranslation">दृश्य बिंदु</string>
-    <string name="osm_supermarket" tools:ignore="MissingTranslation">सुपरमार्केट</string>
-    <string name="osm_peak" tools:ignore="MissingTranslation">चोटी</string>
-    <string name="osm_storage_tank" tools:ignore="MissingTranslation">भंडारण टंकी</string>
-    <string name="osm_lighthouse" tools:ignore="MissingTranslation">प्रकाशस्तंभ</string>
-    <string name="osm_beacon" tools:ignore="MissingTranslation">बीकन</string>
-    <string name="osm_port" tools:ignore="MissingTranslation">बंदरगाह</string>
-    <string name="osm_archaeological_site" tools:ignore="MissingTranslation">पुरातात्विक स्थल</string>
-    <string name="osm_train_station" tools:ignore="MissingTranslation">रेलवे स्टेशन</string>
-    <string name="osm_train_station_named" tools:ignore="MissingTranslation">%1$s रेलवे स्टेशन</string>
-    <string name="osm_shrine" tools:ignore="MissingTranslation">तीर्थस्थल</string>
-    <string name="osm_church" tools:ignore="MissingTranslation">गिरजाघर</string>
-    <string name="osm_historic_monument" tools:ignore="MissingTranslation">ऐतिहासिक स्मारक</string>
-    <string name="osm_generic_landmark" tools:ignore="MissingTranslation">लैंडमार्क</string>
-    <string name="osm_tourism_museum" tools:ignore="MissingTranslation">संग्रहालय</string>
-    <string name="osm_register_office" tools:ignore="MissingTranslation">पंजीकरण कार्यालय</string>
-    <string name="osm_grave_yard" tools:ignore="MissingTranslation">कब्रिस्तान</string>
-    <string name="osm_marketplace" tools:ignore="MissingTranslation">बाज़ार</string>
-    <string name="osm_fire_station" tools:ignore="MissingTranslation">दमकल केंद्र</string>
-    <string name="osm_ruins" tools:ignore="MissingTranslation">खंडहर</string>
-    <string name="osm_weir" tools:ignore="MissingTranslation">बाँध</string>
-    <string name="osm_museum" tools:ignore="MissingTranslation">संग्रहालय</string>
-    <string name="osm_mall" tools:ignore="MissingTranslation">मॉल</string>
-    <string name="osm_volcano" tools:ignore="MissingTranslation">ज्वालामुखी</string>
-    <string name="osm_hot_spring" tools:ignore="MissingTranslation">गर्म पानी का चश्मा</string>
-    <string name="osm_glacier" tools:ignore="MissingTranslation">हिमनद</string>
-    <string name="osm_wastewater_plant" tools:ignore="MissingTranslation">अपशिष्ट जल संयंत्र</string>
-    <string name="osm_offshore_platform" tools:ignore="MissingTranslation">अपतटीय मंच</string>
-    <string name="osm_gasometer" tools:ignore="MissingTranslation">गैस टंकी</string>
-    <string name="osm_water_park" tools:ignore="MissingTranslation">वॉटर पार्क</string>
-    <string name="osm_bandstand" tools:ignore="MissingTranslation">बैंडस्टैंड</string>
-    <string name="osm_wreck" tools:ignore="MissingTranslation">जहाज़ का मलबा</string>
-    <string name="osm_pillory" tools:ignore="MissingTranslation">काठ का कुंदा</string>
-    <string name="osm_monastery" tools:ignore="MissingTranslation">मठ</string>
-    <string name="osm_locomotive" tools:ignore="MissingTranslation">रेल इंजन</string>
-    <string name="osm_fort" tools:ignore="MissingTranslation">किला</string>
-    <string name="osm_services" tools:ignore="MissingTranslation">सेवा क्षेत्र</string>
-    <string name="osm_lifeguard_tower" tools:ignore="MissingTranslation">लाइफगार्ड टॉवर</string>
-    <string name="osm_temple" tools:ignore="MissingTranslation">मंदिर</string>
-    <string name="osm_national_park" tools:ignore="MissingTranslation">राष्ट्रीय उद्यान</string>
-    <string name="osm_heliport" tools:ignore="MissingTranslation">हेलीपोर्ट</string>
-    <string name="osm_public_park" tools:ignore="MissingTranslation">सार्वजनिक पार्क</string>
-    <string name="osm_department_store" tools:ignore="MissingTranslation">डिपार्टमेंट स्टोर</string>
-    <string name="osm_studio" tools:ignore="MissingTranslation">स्टूडियो</string>
-    <string name="osm_public_building" tools:ignore="MissingTranslation">सार्वजनिक भवन</string>
-    <string name="osm_clock" tools:ignore="MissingTranslation">घड़ी</string>
-    <string name="osm_casino" tools:ignore="MissingTranslation">कैसीनो</string>
-    <string name="osm_ferry_terminal" tools:ignore="MissingTranslation">फेरी टर्मिनल</string>
-    <string name="osm_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s फेरी टर्मिनल</string>
-    <string name="osm_stadium" tools:ignore="MissingTranslation">स्टेडियम</string>
-    <string name="osm_dam" tools:ignore="MissingTranslation">बाँध</string>
-    <string name="osm_dock" tools:ignore="MissingTranslation">गोदी</string>
-    <string name="osm_geyser" tools:ignore="MissingTranslation">गीज़र</string>
-    <string name="osm_bay" tools:ignore="MissingTranslation">खाड़ी</string>
-    <string name="osm_barracks" tools:ignore="MissingTranslation">बैरक</string>
-    <string name="osm_windmill" tools:ignore="MissingTranslation">पवनचक्की</string>
-    <string name="osm_watermill" tools:ignore="MissingTranslation">जल चक्की</string>
-    <string name="osm_communications_tower" tools:ignore="MissingTranslation">दूरसंचार टॉवर</string>
-    <string name="osm_swimming_area" tools:ignore="MissingTranslation">तैराकी क्षेत्र</string>
-    <string name="osm_slipway" tools:ignore="MissingTranslation">नाव रैंप</string>
-    <string name="osm_nature_reserve" tools:ignore="MissingTranslation">प्रकृति अभयारण्य</string>
-    <string name="osm_marina" tools:ignore="MissingTranslation">मरीना</string>
-    <string name="osm_ice_rink" tools:ignore="MissingTranslation">आइस रिंक</string>
-    <string name="osm_manor" tools:ignore="MissingTranslation">जागीर</string>
-    <string name="osm_city_gate" tools:ignore="MissingTranslation">नगर द्वार</string>
-    <string name="osm_castle" tools:ignore="MissingTranslation">महल</string>
-    <string name="osm_aircraft" tools:ignore="MissingTranslation">विमान</string>
-    <string name="osm_digester" tools:ignore="MissingTranslation">डाइजेस्टर</string>
-    <string name="osm_sally_port" tools:ignore="MissingTranslation">सैली पोर्ट</string>
-    <string name="osm_aerodrome" tools:ignore="MissingTranslation">हवाई अड्डा</string>
-    <string name="osm_shopping_mall" tools:ignore="MissingTranslation">शॉपिंग मॉल</string>
-    <string name="osm_cinema" tools:ignore="MissingTranslation">सिनेमाघर</string>
-    <string name="osm_rescue_station" tools:ignore="MissingTranslation">बचाव केंद्र</string>
-    <string name="osm_airport" tools:ignore="MissingTranslation">हवाई अड्डा</string>
-    <string name="osm_theatre" tools:ignore="MissingTranslation">रंगमंच</string>
-    <string name="osm_library" tools:ignore="MissingTranslation">पुस्तकालय</string>
-    <string name="osm_university" tools:ignore="MissingTranslation">विश्वविद्यालय</string>
-    <string name="osm_police" tools:ignore="MissingTranslation">पुलिस स्टेशन</string>
-    <string name="osm_embassy" tools:ignore="MissingTranslation">दूतावास</string>
-    <string name="osm_bus_station" tools:ignore="MissingTranslation">बस स्टेशन</string>
-    <string name="osm_station" tools:ignore="MissingTranslation">स्टेशन</string>
-    <string name="osm_toll_booth" tools:ignore="MissingTranslation">टोल बूथ</string>
-    <string name="osm_lift" tools:ignore="MissingTranslation">लिफ्ट</string>
-    <string name="osm_unmanaged_crossing" tools:ignore="MissingTranslation">अनियंत्रित क्रॉसवॉक</string>
-    <string name="osm_pharmacy" tools:ignore="MissingTranslation">फार्मेसी की दुकान</string>
-    <string name="osm_kneipp_water_cure" tools:ignore="MissingTranslation">नाइप जल चिकित्सा</string>
-    <string name="osm_food_court" tools:ignore="MissingTranslation">फूड कोर्ट</string>
-    <string name="osm_chemist" tools:ignore="MissingTranslation">केमिस्ट की दुकान</string>
-    <string name="osm_checkpoint" tools:ignore="MissingTranslation">चेकपॉइंट</string>
-    <string name="osm_dog_park" tools:ignore="MissingTranslation">डॉग पार्क</string>
-    <string name="osm_kissing_gate" tools:ignore="MissingTranslation">किसिंग गेट</string>
-    <string name="osm_car_rental" tools:ignore="MissingTranslation">कार किराया</string>
-    <string name="osm_pedestrianised_area" tools:ignore="MissingTranslation">पैदल यात्री क्षेत्र</string>
-    <string name="osm_escalator" tools:ignore="MissingTranslation">एस्केलेटर</string>
-    <string name="osm_shelter" tools:ignore="MissingTranslation">शेल्टर</string>
-    <string name="osm_water_point" tools:ignore="MissingTranslation">पानी का स्थान</string>
-    <string name="osm_subway_entrance" tools:ignore="MissingTranslation">मेट्रो प्रवेश द्वार</string>
-    <string name="osm_cave_entrance" tools:ignore="MissingTranslation">गुफा प्रवेश द्वार</string>
-    <string name="osm_swing_gate" tools:ignore="MissingTranslation">स्विंग गेट</string>
-    <string name="osm_stile" tools:ignore="MissingTranslation">स्टाइल</string>
-    <string name="osm_car_sharing" tools:ignore="MissingTranslation">कार शेयरिंग</string>
-    <string name="osm_customer_service" tools:ignore="MissingTranslation">ग्राहक सेवा</string>
-    <string name="osm_watering_place" tools:ignore="MissingTranslation">पशुओं का पानी पीने का स्थान</string>
-    <string name="osm_platform" tools:ignore="MissingTranslation">प्लेटफॉर्म</string>
-    <string name="osm_horse_stile" tools:ignore="MissingTranslation">हॉर्स स्टाइल</string>
-    <string name="osm_bureau_de_change" tools:ignore="MissingTranslation">मुद्रा विनिमय केंद्र</string>
-    <string name="osm_stairs" tools:ignore="MissingTranslation">सीढ़ियाँ</string>
-    <string name="osm_bicycle_rental" tools:ignore="MissingTranslation">साइकिल किराया</string>
-    <string name="osm_tram_stop" tools:ignore="MissingTranslation">ट्राम स्टॉप</string>
-    <string name="osm_tram_stop_named" tools:ignore="MissingTranslation">%1$s ट्राम स्टॉप</string>
-    <string name="osm_subway" tools:ignore="MissingTranslation">मेट्रो स्टेशन</string>
-    <string name="osm_subway_named" tools:ignore="MissingTranslation">%1$s मेट्रो स्टेशन</string>
-    <string name="osm_hampshire_gate" tools:ignore="MissingTranslation">हैम्पशायर गेट</string>
-    <string name="osm_full_height_turnstile" tools:ignore="MissingTranslation">पूर्ण ऊँचाई वाला टर्नस्टाइल</string>
-    <string name="osm_boat_sharing" tools:ignore="MissingTranslation">बोट शेयरिंग</string>
-    <string name="osm_help_point" tools:ignore="MissingTranslation">सहायता केंद्र</string>
-    <string name="osm_open_space" tools:ignore="MissingTranslation">खुला मैदान</string>
-    <string name="osm_spending_area" tools:ignore="MissingTranslation">ठहराव क्षेत्र</string>
-    <string name="osm_bicycle_repair_station" tools:ignore="MissingTranslation">साइकिल मरम्मत केंद्र</string>
-    <string name="osm_motorcycle_barrier" tools:ignore="MissingTranslation">मोटरसाइकिल बैरियर</string>
-    <string name="osm_kent_carriage_gap" tools:ignore="MissingTranslation">केंट कैरिज गैप</string>
-    <string name="osm_shared_space" tools:ignore="MissingTranslation">साझा स्थान</string>
-    <string name="osm_cliff" tools:ignore="MissingTranslation">चट्टान</string>
-    <string name="osm_training_area" tools:ignore="MissingTranslation">प्रशिक्षण क्षेत्र</string>
-    <string name="osm_log" tools:ignore="MissingTranslation">लट्ठा</string>
-    <string name="osm_jersey_barrier" tools:ignore="MissingTranslation">जर्सी बैरियर</string>
-    <string name="osm_construction_site" tools:ignore="MissingTranslation">निर्माण स्थल</string>
-    <string name="osm_ridge" tools:ignore="MissingTranslation">पर्वत श्रेणी</string>
-    <string name="osm_nuclear_explosion_site" tools:ignore="MissingTranslation">परमाणु विस्फोट स्थल</string>
-    <string name="osm_dyke" tools:ignore="MissingTranslation">तटबंध</string>
-    <string name="osm_sump_buster" tools:ignore="MissingTranslation">सम्प बस्टर</string>
-    <string name="osm_rope" tools:ignore="MissingTranslation">रस्सी</string>
-    <string name="osm_debris" tools:ignore="MissingTranslation">मलबा</string>
-    <string name="osm_road_works" tools:ignore="MissingTranslation">सड़क निर्माण कार्य</string>
-    <string name="osm_lock_gate" tools:ignore="MissingTranslation">लॉक गेट</string>
-    <string name="osm_sinkhole" tools:ignore="MissingTranslation">सिंकहोल</string>
-    <string name="osm_range" tools:ignore="MissingTranslation">फायरिंग रेंज</string>
-    <string name="osm_ambulance_station" tools:ignore="MissingTranslation">एम्बुलेंस स्टेशन</string>
-    <string name="osm_spikes" tools:ignore="MissingTranslation">स्पाइक्स</string>
-    <string name="osm_generic_hazard" tools:ignore="MissingTranslation">सामान्य खतरा</string>
-    <string name="osm_contact_line" tools:ignore="MissingTranslation">संपर्क लाइन</string>
-    <string name="osm_danger_area" tools:ignore="MissingTranslation">खतरनाक क्षेत्र</string>
-    <string name="osm_chain" tools:ignore="MissingTranslation">चेन बैरियर</string>
-    <string name="osm_parking_space" tools:ignore="MissingTranslation">पार्किंग स्थान</string>
-    <string name="osm_motorcycle_parking" tools:ignore="MissingTranslation">मोटरसाइकिल पार्किंग</string>
-    <string name="osm_city" tools:ignore="MissingTranslation">शहर</string>
-    <string name="osm_town" tools:ignore="MissingTranslation">कस्बा</string>
-    <string name="osm_neighbourhood" tools:ignore="MissingTranslation">मोहल्ला</string>
-    <string name="osm_village" tools:ignore="MissingTranslation">गाँव</string>
-    <string name="osm_hamlet" tools:ignore="MissingTranslation">बस्ती</string>
-    <string name="osm_recreation_ground" tools:ignore="MissingTranslation">खेल का मैदान</string>
-    <string name="osm_river" tools:ignore="MissingTranslation">नदी</string>
-    <string name="osm_railway" tools:ignore="MissingTranslation">रेलवे</string>
-    <string name="osm_wood" tools:ignore="MissingTranslation">जंगल</string>
-    <string name="osm_pavillion" tools:ignore="MissingTranslation">पवेलियन</string>
-    <string name="osm_sport" tools:ignore="MissingTranslation">खेल</string>
-    <string name="osm_health_food" tools:ignore="MissingTranslation">स्वास्थ्य आहार</string>
-    <string name="osm_events_venue" tools:ignore="MissingTranslation">कार्यक्रम स्थल</string>
-    <string name="tour_welcome" tools:ignore="MissingTranslation">Soundscape ट्यूटोरियल में आपका स्वागत है। यह ट्यूटोरियल आपको ऐप की मुख्य सुविधाओं के बारे में बताएगा। आप किसी भी समय मुख्य मेनू में ऑडियो ट्यूटोरियल रद्द करें पर टैप करके ट्यूटोरियल बंद कर सकते हैं। आइए पास के स्थान से शुरू करें, जो आपको रुचि के स्थान खोजने में मदद करता है। पास के स्थान बटन होम स्क्रीन पर सर्च बार के ठीक नीचे है। इसे आज़माने के लिए अभी टैप करें।</string>
-    <string name="tour_select_place" tools:ignore="MissingTranslation">पास के स्थान रुचि के स्थानों को प्रकार के अनुसार समूहित करता है। सूचियों में स्थानों को देखें और एक चुनें।</string>
-    <string name="tour_create_marker_started" tools:ignore="MissingTranslation">बहुत अच्छा! अब आप स्थान विवरण स्क्रीन पर हैं। यह स्क्रीन आपको विभिन्न कार्य करने की सुविधा देती है, जिसमें स्थान को मार्कर के रूप में सहेजना शामिल है। Soundscape में, आप अपने आसपास की किसी भी चीज़ को मार्क कर सकते हैं। उदाहरण के लिए, आप अपना घर, अपना बस स्टॉप, या वह स्थान जहाँ आप अभी हैं, मार्क कर सकते हैं। आइए इसे आज़माएँ। मार्कर के रूप में सहेजें पर टैप करके इस स्थान को मार्कर के रूप में सहेजें।</string>
-    <string name="tour_create_marker_done" tools:ignore="MissingTranslation">शानदार! मार्कर बनाते समय, आप उसका नाम बदल सकते हैं और अतिरिक्त नोट्स जोड़ सकते हैं। अभी इसे आज़माएँ, और जब आप तैयार हों तो पूर्ण पर टैप करें।</string>
-    <string name="tour_my_location" tools:ignore="MissingTranslation">अब जब आप मार्कर का उपयोग करना जान गए हैं, तो आइए कुछ अन्य सुविधाएँ देखें। स्क्रीन के नीचे चार बटन हैं जिन्हें हम बारी-बारी से आज़माएँगे। बाईं ओर का बटन मेरा स्थान है, जो आपके वर्तमान स्थान का वर्णन करता है। अभी इस पर टैप करके देखें।</string>
-    <string name="tour_around_me" tools:ignore="MissingTranslation">अगला बटन मेरे आसपास है। यह आपको बताता है कि हर दिशा में क्या है। मेरे आसपास पर टैप करें।</string>
-    <string name="tour_ahead" tools:ignore="MissingTranslation">अगला बटन मेरे आगे है। यह आपको बताता है कि आपके सामने क्या है। मेरे आगे पर टैप करें।</string>
-    <string name="tour_nearby_markers" tools:ignore="MissingTranslation">आखिरी बटन पास के मार्कर है, जो आपके आसपास सहेजे गए स्थानों की जानकारी देता है। इसे आज़माने के लिए पास के मार्कर पर टैप करें।</string>
-    <string name="tour_markers_and_routes" tools:ignore="MissingTranslation">आपने सफलतापूर्वक एक मार्कर बना लिया है। अब उस स्थान तक मार्गदर्शन के लिए एक ऑडियो बीकन चलाते हैं। पास के स्थान के ठीक नीचे मार्कर और मार्ग पर टैप करें।</string>
-    <string name="tour_markers" tools:ignore="MissingTranslation">मार्कर और मार्ग स्क्रीन में दो टैब हैं, एक में मार्ग की सूची है जो मार्करों की प्लेलिस्ट हैं, और दूसरे में अलग-अलग मार्कर हैं। आपने जो मार्कर बनाया है उसे खोजने के लिए मार्कर टैब पर टैप करें।</string>
-    <string name="tour_start_beacon" tools:ignore="MissingTranslation">अब आप मार्कर टैब पर हैं जिसमें आपके सभी सहेजे गए मार्कर हैं। एक मार्कर चुनें, और जब स्थान विवरण स्क्रीन दिखाई दे, तो ऑडियो बीकन शुरू करें पर टैप करें।</string>
-    <string name="tour_beacon_demo" tools:ignore="MissingTranslation">अब आप ऑडियो बीकन सुन सकते हैं। यह आपकी मंज़िल की दिशा से बजता है। जैसे-जैसे आप अपने फ़ोन की दिशा बदलते हैं, आप ऑडियो बीकन को हिलते और अपनी आवाज़ बदलते सुन सकते हैं। अभी इसे आज़माएँ।</string>
-    <string name="tour_beacon_demo_locked" tools:ignore="MissingTranslation">जब आपका फ़ोन लॉक होता है, तब भी बीकन बजता रहता है। यदि आप पैदल चल रहे हैं या किसी वाहन में हैं, तो ऐप ऑडियो बीकन बजाते समय आपकी यात्रा की दिशा का उपयोग करता है। हालाँकि, लॉक होने पर भी आप अपने फ़ोन को कम्पास की तरह अपने सामने सपाट पकड़ सकते हैं, और यह उस दिशा का उपयोग करेगा जिधर आपका फ़ोन इशारा कर रहा है। इसे आज़माकर देखें।</string>
-    <string name="tour_stop_beacon" tools:ignore="MissingTranslation">जब आप बीकन बंद करना चाहें, तो मार्ग रोकें बटन पर टैप करें।</string>
-    <string name="tour_finish" tools:ignore="MissingTranslation">ट्यूटोरियल पूरा हो गया है। आप इसे मुख्य मेनू से दोबारा चला सकते हैं। हमें उम्मीद है कि आपको यह ऐप उपयोगी लगेगा!</string>
-    <string name="tour_cancel" tools:ignore="MissingTranslation">ऑडियो ट्यूटोरियल रद्द कर दिया गया है। यदि आप चाहें, तो इसे मुख्य मेनू से दोबारा चला सकते हैं।</string>
-    <string name="menu_audio_tutorial" tools:ignore="MissingTranslation">ट्यूटोरियल</string>
-    <string name="menu_audio_tutorial_cancel" tools:ignore="MissingTranslation">ट्यूटोरियल रद्द करें</string>
-    <string name="tour_continue_button" tools:ignore="MissingTranslation">जारी रखें</string>
-    <string name="tour_continue_hint" tools:ignore="MissingTranslation">पॉपअप बंद करें और ट्यूटोरियल जारी रखें</string>
-    <string name="language_mismatch_title" tools:ignore="MissingTranslation">नई भाषा उपलब्ध है</string>
-    <string name="language_mismatch_message" tools:ignore="MissingTranslation">आपके फोन की भाषा %1$s पर सेट है और वह भाषा अब Soundscape में उपलब्ध है। क्या आप Soundscape को %1$s में बदलना चाहेंगे?</string>
-    <string name="language_mismatch_switch" tools:ignore="MissingTranslation">%1$s में बदलें</string>
-    <string name="language_mismatch_keep" tools:ignore="MissingTranslation">वर्तमान भाषा रखें</string>
-    <string name="preview_go_hint" tools:ignore="MissingTranslation">इस दिशा में आगे बढ़कर अगले चौराहे पर जाएँ।</string>
-    <string name="error_message_route_not_found" tools:ignore="MissingTranslation">डेटाबेस में मार्ग नहीं मिल सका।</string>
-    <string name="error_message_deleting_route" tools:ignore="MissingTranslation">मार्ग हटाया नहीं जा सका।</string>
-    <string name="error_message_saving_route" tools:ignore="MissingTranslation">मार्ग सहेजा नहीं जा सका।</string>
-    <string name="service_still_running" tools:ignore="MissingTranslation">Soundscape स्थान सेवा अभी भी चल रही है।</string>
-    <string name="offline_map_download_complete" tools:ignore="MissingTranslation">डाउनलोड पूरा हुआ</string>
-    <string name="offline_map_download_cancelled" tools:ignore="MissingTranslation">डाउनलोड रद्द किया गया</string>
-    <string name="offline_map_download_error" tools:ignore="MissingTranslation">डाउनलोड में त्रुटि</string>
-    <string name="behavior_scavenger_hunt_callout_next_flag_short_route" tools:ignore="MissingTranslation">बीकन %1$s पर सेट किया गया, %2$s दूर</string>
-    <string name="route_beacon_progress" tools:ignore="MissingTranslation">बीकन %1$s पर</string>
-    <string name="menu_route" tools:ignore="MissingTranslation">मार्ग नियंत्रण</string>
-    <string name="menu_route_next_waypoint" tools:ignore="MissingTranslation">अगला मार्ग बिंदु</string>
-    <string name="menu_route_previous_waypoint" tools:ignore="MissingTranslation">पिछला मार्ग बिंदु</string>
-    <string name="menu_no_routes" tools:ignore="MissingTranslation">कोई मार्ग सहेजा नहीं गया</string>
-    <string name="menu_main_menu" tools:ignore="MissingTranslation">शीर्ष मेनू</string>
-    <string name="first_launch_permissions_record_audio" tools:ignore="MissingTranslation">ऑडियो रिकॉर्ड करें</string>
-    <string name="first_launch_permissions_required_for_voice_control" tools:ignore="MissingTranslation">यह अनुमति वैकल्पिक है, लेकिन यदि आप ऐप को वॉइस कमांड से नियंत्रित करना चाहते हैं तो इसकी आवश्यकता होगी।</string>
-    <string name="menu_media_controls" tools:ignore="MissingTranslation">मीडिया नियंत्रण</string>
-    <string name="settings_section_media_controls" tools:ignore="MissingTranslation">मीडिया नियंत्रण मोड</string>
-    <string name="settings_section_media_controls_description" tools:ignore="MissingTranslation">आपके हेडफ़ोन या रिमोट के मीडिया नियंत्रण बटनों को इस विकल्प के आधार पर अलग‑अलग तरीकों से कॉन्फ़िगर किया जा सकता है।</string>
-    <string name="settings_media_controls_original" tools:ignore="MissingTranslation">मूल मोड</string>
-    <string name="settings_media_controls_voice_command" tools:ignore="MissingTranslation">वॉइस कमांड</string>
-    <string name="settings_media_controls_audio_menu" tools:ignore="MissingTranslation">ऑडियो मेनू</string>
-    <string name="voice_cmd_help_response" tools:ignore="MissingTranslation">उपलब्ध वॉइस कमांड:</string>
-    <string name="voice_cmd_listening" tools:ignore="MissingTranslation">सुन रहा/रही हूँ…</string>
-    <string name="voice_cmd_not_recognized" tools:ignore="MissingTranslation">क्षमा करें, मैं कमांड %1$s नहीं ढूँढ सका। वॉइस कमांड %2$s उपलब्ध कमांड सूचीबद्ध करेगा।</string>
-    <string name="voice_cmd_list_routes" tools:ignore="MissingTranslation">मार्ग सूची दिखाएँ</string>
-    <string name="voice_cmd_routes_list" tools:ignore="MissingTranslation">उपलब्ध मार्ग हैं,</string>
-    <string name="voice_cmd_list_markers" tools:ignore="MissingTranslation">मार्कर सूची दिखाएँ</string>
-    <string name="voice_cmd_markers_list" tools:ignore="MissingTranslation">उपलब्ध मार्कर हैं,</string>
-    <string name="voice_cmd_no_routes" tools:ignore="MissingTranslation">कोई मार्ग सहेजा नहीं गया है</string>
-    <string name="voice_cmd_no_markers" tools:ignore="MissingTranslation">कोई मार्कर सहेजा नहीं गया है</string>
-    <string name="voice_cmd_route_not_found" tools:ignore="MissingTranslation">मार्ग नहीं मिला: %1$s</string>
-    <string name="voice_cmd_starting_route" tools:ignore="MissingTranslation">मार्ग %1$s शुरू किया जा रहा है</string>
-    <string name="voice_cmd_start_route" tools:ignore="MissingTranslation">मार्ग %1$s शुरू करें</string>
-    <string name="voice_cmd_start_beacon_at_marker_with_name" tools:ignore="MissingTranslation">%1$s पर ऑडियो बीकन शुरू करें</string>
-    <string name="voice_cmd_starting_beacon_at_marker" tools:ignore="MissingTranslation">ऑडियो बीकन %1$s पर शुरू किया जा रहा है</string>
-    <string name="voice_cmd_marker_not_found" tools:ignore="MissingTranslation">मार्कर नहीं मिला: %1$s</string>
-    <string name="voice_cmd_explain_dynamic_markers" tools:ignore="MissingTranslation">उदाहरण के लिए, आप नाम से मार्ग और मार्कर भी शुरू कर सकते हैं।</string>
-    <string name="voice_cmd_speech_recognition_error_network_timeout" tools:ignore="MissingTranslation">वाणी पहचान नेटवर्क टाइमआउट त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_network" tools:ignore="MissingTranslation">वाणी पहचान नेटवर्क त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_audio" tools:ignore="MissingTranslation">वाणी पहचान: ऑडियो रिकॉर्ड करने में त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_server" tools:ignore="MissingTranslation">वाणी पहचान सर्वर त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_client" tools:ignore="MissingTranslation">वाणी पहचान क्लाइंट त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_speech_timeout" tools:ignore="MissingTranslation">वाणी सुनने का समय समाप्त हो गया है, इसलिए सुनना बंद कर दिया गया है। कृपया पुनः प्रयास करें।</string>
-    <string name="voice_cmd_speech_recognition_not_match" tools:ignore="MissingTranslation">कोई वाणी सुनी नहीं गई, इसलिए सुनना बंद कर दिया गया है। कृपया पुनः प्रयास करें।</string>
-    <string name="voice_cmd_speech_recognition_busy" tools:ignore="MissingTranslation">वाणी पहचान व्यस्त त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_permissions" tools:ignore="MissingTranslation">वाणी पहचान चलाने के लिए पर्याप्त अनुमतियाँ उपलब्ध नहीं हैं।</string>
-    <string name="voice_cmd_speech_recognition_error_too_many_requests" tools:ignore="MissingTranslation">वाणी पहचान: अनुरोधों की संख्या अधिक होने की त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_server_disconnected" tools:ignore="MissingTranslation">वाणी पहचान सर्वर डिस्कनेक्ट त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_language_not_supported" tools:ignore="MissingTranslation">वर्तमान भाषा Android द्वारा वाणी पहचान के लिए समर्थित नहीं है।</string>
-    <string name="voice_cmd_speech_recognition_error_language_unavailable" tools:ignore="MissingTranslation">वर्तमान भाषा समर्थित है, लेकिन यह फोन पर डाउनलोड नहीं की गई है।</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_check_support" tools:ignore="MissingTranslation">वाणी पहचान समर्थन जाँच त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events" tools:ignore="MissingTranslation">वाणी पहचान डाउनलोड इवेंट सुनने में त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_unknown" tools:ignore="MissingTranslation">वाणी पहचान अज्ञात त्रुटि।</string>
-    <string name="voice_cmd_speech_recognition_error_unsupported" tools:ignore="MissingTranslation">इस फ़ोन पर वाणी पहचान समर्थित नहीं है।</string>
-    <string name="settings_voice_command_listening_prompt" tools:ignore="MissingTranslation">सुनने की घोषणा करें</string>
-    <string name="settings_voice_command_listening_prompt_description" tools:ignore="MissingTranslation">वॉइस पहचान शुरू होने से पहले सुनने का संकेत (प्रॉम्प्ट) बोलें।</string>
-    <string name="settings_voice_command_microphone" tools:ignore="MissingTranslation">माइक्रोफ़ोन</string>
-    <string name="settings_voice_command_microphone_description" tools:ignore="MissingTranslation">वॉइस कमांड के लिए किस माइक्रोफ़ोन का उपयोग करना है, चुनें।</string>
+    <string name="notification_text">Soundscape की स्थान सेवा फोन लॉक होने पर भी चलती रहती है।</string>
+    <string name="cancel_search_contentDescription">खोज रद्द करें</string>
+    <string name="menu_manage_audio">ऑडियो</string>
+    <string name="menu_manage_language">भाषा और क्षेत्र </string>
+    <string name="menu_manage_accessibility">पहुँच-योग्यता</string>
+    <string name="settings_theme_light_dark">लाइट या डार्क थीम</string>
+    <string name="settings_theme_auto">स्वचालित</string>
+    <string name="settings_theme_is_light">लाइट थीम का उपयोग करें</string>
+    <string name="settings_theme_light">लाइट</string>
+    <string name="settings_theme_dark">डार्क</string>
+    <string name="settings_theme_contrast">थीम कॉन्ट्रास्ट</string>
+    <string name="settings_theme_contrast_regular">सामान्य</string>
+    <string name="settings_theme_contrast_medium">मध्यम</string>
+    <string name="settings_theme_contrast_high">उच्च</string>
+    <string name="settings_list_item_description">%1$s, %3$s में से %2$s विकल्प है</string>
+    <string name="settings_keep_value">रखें</string>
+    <string name="settings_use_value">उपयोग करें</string>
+    <string name="street_preview_exit">स्थान सिमुलेशन से बाहर निकलें</string>
+    <string name="settings_travel_recording">यात्रा की रिकॉर्डिंग सक्षम करें</string>
+    <string name="settings_show_map">स्क्रीन पर नक्शा दिखाएँ</string>
+    <string name="settings_debug_heading">डीबग विकल्प</string>
+    <string name="settings_search_results_language">खोज भाषा</string>
+    <string name="settings_search_results_language_description">ऑनलाइन खोज परिणाम की स्थानीय भाषा का उपयोग कर सकती है, या अंग्रेज़ी, फ़्रेंच या जर्मन में परिणाम देने के लिए बाध्य की जा सकती है।</string>
+    <string name="menu_share_recorded_route">यात्रा की रिकॉर्डिंग साझा करें</string>
+    <string name="confect_name_to_via">%1$s से %2$s, %3$s के रास्ते</string>
+    <string name="confect_name_to">%1$s से %2$s तक</string>
+    <string name="confect_name_joins">%1$s जो %2$s और %3$s को जोड़ता है</string>
+    <string name="confect_name_via">%1$s %2$s से होकर</string>
+    <string name="confect_name_pavement_next_to">%1$s के बगल में फुटपाथ</string>
+    <string name="confect_name_pavement">फुटपाथ</string>
+    <string name="confect_name_dead_end">बंद गली</string>
+    <string name="offline_maps_title">ऑफ़लाइन मानचित्र</string>
+    <string name="offline_map_details_title">ऑफ़लाइन मानचित्र विवरण</string>
+    <string name="offline_maps_loading">लोड हो रहा है…</string>
+    <string name="offline_maps_downloading">%1$s डाउनलोड हो रहा है</string>
+    <string name="offline_maps_caching">सर्वर %1$s को डाउनलोड के लिए तैयार कर रहा है। इसमें कुछ मिनट लग सकते हैं और फिर डाउनलोड अपने आप शुरू हो जाएगा।</string>
+    <string name="offline_maps_free_space">%1$s खाली</string>
+    <string name="offline_maps_storage">मानचित्र %1$s में सहेजे जाते हैं जिसमें %2$s खाली है</string>
+    <string name="offline_maps_already_downloaded">पहले से डाउनलोड किए गए मानचित्र</string>
+    <string name="offline_maps_nearby">पास के ऑफ़लाइन मानचित्र</string>
+    <string name="offline_maps_loading_manifest">ऑफ़लाइन मानचित्रों की सूची लोड हो रही है</string>
+    <string name="offline_maps_manifest_failed">ऑफ़लाइन मानचित्र डेटा डाउनलोड करने में विफल</string>
+    <string name="offline_map_details_delete">ऑफ़लाइन मानचित्र हटाएँ</string>
+    <string name="offline_map_details_download">ऑफ़लाइन मानचित्र डाउनलोड करें</string>
+    <string name="offline_map_details_size_on_phone">फ़ोन पर आकार: %1$s</string>
+    <string name="offline_map_details_size_on_server">डाउनलोड आकार: %1$s</string>
+    <string name="offline_map_details_name">मानचित्र का नाम: %1$s</string>
+    <string name="offline_map_details_city_list">मानचित्र में ये स्थान शामिल हैं: %1$s</string>
+    <string name="offline_map_details_alternate_city_list">वे स्थान इस नाम से भी जाने जाते हैं: %1$s</string>
+    <string name="offline_map_storage_title">ऑफ़लाइन मानचित्र संग्रहण</string>
+    <string name="offline_map_storage_description">Soundscape को बिना इंटरनेट कनेक्शन के उपयोग करने के लिए मानचित्र डाउनलोड करके फ़ोन में सहेजना संभव है। डिफ़ॉल्ट संग्रहण आपके फ़ोन का कोई भी बाहरी संग्रहण है, लेकिन आप यहाँ कोई वैकल्पिक गंतव्य चुन सकते हैं।</string>
+    <string name="offline_map_wifi_only">मानचित्र डाउनलोड के लिए केवल WiFi का उपयोग करें</string>
+    <string name="accessibility_title">सुगम्यता</string>
+    <string name="accessibility_screen_reader_enabled">चूँकि आपने स्क्रीन रीडर सक्षम किया है, हम ऐप को यूज़र इंटरफ़ेस के ग्राफ़िकल मानचित्र बंद करके चलाने की सलाह देते हैं। आप यह सेटिंग यहाँ बदल सकते हैं, या बस आगे बढ़ सकते हैं।</string>
+    <string name="accessibility_screen_reader_disabled">चूँकि आपने स्क्रीन रीडर सक्षम नहीं किया है, हम मानते हैं कि आप यूज़र इंटरफ़ेस में ग्राफ़िकल मानचित्र प्रदर्शित करना चाहते हैं। आप यह सेटिंग यहाँ बदल सकते हैं, या बस आगे बढ़ सकते हैं।</string>
+    <string name="text_field_clear_text">टेक्स्ट साफ़ करें</string>
+    <string name="marker_name_description_hint">मार्कर का नाम संपादित करें</string>
+    <string name="annotation_description_hint">इस मार्कर को बाद में पहचानने में मदद के लिए एक वैकल्पिक नोट जोड़ें</string>
+    <string name="route_name_description_hint">मार्ग का नाम संपादित करें</string>
+    <string name="route_description_description_hint">इस मार्ग के लिए एक वैकल्पिक विवरण जोड़ें</string>
+    <string name="fab_add_item">आइटम जोड़ें</string>
+    <string name="fab_add_route">मार्ग जोड़ें</string>
+    <string name="route_waypoint_progress">मार्ग %1$s, मार्ग बिंदु %2$s / %3$s पर</string>
+    <string name="home_screen_title">Soundscape होम</string>
+    <string name="settings_reset_button">सेटिंग्स को डिफ़ॉल्ट पर रीसेट करें</string>
+    <string name="settings_reset_button_hint">सेटिंग्स को डिफ़ॉल्ट पर रीसेट करें और फिर ऐप को पुनः आरंभ करें।</string>
+    <string name="settings_reset_dialog_title">क्या आप वाकई ऐसा करना चाहते हैं?</string>
+    <string name="settings_reset_dialog_message">सेटिंग्स रीसेट करने से ऐप में सभी कॉन्फ़िगर की गई सेटिंग्स हट जाएँगी, क्या आप जारी रखना चाहते हैं?</string>
+    <string name="advanced_markers_and_routes_export_button">मार्कर और मार्ग डेटाबेस निर्यात करें</string>
+    <string name="advanced_markers_and_routes_import_button">मार्कर और मार्ग डेटाबेस आयात करें</string>
+    <string name="advanced_markers_and_routes_export">निर्यात करें</string>
+    <string name="markers_and_routes_import_success">मार्कर और मार्ग का आयात पूरा हुआ।</string>
+    <string name="markers_and_routes_import_failure">मार्कर और मार्ग का आयात विफल रहा।</string>
+    <string name="advanced_markers_and_routes_clear_all_button">सभी मार्कर और मार्ग हटाएँ</string>
+    <string name="advanced_markers_and_routes_clear_all_alert_message">सभी मार्कर और मार्ग हटाना पूर्ववत नहीं किया जा सकता, क्या आप जारी रखना चाहते हैं?</string>
+    <string name="menu_advanced_markers_and_routes_clear_all_success">मार्कर और मार्ग हटा दिए गए</string>
+    <string name="location_item_selected">चयनित</string>
+    <string name="location_item_not_selected">अचयनित</string>
+    <string name="location_item_move_up">सूची में ऊपर ले जाएँ</string>
+    <string name="location_item_move_down">सूची में नीचे ले जाएँ</string>
+    <string name="street_description_between">%1$s पर, %2$s और %3$s के बीच</string>
+    <string name="street_description_until">%1$s पर, %3$s तक %2$s</string>
+    <string name="street_description_since">%1$s पर, %3$s से %2$s</string>
+    <string name="street_description_relative_before">%1$s पर, %2$s से ठीक पहले</string>
+    <string name="street_description_relative_after">%1$s पर, %2$s के ठीक बाद</string>
+    <string name="street_description_intersection">%1$s के चौराहे के पास</string>
+    <string name="new_version_info_text">नई रिलीज़ की जानकारी</string>
+    <string name="new_version_info_completed">नई रिलीज़ डायलॉग बंद करें</string>
+    <string name="menu_open_source_licenses">ओपन सोर्स लाइसेंस</string>
+    <string name="new_version_info_details">\nइस रिलीज़ में दो नई सुविधाएँ शामिल हैं जो फ़ोन लॉक होने पर भी ऐप का रिमोट नियंत्रण करने की अनुमति देती हैं। इसका अर्थ है कि आप फ़ोन को अपनी जेब में रखकर भी ऐप की मुख्य सुविधाओं को नियंत्रित कर सकते हैं।\n\nदोनों रिमोट‑कंट्रोल विधियाँ ब्लूटूथ मीडिया नियंत्रण बटनों का उपयोग करती हैं — या तो आपके हेडफ़ोन पर मौजूद बटन या आप अपने हाथ या जेब में रखने के लिए छोटे रिमोट कंट्रोल भी खरीद सकते हैं। रिमोट नियंत्रण मोड *सेटिंग्स/मीडिया नियंत्रण* सेक्शन से चुना जाता है और आप *"वॉइस कमांड"* चुन सकते हैं ताकि आप ऐप से बात कर सकें, या *"ऑडियो मेनू"* चुन सकते हैं जहाँ आपको विकल्पों के साथ मेनू पढ़कर सुनाया जाता है जिसे आप चुनते हैं। *"मूल मोड"* का मतलब है कि ब्लूटूथ बटन पिछली रिलीज़ की तरह ही काम करेंगे।\n\nवॉइस कमांड मोड में, अपने हेडफ़ोन पर प्ले/पॉज़ बटन दबाने पर ऐप वाणी सुनना शुरू कर देता है और इसके संकेत के लिए आपको एक छोटा सा ध्वनि संकेत सुनाई देगा। यदि आप *"Help"* कहेंगे तो यह उपयोग करने के लिए उपलब्ध कमांड की सूची बताएगा। उसके बाद आप बटन फिर से दबाकर अन्य कमांड आज़मा सकते हैं। दुर्भाग्यवश, Android स्पीच रिकॉग्निशन सभी भाषाओं का समर्थन नहीं करता और यह सभी फ़ोन में उपलब्ध भी नहीं है।\n\nवॉइस कमांड मोड की मुख्य कठिनाई यह है कि कुछ हेडफ़ोन दूसरों की तुलना में माइक्रोफ़ोन चालू करने में अधिक समय लेते हैं। इसका मतलब है कि प्ले/पॉज़ बटन टैप करने के बाद आपको बोलने से पहले 5 सेकंड तक प्रतीक्षा करनी पड़ सकती है। यह जानने के लिए कि कितना समय लगता है, सबसे अच्छा तरीका यह है कि प्ले/पॉज़ टैप करें और फिर 1 से 10 तक गिनती करें। फ़ोन को यह बताना चाहिए कि उसने कौन‑सी वाणी पहचानी और जो संख्या वह पहली बार पहचानता है वह वह है जिससे पहचान शुरू हुई। इसका उपयोग यह सीखने में किया जा सकता है कि बोलने से पहले कितना इंतज़ार करना है। कुछ हेडफ़ोन माइक्रोफ़ोन चालू होने पर स्पष्ट ध्वनि देते हैं जो इसे आसान बनाती है, लेकिन अन्य बिल्कुल भी ध्वनि नहीं करते। दुर्भाग्यवश, इसके लिए अभ्यास की आवश्यकता हो सकती है।\n\nदूसरा नया रिमोट मोड ऑडियो मेनू है जो सभी भाषाओं में और सभी फ़ोन पर काम करेगा। नेक्स्ट/प्रीवियस मीडिया कंट्रोल बटन मेनू के भीतर विकल्पों के बीच आगे और पीछे जाते हैं। प्ले/पॉज़ बटन फिर वर्तमान विकल्प का चयन करता है। एक शीर्ष‑स्तरीय मेनू होता है और फिर एक परत सब‑मेनू की होती है जो समान कमांडों को समूहित करती है।\n\nये सुविधाएँ अभी बहुत नई हैं, और हम वास्तव में यह जानना चाहेंगे कि क्या ये अच्छी तरह काम कर रही हैं और आप किन अन्य कमांड्स की अपेक्षा रखेंगें।\n\nकृपया मुख्य मेनू में *"सहायता से संपर्क करें"* विकल्प के माध्यम से किसी भी समस्या की रिपोर्ट करें, चाहे वह कितनी ही छोटी क्यों न हो।\n</string>
+    <string name="about_soundscape">Soundscape नवीन ऑडियो-आधारित तकनीक के उपयोग की खोज करता है ताकि लोगों को अपने आसपास की बेहतर जागरूकता बनाने में सक्षम बनाया जा सके, जिससे वे अधिक आत्मविश्वासी और सशक्त होकर घूम-फिर सकें।</string>
+    <string name="osm_office_building">कार्यालय भवन</string>
+    <string name="osm_school_building">विद्यालय भवन</string>
+    <string name="osm_covered_pavilion">ढका हुआ मंडप</string>
+    <string name="osm_convenience_store">सुविधा स्टोर</string>
+    <string name="osm_building_entrance">भवन प्रवेश द्वार</string>
+    <string name="osm_restroom">शौचालय</string>
+    <string name="osm_parking_lot">पार्किंग स्थल</string>
+    <string name="osm_taxi_waiting_area">टैक्सी प्रतीक्षा क्षेत्र</string>
+    <string name="osm_bike_parking">बाइक पार्किंग</string>
+    <string name="osm_gas_station">पेट्रोल पंप</string>
+    <string name="osm_bus_stop_named">%1$s बस स्टॉप</string>
+    <string name="osm_recycling_bin">रीसाइक्लिंग बिन</string>
+    <string name="osm_water_fountain">पानी का फव्वारा</string>
+    <string name="osm_sports_field">खेल का मैदान</string>
+    <string name="osm_picnic_area">पिकनिक क्षेत्र</string>
+    <string name="osm_main_entrance">मुख्य प्रवेश द्वार</string>
+    <string name="osm_entrance_named_with_destination">%1$s %2$s %3$s से</string>
+    <string name="osm_entrance_with_destination">%1$s %2$s</string>
+    <string name="osm_tag_ferry_terminal">फ़ेरी टर्मिनल</string>
+    <string name="osm_tag_ferry_terminal_named">%1$s फ़ेरी टर्मिनल</string>
+    <string name="osm_crossing">पैदल यात्री क्रॉसिंग</string>
+    <string name="osm_construction">निर्माण कार्य</string>
+    <string name="osm_dangerous_area">खतरनाक क्षेत्र</string>
+    <string name="osm_townhall">टाउन हॉल</string>
+    <string name="osm_steps">सीढ़ियाँ</string>
+    <string name="osm_elevator">लिफ़्ट</string>
+    <string name="osm_walking_path">पैदल पथ</string>
+    <string name="osm_pedestrian_street">पैदल यात्री सड़क</string>
+    <string name="osm_bicycle_path">साइकिल पथ</string>
+    <string name="osm_residential_street">आवासीय सड़क</string>
+    <string name="osm_service_road">सर्विस रोड</string>
+    <string name="osm_road">सड़क</string>
+    <string name="osm_highway">राजमार्ग</string>
+    <string name="osm_highway_named">राजमार्ग का नाम</string>
+    <string name="osm_highway_refed">राजमार्ग संदर्भ</string>
+    <string name="osm_intersection">चौराहा</string>
+    <string name="osm_roundabout">गोल चक्कर</string>
+    <string name="osm_highway_ramp">राजमार्ग रैंप</string>
+    <string name="osm_merging_lane">विलय लेन</string>
+    <string name="osm_office">कार्यालय</string>
+    <string name="osm_school">विद्यालय</string>
+    <string name="osm_roof">छत</string>
+    <string name="osm_convenience">सुविधा दुकान</string>
+    <string name="osm_entrance">प्रवेश द्वार</string>
+    <string name="osm_assembly_point">सभा स्थल</string>
+    <string name="osm_cycle_barrier">साइकिल अवरोधक</string>
+    <string name="osm_turnstile">टर्नस्टाइल</string>
+    <string name="osm_cattle_grid">कैटल ग्रिड</string>
+    <string name="osm_gate">गेट</string>
+    <string name="osm_lift_gate">लिफ़्ट गेट</string>
+    <string name="osm_toilets">शौचालय</string>
+    <string name="osm_parking">पार्किंग</string>
+    <string name="osm_parking_entrance">पार्किंग प्रवेश द्वार</string>
+    <string name="osm_bench">बेंच</string>
+    <string name="osm_taxi">टैक्सी स्टैंड</string>
+    <string name="osm_post_office">डाकघर</string>
+    <string name="osm_post_box">डाक पेटी</string>
+    <string name="osm_waste_basket">कूड़ादान</string>
+    <string name="osm_shower">शावर</string>
+    <string name="osm_bicycle_parking">साइकिल पार्किंग</string>
+    <string name="osm_cafe">कैफ़े</string>
+    <string name="osm_restaurant">रेस्तराँ</string>
+    <string name="osm_telephone">टेलीफ़ोन</string>
+    <string name="osm_fuel">ईंधन स्टेशन</string>
+    <string name="osm_bank">बैंक</string>
+    <string name="osm_atm">ATM</string>
+    <string name="osm_atm_named">नामित ATM</string>
+    <string name="osm_atm_refed">ATM संदर्भ</string>
+    <string name="osm_bus_stop">बस स्टॉप</string>
+    <string name="osm_recycling">रीसाइक्लिंग</string>
+    <string name="osm_fountain">फव्वारा</string>
+    <string name="osm_place_of_worship">पूजा स्थल</string>
+    <string name="osm_drinking_water">पीने का पानी</string>
+    <string name="osm_car_wash">कार वॉश</string>
+    <string name="osm_vending_machine">वेंडिंग मशीन</string>
+    <string name="osm_playground">खेल का मैदान</string>
+    <string name="osm_pitch">खेल मैदान</string>
+    <string name="osm_swimming_pool">तरणताल</string>
+    <string name="osm_garden">बगीचा</string>
+    <string name="osm_park">पार्क</string>
+    <string name="osm_picnic_table">पिकनिक टेबल</string>
+    <string name="osm_picnic_site">पिकनिक स्थल</string>
+    <string name="osm_information">सूचना</string>
+    <string name="osm_fire_extinguisher">अग्निशामक</string>
+    <string name="osm_defibrillator">डिफिब्रिलेटर</string>
+    <string name="osm_guide">मार्गदर्शक स्तंभ</string>
+    <string name="osm_water">जलाशय</string>
+    <string name="osm_fire_hose">अग्निशमन नली</string>
+    <string name="osm_fire_flapper">अग्निशमन फ्लैपर</string>
+    <string name="osm_information_point">सूचना केंद्र</string>
+    <string name="osm_wetland">आर्द्रभूमि</string>
+    <string name="osm_mud">कीचड़</string>
+    <string name="osm_access_point">प्रवेश बिंदु</string>
+    <string name="osm_life_ring">लाइफ रिंग</string>
+    <string name="osm_generic_info">सामान्य सूचना</string>
+    <string name="osm_turntable">टर्नटेबल</string>
+    <string name="osm_survey_point">सर्वेक्षण बिंदु</string>
+    <string name="osm_snow_net">स्नो नेट</string>
+    <string name="osm_silo">साइलो</string>
+    <string name="osm_mast">मस्तूल</string>
+    <string name="osm_bird_hide">पक्षी अवलोकन शाला</string>
+    <string name="osm_transformer_tower">ट्रांसफार्मर टावर</string>
+    <string name="osm_generic_object">सामान्य वस्तु</string>
+    <string name="osm_signal">सिग्नल</string>
+    <string name="osm_rock">चट्टान</string>
+    <string name="osm_kiln">भट्ठा</string>
+    <string name="osm_crane">क्रेन</string>
+    <string name="osm_rune_stone">रूण शिला</string>
+    <string name="osm_milestone">मील का पत्थर</string>
+    <string name="osm_lifeguard_platform">लाइफगार्ड प्लेटफार्म</string>
+    <string name="osm_water_tank">पानी की टंकी</string>
+    <string name="osm_sty">सूअरबाड़ा</string>
+    <string name="osm_navigationaid">नौवहन सहायक</string>
+    <string name="osm_terminal">टर्मिनल</string>
+    <string name="osm_water_tap">पानी का नल</string>
+    <string name="osm_water_well">कुआँ</string>
+    <string name="osm_petroleum_well">पेट्रोलियम कुआँ</string>
+    <string name="osm_cross">क्रॉस</string>
+    <string name="osm_gallows">फाँसी का तख़्ता</string>
+    <string name="osm_speed_camera">स्पीड कैमरा</string>
+    <string name="osm_siren">सायरन</string>
+    <string name="osm_pylon">पाइलन</string>
+    <string name="osm_mineshaft">खदान शाफ्ट</string>
+    <string name="osm_flagpole">ध्वज स्तंभ</string>
+    <string name="osm_optical_telegraph">ऑप्टिकल टेलीग्राफ</string>
+    <string name="osm_cannon">तोप</string>
+    <string name="osm_boundary_stone">सीमा शिला</string>
+    <string name="osm_shed">शेड</string>
+    <string name="osm_traffic_cones">ट्रैफिक कोन</string>
+    <string name="osm_firepit">अग्निकुंड</string>
+    <string name="osm_stone">पत्थर</string>
+    <string name="osm_surveillance">निगरानी</string>
+    <string name="osm_monitoring_station">निगरानी केंद्र</string>
+    <string name="osm_wayside_shrine">मार्ग किनारे का मंदिर</string>
+    <string name="osm_wayside_cross">मार्ग किनारे का क्रॉस</string>
+    <string name="osm_tomb">मकबरा</string>
+    <string name="osm_traffic_signals">ट्रैफिक सिग्नल</string>
+    <string name="osm_hut">झोपड़ी</string>
+    <string name="osm_static_caravan">स्थायी कारवाँ</string>
+    <string name="osm_bollard">बोलार्ड</string>
+    <string name="osm_block">ब्लॉक</string>
+    <string name="osm_waste_disposal">कचरा निपटान</string>
+    <string name="osm_photo_booth">फोटो बूथ</string>
+    <string name="osm_bbq">बारबेक्यू</string>
+    <string name="osm_shop">दुकान</string>
+    <string name="osm_newsagent">अखबार की दुकान</string>
+    <string name="osm_anime">एनिमे की दुकान</string>
+    <string name="osm_musical_instrument">वाद्य यंत्र की दुकान</string>
+    <string name="osm_vacuum_cleaner">वैक्यूम क्लीनर की दुकान</string>
+    <string name="osm_mobile_phone">मोबाइल फोन की दुकान</string>
+    <string name="osm_carpet">कालीन की दुकान</string>
+    <string name="osm_trade">व्यापार की दुकान</string>
+    <string name="osm_garden_centre">गार्डन सेंटर</string>
+    <string name="osm_florist">फूलों की दुकान</string>
+    <string name="osm_fireplace">चिमनी</string>
+    <string name="osm_massage">मालिश</string>
+    <string name="osm_herbalist">जड़ी-बूटी की दुकान</string>
+    <string name="osm_bag">बैग की दुकान</string>
+    <string name="osm_pastry">पेस्ट्री की दुकान</string>
+    <string name="osm_deli">डेली की दुकान</string>
+    <string name="osm_beverages">पेय पदार्थ की दुकान</string>
+    <string name="osm_alcohol">शराब की दुकान</string>
+    <string name="osm_substation">सबस्टेशन</string>
+    <string name="osm_travel_agent">ट्रैवल एजेंट</string>
+    <string name="osm_research">अनुसंधान केंद्र</string>
+    <string name="osm_newspaper">अखबार की दुकान</string>
+    <string name="osm_ammunition">गोला-बारूद की दुकान</string>
+    <string name="osm_wildlife_hide">वन्यजीव अवलोकन शाला</string>
+    <string name="osm_watchmaker">घड़ीसाज़ की दुकान</string>
+    <string name="osm_tinsmith">कलईगर की दुकान</string>
+    <string name="osm_sun_protection">धूप से सुरक्षा की दुकान</string>
+    <string name="osm_sculptor">मूर्तिकार का स्टूडियो</string>
+    <string name="osm_metal_construction">धातु निर्माण कार्यशाला</string>
+    <string name="osm_handicraft">हस्तशिल्प की दुकान</string>
+    <string name="osm_cowshed">गोशाला</string>
+    <string name="osm_cabin">केबिन</string>
+    <string name="osm_barn">खलिहान</string>
+    <string name="osm_warehouse">गोदाम</string>
+    <string name="osm_houseboat">हाउसबोट</string>
+    <string name="osm_book_store">किताब की दुकान</string>
+    <string name="osm_generic_place">स्थान</string>
+    <string name="osm_hunting_stand">शिकार मचान</string>
+    <string name="osm_game_feeding">वन्यजीव आहार स्थल</string>
+    <string name="osm_crypt">भूमिगत कब्रगाह</string>
+    <string name="osm_animal_shelter">पशु आश्रय</string>
+    <string name="osm_animal_boarding">पशु बोर्डिंग</string>
+    <string name="osm_blood_donation">रक्तदान केंद्र</string>
+    <string name="osm_nursing_home">वृद्धाश्रम</string>
+    <string name="osm_dentist">दंत चिकित्सक</string>
+    <string name="osm_baby_hatch">शिशु सुरक्षा केंद्र</string>
+    <string name="osm_language_school">भाषा विद्यालय</string>
+    <string name="osm_public_bookcase">सार्वजनिक पुस्तक अलमारी</string>
+    <string name="osm_biergarten">बीयर गार्डन</string>
+    <string name="osm_running">दौड़ का ट्रैक</string>
+    <string name="osm_glaziery">काँच की दुकान</string>
+    <string name="osm_garages">गैराज</string>
+    <string name="osm_retail">खुदरा दुकान</string>
+    <string name="osm_hotel">होटल</string>
+    <string name="osm_camp_site">शिविर स्थल</string>
+    <string name="osm_rugby_league">रग्बी लीग</string>
+    <string name="osm_roller_skating">रोलर स्केटिंग</string>
+    <string name="osm_multi">बहुउपयोगी</string>
+    <string name="osm_ice_hockey">आइस हॉकी</string>
+    <string name="osm_hapkido">हापकिडो</string>
+    <string name="osm_croquet">क्रोकेट</string>
+    <string name="osm_cricket">क्रिकेट</string>
+    <string name="osm_cockfighting">मुर्गों की लड़ाई</string>
+    <string name="osm_boxing">मुक्केबाज़ी</string>
+    <string name="osm_bmx">बीएमएक्स</string>
+    <string name="osm_billiards">बिलियर्ड्स</string>
+    <string name="osm_toys">खिलौनों की दुकान</string>
+    <string name="osm_pyrotechnics">आतिशबाज़ी की दुकान</string>
+    <string name="osm_laundry">लॉन्ड्री</string>
+    <string name="osm_funeral_directors">अंतिम संस्कार सेवा</string>
+    <string name="osm_dry_cleaning">ड्राई क्लीनिंग</string>
+    <string name="osm_copyshop">फोटोकॉपी की दुकान</string>
+    <string name="osm_chalet">शैले</string>
+    <string name="osm_apartment">अपार्टमेंट</string>
+    <string name="osm_water_ski">वॉटर स्कीइंग</string>
+    <string name="osm_water_polo">वॉटर पोलो</string>
+    <string name="osm_table_soccer">टेबल सॉकर</string>
+    <string name="osm_table_tennis">टेबल टेनिस</string>
+    <string name="osm_skateboard">स्केटबोर्डिंग</string>
+    <string name="osm_sailing">नौकायन</string>
+    <string name="osm_safety_training">सुरक्षा प्रशिक्षण</string>
+    <string name="osm_rowing">नौकायन (रोइंग)</string>
+    <string name="osm_model_aerodrome">मॉडल हवाई पट्टी</string>
+    <string name="osm_korfball">कोर्फ़बॉल</string>
+    <string name="osm_ice_stock">आइस स्टॉक</string>
+    <string name="osm_gymnastics">जिमनास्टिक्स</string>
+    <string name="osm_football">फ़ुटबॉल</string>
+    <string name="osm_field_hockey">फ़ील्ड हॉकी</string>
+    <string name="osm_equestrian">घुड़सवारी</string>
+    <string name="osm_cycling">साइकिलिंग</string>
+    <string name="osm_curling">कर्लिंग</string>
+    <string name="osm_cricket_nets">क्रिकेट नेट्स</string>
+    <string name="osm_cliff_diving">क्लिफ़ डाइविंग</string>
+    <string name="osm_boules">बूल्स</string>
+    <string name="osm_bobsleigh">बॉबस्ले</string>
+    <string name="osm_baseball">बेसबॉल</string>
+    <string name="osm_aikido">आइकिडो</string>
+    <string name="osm_10pin">टेनपिन बॉलिंग</string>
+    <string name="osm_weapons">हथियारों की दुकान</string>
+    <string name="osm_pet">पालतू जानवरों की दुकान</string>
+    <string name="osm_money_lender">साहूकार</string>
+    <string name="osm_gift">उपहार की दुकान</string>
+    <string name="osm_books">किताबों की दुकान</string>
+    <string name="osm_bookmaker">सट्टेबाज़</string>
+    <string name="osm_photo">फ़ोटो की दुकान</string>
+    <string name="osm_craft">हस्तशिल्प की दुकान</string>
+    <string name="osm_motorcycle">मोटरसाइकिल की दुकान</string>
+    <string name="osm_hunting">शिकार सामग्री की दुकान</string>
+    <string name="osm_window_blind">विंडो ब्लाइंड की दुकान</string>
+    <string name="osm_curtain">पर्दों की दुकान</string>
+    <string name="osm_antiques">प्राचीन वस्तुओं की दुकान</string>
+    <string name="osm_paint">पेंट की दुकान</string>
+    <string name="osm_tattoo">टैटू स्टूडियो</string>
+    <string name="osm_nutrition_supplements">पोषण पूरक की दुकान</string>
+    <string name="osm_hearing_aids">श्रवण यंत्र की दुकान</string>
+    <string name="osm_cosmetics">सौंदर्य प्रसाधन की दुकान</string>
+    <string name="osm_watches">घड़ियों की दुकान</string>
+    <string name="osm_jewelry">आभूषणों की दुकान</string>
+    <string name="osm_boutique">बुटीक</string>
+    <string name="osm_baby_goods">शिशु सामग्री की दुकान</string>
+    <string name="osm_tea">चाय की दुकान</string>
+    <string name="osm_pasta">पास्ता की दुकान</string>
+    <string name="osm_coffee">कॉफ़ी शॉप</string>
+    <string name="osm_quango">अर्ध-सरकारी संगठन</string>
+    <string name="osm_political_party">राजनीतिक दल</string>
+    <string name="osm_association">संघ</string>
+    <string name="osm_architect">वास्तुकार</string>
+    <string name="osm_advertising_agency">विज्ञापन एजेंसी</string>
+    <string name="osm_summer_camp">ग्रीष्मकालीन शिविर</string>
+    <string name="osm_dance">नृत्य स्टूडियो</string>
+    <string name="osm_amusement_arcade">मनोरंजन आर्केड</string>
+    <string name="osm_adult_gaming_centre">वयस्क गेमिंग केंद्र</string>
+    <string name="osm_window_construction">खिड़की निर्माण</string>
+    <string name="osm_upholsterer">असबाबसाज़</string>
+    <string name="osm_shoemaker">मोची</string>
+    <string name="osm_sawmill">आरा मशीन</string>
+    <string name="osm_pottery">मिट्टी के बर्तन स्टूडियो</string>
+    <string name="osm_key_cutter">चाबी बनाने वाला</string>
+    <string name="osm_hvac">HVAC ठेकेदार</string>
+    <string name="osm_clockmaker">घड़ीसाज़</string>
+    <string name="osm_carpenter">बढ़ई</string>
+    <string name="osm_builder">भवन निर्माता</string>
+    <string name="osm_bookbinder">जिल्दसाज़</string>
+    <string name="osm_boatbuilder">नाव निर्माता</string>
+    <string name="osm_brewery">शराब की भट्टी</string>
+    <string name="osm_blacksmith">लोहार</string>
+    <string name="osm_basket_maker">टोकरी बनाने वाला</string>
+    <string name="osm_greenhouse">ग्रीनहाउस</string>
+    <string name="osm_farm_auxiliary">सहायक कृषि भवन</string>
+    <string name="osm_civic">नागरिक भवन</string>
+    <string name="osm_bungalow">बंगला</string>
+    <string name="osm_detached">स्वतंत्र मकान</string>
+    <string name="osm_hair_dresser">हेयर सैलून</string>
+    <string name="osm_clothing_store">कपड़ों की दुकान</string>
+    <string name="osm_user">उपयोगकर्ता</string>
+    <string name="osm_dojo">डोजो</string>
+    <string name="osm_nightclub">नाइटक्लब</string>
+    <string name="osm_community_centre">सामुदायिक केंद्र</string>
+    <string name="osm_brothel">वेश्यालय</string>
+    <string name="osm_veterinary">पशु चिकित्सालय</string>
+    <string name="osm_social_facility">सामाजिक सेवा केंद्र</string>
+    <string name="osm_clinic">क्लिनिक</string>
+    <string name="osm_charging_station">चार्जिंग स्टेशन</string>
+    <string name="osm_kindergarten">बालवाड़ी</string>
+    <string name="osm_ice_cream">आइसक्रीम की दुकान</string>
+    <string name="osm_fast_food">फ़ास्ट फ़ूड रेस्तरां</string>
+    <string name="osm_commercial">व्यावसायिक भवन</string>
+    <string name="osm_canoe">कैनोइंग</string>
+    <string name="osm_scuba_diving">स्कूबा डाइविंग</string>
+    <string name="osm_fishing">मछली पकड़ना</string>
+    <string name="osm_optician">चश्मे की दुकान</string>
+    <string name="osm_confectionery">मिठाई की दुकान</string>
+    <string name="osm_bunker">बंकर</string>
+    <string name="osm_sleeping_pods">स्लीपिंग पॉड</string>
+    <string name="osm_motel">मोटेल</string>
+    <string name="osm_guest_house">अतिथि गृह</string>
+    <string name="osm_wrestling">कुश्ती</string>
+    <string name="osm_toboggan">टोबॉगन</string>
+    <string name="osm_skiing">स्कीइंग</string>
+    <string name="osm_rc_car">RC कार</string>
+    <string name="osm_paddle_tennis">पैडल टेनिस</string>
+    <string name="osm_hockey">हॉकी</string>
+    <string name="osm_fencing">तलवारबाज़ी</string>
+    <string name="osm_bowls">बॉल्स</string>
+    <string name="osm_badminton">बैडमिंटन</string>
+    <string name="osm_archery">तीरंदाज़ी</string>
+    <string name="osm_american_football">अमेरिकी फ़ुटबॉल</string>
+    <string name="osm_travel_agency">ट्रैवल एजेंसी</string>
+    <string name="osm_tobacco">तंबाकू की दुकान</string>
+    <string name="osm_e_cigarette">ई-सिगरेट की दुकान</string>
+    <string name="osm_video">वीडियो की दुकान</string>
+    <string name="osm_car_repair">कार मरम्मत</string>
+    <string name="osm_hifi">हाई-फ़ाई की दुकान</string>
+    <string name="osm_lamps">लैंप की दुकान</string>
+    <string name="osm_kitchen">रसोई सामान की दुकान</string>
+    <string name="osm_interior_decoration">इंटीरियर डेकोरेशन की दुकान</string>
+    <string name="osm_houseware">घरेलू सामान की दुकान</string>
+    <string name="osm_erotic">वयस्क उत्पाद दुकान</string>
+    <string name="osm_beauty">ब्यूटी शॉप</string>
+    <string name="osm_wine">वाइन की दुकान</string>
+    <string name="osm_dairy">डेयरी की दुकान</string>
+    <string name="osm_cheese">पनीर की दुकान</string>
+    <string name="osm_bakery">बेकरी</string>
+    <string name="osm_telecommunication">दूरसंचार की दुकान</string>
+    <string name="osm_tax">कर कार्यालय</string>
+    <string name="osm_real_estate_agent">रियल एस्टेट एजेंट</string>
+    <string name="osm_notary">नोटरी</string>
+    <string name="osm_ngo">NGO कार्यालय</string>
+    <string name="osm_lawyer">वकील</string>
+    <string name="osm_it">IT सेवाएँ</string>
+    <string name="osm_foundation">फ़ाउंडेशन</string>
+    <string name="osm_employment_agency">रोज़गार एजेंसी</string>
+    <string name="osm_educational_institution">शैक्षणिक संस्थान</string>
+    <string name="osm_adoption_agency">गोद लेने की एजेंसी</string>
+    <string name="osm_miniature_golf">मिनिएचर गोल्फ़</string>
+    <string name="osm_building">भवन</string>
+    <string name="osm_winery">वाइनरी</string>
+    <string name="osm_tiler">टाइल मिस्त्री</string>
+    <string name="osm_chimney_sweeper">चिमनी सफ़ाईकर्ता</string>
+    <string name="osm_stand_builder">स्टैंड निर्माता</string>
+    <string name="osm_saddler">साज़-सामान बनाने वाला</string>
+    <string name="osm_plumber">प्लम्बर</string>
+    <string name="osm_plasterer">पलस्तर करने वाला</string>
+    <string name="osm_painter">पेंटर</string>
+    <string name="osm_jeweller">आभूषण की दुकान</string>
+    <string name="osm_floorer">फ़र्श लगाने वाला</string>
+    <string name="osm_distillery">शराब भट्टी</string>
+    <string name="osm_carpet_layer">कालीन बिछाने वाला</string>
+    <string name="osm_beekeeper">मधुमक्खी पालक</string>
+    <string name="osm_public">सार्वजनिक</string>
+    <string name="osm_dormitory">छात्रावास</string>
+    <string name="osm_apartments">अपार्टमेंट</string>
+    <string name="osm_internet_cafe">इंटरनेट कैफ़े</string>
+    <string name="osm_shoe_shop">जूतों की दुकान</string>
+    <string name="osm_generic_shop">दुकान</string>
+    <string name="osm_coffee_shop">कॉफ़ी शॉप</string>
+    <string name="osm_coworking_space">सह-कार्य स्थल</string>
+    <string name="osm_stripclub">स्ट्रिप क्लब</string>
+    <string name="osm_ev_charging">ईवी चार्जिंग</string>
+    <string name="osm_pub">पब</string>
+    <string name="osm_obstacle_course">बाधा दौड़ मैदान</string>
+    <string name="osm_volleyball">वॉलीबॉल</string>
+    <string name="osm_tennis">टेनिस</string>
+    <string name="osm_soccer">फ़ुटबॉल</string>
+    <string name="osm_shooting">शूटिंग रेंज</string>
+    <string name="osm_rugby_union">रग्बी यूनियन</string>
+    <string name="osm_orienteering">ओरिएंटियरिंग</string>
+    <string name="osm_netball">नेटबॉल</string>
+    <string name="osm_motor">मोटर की दुकान</string>
+    <string name="osm_kitesurfing">काइटसर्फ़िंग</string>
+    <string name="osm_karting">कार्टिंग</string>
+    <string name="osm_judo">जूडो</string>
+    <string name="osm_horseshoes">हॉर्सशू खेल</string>
+    <string name="osm_handball">हैंडबॉल</string>
+    <string name="osm_golf">गोल्फ़</string>
+    <string name="osm_gaelic_games">गेलिक खेल</string>
+    <string name="osm_diving">डाइविंग</string>
+    <string name="osm_darts">डार्ट्स</string>
+    <string name="osm_climbing_adventure">रोमांचक चढ़ाई</string>
+    <string name="osm_basketball">बास्केटबॉल</string>
+    <string name="osm_bandy">बैंडी</string>
+    <string name="osm_australian_football">ऑस्ट्रेलियन फ़ुटबॉल</string>
+    <string name="osm_9pin">नौ-पिन बॉलिंग</string>
+    <string name="osm_vacant">रिक्त</string>
+    <string name="osm_lottery">लॉटरी की दुकान</string>
+    <string name="osm_trophy">ट्रॉफ़ी की दुकान</string>
+    <string name="osm_music">संगीत की दुकान</string>
+    <string name="osm_games">खेल की दुकान</string>
+    <string name="osm_tyres">टायर की दुकान</string>
+    <string name="osm_sports">खेल-कूद की दुकान</string>
+    <string name="osm_outdoor">आउटडोर सामान की दुकान</string>
+    <string name="osm_car">कार डीलर</string>
+    <string name="osm_electronics">इलेक्ट्रॉनिक्स की दुकान</string>
+    <string name="osm_computer">कंप्यूटर की दुकान</string>
+    <string name="osm_furniture">फ़र्नीचर की दुकान</string>
+    <string name="osm_candles">मोमबत्ती की दुकान</string>
+    <string name="osm_hardware">हार्डवेयर की दुकान</string>
+    <string name="osm_gas">पेट्रोल पंप</string>
+    <string name="osm_energy">ऊर्जा कंपनी</string>
+    <string name="osm_doityourself">डीआईवाई दुकान</string>
+    <string name="osm_bathroom_furnishing">बाथरूम सामान की दुकान</string>
+    <string name="osm_medical_supply">चिकित्सा सामग्री की दुकान</string>
+    <string name="osm_variety_store">विविध सामान की दुकान</string>
+    <string name="osm_second_hand">पुरानी वस्तुओं की दुकान</string>
+    <string name="osm_charity">दान की दुकान</string>
+    <string name="osm_fashion">फ़ैशन की दुकान</string>
+    <string name="osm_fabric">कपड़े की दुकान</string>
+    <string name="osm_clothes">कपड़ों की दुकान</string>
+    <string name="osm_butcher">कसाई की दुकान</string>
+    <string name="osm_water_utility">जल आपूर्ति सेवा</string>
+    <string name="osm_realtor">रियल एस्टेट एजेंट</string>
+    <string name="osm_company">कंपनी</string>
+    <string name="osm_accountant">लेखाकार</string>
+    <string name="osm_bunker_silo">बंकर साइलो</string>
+    <string name="osm_hackerspace">हैकरस्पेस</string>
+    <string name="osm_lifeguard_base">लाइफ़गार्ड बेस</string>
+    <string name="osm_roofer">छत बनाने वाला</string>
+    <string name="osm_rigger">रिगर</string>
+    <string name="osm_parquet_layer">लकड़ी का फ़र्श लगाने वाला</string>
+    <string name="osm_gardener">माली</string>
+    <string name="osm_stable">अस्तबल</string>
+    <string name="osm_garage">गैराज</string>
+    <string name="osm_transportation">परिवहन सुविधा</string>
+    <string name="osm_house">मकान</string>
+    <string name="osm_helipad">हेलीपैड</string>
+    <string name="osm_apron">एप्रन</string>
+    <string name="osm_consumer_electronics_store">इलेक्ट्रॉनिक्स की दुकान</string>
+    <string name="osm_speciality_store">विशेष दुकान</string>
+    <string name="osm_defined">परिभाषित</string>
+    <string name="osm_sauna">सॉना</string>
+    <string name="osm_gym">जिम</string>
+    <string name="osm_crematorium">शवदाह गृह</string>
+    <string name="osm_gambling">जुआ घर</string>
+    <string name="osm_music_school">संगीत विद्यालय</string>
+    <string name="osm_bar">बार</string>
+    <string name="osm_farm">खेत</string>
+    <string name="osm_bicycle">साइकिल की दुकान</string>
+    <string name="osm_tailor">दर्ज़ी</string>
+    <string name="osm_locksmith">ताला बनाने वाला</string>
+    <string name="osm_industrial">औद्योगिक</string>
+    <string name="osm_wilderness_hut">वन कुटिया</string>
+    <string name="osm_hostel">हॉस्टल</string>
+    <string name="osm_caravan_site">कारवाँ स्थल</string>
+    <string name="osm_weightlifting">भारोत्तोलन सुविधा</string>
+    <string name="osm_taekwondo">तायक्वोंडो क्लब</string>
+    <string name="osm_swimming">तरणताल</string>
+    <string name="osm_surfing">सर्फ़िंग क्षेत्र</string>
+    <string name="osm_skating">स्केटिंग रिंक</string>
+    <string name="osm_racquet">रैकेट खेल सुविधा</string>
+    <string name="osm_pelota">पेलोटा कोर्ट</string>
+    <string name="osm_paragliding">पैराग्लाइडिंग स्थल</string>
+    <string name="osm_parachuting">स्काइडाइविंग स्थल</string>
+    <string name="osm_motocross">मोटोक्रॉस ट्रैक</string>
+    <string name="osm_ice_skating">आइस स्केटिंग रिंक</string>
+    <string name="osm_horse_racing">घुड़दौड़ का मैदान</string>
+    <string name="osm_dog_racing">श्वान दौड़ का मैदान</string>
+    <string name="osm_climbing">चढ़ाई क्षेत्र</string>
+    <string name="osm_chess">शतरंज क्लब</string>
+    <string name="osm_canadian_football">कैनेडियन फ़ुटबॉल मैदान</string>
+    <string name="osm_beachvolleyball">बीच वॉलीबॉल कोर्ट</string>
+    <string name="osm_base">बेस</string>
+    <string name="osm_athletics">एथलेटिक्स ट्रैक</string>
+    <string name="osm_pawnbroker">गिरवी की दुकान</string>
+    <string name="osm_ticket">टिकट कार्यालय</string>
+    <string name="osm_stationery">स्टेशनरी की दुकान</string>
+    <string name="osm_video_games">वीडियो गेम की दुकान</string>
+    <string name="osm_model">मॉडल की दुकान</string>
+    <string name="osm_frame">फ़्रेम की दुकान</string>
+    <string name="osm_art">कला की दुकान</string>
+    <string name="osm_car_parts">कार पार्ट्स की दुकान</string>
+    <string name="osm_radiotechnics">रेडियो उपकरण की दुकान</string>
+    <string name="osm_bed">बिस्तर की दुकान</string>
+    <string name="osm_garden_furniture">बगीचे के फ़र्नीचर की दुकान</string>
+    <string name="osm_electrical">बिजली सामान की दुकान</string>
+    <string name="osm_perfumery">इत्र की दुकान</string>
+    <string name="osm_hairdresser">नाई</string>
+    <string name="osm_drugstore">दवा की दुकान</string>
+    <string name="osm_shoes">जूतों की दुकान</string>
+    <string name="osm_leather">चमड़े के सामान की दुकान</string>
+    <string name="osm_general">जनरल स्टोर</string>
+    <string name="osm_seafood">समुद्री भोजन की दुकान</string>
+    <string name="osm_organic">जैविक उत्पादों की दुकान</string>
+    <string name="osm_greengrocer">सब्ज़ी-फल की दुकान</string>
+    <string name="osm_chocolate">चॉकलेट की दुकान</string>
+    <string name="osm_brewing_supplies">शराब बनाने के सामान की दुकान</string>
+    <string name="osm_tax_advisor">कर सलाहकार</string>
+    <string name="osm_private_investigator">निजी जासूस</string>
+    <string name="osm_government">सरकारी कार्यालय</string>
+    <string name="osm_forestry">वानिकी</string>
+    <string name="osm_estate_agent">संपत्ति एजेंट</string>
+    <string name="osm_spring">जलस्रोत</string>
+    <string name="osm_golf_course">गोल्फ कोर्स</string>
+    <string name="osm_ses_station">आपातकालीन सेवा केंद्र</string>
+    <string name="osm_lifeguard_place">लाइफगार्ड चौकी</string>
+    <string name="osm_stonemason">पत्थर का कारीगर</string>
+    <string name="osm_scaffolder">मचान लगाने वाला</string>
+    <string name="osm_sailmaker">पाल बनाने वाला</string>
+    <string name="osm_photographic_laboratory">फोटो प्रयोगशाला</string>
+    <string name="osm_photographer">फोटोग्राफर</string>
+    <string name="osm_insulation">इन्सुलेशन</string>
+    <string name="osm_electrician">इलेक्ट्रीशियन</string>
+    <string name="osm_dressmaker">दर्जी</string>
+    <string name="osm_caterer">केटरर</string>
+    <string name="osm_terrace">छत</string>
+    <string name="osm_toy_shop">खिलौने की दुकान</string>
+    <string name="osm_dive_centre">डाइविंग केंद्र</string>
+    <string name="osm_swingerclub">स्विंगर क्लब</string>
+    <string name="osm_doctors">डॉक्टर</string>
+    <string name="osm_driving_school">ड्राइविंग स्कूल</string>
+    <string name="osm_free_flying">फ्री फ्लाइंग</string>
+    <string name="osm_religion">धर्म</string>
+    <string name="osm_kiosk">कियोस्क</string>
+    <string name="osm_residential">आवासीय क्षेत्र</string>
+    <string name="osm_food">खाद्य दुकान</string>
+    <string name="osm_waterfall">झरना</string>
+    <string name="osm_boatyard">नाव घाट</string>
+    <string name="osm_theme_park">थीम पार्क</string>
+    <string name="osm_roundhouse">राउंडहाउस</string>
+    <string name="osm_generator">जनरेटर</string>
+    <string name="osm_beach">समुद्र तट</string>
+    <string name="osm_naval_base">नौसेना अड्डा</string>
+    <string name="osm_works">औद्योगिक कारखाना</string>
+    <string name="osm_water_works">जल संयंत्र</string>
+    <string name="osm_telescope">दूरबीन</string>
+    <string name="osm_pier">घाट</string>
+    <string name="osm_observatory">वेधशाला</string>
+    <string name="osm_reservoir">जलाशय</string>
+    <string name="osm_monument">स्मारक</string>
+    <string name="osm_battlefield">रणभूमि</string>
+    <string name="osm_planetarium">तारामंडल</string>
+    <string name="osm_social_centre">सामुदायिक केंद्र</string>
+    <string name="osm_prison">जेल</string>
+    <string name="osm_courthouse">न्यायालय</string>
+    <string name="osm_bridge">पुल</string>
+    <string name="osm_hangar">हैंगर</string>
+    <string name="osm_tower">मीनार</string>
+    <string name="osm_attraction">आकर्षण स्थल</string>
+    <string name="osm_zoo">चिड़ियाघर</string>
+    <string name="osm_gallery">गैलरी</string>
+    <string name="osm_artwork">कलाकृति</string>
+    <string name="osm_alpine_hut">पर्वतीय शरणस्थल</string>
+    <string name="osm_plant">औद्योगिक संयंत्र</string>
+    <string name="osm_insurance">बीमा कार्यालय</string>
+    <string name="osm_airfield">हवाई पट्टी</string>
+    <string name="osm_water_tower">पानी की टंकी</string>
+    <string name="osm_pumping_station">पंपिंग स्टेशन</string>
+    <string name="osm_hot_water_tank">गर्म पानी की टंकी</string>
+    <string name="osm_campanile">घंटाघर</string>
+    <string name="osm_sports_centre">खेल केंद्र</string>
+    <string name="osm_fitness_centre">फिटनेस केंद्र</string>
+    <string name="osm_beach_resort">बीच रिज़ॉर्ट</string>
+    <string name="osm_village_green">गाँव का मैदान</string>
+    <string name="osm_ship">जहाज़</string>
+    <string name="osm_memorial">स्मृति स्थल</string>
+    <string name="osm_synagogue">सिनेगॉग</string>
+    <string name="osm_mosque">मस्जिद</string>
+    <string name="osm_chapel">चैपल</string>
+    <string name="osm_cathedral">कैथेड्रल</string>
+    <string name="osm_train_terminal">रेल टर्मिनल</string>
+    <string name="osm_college">कॉलेज</string>
+    <string name="osm_arts_centre">कला केंद्र</string>
+    <string name="osm_ranger_station">रेंजर स्टेशन</string>
+    <string name="osm_hospital">अस्पताल</string>
+    <string name="osm_track">ट्रैक</string>
+    <string name="osm_conference_centre">सम्मेलन केंद्र</string>
+    <string name="osm_viewpoint">दृश्य बिंदु</string>
+    <string name="osm_supermarket">सुपरमार्केट</string>
+    <string name="osm_peak">चोटी</string>
+    <string name="osm_storage_tank">भंडारण टंकी</string>
+    <string name="osm_lighthouse">प्रकाशस्तंभ</string>
+    <string name="osm_beacon">बीकन</string>
+    <string name="osm_port">बंदरगाह</string>
+    <string name="osm_archaeological_site">पुरातात्विक स्थल</string>
+    <string name="osm_train_station">रेलवे स्टेशन</string>
+    <string name="osm_train_station_named">%1$s रेलवे स्टेशन</string>
+    <string name="osm_shrine">तीर्थस्थल</string>
+    <string name="osm_church">गिरजाघर</string>
+    <string name="osm_historic_monument">ऐतिहासिक स्मारक</string>
+    <string name="osm_generic_landmark">लैंडमार्क</string>
+    <string name="osm_tourism_museum">संग्रहालय</string>
+    <string name="osm_register_office">पंजीकरण कार्यालय</string>
+    <string name="osm_grave_yard">कब्रिस्तान</string>
+    <string name="osm_marketplace">बाज़ार</string>
+    <string name="osm_fire_station">दमकल केंद्र</string>
+    <string name="osm_ruins">खंडहर</string>
+    <string name="osm_weir">बाँध</string>
+    <string name="osm_museum">संग्रहालय</string>
+    <string name="osm_mall">मॉल</string>
+    <string name="osm_volcano">ज्वालामुखी</string>
+    <string name="osm_hot_spring">गर्म पानी का चश्मा</string>
+    <string name="osm_glacier">हिमनद</string>
+    <string name="osm_wastewater_plant">अपशिष्ट जल संयंत्र</string>
+    <string name="osm_offshore_platform">अपतटीय मंच</string>
+    <string name="osm_gasometer">गैस टंकी</string>
+    <string name="osm_water_park">वॉटर पार्क</string>
+    <string name="osm_bandstand">बैंडस्टैंड</string>
+    <string name="osm_wreck">जहाज़ का मलबा</string>
+    <string name="osm_pillory">काठ का कुंदा</string>
+    <string name="osm_monastery">मठ</string>
+    <string name="osm_locomotive">रेल इंजन</string>
+    <string name="osm_fort">किला</string>
+    <string name="osm_services">सेवा क्षेत्र</string>
+    <string name="osm_lifeguard_tower">लाइफगार्ड टॉवर</string>
+    <string name="osm_temple">मंदिर</string>
+    <string name="osm_national_park">राष्ट्रीय उद्यान</string>
+    <string name="osm_heliport">हेलीपोर्ट</string>
+    <string name="osm_public_park">सार्वजनिक पार्क</string>
+    <string name="osm_department_store">डिपार्टमेंट स्टोर</string>
+    <string name="osm_studio">स्टूडियो</string>
+    <string name="osm_public_building">सार्वजनिक भवन</string>
+    <string name="osm_clock">घड़ी</string>
+    <string name="osm_casino">कैसीनो</string>
+    <string name="osm_ferry_terminal">फेरी टर्मिनल</string>
+    <string name="osm_ferry_terminal_named">%1$s फेरी टर्मिनल</string>
+    <string name="osm_stadium">स्टेडियम</string>
+    <string name="osm_dam">बाँध</string>
+    <string name="osm_dock">गोदी</string>
+    <string name="osm_geyser">गीज़र</string>
+    <string name="osm_bay">खाड़ी</string>
+    <string name="osm_barracks">बैरक</string>
+    <string name="osm_windmill">पवनचक्की</string>
+    <string name="osm_watermill">जल चक्की</string>
+    <string name="osm_communications_tower">दूरसंचार टॉवर</string>
+    <string name="osm_swimming_area">तैराकी क्षेत्र</string>
+    <string name="osm_slipway">नाव रैंप</string>
+    <string name="osm_nature_reserve">प्रकृति अभयारण्य</string>
+    <string name="osm_marina">मरीना</string>
+    <string name="osm_ice_rink">आइस रिंक</string>
+    <string name="osm_manor">जागीर</string>
+    <string name="osm_city_gate">नगर द्वार</string>
+    <string name="osm_castle">महल</string>
+    <string name="osm_aircraft">विमान</string>
+    <string name="osm_digester">डाइजेस्टर</string>
+    <string name="osm_sally_port">सैली पोर्ट</string>
+    <string name="osm_aerodrome">हवाई अड्डा</string>
+    <string name="osm_shopping_mall">शॉपिंग मॉल</string>
+    <string name="osm_cinema">सिनेमाघर</string>
+    <string name="osm_rescue_station">बचाव केंद्र</string>
+    <string name="osm_airport">हवाई अड्डा</string>
+    <string name="osm_theatre">रंगमंच</string>
+    <string name="osm_library">पुस्तकालय</string>
+    <string name="osm_university">विश्वविद्यालय</string>
+    <string name="osm_police">पुलिस स्टेशन</string>
+    <string name="osm_embassy">दूतावास</string>
+    <string name="osm_bus_station">बस स्टेशन</string>
+    <string name="osm_station">स्टेशन</string>
+    <string name="osm_toll_booth">टोल बूथ</string>
+    <string name="osm_lift">लिफ्ट</string>
+    <string name="osm_unmanaged_crossing">अनियंत्रित क्रॉसवॉक</string>
+    <string name="osm_pharmacy">फार्मेसी की दुकान</string>
+    <string name="osm_kneipp_water_cure">नाइप जल चिकित्सा</string>
+    <string name="osm_food_court">फूड कोर्ट</string>
+    <string name="osm_chemist">केमिस्ट की दुकान</string>
+    <string name="osm_checkpoint">चेकपॉइंट</string>
+    <string name="osm_dog_park">डॉग पार्क</string>
+    <string name="osm_kissing_gate">किसिंग गेट</string>
+    <string name="osm_car_rental">कार किराया</string>
+    <string name="osm_pedestrianised_area">पैदल यात्री क्षेत्र</string>
+    <string name="osm_escalator">एस्केलेटर</string>
+    <string name="osm_shelter">शेल्टर</string>
+    <string name="osm_water_point">पानी का स्थान</string>
+    <string name="osm_subway_entrance">मेट्रो प्रवेश द्वार</string>
+    <string name="osm_cave_entrance">गुफा प्रवेश द्वार</string>
+    <string name="osm_swing_gate">स्विंग गेट</string>
+    <string name="osm_stile">स्टाइल</string>
+    <string name="osm_car_sharing">कार शेयरिंग</string>
+    <string name="osm_customer_service">ग्राहक सेवा</string>
+    <string name="osm_watering_place">पशुओं का पानी पीने का स्थान</string>
+    <string name="osm_platform">प्लेटफॉर्म</string>
+    <string name="osm_horse_stile">हॉर्स स्टाइल</string>
+    <string name="osm_bureau_de_change">मुद्रा विनिमय केंद्र</string>
+    <string name="osm_stairs">सीढ़ियाँ</string>
+    <string name="osm_bicycle_rental">साइकिल किराया</string>
+    <string name="osm_tram_stop">ट्राम स्टॉप</string>
+    <string name="osm_tram_stop_named">%1$s ट्राम स्टॉप</string>
+    <string name="osm_subway">मेट्रो स्टेशन</string>
+    <string name="osm_subway_named">%1$s मेट्रो स्टेशन</string>
+    <string name="osm_hampshire_gate">हैम्पशायर गेट</string>
+    <string name="osm_full_height_turnstile">पूर्ण ऊँचाई वाला टर्नस्टाइल</string>
+    <string name="osm_boat_sharing">बोट शेयरिंग</string>
+    <string name="osm_help_point">सहायता केंद्र</string>
+    <string name="osm_open_space">खुला मैदान</string>
+    <string name="osm_spending_area">ठहराव क्षेत्र</string>
+    <string name="osm_bicycle_repair_station">साइकिल मरम्मत केंद्र</string>
+    <string name="osm_motorcycle_barrier">मोटरसाइकिल बैरियर</string>
+    <string name="osm_kent_carriage_gap">केंट कैरिज गैप</string>
+    <string name="osm_shared_space">साझा स्थान</string>
+    <string name="osm_cliff">चट्टान</string>
+    <string name="osm_training_area">प्रशिक्षण क्षेत्र</string>
+    <string name="osm_log">लट्ठा</string>
+    <string name="osm_jersey_barrier">जर्सी बैरियर</string>
+    <string name="osm_construction_site">निर्माण स्थल</string>
+    <string name="osm_ridge">पर्वत श्रेणी</string>
+    <string name="osm_nuclear_explosion_site">परमाणु विस्फोट स्थल</string>
+    <string name="osm_dyke">तटबंध</string>
+    <string name="osm_sump_buster">सम्प बस्टर</string>
+    <string name="osm_rope">रस्सी</string>
+    <string name="osm_debris">मलबा</string>
+    <string name="osm_road_works">सड़क निर्माण कार्य</string>
+    <string name="osm_lock_gate">लॉक गेट</string>
+    <string name="osm_sinkhole">सिंकहोल</string>
+    <string name="osm_range">फायरिंग रेंज</string>
+    <string name="osm_ambulance_station">एम्बुलेंस स्टेशन</string>
+    <string name="osm_spikes">स्पाइक्स</string>
+    <string name="osm_generic_hazard">सामान्य खतरा</string>
+    <string name="osm_contact_line">संपर्क लाइन</string>
+    <string name="osm_danger_area">खतरनाक क्षेत्र</string>
+    <string name="osm_chain">चेन बैरियर</string>
+    <string name="osm_parking_space">पार्किंग स्थान</string>
+    <string name="osm_motorcycle_parking">मोटरसाइकिल पार्किंग</string>
+    <string name="osm_city">शहर</string>
+    <string name="osm_town">कस्बा</string>
+    <string name="osm_neighbourhood">मोहल्ला</string>
+    <string name="osm_village">गाँव</string>
+    <string name="osm_hamlet">बस्ती</string>
+    <string name="osm_recreation_ground">खेल का मैदान</string>
+    <string name="osm_river">नदी</string>
+    <string name="osm_railway">रेलवे</string>
+    <string name="osm_wood">जंगल</string>
+    <string name="osm_pavillion">पवेलियन</string>
+    <string name="osm_sport">खेल</string>
+    <string name="osm_health_food">स्वास्थ्य आहार</string>
+    <string name="osm_events_venue">कार्यक्रम स्थल</string>
+    <string name="tour_welcome">Soundscape ट्यूटोरियल में आपका स्वागत है। यह ट्यूटोरियल आपको ऐप की मुख्य सुविधाओं के बारे में बताएगा। आप किसी भी समय मुख्य मेनू में ऑडियो ट्यूटोरियल रद्द करें पर टैप करके ट्यूटोरियल बंद कर सकते हैं। आइए पास के स्थान से शुरू करें, जो आपको रुचि के स्थान खोजने में मदद करता है। पास के स्थान बटन होम स्क्रीन पर सर्च बार के ठीक नीचे है। इसे आज़माने के लिए अभी टैप करें।</string>
+    <string name="tour_select_place">पास के स्थान रुचि के स्थानों को प्रकार के अनुसार समूहित करता है। सूचियों में स्थानों को देखें और एक चुनें।</string>
+    <string name="tour_create_marker_started">बहुत अच्छा! अब आप स्थान विवरण स्क्रीन पर हैं। यह स्क्रीन आपको विभिन्न कार्य करने की सुविधा देती है, जिसमें स्थान को मार्कर के रूप में सहेजना शामिल है। Soundscape में, आप अपने आसपास की किसी भी चीज़ को मार्क कर सकते हैं। उदाहरण के लिए, आप अपना घर, अपना बस स्टॉप, या वह स्थान जहाँ आप अभी हैं, मार्क कर सकते हैं। आइए इसे आज़माएँ। मार्कर के रूप में सहेजें पर टैप करके इस स्थान को मार्कर के रूप में सहेजें।</string>
+    <string name="tour_create_marker_done">शानदार! मार्कर बनाते समय, आप उसका नाम बदल सकते हैं और अतिरिक्त नोट्स जोड़ सकते हैं। अभी इसे आज़माएँ, और जब आप तैयार हों तो पूर्ण पर टैप करें।</string>
+    <string name="tour_my_location">अब जब आप मार्कर का उपयोग करना जान गए हैं, तो आइए कुछ अन्य सुविधाएँ देखें। स्क्रीन के नीचे चार बटन हैं जिन्हें हम बारी-बारी से आज़माएँगे। बाईं ओर का बटन मेरा स्थान है, जो आपके वर्तमान स्थान का वर्णन करता है। अभी इस पर टैप करके देखें।</string>
+    <string name="tour_around_me">अगला बटन मेरे आसपास है। यह आपको बताता है कि हर दिशा में क्या है। मेरे आसपास पर टैप करें।</string>
+    <string name="tour_ahead">अगला बटन मेरे आगे है। यह आपको बताता है कि आपके सामने क्या है। मेरे आगे पर टैप करें।</string>
+    <string name="tour_nearby_markers">आखिरी बटन पास के मार्कर है, जो आपके आसपास सहेजे गए स्थानों की जानकारी देता है। इसे आज़माने के लिए पास के मार्कर पर टैप करें।</string>
+    <string name="tour_markers_and_routes">आपने सफलतापूर्वक एक मार्कर बना लिया है। अब उस स्थान तक मार्गदर्शन के लिए एक ऑडियो बीकन चलाते हैं। पास के स्थान के ठीक नीचे मार्कर और मार्ग पर टैप करें।</string>
+    <string name="tour_markers">मार्कर और मार्ग स्क्रीन में दो टैब हैं, एक में मार्ग की सूची है जो मार्करों की प्लेलिस्ट हैं, और दूसरे में अलग-अलग मार्कर हैं। आपने जो मार्कर बनाया है उसे खोजने के लिए मार्कर टैब पर टैप करें।</string>
+    <string name="tour_start_beacon">अब आप मार्कर टैब पर हैं जिसमें आपके सभी सहेजे गए मार्कर हैं। एक मार्कर चुनें, और जब स्थान विवरण स्क्रीन दिखाई दे, तो ऑडियो बीकन शुरू करें पर टैप करें।</string>
+    <string name="tour_beacon_demo">अब आप ऑडियो बीकन सुन सकते हैं। यह आपकी मंज़िल की दिशा से बजता है। जैसे-जैसे आप अपने फ़ोन की दिशा बदलते हैं, आप ऑडियो बीकन को हिलते और अपनी आवाज़ बदलते सुन सकते हैं। अभी इसे आज़माएँ।</string>
+    <string name="tour_beacon_demo_locked">जब आपका फ़ोन लॉक होता है, तब भी बीकन बजता रहता है। यदि आप पैदल चल रहे हैं या किसी वाहन में हैं, तो ऐप ऑडियो बीकन बजाते समय आपकी यात्रा की दिशा का उपयोग करता है। हालाँकि, लॉक होने पर भी आप अपने फ़ोन को कम्पास की तरह अपने सामने सपाट पकड़ सकते हैं, और यह उस दिशा का उपयोग करेगा जिधर आपका फ़ोन इशारा कर रहा है। इसे आज़माकर देखें।</string>
+    <string name="tour_stop_beacon">जब आप बीकन बंद करना चाहें, तो मार्ग रोकें बटन पर टैप करें।</string>
+    <string name="tour_finish">ट्यूटोरियल पूरा हो गया है। आप इसे मुख्य मेनू से दोबारा चला सकते हैं। हमें उम्मीद है कि आपको यह ऐप उपयोगी लगेगा!</string>
+    <string name="tour_cancel">ऑडियो ट्यूटोरियल रद्द कर दिया गया है। यदि आप चाहें, तो इसे मुख्य मेनू से दोबारा चला सकते हैं।</string>
+    <string name="menu_audio_tutorial">ट्यूटोरियल</string>
+    <string name="menu_audio_tutorial_cancel">ट्यूटोरियल रद्द करें</string>
+    <string name="tour_continue_button">जारी रखें</string>
+    <string name="tour_continue_hint">पॉपअप बंद करें और ट्यूटोरियल जारी रखें</string>
+    <string name="language_mismatch_title">नई भाषा उपलब्ध है</string>
+    <string name="language_mismatch_message">आपके फोन की भाषा %1$s पर सेट है और वह भाषा अब Soundscape में उपलब्ध है। क्या आप Soundscape को %1$s में बदलना चाहेंगे?</string>
+    <string name="language_mismatch_switch">%1$s में बदलें</string>
+    <string name="language_mismatch_keep">वर्तमान भाषा रखें</string>
+    <string name="preview_go_hint">इस दिशा में आगे बढ़कर अगले चौराहे पर जाएँ।</string>
+    <string name="error_message_route_not_found">डेटाबेस में मार्ग नहीं मिल सका।</string>
+    <string name="error_message_deleting_route">मार्ग हटाया नहीं जा सका।</string>
+    <string name="error_message_saving_route">मार्ग सहेजा नहीं जा सका।</string>
+    <string name="service_still_running">Soundscape स्थान सेवा अभी भी चल रही है।</string>
+    <string name="offline_map_download_complete">डाउनलोड पूरा हुआ</string>
+    <string name="offline_map_download_cancelled">डाउनलोड रद्द किया गया</string>
+    <string name="offline_map_download_error">डाउनलोड में त्रुटि</string>
+    <string name="behavior_scavenger_hunt_callout_next_flag_short_route">बीकन %1$s पर सेट किया गया, %2$s दूर</string>
+    <string name="route_beacon_progress">बीकन %1$s पर</string>
+    <string name="menu_route">मार्ग नियंत्रण</string>
+    <string name="menu_route_next_waypoint">अगला मार्ग बिंदु</string>
+    <string name="menu_route_previous_waypoint">पिछला मार्ग बिंदु</string>
+    <string name="menu_no_routes">कोई मार्ग सहेजा नहीं गया</string>
+    <string name="menu_main_menu">शीर्ष मेनू</string>
+    <string name="first_launch_permissions_record_audio">ऑडियो रिकॉर्ड करें</string>
+    <string name="first_launch_permissions_required_for_voice_control">यह अनुमति वैकल्पिक है, लेकिन यदि आप ऐप को वॉइस कमांड से नियंत्रित करना चाहते हैं तो इसकी आवश्यकता होगी।</string>
+    <string name="menu_media_controls">मीडिया नियंत्रण</string>
+    <string name="settings_section_media_controls">मीडिया नियंत्रण मोड</string>
+    <string name="settings_section_media_controls_description">आपके हेडफ़ोन या रिमोट के मीडिया नियंत्रण बटनों को इस विकल्प के आधार पर अलग‑अलग तरीकों से कॉन्फ़िगर किया जा सकता है।</string>
+    <string name="settings_media_controls_original">मूल मोड</string>
+    <string name="settings_media_controls_voice_command">वॉइस कमांड</string>
+    <string name="settings_media_controls_audio_menu">ऑडियो मेनू</string>
+    <string name="voice_cmd_help_response">उपलब्ध वॉइस कमांड:</string>
+    <string name="voice_cmd_listening">सुन रहा/रही हूँ…</string>
+    <string name="voice_cmd_not_recognized">क्षमा करें, मैं कमांड %1$s नहीं ढूँढ सका। वॉइस कमांड %2$s उपलब्ध कमांड सूचीबद्ध करेगा।</string>
+    <string name="voice_cmd_list_routes">मार्ग सूची दिखाएँ</string>
+    <string name="voice_cmd_routes_list">उपलब्ध मार्ग हैं,</string>
+    <string name="voice_cmd_list_markers">मार्कर सूची दिखाएँ</string>
+    <string name="voice_cmd_markers_list">उपलब्ध मार्कर हैं,</string>
+    <string name="voice_cmd_no_routes">कोई मार्ग सहेजा नहीं गया है</string>
+    <string name="voice_cmd_no_markers">कोई मार्कर सहेजा नहीं गया है</string>
+    <string name="voice_cmd_route_not_found">मार्ग नहीं मिला: %1$s</string>
+    <string name="voice_cmd_starting_route">मार्ग %1$s शुरू किया जा रहा है</string>
+    <string name="voice_cmd_start_route">मार्ग %1$s शुरू करें</string>
+    <string name="voice_cmd_start_beacon_at_marker_with_name">%1$s पर ऑडियो बीकन शुरू करें</string>
+    <string name="voice_cmd_starting_beacon_at_marker">ऑडियो बीकन %1$s पर शुरू किया जा रहा है</string>
+    <string name="voice_cmd_marker_not_found">मार्कर नहीं मिला: %1$s</string>
+    <string name="voice_cmd_explain_dynamic_markers">उदाहरण के लिए, आप नाम से मार्ग और मार्कर भी शुरू कर सकते हैं।</string>
+    <string name="voice_cmd_speech_recognition_error_network_timeout">वाणी पहचान नेटवर्क टाइमआउट त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_network">वाणी पहचान नेटवर्क त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_audio">वाणी पहचान: ऑडियो रिकॉर्ड करने में त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_server">वाणी पहचान सर्वर त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_client">वाणी पहचान क्लाइंट त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_speech_timeout">वाणी सुनने का समय समाप्त हो गया है, इसलिए सुनना बंद कर दिया गया है। कृपया पुनः प्रयास करें।</string>
+    <string name="voice_cmd_speech_recognition_not_match">कोई वाणी सुनी नहीं गई, इसलिए सुनना बंद कर दिया गया है। कृपया पुनः प्रयास करें।</string>
+    <string name="voice_cmd_speech_recognition_busy">वाणी पहचान व्यस्त त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_permissions">वाणी पहचान चलाने के लिए पर्याप्त अनुमतियाँ उपलब्ध नहीं हैं।</string>
+    <string name="voice_cmd_speech_recognition_error_too_many_requests">वाणी पहचान: अनुरोधों की संख्या अधिक होने की त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_server_disconnected">वाणी पहचान सर्वर डिस्कनेक्ट त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_language_not_supported">वर्तमान भाषा Android द्वारा वाणी पहचान के लिए समर्थित नहीं है।</string>
+    <string name="voice_cmd_speech_recognition_error_language_unavailable">वर्तमान भाषा समर्थित है, लेकिन यह फोन पर डाउनलोड नहीं की गई है।</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_check_support">वाणी पहचान समर्थन जाँच त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events">वाणी पहचान डाउनलोड इवेंट सुनने में त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_unknown">वाणी पहचान अज्ञात त्रुटि।</string>
+    <string name="voice_cmd_speech_recognition_error_unsupported">इस फ़ोन पर वाणी पहचान समर्थित नहीं है।</string>
+    <string name="settings_voice_command_listening_prompt">सुनने की घोषणा करें</string>
+    <string name="settings_voice_command_listening_prompt_description">वॉइस पहचान शुरू होने से पहले सुनने का संकेत (प्रॉम्प्ट) बोलें।</string>
+    <string name="settings_voice_command_microphone">माइक्रोफ़ोन</string>
+    <string name="settings_voice_command_microphone_description">वॉइस कमांड के लिए किस माइक्रोफ़ोन का उपयोग करना है, चुनें।</string>
     <string name="battery_optimization_title">पृष्ठभूमि बैटरी उपयोग</string>
     <string name="battery_optimization_message">जब आपका फ़ोन लॉक हो तब भी ऑडियो नेविगेशन प्रदान करते रहने के लिए Soundscape को बिना प्रतिबंध के बैटरी उपयोग की आवश्यकता है। कृपया अगले डायलॉग में इसकी अनुमति दें। यदि आप Soundscape को बंद कर देते हैं, तो सभी सेवाएँ बंद हो जाएँगी और यह अब बैटरी का उपयोग नहीं करेगा।</string>
     <string name="route_detail_action_start_route_reverse">मार्ग उल्टे क्रम में शुरू करें</string>

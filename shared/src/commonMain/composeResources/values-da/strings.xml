@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="general_alert_cancel">Annuller</string>
     <string name="general_alert_done">Udført</string>
     <string name="general_loading_start">Gør tingene klar…</string>
@@ -405,931 +405,931 @@
     <string name="faq_tip_create_marker_at_bus_stop">Hvis der er en busrute, du tager regelmæssigt, kan du indstille dine påstignings- og udstigningspunkter som mærker. På denne måde vil de blive gemt, så du nemt kan finde dem igen, du skal bare gå til *"Administrer mærker"* fra menuen og finde dem på listen. Du kan indstille et lydfyr på dem, så vil du få periodiske opdateringer om, hvor tæt du er på dit udstigningspunkt. Bemærk: Du kan slå den rytmiske lyd fra, og du vil stadig få afstandsopdateringer undervejs.</string>
     <string name="first_launch_permissions_notification">Meddelelser</string>
     <string name="no_language_selected">Ingen sprog valgt</string>
-    <string name="osm_tram_stop_named" tools:ignore="MissingTranslation">%1$s sporvogn stop</string>
-    <string name="notification_text" tools:ignore="MissingTranslation">Soundscape-lokalitetstjenesten kører, selv når telefonen er låst.</string>
-    <string name="osm_train_station" tools:ignore="MissingTranslation">Togstation</string>
-    <string name="osm_train_station_named" tools:ignore="MissingTranslation">%1$s togstation</string>
-    <string name="cancel_search_contentDescription" tools:ignore="MissingTranslation">Annuller søgning</string>
-    <string name="osm_tram_stop" tools:ignore="MissingTranslation">Sporvogns stop</string>
-    <string name="directions_cardinal_north" tools:ignore="MissingTranslation">Nord</string>
-    <string name="directions_cardinal_north_east" tools:ignore="MissingTranslation">Nordøst</string>
-    <string name="directions_cardinal_east" tools:ignore="MissingTranslation">Øst</string>
-    <string name="directions_cardinal_south_east" tools:ignore="MissingTranslation">Sydøst</string>
-    <string name="directions_cardinal_south" tools:ignore="MissingTranslation">Syd</string>
-    <string name="directions_cardinal_south_west" tools:ignore="MissingTranslation">Sydvest</string>
-    <string name="directions_cardinal_west" tools:ignore="MissingTranslation">Vest</string>
-    <string name="directions_cardinal_north_west" tools:ignore="MissingTranslation">Nordvest</string>
-    <string name="directions_cardinal_north_abb" tools:ignore="MissingTranslation">N</string>
-    <string name="directions_cardinal_north_east_abb" tools:ignore="MissingTranslation">NØ</string>
-    <string name="directions_cardinal_east_abb" tools:ignore="MissingTranslation">Ø</string>
-    <string name="directions_cardinal_south_east_abb" tools:ignore="MissingTranslation">SØ</string>
-    <string name="directions_cardinal_south_abb" tools:ignore="MissingTranslation">S</string>
-    <string name="directions_cardinal_south_west_abb" tools:ignore="MissingTranslation">SV</string>
-    <string name="directions_cardinal_west_abb" tools:ignore="MissingTranslation">V</string>
-    <string name="directions_cardinal_north_west_abb" tools:ignore="MissingTranslation">NV</string>
-    <string name="first_launch_change_language" tools:ignore="MissingTranslation">Ændre Sprog</string>
-    <string name="first_launch_change_language_hint" tools:ignore="MissingTranslation">at ændre det sprog, der bruges til appen</string>
-    <string name="osm_subway" tools:ignore="MissingTranslation">Metrostation</string>
-    <string name="osm_subway_named" tools:ignore="MissingTranslation">%1$s metrostation</string>
-    <string name="osm_ferry_terminal" tools:ignore="MissingTranslation">Færgeterminal</string>
-    <string name="osm_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s færge_terminal</string>
-    <string name="menu_manage_audio" tools:ignore="MissingTranslation">Lyd</string>
-    <string name="settings_section_units" tools:ignore="MissingTranslation">Måleenheder</string>
-    <string name="settings_units_imperial" tools:ignore="MissingTranslation">Imperial (fod)</string>
-    <string name="settings_units_metric" tools:ignore="MissingTranslation">Metrisk (meter)</string>
-    <string name="voice_engine" tools:ignore="MissingTranslation">Tekst-til-tale-motor</string>
-    <string name="preview_go_nearest_intersection" tools:ignore="MissingTranslation">Gå til nærmeste kryds</string>
-    <string name="last_entry_in_list" tools:ignore="MissingTranslation"> og %1$s</string>
-    <string name="location_detail_full_screen_hint" tools:ignore="MissingTranslation">Vis kortet i fuld skærm</string>
-    <string name="location_detail_exit_full_screen_hint" tools:ignore="MissingTranslation">Afslut fuldskærmsvisning af kortet</string>
-    <string name="route_detail_action_previous_disabled_hint" tools:ignore="MissingTranslation">Deaktiveret, da ruten allerede er ved starten</string>
-    <string name="route_detail_action_next_disabled_hint" tools:ignore="MissingTranslation">Deaktiveret, da ruten allerede er ved slutningen</string>
-    <string name="directions_near_road_and_settlement" tools:ignore="MissingTranslation">Nær %1$s og tæt på %2$s</string>
-    <string name="menu_contact_support" tools:ignore="MissingTranslation">Kontakt support</string>
-    <string name="permissions_required" tools:ignore="MissingTranslation">Appen kræver tilladelse til at bruge lokalitetstjenester for at kunne køre.</string>
-    <string name="permissions_button" tools:ignore="MissingTranslation">Ændr tilladelser i appens indstillinger</string>
-    <string name="osm_entrance" tools:ignore="MissingTranslation">Indgang</string>
-    <string name="osm_main_entrance" tools:ignore="MissingTranslation">Hovedindgang</string>
-    <string name="osm_entrance_named_with_destination" tools:ignore="MissingTranslation">%1$s %2$s fra %3$s</string>
-    <string name="osm_entrance_with_destination" tools:ignore="MissingTranslation">%1$s %2$s</string>
-    <string name="menu_manage_accessibility" tools:ignore="MissingTranslation">Tilgængelighed</string>
-    <string name="settings_theme_light_dark" tools:ignore="MissingTranslation">Lyst eller mørkt tema</string>
-    <string name="settings_theme_auto" tools:ignore="MissingTranslation">Automatisk</string>
-    <string name="settings_theme_is_light" tools:ignore="MissingTranslation">Brug lyst tema</string>
-    <string name="settings_theme_light" tools:ignore="MissingTranslation">Lyst</string>
-    <string name="settings_theme_dark" tools:ignore="MissingTranslation">Mørk</string>
-    <string name="settings_theme_contrast" tools:ignore="MissingTranslation">Temaets kontrast</string>
-    <string name="settings_theme_contrast_regular" tools:ignore="MissingTranslation">Normal</string>
-    <string name="settings_theme_contrast_medium" tools:ignore="MissingTranslation">Mellem</string>
-    <string name="settings_theme_contrast_high" tools:ignore="MissingTranslation">Høj</string>
-    <string name="settings_list_item_description" tools:ignore="MissingTranslation">%1$s er valg %2$s ud af %3$s</string>
-    <string name="settings_keep_value" tools:ignore="MissingTranslation">behold</string>
-    <string name="settings_use_value" tools:ignore="MissingTranslation">brug</string>
-    <string name="street_preview_exit" tools:ignore="MissingTranslation">Afslut lokalitetssimulering</string>
-    <string name="settings_travel_recording" tools:ignore="MissingTranslation">Aktivér optagelse af rejser</string>
-    <string name="settings_show_map" tools:ignore="MissingTranslation">Vis kort på skærmen</string>
-    <string name="settings_debug_heading" tools:ignore="MissingTranslation">Fejlsøgningsmuligheder</string>
-    <string name="settings_search_results_language" tools:ignore="MissingTranslation">Søgesprog</string>
-    <string name="menu_share_recorded_route" tools:ignore="MissingTranslation">Del optagelse af rejse</string>
-    <string name="confect_name_to_via" tools:ignore="MissingTranslation">%1$s til %2$s via %3$s</string>
-    <string name="confect_name_to" tools:ignore="MissingTranslation">%1$s til %2$s</string>
-    <string name="confect_name_joins" tools:ignore="MissingTranslation">%1$s, der forbinder %2$s og %3$s</string>
-    <string name="confect_name_via" tools:ignore="MissingTranslation">%1$s via %2$s</string>
-    <string name="confect_name_pavement_next_to" tools:ignore="MissingTranslation">Fortov ved siden af %1$s</string>
-    <string name="confect_name_pavement" tools:ignore="MissingTranslation">Fortov</string>
-    <string name="confect_name_dead_end" tools:ignore="MissingTranslation">Blind vej</string>
-    <string name="offline_maps_title" tools:ignore="MissingTranslation">Offline-kort</string>
-    <string name="offline_map_details_title" tools:ignore="MissingTranslation">Detaljer om offline-kort</string>
-    <string name="offline_maps_loading" tools:ignore="MissingTranslation">Indlæser…</string>
-    <string name="offline_maps_downloading" tools:ignore="MissingTranslation">Downloader %1$s</string>
-    <string name="offline_maps_caching" tools:ignore="MissingTranslation">Serveren forbereder %1$s til download. Dette kan tage et par minutter, hvorefter downloaden starter automatisk.</string>
-    <string name="offline_maps_free_space" tools:ignore="MissingTranslation">%1$s ledigt</string>
-    <string name="offline_maps_storage" tools:ignore="MissingTranslation">Kort gemmes på %1$s, som har %2$s ledig plads</string>
-    <string name="offline_maps_already_downloaded" tools:ignore="MissingTranslation">Downloadede kort</string>
-    <string name="offline_maps_nearby" tools:ignore="MissingTranslation">Offline-kort i nærheden</string>
-    <string name="offline_maps_loading_manifest" tools:ignore="MissingTranslation">Indlæser listen over offline-kort</string>
-    <string name="offline_map_details_delete" tools:ignore="MissingTranslation">Slet offline-kort</string>
-    <string name="offline_map_details_download" tools:ignore="MissingTranslation">Hent offline-kort</string>
-    <string name="offline_map_details_size_on_phone" tools:ignore="MissingTranslation">Størrelse på telefonen: %1$s</string>
-    <string name="offline_map_details_size_on_server" tools:ignore="MissingTranslation">Downloadstørrelse: %1$s</string>
-    <string name="offline_map_details_name" tools:ignore="MissingTranslation">Kortnavn: %1$s</string>
-    <string name="offline_map_details_city_list" tools:ignore="MissingTranslation">Kortet indeholder disse steder: %1$s</string>
-    <string name="offline_map_details_alternate_city_list" tools:ignore="MissingTranslation">Disse steder er også kendt som: %1$s</string>
-    <string name="offline_map_storage_title" tools:ignore="MissingTranslation">Lagring af offlinekort</string>
-    <string name="offline_map_storage_description" tools:ignore="MissingTranslation">For at Soundscape kan bruges uden internetforbindelse, kan du downloade kort og gemme dem på telefonen. Standardplaceringen er ethvert eksternt lager på din telefon, men du kan vælge et alternativt lagringssted her.</string>
-    <string name="offline_map_wifi_only" tools:ignore="MissingTranslation">Brug kun Wi‑Fi til at downloade kort</string>
-    <string name="text_field_clear_text" tools:ignore="MissingTranslation">Ryd tekst</string>
-    <string name="marker_name_description_hint" tools:ignore="MissingTranslation">rediger navnet på mærket</string>
-    <string name="annotation_description_hint" tools:ignore="MissingTranslation">tilføj en valgfri note, der hjælper dig med at genkende dette mærke senere</string>
-    <string name="route_name_description_hint" tools:ignore="MissingTranslation">rediger navnet på ruten</string>
-    <string name="route_description_description_hint" tools:ignore="MissingTranslation">tilføj en valgfri beskrivelse af denne rute</string>
-    <string name="fab_add_item" tools:ignore="MissingTranslation">Tilføj element</string>
-    <string name="fab_add_route" tools:ignore="MissingTranslation">Tilføj rute</string>
-    <string name="route_waypoint_progress" tools:ignore="MissingTranslation">Rute %1$s ved vejpunkt %2$s af %3$s</string>
-    <string name="home_screen_title" tools:ignore="MissingTranslation">Soundscape Startskærm</string>
-    <string name="about_soundscape" tools:ignore="MissingTranslation">Soundscape udforsker brugen af innovativ lydbaseret teknologi for at hjælpe folk med at opbygge en rigere bevidsthed om deres omgivelser, så de får mere selvtillid og bliver bedre i stand til at færdes.</string>
-    <string name="offline_maps_manifest_failed" tools:ignore="MissingTranslation">Download af offline-kortdata mislykkedes</string>
-    <string name="settings_reset_button" tools:ignore="MissingTranslation">Gendan standardindstillinger</string>
-    <string name="settings_reset_button_hint" tools:ignore="MissingTranslation">gendanne standardindstillingerne og genstarte appen.</string>
-    <string name="settings_reset_dialog_title" tools:ignore="MissingTranslation">Er du sikker?</string>
-    <string name="settings_reset_dialog_message" tools:ignore="MissingTranslation">Ved at gendanne standardindstillingerne slettes alle de konfigurerede indstillinger i appen. Vil du fortsætte?</string>
-    <string name="menu_advanced_markers_and_routes" tools:ignore="MissingTranslation">Avancerede mærker og ruter</string>
-    <string name="advanced_markers_and_routes_description" tools:ignore="MissingTranslation">Denne skærm giver dig mulighed for at eksportere og importere mærker og ruter samt slette alle eksisterende mærker og ruter.</string>
-    <string name="advanced_markers_and_routes_export_button" tools:ignore="MissingTranslation">Eksporter database med mærker og ruter</string>
-    <string name="advanced_markers_and_routes_import_button" tools:ignore="MissingTranslation">Importer database med mærker og ruter</string>
-    <string name="markers_and_routes_import_success" tools:ignore="MissingTranslation">Import af mærker og ruter fuldført.</string>
-    <string name="markers_and_routes_import_failure" tools:ignore="MissingTranslation">Import af mærker og ruter mislykkedes.</string>
-    <string name="advanced_markers_and_routes_clear_all_button" tools:ignore="MissingTranslation">Slet alle mærker og ruter</string>
-    <string name="advanced_markers_and_routes_clear_all_alert_message" tools:ignore="MissingTranslation">Sletning af alle mærker og ruter kan ikke fortrydes. Vil du fortsætte?</string>
-    <string name="menu_advanced_markers_and_routes_clear_all_success" tools:ignore="MissingTranslation">Mærker og ruter er slettet</string>
-    <string name="new_version_info_text" tools:ignore="MissingTranslation">Oplysninger om ny udgivelse</string>
-    <string name="new_version_info_completed" tools:ignore="MissingTranslation">Luk dialog om ny udgivelse</string>
-    <string name="new_version_info_details" tools:ignore="MissingTranslation">\nDer er to nye funktioner i denne udgivelse, som gør det muligt at fjernstyre appen — også når telefonen er låst. Det betyder, at du kan lade telefonen blive i lommen og stadig styre appens hovedfunktioner.\n\nBegge fjernbetjeningsmetoder bruger Bluetooth‑medieknapper, enten dem på dine hovedtelefoner, eller små håndholdte fjernbetjeninger, som du kan have i hånden eller i lommen. Fjernbetjeningsfunktionen vælges i Indstillinger/Mediebetjeninger, og du kan vælge *"Stemmekommando"* (så du kan tale til appen) eller *"Lydmenu"* (hvor menuer bliver oplæst, og du kan vælge mellem muligheder). *"Originaltilstand"* betyder, at Bluetooth‑knapperne fungerer på samme måde som i tidligere udgaver.\n\nI stemmekommando‑tilstand starter et tryk på afspil/pause‑knappen på dine hovedtelefoner appens lytning efter tale, og du vil høre et kort lydsignal, der angiver dette. Hvis du siger "Hjælp", bliver de tilgængelige kommandoer oplistet. Du kan så trykke på knappen igen og afprøve de andre kommandoer. Desværre understøtter Androids talegenkendelse ikke alle sprog, og den er ikke tilgængelig på alle telefoner.\n\nDen største udfordring ved stemmekommando‑tilstand er, at nogle hovedtelefoner bruger længere tid på at aktivere mikrofonen end andre. Det betyder, at du efter at have trykket på afspil/pause kan være nødt til at vente op til ca. 5 sekunder, før du kan tale. For at finde ud af hvor lang tid det tager, er den bedste metode at trykke på afspil/pause og tælle fra 1 til 10. Telefonen skulle så fortælle, hvilken tale den genkendte, og det tal, den først genkendte, viser, hvornår du skal begynde at tale. Det kan hjælpe dig med at lære, hvor længe du skal vente, før du taler. Nogle hovedtelefoner afgiver en tydelig lyd, når mikrofonen er aktiv, hvilket gør det lettere, mens andre slet ikke giver noget lyd. Desværre kan det kræve øvelse.\n\nDen anden nye fjernbetjeningsmetode, *Lydmenu*, fungerer på alle sprog og på alle telefoner. Næste/forrige‑knapperne bevæger sig frem og tilbage gennem menupunkterne, der bliver oplæst, og afspil/pause‑knappen vælger den aktuelle mulighed. Der findes en topniveau‑menu og ét lag underrum, som grupperer lignende kommandoer.\n\nDisse funktioner er meget nye, og vi vil meget gerne have feedback på, om de fungerer godt, og hvilke andre kommandoer I eventuelt ønsker.\n\nRapporter venligst alle problemer, også små, via *Kontakt support* i hovedmenuen.\n</string>
-    <string name="menu_open_source_licenses" tools:ignore="MissingTranslation">Open source-licenser</string>
-    <string name="osm_office" tools:ignore="MissingTranslation">Kontor</string>
-    <string name="osm_school" tools:ignore="MissingTranslation">Skole</string>
-    <string name="osm_roof" tools:ignore="MissingTranslation">Tag</string>
-    <string name="osm_convenience" tools:ignore="MissingTranslation">Nærbutik</string>
-    <string name="osm_lift_gate" tools:ignore="MissingTranslation">Løfteport</string>
-    <string name="osm_toilets" tools:ignore="MissingTranslation">Toiletter</string>
-    <string name="osm_parking" tools:ignore="MissingTranslation">Parkering</string>
-    <string name="osm_taxi" tools:ignore="MissingTranslation">Taxaholdeplads</string>
-    <string name="osm_bicycle_parking" tools:ignore="MissingTranslation">Cykelparkering</string>
-    <string name="osm_fuel" tools:ignore="MissingTranslation">Tankstation</string>
-    <string name="osm_recycling" tools:ignore="MissingTranslation">Genbrug</string>
-    <string name="osm_drinking_water" tools:ignore="MissingTranslation">Drikkevand</string>
-    <string name="osm_pitch" tools:ignore="MissingTranslation">Bane</string>
-    <string name="osm_picnic_site" tools:ignore="MissingTranslation">Picnicplads</string>
-    <string name="osm_information" tools:ignore="MissingTranslation">Information</string>
-    <string name="osm_fire_extinguisher" tools:ignore="MissingTranslation">Brandslukker</string>
-    <string name="osm_defibrillator" tools:ignore="MissingTranslation">Defibrillator</string>
-    <string name="osm_guide" tools:ignore="MissingTranslation">Vejviser</string>
-    <string name="osm_water" tools:ignore="MissingTranslation">Vand</string>
-    <string name="osm_fire_hose" tools:ignore="MissingTranslation">Brandslange</string>
-    <string name="osm_fire_flapper" tools:ignore="MissingTranslation">Brandsvaber</string>
-    <string name="osm_information_point" tools:ignore="MissingTranslation">Informationspunkt</string>
-    <string name="osm_wetland" tools:ignore="MissingTranslation">Vådområde</string>
-    <string name="osm_mud" tools:ignore="MissingTranslation">Mudder</string>
-    <string name="osm_access_point" tools:ignore="MissingTranslation">Adgangspunkt</string>
-    <string name="osm_life_ring" tools:ignore="MissingTranslation">Redningskrans</string>
-    <string name="osm_generic_info" tools:ignore="MissingTranslation">Info</string>
-    <string name="osm_turntable" tools:ignore="MissingTranslation">Drejeskive</string>
-    <string name="osm_survey_point" tools:ignore="MissingTranslation">Målepunkt</string>
-    <string name="osm_snow_net" tools:ignore="MissingTranslation">Snesikringsnet</string>
-    <string name="osm_silo" tools:ignore="MissingTranslation">Silo</string>
-    <string name="osm_mast" tools:ignore="MissingTranslation">Mast</string>
-    <string name="osm_bird_hide" tools:ignore="MissingTranslation">Fugleskjul</string>
-    <string name="osm_transformer_tower" tools:ignore="MissingTranslation">Transformatormast</string>
-    <string name="osm_generic_object" tools:ignore="MissingTranslation">Objekt</string>
-    <string name="osm_signal" tools:ignore="MissingTranslation">Signal</string>
-    <string name="osm_rock" tools:ignore="MissingTranslation">Sten</string>
-    <string name="osm_kiln" tools:ignore="MissingTranslation">Brændovn</string>
-    <string name="osm_crane" tools:ignore="MissingTranslation">Kran</string>
-    <string name="osm_rune_stone" tools:ignore="MissingTranslation">Runesten</string>
-    <string name="osm_milestone" tools:ignore="MissingTranslation">Milepæl</string>
-    <string name="osm_lifeguard_platform" tools:ignore="MissingTranslation">Livreddertårn</string>
-    <string name="osm_water_tank" tools:ignore="MissingTranslation">Vandtank</string>
-    <string name="osm_sty" tools:ignore="MissingTranslation">Svinesti</string>
-    <string name="osm_navigationaid" tools:ignore="MissingTranslation">Navigationsmærke</string>
-    <string name="osm_terminal" tools:ignore="MissingTranslation">Terminal</string>
-    <string name="osm_water_tap" tools:ignore="MissingTranslation">Vandhane</string>
-    <string name="osm_water_well" tools:ignore="MissingTranslation">Vandbrønd</string>
-    <string name="osm_petroleum_well" tools:ignore="MissingTranslation">Olieboring</string>
-    <string name="osm_cross" tools:ignore="MissingTranslation">Kors</string>
-    <string name="osm_gallows" tools:ignore="MissingTranslation">Galge</string>
-    <string name="osm_speed_camera" tools:ignore="MissingTranslation">Fartkamera</string>
-    <string name="osm_siren" tools:ignore="MissingTranslation">Sirene</string>
-    <string name="osm_pylon" tools:ignore="MissingTranslation">Højspændingsmast</string>
-    <string name="osm_mineshaft" tools:ignore="MissingTranslation">Mineskakt</string>
-    <string name="osm_flagpole" tools:ignore="MissingTranslation">Flagstang</string>
-    <string name="osm_optical_telegraph" tools:ignore="MissingTranslation">Optisk telegraf</string>
-    <string name="osm_cannon" tools:ignore="MissingTranslation">Kanon</string>
-    <string name="osm_boundary_stone" tools:ignore="MissingTranslation">Grænsesten</string>
-    <string name="osm_shed" tools:ignore="MissingTranslation">Skur</string>
-    <string name="osm_traffic_cones" tools:ignore="MissingTranslation">Trafikkegler</string>
-    <string name="osm_firepit" tools:ignore="MissingTranslation">Bålplads</string>
-    <string name="osm_stone" tools:ignore="MissingTranslation">Sten</string>
-    <string name="osm_surveillance" tools:ignore="MissingTranslation">Overvågning</string>
-    <string name="osm_monitoring_station" tools:ignore="MissingTranslation">Overvågningsstation</string>
-    <string name="osm_wayside_shrine" tools:ignore="MissingTranslation">Vejsidekapel</string>
-    <string name="osm_wayside_cross" tools:ignore="MissingTranslation">Vejsidekors</string>
-    <string name="osm_tomb" tools:ignore="MissingTranslation">Gravmæle</string>
-    <string name="osm_traffic_signals" tools:ignore="MissingTranslation">Trafiklys</string>
-    <string name="osm_hut" tools:ignore="MissingTranslation">Hytte</string>
-    <string name="osm_static_caravan" tools:ignore="MissingTranslation">Stationær campingvogn</string>
-    <string name="osm_bollard" tools:ignore="MissingTranslation">Pullert</string>
-    <string name="osm_block" tools:ignore="MissingTranslation">Blok</string>
-    <string name="osm_waste_disposal" tools:ignore="MissingTranslation">Affaldshåndtering</string>
-    <string name="osm_photo_booth" tools:ignore="MissingTranslation">Fotoboks</string>
-    <string name="osm_bbq" tools:ignore="MissingTranslation">Grill</string>
-    <string name="osm_shop" tools:ignore="MissingTranslation">Butik</string>
-    <string name="osm_newsagent" tools:ignore="MissingTranslation">Aviskiosk</string>
-    <string name="osm_anime" tools:ignore="MissingTranslation">Anime</string>
-    <string name="osm_musical_instrument" tools:ignore="MissingTranslation">Musikinstrumenter</string>
-    <string name="osm_vacuum_cleaner" tools:ignore="MissingTranslation">Støvsuger</string>
-    <string name="osm_mobile_phone" tools:ignore="MissingTranslation">Mobiltelefon</string>
-    <string name="osm_carpet" tools:ignore="MissingTranslation">Tæppe</string>
-    <string name="osm_trade" tools:ignore="MissingTranslation">Handel</string>
-    <string name="osm_garden_centre" tools:ignore="MissingTranslation">Havecenter</string>
-    <string name="osm_florist" tools:ignore="MissingTranslation">Blomsterhandler</string>
-    <string name="osm_fireplace" tools:ignore="MissingTranslation">Pejs</string>
-    <string name="osm_massage" tools:ignore="MissingTranslation">Massage</string>
-    <string name="osm_herbalist" tools:ignore="MissingTranslation">Urteforhandler</string>
-    <string name="osm_bag" tools:ignore="MissingTranslation">Taske</string>
-    <string name="osm_pastry" tools:ignore="MissingTranslation">Bagværk</string>
-    <string name="osm_deli" tools:ignore="MissingTranslation">Delikatesse</string>
-    <string name="osm_beverages" tools:ignore="MissingTranslation">Drikkevarer</string>
-    <string name="osm_alcohol" tools:ignore="MissingTranslation">Alkohol</string>
-    <string name="osm_substation" tools:ignore="MissingTranslation">Transformatorstation</string>
-    <string name="osm_travel_agent" tools:ignore="MissingTranslation">Rejsebureau</string>
-    <string name="osm_research" tools:ignore="MissingTranslation">Forskning</string>
-    <string name="osm_newspaper" tools:ignore="MissingTranslation">Avis</string>
-    <string name="osm_ammunition" tools:ignore="MissingTranslation">Ammunition</string>
-    <string name="osm_wildlife_hide" tools:ignore="MissingTranslation">Observationsskjul</string>
-    <string name="osm_watchmaker" tools:ignore="MissingTranslation">Urmager</string>
-    <string name="osm_tinsmith" tools:ignore="MissingTranslation">Blikslager</string>
-    <string name="osm_sun_protection" tools:ignore="MissingTranslation">Solbeskyttelse</string>
-    <string name="osm_sculptor" tools:ignore="MissingTranslation">Skulptør</string>
-    <string name="osm_metal_construction" tools:ignore="MissingTranslation">Metalkonstruktion</string>
-    <string name="osm_handicraft" tools:ignore="MissingTranslation">Håndværk</string>
-    <string name="osm_cowshed" tools:ignore="MissingTranslation">Kostald</string>
-    <string name="osm_cabin" tools:ignore="MissingTranslation">Hytte</string>
-    <string name="osm_barn" tools:ignore="MissingTranslation">Lade</string>
-    <string name="osm_warehouse" tools:ignore="MissingTranslation">Lager</string>
-    <string name="osm_houseboat" tools:ignore="MissingTranslation">Husbåd</string>
-    <string name="osm_book_store" tools:ignore="MissingTranslation">Boghandel</string>
-    <string name="osm_generic_place" tools:ignore="MissingTranslation">Sted</string>
-    <string name="osm_hunting_stand" tools:ignore="MissingTranslation">Jagttårn</string>
-    <string name="osm_game_feeding" tools:ignore="MissingTranslation">Vildtfodring</string>
-    <string name="osm_crypt" tools:ignore="MissingTranslation">Krypt</string>
-    <string name="osm_animal_shelter" tools:ignore="MissingTranslation">Dyreinternat</string>
-    <string name="osm_animal_boarding" tools:ignore="MissingTranslation">Dyrepensionat</string>
-    <string name="osm_blood_donation" tools:ignore="MissingTranslation">Bloddonation</string>
-    <string name="osm_nursing_home" tools:ignore="MissingTranslation">Plejehjem</string>
-    <string name="osm_dentist" tools:ignore="MissingTranslation">Tandlæge</string>
-    <string name="osm_baby_hatch" tools:ignore="MissingTranslation">Babyklap</string>
-    <string name="osm_language_school" tools:ignore="MissingTranslation">Sprogskole</string>
-    <string name="osm_public_bookcase" tools:ignore="MissingTranslation">Offentlig bogreol</string>
-    <string name="osm_biergarten" tools:ignore="MissingTranslation">Ølhave</string>
-    <string name="osm_running" tools:ignore="MissingTranslation">Løb</string>
-    <string name="osm_glaziery" tools:ignore="MissingTranslation">Glarmester</string>
-    <string name="osm_garages" tools:ignore="MissingTranslation">Garager</string>
-    <string name="osm_retail" tools:ignore="MissingTranslation">Detailhandel</string>
-    <string name="osm_hotel" tools:ignore="MissingTranslation">Hotel</string>
-    <string name="osm_camp_site" tools:ignore="MissingTranslation">Campingplads</string>
-    <string name="osm_rugby_league" tools:ignore="MissingTranslation">Rugby League</string>
-    <string name="osm_roller_skating" tools:ignore="MissingTranslation">Rulleskøjtning</string>
-    <string name="osm_multi" tools:ignore="MissingTranslation">Flere</string>
-    <string name="osm_ice_hockey" tools:ignore="MissingTranslation">Ishockey</string>
-    <string name="osm_hapkido" tools:ignore="MissingTranslation">Hapkido</string>
-    <string name="osm_croquet" tools:ignore="MissingTranslation">Krocket</string>
-    <string name="osm_cricket" tools:ignore="MissingTranslation">Cricket</string>
-    <string name="osm_cockfighting" tools:ignore="MissingTranslation">Hanekamp</string>
-    <string name="osm_boxing" tools:ignore="MissingTranslation">Boksning</string>
-    <string name="osm_bmx" tools:ignore="MissingTranslation">BMX</string>
-    <string name="osm_billiards" tools:ignore="MissingTranslation">Billard</string>
-    <string name="osm_toys" tools:ignore="MissingTranslation">Legetøj</string>
-    <string name="osm_pyrotechnics" tools:ignore="MissingTranslation">Pyroteknik</string>
-    <string name="osm_laundry" tools:ignore="MissingTranslation">Vaskeri</string>
-    <string name="osm_funeral_directors" tools:ignore="MissingTranslation">Bedemænd</string>
-    <string name="osm_dry_cleaning" tools:ignore="MissingTranslation">Renseri</string>
-    <string name="osm_copyshop" tools:ignore="MissingTranslation">Kopibutik</string>
-    <string name="osm_chalet" tools:ignore="MissingTranslation">Chalet</string>
-    <string name="osm_apartment" tools:ignore="MissingTranslation">Lejlighed</string>
-    <string name="osm_water_ski" tools:ignore="MissingTranslation">Vandski</string>
-    <string name="osm_water_polo" tools:ignore="MissingTranslation">Vandpolo</string>
-    <string name="osm_table_soccer" tools:ignore="MissingTranslation">Bordfodbold</string>
-    <string name="osm_table_tennis" tools:ignore="MissingTranslation">Bordtennis</string>
-    <string name="osm_skateboard" tools:ignore="MissingTranslation">Skateboard</string>
-    <string name="osm_sailing" tools:ignore="MissingTranslation">Sejlads</string>
-    <string name="osm_safety_training" tools:ignore="MissingTranslation">Sikkerhedstræning</string>
-    <string name="osm_rowing" tools:ignore="MissingTranslation">Roning</string>
-    <string name="osm_model_aerodrome" tools:ignore="MissingTranslation">Modelflyveplads</string>
-    <string name="osm_korfball" tools:ignore="MissingTranslation">Korfball</string>
-    <string name="osm_ice_stock" tools:ignore="MissingTranslation">Isstokskydning</string>
-    <string name="osm_gymnastics" tools:ignore="MissingTranslation">Gymnastik</string>
-    <string name="osm_football" tools:ignore="MissingTranslation">Fodbold</string>
-    <string name="osm_field_hockey" tools:ignore="MissingTranslation">Landhockey</string>
-    <string name="osm_equestrian" tools:ignore="MissingTranslation">Ridning</string>
-    <string name="osm_cycling" tools:ignore="MissingTranslation">Cykling</string>
-    <string name="osm_curling" tools:ignore="MissingTranslation">Curling</string>
-    <string name="osm_cricket_nets" tools:ignore="MissingTranslation">Cricketnet</string>
-    <string name="osm_cliff_diving" tools:ignore="MissingTranslation">Klippeudspring</string>
-    <string name="osm_boules" tools:ignore="MissingTranslation">Petanque</string>
-    <string name="osm_bobsleigh" tools:ignore="MissingTranslation">Bobslæde</string>
-    <string name="osm_baseball" tools:ignore="MissingTranslation">Baseball</string>
-    <string name="osm_aikido" tools:ignore="MissingTranslation">Aikido</string>
-    <string name="osm_10pin" tools:ignore="MissingTranslation">10-kegle bowling</string>
-    <string name="osm_weapons" tools:ignore="MissingTranslation">Våben</string>
-    <string name="osm_pet" tools:ignore="MissingTranslation">Kæledyr</string>
-    <string name="osm_money_lender" tools:ignore="MissingTranslation">Låneudbyder</string>
-    <string name="osm_gift" tools:ignore="MissingTranslation">Gavebutik</string>
-    <string name="osm_books" tools:ignore="MissingTranslation">Bøger</string>
-    <string name="osm_bookmaker" tools:ignore="MissingTranslation">Bookmaker</string>
-    <string name="osm_photo" tools:ignore="MissingTranslation">Foto</string>
-    <string name="osm_craft" tools:ignore="MissingTranslation">Håndværk</string>
-    <string name="osm_motorcycle" tools:ignore="MissingTranslation">Motorcykel</string>
-    <string name="osm_hunting" tools:ignore="MissingTranslation">Jagt</string>
-    <string name="osm_window_blind" tools:ignore="MissingTranslation">Persienner</string>
-    <string name="osm_curtain" tools:ignore="MissingTranslation">Gardiner</string>
-    <string name="osm_antiques" tools:ignore="MissingTranslation">Antikviteter</string>
-    <string name="osm_paint" tools:ignore="MissingTranslation">Maling</string>
-    <string name="osm_tattoo" tools:ignore="MissingTranslation">Tatovering</string>
-    <string name="osm_nutrition_supplements" tools:ignore="MissingTranslation">Kosttilskud</string>
-    <string name="osm_hearing_aids" tools:ignore="MissingTranslation">Høreapparater</string>
-    <string name="osm_cosmetics" tools:ignore="MissingTranslation">Kosmetik</string>
-    <string name="osm_watches" tools:ignore="MissingTranslation">Ure</string>
-    <string name="osm_jewelry" tools:ignore="MissingTranslation">Smykker</string>
-    <string name="osm_boutique" tools:ignore="MissingTranslation">Boutique</string>
-    <string name="osm_baby_goods" tools:ignore="MissingTranslation">Babyartikler</string>
-    <string name="osm_tea" tools:ignore="MissingTranslation">Te</string>
-    <string name="osm_pasta" tools:ignore="MissingTranslation">Pasta</string>
-    <string name="osm_coffee" tools:ignore="MissingTranslation">Kaffe</string>
-    <string name="osm_quango" tools:ignore="MissingTranslation">Halv-uafhængig offentlig organisation</string>
-    <string name="osm_political_party" tools:ignore="MissingTranslation">Politisk parti</string>
-    <string name="osm_association" tools:ignore="MissingTranslation">Forening</string>
-    <string name="osm_architect" tools:ignore="MissingTranslation">Arkitekt</string>
-    <string name="osm_advertising_agency" tools:ignore="MissingTranslation">Reklamebureau</string>
-    <string name="osm_summer_camp" tools:ignore="MissingTranslation">Sommerlejr</string>
-    <string name="osm_dance" tools:ignore="MissingTranslation">Dans</string>
-    <string name="osm_amusement_arcade" tools:ignore="MissingTranslation">Spillehal</string>
-    <string name="osm_adult_gaming_centre" tools:ignore="MissingTranslation">Spillecenter for voksne</string>
-    <string name="osm_window_construction" tools:ignore="MissingTranslation">Vinduesfremstilling</string>
-    <string name="osm_upholsterer" tools:ignore="MissingTranslation">Polstrer</string>
-    <string name="osm_shoemaker" tools:ignore="MissingTranslation">Skomager</string>
-    <string name="osm_sawmill" tools:ignore="MissingTranslation">Savværk</string>
-    <string name="osm_pottery" tools:ignore="MissingTranslation">Keramik</string>
-    <string name="osm_key_cutter" tools:ignore="MissingTranslation">Nøglesmed</string>
-    <string name="osm_hvac" tools:ignore="MissingTranslation">Varme, ventilation og aircondition</string>
-    <string name="osm_clockmaker" tools:ignore="MissingTranslation">Urmager</string>
-    <string name="osm_carpenter" tools:ignore="MissingTranslation">Tømrer</string>
-    <string name="osm_builder" tools:ignore="MissingTranslation">Byggefirma</string>
-    <string name="osm_bookbinder" tools:ignore="MissingTranslation">Bogbinder</string>
-    <string name="osm_boatbuilder" tools:ignore="MissingTranslation">Bådebygger</string>
-    <string name="osm_brewery" tools:ignore="MissingTranslation">Bryggeri</string>
-    <string name="osm_blacksmith" tools:ignore="MissingTranslation">Smed</string>
-    <string name="osm_basket_maker" tools:ignore="MissingTranslation">Kurvemager</string>
-    <string name="osm_greenhouse" tools:ignore="MissingTranslation">Drivhus</string>
-    <string name="osm_farm_auxiliary" tools:ignore="MissingTranslation">Landbrugsbygning</string>
-    <string name="osm_civic" tools:ignore="MissingTranslation">Offentlig</string>
-    <string name="osm_bungalow" tools:ignore="MissingTranslation">Bungalow</string>
-    <string name="osm_detached" tools:ignore="MissingTranslation">Fritliggende hus</string>
-    <string name="osm_hair_dresser" tools:ignore="MissingTranslation">Frisør</string>
-    <string name="osm_clothing_store" tools:ignore="MissingTranslation">Tøjbutik</string>
-    <string name="osm_user" tools:ignore="MissingTranslation">Bruger</string>
-    <string name="osm_dojo" tools:ignore="MissingTranslation">Dojo</string>
-    <string name="osm_nightclub" tools:ignore="MissingTranslation">Natklub</string>
-    <string name="osm_community_centre" tools:ignore="MissingTranslation">Fælleshus</string>
-    <string name="osm_brothel" tools:ignore="MissingTranslation">Bordel</string>
-    <string name="osm_veterinary" tools:ignore="MissingTranslation">Dyrlæge</string>
-    <string name="osm_social_facility" tools:ignore="MissingTranslation">Social institution</string>
-    <string name="osm_clinic" tools:ignore="MissingTranslation">Klinik</string>
-    <string name="osm_charging_station" tools:ignore="MissingTranslation">Ladestation</string>
-    <string name="osm_kindergarten" tools:ignore="MissingTranslation">Børnehave</string>
-    <string name="osm_ice_cream" tools:ignore="MissingTranslation">Is</string>
-    <string name="osm_fast_food" tools:ignore="MissingTranslation">Fastfood</string>
-    <string name="osm_commercial" tools:ignore="MissingTranslation">Erhverv</string>
-    <string name="osm_canoe" tools:ignore="MissingTranslation">Kano</string>
-    <string name="osm_scuba_diving" tools:ignore="MissingTranslation">Scuba-dykning</string>
-    <string name="osm_fishing" tools:ignore="MissingTranslation">Fiskeri</string>
-    <string name="osm_optician" tools:ignore="MissingTranslation">Optiker</string>
-    <string name="osm_confectionery" tools:ignore="MissingTranslation">Slikbutik</string>
-    <string name="osm_bunker" tools:ignore="MissingTranslation">Bunker</string>
-    <string name="osm_sleeping_pods" tools:ignore="MissingTranslation">Sovekapsler</string>
-    <string name="osm_motel" tools:ignore="MissingTranslation">Motel</string>
-    <string name="osm_guest_house" tools:ignore="MissingTranslation">Gæstehus</string>
-    <string name="osm_wrestling" tools:ignore="MissingTranslation">Brydning</string>
-    <string name="osm_toboggan" tools:ignore="MissingTranslation">Kælk</string>
-    <string name="osm_skiing" tools:ignore="MissingTranslation">Skiløb</string>
-    <string name="osm_rc_car" tools:ignore="MissingTranslation">Fjernstyret bil</string>
-    <string name="osm_paddle_tennis" tools:ignore="MissingTranslation">Padeltennis</string>
-    <string name="osm_hockey" tools:ignore="MissingTranslation">Hockey</string>
-    <string name="osm_fencing" tools:ignore="MissingTranslation">Fægtning</string>
-    <string name="osm_bowls" tools:ignore="MissingTranslation">Bowls</string>
-    <string name="osm_badminton" tools:ignore="MissingTranslation">Badminton</string>
-    <string name="osm_archery" tools:ignore="MissingTranslation">Bueskydning</string>
-    <string name="osm_american_football" tools:ignore="MissingTranslation">Amerikansk fodbold</string>
-    <string name="osm_travel_agency" tools:ignore="MissingTranslation">Rejsebureau</string>
-    <string name="osm_tobacco" tools:ignore="MissingTranslation">Tobak</string>
-    <string name="osm_e_cigarette" tools:ignore="MissingTranslation">E-cigaret</string>
-    <string name="osm_video" tools:ignore="MissingTranslation">Video</string>
-    <string name="osm_car_repair" tools:ignore="MissingTranslation">Autoværksted</string>
-    <string name="osm_hifi" tools:ignore="MissingTranslation">Hi‑fi</string>
-    <string name="osm_lamps" tools:ignore="MissingTranslation">Lamper</string>
-    <string name="osm_kitchen" tools:ignore="MissingTranslation">Køkken</string>
-    <string name="osm_interior_decoration" tools:ignore="MissingTranslation">Indretning</string>
-    <string name="osm_houseware" tools:ignore="MissingTranslation">Husholdningsartikler</string>
-    <string name="osm_erotic" tools:ignore="MissingTranslation">Erotisk</string>
-    <string name="osm_beauty" tools:ignore="MissingTranslation">Skønhedspleje</string>
-    <string name="osm_wine" tools:ignore="MissingTranslation">Vin</string>
-    <string name="osm_dairy" tools:ignore="MissingTranslation">Mejeri</string>
-    <string name="osm_cheese" tools:ignore="MissingTranslation">Ost</string>
-    <string name="osm_bakery" tools:ignore="MissingTranslation">Bageri</string>
-    <string name="osm_telecommunication" tools:ignore="MissingTranslation">Telekommunikation</string>
-    <string name="osm_tax" tools:ignore="MissingTranslation">Skat</string>
-    <string name="osm_real_estate_agent" tools:ignore="MissingTranslation">Ejendomsmægler</string>
-    <string name="osm_notary" tools:ignore="MissingTranslation">Notar</string>
-    <string name="osm_ngo" tools:ignore="MissingTranslation">NGO</string>
-    <string name="osm_lawyer" tools:ignore="MissingTranslation">Advokat</string>
-    <string name="osm_it" tools:ignore="MissingTranslation">IT</string>
-    <string name="osm_foundation" tools:ignore="MissingTranslation">Stiftelse</string>
-    <string name="osm_employment_agency" tools:ignore="MissingTranslation">Rekrutteringsbureau</string>
-    <string name="osm_educational_institution" tools:ignore="MissingTranslation">Uddannelsesinstitution</string>
-    <string name="osm_adoption_agency" tools:ignore="MissingTranslation">Adoptionsbureau</string>
-    <string name="osm_miniature_golf" tools:ignore="MissingTranslation">Minigolf</string>
-    <string name="osm_building" tools:ignore="MissingTranslation">Bygning</string>
-    <string name="osm_winery" tools:ignore="MissingTranslation">Vinhus</string>
-    <string name="osm_tiler" tools:ignore="MissingTranslation">Fliselægger</string>
-    <string name="osm_chimney_sweeper" tools:ignore="MissingTranslation">Skorstensfejer</string>
-    <string name="osm_stand_builder" tools:ignore="MissingTranslation">Standbygger</string>
-    <string name="osm_saddler" tools:ignore="MissingTranslation">Sadelmager</string>
-    <string name="osm_plumber" tools:ignore="MissingTranslation">VVS‑installatør</string>
-    <string name="osm_plasterer" tools:ignore="MissingTranslation">Pudser</string>
-    <string name="osm_painter" tools:ignore="MissingTranslation">Maler</string>
-    <string name="osm_jeweller" tools:ignore="MissingTranslation">Guldsmed</string>
-    <string name="osm_floorer" tools:ignore="MissingTranslation">Gulvlægger</string>
-    <string name="osm_distillery" tools:ignore="MissingTranslation">Destilleri</string>
-    <string name="osm_carpet_layer" tools:ignore="MissingTranslation">Tæppelægger</string>
-    <string name="osm_beekeeper" tools:ignore="MissingTranslation">Biavler</string>
-    <string name="osm_public" tools:ignore="MissingTranslation">Offentlig</string>
-    <string name="osm_dormitory" tools:ignore="MissingTranslation">Sovesal</string>
-    <string name="osm_apartments" tools:ignore="MissingTranslation">Lejligheder</string>
-    <string name="osm_internet_cafe" tools:ignore="MissingTranslation">Internetcafé</string>
-    <string name="osm_shoe_shop" tools:ignore="MissingTranslation">Skobutik</string>
-    <string name="osm_generic_shop" tools:ignore="MissingTranslation">Butik</string>
-    <string name="osm_coffee_shop" tools:ignore="MissingTranslation">Kaffebar</string>
-    <string name="osm_coworking_space" tools:ignore="MissingTranslation">Coworking-plads</string>
-    <string name="osm_stripclub" tools:ignore="MissingTranslation">Stripklub</string>
-    <string name="osm_ev_charging" tools:ignore="MissingTranslation">Elbilopladning</string>
-    <string name="osm_pub" tools:ignore="MissingTranslation">Pub</string>
-    <string name="osm_obstacle_course" tools:ignore="MissingTranslation">Forhindringsbane</string>
-    <string name="osm_volleyball" tools:ignore="MissingTranslation">Volleyball</string>
-    <string name="osm_tennis" tools:ignore="MissingTranslation">Tennis</string>
-    <string name="osm_soccer" tools:ignore="MissingTranslation">Fodbold</string>
-    <string name="osm_shooting" tools:ignore="MissingTranslation">Skydning</string>
-    <string name="osm_rugby_union" tools:ignore="MissingTranslation">Rugby Union</string>
-    <string name="osm_orienteering" tools:ignore="MissingTranslation">Orientering</string>
-    <string name="osm_netball" tools:ignore="MissingTranslation">Netball</string>
-    <string name="osm_motor" tools:ignore="MissingTranslation">Motor</string>
-    <string name="osm_kitesurfing" tools:ignore="MissingTranslation">Kitesurfing</string>
-    <string name="osm_karting" tools:ignore="MissingTranslation">Gokart</string>
-    <string name="osm_judo" tools:ignore="MissingTranslation">Judo</string>
-    <string name="osm_horseshoes" tools:ignore="MissingTranslation">Hestesko</string>
-    <string name="osm_handball" tools:ignore="MissingTranslation">Håndbold</string>
-    <string name="osm_golf" tools:ignore="MissingTranslation">Golf</string>
-    <string name="osm_gaelic_games" tools:ignore="MissingTranslation">Gaeliske spil</string>
-    <string name="osm_diving" tools:ignore="MissingTranslation">Dykning</string>
-    <string name="osm_darts" tools:ignore="MissingTranslation">Dart</string>
-    <string name="osm_climbing_adventure" tools:ignore="MissingTranslation">Klatreoplevelse</string>
-    <string name="osm_basketball" tools:ignore="MissingTranslation">Basketball</string>
-    <string name="osm_bandy" tools:ignore="MissingTranslation">Bandy</string>
-    <string name="osm_australian_football" tools:ignore="MissingTranslation">Australsk fodbold</string>
-    <string name="osm_9pin" tools:ignore="MissingTranslation">Ni-kegler</string>
-    <string name="osm_vacant" tools:ignore="MissingTranslation">Ledig</string>
-    <string name="osm_lottery" tools:ignore="MissingTranslation">Lotteri</string>
-    <string name="osm_trophy" tools:ignore="MissingTranslation">Trofæ</string>
-    <string name="osm_music" tools:ignore="MissingTranslation">Musik</string>
-    <string name="osm_games" tools:ignore="MissingTranslation">Spil</string>
-    <string name="osm_tyres" tools:ignore="MissingTranslation">Dæk</string>
-    <string name="osm_sports" tools:ignore="MissingTranslation">Sport</string>
-    <string name="osm_outdoor" tools:ignore="MissingTranslation">Udendørs</string>
-    <string name="osm_car" tools:ignore="MissingTranslation">Bil</string>
-    <string name="osm_electronics" tools:ignore="MissingTranslation">Elektronik</string>
-    <string name="osm_computer" tools:ignore="MissingTranslation">Computer</string>
-    <string name="osm_furniture" tools:ignore="MissingTranslation">Møbler</string>
-    <string name="osm_candles" tools:ignore="MissingTranslation">Stearinlys</string>
-    <string name="osm_hardware" tools:ignore="MissingTranslation">Jernvarehandel</string>
-    <string name="osm_gas" tools:ignore="MissingTranslation">Tankstation</string>
-    <string name="osm_energy" tools:ignore="MissingTranslation">Energi</string>
-    <string name="osm_doityourself" tools:ignore="MissingTranslation">Byggemarked</string>
-    <string name="osm_bathroom_furnishing" tools:ignore="MissingTranslation">Badeværelsesinventar</string>
-    <string name="osm_medical_supply" tools:ignore="MissingTranslation">Medicinsk udstyr</string>
-    <string name="osm_variety_store" tools:ignore="MissingTranslation">Diversebutik</string>
-    <string name="osm_second_hand" tools:ignore="MissingTranslation">Genbrugsbutik</string>
-    <string name="osm_charity" tools:ignore="MissingTranslation">Velgørenhedsbutik</string>
-    <string name="osm_fashion" tools:ignore="MissingTranslation">Mode</string>
-    <string name="osm_fabric" tools:ignore="MissingTranslation">Stofbutik</string>
-    <string name="osm_clothes" tools:ignore="MissingTranslation">Tøjbutik</string>
-    <string name="osm_butcher" tools:ignore="MissingTranslation">Slagter</string>
-    <string name="osm_water_utility" tools:ignore="MissingTranslation">Vandværk</string>
-    <string name="osm_realtor" tools:ignore="MissingTranslation">Ejendomsmægler</string>
-    <string name="osm_company" tools:ignore="MissingTranslation">Virksomhed</string>
-    <string name="osm_accountant" tools:ignore="MissingTranslation">Revisor</string>
-    <string name="osm_bunker_silo" tools:ignore="MissingTranslation">Bunkersilo</string>
-    <string name="osm_hackerspace" tools:ignore="MissingTranslation">Hackerspace</string>
-    <string name="osm_lifeguard_base" tools:ignore="MissingTranslation">Livredderstation</string>
-    <string name="osm_roofer" tools:ignore="MissingTranslation">Tagdækker</string>
-    <string name="osm_rigger" tools:ignore="MissingTranslation">Rigger</string>
-    <string name="osm_parquet_layer" tools:ignore="MissingTranslation">Parketlægger</string>
-    <string name="osm_gardener" tools:ignore="MissingTranslation">Gartner</string>
-    <string name="osm_stable" tools:ignore="MissingTranslation">Stald</string>
-    <string name="osm_garage" tools:ignore="MissingTranslation">Garage</string>
-    <string name="osm_transportation" tools:ignore="MissingTranslation">Transport</string>
-    <string name="osm_house" tools:ignore="MissingTranslation">Hus</string>
-    <string name="osm_helipad" tools:ignore="MissingTranslation">Helikopterlandingsplads</string>
-    <string name="osm_apron" tools:ignore="MissingTranslation">Apron (flyforplads)</string>
-    <string name="osm_consumer_electronics_store" tools:ignore="MissingTranslation">Elektronikbutik</string>
-    <string name="osm_speciality_store" tools:ignore="MissingTranslation">Specialbutik</string>
-    <string name="osm_defined" tools:ignore="MissingTranslation">Defineret</string>
-    <string name="osm_sauna" tools:ignore="MissingTranslation">Sauna</string>
-    <string name="osm_gym" tools:ignore="MissingTranslation">Fitnesscenter</string>
-    <string name="osm_crematorium" tools:ignore="MissingTranslation">Krematorium</string>
-    <string name="osm_gambling" tools:ignore="MissingTranslation">Spillehal</string>
-    <string name="osm_music_school" tools:ignore="MissingTranslation">Musikskole</string>
-    <string name="osm_bar" tools:ignore="MissingTranslation">Bar</string>
-    <string name="osm_farm" tools:ignore="MissingTranslation">Gård</string>
-    <string name="osm_bicycle" tools:ignore="MissingTranslation">Cykelbutik</string>
-    <string name="osm_tailor" tools:ignore="MissingTranslation">Skrædder</string>
-    <string name="osm_locksmith" tools:ignore="MissingTranslation">Låsesmed</string>
-    <string name="osm_industrial" tools:ignore="MissingTranslation">Industri</string>
-    <string name="osm_wilderness_hut" tools:ignore="MissingTranslation">Vildmarkshytte</string>
-    <string name="osm_hostel" tools:ignore="MissingTranslation">Vandrehjem</string>
-    <string name="osm_caravan_site" tools:ignore="MissingTranslation">Campingplads</string>
-    <string name="osm_weightlifting" tools:ignore="MissingTranslation">Vægtløftning</string>
-    <string name="osm_taekwondo" tools:ignore="MissingTranslation">Taekwondo</string>
-    <string name="osm_swimming" tools:ignore="MissingTranslation">Svømning</string>
-    <string name="osm_surfing" tools:ignore="MissingTranslation">Surfing</string>
-    <string name="osm_skating" tools:ignore="MissingTranslation">Rulleskøjteløb</string>
-    <string name="osm_racquet" tools:ignore="MissingTranslation">Ketchersport</string>
-    <string name="osm_pelota" tools:ignore="MissingTranslation">Pelota</string>
-    <string name="osm_paragliding" tools:ignore="MissingTranslation">Skærmflyvning</string>
-    <string name="osm_parachuting" tools:ignore="MissingTranslation">Faldskærmsudspring</string>
-    <string name="osm_motocross" tools:ignore="MissingTranslation">Motocross</string>
-    <string name="osm_ice_skating" tools:ignore="MissingTranslation">Is-skøjteløb</string>
-    <string name="osm_horse_racing" tools:ignore="MissingTranslation">Hestevæddeløb</string>
-    <string name="osm_dog_racing" tools:ignore="MissingTranslation">Hundevæddeløb</string>
-    <string name="osm_climbing" tools:ignore="MissingTranslation">Klatring</string>
-    <string name="osm_chess" tools:ignore="MissingTranslation">Skak</string>
-    <string name="osm_canadian_football" tools:ignore="MissingTranslation">Canadisk fodbold</string>
-    <string name="osm_beachvolleyball" tools:ignore="MissingTranslation">Beachvolleyball</string>
-    <string name="osm_base" tools:ignore="MissingTranslation">BASE-hop</string>
-    <string name="osm_athletics" tools:ignore="MissingTranslation">Atletik</string>
-    <string name="osm_pawnbroker" tools:ignore="MissingTranslation">Pantforretning</string>
-    <string name="osm_ticket" tools:ignore="MissingTranslation">Billetkontor</string>
-    <string name="osm_stationery" tools:ignore="MissingTranslation">Papirvarer</string>
-    <string name="osm_video_games" tools:ignore="MissingTranslation">Videospilsbutik</string>
-    <string name="osm_model" tools:ignore="MissingTranslation">Modelbutik</string>
-    <string name="osm_frame" tools:ignore="MissingTranslation">Indramningsforretning</string>
-    <string name="osm_art" tools:ignore="MissingTranslation">Kunst</string>
-    <string name="osm_car_parts" tools:ignore="MissingTranslation">Autodele</string>
-    <string name="osm_radiotechnics" tools:ignore="MissingTranslation">Radioelektronik</string>
-    <string name="osm_bed" tools:ignore="MissingTranslation">Sengebutik</string>
-    <string name="osm_garden_furniture" tools:ignore="MissingTranslation">Havemøbler</string>
-    <string name="osm_electrical" tools:ignore="MissingTranslation">El-forretning</string>
-    <string name="osm_perfumery" tools:ignore="MissingTranslation">Parfumeri</string>
-    <string name="osm_hairdresser" tools:ignore="MissingTranslation">Frisør</string>
-    <string name="osm_drugstore" tools:ignore="MissingTranslation">Drogistforretning</string>
-    <string name="osm_shoes" tools:ignore="MissingTranslation">Skobutik</string>
-    <string name="osm_leather" tools:ignore="MissingTranslation">Lædervarer</string>
-    <string name="osm_general" tools:ignore="MissingTranslation">Generel butik</string>
-    <string name="osm_seafood" tools:ignore="MissingTranslation">Fiskeforretning</string>
-    <string name="osm_organic" tools:ignore="MissingTranslation">Økologisk butik</string>
-    <string name="osm_greengrocer" tools:ignore="MissingTranslation">Grøntsagsbutik</string>
-    <string name="osm_chocolate" tools:ignore="MissingTranslation">Chokoladebutik</string>
-    <string name="osm_brewing_supplies" tools:ignore="MissingTranslation">Bryggeriudstyr</string>
-    <string name="osm_tax_advisor" tools:ignore="MissingTranslation">Skatterådgiver</string>
-    <string name="osm_private_investigator" tools:ignore="MissingTranslation">Privatdetektiv</string>
-    <string name="osm_government" tools:ignore="MissingTranslation">Offentligt kontor</string>
-    <string name="osm_forestry" tools:ignore="MissingTranslation">Skovbrug</string>
-    <string name="osm_estate_agent" tools:ignore="MissingTranslation">Ejendomsmægler</string>
-    <string name="osm_spring" tools:ignore="MissingTranslation">Kilde</string>
-    <string name="osm_golf_course" tools:ignore="MissingTranslation">Golfbane</string>
-    <string name="osm_ses_station" tools:ignore="MissingTranslation">SES-station</string>
-    <string name="osm_lifeguard_place" tools:ignore="MissingTranslation">Livredderstation</string>
-    <string name="osm_stonemason" tools:ignore="MissingTranslation">Stenhugger</string>
-    <string name="osm_scaffolder" tools:ignore="MissingTranslation">Stilladsmontør</string>
-    <string name="osm_sailmaker" tools:ignore="MissingTranslation">Sejlmager</string>
-    <string name="osm_photographic_laboratory" tools:ignore="MissingTranslation">Fotolaboratorium</string>
-    <string name="osm_photographer" tools:ignore="MissingTranslation">Fotograf</string>
-    <string name="osm_insulation" tools:ignore="MissingTranslation">Isolering</string>
-    <string name="osm_electrician" tools:ignore="MissingTranslation">Elektriker</string>
-    <string name="osm_dressmaker" tools:ignore="MissingTranslation">Skrædder</string>
-    <string name="osm_caterer" tools:ignore="MissingTranslation">Cateringfirma</string>
-    <string name="osm_terrace" tools:ignore="MissingTranslation">Terrasse</string>
-    <string name="osm_toy_shop" tools:ignore="MissingTranslation">Legetøjsbutik</string>
-    <string name="osm_dive_centre" tools:ignore="MissingTranslation">Dykkercenter</string>
-    <string name="osm_swingerclub" tools:ignore="MissingTranslation">Swingerklub</string>
-    <string name="osm_doctors" tools:ignore="MissingTranslation">Læger</string>
-    <string name="osm_driving_school" tools:ignore="MissingTranslation">Køreskole</string>
-    <string name="osm_free_flying" tools:ignore="MissingTranslation">Fri flyvning</string>
-    <string name="osm_religion" tools:ignore="MissingTranslation">Religion</string>
-    <string name="osm_kiosk" tools:ignore="MissingTranslation">Kiosk</string>
-    <string name="osm_residential" tools:ignore="MissingTranslation">Boligområde</string>
-    <string name="osm_food" tools:ignore="MissingTranslation">Mad</string>
-    <string name="osm_waterfall" tools:ignore="MissingTranslation">Vandfald</string>
-    <string name="osm_boatyard" tools:ignore="MissingTranslation">Bådeværft</string>
-    <string name="osm_theme_park" tools:ignore="MissingTranslation">Forlystelsespark</string>
-    <string name="osm_roundhouse" tools:ignore="MissingTranslation">Lokomotivremise</string>
-    <string name="osm_generator" tools:ignore="MissingTranslation">Generator</string>
-    <string name="osm_beach" tools:ignore="MissingTranslation">Strand</string>
-    <string name="osm_naval_base" tools:ignore="MissingTranslation">Flådebase</string>
-    <string name="osm_works" tools:ignore="MissingTranslation">Industrianlæg</string>
-    <string name="osm_water_works" tools:ignore="MissingTranslation">Vandværk</string>
-    <string name="osm_telescope" tools:ignore="MissingTranslation">Teleskop</string>
-    <string name="osm_pier" tools:ignore="MissingTranslation">Mole</string>
-    <string name="osm_observatory" tools:ignore="MissingTranslation">Observatorium</string>
-    <string name="osm_reservoir" tools:ignore="MissingTranslation">Vandreservoir</string>
-    <string name="osm_monument" tools:ignore="MissingTranslation">Mindesmærke</string>
-    <string name="osm_battlefield" tools:ignore="MissingTranslation">Slagmark</string>
-    <string name="osm_planetarium" tools:ignore="MissingTranslation">Planetarium</string>
-    <string name="osm_social_centre" tools:ignore="MissingTranslation">Socialt center</string>
-    <string name="osm_prison" tools:ignore="MissingTranslation">Fængsel</string>
-    <string name="osm_courthouse" tools:ignore="MissingTranslation">Domstol</string>
-    <string name="osm_bridge" tools:ignore="MissingTranslation">Bro</string>
-    <string name="osm_hangar" tools:ignore="MissingTranslation">Hangar</string>
-    <string name="osm_tower" tools:ignore="MissingTranslation">Tårn</string>
-    <string name="osm_attraction" tools:ignore="MissingTranslation">Attraktion</string>
-    <string name="osm_zoo" tools:ignore="MissingTranslation">Zoo</string>
-    <string name="osm_gallery" tools:ignore="MissingTranslation">Galleri</string>
-    <string name="osm_artwork" tools:ignore="MissingTranslation">Kunstværk</string>
-    <string name="osm_alpine_hut" tools:ignore="MissingTranslation">Alpehytte</string>
-    <string name="osm_plant" tools:ignore="MissingTranslation">Anlæg</string>
-    <string name="osm_insurance" tools:ignore="MissingTranslation">Forsikring</string>
-    <string name="osm_airfield" tools:ignore="MissingTranslation">Flyveplads</string>
-    <string name="osm_water_tower" tools:ignore="MissingTranslation">Vandtårn</string>
-    <string name="osm_pumping_station" tools:ignore="MissingTranslation">Pumpestation</string>
-    <string name="osm_hot_water_tank" tools:ignore="MissingTranslation">Varmtvandstank</string>
-    <string name="osm_campanile" tools:ignore="MissingTranslation">Klokketårn</string>
-    <string name="osm_sports_centre" tools:ignore="MissingTranslation">Sportscenter</string>
-    <string name="osm_fitness_centre" tools:ignore="MissingTranslation">Fitnesscenter</string>
-    <string name="osm_beach_resort" tools:ignore="MissingTranslation">Strandresort</string>
-    <string name="osm_village_green" tools:ignore="MissingTranslation">Landsbyplads</string>
-    <string name="osm_ship" tools:ignore="MissingTranslation">Skib</string>
-    <string name="osm_memorial" tools:ignore="MissingTranslation">Mindesmærke</string>
-    <string name="osm_synagogue" tools:ignore="MissingTranslation">Synagoge</string>
-    <string name="osm_mosque" tools:ignore="MissingTranslation">Moské</string>
-    <string name="osm_chapel" tools:ignore="MissingTranslation">Kapel</string>
-    <string name="osm_cathedral" tools:ignore="MissingTranslation">Katedral</string>
-    <string name="osm_train_terminal" tools:ignore="MissingTranslation">Togterminal</string>
-    <string name="osm_college" tools:ignore="MissingTranslation">College</string>
-    <string name="osm_arts_centre" tools:ignore="MissingTranslation">Kulturcenter</string>
-    <string name="osm_ranger_station" tools:ignore="MissingTranslation">Rangerstation</string>
-    <string name="osm_hospital" tools:ignore="MissingTranslation">Hospital</string>
-    <string name="osm_track" tools:ignore="MissingTranslation">Spor</string>
-    <string name="osm_conference_centre" tools:ignore="MissingTranslation">Konferencecenter</string>
-    <string name="osm_viewpoint" tools:ignore="MissingTranslation">Udsigtspunkt</string>
-    <string name="osm_supermarket" tools:ignore="MissingTranslation">Supermarked</string>
-    <string name="osm_peak" tools:ignore="MissingTranslation">Bjergtop</string>
-    <string name="osm_storage_tank" tools:ignore="MissingTranslation">Lagertank</string>
-    <string name="osm_lighthouse" tools:ignore="MissingTranslation">Fyrtårn</string>
-    <string name="osm_beacon" tools:ignore="MissingTranslation">Pejlemærke</string>
-    <string name="osm_port" tools:ignore="MissingTranslation">Havn</string>
-    <string name="osm_archaeological_site" tools:ignore="MissingTranslation">Arkæologisk område</string>
-    <string name="osm_shrine" tools:ignore="MissingTranslation">Helligdom</string>
-    <string name="osm_church" tools:ignore="MissingTranslation">Kirke</string>
-    <string name="osm_historic_monument" tools:ignore="MissingTranslation">Historisk monument</string>
-    <string name="osm_generic_landmark" tools:ignore="MissingTranslation">Vartegn</string>
-    <string name="osm_tourism_museum" tools:ignore="MissingTranslation">Museum</string>
-    <string name="osm_register_office" tools:ignore="MissingTranslation">Registreringskontor</string>
-    <string name="osm_grave_yard" tools:ignore="MissingTranslation">Kirkegård</string>
-    <string name="osm_marketplace" tools:ignore="MissingTranslation">Markedsplads</string>
-    <string name="osm_fire_station" tools:ignore="MissingTranslation">Brandstation</string>
-    <string name="osm_ruins" tools:ignore="MissingTranslation">Ruiner</string>
-    <string name="osm_weir" tools:ignore="MissingTranslation">Opstemning</string>
-    <string name="osm_museum" tools:ignore="MissingTranslation">Museum</string>
-    <string name="osm_mall" tools:ignore="MissingTranslation">Indkøbscenter</string>
-    <string name="osm_volcano" tools:ignore="MissingTranslation">Vulkan</string>
-    <string name="osm_hot_spring" tools:ignore="MissingTranslation">Varm kilde</string>
-    <string name="osm_glacier" tools:ignore="MissingTranslation">Gletsjer</string>
-    <string name="osm_wastewater_plant" tools:ignore="MissingTranslation">Spildevandsanlæg</string>
-    <string name="osm_offshore_platform" tools:ignore="MissingTranslation">Offshore-platform</string>
-    <string name="osm_gasometer" tools:ignore="MissingTranslation">Gasometer</string>
-    <string name="osm_water_park" tools:ignore="MissingTranslation">Vandland</string>
-    <string name="osm_bandstand" tools:ignore="MissingTranslation">Musikpavillon</string>
-    <string name="osm_wreck" tools:ignore="MissingTranslation">Vrag</string>
-    <string name="osm_pillory" tools:ignore="MissingTranslation">Skamstol</string>
-    <string name="osm_monastery" tools:ignore="MissingTranslation">Kloster</string>
-    <string name="osm_locomotive" tools:ignore="MissingTranslation">Lokomotiv</string>
-    <string name="osm_fort" tools:ignore="MissingTranslation">Fæstning</string>
-    <string name="osm_services" tools:ignore="MissingTranslation">Servicefaciliteter</string>
-    <string name="osm_lifeguard_tower" tools:ignore="MissingTranslation">Livreddertårn</string>
-    <string name="osm_temple" tools:ignore="MissingTranslation">Tempel</string>
-    <string name="osm_national_park" tools:ignore="MissingTranslation">Nationalpark</string>
-    <string name="osm_heliport" tools:ignore="MissingTranslation">Heliport</string>
-    <string name="osm_public_park" tools:ignore="MissingTranslation">Offentlig park</string>
-    <string name="osm_department_store" tools:ignore="MissingTranslation">Stormagasin</string>
-    <string name="osm_studio" tools:ignore="MissingTranslation">Studio</string>
-    <string name="osm_public_building" tools:ignore="MissingTranslation">Offentlig bygning</string>
-    <string name="osm_clock" tools:ignore="MissingTranslation">Ur</string>
-    <string name="osm_casino" tools:ignore="MissingTranslation">Casino</string>
-    <string name="osm_stadium" tools:ignore="MissingTranslation">Stadion</string>
-    <string name="osm_dam" tools:ignore="MissingTranslation">Dæmning</string>
-    <string name="osm_dock" tools:ignore="MissingTranslation">Dok</string>
-    <string name="osm_geyser" tools:ignore="MissingTranslation">Geysir</string>
-    <string name="osm_bay" tools:ignore="MissingTranslation">Bugt</string>
-    <string name="osm_barracks" tools:ignore="MissingTranslation">Kaserne</string>
-    <string name="osm_windmill" tools:ignore="MissingTranslation">Vindmølle</string>
-    <string name="osm_watermill" tools:ignore="MissingTranslation">Vandmølle</string>
-    <string name="osm_communications_tower" tools:ignore="MissingTranslation">Kommunikationstårn</string>
-    <string name="osm_swimming_area" tools:ignore="MissingTranslation">Badeområde</string>
-    <string name="osm_slipway" tools:ignore="MissingTranslation">Bådrampe</string>
-    <string name="osm_nature_reserve" tools:ignore="MissingTranslation">Naturreservat</string>
-    <string name="osm_marina" tools:ignore="MissingTranslation">Lystbådehavn</string>
-    <string name="osm_ice_rink" tools:ignore="MissingTranslation">Skøjtebane</string>
-    <string name="osm_manor" tools:ignore="MissingTranslation">Herregård</string>
-    <string name="osm_city_gate" tools:ignore="MissingTranslation">Byport</string>
-    <string name="osm_castle" tools:ignore="MissingTranslation">Slot</string>
-    <string name="osm_aircraft" tools:ignore="MissingTranslation">Fly</string>
-    <string name="osm_digester" tools:ignore="MissingTranslation">Fordøjningstank</string>
-    <string name="osm_sally_port" tools:ignore="MissingTranslation">Sallyport</string>
-    <string name="osm_aerodrome" tools:ignore="MissingTranslation">Flyveplads</string>
-    <string name="osm_shopping_mall" tools:ignore="MissingTranslation">Indkøbscenter</string>
-    <string name="osm_cinema" tools:ignore="MissingTranslation">Biograf</string>
-    <string name="osm_rescue_station" tools:ignore="MissingTranslation">Redningsstation</string>
-    <string name="osm_airport" tools:ignore="MissingTranslation">Lufthavn</string>
-    <string name="osm_theatre" tools:ignore="MissingTranslation">Teater</string>
-    <string name="osm_library" tools:ignore="MissingTranslation">Bibliotek</string>
-    <string name="osm_university" tools:ignore="MissingTranslation">Universitet</string>
-    <string name="osm_police" tools:ignore="MissingTranslation">Politi</string>
-    <string name="osm_embassy" tools:ignore="MissingTranslation">Ambassade</string>
-    <string name="osm_bus_station" tools:ignore="MissingTranslation">Busstation</string>
-    <string name="osm_station" tools:ignore="MissingTranslation">Station</string>
-    <string name="osm_toll_booth" tools:ignore="MissingTranslation">Toldbod</string>
-    <string name="osm_lift" tools:ignore="MissingTranslation">Elevator</string>
-    <string name="osm_unmanaged_crossing" tools:ignore="MissingTranslation">Ustyret overgang</string>
-    <string name="osm_pharmacy" tools:ignore="MissingTranslation">Apotek</string>
-    <string name="osm_kneipp_water_cure" tools:ignore="MissingTranslation">Kneipp-vandkur</string>
-    <string name="osm_food_court" tools:ignore="MissingTranslation">Madområde</string>
-    <string name="osm_chemist" tools:ignore="MissingTranslation">Lægemiddelbutik</string>
-    <string name="osm_checkpoint" tools:ignore="MissingTranslation">Kontrolpunkt</string>
-    <string name="osm_dog_park" tools:ignore="MissingTranslation">Hundepark</string>
-    <string name="osm_kissing_gate" tools:ignore="MissingTranslation">Drejelåge</string>
-    <string name="osm_car_rental" tools:ignore="MissingTranslation">Biludlejning</string>
-    <string name="osm_pedestrianised_area" tools:ignore="MissingTranslation">Fodgængerområde</string>
-    <string name="osm_escalator" tools:ignore="MissingTranslation">Rulletrappe</string>
-    <string name="osm_shelter" tools:ignore="MissingTranslation">Ly</string>
-    <string name="osm_water_point" tools:ignore="MissingTranslation">Vandpost</string>
-    <string name="osm_subway_entrance" tools:ignore="MissingTranslation">Metroindgang</string>
-    <string name="osm_cave_entrance" tools:ignore="MissingTranslation">Huleindgang</string>
-    <string name="osm_swing_gate" tools:ignore="MissingTranslation">Svingport</string>
-    <string name="osm_stile" tools:ignore="MissingTranslation">Trin over hegn</string>
-    <string name="osm_car_sharing" tools:ignore="MissingTranslation">Delebil</string>
-    <string name="osm_customer_service" tools:ignore="MissingTranslation">Kundeservice</string>
-    <string name="osm_watering_place" tools:ignore="MissingTranslation">Vandingssted</string>
-    <string name="osm_platform" tools:ignore="MissingTranslation">Peron</string>
-    <string name="osm_horse_stile" tools:ignore="MissingTranslation">Hestestile</string>
-    <string name="osm_bureau_de_change" tools:ignore="MissingTranslation">Valutaveksling</string>
-    <string name="osm_stairs" tools:ignore="MissingTranslation">Trappe</string>
-    <string name="osm_bicycle_rental" tools:ignore="MissingTranslation">Cykeludlejning</string>
-    <string name="osm_hampshire_gate" tools:ignore="MissingTranslation">Hampshire-låge</string>
-    <string name="osm_full_height_turnstile" tools:ignore="MissingTranslation">Turnstile i fuld højde</string>
-    <string name="osm_boat_sharing" tools:ignore="MissingTranslation">Delebåd</string>
-    <string name="osm_help_point" tools:ignore="MissingTranslation">Hjælpepunkt</string>
-    <string name="osm_open_space" tools:ignore="MissingTranslation">Åbent område</string>
-    <string name="osm_spending_area" tools:ignore="MissingTranslation">Opholdsområde</string>
-    <string name="osm_bicycle_repair_station" tools:ignore="MissingTranslation">Cykelværksted</string>
-    <string name="osm_motorcycle_barrier" tools:ignore="MissingTranslation">Motorcykelspærre</string>
-    <string name="osm_kent_carriage_gap" tools:ignore="MissingTranslation">Kent-vognåbning</string>
-    <string name="osm_shared_space" tools:ignore="MissingTranslation">Fællesområde</string>
-    <string name="osm_cliff" tools:ignore="MissingTranslation">Klippe</string>
-    <string name="osm_training_area" tools:ignore="MissingTranslation">Træningsområde</string>
-    <string name="osm_log" tools:ignore="MissingTranslation">Træstamme</string>
-    <string name="osm_jersey_barrier" tools:ignore="MissingTranslation">Jersey-spærre</string>
-    <string name="osm_construction_site" tools:ignore="MissingTranslation">Byggeplads</string>
-    <string name="osm_ridge" tools:ignore="MissingTranslation">Kam</string>
-    <string name="osm_nuclear_explosion_site" tools:ignore="MissingTranslation">Sted for nuklear eksplosion</string>
-    <string name="osm_dyke" tools:ignore="MissingTranslation">Dige</string>
-    <string name="osm_sump_buster" tools:ignore="MissingTranslation">Sump-bremse</string>
-    <string name="osm_rope" tools:ignore="MissingTranslation">Tov</string>
-    <string name="osm_debris" tools:ignore="MissingTranslation">Vraggods</string>
-    <string name="osm_road_works" tools:ignore="MissingTranslation">Vejarbejde</string>
-    <string name="osm_lock_gate" tools:ignore="MissingTranslation">Sluseport</string>
-    <string name="osm_sinkhole" tools:ignore="MissingTranslation">Synkehul</string>
-    <string name="osm_range" tools:ignore="MissingTranslation">Rækkevidde</string>
-    <string name="osm_ambulance_station" tools:ignore="MissingTranslation">Ambulancestation</string>
-    <string name="osm_spikes" tools:ignore="MissingTranslation">Pigge</string>
-    <string name="osm_generic_hazard" tools:ignore="MissingTranslation">Fare</string>
-    <string name="osm_contact_line" tools:ignore="MissingTranslation">Kontaktledning</string>
-    <string name="osm_danger_area" tools:ignore="MissingTranslation">Farligt Område</string>
-    <string name="osm_chain" tools:ignore="MissingTranslation">Kæde</string>
-    <string name="osm_parking_space" tools:ignore="MissingTranslation">Parkeringsbås</string>
-    <string name="osm_motorcycle_parking" tools:ignore="MissingTranslation">Motorcykelparkering</string>
-    <string name="osm_tag_ferry_terminal" tools:ignore="MissingTranslation">Færgeterminal</string>
-    <string name="osm_tag_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s Færgeterminal</string>
-    <string name="settings_section_search" tools:ignore="MissingTranslation">Søgning</string>
-    <string name="settings_search_online" tools:ignore="MissingTranslation">Online</string>
-    <string name="settings_search_offline" tools:ignore="MissingTranslation">Offline</string>
-    <string name="settings_search_auto" tools:ignore="MissingTranslation">Automatisk</string>
-    <string name="search_no_results" tools:ignore="MissingTranslation">Ingen søgeresultater fundet</string>
-    <string name="search_searching" tools:ignore="MissingTranslation">Søger…</string>
-    <string name="menu_manage_search" tools:ignore="MissingTranslation">Søgning</string>
-    <string name="route_not_found" tools:ignore="MissingTranslation">Rute ikke fundet</string>
-    <string name="advanced_markers_and_routes_export" tools:ignore="MissingTranslation">Eksporter</string>
-    <string name="location_item_selected" tools:ignore="MissingTranslation">Valgt</string>
-    <string name="location_item_not_selected" tools:ignore="MissingTranslation">Ikke valgt</string>
-    <string name="location_item_move_up" tools:ignore="MissingTranslation">Flyt op i listen</string>
-    <string name="location_item_move_down" tools:ignore="MissingTranslation">Flyt ned i listen</string>
-    <string name="street_description_between" tools:ignore="MissingTranslation">På %1$s mellem %2$s og %3$s</string>
-    <string name="street_description_until" tools:ignore="MissingTranslation">På %1$s, %2$s indtil %3$s</string>
-    <string name="street_description_since" tools:ignore="MissingTranslation">På %1$s, %2$s siden %3$s</string>
-    <string name="osm_city" tools:ignore="MissingTranslation">By</string>
-    <string name="osm_town" tools:ignore="MissingTranslation">By</string>
-    <string name="osm_neighbourhood" tools:ignore="MissingTranslation">Nabolag</string>
-    <string name="osm_village" tools:ignore="MissingTranslation">Landsby</string>
-    <string name="osm_hamlet" tools:ignore="MissingTranslation">Lille landsby</string>
-    <string name="osm_recreation_ground" tools:ignore="MissingTranslation">Idrætsplads</string>
-    <string name="osm_river" tools:ignore="MissingTranslation">Flod</string>
-    <string name="osm_railway" tools:ignore="MissingTranslation">Jernbane</string>
-    <string name="osm_wood" tools:ignore="MissingTranslation">Skov</string>
-    <string name="osm_pavillion" tools:ignore="MissingTranslation">Pavillon</string>
-    <string name="osm_sport" tools:ignore="MissingTranslation">Sportssted</string>
-    <string name="osm_health_food" tools:ignore="MissingTranslation">Helsekost</string>
-    <string name="osm_events_venue" tools:ignore="MissingTranslation">Eventsted</string>
-    <string name="menu_help" tools:ignore="MissingTranslation">Hjælp</string>
-    <string name="tour_welcome" tools:ignore="MissingTranslation">Velkommen til Soundscape-tutorialen. Denne tutorial vil guide dig gennem appens hovedfunktioner. Du kan stoppe tutorialen når som helst ved at trykke på Annuller lydtutorial i hovedmenuen. Lad os starte med Steder i nærheden, som giver dig mulighed for at finde interessante steder. Knap­pen Steder i nærheden findes på startskærmen lige under søgefeltet. Tryk på den nu for at prøve.</string>
-    <string name="tour_select_place" tools:ignore="MissingTranslation">Steder i nærheden grupperer interessepunkter efter type. Gennemse listerne med steder og vælg et.</string>
-    <string name="tour_create_marker_started" tools:ignore="MissingTranslation">Super! Du er nu på skærmen Oplysninger om placering. Denne skærm giver dig mulighed for at vælge forskellige handlinger, herunder at gemme placeringen som et mærke. Med Soundscape kan du markere alt omkring dig, som betyder noget for dig. For eksempel kan du markere dit hjem, dit busstoppested eller blot det sted, hvor du står. Lad os prøve. Gem denne placering som et mærke ved at trykke på "Gem som mærke".</string>
-    <string name="tour_create_marker_done" tools:ignore="MissingTranslation">Fantastisk! Når du opretter et mærke, kan du redigere dets navn og tilføje yderligere noter. Prøv det nu, og når du er klar, tryk på "Udført".</string>
-    <string name="tour_my_location" tools:ignore="MissingTranslation">Nu hvor du ved, hvordan du bruger mærker, lad os se på nogle af de andre funktioner. Nederst på skærmen er der fire knapper, som vi vil afprøve i rækkefølge. Knappen til venstre er "Min placering", som beskriver din aktuelle placering. Prøv at trykke på den nu.</string>
-    <string name="tour_around_me" tools:ignore="MissingTranslation">Den næste knap er "Omkring mig". Den fortæller dig, hvad der er i nærheden i hver retning. Tryk på "Omkring mig".</string>
-    <string name="tour_ahead" tools:ignore="MissingTranslation">Den næste knap er "Foran mig". Den fortæller dig, hvad der er foran dig. Tryk på "Foran mig".</string>
-    <string name="tour_nearby_markers" tools:ignore="MissingTranslation">Den sidste knap er "Mærker i nærheden", som annoncerer gemte steder omkring dig. Tryk på "Mærker i nærheden" for at prøve.</string>
-    <string name="tour_markers_and_routes" tools:ignore="MissingTranslation">Du har nu oprettet et mærke. Lad os afspille et lydfyr, der kan guide os til den placering. Tryk på "Mærker og Ruter", som ligger lige under "Steder i nærheden".</string>
-    <string name="tour_markers" tools:ignore="MissingTranslation">Skærmen "Mærker og Ruter" har to faner: én med ruter (playlister af mærker) og én med individuelle mærker. Tryk på fanen "Mærker" for at finde det mærke, du oprettede.</string>
-    <string name="tour_start_beacon" tools:ignore="MissingTranslation">Du er nu på fanen "Mærker", som viser alle dine gemte mærker. Vælg et mærke, og når skærmen Oplysninger om placering vises, tryk på "Start lydfyr".</string>
-    <string name="tour_beacon_demo" tools:ignore="MissingTranslation">Du kan nu høre lydfyret. Det afspilles fra retningen af din destination. Når du ændrer, hvilken retning din telefon peger i, kan du høre, at lydfyret bevæger sig og ændrer klang. Prøv det nu.</string>
-    <string name="tour_beacon_demo_locked" tools:ignore="MissingTranslation">Når din telefon er låst, vil lydfyret stadig spille. Hvis du går eller er i et køretøj, bruger appen din bevægelsesretning til at afspille lydfyret. Men selv når telefonen er låst, kan du holde den fladt foran dig som et kompas, og den vil bruge den retning, telefonen peger i. Prøv det.</string>
-    <string name="tour_stop_beacon" tools:ignore="MissingTranslation">Når du er klar til at stoppe lydfyret, tryk på knappen "Stop rute".</string>
-    <string name="tour_finish" tools:ignore="MissingTranslation">Det var hele tutorialen. Du kan køre den igen fra hovedmenuen. Vi håber, du finder appen nyttig!</string>
-    <string name="tour_cancel" tools:ignore="MissingTranslation">Lydtutorialen er blevet annulleret. Hvis du ønsker det, kan du køre den igen fra hovedmenuen.</string>
-    <string name="menu_audio_tutorial" tools:ignore="MissingTranslation">Lydtutorial</string>
-    <string name="menu_audio_tutorial_cancel" tools:ignore="MissingTranslation">Annuller lydtutorial</string>
-    <string name="search_bar_hint" tools:ignore="MissingTranslation">Skriv et destinationsnavn eller en adresse</string>
-    <string name="all_places_nearby_description" tools:ignore="MissingTranslation">se en ufiltreret liste over alle steder i nærheden</string>
-    <string name="public_transit_places_nearby_description" tools:ignore="MissingTranslation">se en liste over offentlige transportmuligheder i nærheden</string>
-    <string name="food_drink_places_nearby_description" tools:ignore="MissingTranslation">se en liste over restauranter og barer i nærheden</string>
-    <string name="groceries_places_nearby_description" tools:ignore="MissingTranslation">se en liste over dagligvarebutikker i nærheden</string>
-    <string name="banks_places_nearby_description" tools:ignore="MissingTranslation">se en liste over banker og hæveautomater i nærheden</string>
-    <string name="intersections_places_nearby_description" tools:ignore="MissingTranslation">se en liste over vejkryds i nærheden</string>
-    <string name="places_nearby_selection_description" tools:ignore="MissingTranslation">vælge fra en liste over steder i nærheden</string>
-    <string name="accessibility_title" tools:ignore="MissingTranslation">Tilgængelighed</string>
-    <string name="accessibility_screen_reader_enabled" tools:ignore="MissingTranslation">Da du har en skærmlæser aktiveret, anbefaler vi, at du kører appen med brugergrænsefladens grafiske kort slået fra. Du kan ændre den indstilling her eller blot fortsætte.</string>
-    <string name="accessibility_screen_reader_disabled" tools:ignore="MissingTranslation">Da du ikke har en skærmlæser aktiveret, antager vi, at du ønsker, at brugergrænsefladens grafiske kort vises. Du kan ændre den indstilling her eller blot fortsætte.</string>
-    <string name="tour_continue_button" tools:ignore="MissingTranslation">Fortsæt</string>
-    <string name="tour_continue_hint" tools:ignore="MissingTranslation">Luk dialogen og fortsæt med tutorialen</string>
-    <string name="location_detail_action_beacon_from_markers" tools:ignore="MissingTranslation">Start lydfyr ved dette mærke</string>
-    <string name="location_detail_full_screen_for_edit_hint" tools:ignore="MissingTranslation">Vis kortet i fuld skærm, og rediger mærkets placering.</string>
-    <string name="location_detail_exit_full_screen_for_edit_hint" tools:ignore="MissingTranslation">Afslut redigering af mærkets placering</string>
-    <string name="street_description_relative_before" tools:ignore="MissingTranslation">På %1$s lige før %2$s</string>
-    <string name="street_description_relative_after" tools:ignore="MissingTranslation">På %1$s lige efter %2$s</string>
-    <string name="street_description_intersection" tools:ignore="MissingTranslation">Nær krydset ved %1$s</string>
-    <string name="general_error_add_marker_duplicate" tools:ignore="MissingTranslation">Der er allerede et mærke på denne placering i ruten. Vi kan ikke tilføje det igen.</string>
-    <string name="settings_explanation" tools:ignore="MissingTranslation">De forskellige appindstillinger er organiseret i grupper nedenfor. Tryk på en gruppe for at udvide den og se de tilgængelige indstillinger.</string>
-    <string name="settings_section_units_description" tools:ignore="MissingTranslation">Vælg de måleenheder, der skal bruges til afstand</string>
-    <string name="settings_section_search_network" tools:ignore="MissingTranslation">Søgemodus</string>
-    <string name="settings_section_search_network_description" tools:ignore="MissingTranslation">Angiv, om søgning kun skal bruge offline-data</string>
-    <string name="beacon_settings_style_description" tools:ignore="MissingTranslation">Vælg den lydfyrstil, du ønsker at bruge</string>
-    <string name="preview_include_unnamed_roads_title_description" tools:ignore="MissingTranslation">Medtag unavngivne veje under lokalitetssimulering</string>
-    <string name="callouts_allow_callouts_description" tools:ignore="MissingTranslation">Slå alle lydbeskeder til eller fra</string>
-    <string name="callouts_places_and_landmarks_description" tools:ignore="MissingTranslation">Steder i nærheden, såsom butikker og restauranter</string>
-    <string name="callouts_mobility_description" tools:ignore="MissingTranslation">Oplysninger om vejkryds og transport</string>
-    <string name="callouts_audio_beacon_description" tools:ignore="MissingTranslation">Opdateringer om afstanden til lydfyret, når det er indstillet</string>
-    <string name="menu_manage_language" tools:ignore="MissingTranslation">Sprog og region </string>
-    <string name="settings_search_results_language_description" tools:ignore="MissingTranslation">Online-søgning kan bruge resultatets lokale sprog eller tvinges til at returnere engelsk, fransk eller tysk.</string>
-    <string name="language_mismatch_title" tools:ignore="MissingTranslation">Nyt sprog er tilgængeligt</string>
-    <string name="language_mismatch_message" tools:ignore="MissingTranslation">Din telefon er indstillet til %1$s, og det sprog er nu tilgængeligt i Soundscape. Vil du skifte Soundscape til at bruge %1$s?</string>
-    <string name="language_mismatch_switch" tools:ignore="MissingTranslation">Skift til %1$s</string>
-    <string name="language_mismatch_keep" tools:ignore="MissingTranslation">Behold nuværende sprog</string>
-    <string name="preview_go_hint" tools:ignore="MissingTranslation">Gå i denne retning til det næste kryds.</string>
-    <string name="error_message_route_not_found" tools:ignore="MissingTranslation">Kunne ikke finde ruten i databasen.</string>
-    <string name="error_message_deleting_route" tools:ignore="MissingTranslation">Kunne ikke slette ruten.</string>
-    <string name="error_message_saving_route" tools:ignore="MissingTranslation">Kunne ikke gemme ruten.</string>
-    <string name="service_still_running" tools:ignore="MissingTranslation">Soundscape-lokalitetstjenesten kører stadig.</string>
-    <string name="offline_map_download_complete" tools:ignore="MissingTranslation">Download fuldført</string>
-    <string name="offline_map_download_cancelled" tools:ignore="MissingTranslation">Download annulleret</string>
-    <string name="offline_map_download_error" tools:ignore="MissingTranslation">Fejl ved download</string>
-    <string name="behavior_scavenger_hunt_callout_next_flag_short_route" tools:ignore="MissingTranslation">Lydfyr er indstillet på %1$s, %2$s væk</string>
-    <string name="route_beacon_progress" tools:ignore="MissingTranslation">Lydfyr ved %1$s</string>
-    <string name="menu_route" tools:ignore="MissingTranslation">Rutekontrol</string>
-    <string name="menu_route_next_waypoint" tools:ignore="MissingTranslation">Næste vejpunkt</string>
-    <string name="menu_route_previous_waypoint" tools:ignore="MissingTranslation">Forrige vejpunkt</string>
-    <string name="menu_no_routes" tools:ignore="MissingTranslation">Ingen ruter gemt</string>
-    <string name="menu_main_menu" tools:ignore="MissingTranslation">Topmenu</string>
-    <string name="first_launch_permissions_record_audio" tools:ignore="MissingTranslation">Optag lyd</string>
-    <string name="first_launch_permissions_required_for_voice_control" tools:ignore="MissingTranslation">Denne tilladelse er valgfri, men kræves, hvis du vil bruge stemmekommandoer til at styre appen.</string>
-    <string name="menu_media_controls" tools:ignore="MissingTranslation">Mediebetjeninger</string>
-    <string name="settings_section_media_controls" tools:ignore="MissingTranslation">Mediebetjeningsfunktion</string>
-    <string name="settings_section_media_controls_description" tools:ignore="MissingTranslation">Mediebetjeningsknapperne på dine hovedtelefoner eller din fjernbetjening kan konfigureres til at fungere på forskellige måder afhængigt af denne indstilling.</string>
-    <string name="settings_media_controls_original" tools:ignore="MissingTranslation">Originaltilstand</string>
-    <string name="settings_media_controls_voice_command" tools:ignore="MissingTranslation">Stemmekommando</string>
-    <string name="settings_media_controls_audio_menu" tools:ignore="MissingTranslation">Lydmenu</string>
-    <string name="voice_cmd_help_response" tools:ignore="MissingTranslation">Tilgængelige stemmekommandoer:</string>
-    <string name="voice_cmd_listening" tools:ignore="MissingTranslation">Lytter…</string>
-    <string name="voice_cmd_not_recognized" tools:ignore="MissingTranslation">Undskyld, jeg kan ikke finde kommandoen %1$s. Stemmekommandoen %2$s viser en liste over tilgængelige kommandoer.</string>
-    <string name="voice_cmd_list_routes" tools:ignore="MissingTranslation">Vis ruter</string>
-    <string name="voice_cmd_routes_list" tools:ignore="MissingTranslation">Tilgængelige ruter er,</string>
-    <string name="voice_cmd_list_markers" tools:ignore="MissingTranslation">Vis mærker</string>
-    <string name="voice_cmd_markers_list" tools:ignore="MissingTranslation">Tilgængelige mærker er,</string>
-    <string name="voice_cmd_no_routes" tools:ignore="MissingTranslation">Der er ingen gemte ruter</string>
-    <string name="voice_cmd_no_markers" tools:ignore="MissingTranslation">Der er ingen gemte mærker</string>
-    <string name="voice_cmd_route_not_found" tools:ignore="MissingTranslation">Rute ikke fundet: %1$s</string>
-    <string name="voice_cmd_starting_route" tools:ignore="MissingTranslation">Starter ruten %1$s</string>
-    <string name="voice_cmd_start_route" tools:ignore="MissingTranslation">Start rute %1$s</string>
-    <string name="voice_cmd_start_beacon_at_marker_with_name" tools:ignore="MissingTranslation">Start lydfyr ved %1$s</string>
-    <string name="voice_cmd_starting_beacon_at_marker" tools:ignore="MissingTranslation">Starter lydfyr ved %1$s</string>
-    <string name="voice_cmd_marker_not_found" tools:ignore="MissingTranslation">Markør ikke fundet: %1$s</string>
-    <string name="voice_cmd_explain_dynamic_markers" tools:ignore="MissingTranslation">Du kan også starte ruter og mærker ved navn, for eksempel.</string>
-    <string name="voice_cmd_speech_recognition_error_network_timeout" tools:ignore="MissingTranslation">Talegenkendelse: netværks‑timeout.</string>
-    <string name="voice_cmd_speech_recognition_error_network" tools:ignore="MissingTranslation">Netværksfejl ved talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_audio" tools:ignore="MissingTranslation">Fejl ved optagelse af lyd til talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_server" tools:ignore="MissingTranslation">Serverfejl ved talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_client" tools:ignore="MissingTranslation">Klientfejl ved talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_speech_timeout" tools:ignore="MissingTranslation">Ventetiden på tale er udløbet, så lytningen er stoppet. Prøv igen.</string>
-    <string name="voice_cmd_speech_recognition_not_match" tools:ignore="MissingTranslation">Der blev ikke registreret nogen tale, så lytningen er stoppet. Prøv igen.</string>
-    <string name="voice_cmd_speech_recognition_busy" tools:ignore="MissingTranslation">Fejl: talegenkendelsen er optaget.</string>
-    <string name="voice_cmd_speech_recognition_error_permissions" tools:ignore="MissingTranslation">Der var ikke tilstrækkelige tilladelser til at køre talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_too_many_requests" tools:ignore="MissingTranslation">Fejl: for mange forespørgsler til talegenkendelsen.</string>
-    <string name="voice_cmd_speech_recognition_error_server_disconnected" tools:ignore="MissingTranslation">Fejl: forbindelsen til talegenkendelsens server blev afbrudt.</string>
-    <string name="voice_cmd_speech_recognition_error_language_not_supported" tools:ignore="MissingTranslation">Det aktuelle sprog understøttes ikke af Android til talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_language_unavailable" tools:ignore="MissingTranslation">Det aktuelle sprog understøttes, men er ikke blevet downloadet til denne telefon.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_check_support" tools:ignore="MissingTranslation">Fejl ved kontrol af støtte til talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events" tools:ignore="MissingTranslation">Fejl ved aflytning af downloadhændelser for talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_unknown" tools:ignore="MissingTranslation">Ukendt fejl ved talegenkendelse.</string>
-    <string name="voice_cmd_speech_recognition_error_unsupported" tools:ignore="MissingTranslation">Talegenkendelse understøttes ikke på denne telefon.</string>
-    <string name="settings_voice_command_listening_prompt" tools:ignore="MissingTranslation">Annoncer lytning</string>
-    <string name="settings_voice_command_listening_prompt_description" tools:ignore="MissingTranslation">Afsend en lytte‑prompt, før talegenkendelsen starter.</string>
-    <string name="settings_voice_command_microphone" tools:ignore="MissingTranslation">Mikrofon</string>
-    <string name="settings_voice_command_microphone_description" tools:ignore="MissingTranslation">Vælg, hvilken mikrofon der skal bruges til stemmekommandoer.</string>
+    <string name="osm_tram_stop_named">%1$s sporvogn stop</string>
+    <string name="notification_text">Soundscape-lokalitetstjenesten kører, selv når telefonen er låst.</string>
+    <string name="osm_train_station">Togstation</string>
+    <string name="osm_train_station_named">%1$s togstation</string>
+    <string name="cancel_search_contentDescription">Annuller søgning</string>
+    <string name="osm_tram_stop">Sporvogns stop</string>
+    <string name="directions_cardinal_north">Nord</string>
+    <string name="directions_cardinal_north_east">Nordøst</string>
+    <string name="directions_cardinal_east">Øst</string>
+    <string name="directions_cardinal_south_east">Sydøst</string>
+    <string name="directions_cardinal_south">Syd</string>
+    <string name="directions_cardinal_south_west">Sydvest</string>
+    <string name="directions_cardinal_west">Vest</string>
+    <string name="directions_cardinal_north_west">Nordvest</string>
+    <string name="directions_cardinal_north_abb">N</string>
+    <string name="directions_cardinal_north_east_abb">NØ</string>
+    <string name="directions_cardinal_east_abb">Ø</string>
+    <string name="directions_cardinal_south_east_abb">SØ</string>
+    <string name="directions_cardinal_south_abb">S</string>
+    <string name="directions_cardinal_south_west_abb">SV</string>
+    <string name="directions_cardinal_west_abb">V</string>
+    <string name="directions_cardinal_north_west_abb">NV</string>
+    <string name="first_launch_change_language">Ændre Sprog</string>
+    <string name="first_launch_change_language_hint">at ændre det sprog, der bruges til appen</string>
+    <string name="osm_subway">Metrostation</string>
+    <string name="osm_subway_named">%1$s metrostation</string>
+    <string name="osm_ferry_terminal">Færgeterminal</string>
+    <string name="osm_ferry_terminal_named">%1$s færge_terminal</string>
+    <string name="menu_manage_audio">Lyd</string>
+    <string name="settings_section_units">Måleenheder</string>
+    <string name="settings_units_imperial">Imperial (fod)</string>
+    <string name="settings_units_metric">Metrisk (meter)</string>
+    <string name="voice_engine">Tekst-til-tale-motor</string>
+    <string name="preview_go_nearest_intersection">Gå til nærmeste kryds</string>
+    <string name="last_entry_in_list"> og %1$s</string>
+    <string name="location_detail_full_screen_hint">Vis kortet i fuld skærm</string>
+    <string name="location_detail_exit_full_screen_hint">Afslut fuldskærmsvisning af kortet</string>
+    <string name="route_detail_action_previous_disabled_hint">Deaktiveret, da ruten allerede er ved starten</string>
+    <string name="route_detail_action_next_disabled_hint">Deaktiveret, da ruten allerede er ved slutningen</string>
+    <string name="directions_near_road_and_settlement">Nær %1$s og tæt på %2$s</string>
+    <string name="menu_contact_support">Kontakt support</string>
+    <string name="permissions_required">Appen kræver tilladelse til at bruge lokalitetstjenester for at kunne køre.</string>
+    <string name="permissions_button">Ændr tilladelser i appens indstillinger</string>
+    <string name="osm_entrance">Indgang</string>
+    <string name="osm_main_entrance">Hovedindgang</string>
+    <string name="osm_entrance_named_with_destination">%1$s %2$s fra %3$s</string>
+    <string name="osm_entrance_with_destination">%1$s %2$s</string>
+    <string name="menu_manage_accessibility">Tilgængelighed</string>
+    <string name="settings_theme_light_dark">Lyst eller mørkt tema</string>
+    <string name="settings_theme_auto">Automatisk</string>
+    <string name="settings_theme_is_light">Brug lyst tema</string>
+    <string name="settings_theme_light">Lyst</string>
+    <string name="settings_theme_dark">Mørk</string>
+    <string name="settings_theme_contrast">Temaets kontrast</string>
+    <string name="settings_theme_contrast_regular">Normal</string>
+    <string name="settings_theme_contrast_medium">Mellem</string>
+    <string name="settings_theme_contrast_high">Høj</string>
+    <string name="settings_list_item_description">%1$s er valg %2$s ud af %3$s</string>
+    <string name="settings_keep_value">behold</string>
+    <string name="settings_use_value">brug</string>
+    <string name="street_preview_exit">Afslut lokalitetssimulering</string>
+    <string name="settings_travel_recording">Aktivér optagelse af rejser</string>
+    <string name="settings_show_map">Vis kort på skærmen</string>
+    <string name="settings_debug_heading">Fejlsøgningsmuligheder</string>
+    <string name="settings_search_results_language">Søgesprog</string>
+    <string name="menu_share_recorded_route">Del optagelse af rejse</string>
+    <string name="confect_name_to_via">%1$s til %2$s via %3$s</string>
+    <string name="confect_name_to">%1$s til %2$s</string>
+    <string name="confect_name_joins">%1$s, der forbinder %2$s og %3$s</string>
+    <string name="confect_name_via">%1$s via %2$s</string>
+    <string name="confect_name_pavement_next_to">Fortov ved siden af %1$s</string>
+    <string name="confect_name_pavement">Fortov</string>
+    <string name="confect_name_dead_end">Blind vej</string>
+    <string name="offline_maps_title">Offline-kort</string>
+    <string name="offline_map_details_title">Detaljer om offline-kort</string>
+    <string name="offline_maps_loading">Indlæser…</string>
+    <string name="offline_maps_downloading">Downloader %1$s</string>
+    <string name="offline_maps_caching">Serveren forbereder %1$s til download. Dette kan tage et par minutter, hvorefter downloaden starter automatisk.</string>
+    <string name="offline_maps_free_space">%1$s ledigt</string>
+    <string name="offline_maps_storage">Kort gemmes på %1$s, som har %2$s ledig plads</string>
+    <string name="offline_maps_already_downloaded">Downloadede kort</string>
+    <string name="offline_maps_nearby">Offline-kort i nærheden</string>
+    <string name="offline_maps_loading_manifest">Indlæser listen over offline-kort</string>
+    <string name="offline_map_details_delete">Slet offline-kort</string>
+    <string name="offline_map_details_download">Hent offline-kort</string>
+    <string name="offline_map_details_size_on_phone">Størrelse på telefonen: %1$s</string>
+    <string name="offline_map_details_size_on_server">Downloadstørrelse: %1$s</string>
+    <string name="offline_map_details_name">Kortnavn: %1$s</string>
+    <string name="offline_map_details_city_list">Kortet indeholder disse steder: %1$s</string>
+    <string name="offline_map_details_alternate_city_list">Disse steder er også kendt som: %1$s</string>
+    <string name="offline_map_storage_title">Lagring af offlinekort</string>
+    <string name="offline_map_storage_description">For at Soundscape kan bruges uden internetforbindelse, kan du downloade kort og gemme dem på telefonen. Standardplaceringen er ethvert eksternt lager på din telefon, men du kan vælge et alternativt lagringssted her.</string>
+    <string name="offline_map_wifi_only">Brug kun Wi‑Fi til at downloade kort</string>
+    <string name="text_field_clear_text">Ryd tekst</string>
+    <string name="marker_name_description_hint">rediger navnet på mærket</string>
+    <string name="annotation_description_hint">tilføj en valgfri note, der hjælper dig med at genkende dette mærke senere</string>
+    <string name="route_name_description_hint">rediger navnet på ruten</string>
+    <string name="route_description_description_hint">tilføj en valgfri beskrivelse af denne rute</string>
+    <string name="fab_add_item">Tilføj element</string>
+    <string name="fab_add_route">Tilføj rute</string>
+    <string name="route_waypoint_progress">Rute %1$s ved vejpunkt %2$s af %3$s</string>
+    <string name="home_screen_title">Soundscape Startskærm</string>
+    <string name="about_soundscape">Soundscape udforsker brugen af innovativ lydbaseret teknologi for at hjælpe folk med at opbygge en rigere bevidsthed om deres omgivelser, så de får mere selvtillid og bliver bedre i stand til at færdes.</string>
+    <string name="offline_maps_manifest_failed">Download af offline-kortdata mislykkedes</string>
+    <string name="settings_reset_button">Gendan standardindstillinger</string>
+    <string name="settings_reset_button_hint">gendanne standardindstillingerne og genstarte appen.</string>
+    <string name="settings_reset_dialog_title">Er du sikker?</string>
+    <string name="settings_reset_dialog_message">Ved at gendanne standardindstillingerne slettes alle de konfigurerede indstillinger i appen. Vil du fortsætte?</string>
+    <string name="menu_advanced_markers_and_routes">Avancerede mærker og ruter</string>
+    <string name="advanced_markers_and_routes_description">Denne skærm giver dig mulighed for at eksportere og importere mærker og ruter samt slette alle eksisterende mærker og ruter.</string>
+    <string name="advanced_markers_and_routes_export_button">Eksporter database med mærker og ruter</string>
+    <string name="advanced_markers_and_routes_import_button">Importer database med mærker og ruter</string>
+    <string name="markers_and_routes_import_success">Import af mærker og ruter fuldført.</string>
+    <string name="markers_and_routes_import_failure">Import af mærker og ruter mislykkedes.</string>
+    <string name="advanced_markers_and_routes_clear_all_button">Slet alle mærker og ruter</string>
+    <string name="advanced_markers_and_routes_clear_all_alert_message">Sletning af alle mærker og ruter kan ikke fortrydes. Vil du fortsætte?</string>
+    <string name="menu_advanced_markers_and_routes_clear_all_success">Mærker og ruter er slettet</string>
+    <string name="new_version_info_text">Oplysninger om ny udgivelse</string>
+    <string name="new_version_info_completed">Luk dialog om ny udgivelse</string>
+    <string name="new_version_info_details">\nDer er to nye funktioner i denne udgivelse, som gør det muligt at fjernstyre appen — også når telefonen er låst. Det betyder, at du kan lade telefonen blive i lommen og stadig styre appens hovedfunktioner.\n\nBegge fjernbetjeningsmetoder bruger Bluetooth‑medieknapper, enten dem på dine hovedtelefoner, eller små håndholdte fjernbetjeninger, som du kan have i hånden eller i lommen. Fjernbetjeningsfunktionen vælges i Indstillinger/Mediebetjeninger, og du kan vælge *"Stemmekommando"* (så du kan tale til appen) eller *"Lydmenu"* (hvor menuer bliver oplæst, og du kan vælge mellem muligheder). *"Originaltilstand"* betyder, at Bluetooth‑knapperne fungerer på samme måde som i tidligere udgaver.\n\nI stemmekommando‑tilstand starter et tryk på afspil/pause‑knappen på dine hovedtelefoner appens lytning efter tale, og du vil høre et kort lydsignal, der angiver dette. Hvis du siger "Hjælp", bliver de tilgængelige kommandoer oplistet. Du kan så trykke på knappen igen og afprøve de andre kommandoer. Desværre understøtter Androids talegenkendelse ikke alle sprog, og den er ikke tilgængelig på alle telefoner.\n\nDen største udfordring ved stemmekommando‑tilstand er, at nogle hovedtelefoner bruger længere tid på at aktivere mikrofonen end andre. Det betyder, at du efter at have trykket på afspil/pause kan være nødt til at vente op til ca. 5 sekunder, før du kan tale. For at finde ud af hvor lang tid det tager, er den bedste metode at trykke på afspil/pause og tælle fra 1 til 10. Telefonen skulle så fortælle, hvilken tale den genkendte, og det tal, den først genkendte, viser, hvornår du skal begynde at tale. Det kan hjælpe dig med at lære, hvor længe du skal vente, før du taler. Nogle hovedtelefoner afgiver en tydelig lyd, når mikrofonen er aktiv, hvilket gør det lettere, mens andre slet ikke giver noget lyd. Desværre kan det kræve øvelse.\n\nDen anden nye fjernbetjeningsmetode, *Lydmenu*, fungerer på alle sprog og på alle telefoner. Næste/forrige‑knapperne bevæger sig frem og tilbage gennem menupunkterne, der bliver oplæst, og afspil/pause‑knappen vælger den aktuelle mulighed. Der findes en topniveau‑menu og ét lag underrum, som grupperer lignende kommandoer.\n\nDisse funktioner er meget nye, og vi vil meget gerne have feedback på, om de fungerer godt, og hvilke andre kommandoer I eventuelt ønsker.\n\nRapporter venligst alle problemer, også små, via *Kontakt support* i hovedmenuen.\n</string>
+    <string name="menu_open_source_licenses">Open source-licenser</string>
+    <string name="osm_office">Kontor</string>
+    <string name="osm_school">Skole</string>
+    <string name="osm_roof">Tag</string>
+    <string name="osm_convenience">Nærbutik</string>
+    <string name="osm_lift_gate">Løfteport</string>
+    <string name="osm_toilets">Toiletter</string>
+    <string name="osm_parking">Parkering</string>
+    <string name="osm_taxi">Taxaholdeplads</string>
+    <string name="osm_bicycle_parking">Cykelparkering</string>
+    <string name="osm_fuel">Tankstation</string>
+    <string name="osm_recycling">Genbrug</string>
+    <string name="osm_drinking_water">Drikkevand</string>
+    <string name="osm_pitch">Bane</string>
+    <string name="osm_picnic_site">Picnicplads</string>
+    <string name="osm_information">Information</string>
+    <string name="osm_fire_extinguisher">Brandslukker</string>
+    <string name="osm_defibrillator">Defibrillator</string>
+    <string name="osm_guide">Vejviser</string>
+    <string name="osm_water">Vand</string>
+    <string name="osm_fire_hose">Brandslange</string>
+    <string name="osm_fire_flapper">Brandsvaber</string>
+    <string name="osm_information_point">Informationspunkt</string>
+    <string name="osm_wetland">Vådområde</string>
+    <string name="osm_mud">Mudder</string>
+    <string name="osm_access_point">Adgangspunkt</string>
+    <string name="osm_life_ring">Redningskrans</string>
+    <string name="osm_generic_info">Info</string>
+    <string name="osm_turntable">Drejeskive</string>
+    <string name="osm_survey_point">Målepunkt</string>
+    <string name="osm_snow_net">Snesikringsnet</string>
+    <string name="osm_silo">Silo</string>
+    <string name="osm_mast">Mast</string>
+    <string name="osm_bird_hide">Fugleskjul</string>
+    <string name="osm_transformer_tower">Transformatormast</string>
+    <string name="osm_generic_object">Objekt</string>
+    <string name="osm_signal">Signal</string>
+    <string name="osm_rock">Sten</string>
+    <string name="osm_kiln">Brændovn</string>
+    <string name="osm_crane">Kran</string>
+    <string name="osm_rune_stone">Runesten</string>
+    <string name="osm_milestone">Milepæl</string>
+    <string name="osm_lifeguard_platform">Livreddertårn</string>
+    <string name="osm_water_tank">Vandtank</string>
+    <string name="osm_sty">Svinesti</string>
+    <string name="osm_navigationaid">Navigationsmærke</string>
+    <string name="osm_terminal">Terminal</string>
+    <string name="osm_water_tap">Vandhane</string>
+    <string name="osm_water_well">Vandbrønd</string>
+    <string name="osm_petroleum_well">Olieboring</string>
+    <string name="osm_cross">Kors</string>
+    <string name="osm_gallows">Galge</string>
+    <string name="osm_speed_camera">Fartkamera</string>
+    <string name="osm_siren">Sirene</string>
+    <string name="osm_pylon">Højspændingsmast</string>
+    <string name="osm_mineshaft">Mineskakt</string>
+    <string name="osm_flagpole">Flagstang</string>
+    <string name="osm_optical_telegraph">Optisk telegraf</string>
+    <string name="osm_cannon">Kanon</string>
+    <string name="osm_boundary_stone">Grænsesten</string>
+    <string name="osm_shed">Skur</string>
+    <string name="osm_traffic_cones">Trafikkegler</string>
+    <string name="osm_firepit">Bålplads</string>
+    <string name="osm_stone">Sten</string>
+    <string name="osm_surveillance">Overvågning</string>
+    <string name="osm_monitoring_station">Overvågningsstation</string>
+    <string name="osm_wayside_shrine">Vejsidekapel</string>
+    <string name="osm_wayside_cross">Vejsidekors</string>
+    <string name="osm_tomb">Gravmæle</string>
+    <string name="osm_traffic_signals">Trafiklys</string>
+    <string name="osm_hut">Hytte</string>
+    <string name="osm_static_caravan">Stationær campingvogn</string>
+    <string name="osm_bollard">Pullert</string>
+    <string name="osm_block">Blok</string>
+    <string name="osm_waste_disposal">Affaldshåndtering</string>
+    <string name="osm_photo_booth">Fotoboks</string>
+    <string name="osm_bbq">Grill</string>
+    <string name="osm_shop">Butik</string>
+    <string name="osm_newsagent">Aviskiosk</string>
+    <string name="osm_anime">Anime</string>
+    <string name="osm_musical_instrument">Musikinstrumenter</string>
+    <string name="osm_vacuum_cleaner">Støvsuger</string>
+    <string name="osm_mobile_phone">Mobiltelefon</string>
+    <string name="osm_carpet">Tæppe</string>
+    <string name="osm_trade">Handel</string>
+    <string name="osm_garden_centre">Havecenter</string>
+    <string name="osm_florist">Blomsterhandler</string>
+    <string name="osm_fireplace">Pejs</string>
+    <string name="osm_massage">Massage</string>
+    <string name="osm_herbalist">Urteforhandler</string>
+    <string name="osm_bag">Taske</string>
+    <string name="osm_pastry">Bagværk</string>
+    <string name="osm_deli">Delikatesse</string>
+    <string name="osm_beverages">Drikkevarer</string>
+    <string name="osm_alcohol">Alkohol</string>
+    <string name="osm_substation">Transformatorstation</string>
+    <string name="osm_travel_agent">Rejsebureau</string>
+    <string name="osm_research">Forskning</string>
+    <string name="osm_newspaper">Avis</string>
+    <string name="osm_ammunition">Ammunition</string>
+    <string name="osm_wildlife_hide">Observationsskjul</string>
+    <string name="osm_watchmaker">Urmager</string>
+    <string name="osm_tinsmith">Blikslager</string>
+    <string name="osm_sun_protection">Solbeskyttelse</string>
+    <string name="osm_sculptor">Skulptør</string>
+    <string name="osm_metal_construction">Metalkonstruktion</string>
+    <string name="osm_handicraft">Håndværk</string>
+    <string name="osm_cowshed">Kostald</string>
+    <string name="osm_cabin">Hytte</string>
+    <string name="osm_barn">Lade</string>
+    <string name="osm_warehouse">Lager</string>
+    <string name="osm_houseboat">Husbåd</string>
+    <string name="osm_book_store">Boghandel</string>
+    <string name="osm_generic_place">Sted</string>
+    <string name="osm_hunting_stand">Jagttårn</string>
+    <string name="osm_game_feeding">Vildtfodring</string>
+    <string name="osm_crypt">Krypt</string>
+    <string name="osm_animal_shelter">Dyreinternat</string>
+    <string name="osm_animal_boarding">Dyrepensionat</string>
+    <string name="osm_blood_donation">Bloddonation</string>
+    <string name="osm_nursing_home">Plejehjem</string>
+    <string name="osm_dentist">Tandlæge</string>
+    <string name="osm_baby_hatch">Babyklap</string>
+    <string name="osm_language_school">Sprogskole</string>
+    <string name="osm_public_bookcase">Offentlig bogreol</string>
+    <string name="osm_biergarten">Ølhave</string>
+    <string name="osm_running">Løb</string>
+    <string name="osm_glaziery">Glarmester</string>
+    <string name="osm_garages">Garager</string>
+    <string name="osm_retail">Detailhandel</string>
+    <string name="osm_hotel">Hotel</string>
+    <string name="osm_camp_site">Campingplads</string>
+    <string name="osm_rugby_league">Rugby League</string>
+    <string name="osm_roller_skating">Rulleskøjtning</string>
+    <string name="osm_multi">Flere</string>
+    <string name="osm_ice_hockey">Ishockey</string>
+    <string name="osm_hapkido">Hapkido</string>
+    <string name="osm_croquet">Krocket</string>
+    <string name="osm_cricket">Cricket</string>
+    <string name="osm_cockfighting">Hanekamp</string>
+    <string name="osm_boxing">Boksning</string>
+    <string name="osm_bmx">BMX</string>
+    <string name="osm_billiards">Billard</string>
+    <string name="osm_toys">Legetøj</string>
+    <string name="osm_pyrotechnics">Pyroteknik</string>
+    <string name="osm_laundry">Vaskeri</string>
+    <string name="osm_funeral_directors">Bedemænd</string>
+    <string name="osm_dry_cleaning">Renseri</string>
+    <string name="osm_copyshop">Kopibutik</string>
+    <string name="osm_chalet">Chalet</string>
+    <string name="osm_apartment">Lejlighed</string>
+    <string name="osm_water_ski">Vandski</string>
+    <string name="osm_water_polo">Vandpolo</string>
+    <string name="osm_table_soccer">Bordfodbold</string>
+    <string name="osm_table_tennis">Bordtennis</string>
+    <string name="osm_skateboard">Skateboard</string>
+    <string name="osm_sailing">Sejlads</string>
+    <string name="osm_safety_training">Sikkerhedstræning</string>
+    <string name="osm_rowing">Roning</string>
+    <string name="osm_model_aerodrome">Modelflyveplads</string>
+    <string name="osm_korfball">Korfball</string>
+    <string name="osm_ice_stock">Isstokskydning</string>
+    <string name="osm_gymnastics">Gymnastik</string>
+    <string name="osm_football">Fodbold</string>
+    <string name="osm_field_hockey">Landhockey</string>
+    <string name="osm_equestrian">Ridning</string>
+    <string name="osm_cycling">Cykling</string>
+    <string name="osm_curling">Curling</string>
+    <string name="osm_cricket_nets">Cricketnet</string>
+    <string name="osm_cliff_diving">Klippeudspring</string>
+    <string name="osm_boules">Petanque</string>
+    <string name="osm_bobsleigh">Bobslæde</string>
+    <string name="osm_baseball">Baseball</string>
+    <string name="osm_aikido">Aikido</string>
+    <string name="osm_10pin">10-kegle bowling</string>
+    <string name="osm_weapons">Våben</string>
+    <string name="osm_pet">Kæledyr</string>
+    <string name="osm_money_lender">Låneudbyder</string>
+    <string name="osm_gift">Gavebutik</string>
+    <string name="osm_books">Bøger</string>
+    <string name="osm_bookmaker">Bookmaker</string>
+    <string name="osm_photo">Foto</string>
+    <string name="osm_craft">Håndværk</string>
+    <string name="osm_motorcycle">Motorcykel</string>
+    <string name="osm_hunting">Jagt</string>
+    <string name="osm_window_blind">Persienner</string>
+    <string name="osm_curtain">Gardiner</string>
+    <string name="osm_antiques">Antikviteter</string>
+    <string name="osm_paint">Maling</string>
+    <string name="osm_tattoo">Tatovering</string>
+    <string name="osm_nutrition_supplements">Kosttilskud</string>
+    <string name="osm_hearing_aids">Høreapparater</string>
+    <string name="osm_cosmetics">Kosmetik</string>
+    <string name="osm_watches">Ure</string>
+    <string name="osm_jewelry">Smykker</string>
+    <string name="osm_boutique">Boutique</string>
+    <string name="osm_baby_goods">Babyartikler</string>
+    <string name="osm_tea">Te</string>
+    <string name="osm_pasta">Pasta</string>
+    <string name="osm_coffee">Kaffe</string>
+    <string name="osm_quango">Halv-uafhængig offentlig organisation</string>
+    <string name="osm_political_party">Politisk parti</string>
+    <string name="osm_association">Forening</string>
+    <string name="osm_architect">Arkitekt</string>
+    <string name="osm_advertising_agency">Reklamebureau</string>
+    <string name="osm_summer_camp">Sommerlejr</string>
+    <string name="osm_dance">Dans</string>
+    <string name="osm_amusement_arcade">Spillehal</string>
+    <string name="osm_adult_gaming_centre">Spillecenter for voksne</string>
+    <string name="osm_window_construction">Vinduesfremstilling</string>
+    <string name="osm_upholsterer">Polstrer</string>
+    <string name="osm_shoemaker">Skomager</string>
+    <string name="osm_sawmill">Savværk</string>
+    <string name="osm_pottery">Keramik</string>
+    <string name="osm_key_cutter">Nøglesmed</string>
+    <string name="osm_hvac">Varme, ventilation og aircondition</string>
+    <string name="osm_clockmaker">Urmager</string>
+    <string name="osm_carpenter">Tømrer</string>
+    <string name="osm_builder">Byggefirma</string>
+    <string name="osm_bookbinder">Bogbinder</string>
+    <string name="osm_boatbuilder">Bådebygger</string>
+    <string name="osm_brewery">Bryggeri</string>
+    <string name="osm_blacksmith">Smed</string>
+    <string name="osm_basket_maker">Kurvemager</string>
+    <string name="osm_greenhouse">Drivhus</string>
+    <string name="osm_farm_auxiliary">Landbrugsbygning</string>
+    <string name="osm_civic">Offentlig</string>
+    <string name="osm_bungalow">Bungalow</string>
+    <string name="osm_detached">Fritliggende hus</string>
+    <string name="osm_hair_dresser">Frisør</string>
+    <string name="osm_clothing_store">Tøjbutik</string>
+    <string name="osm_user">Bruger</string>
+    <string name="osm_dojo">Dojo</string>
+    <string name="osm_nightclub">Natklub</string>
+    <string name="osm_community_centre">Fælleshus</string>
+    <string name="osm_brothel">Bordel</string>
+    <string name="osm_veterinary">Dyrlæge</string>
+    <string name="osm_social_facility">Social institution</string>
+    <string name="osm_clinic">Klinik</string>
+    <string name="osm_charging_station">Ladestation</string>
+    <string name="osm_kindergarten">Børnehave</string>
+    <string name="osm_ice_cream">Is</string>
+    <string name="osm_fast_food">Fastfood</string>
+    <string name="osm_commercial">Erhverv</string>
+    <string name="osm_canoe">Kano</string>
+    <string name="osm_scuba_diving">Scuba-dykning</string>
+    <string name="osm_fishing">Fiskeri</string>
+    <string name="osm_optician">Optiker</string>
+    <string name="osm_confectionery">Slikbutik</string>
+    <string name="osm_bunker">Bunker</string>
+    <string name="osm_sleeping_pods">Sovekapsler</string>
+    <string name="osm_motel">Motel</string>
+    <string name="osm_guest_house">Gæstehus</string>
+    <string name="osm_wrestling">Brydning</string>
+    <string name="osm_toboggan">Kælk</string>
+    <string name="osm_skiing">Skiløb</string>
+    <string name="osm_rc_car">Fjernstyret bil</string>
+    <string name="osm_paddle_tennis">Padeltennis</string>
+    <string name="osm_hockey">Hockey</string>
+    <string name="osm_fencing">Fægtning</string>
+    <string name="osm_bowls">Bowls</string>
+    <string name="osm_badminton">Badminton</string>
+    <string name="osm_archery">Bueskydning</string>
+    <string name="osm_american_football">Amerikansk fodbold</string>
+    <string name="osm_travel_agency">Rejsebureau</string>
+    <string name="osm_tobacco">Tobak</string>
+    <string name="osm_e_cigarette">E-cigaret</string>
+    <string name="osm_video">Video</string>
+    <string name="osm_car_repair">Autoværksted</string>
+    <string name="osm_hifi">Hi‑fi</string>
+    <string name="osm_lamps">Lamper</string>
+    <string name="osm_kitchen">Køkken</string>
+    <string name="osm_interior_decoration">Indretning</string>
+    <string name="osm_houseware">Husholdningsartikler</string>
+    <string name="osm_erotic">Erotisk</string>
+    <string name="osm_beauty">Skønhedspleje</string>
+    <string name="osm_wine">Vin</string>
+    <string name="osm_dairy">Mejeri</string>
+    <string name="osm_cheese">Ost</string>
+    <string name="osm_bakery">Bageri</string>
+    <string name="osm_telecommunication">Telekommunikation</string>
+    <string name="osm_tax">Skat</string>
+    <string name="osm_real_estate_agent">Ejendomsmægler</string>
+    <string name="osm_notary">Notar</string>
+    <string name="osm_ngo">NGO</string>
+    <string name="osm_lawyer">Advokat</string>
+    <string name="osm_it">IT</string>
+    <string name="osm_foundation">Stiftelse</string>
+    <string name="osm_employment_agency">Rekrutteringsbureau</string>
+    <string name="osm_educational_institution">Uddannelsesinstitution</string>
+    <string name="osm_adoption_agency">Adoptionsbureau</string>
+    <string name="osm_miniature_golf">Minigolf</string>
+    <string name="osm_building">Bygning</string>
+    <string name="osm_winery">Vinhus</string>
+    <string name="osm_tiler">Fliselægger</string>
+    <string name="osm_chimney_sweeper">Skorstensfejer</string>
+    <string name="osm_stand_builder">Standbygger</string>
+    <string name="osm_saddler">Sadelmager</string>
+    <string name="osm_plumber">VVS‑installatør</string>
+    <string name="osm_plasterer">Pudser</string>
+    <string name="osm_painter">Maler</string>
+    <string name="osm_jeweller">Guldsmed</string>
+    <string name="osm_floorer">Gulvlægger</string>
+    <string name="osm_distillery">Destilleri</string>
+    <string name="osm_carpet_layer">Tæppelægger</string>
+    <string name="osm_beekeeper">Biavler</string>
+    <string name="osm_public">Offentlig</string>
+    <string name="osm_dormitory">Sovesal</string>
+    <string name="osm_apartments">Lejligheder</string>
+    <string name="osm_internet_cafe">Internetcafé</string>
+    <string name="osm_shoe_shop">Skobutik</string>
+    <string name="osm_generic_shop">Butik</string>
+    <string name="osm_coffee_shop">Kaffebar</string>
+    <string name="osm_coworking_space">Coworking-plads</string>
+    <string name="osm_stripclub">Stripklub</string>
+    <string name="osm_ev_charging">Elbilopladning</string>
+    <string name="osm_pub">Pub</string>
+    <string name="osm_obstacle_course">Forhindringsbane</string>
+    <string name="osm_volleyball">Volleyball</string>
+    <string name="osm_tennis">Tennis</string>
+    <string name="osm_soccer">Fodbold</string>
+    <string name="osm_shooting">Skydning</string>
+    <string name="osm_rugby_union">Rugby Union</string>
+    <string name="osm_orienteering">Orientering</string>
+    <string name="osm_netball">Netball</string>
+    <string name="osm_motor">Motor</string>
+    <string name="osm_kitesurfing">Kitesurfing</string>
+    <string name="osm_karting">Gokart</string>
+    <string name="osm_judo">Judo</string>
+    <string name="osm_horseshoes">Hestesko</string>
+    <string name="osm_handball">Håndbold</string>
+    <string name="osm_golf">Golf</string>
+    <string name="osm_gaelic_games">Gaeliske spil</string>
+    <string name="osm_diving">Dykning</string>
+    <string name="osm_darts">Dart</string>
+    <string name="osm_climbing_adventure">Klatreoplevelse</string>
+    <string name="osm_basketball">Basketball</string>
+    <string name="osm_bandy">Bandy</string>
+    <string name="osm_australian_football">Australsk fodbold</string>
+    <string name="osm_9pin">Ni-kegler</string>
+    <string name="osm_vacant">Ledig</string>
+    <string name="osm_lottery">Lotteri</string>
+    <string name="osm_trophy">Trofæ</string>
+    <string name="osm_music">Musik</string>
+    <string name="osm_games">Spil</string>
+    <string name="osm_tyres">Dæk</string>
+    <string name="osm_sports">Sport</string>
+    <string name="osm_outdoor">Udendørs</string>
+    <string name="osm_car">Bil</string>
+    <string name="osm_electronics">Elektronik</string>
+    <string name="osm_computer">Computer</string>
+    <string name="osm_furniture">Møbler</string>
+    <string name="osm_candles">Stearinlys</string>
+    <string name="osm_hardware">Jernvarehandel</string>
+    <string name="osm_gas">Tankstation</string>
+    <string name="osm_energy">Energi</string>
+    <string name="osm_doityourself">Byggemarked</string>
+    <string name="osm_bathroom_furnishing">Badeværelsesinventar</string>
+    <string name="osm_medical_supply">Medicinsk udstyr</string>
+    <string name="osm_variety_store">Diversebutik</string>
+    <string name="osm_second_hand">Genbrugsbutik</string>
+    <string name="osm_charity">Velgørenhedsbutik</string>
+    <string name="osm_fashion">Mode</string>
+    <string name="osm_fabric">Stofbutik</string>
+    <string name="osm_clothes">Tøjbutik</string>
+    <string name="osm_butcher">Slagter</string>
+    <string name="osm_water_utility">Vandværk</string>
+    <string name="osm_realtor">Ejendomsmægler</string>
+    <string name="osm_company">Virksomhed</string>
+    <string name="osm_accountant">Revisor</string>
+    <string name="osm_bunker_silo">Bunkersilo</string>
+    <string name="osm_hackerspace">Hackerspace</string>
+    <string name="osm_lifeguard_base">Livredderstation</string>
+    <string name="osm_roofer">Tagdækker</string>
+    <string name="osm_rigger">Rigger</string>
+    <string name="osm_parquet_layer">Parketlægger</string>
+    <string name="osm_gardener">Gartner</string>
+    <string name="osm_stable">Stald</string>
+    <string name="osm_garage">Garage</string>
+    <string name="osm_transportation">Transport</string>
+    <string name="osm_house">Hus</string>
+    <string name="osm_helipad">Helikopterlandingsplads</string>
+    <string name="osm_apron">Apron (flyforplads)</string>
+    <string name="osm_consumer_electronics_store">Elektronikbutik</string>
+    <string name="osm_speciality_store">Specialbutik</string>
+    <string name="osm_defined">Defineret</string>
+    <string name="osm_sauna">Sauna</string>
+    <string name="osm_gym">Fitnesscenter</string>
+    <string name="osm_crematorium">Krematorium</string>
+    <string name="osm_gambling">Spillehal</string>
+    <string name="osm_music_school">Musikskole</string>
+    <string name="osm_bar">Bar</string>
+    <string name="osm_farm">Gård</string>
+    <string name="osm_bicycle">Cykelbutik</string>
+    <string name="osm_tailor">Skrædder</string>
+    <string name="osm_locksmith">Låsesmed</string>
+    <string name="osm_industrial">Industri</string>
+    <string name="osm_wilderness_hut">Vildmarkshytte</string>
+    <string name="osm_hostel">Vandrehjem</string>
+    <string name="osm_caravan_site">Campingplads</string>
+    <string name="osm_weightlifting">Vægtløftning</string>
+    <string name="osm_taekwondo">Taekwondo</string>
+    <string name="osm_swimming">Svømning</string>
+    <string name="osm_surfing">Surfing</string>
+    <string name="osm_skating">Rulleskøjteløb</string>
+    <string name="osm_racquet">Ketchersport</string>
+    <string name="osm_pelota">Pelota</string>
+    <string name="osm_paragliding">Skærmflyvning</string>
+    <string name="osm_parachuting">Faldskærmsudspring</string>
+    <string name="osm_motocross">Motocross</string>
+    <string name="osm_ice_skating">Is-skøjteløb</string>
+    <string name="osm_horse_racing">Hestevæddeløb</string>
+    <string name="osm_dog_racing">Hundevæddeløb</string>
+    <string name="osm_climbing">Klatring</string>
+    <string name="osm_chess">Skak</string>
+    <string name="osm_canadian_football">Canadisk fodbold</string>
+    <string name="osm_beachvolleyball">Beachvolleyball</string>
+    <string name="osm_base">BASE-hop</string>
+    <string name="osm_athletics">Atletik</string>
+    <string name="osm_pawnbroker">Pantforretning</string>
+    <string name="osm_ticket">Billetkontor</string>
+    <string name="osm_stationery">Papirvarer</string>
+    <string name="osm_video_games">Videospilsbutik</string>
+    <string name="osm_model">Modelbutik</string>
+    <string name="osm_frame">Indramningsforretning</string>
+    <string name="osm_art">Kunst</string>
+    <string name="osm_car_parts">Autodele</string>
+    <string name="osm_radiotechnics">Radioelektronik</string>
+    <string name="osm_bed">Sengebutik</string>
+    <string name="osm_garden_furniture">Havemøbler</string>
+    <string name="osm_electrical">El-forretning</string>
+    <string name="osm_perfumery">Parfumeri</string>
+    <string name="osm_hairdresser">Frisør</string>
+    <string name="osm_drugstore">Drogistforretning</string>
+    <string name="osm_shoes">Skobutik</string>
+    <string name="osm_leather">Lædervarer</string>
+    <string name="osm_general">Generel butik</string>
+    <string name="osm_seafood">Fiskeforretning</string>
+    <string name="osm_organic">Økologisk butik</string>
+    <string name="osm_greengrocer">Grøntsagsbutik</string>
+    <string name="osm_chocolate">Chokoladebutik</string>
+    <string name="osm_brewing_supplies">Bryggeriudstyr</string>
+    <string name="osm_tax_advisor">Skatterådgiver</string>
+    <string name="osm_private_investigator">Privatdetektiv</string>
+    <string name="osm_government">Offentligt kontor</string>
+    <string name="osm_forestry">Skovbrug</string>
+    <string name="osm_estate_agent">Ejendomsmægler</string>
+    <string name="osm_spring">Kilde</string>
+    <string name="osm_golf_course">Golfbane</string>
+    <string name="osm_ses_station">SES-station</string>
+    <string name="osm_lifeguard_place">Livredderstation</string>
+    <string name="osm_stonemason">Stenhugger</string>
+    <string name="osm_scaffolder">Stilladsmontør</string>
+    <string name="osm_sailmaker">Sejlmager</string>
+    <string name="osm_photographic_laboratory">Fotolaboratorium</string>
+    <string name="osm_photographer">Fotograf</string>
+    <string name="osm_insulation">Isolering</string>
+    <string name="osm_electrician">Elektriker</string>
+    <string name="osm_dressmaker">Skrædder</string>
+    <string name="osm_caterer">Cateringfirma</string>
+    <string name="osm_terrace">Terrasse</string>
+    <string name="osm_toy_shop">Legetøjsbutik</string>
+    <string name="osm_dive_centre">Dykkercenter</string>
+    <string name="osm_swingerclub">Swingerklub</string>
+    <string name="osm_doctors">Læger</string>
+    <string name="osm_driving_school">Køreskole</string>
+    <string name="osm_free_flying">Fri flyvning</string>
+    <string name="osm_religion">Religion</string>
+    <string name="osm_kiosk">Kiosk</string>
+    <string name="osm_residential">Boligområde</string>
+    <string name="osm_food">Mad</string>
+    <string name="osm_waterfall">Vandfald</string>
+    <string name="osm_boatyard">Bådeværft</string>
+    <string name="osm_theme_park">Forlystelsespark</string>
+    <string name="osm_roundhouse">Lokomotivremise</string>
+    <string name="osm_generator">Generator</string>
+    <string name="osm_beach">Strand</string>
+    <string name="osm_naval_base">Flådebase</string>
+    <string name="osm_works">Industrianlæg</string>
+    <string name="osm_water_works">Vandværk</string>
+    <string name="osm_telescope">Teleskop</string>
+    <string name="osm_pier">Mole</string>
+    <string name="osm_observatory">Observatorium</string>
+    <string name="osm_reservoir">Vandreservoir</string>
+    <string name="osm_monument">Mindesmærke</string>
+    <string name="osm_battlefield">Slagmark</string>
+    <string name="osm_planetarium">Planetarium</string>
+    <string name="osm_social_centre">Socialt center</string>
+    <string name="osm_prison">Fængsel</string>
+    <string name="osm_courthouse">Domstol</string>
+    <string name="osm_bridge">Bro</string>
+    <string name="osm_hangar">Hangar</string>
+    <string name="osm_tower">Tårn</string>
+    <string name="osm_attraction">Attraktion</string>
+    <string name="osm_zoo">Zoo</string>
+    <string name="osm_gallery">Galleri</string>
+    <string name="osm_artwork">Kunstværk</string>
+    <string name="osm_alpine_hut">Alpehytte</string>
+    <string name="osm_plant">Anlæg</string>
+    <string name="osm_insurance">Forsikring</string>
+    <string name="osm_airfield">Flyveplads</string>
+    <string name="osm_water_tower">Vandtårn</string>
+    <string name="osm_pumping_station">Pumpestation</string>
+    <string name="osm_hot_water_tank">Varmtvandstank</string>
+    <string name="osm_campanile">Klokketårn</string>
+    <string name="osm_sports_centre">Sportscenter</string>
+    <string name="osm_fitness_centre">Fitnesscenter</string>
+    <string name="osm_beach_resort">Strandresort</string>
+    <string name="osm_village_green">Landsbyplads</string>
+    <string name="osm_ship">Skib</string>
+    <string name="osm_memorial">Mindesmærke</string>
+    <string name="osm_synagogue">Synagoge</string>
+    <string name="osm_mosque">Moské</string>
+    <string name="osm_chapel">Kapel</string>
+    <string name="osm_cathedral">Katedral</string>
+    <string name="osm_train_terminal">Togterminal</string>
+    <string name="osm_college">College</string>
+    <string name="osm_arts_centre">Kulturcenter</string>
+    <string name="osm_ranger_station">Rangerstation</string>
+    <string name="osm_hospital">Hospital</string>
+    <string name="osm_track">Spor</string>
+    <string name="osm_conference_centre">Konferencecenter</string>
+    <string name="osm_viewpoint">Udsigtspunkt</string>
+    <string name="osm_supermarket">Supermarked</string>
+    <string name="osm_peak">Bjergtop</string>
+    <string name="osm_storage_tank">Lagertank</string>
+    <string name="osm_lighthouse">Fyrtårn</string>
+    <string name="osm_beacon">Pejlemærke</string>
+    <string name="osm_port">Havn</string>
+    <string name="osm_archaeological_site">Arkæologisk område</string>
+    <string name="osm_shrine">Helligdom</string>
+    <string name="osm_church">Kirke</string>
+    <string name="osm_historic_monument">Historisk monument</string>
+    <string name="osm_generic_landmark">Vartegn</string>
+    <string name="osm_tourism_museum">Museum</string>
+    <string name="osm_register_office">Registreringskontor</string>
+    <string name="osm_grave_yard">Kirkegård</string>
+    <string name="osm_marketplace">Markedsplads</string>
+    <string name="osm_fire_station">Brandstation</string>
+    <string name="osm_ruins">Ruiner</string>
+    <string name="osm_weir">Opstemning</string>
+    <string name="osm_museum">Museum</string>
+    <string name="osm_mall">Indkøbscenter</string>
+    <string name="osm_volcano">Vulkan</string>
+    <string name="osm_hot_spring">Varm kilde</string>
+    <string name="osm_glacier">Gletsjer</string>
+    <string name="osm_wastewater_plant">Spildevandsanlæg</string>
+    <string name="osm_offshore_platform">Offshore-platform</string>
+    <string name="osm_gasometer">Gasometer</string>
+    <string name="osm_water_park">Vandland</string>
+    <string name="osm_bandstand">Musikpavillon</string>
+    <string name="osm_wreck">Vrag</string>
+    <string name="osm_pillory">Skamstol</string>
+    <string name="osm_monastery">Kloster</string>
+    <string name="osm_locomotive">Lokomotiv</string>
+    <string name="osm_fort">Fæstning</string>
+    <string name="osm_services">Servicefaciliteter</string>
+    <string name="osm_lifeguard_tower">Livreddertårn</string>
+    <string name="osm_temple">Tempel</string>
+    <string name="osm_national_park">Nationalpark</string>
+    <string name="osm_heliport">Heliport</string>
+    <string name="osm_public_park">Offentlig park</string>
+    <string name="osm_department_store">Stormagasin</string>
+    <string name="osm_studio">Studio</string>
+    <string name="osm_public_building">Offentlig bygning</string>
+    <string name="osm_clock">Ur</string>
+    <string name="osm_casino">Casino</string>
+    <string name="osm_stadium">Stadion</string>
+    <string name="osm_dam">Dæmning</string>
+    <string name="osm_dock">Dok</string>
+    <string name="osm_geyser">Geysir</string>
+    <string name="osm_bay">Bugt</string>
+    <string name="osm_barracks">Kaserne</string>
+    <string name="osm_windmill">Vindmølle</string>
+    <string name="osm_watermill">Vandmølle</string>
+    <string name="osm_communications_tower">Kommunikationstårn</string>
+    <string name="osm_swimming_area">Badeområde</string>
+    <string name="osm_slipway">Bådrampe</string>
+    <string name="osm_nature_reserve">Naturreservat</string>
+    <string name="osm_marina">Lystbådehavn</string>
+    <string name="osm_ice_rink">Skøjtebane</string>
+    <string name="osm_manor">Herregård</string>
+    <string name="osm_city_gate">Byport</string>
+    <string name="osm_castle">Slot</string>
+    <string name="osm_aircraft">Fly</string>
+    <string name="osm_digester">Fordøjningstank</string>
+    <string name="osm_sally_port">Sallyport</string>
+    <string name="osm_aerodrome">Flyveplads</string>
+    <string name="osm_shopping_mall">Indkøbscenter</string>
+    <string name="osm_cinema">Biograf</string>
+    <string name="osm_rescue_station">Redningsstation</string>
+    <string name="osm_airport">Lufthavn</string>
+    <string name="osm_theatre">Teater</string>
+    <string name="osm_library">Bibliotek</string>
+    <string name="osm_university">Universitet</string>
+    <string name="osm_police">Politi</string>
+    <string name="osm_embassy">Ambassade</string>
+    <string name="osm_bus_station">Busstation</string>
+    <string name="osm_station">Station</string>
+    <string name="osm_toll_booth">Toldbod</string>
+    <string name="osm_lift">Elevator</string>
+    <string name="osm_unmanaged_crossing">Ustyret overgang</string>
+    <string name="osm_pharmacy">Apotek</string>
+    <string name="osm_kneipp_water_cure">Kneipp-vandkur</string>
+    <string name="osm_food_court">Madområde</string>
+    <string name="osm_chemist">Lægemiddelbutik</string>
+    <string name="osm_checkpoint">Kontrolpunkt</string>
+    <string name="osm_dog_park">Hundepark</string>
+    <string name="osm_kissing_gate">Drejelåge</string>
+    <string name="osm_car_rental">Biludlejning</string>
+    <string name="osm_pedestrianised_area">Fodgængerområde</string>
+    <string name="osm_escalator">Rulletrappe</string>
+    <string name="osm_shelter">Ly</string>
+    <string name="osm_water_point">Vandpost</string>
+    <string name="osm_subway_entrance">Metroindgang</string>
+    <string name="osm_cave_entrance">Huleindgang</string>
+    <string name="osm_swing_gate">Svingport</string>
+    <string name="osm_stile">Trin over hegn</string>
+    <string name="osm_car_sharing">Delebil</string>
+    <string name="osm_customer_service">Kundeservice</string>
+    <string name="osm_watering_place">Vandingssted</string>
+    <string name="osm_platform">Peron</string>
+    <string name="osm_horse_stile">Hestestile</string>
+    <string name="osm_bureau_de_change">Valutaveksling</string>
+    <string name="osm_stairs">Trappe</string>
+    <string name="osm_bicycle_rental">Cykeludlejning</string>
+    <string name="osm_hampshire_gate">Hampshire-låge</string>
+    <string name="osm_full_height_turnstile">Turnstile i fuld højde</string>
+    <string name="osm_boat_sharing">Delebåd</string>
+    <string name="osm_help_point">Hjælpepunkt</string>
+    <string name="osm_open_space">Åbent område</string>
+    <string name="osm_spending_area">Opholdsområde</string>
+    <string name="osm_bicycle_repair_station">Cykelværksted</string>
+    <string name="osm_motorcycle_barrier">Motorcykelspærre</string>
+    <string name="osm_kent_carriage_gap">Kent-vognåbning</string>
+    <string name="osm_shared_space">Fællesområde</string>
+    <string name="osm_cliff">Klippe</string>
+    <string name="osm_training_area">Træningsområde</string>
+    <string name="osm_log">Træstamme</string>
+    <string name="osm_jersey_barrier">Jersey-spærre</string>
+    <string name="osm_construction_site">Byggeplads</string>
+    <string name="osm_ridge">Kam</string>
+    <string name="osm_nuclear_explosion_site">Sted for nuklear eksplosion</string>
+    <string name="osm_dyke">Dige</string>
+    <string name="osm_sump_buster">Sump-bremse</string>
+    <string name="osm_rope">Tov</string>
+    <string name="osm_debris">Vraggods</string>
+    <string name="osm_road_works">Vejarbejde</string>
+    <string name="osm_lock_gate">Sluseport</string>
+    <string name="osm_sinkhole">Synkehul</string>
+    <string name="osm_range">Rækkevidde</string>
+    <string name="osm_ambulance_station">Ambulancestation</string>
+    <string name="osm_spikes">Pigge</string>
+    <string name="osm_generic_hazard">Fare</string>
+    <string name="osm_contact_line">Kontaktledning</string>
+    <string name="osm_danger_area">Farligt Område</string>
+    <string name="osm_chain">Kæde</string>
+    <string name="osm_parking_space">Parkeringsbås</string>
+    <string name="osm_motorcycle_parking">Motorcykelparkering</string>
+    <string name="osm_tag_ferry_terminal">Færgeterminal</string>
+    <string name="osm_tag_ferry_terminal_named">%1$s Færgeterminal</string>
+    <string name="settings_section_search">Søgning</string>
+    <string name="settings_search_online">Online</string>
+    <string name="settings_search_offline">Offline</string>
+    <string name="settings_search_auto">Automatisk</string>
+    <string name="search_no_results">Ingen søgeresultater fundet</string>
+    <string name="search_searching">Søger…</string>
+    <string name="menu_manage_search">Søgning</string>
+    <string name="route_not_found">Rute ikke fundet</string>
+    <string name="advanced_markers_and_routes_export">Eksporter</string>
+    <string name="location_item_selected">Valgt</string>
+    <string name="location_item_not_selected">Ikke valgt</string>
+    <string name="location_item_move_up">Flyt op i listen</string>
+    <string name="location_item_move_down">Flyt ned i listen</string>
+    <string name="street_description_between">På %1$s mellem %2$s og %3$s</string>
+    <string name="street_description_until">På %1$s, %2$s indtil %3$s</string>
+    <string name="street_description_since">På %1$s, %2$s siden %3$s</string>
+    <string name="osm_city">By</string>
+    <string name="osm_town">By</string>
+    <string name="osm_neighbourhood">Nabolag</string>
+    <string name="osm_village">Landsby</string>
+    <string name="osm_hamlet">Lille landsby</string>
+    <string name="osm_recreation_ground">Idrætsplads</string>
+    <string name="osm_river">Flod</string>
+    <string name="osm_railway">Jernbane</string>
+    <string name="osm_wood">Skov</string>
+    <string name="osm_pavillion">Pavillon</string>
+    <string name="osm_sport">Sportssted</string>
+    <string name="osm_health_food">Helsekost</string>
+    <string name="osm_events_venue">Eventsted</string>
+    <string name="menu_help">Hjælp</string>
+    <string name="tour_welcome">Velkommen til Soundscape-tutorialen. Denne tutorial vil guide dig gennem appens hovedfunktioner. Du kan stoppe tutorialen når som helst ved at trykke på Annuller lydtutorial i hovedmenuen. Lad os starte med Steder i nærheden, som giver dig mulighed for at finde interessante steder. Knap­pen Steder i nærheden findes på startskærmen lige under søgefeltet. Tryk på den nu for at prøve.</string>
+    <string name="tour_select_place">Steder i nærheden grupperer interessepunkter efter type. Gennemse listerne med steder og vælg et.</string>
+    <string name="tour_create_marker_started">Super! Du er nu på skærmen Oplysninger om placering. Denne skærm giver dig mulighed for at vælge forskellige handlinger, herunder at gemme placeringen som et mærke. Med Soundscape kan du markere alt omkring dig, som betyder noget for dig. For eksempel kan du markere dit hjem, dit busstoppested eller blot det sted, hvor du står. Lad os prøve. Gem denne placering som et mærke ved at trykke på "Gem som mærke".</string>
+    <string name="tour_create_marker_done">Fantastisk! Når du opretter et mærke, kan du redigere dets navn og tilføje yderligere noter. Prøv det nu, og når du er klar, tryk på "Udført".</string>
+    <string name="tour_my_location">Nu hvor du ved, hvordan du bruger mærker, lad os se på nogle af de andre funktioner. Nederst på skærmen er der fire knapper, som vi vil afprøve i rækkefølge. Knappen til venstre er "Min placering", som beskriver din aktuelle placering. Prøv at trykke på den nu.</string>
+    <string name="tour_around_me">Den næste knap er "Omkring mig". Den fortæller dig, hvad der er i nærheden i hver retning. Tryk på "Omkring mig".</string>
+    <string name="tour_ahead">Den næste knap er "Foran mig". Den fortæller dig, hvad der er foran dig. Tryk på "Foran mig".</string>
+    <string name="tour_nearby_markers">Den sidste knap er "Mærker i nærheden", som annoncerer gemte steder omkring dig. Tryk på "Mærker i nærheden" for at prøve.</string>
+    <string name="tour_markers_and_routes">Du har nu oprettet et mærke. Lad os afspille et lydfyr, der kan guide os til den placering. Tryk på "Mærker og Ruter", som ligger lige under "Steder i nærheden".</string>
+    <string name="tour_markers">Skærmen "Mærker og Ruter" har to faner: én med ruter (playlister af mærker) og én med individuelle mærker. Tryk på fanen "Mærker" for at finde det mærke, du oprettede.</string>
+    <string name="tour_start_beacon">Du er nu på fanen "Mærker", som viser alle dine gemte mærker. Vælg et mærke, og når skærmen Oplysninger om placering vises, tryk på "Start lydfyr".</string>
+    <string name="tour_beacon_demo">Du kan nu høre lydfyret. Det afspilles fra retningen af din destination. Når du ændrer, hvilken retning din telefon peger i, kan du høre, at lydfyret bevæger sig og ændrer klang. Prøv det nu.</string>
+    <string name="tour_beacon_demo_locked">Når din telefon er låst, vil lydfyret stadig spille. Hvis du går eller er i et køretøj, bruger appen din bevægelsesretning til at afspille lydfyret. Men selv når telefonen er låst, kan du holde den fladt foran dig som et kompas, og den vil bruge den retning, telefonen peger i. Prøv det.</string>
+    <string name="tour_stop_beacon">Når du er klar til at stoppe lydfyret, tryk på knappen "Stop rute".</string>
+    <string name="tour_finish">Det var hele tutorialen. Du kan køre den igen fra hovedmenuen. Vi håber, du finder appen nyttig!</string>
+    <string name="tour_cancel">Lydtutorialen er blevet annulleret. Hvis du ønsker det, kan du køre den igen fra hovedmenuen.</string>
+    <string name="menu_audio_tutorial">Lydtutorial</string>
+    <string name="menu_audio_tutorial_cancel">Annuller lydtutorial</string>
+    <string name="search_bar_hint">Skriv et destinationsnavn eller en adresse</string>
+    <string name="all_places_nearby_description">se en ufiltreret liste over alle steder i nærheden</string>
+    <string name="public_transit_places_nearby_description">se en liste over offentlige transportmuligheder i nærheden</string>
+    <string name="food_drink_places_nearby_description">se en liste over restauranter og barer i nærheden</string>
+    <string name="groceries_places_nearby_description">se en liste over dagligvarebutikker i nærheden</string>
+    <string name="banks_places_nearby_description">se en liste over banker og hæveautomater i nærheden</string>
+    <string name="intersections_places_nearby_description">se en liste over vejkryds i nærheden</string>
+    <string name="places_nearby_selection_description">vælge fra en liste over steder i nærheden</string>
+    <string name="accessibility_title">Tilgængelighed</string>
+    <string name="accessibility_screen_reader_enabled">Da du har en skærmlæser aktiveret, anbefaler vi, at du kører appen med brugergrænsefladens grafiske kort slået fra. Du kan ændre den indstilling her eller blot fortsætte.</string>
+    <string name="accessibility_screen_reader_disabled">Da du ikke har en skærmlæser aktiveret, antager vi, at du ønsker, at brugergrænsefladens grafiske kort vises. Du kan ændre den indstilling her eller blot fortsætte.</string>
+    <string name="tour_continue_button">Fortsæt</string>
+    <string name="tour_continue_hint">Luk dialogen og fortsæt med tutorialen</string>
+    <string name="location_detail_action_beacon_from_markers">Start lydfyr ved dette mærke</string>
+    <string name="location_detail_full_screen_for_edit_hint">Vis kortet i fuld skærm, og rediger mærkets placering.</string>
+    <string name="location_detail_exit_full_screen_for_edit_hint">Afslut redigering af mærkets placering</string>
+    <string name="street_description_relative_before">På %1$s lige før %2$s</string>
+    <string name="street_description_relative_after">På %1$s lige efter %2$s</string>
+    <string name="street_description_intersection">Nær krydset ved %1$s</string>
+    <string name="general_error_add_marker_duplicate">Der er allerede et mærke på denne placering i ruten. Vi kan ikke tilføje det igen.</string>
+    <string name="settings_explanation">De forskellige appindstillinger er organiseret i grupper nedenfor. Tryk på en gruppe for at udvide den og se de tilgængelige indstillinger.</string>
+    <string name="settings_section_units_description">Vælg de måleenheder, der skal bruges til afstand</string>
+    <string name="settings_section_search_network">Søgemodus</string>
+    <string name="settings_section_search_network_description">Angiv, om søgning kun skal bruge offline-data</string>
+    <string name="beacon_settings_style_description">Vælg den lydfyrstil, du ønsker at bruge</string>
+    <string name="preview_include_unnamed_roads_title_description">Medtag unavngivne veje under lokalitetssimulering</string>
+    <string name="callouts_allow_callouts_description">Slå alle lydbeskeder til eller fra</string>
+    <string name="callouts_places_and_landmarks_description">Steder i nærheden, såsom butikker og restauranter</string>
+    <string name="callouts_mobility_description">Oplysninger om vejkryds og transport</string>
+    <string name="callouts_audio_beacon_description">Opdateringer om afstanden til lydfyret, når det er indstillet</string>
+    <string name="menu_manage_language">Sprog og region </string>
+    <string name="settings_search_results_language_description">Online-søgning kan bruge resultatets lokale sprog eller tvinges til at returnere engelsk, fransk eller tysk.</string>
+    <string name="language_mismatch_title">Nyt sprog er tilgængeligt</string>
+    <string name="language_mismatch_message">Din telefon er indstillet til %1$s, og det sprog er nu tilgængeligt i Soundscape. Vil du skifte Soundscape til at bruge %1$s?</string>
+    <string name="language_mismatch_switch">Skift til %1$s</string>
+    <string name="language_mismatch_keep">Behold nuværende sprog</string>
+    <string name="preview_go_hint">Gå i denne retning til det næste kryds.</string>
+    <string name="error_message_route_not_found">Kunne ikke finde ruten i databasen.</string>
+    <string name="error_message_deleting_route">Kunne ikke slette ruten.</string>
+    <string name="error_message_saving_route">Kunne ikke gemme ruten.</string>
+    <string name="service_still_running">Soundscape-lokalitetstjenesten kører stadig.</string>
+    <string name="offline_map_download_complete">Download fuldført</string>
+    <string name="offline_map_download_cancelled">Download annulleret</string>
+    <string name="offline_map_download_error">Fejl ved download</string>
+    <string name="behavior_scavenger_hunt_callout_next_flag_short_route">Lydfyr er indstillet på %1$s, %2$s væk</string>
+    <string name="route_beacon_progress">Lydfyr ved %1$s</string>
+    <string name="menu_route">Rutekontrol</string>
+    <string name="menu_route_next_waypoint">Næste vejpunkt</string>
+    <string name="menu_route_previous_waypoint">Forrige vejpunkt</string>
+    <string name="menu_no_routes">Ingen ruter gemt</string>
+    <string name="menu_main_menu">Topmenu</string>
+    <string name="first_launch_permissions_record_audio">Optag lyd</string>
+    <string name="first_launch_permissions_required_for_voice_control">Denne tilladelse er valgfri, men kræves, hvis du vil bruge stemmekommandoer til at styre appen.</string>
+    <string name="menu_media_controls">Mediebetjeninger</string>
+    <string name="settings_section_media_controls">Mediebetjeningsfunktion</string>
+    <string name="settings_section_media_controls_description">Mediebetjeningsknapperne på dine hovedtelefoner eller din fjernbetjening kan konfigureres til at fungere på forskellige måder afhængigt af denne indstilling.</string>
+    <string name="settings_media_controls_original">Originaltilstand</string>
+    <string name="settings_media_controls_voice_command">Stemmekommando</string>
+    <string name="settings_media_controls_audio_menu">Lydmenu</string>
+    <string name="voice_cmd_help_response">Tilgængelige stemmekommandoer:</string>
+    <string name="voice_cmd_listening">Lytter…</string>
+    <string name="voice_cmd_not_recognized">Undskyld, jeg kan ikke finde kommandoen %1$s. Stemmekommandoen %2$s viser en liste over tilgængelige kommandoer.</string>
+    <string name="voice_cmd_list_routes">Vis ruter</string>
+    <string name="voice_cmd_routes_list">Tilgængelige ruter er,</string>
+    <string name="voice_cmd_list_markers">Vis mærker</string>
+    <string name="voice_cmd_markers_list">Tilgængelige mærker er,</string>
+    <string name="voice_cmd_no_routes">Der er ingen gemte ruter</string>
+    <string name="voice_cmd_no_markers">Der er ingen gemte mærker</string>
+    <string name="voice_cmd_route_not_found">Rute ikke fundet: %1$s</string>
+    <string name="voice_cmd_starting_route">Starter ruten %1$s</string>
+    <string name="voice_cmd_start_route">Start rute %1$s</string>
+    <string name="voice_cmd_start_beacon_at_marker_with_name">Start lydfyr ved %1$s</string>
+    <string name="voice_cmd_starting_beacon_at_marker">Starter lydfyr ved %1$s</string>
+    <string name="voice_cmd_marker_not_found">Markør ikke fundet: %1$s</string>
+    <string name="voice_cmd_explain_dynamic_markers">Du kan også starte ruter og mærker ved navn, for eksempel.</string>
+    <string name="voice_cmd_speech_recognition_error_network_timeout">Talegenkendelse: netværks‑timeout.</string>
+    <string name="voice_cmd_speech_recognition_error_network">Netværksfejl ved talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_audio">Fejl ved optagelse af lyd til talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_server">Serverfejl ved talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_client">Klientfejl ved talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_speech_timeout">Ventetiden på tale er udløbet, så lytningen er stoppet. Prøv igen.</string>
+    <string name="voice_cmd_speech_recognition_not_match">Der blev ikke registreret nogen tale, så lytningen er stoppet. Prøv igen.</string>
+    <string name="voice_cmd_speech_recognition_busy">Fejl: talegenkendelsen er optaget.</string>
+    <string name="voice_cmd_speech_recognition_error_permissions">Der var ikke tilstrækkelige tilladelser til at køre talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_too_many_requests">Fejl: for mange forespørgsler til talegenkendelsen.</string>
+    <string name="voice_cmd_speech_recognition_error_server_disconnected">Fejl: forbindelsen til talegenkendelsens server blev afbrudt.</string>
+    <string name="voice_cmd_speech_recognition_error_language_not_supported">Det aktuelle sprog understøttes ikke af Android til talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_language_unavailable">Det aktuelle sprog understøttes, men er ikke blevet downloadet til denne telefon.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_check_support">Fejl ved kontrol af støtte til talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events">Fejl ved aflytning af downloadhændelser for talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_unknown">Ukendt fejl ved talegenkendelse.</string>
+    <string name="voice_cmd_speech_recognition_error_unsupported">Talegenkendelse understøttes ikke på denne telefon.</string>
+    <string name="settings_voice_command_listening_prompt">Annoncer lytning</string>
+    <string name="settings_voice_command_listening_prompt_description">Afsend en lytte‑prompt, før talegenkendelsen starter.</string>
+    <string name="settings_voice_command_microphone">Mikrofon</string>
+    <string name="settings_voice_command_microphone_description">Vælg, hvilken mikrofon der skal bruges til stemmekommandoer.</string>
     <string name="battery_optimization_title">Batteriforbrug i baggrunden</string>
     <string name="battery_optimization_message">Soundscape kræver ubegrænset batteribrug for at kunne fortsætte med at levere lydnavigering, når din telefon er låst. Tillad venligst dette i den næste dialog. Hvis du lukker Soundscape, stopper alle tjenester, og appen vil ikke længere bruge batteri.</string>
     <string name="route_detail_action_start_route_reverse">Start rute i omvendt rækkefølge</string>

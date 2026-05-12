@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="general_alert_cancel">Anuluj</string>
     <string name="general_alert_done">Gotowe</string>
     <string name="general_loading_start">Trwa przygotowywanie podglądu ulicy…</string>
@@ -7,11 +7,11 @@
     <string name="general_error_add_marker_error">Mamy problem z oznaczeniem tego miejsca. Spróbuj ponownie później.</string>
     <string name="settings_screen_title">Ustawienia</string>
     <string name="settings_about_app">Informacje o aplikacji Soundscape</string>
-    <string name="settings_section_units" tools:ignore="MissingTranslation">Jednostki miary</string>
-    <string name="settings_units_imperial" tools:ignore="MissingTranslation">Imperialne (stopy)</string>
-    <string name="settings_units_metric" tools:ignore="MissingTranslation">Metryczne (metry)</string>
+    <string name="settings_section_units">Jednostki miary</string>
+    <string name="settings_units_imperial">Imperialne (stopy)</string>
+    <string name="settings_units_metric">Metryczne (metry)</string>
     <string name="voice_settings_speaking_rate">Szybkość mowy</string>
-    <string name="voice_engine" tools:ignore="MissingTranslation">Syntezator mowy (TTS)</string>
+    <string name="voice_engine">Syntezator mowy (TTS)</string>
     <string name="voice_voices">Wybór głosu TTS</string>
     <string name="beacon_settings_style">Style dźwięku naprowadzającego</string>
     <string name="beacon_styles_current">Najnowszy</string>
@@ -34,8 +34,8 @@
     <string name="beacon_action_unmute_beacon_acc_hint">włącz dźwięk naprowadzający</string>
     <string name="preview_title">Podgląd lokalizacji</string>
     <string name="preview_go_title">Idź</string>
-    <string name="preview_go_nearest_intersection" tools:ignore="MissingTranslation">Idź do najbliższego skrzyżowania</string>
-    <string name="last_entry_in_list" tools:ignore="MissingTranslation"> i %1$s</string>
+    <string name="preview_go_nearest_intersection">Idź do najbliższego skrzyżowania</string>
+    <string name="last_entry_in_list"> i %1$s</string>
     <string name="preview_include_unnamed_roads_title">Drogi bez nazwy</string>
     <string name="location_detail_title_default">Szczegóły lokalizacji</string>
     <string name="location_detail_action_beacon">Uruchom dźwięk naprowadzający</string>
@@ -46,8 +46,8 @@
     <string name="location_detail_action_preview_hint">rozpocznij podgląd tej lokalizacji</string>
     <string name="location_detail_add_waypoint_existing_hint">usuń ten znacznik z trasy</string>
     <string name="location_detail_add_waypoint_new_hint">dodaj ten znacznik jako punkt trasy</string>
-    <string name="location_detail_full_screen_hint" tools:ignore="MissingTranslation">Wyświetl mapę na pełnym ekranie</string>
-    <string name="location_detail_exit_full_screen_hint" tools:ignore="MissingTranslation">Zamknij tryb pełnoekranowy mapy</string>
+    <string name="location_detail_full_screen_hint">Wyświetl mapę na pełnym ekranie</string>
+    <string name="location_detail_exit_full_screen_hint">Zamknij tryb pełnoekranowy mapy</string>
     <string name="route_detail_action_start_route">Rozpocznij trasę</string>
     <string name="route_detail_action_stop_route">Zatrzymaj trasę</string>
     <string name="route_detail_action_edit">Edytuj trasę</string>
@@ -125,7 +125,7 @@
     <string name="directions_name_goes_right">%1$s, biegnie w prawo</string>
     <string name="directions_name_continues_ahead">%1$s prowadzi prosto</string>
     <string name="directions_direction_ahead">przed tobą</string>
-    <string name="directions_near_road_and_settlement" tools:ignore="MissingTranslation">W pobliżu %1$s i niedaleko %2$s</string>
+    <string name="directions_near_road_and_settlement">W pobliżu %1$s i niedaleko %2$s</string>
     <string name="directions_traveling_n">Poruszasz się na północ</string>
     <string name="directions_traveling_ne">Poruszasz się na północny wschód</string>
     <string name="directions_traveling_e">Poruszasz się na wschód</string>
@@ -174,22 +174,22 @@
     <string name="directions_along_heading_sw">Idziesz na południowy zachód wzdłuż %1$s</string>
     <string name="directions_along_heading_w">Idziesz na zachód wzdłuż %1$s</string>
     <string name="directions_along_heading_nw">Idziesz na północny zachód wzdłuż %1$s</string>
-    <string name="directions_cardinal_north" tools:ignore="MissingTranslation">Północ</string>
-    <string name="directions_cardinal_north_east" tools:ignore="MissingTranslation">Północny wschód</string>
-    <string name="directions_cardinal_east" tools:ignore="MissingTranslation">Wschód</string>
-    <string name="directions_cardinal_south_east" tools:ignore="MissingTranslation">Południowy wschód</string>
-    <string name="directions_cardinal_south" tools:ignore="MissingTranslation">Południe</string>
-    <string name="directions_cardinal_south_west" tools:ignore="MissingTranslation">Południowy zachód</string>
-    <string name="directions_cardinal_west" tools:ignore="MissingTranslation">Zachód</string>
-    <string name="directions_cardinal_north_west" tools:ignore="MissingTranslation">Północny zachód</string>
-    <string name="directions_cardinal_north_abb" tools:ignore="MissingTranslation">Płn</string>
-    <string name="directions_cardinal_north_east_abb" tools:ignore="MissingTranslation">Płn. wsch.</string>
-    <string name="directions_cardinal_east_abb" tools:ignore="MissingTranslation">Wsch.</string>
-    <string name="directions_cardinal_south_east_abb" tools:ignore="MissingTranslation">Płd. wsch.</string>
-    <string name="directions_cardinal_south_abb" tools:ignore="MissingTranslation">Płd.</string>
-    <string name="directions_cardinal_south_west_abb" tools:ignore="MissingTranslation">Płd. zach.</string>
-    <string name="directions_cardinal_west_abb" tools:ignore="MissingTranslation">Zach.</string>
-    <string name="directions_cardinal_north_west_abb" tools:ignore="MissingTranslation">Płn. zach.</string>
+    <string name="directions_cardinal_north">Północ</string>
+    <string name="directions_cardinal_north_east">Północny wschód</string>
+    <string name="directions_cardinal_east">Wschód</string>
+    <string name="directions_cardinal_south_east">Południowy wschód</string>
+    <string name="directions_cardinal_south">Południe</string>
+    <string name="directions_cardinal_south_west">Południowy zachód</string>
+    <string name="directions_cardinal_west">Zachód</string>
+    <string name="directions_cardinal_north_west">Północny zachód</string>
+    <string name="directions_cardinal_north_abb">Płn</string>
+    <string name="directions_cardinal_north_east_abb">Płn. wsch.</string>
+    <string name="directions_cardinal_east_abb">Wsch.</string>
+    <string name="directions_cardinal_south_east_abb">Płd. wsch.</string>
+    <string name="directions_cardinal_south_abb">Płd.</string>
+    <string name="directions_cardinal_south_west_abb">Płd. zach.</string>
+    <string name="directions_cardinal_west_abb">Zach.</string>
+    <string name="directions_cardinal_north_west_abb">Płn. zach.</string>
     <string name="distance_format_meters">%1$s metrów</string>
     <string name="distance_format_km">%1$s km</string>
     <string name="distance_format_feet">%1$s stóp</string>
@@ -209,7 +209,7 @@
     <string name="menu_manage_callouts">Zarządzaj powiadomieniami</string>
     <string name="menu_rate">Oceń aplikację</string>
     <string name="menu_help_and_tutorials">Pomoc i samouczki</string>
-    <string name="menu_contact_support" tools:ignore="MissingTranslation">Kontakt z pomocą techniczną</string>
+    <string name="menu_contact_support">Kontakt z pomocą techniczną</string>
     <string name="ui_back_button_title">Wstecz</string>
     <string name="behavior_experiences_route_nav_title">Szczegóły trasy</string>
     <string name="behavior_scavenger_hunt_callout_next_flag">Ustawiono naprowadzanie na %1$s, w odległości %2$s, %3$s z %4$s</string>
@@ -256,8 +256,8 @@
     <string name="first_launch_permissions_location">Usługi lokalizacji (dokładna lokalizacja)</string>
     <string name="first_launch_permissions_motion">Ruch i aktywność fizyczna</string>
     <string name="first_launch_permissions_required">To uprawnienie jest wymagane</string>
-    <string name="permissions_required" tools:ignore="MissingTranslation">Aplikacja wymaga uprawnień do lokalizacji, aby działać.</string>
-    <string name="permissions_button" tools:ignore="MissingTranslation">Zmień uprawnienia w ustawieniach aplikacji</string>
+    <string name="permissions_required">Aplikacja wymaga uprawnień do lokalizacji, aby działać.</string>
+    <string name="permissions_button">Zmień uprawnienia w ustawieniach aplikacji</string>
     <string name="first_launch_beacon_title">Wybierz dźwięk naprowadzający</string>
     <string name="first_launch_beacon_message_1">Podczas nawigacji z Soundscape usłyszysz dźwięk naprowadzający dochodzący z kierunku Twojego miejsca docelowego. Podążając za tym dźwiękiem zawsze będziesz wiedzieć, w którą stronę iść.</string>
     <string name="first_launch_beacon_message_2">Posłuchaj dostępnych dźwięków naprowadzających i wybierz ten, który Ci odpowiada.</string>
@@ -265,8 +265,8 @@
     <string name="first_launch_prompt_title">Wszystko gotowe!</string>
     <string name="first_launch_prompt_message">Jesteś gotowy na pierwszy spacer z Soundscape. Aby spróbować, wybierz pobliskie miejsce docelowe, uruchom naprowadzanie i usłyszysz dzwięk naprowadzający dochodzący z kierunku wybranego miejsca.</string>
     <string name="first_launch_prompt_button">Skończyć</string>
-    <string name="first_launch_change_language" tools:ignore="MissingTranslation">Zmień język</string>
-    <string name="first_launch_change_language_hint" tools:ignore="MissingTranslation">zmiana języka używanego w aplikacji</string>
+    <string name="first_launch_change_language">Zmień język</string>
+    <string name="first_launch_change_language_hint">zmiana języka używanego w aplikacji</string>
     <string name="help_text_destination_beacons_what">Ustawienie naprowadzania na pobliską lokalizację pozwala Soundscape prowadzić cię, odtwarzając dźwięk dochodzący z kierunku tej lokalizacji. Ten dźwięk można wyciszyć lub włączyć ponownie na ekranie głównym. Dodatkowo Soundscape wyświetla na ekranie głównym informacje o tej lokalizacji, w tym odległość oraz adres, jeśli jest znany.</string>
     <string name="help_text_destination_beacons_when">Ustawienie naprowadzania dzwiękowego jest przydatne, gdy chcesz mieć na oku znany punkt orientacyjny podczas eksplorowania nowej okolicy lub gdy dokądś idziesz i chcesz być informowany(-a) o otoczeniu po drodze. Funkcja ta nie podaje wskazówek zakręt po zakręcie, ale zapewnia ciągły dźwięk informujący o kierunku do celu względem Twojego bieżącego położenia. Korzystając z dźwięku naprowadzającego, własnych umiejętności orientacji w terenie, a nawet ulubionej aplikacji nawigacyjnej, możesz samodzielnie wybrać, jak dotrzeć do pobliskich miejsc.</string>
     <string name="help_text_destination_beacons_how_1">**Aby ustawić dźwięk naprowadzający:**\n\nNajpierw wyświetl szczegóły lokalizacji, wyszukując miejsce w pasku wyszukiwania lub stukając jeden z przycisków *„Miejsca w pobliżu”*, *„Zapisane znaczniki (pinezki)”* lub *„Bieżąca lokalizacja”* i wybierając lokalizację. Na ekranie szczegółów lokalizacji wybierz przycisk *„Uruchom dźwięk naprowadzający”*. Stuknięcie go spowoduje powrót do ekranu głównego i uruchomienie dźwięku naprowadzającego dochodzącego z kierunku wybranego miejsca. Nazwa wybranego miejsca oraz jego odległość i adres (jeśli dostępne) zostaną teraz wyświetlone na głównym ekranie aplikacji.</string>
@@ -435,901 +435,901 @@
     <string name="faq_tip_create_marker_at_bus_stop">Jeśli regularnie korzystasz z danej linii autobusowej, ustaw swoje przystanki wsiadania i wysiadania jako Znaczniki. Dzięki temu zostaną zapisane i łatwo je odnajdziesz – przejdź do *"Zarządzaj znacznikami"* w menu i wyszukaj je na liście. Możesz ustawić na nich dźwięk naprowadzający i otrzymywać okresowe informacje o tym, jak blisko jesteś przystanku wysiadania. Uwaga: możesz wyłączyć rytmiczny dźwięk, a i tak będziesz otrzymywać informacje o odległości w trakcie drogi.</string>
     <string name="no_language_selected">Nie wybrano języka</string>
     <string name="first_launch_permissions_notification">Powiadomienia</string>
-    <string name="notification_text" tools:ignore="MissingTranslation">Usługa lokalizacji Soundscape działa nawet wtedy, gdy telefon jest zablokowany.</string>
-    <string name="cancel_search_contentDescription" tools:ignore="MissingTranslation">Anuluj wyszukiwanie</string>
-    <string name="osm_train_station" tools:ignore="MissingTranslation">Stacja kolejowa</string>
-    <string name="osm_train_station_named" tools:ignore="MissingTranslation">Stacja kolejowa – %1$s</string>
-    <string name="osm_tram_stop" tools:ignore="MissingTranslation">Przystanek tramwajowy</string>
-    <string name="osm_tram_stop_named" tools:ignore="MissingTranslation">Przystanek tramwajowy – %1$s</string>
-    <string name="osm_subway" tools:ignore="MissingTranslation">Stacja metra</string>
-    <string name="osm_subway_named" tools:ignore="MissingTranslation">Stacja metra – %1$s</string>
-    <string name="osm_ferry_terminal" tools:ignore="MissingTranslation">Terminal promowy</string>
-    <string name="osm_ferry_terminal_named" tools:ignore="MissingTranslation">Terminal promowy– %1$s</string>
-    <string name="menu_manage_audio" tools:ignore="MissingTranslation">Dźwięk</string>
-    <string name="menu_manage_accessibility" tools:ignore="MissingTranslation">Ułatwienia dostępu</string>
-    <string name="settings_theme_light_dark" tools:ignore="MissingTranslation">Jasny lub ciemny motyw</string>
-    <string name="settings_theme_auto" tools:ignore="MissingTranslation">Automatyczny</string>
-    <string name="settings_theme_is_light" tools:ignore="MissingTranslation">Użyj jasnego motywu</string>
-    <string name="settings_theme_light" tools:ignore="MissingTranslation">Jasny</string>
-    <string name="settings_theme_dark" tools:ignore="MissingTranslation">Ciemny</string>
-    <string name="settings_theme_contrast" tools:ignore="MissingTranslation">Kontrast motywu</string>
-    <string name="settings_theme_contrast_regular" tools:ignore="MissingTranslation">Niski</string>
-    <string name="settings_theme_contrast_medium" tools:ignore="MissingTranslation">Średni</string>
-    <string name="settings_theme_contrast_high" tools:ignore="MissingTranslation">Wysoki</string>
-    <string name="settings_list_item_description" tools:ignore="MissingTranslation">%1$s to opcja %2$s z %3$s</string>
-    <string name="settings_keep_value" tools:ignore="MissingTranslation">zachowaj</string>
-    <string name="settings_use_value" tools:ignore="MissingTranslation">użyj</string>
-    <string name="street_preview_exit" tools:ignore="MissingTranslation">Zakończ podgląd lokalizacji</string>
-    <string name="settings_travel_recording" tools:ignore="MissingTranslation">Włącz rejestrowanie podróży</string>
-    <string name="settings_show_map" tools:ignore="MissingTranslation">Wyświetlaj mapy na ekranie</string>
-    <string name="settings_debug_heading" tools:ignore="MissingTranslation">Opcje debugowania</string>
-    <string name="settings_search_results_language" tools:ignore="MissingTranslation">Język wyszukiwania</string>
-    <string name="menu_share_recorded_route" tools:ignore="MissingTranslation">Udostępnij zapis podróży</string>
-    <string name="confect_name_to_via" tools:ignore="MissingTranslation">%1$s do %2$s przez %3$s</string>
-    <string name="confect_name_to" tools:ignore="MissingTranslation">%1$s do %2$s</string>
-    <string name="confect_name_joins" tools:ignore="MissingTranslation">%1$s łącząca %2$s i %3$s</string>
-    <string name="confect_name_via" tools:ignore="MissingTranslation">%1$s przez %2$s</string>
-    <string name="confect_name_pavement_next_to" tools:ignore="MissingTranslation">Chodnik obok %1$s</string>
-    <string name="confect_name_pavement" tools:ignore="MissingTranslation">Chodnik</string>
-    <string name="confect_name_dead_end" tools:ignore="MissingTranslation">ślepa uliczka</string>
-    <string name="about_soundscape" tools:ignore="MissingTranslation">Soundscape bada wykorzystanie innowacyjnej technologii opartej na dźwięku, aby umożliwić ludziom zbudowanie pełniejszej świadomości otoczenia, co zwiększa ich pewność siebie i daje większą niezależność w poruszaniu się.</string>
-    <string name="route_detail_action_previous_disabled_hint" tools:ignore="MissingTranslation">Funkcja nieaktywna, brak wcześniejszych punktów trasy</string>
-    <string name="route_detail_action_next_disabled_hint" tools:ignore="MissingTranslation">Funkcja nieaktywna, brak kolejnych punktów trasy</string>
-    <string name="osm_entrance" tools:ignore="MissingTranslation">wejście</string>
-    <string name="osm_main_entrance" tools:ignore="MissingTranslation">główne wejście</string>
-    <string name="osm_entrance_named_with_destination" tools:ignore="MissingTranslation">%1$s %2$s od %3$s</string>
-    <string name="osm_entrance_with_destination" tools:ignore="MissingTranslation">%1$s %2$s</string>
-    <string name="offline_maps_title" tools:ignore="MissingTranslation">Mapy offline</string>
-    <string name="offline_map_details_title" tools:ignore="MissingTranslation">Szczegóły mapy offline</string>
-    <string name="offline_maps_loading" tools:ignore="MissingTranslation">Wczytywanie listy map…</string>
-    <string name="offline_maps_downloading" tools:ignore="MissingTranslation">Pobieranie %1$s</string>
-    <string name="offline_maps_caching" tools:ignore="MissingTranslation">Serwer przygotowuje %1$s do pobrania. Pobieranie rozpocznie się automatycznie w ciągu kilku minut.</string>
-    <string name="offline_maps_free_space" tools:ignore="MissingTranslation">%1$s wolne</string>
-    <string name="offline_maps_storage" tools:ignore="MissingTranslation">Mapy są zapisywane do %1$s, pozostało %2$s wolnego miejsca</string>
-    <string name="offline_maps_already_downloaded" tools:ignore="MissingTranslation">Pobrane mapy</string>
-    <string name="offline_maps_nearby" tools:ignore="MissingTranslation">Mapy offline w pobliżu</string>
-    <string name="offline_maps_loading_manifest" tools:ignore="MissingTranslation">Wczytywanie listy map offline</string>
-    <string name="offline_map_details_delete" tools:ignore="MissingTranslation">Usuń mapę offline</string>
-    <string name="offline_map_details_download" tools:ignore="MissingTranslation">Pobierz mapę offline</string>
-    <string name="offline_map_details_size_on_phone" tools:ignore="MissingTranslation">Rozmiar w pamięci urządzenia: %1$s</string>
-    <string name="offline_map_details_size_on_server" tools:ignore="MissingTranslation">Rozmiar plików do pobrania: %1$s</string>
-    <string name="offline_map_details_name" tools:ignore="MissingTranslation">Nazwa mapy: %1$s</string>
-    <string name="offline_map_details_city_list" tools:ignore="MissingTranslation">Mapa zawiera następujące lokalizacje: %1$s</string>
-    <string name="offline_map_details_alternate_city_list" tools:ignore="MissingTranslation">Miejsca znane też jako: %1$s</string>
-    <string name="offline_map_storage_title" tools:ignore="MissingTranslation">Ścieżka zapisu map offline</string>
-    <string name="offline_map_storage_description" tools:ignore="MissingTranslation">Aby umożliwić używanie Soundscape bez połączenia z internetem można pobierać i zapisywać mapy w pamięci urządzenia. Domyślna lokalizacja zapisu to pamięć zewnętrzna urządzenia ale można wybrać tutaj inną ścieżkę zapisu.</string>
-    <string name="offline_map_wifi_only" tools:ignore="MissingTranslation">Pobieranie map tylko przez sieci WiFi</string>
-    <string name="text_field_clear_text" tools:ignore="MissingTranslation">Usuń tekst</string>
-    <string name="marker_name_description_hint" tools:ignore="MissingTranslation">edytuj nazwę markera (pinezki)</string>
-    <string name="annotation_description_hint" tools:ignore="MissingTranslation">Dodaj opcjonalną adnotację aby łatwiej rozpoznawać ten marker (pinezkę)</string>
-    <string name="route_name_description_hint" tools:ignore="MissingTranslation">edytuj nazwę trasy</string>
-    <string name="route_description_description_hint" tools:ignore="MissingTranslation">dodaj opcjonalny opis trasy</string>
-    <string name="fab_add_item" tools:ignore="MissingTranslation">Dodaj element</string>
-    <string name="fab_add_route" tools:ignore="MissingTranslation">Dodaj trasę</string>
-    <string name="route_waypoint_progress" tools:ignore="MissingTranslation">Trasa %1$s, punkt trasy %2$s z %3$s</string>
-    <string name="home_screen_title" tools:ignore="MissingTranslation">Soundscape - Ekran główny</string>
-    <string name="offline_maps_manifest_failed" tools:ignore="MissingTranslation">Nie udało się pobrać danych map offline</string>
-    <string name="settings_reset_button" tools:ignore="MissingTranslation">Przywróć ustawienia domyślne</string>
-    <string name="settings_reset_button_hint" tools:ignore="MissingTranslation">przywróci ustawienia do wartości domyślnych, a następnie uruchomi aplikację ponownie.</string>
-    <string name="settings_reset_dialog_title" tools:ignore="MissingTranslation">Czy na pewno?</string>
-    <string name="settings_reset_dialog_message" tools:ignore="MissingTranslation">Przywrócenie ustawień spowoduje usunięcie wszystkich skonfigurowanych opcji w aplikacji. Czy chcesz kontynuować?</string>
-    <string name="menu_advanced_markers_and_routes" tools:ignore="MissingTranslation">Zaawansowane znaczniki (pinezki) i trasy</string>
-    <string name="advanced_markers_and_routes_description" tools:ignore="MissingTranslation">Na tym ekranie możesz eksportować i importować znaczniki (pinezki) oraz trasy, a także usuwać wszystkie istniejące znaczniki i trasy.</string>
-    <string name="advanced_markers_and_routes_export_button" tools:ignore="MissingTranslation">Eksportuj bazę danych znaczników (pinezek) i tras</string>
-    <string name="advanced_markers_and_routes_import_button" tools:ignore="MissingTranslation">Importuj bazę danych znaczników (pinezek) i tras</string>
-    <string name="markers_and_routes_import_success" tools:ignore="MissingTranslation">Import znaczników i tras zakończony.</string>
-    <string name="markers_and_routes_import_failure" tools:ignore="MissingTranslation">Import znaczników i tras nie powiódł się.</string>
-    <string name="advanced_markers_and_routes_clear_all_button" tools:ignore="MissingTranslation">Usuń wszystkie znaczniki (pinezki) i trasy</string>
-    <string name="advanced_markers_and_routes_clear_all_alert_message" tools:ignore="MissingTranslation">Usunięcie wszystkich znaczników (pinezek) i tras jest nieodwracalne. Czy chcesz kontynuować?</string>
-    <string name="menu_advanced_markers_and_routes_clear_all_success" tools:ignore="MissingTranslation">Znaczniki i trasy usunięte</string>
-    <string name="new_version_info_text" tools:ignore="MissingTranslation">Informacje o nowej wersji</string>
-    <string name="new_version_info_completed" tools:ignore="MissingTranslation">Zamknij okno informacji o nowej wersji</string>
-    <string name="new_version_info_details" tools:ignore="MissingTranslation">\nW tej wersji dodaliśmy dwie nowe funkcje umożliwiające zdalne sterowanie aplikacją nawet wtedy, gdy telefon jest zablokowany. Dzięki temu telefon można trzymać w kieszeni, a mimo to sterować podstawowymi funkcjami aplikacji.\n\nObie metody zdalnego sterowania wykorzystują przyciski multimedialne Bluetooth — te w słuchawkach lub dodatkowe niewielkie piloty, które można trzymać w ręce lub kieszeni. Tryb sterowania wybiera się w Ustawieniach → Sterowanie przyciskami multimedialnymi. Możesz wybrać „Polecenia głosowe”, aby rozmawiać z aplikacją, lub „Menu audio”, gdzie aplikacja odczytuje menu z opcjami do wyboru. „Tryb oryginalny” sprawia, że przyciski Bluetooth działają tak jak w poprzednich wersjach.\n\nW trybie poleceń głosowych naciśnięcie przycisku odtwarzania/pauzy w słuchawkach powoduje, że aplikacja zaczyna nasłuchiwać mowy — usłyszysz krótki dźwięk informujący o tym. Jeśli powiesz „Help” (Pomoc), aplikacja wyświetli listę dostępnych poleceń. Następnie możesz ponownie kliknąć przycisk i spróbować innych poleceń. Niestety systemowe rozpoznawanie mowy Androida nie obsługuje wszystkich języków i nie jest dostępne we wszystkich telefonach.\n\nGłównym utrudnieniem w trybie poleceń głosowych jest fakt, że niektóre słuchawki potrzebują więcej czasu na aktywację mikrofonu niż inne. Oznacza to, że po naciśnięciu przycisku odtwarzania/pauzy może być konieczne odczekanie nawet do 5 sekund, zanim będzie można mówić. Aby sprawdzić, ile to trwa, najlepiej nacisnąć odtwarzanie/pauzę i policzyć od 1 do 10. Telefon powinien powiedzieć, jaką mowę rozpoznał — liczba, od której zacznie, to numer pierwszego rozpoznanego słowa. To pomoże określić, ile trzeba odczekać przed rozpoczęciem mówienia. Niektóre słuchawki wydają wyraźny dźwięk po włączeniu mikrofonu, co ułatwia sprawę, inne są zupełnie ciche — niestety może to wymagać ćwiczeń.\n\nDrugi nowy tryb zdalny — Menu audio — działa we wszystkich językach i na wszystkich telefonach. Przyciski dalej/wstecz przesuwają Cię przez opcje w menu, a przycisk odtwarzania/pauzy wybiera aktualną opcję. Jest menu główne oraz jedna warstwa podmenu, które grupują podobne polecenia.\n\nFunkcje te są bardzo nowe, dlatego będziemy wdzięczni za informacje zwrotne, czy dobrze działają i jakie inne polecenia chciałbyś widzieć.\n\nZgłaszaj wszelkie problemy — nawet drobne — za pomocą opcji *Kontakt z pomocą techniczną* w menu głównym.\n</string>
-    <string name="menu_open_source_licenses" tools:ignore="MissingTranslation">Licencje open source</string>
-    <string name="osm_tag_ferry_terminal" tools:ignore="MissingTranslation">Terminal promowy</string>
-    <string name="osm_tag_ferry_terminal_named" tools:ignore="MissingTranslation">%1$s Terminal promowy</string>
-    <string name="osm_office" tools:ignore="MissingTranslation">Biuro</string>
-    <string name="osm_school" tools:ignore="MissingTranslation">Szkoła</string>
-    <string name="osm_roof" tools:ignore="MissingTranslation">Dach</string>
-    <string name="osm_convenience" tools:ignore="MissingTranslation">Sklep osiedlowy</string>
-    <string name="osm_lift_gate" tools:ignore="MissingTranslation">Brama podnoszona</string>
-    <string name="osm_toilets" tools:ignore="MissingTranslation">Toalety</string>
-    <string name="osm_parking" tools:ignore="MissingTranslation">Parking</string>
-    <string name="osm_taxi" tools:ignore="MissingTranslation">Postój taksówek</string>
-    <string name="osm_bicycle_parking" tools:ignore="MissingTranslation">Parking rowerowy</string>
-    <string name="osm_fuel" tools:ignore="MissingTranslation">Stacja paliw</string>
-    <string name="osm_recycling" tools:ignore="MissingTranslation">Punkt recyklingu</string>
-    <string name="osm_drinking_water" tools:ignore="MissingTranslation">Woda pitna</string>
-    <string name="osm_pitch" tools:ignore="MissingTranslation">Boisko</string>
-    <string name="osm_picnic_site" tools:ignore="MissingTranslation">Miejsce piknikowe</string>
-    <string name="osm_information" tools:ignore="MissingTranslation">Informacja</string>
-    <string name="osm_fire_extinguisher" tools:ignore="MissingTranslation">Gaśnica</string>
-    <string name="osm_defibrillator" tools:ignore="MissingTranslation">Defibrylator</string>
-    <string name="osm_guide" tools:ignore="MissingTranslation">Drogowskaz</string>
-    <string name="osm_water" tools:ignore="MissingTranslation">Woda</string>
-    <string name="osm_fire_hose" tools:ignore="MissingTranslation">Wąż przeciwpożarowy</string>
-    <string name="osm_fire_flapper" tools:ignore="MissingTranslation">Narzędzie do tłumienia ognia</string>
-    <string name="osm_information_point" tools:ignore="MissingTranslation">Punkt informacyjny</string>
-    <string name="osm_wetland" tools:ignore="MissingTranslation">Obszar podmokły</string>
-    <string name="osm_mud" tools:ignore="MissingTranslation">Błoto</string>
-    <string name="osm_access_point" tools:ignore="MissingTranslation">Punkt dostępu</string>
-    <string name="osm_life_ring" tools:ignore="MissingTranslation">Koło ratunkowe</string>
-    <string name="osm_generic_info" tools:ignore="MissingTranslation">Informacja ogólna</string>
-    <string name="osm_turntable" tools:ignore="MissingTranslation">Platforma obrotowa</string>
-    <string name="osm_survey_point" tools:ignore="MissingTranslation">Punkt geodezyjny</string>
-    <string name="osm_snow_net" tools:ignore="MissingTranslation">Siatka przeciwśnieżna</string>
-    <string name="osm_silo" tools:ignore="MissingTranslation">Silos</string>
-    <string name="osm_mast" tools:ignore="MissingTranslation">Maszt</string>
-    <string name="osm_bird_hide" tools:ignore="MissingTranslation">Punkt obserwacji ptaków</string>
-    <string name="osm_transformer_tower" tools:ignore="MissingTranslation">Wieża transformatorowa</string>
-    <string name="osm_generic_object" tools:ignore="MissingTranslation">Obiekt ogólny</string>
-    <string name="osm_signal" tools:ignore="MissingTranslation">Sygnalizacja</string>
-    <string name="osm_rock" tools:ignore="MissingTranslation">Skała</string>
-    <string name="osm_kiln" tools:ignore="MissingTranslation">Piec</string>
-    <string name="osm_crane" tools:ignore="MissingTranslation">Dźwig</string>
-    <string name="osm_rune_stone" tools:ignore="MissingTranslation">Kamień runiczny</string>
-    <string name="osm_milestone" tools:ignore="MissingTranslation">Kamień milowy</string>
-    <string name="osm_lifeguard_platform" tools:ignore="MissingTranslation">Platforma ratownicza</string>
-    <string name="osm_water_tank" tools:ignore="MissingTranslation">Zbiornik na wodę</string>
-    <string name="osm_sty" tools:ignore="MissingTranslation">Chlew</string>
-    <string name="osm_navigationaid" tools:ignore="MissingTranslation">Pomoc nawigacyjna</string>
-    <string name="osm_terminal" tools:ignore="MissingTranslation">Terminal</string>
-    <string name="osm_water_tap" tools:ignore="MissingTranslation">Kran z wodą pitną</string>
-    <string name="osm_water_well" tools:ignore="MissingTranslation">Studnia</string>
-    <string name="osm_petroleum_well" tools:ignore="MissingTranslation">Studnia naftowa</string>
-    <string name="osm_cross" tools:ignore="MissingTranslation">Krzyż</string>
-    <string name="osm_gallows" tools:ignore="MissingTranslation">Szubienica</string>
-    <string name="osm_speed_camera" tools:ignore="MissingTranslation">Fotoradar</string>
-    <string name="osm_siren" tools:ignore="MissingTranslation">Syrena</string>
-    <string name="osm_pylon" tools:ignore="MissingTranslation">Pylon</string>
-    <string name="osm_mineshaft" tools:ignore="MissingTranslation">Szyb kopalniany</string>
-    <string name="osm_flagpole" tools:ignore="MissingTranslation">Maszt flagowy</string>
-    <string name="osm_optical_telegraph" tools:ignore="MissingTranslation">Telegraf optyczny</string>
-    <string name="osm_cannon" tools:ignore="MissingTranslation">Armata</string>
-    <string name="osm_boundary_stone" tools:ignore="MissingTranslation">Kamień graniczny</string>
-    <string name="osm_shed" tools:ignore="MissingTranslation">Szopa</string>
-    <string name="osm_traffic_cones" tools:ignore="MissingTranslation">Pachołki drogowe</string>
-    <string name="osm_firepit" tools:ignore="MissingTranslation">Palenisko</string>
-    <string name="osm_stone" tools:ignore="MissingTranslation">Kamień</string>
-    <string name="osm_surveillance" tools:ignore="MissingTranslation">Monitoring</string>
-    <string name="osm_monitoring_station" tools:ignore="MissingTranslation">Stacja monitoringu</string>
-    <string name="osm_wayside_shrine" tools:ignore="MissingTranslation">Kapliczka przydrożna</string>
-    <string name="osm_wayside_cross" tools:ignore="MissingTranslation">Krzyż przydrożny</string>
-    <string name="osm_tomb" tools:ignore="MissingTranslation">Grobowiec</string>
-    <string name="osm_traffic_signals" tools:ignore="MissingTranslation">Sygnalizacja świetlna</string>
-    <string name="osm_hut" tools:ignore="MissingTranslation">Chatka</string>
-    <string name="osm_static_caravan" tools:ignore="MissingTranslation">Przyczepa stacjonarna</string>
-    <string name="osm_bollard" tools:ignore="MissingTranslation">Słupek</string>
-    <string name="osm_block" tools:ignore="MissingTranslation">Blok</string>
-    <string name="osm_waste_disposal" tools:ignore="MissingTranslation">Punkt utylizacji odpadów</string>
-    <string name="osm_photo_booth" tools:ignore="MissingTranslation">Budka fotograficzna</string>
-    <string name="osm_bbq" tools:ignore="MissingTranslation">Grill</string>
-    <string name="osm_shop" tools:ignore="MissingTranslation">Sklep</string>
-    <string name="osm_newsagent" tools:ignore="MissingTranslation">Kiosk z prasą</string>
-    <string name="osm_anime" tools:ignore="MissingTranslation">Sklep z anime</string>
-    <string name="osm_musical_instrument" tools:ignore="MissingTranslation">Sklep muzyczny</string>
-    <string name="osm_vacuum_cleaner" tools:ignore="MissingTranslation">Sklep z odkurzaczami</string>
-    <string name="osm_mobile_phone" tools:ignore="MissingTranslation">Sklep z telefonami komórkowymi</string>
-    <string name="osm_carpet" tools:ignore="MissingTranslation">Sklep z dywanami</string>
-    <string name="osm_trade" tools:ignore="MissingTranslation">Sklep handlowy</string>
-    <string name="osm_garden_centre" tools:ignore="MissingTranslation">Centrum ogrodnicze</string>
-    <string name="osm_florist" tools:ignore="MissingTranslation">Kwiaciarnia</string>
-    <string name="osm_fireplace" tools:ignore="MissingTranslation">Kominek</string>
-    <string name="osm_massage" tools:ignore="MissingTranslation">Salon masażu</string>
-    <string name="osm_herbalist" tools:ignore="MissingTranslation">Sklep zielarski</string>
-    <string name="osm_bag" tools:ignore="MissingTranslation">Sklep z torbami</string>
-    <string name="osm_pastry" tools:ignore="MissingTranslation">Ciastkarnia</string>
-    <string name="osm_deli" tools:ignore="MissingTranslation">Delikatesy</string>
-    <string name="osm_beverages" tools:ignore="MissingTranslation">Sklep z napojami</string>
-    <string name="osm_alcohol" tools:ignore="MissingTranslation">Sklep monopolowy</string>
-    <string name="osm_substation" tools:ignore="MissingTranslation">Stacja transformatorowa</string>
-    <string name="osm_travel_agent" tools:ignore="MissingTranslation">Biuro podróży</string>
-    <string name="osm_research" tools:ignore="MissingTranslation">Ośrodek badawczy</string>
-    <string name="osm_newspaper" tools:ignore="MissingTranslation">Sklep z prasą</string>
-    <string name="osm_ammunition" tools:ignore="MissingTranslation">Sklep z amunicją</string>
-    <string name="osm_wildlife_hide" tools:ignore="MissingTranslation">Szałas do obserwacji przyrody</string>
-    <string name="osm_watchmaker" tools:ignore="MissingTranslation">Sklep zegarmistrzowski</string>
-    <string name="osm_tinsmith" tools:ignore="MissingTranslation">Warsztat blacharski</string>
-    <string name="osm_sun_protection" tools:ignore="MissingTranslation">Sklep z produktami przeciwsłonecznymi</string>
-    <string name="osm_sculptor" tools:ignore="MissingTranslation">Pracownia rzeźbiarza</string>
-    <string name="osm_metal_construction" tools:ignore="MissingTranslation">Zakład konstrukcji metalowych</string>
-    <string name="osm_handicraft" tools:ignore="MissingTranslation">Sklep z rękodziełem</string>
-    <string name="osm_cowshed" tools:ignore="MissingTranslation">Obora</string>
-    <string name="osm_cabin" tools:ignore="MissingTranslation">Chatka</string>
-    <string name="osm_barn" tools:ignore="MissingTranslation">Stodoła</string>
-    <string name="osm_warehouse" tools:ignore="MissingTranslation">Magazyn</string>
-    <string name="osm_houseboat" tools:ignore="MissingTranslation">Barka mieszkalna</string>
-    <string name="osm_book_store" tools:ignore="MissingTranslation">Księgarnia</string>
-    <string name="osm_generic_place" tools:ignore="MissingTranslation">Miejsce</string>
-    <string name="osm_hunting_stand" tools:ignore="MissingTranslation">Ambona myśliwska</string>
-    <string name="osm_game_feeding" tools:ignore="MissingTranslation">Miejsce dokarmiania zwierzyny</string>
-    <string name="osm_crypt" tools:ignore="MissingTranslation">Krypta</string>
-    <string name="osm_animal_shelter" tools:ignore="MissingTranslation">Schronisko dla zwierząt</string>
-    <string name="osm_animal_boarding" tools:ignore="MissingTranslation">Pensjonat dla zwierząt</string>
-    <string name="osm_blood_donation" tools:ignore="MissingTranslation">Punkt krwiodawstwa</string>
-    <string name="osm_nursing_home" tools:ignore="MissingTranslation">Dom opieki</string>
-    <string name="osm_dentist" tools:ignore="MissingTranslation">Gabinet stomatologiczny</string>
-    <string name="osm_baby_hatch" tools:ignore="MissingTranslation">Okienko życia</string>
-    <string name="osm_language_school" tools:ignore="MissingTranslation">Szkoła językowa</string>
-    <string name="osm_public_bookcase" tools:ignore="MissingTranslation">Publiczna biblioteczka</string>
-    <string name="osm_biergarten" tools:ignore="MissingTranslation">Ogródek piwny</string>
-    <string name="osm_running" tools:ignore="MissingTranslation">Tor biegowy</string>
-    <string name="osm_glaziery" tools:ignore="MissingTranslation">Zakład szklarski</string>
-    <string name="osm_garages" tools:ignore="MissingTranslation">Garaże</string>
-    <string name="osm_retail" tools:ignore="MissingTranslation">Sklep detaliczny</string>
-    <string name="osm_hotel" tools:ignore="MissingTranslation">Hotel</string>
-    <string name="osm_camp_site" tools:ignore="MissingTranslation">Pole namiotowe</string>
-    <string name="osm_rugby_league" tools:ignore="MissingTranslation">Boisko do rugby</string>
-    <string name="osm_roller_skating" tools:ignore="MissingTranslation">Tor do jazdy na wrotkach</string>
-    <string name="osm_multi" tools:ignore="MissingTranslation">Obiekt wielofunkcyjny</string>
-    <string name="osm_ice_hockey" tools:ignore="MissingTranslation">Lodowisko do hokeja</string>
-    <string name="osm_hapkido" tools:ignore="MissingTranslation">Hapkido</string>
-    <string name="osm_croquet" tools:ignore="MissingTranslation">Krokiet</string>
-    <string name="osm_cricket" tools:ignore="MissingTranslation">Krykiet</string>
-    <string name="osm_cockfighting" tools:ignore="MissingTranslation">Walki kogutów</string>
-    <string name="osm_boxing" tools:ignore="MissingTranslation">Boks</string>
-    <string name="osm_bmx" tools:ignore="MissingTranslation">Tor BMX</string>
-    <string name="osm_billiards" tools:ignore="MissingTranslation">Bilard</string>
-    <string name="osm_toys" tools:ignore="MissingTranslation">Sklep z zabawkami</string>
-    <string name="osm_pyrotechnics" tools:ignore="MissingTranslation">Sklep z fajerwerkami</string>
-    <string name="osm_laundry" tools:ignore="MissingTranslation">Pralnia</string>
-    <string name="osm_funeral_directors" tools:ignore="MissingTranslation">Zakład pogrzebowy</string>
-    <string name="osm_dry_cleaning" tools:ignore="MissingTranslation">Pralnia chemiczna</string>
-    <string name="osm_copyshop" tools:ignore="MissingTranslation">Punkt ksero</string>
-    <string name="osm_chalet" tools:ignore="MissingTranslation">Domek górski</string>
-    <string name="osm_apartment" tools:ignore="MissingTranslation">Mieszkanie</string>
-    <string name="osm_water_ski" tools:ignore="MissingTranslation">Narty wodne</string>
-    <string name="osm_water_polo" tools:ignore="MissingTranslation">Piłka wodna</string>
-    <string name="osm_table_soccer" tools:ignore="MissingTranslation">Piłkarzyki</string>
-    <string name="osm_table_tennis" tools:ignore="MissingTranslation">Tenis stołowy</string>
-    <string name="osm_skateboard" tools:ignore="MissingTranslation">Jazda na deskorolce</string>
-    <string name="osm_sailing" tools:ignore="MissingTranslation">Żeglarstwo</string>
-    <string name="osm_safety_training" tools:ignore="MissingTranslation">Szkolenie z bezpieczeństwa</string>
-    <string name="osm_rowing" tools:ignore="MissingTranslation">Wioślarstwo</string>
-    <string name="osm_model_aerodrome" tools:ignore="MissingTranslation">Lotnisko modelarskie</string>
-    <string name="osm_korfball" tools:ignore="MissingTranslation">Korfball</string>
-    <string name="osm_ice_stock" tools:ignore="MissingTranslation">Eisstok (sport na lodzie)</string>
-    <string name="osm_gymnastics" tools:ignore="MissingTranslation">Gimnastyka</string>
-    <string name="osm_football" tools:ignore="MissingTranslation">Piłka nożna</string>
-    <string name="osm_field_hockey" tools:ignore="MissingTranslation">Hokej na trawie</string>
-    <string name="osm_equestrian" tools:ignore="MissingTranslation">Jeździectwo</string>
-    <string name="osm_cycling" tools:ignore="MissingTranslation">Kolarstwo</string>
-    <string name="osm_curling" tools:ignore="MissingTranslation">Curling</string>
-    <string name="osm_cricket_nets" tools:ignore="MissingTranslation">Siatki treningowe krykieta</string>
-    <string name="osm_cliff_diving" tools:ignore="MissingTranslation">Skoki z klifu</string>
-    <string name="osm_boules" tools:ignore="MissingTranslation">Petanque (bule)</string>
-    <string name="osm_bobsleigh" tools:ignore="MissingTranslation">Bobslej</string>
-    <string name="osm_baseball" tools:ignore="MissingTranslation">Baseball</string>
-    <string name="osm_aikido" tools:ignore="MissingTranslation">Aikido</string>
-    <string name="osm_10pin" tools:ignore="MissingTranslation">Kręgielnia (tenpin)</string>
-    <string name="osm_weapons" tools:ignore="MissingTranslation">Sklep z bronią</string>
-    <string name="osm_pet" tools:ignore="MissingTranslation">Sklep zoologiczny</string>
-    <string name="osm_money_lender" tools:ignore="MissingTranslation">Firma pożyczkowa</string>
-    <string name="osm_gift" tools:ignore="MissingTranslation">Sklep z upominkami</string>
-    <string name="osm_books" tools:ignore="MissingTranslation">Księgarnia</string>
-    <string name="osm_bookmaker" tools:ignore="MissingTranslation">Bukmacher</string>
-    <string name="osm_photo" tools:ignore="MissingTranslation">Studio fotograficzne</string>
-    <string name="osm_craft" tools:ignore="MissingTranslation">Sklep z rękodziełem</string>
-    <string name="osm_motorcycle" tools:ignore="MissingTranslation">Sklep motocyklowy</string>
-    <string name="osm_hunting" tools:ignore="MissingTranslation">Sklep myśliwski</string>
-    <string name="osm_window_blind" tools:ignore="MissingTranslation">Sklep z żaluzjami</string>
-    <string name="osm_curtain" tools:ignore="MissingTranslation">Sklep z zasłonami</string>
-    <string name="osm_antiques" tools:ignore="MissingTranslation">Sklep z antykami</string>
-    <string name="osm_paint" tools:ignore="MissingTranslation">Sklep z farbami</string>
-    <string name="osm_tattoo" tools:ignore="MissingTranslation">Studio tatuażu</string>
-    <string name="osm_nutrition_supplements" tools:ignore="MissingTranslation">Sklep z suplementami diety</string>
-    <string name="osm_hearing_aids" tools:ignore="MissingTranslation">Sklep z aparatami słuchowymi</string>
-    <string name="osm_cosmetics" tools:ignore="MissingTranslation">Sklep kosmetyczny</string>
-    <string name="osm_watches" tools:ignore="MissingTranslation">Sklep z zegarkami</string>
-    <string name="osm_jewelry" tools:ignore="MissingTranslation">Sklep jubilerski</string>
-    <string name="osm_boutique" tools:ignore="MissingTranslation">Butik</string>
-    <string name="osm_baby_goods" tools:ignore="MissingTranslation">Sklep z artykułami dla niemowląt</string>
-    <string name="osm_tea" tools:ignore="MissingTranslation">Herbaciarnia</string>
-    <string name="osm_pasta" tools:ignore="MissingTranslation">Sklep z makaronami</string>
-    <string name="osm_coffee" tools:ignore="MissingTranslation">Kawiarnia</string>
-    <string name="osm_quango" tools:ignore="MissingTranslation">Organizacja quasi-rządowa</string>
-    <string name="osm_political_party" tools:ignore="MissingTranslation">Partia polityczna</string>
-    <string name="osm_association" tools:ignore="MissingTranslation">Stowarzyszenie</string>
-    <string name="osm_architect" tools:ignore="MissingTranslation">Biuro architektoniczne</string>
-    <string name="osm_advertising_agency" tools:ignore="MissingTranslation">Agencja reklamowa</string>
-    <string name="osm_summer_camp" tools:ignore="MissingTranslation">Obóz letni</string>
-    <string name="osm_dance" tools:ignore="MissingTranslation">Studio tańca</string>
-    <string name="osm_amusement_arcade" tools:ignore="MissingTranslation">Salon gier</string>
-    <string name="osm_adult_gaming_centre" tools:ignore="MissingTranslation">Centrum gier dla dorosłych</string>
-    <string name="osm_window_construction" tools:ignore="MissingTranslation">Produkcja i montaż okien</string>
-    <string name="osm_upholsterer" tools:ignore="MissingTranslation">Tapicer</string>
-    <string name="osm_shoemaker" tools:ignore="MissingTranslation">Szewc</string>
-    <string name="osm_sawmill" tools:ignore="MissingTranslation">Tartak</string>
-    <string name="osm_pottery" tools:ignore="MissingTranslation">Pracownia garncarska</string>
-    <string name="osm_key_cutter" tools:ignore="MissingTranslation">Punkt dorabiania kluczy</string>
-    <string name="osm_hvac" tools:ignore="MissingTranslation">Wykonawca instalacji grzewczych, wentylacyjnych i klimatyzacyjnych</string>
-    <string name="osm_clockmaker" tools:ignore="MissingTranslation">Zegarmistrz</string>
-    <string name="osm_carpenter" tools:ignore="MissingTranslation">Stolarz</string>
-    <string name="osm_builder" tools:ignore="MissingTranslation">Wykonawca budowlany</string>
-    <string name="osm_bookbinder" tools:ignore="MissingTranslation">Introligator</string>
-    <string name="osm_boatbuilder" tools:ignore="MissingTranslation">Producent łodzi</string>
-    <string name="osm_brewery" tools:ignore="MissingTranslation">Browar</string>
-    <string name="osm_blacksmith" tools:ignore="MissingTranslation">Kowal</string>
-    <string name="osm_basket_maker" tools:ignore="MissingTranslation">Wytwórca koszy</string>
-    <string name="osm_greenhouse" tools:ignore="MissingTranslation">Szklarnia</string>
-    <string name="osm_farm_auxiliary" tools:ignore="MissingTranslation">Budynek gospodarczy</string>
-    <string name="osm_civic" tools:ignore="MissingTranslation">Budynek użyteczności publicznej</string>
-    <string name="osm_bungalow" tools:ignore="MissingTranslation">Dom parterowy</string>
-    <string name="osm_detached" tools:ignore="MissingTranslation">Dom wolnostojący</string>
-    <string name="osm_hair_dresser" tools:ignore="MissingTranslation">Salon fryzjerski</string>
-    <string name="osm_clothing_store" tools:ignore="MissingTranslation">Sklep odzieżowy</string>
-    <string name="osm_user" tools:ignore="MissingTranslation">Użytkownik</string>
-    <string name="osm_dojo" tools:ignore="MissingTranslation">Dojo</string>
-    <string name="osm_nightclub" tools:ignore="MissingTranslation">Klub nocny</string>
-    <string name="osm_community_centre" tools:ignore="MissingTranslation">Centrum społecznościowe</string>
-    <string name="osm_brothel" tools:ignore="MissingTranslation">Dom publiczny</string>
-    <string name="osm_veterinary" tools:ignore="MissingTranslation">Klinika weterynaryjna</string>
-    <string name="osm_social_facility" tools:ignore="MissingTranslation">Placówka opieki społecznej</string>
-    <string name="osm_clinic" tools:ignore="MissingTranslation">Przychodnia</string>
-    <string name="osm_charging_station" tools:ignore="MissingTranslation">Stacja ładowania pojazdów elektrycznych</string>
-    <string name="osm_kindergarten" tools:ignore="MissingTranslation">Przedszkole</string>
-    <string name="osm_ice_cream" tools:ignore="MissingTranslation">Lodziarnia</string>
-    <string name="osm_fast_food" tools:ignore="MissingTranslation">Restauracja typu fast food</string>
-    <string name="osm_commercial" tools:ignore="MissingTranslation">Budynek komercyjny</string>
-    <string name="osm_canoe" tools:ignore="MissingTranslation">Kajakarstwo</string>
-    <string name="osm_scuba_diving" tools:ignore="MissingTranslation">Nurkowanie z akwalungiem</string>
-    <string name="osm_fishing" tools:ignore="MissingTranslation">Wędkowanie</string>
-    <string name="osm_optician" tools:ignore="MissingTranslation">Optyk</string>
-    <string name="osm_confectionery" tools:ignore="MissingTranslation">Sklep z słodyczami</string>
-    <string name="osm_bunker" tools:ignore="MissingTranslation">Bunkier</string>
-    <string name="osm_sleeping_pods" tools:ignore="MissingTranslation">Kapsuły sypialne</string>
-    <string name="osm_motel" tools:ignore="MissingTranslation">Motel</string>
-    <string name="osm_guest_house" tools:ignore="MissingTranslation">Pensjonat</string>
-    <string name="osm_wrestling" tools:ignore="MissingTranslation">Zapaśnictwo</string>
-    <string name="osm_toboggan" tools:ignore="MissingTranslation">Tor saneczkowy</string>
-    <string name="osm_skiing" tools:ignore="MissingTranslation">Stok narciarski</string>
-    <string name="osm_rc_car" tools:ignore="MissingTranslation">Tor dla samochodów zdalnie sterowanych</string>
-    <string name="osm_paddle_tennis" tools:ignore="MissingTranslation">Kort do padla</string>
-    <string name="osm_hockey" tools:ignore="MissingTranslation">Boisko do hokeja</string>
-    <string name="osm_fencing" tools:ignore="MissingTranslation">Szermierka</string>
-    <string name="osm_bowls" tools:ignore="MissingTranslation">Boisko do bowls (gra na trawie)</string>
-    <string name="osm_badminton" tools:ignore="MissingTranslation">Kort do badmintona</string>
-    <string name="osm_archery" tools:ignore="MissingTranslation">Łucznictwo</string>
-    <string name="osm_american_football" tools:ignore="MissingTranslation">Boisko do futbolu amerykańskiego</string>
-    <string name="osm_travel_agency" tools:ignore="MissingTranslation">Biuro podróży</string>
-    <string name="osm_tobacco" tools:ignore="MissingTranslation">Sklep tytoniowy</string>
-    <string name="osm_e_cigarette" tools:ignore="MissingTranslation">Sklep z e-papierosami</string>
-    <string name="osm_video" tools:ignore="MissingTranslation">Wypożyczalnia filmów</string>
-    <string name="osm_car_repair" tools:ignore="MissingTranslation">Warsztat samochodowy</string>
-    <string name="osm_hifi" tools:ignore="MissingTranslation">Sklep Hi‑Fi</string>
-    <string name="osm_lamps" tools:ignore="MissingTranslation">Sklep z oświetleniem</string>
-    <string name="osm_kitchen" tools:ignore="MissingTranslation">Sklep z wyposażeniem kuchni</string>
-    <string name="osm_interior_decoration" tools:ignore="MissingTranslation">Sklep z dekoracjami wnętrz</string>
-    <string name="osm_houseware" tools:ignore="MissingTranslation">Sklep z artykułami gospodarstwa domowego</string>
-    <string name="osm_erotic" tools:ignore="MissingTranslation">Sklep erotyczny</string>
-    <string name="osm_beauty" tools:ignore="MissingTranslation">Salon kosmetyczny</string>
-    <string name="osm_wine" tools:ignore="MissingTranslation">Sklep z winami</string>
-    <string name="osm_dairy" tools:ignore="MissingTranslation">Sklep z nabiałem</string>
-    <string name="osm_cheese" tools:ignore="MissingTranslation">Sklep serowy</string>
-    <string name="osm_bakery" tools:ignore="MissingTranslation">Piekarnia</string>
-    <string name="osm_telecommunication" tools:ignore="MissingTranslation">Sklep telekomunikacyjny</string>
-    <string name="osm_tax" tools:ignore="MissingTranslation">Urząd skarbowy</string>
-    <string name="osm_real_estate_agent" tools:ignore="MissingTranslation">Biuro nieruchomości</string>
-    <string name="osm_notary" tools:ignore="MissingTranslation">Kancelaria notarialna</string>
-    <string name="osm_ngo" tools:ignore="MissingTranslation">Biuro organizacji pozarządowej</string>
-    <string name="osm_lawyer" tools:ignore="MissingTranslation">Kancelaria prawna</string>
-    <string name="osm_it" tools:ignore="MissingTranslation">Usługi IT</string>
-    <string name="osm_foundation" tools:ignore="MissingTranslation">Fundacja</string>
-    <string name="osm_employment_agency" tools:ignore="MissingTranslation">Agencja pracy</string>
-    <string name="osm_educational_institution" tools:ignore="MissingTranslation">Placówka edukacyjna</string>
-    <string name="osm_adoption_agency" tools:ignore="MissingTranslation">Agencja adopcyjna</string>
-    <string name="osm_miniature_golf" tools:ignore="MissingTranslation">Minigolf</string>
-    <string name="osm_building" tools:ignore="MissingTranslation">Budynek</string>
-    <string name="osm_winery" tools:ignore="MissingTranslation">Winiarnia</string>
-    <string name="osm_tiler" tools:ignore="MissingTranslation">Glazurnik</string>
-    <string name="osm_chimney_sweeper" tools:ignore="MissingTranslation">Kominiarz</string>
-    <string name="osm_stand_builder" tools:ignore="MissingTranslation">Firma budująca stoiska</string>
-    <string name="osm_saddler" tools:ignore="MissingTranslation">Siodlarz</string>
-    <string name="osm_plumber" tools:ignore="MissingTranslation">Hydraulik</string>
-    <string name="osm_plasterer" tools:ignore="MissingTranslation">Tynkarz</string>
-    <string name="osm_painter" tools:ignore="MissingTranslation">Malarz</string>
-    <string name="osm_jeweller" tools:ignore="MissingTranslation">Sklep jubilerski</string>
-    <string name="osm_floorer" tools:ignore="MissingTranslation">Układacz podłóg</string>
-    <string name="osm_distillery" tools:ignore="MissingTranslation">Destylarnia</string>
-    <string name="osm_carpet_layer" tools:ignore="MissingTranslation">Montażysta wykładzin</string>
-    <string name="osm_beekeeper" tools:ignore="MissingTranslation">Pszczelarz</string>
-    <string name="osm_public" tools:ignore="MissingTranslation">Publiczny</string>
-    <string name="osm_dormitory" tools:ignore="MissingTranslation">Internat</string>
-    <string name="osm_apartments" tools:ignore="MissingTranslation">Budynek mieszkalny</string>
-    <string name="osm_internet_cafe" tools:ignore="MissingTranslation">Kafejka internetowa</string>
-    <string name="osm_shoe_shop" tools:ignore="MissingTranslation">Sklep obuwniczy</string>
-    <string name="osm_generic_shop" tools:ignore="MissingTranslation">Sklep</string>
-    <string name="osm_coffee_shop" tools:ignore="MissingTranslation">Kawiarnia</string>
-    <string name="osm_coworking_space" tools:ignore="MissingTranslation">Przestrzeń coworkingowa</string>
-    <string name="osm_stripclub" tools:ignore="MissingTranslation">Klub ze striptizem</string>
-    <string name="osm_ev_charging" tools:ignore="MissingTranslation">Stacja ładowania pojazdów elektrycznych</string>
-    <string name="osm_pub" tools:ignore="MissingTranslation">Pub</string>
-    <string name="osm_obstacle_course" tools:ignore="MissingTranslation">Tor przeszkód</string>
-    <string name="osm_volleyball" tools:ignore="MissingTranslation">Boisko do siatkówki</string>
-    <string name="osm_tennis" tools:ignore="MissingTranslation">Kort tenisowy</string>
-    <string name="osm_soccer" tools:ignore="MissingTranslation">Boisko piłkarskie</string>
-    <string name="osm_shooting" tools:ignore="MissingTranslation">Strzelnica</string>
-    <string name="osm_rugby_union" tools:ignore="MissingTranslation">Boisko do rugby</string>
-    <string name="osm_orienteering" tools:ignore="MissingTranslation">Teren do biegu na orientację</string>
-    <string name="osm_netball" tools:ignore="MissingTranslation">Boisko do netballu</string>
-    <string name="osm_motor" tools:ignore="MissingTranslation">Sklep motoryzacyjny</string>
-    <string name="osm_kitesurfing" tools:ignore="MissingTranslation">Miejsce do kitesurfingu</string>
-    <string name="osm_karting" tools:ignore="MissingTranslation">Tor kartingowy</string>
-    <string name="osm_judo" tools:ignore="MissingTranslation">Sala do judo</string>
-    <string name="osm_horseshoes" tools:ignore="MissingTranslation">Miejsce do gry w podkowy</string>
-    <string name="osm_handball" tools:ignore="MissingTranslation">Boisko do piłki ręcznej</string>
-    <string name="osm_golf" tools:ignore="MissingTranslation">Pole golfowe</string>
-    <string name="osm_gaelic_games" tools:ignore="MissingTranslation">Boisko do gier gaelickich</string>
-    <string name="osm_diving" tools:ignore="MissingTranslation">Miejsce do nurkowania</string>
-    <string name="osm_darts" tools:ignore="MissingTranslation">Miejsce do gry w rzutki</string>
-    <string name="osm_climbing_adventure" tools:ignore="MissingTranslation">Park wspinaczkowy</string>
-    <string name="osm_basketball" tools:ignore="MissingTranslation">Boisko do koszykówki</string>
-    <string name="osm_bandy" tools:ignore="MissingTranslation">Lodowisko do bandy</string>
-    <string name="osm_australian_football" tools:ignore="MissingTranslation">Boisko do futbolu australijskiego</string>
-    <string name="osm_9pin" tools:ignore="MissingTranslation">Tor do kręgli (9-pin)</string>
-    <string name="osm_vacant" tools:ignore="MissingTranslation">Pusty</string>
-    <string name="osm_lottery" tools:ignore="MissingTranslation">Punkt sprzedaży losów</string>
-    <string name="osm_trophy" tools:ignore="MissingTranslation">Sklep z pucharami i medalami</string>
-    <string name="osm_music" tools:ignore="MissingTranslation">Sklep muzyczny</string>
-    <string name="osm_games" tools:ignore="MissingTranslation">Sklep z grami</string>
-    <string name="osm_tyres" tools:ignore="MissingTranslation">Sklep z oponami</string>
-    <string name="osm_sports" tools:ignore="MissingTranslation">Sklep sportowy</string>
-    <string name="osm_outdoor" tools:ignore="MissingTranslation">Sklep turystyczny</string>
-    <string name="osm_car" tools:ignore="MissingTranslation">Salon samochodowy</string>
-    <string name="osm_electronics" tools:ignore="MissingTranslation">Sklep z elektroniką</string>
-    <string name="osm_computer" tools:ignore="MissingTranslation">Sklep komputerowy</string>
-    <string name="osm_furniture" tools:ignore="MissingTranslation">Sklep meblowy</string>
-    <string name="osm_candles" tools:ignore="MissingTranslation">Sklep z świecami</string>
-    <string name="osm_hardware" tools:ignore="MissingTranslation">Sklep z narzędziami</string>
-    <string name="osm_gas" tools:ignore="MissingTranslation">Stacja paliw</string>
-    <string name="osm_energy" tools:ignore="MissingTranslation">Firma energetyczna</string>
-    <string name="osm_doityourself" tools:ignore="MissingTranslation">Sklep dla majsterkowiczów</string>
-    <string name="osm_bathroom_furnishing" tools:ignore="MissingTranslation">Sklep z wyposażeniem łazienki</string>
-    <string name="osm_medical_supply" tools:ignore="MissingTranslation">Sklep z wyposażeniem medycznym</string>
-    <string name="osm_variety_store" tools:ignore="MissingTranslation">Sklep wielobranżowy</string>
-    <string name="osm_second_hand" tools:ignore="MissingTranslation">Sklep z używanymi rzeczami</string>
-    <string name="osm_charity" tools:ignore="MissingTranslation">Sklep charytatywny</string>
-    <string name="osm_fashion" tools:ignore="MissingTranslation">Sklep modowy</string>
-    <string name="osm_fabric" tools:ignore="MissingTranslation">Sklep z tkaninami</string>
-    <string name="osm_clothes" tools:ignore="MissingTranslation">Sklep odzieżowy</string>
-    <string name="osm_butcher" tools:ignore="MissingTranslation">Sklep mięsny</string>
-    <string name="osm_water_utility" tools:ignore="MissingTranslation">Przedsiębiorstwo wodociągowe</string>
-    <string name="osm_realtor" tools:ignore="MissingTranslation">Pośrednik nieruchomości</string>
-    <string name="osm_company" tools:ignore="MissingTranslation">Firma</string>
-    <string name="osm_accountant" tools:ignore="MissingTranslation">Księgowy</string>
-    <string name="osm_bunker_silo" tools:ignore="MissingTranslation">Silos bunkrowy</string>
-    <string name="osm_hackerspace" tools:ignore="MissingTranslation">Hakerspace</string>
-    <string name="osm_lifeguard_base" tools:ignore="MissingTranslation">Baza ratowników</string>
-    <string name="osm_roofer" tools:ignore="MissingTranslation">Dekarz</string>
-    <string name="osm_rigger" tools:ignore="MissingTranslation">Monter lin i urządzeń</string>
-    <string name="osm_parquet_layer" tools:ignore="MissingTranslation">Parkieciarz</string>
-    <string name="osm_gardener" tools:ignore="MissingTranslation">Ogrodnik</string>
-    <string name="osm_stable" tools:ignore="MissingTranslation">Stajnia</string>
-    <string name="osm_garage" tools:ignore="MissingTranslation">Garaż</string>
-    <string name="osm_transportation" tools:ignore="MissingTranslation">Obiekt transportowy</string>
-    <string name="osm_house" tools:ignore="MissingTranslation">Dom</string>
-    <string name="osm_helipad" tools:ignore="MissingTranslation">Lądowisko helikopterów</string>
-    <string name="osm_apron" tools:ignore="MissingTranslation">Płyta postojowa</string>
-    <string name="osm_consumer_electronics_store" tools:ignore="MissingTranslation">Sklep z elektroniką</string>
-    <string name="osm_speciality_store" tools:ignore="MissingTranslation">Sklep specjalistyczny</string>
-    <string name="osm_defined" tools:ignore="MissingTranslation">Zdefiniowane</string>
-    <string name="osm_sauna" tools:ignore="MissingTranslation">Sauna</string>
-    <string name="osm_gym" tools:ignore="MissingTranslation">Siłownia</string>
-    <string name="osm_crematorium" tools:ignore="MissingTranslation">Krematorium</string>
-    <string name="osm_gambling" tools:ignore="MissingTranslation">Miejsce hazardowe</string>
-    <string name="osm_music_school" tools:ignore="MissingTranslation">Szkoła muzyczna</string>
-    <string name="osm_bar" tools:ignore="MissingTranslation">Bar</string>
-    <string name="osm_farm" tools:ignore="MissingTranslation">Gospodarstwo rolne</string>
-    <string name="osm_bicycle" tools:ignore="MissingTranslation">Sklep rowerowy</string>
-    <string name="osm_tailor" tools:ignore="MissingTranslation">Krawiec</string>
-    <string name="osm_locksmith" tools:ignore="MissingTranslation">Ślusarz</string>
-    <string name="osm_industrial" tools:ignore="MissingTranslation">Przemysłowy</string>
-    <string name="osm_wilderness_hut" tools:ignore="MissingTranslation">Chatka na odludziu</string>
-    <string name="osm_hostel" tools:ignore="MissingTranslation">Hostel</string>
-    <string name="osm_caravan_site" tools:ignore="MissingTranslation">Pole kempingowe</string>
-    <string name="osm_weightlifting" tools:ignore="MissingTranslation">Obiekt do podnoszenia ciężarów</string>
-    <string name="osm_taekwondo" tools:ignore="MissingTranslation">Klub taekwon-do</string>
-    <string name="osm_swimming" tools:ignore="MissingTranslation">Basen</string>
-    <string name="osm_surfing" tools:ignore="MissingTranslation">Miejsce do surfingu</string>
-    <string name="osm_skating" tools:ignore="MissingTranslation">Miejsce do jazdy na łyżwach i rolkach</string>
-    <string name="osm_racquet" tools:ignore="MissingTranslation">Obiekt do sportów rakietowych</string>
-    <string name="osm_pelota" tools:ignore="MissingTranslation">Kort do pelota</string>
-    <string name="osm_paragliding" tools:ignore="MissingTranslation">Miejsce do paralotniarstwa</string>
-    <string name="osm_parachuting" tools:ignore="MissingTranslation">Strefa skoków spadochronowych</string>
-    <string name="osm_motocross" tools:ignore="MissingTranslation">Tor motocrossowy</string>
-    <string name="osm_ice_skating" tools:ignore="MissingTranslation">Lodowisko</string>
-    <string name="osm_horse_racing" tools:ignore="MissingTranslation">Tor wyścigów konnych</string>
-    <string name="osm_dog_racing" tools:ignore="MissingTranslation">Tor wyścigów psów</string>
-    <string name="osm_climbing" tools:ignore="MissingTranslation">Miejsce wspinaczki</string>
-    <string name="osm_chess" tools:ignore="MissingTranslation">Klub szachowy</string>
-    <string name="osm_canadian_football" tools:ignore="MissingTranslation">Boisko do futbolu kanadyjskiego</string>
-    <string name="osm_beachvolleyball" tools:ignore="MissingTranslation">Boisko do siatkówki plażowej</string>
-    <string name="osm_base" tools:ignore="MissingTranslation">Baza</string>
-    <string name="osm_athletics" tools:ignore="MissingTranslation">Bieżnia lekkoatletyczna</string>
-    <string name="osm_pawnbroker" tools:ignore="MissingTranslation">Lombard</string>
-    <string name="osm_ticket" tools:ignore="MissingTranslation">Kasa biletowa</string>
-    <string name="osm_stationery" tools:ignore="MissingTranslation">Sklep papierniczy</string>
-    <string name="osm_video_games" tools:ignore="MissingTranslation">Sklep z grami wideo</string>
-    <string name="osm_model" tools:ignore="MissingTranslation">Sklep modelarski</string>
-    <string name="osm_frame" tools:ignore="MissingTranslation">Pracownia oprawy obrazów</string>
-    <string name="osm_art" tools:ignore="MissingTranslation">Sklep artystyczny</string>
-    <string name="osm_car_parts" tools:ignore="MissingTranslation">Sklep z częściami samochodowymi</string>
-    <string name="osm_radiotechnics" tools:ignore="MissingTranslation">Sklep z urządzeniami radiowymi</string>
-    <string name="osm_bed" tools:ignore="MissingTranslation">Sklep z łóżkami</string>
-    <string name="osm_garden_furniture" tools:ignore="MissingTranslation">Sklep z meblami ogrodowymi</string>
-    <string name="osm_electrical" tools:ignore="MissingTranslation">Sklep elektryczny</string>
-    <string name="osm_perfumery" tools:ignore="MissingTranslation">Perfumeria</string>
-    <string name="osm_hairdresser" tools:ignore="MissingTranslation">Salon fryzjerski</string>
-    <string name="osm_drugstore" tools:ignore="MissingTranslation">Drogeria</string>
-    <string name="osm_shoes" tools:ignore="MissingTranslation">Sklep obuwniczy</string>
-    <string name="osm_leather" tools:ignore="MissingTranslation">Sklep z galanterią skórzaną</string>
-    <string name="osm_general" tools:ignore="MissingTranslation">Sklep ogólnospożywczy</string>
-    <string name="osm_seafood" tools:ignore="MissingTranslation">Sklep rybny</string>
-    <string name="osm_organic" tools:ignore="MissingTranslation">Sklep ekologiczny</string>
-    <string name="osm_greengrocer" tools:ignore="MissingTranslation">Warzywniak</string>
-    <string name="osm_chocolate" tools:ignore="MissingTranslation">Sklep z czekoladą</string>
-    <string name="osm_brewing_supplies" tools:ignore="MissingTranslation">Sklep z akcesoriami do domowego warzenia piwa</string>
-    <string name="osm_tax_advisor" tools:ignore="MissingTranslation">Doradca podatkowy</string>
-    <string name="osm_private_investigator" tools:ignore="MissingTranslation">Prywatny detektyw</string>
-    <string name="osm_government" tools:ignore="MissingTranslation">Urząd rządowy</string>
-    <string name="osm_forestry" tools:ignore="MissingTranslation">Leśnictwo</string>
-    <string name="osm_estate_agent" tools:ignore="MissingTranslation">Agent nieruchomości</string>
-    <string name="osm_spring" tools:ignore="MissingTranslation">Źródło</string>
-    <string name="osm_golf_course" tools:ignore="MissingTranslation">Pole golfowe</string>
-    <string name="osm_ses_station" tools:ignore="MissingTranslation">Posterunek Służby Ratunkowej (SES)</string>
-    <string name="osm_lifeguard_place" tools:ignore="MissingTranslation">Punkt ratownika wodnego</string>
-    <string name="osm_stonemason" tools:ignore="MissingTranslation">Kamieniarz</string>
-    <string name="osm_scaffolder" tools:ignore="MissingTranslation">Monter rusztowań</string>
-    <string name="osm_sailmaker" tools:ignore="MissingTranslation">Zakład szycia żagli</string>
-    <string name="osm_photographic_laboratory" tools:ignore="MissingTranslation">Laboratorium fotograficzne</string>
-    <string name="osm_photographer" tools:ignore="MissingTranslation">Fotograf</string>
-    <string name="osm_insulation" tools:ignore="MissingTranslation">Izolacja</string>
-    <string name="osm_electrician" tools:ignore="MissingTranslation">Elektryk</string>
-    <string name="osm_dressmaker" tools:ignore="MissingTranslation">Krawiec</string>
-    <string name="osm_caterer" tools:ignore="MissingTranslation">Firma cateringowa</string>
-    <string name="osm_terrace" tools:ignore="MissingTranslation">Taras</string>
-    <string name="osm_toy_shop" tools:ignore="MissingTranslation">Sklep z zabawkami</string>
-    <string name="osm_dive_centre" tools:ignore="MissingTranslation">Centrum nurkowe</string>
-    <string name="osm_swingerclub" tools:ignore="MissingTranslation">Klub swingersów</string>
-    <string name="osm_doctors" tools:ignore="MissingTranslation">Przychodnia lekarska</string>
-    <string name="osm_driving_school" tools:ignore="MissingTranslation">Szkoła nauki jazdy</string>
-    <string name="osm_free_flying" tools:ignore="MissingTranslation">Miejsce do lotów swobodnych (np. paralotniarstwo)</string>
-    <string name="osm_religion" tools:ignore="MissingTranslation">Religia</string>
-    <string name="osm_kiosk" tools:ignore="MissingTranslation">Kiosk</string>
-    <string name="osm_residential" tools:ignore="MissingTranslation">Obszar mieszkaniowy</string>
-    <string name="osm_food" tools:ignore="MissingTranslation">Punkt z żywnością</string>
-    <string name="osm_waterfall" tools:ignore="MissingTranslation">Wodospad</string>
-    <string name="osm_boatyard" tools:ignore="MissingTranslation">Stocznia</string>
-    <string name="osm_theme_park" tools:ignore="MissingTranslation">Park rozrywki</string>
-    <string name="osm_roundhouse" tools:ignore="MissingTranslation">Okrągła remiza lokomotyw</string>
-    <string name="osm_generator" tools:ignore="MissingTranslation">Agregat prądotwórczy</string>
-    <string name="osm_beach" tools:ignore="MissingTranslation">Plaża</string>
-    <string name="osm_naval_base" tools:ignore="MissingTranslation">Baza marynarki wojennej</string>
-    <string name="osm_works" tools:ignore="MissingTranslation">Zakłady przemysłowe</string>
-    <string name="osm_water_works" tools:ignore="MissingTranslation">Zakład wodociągowy</string>
-    <string name="osm_telescope" tools:ignore="MissingTranslation">Teleskop</string>
-    <string name="osm_pier" tools:ignore="MissingTranslation">Molo</string>
-    <string name="osm_observatory" tools:ignore="MissingTranslation">Obserwatorium astronomiczne</string>
-    <string name="osm_reservoir" tools:ignore="MissingTranslation">Zbiornik wodny</string>
-    <string name="osm_monument" tools:ignore="MissingTranslation">Pomnik</string>
-    <string name="osm_battlefield" tools:ignore="MissingTranslation">Pole bitwy</string>
-    <string name="osm_planetarium" tools:ignore="MissingTranslation">Planetarium</string>
-    <string name="osm_social_centre" tools:ignore="MissingTranslation">Centrum społeczne</string>
-    <string name="osm_prison" tools:ignore="MissingTranslation">Więzienie</string>
-    <string name="osm_courthouse" tools:ignore="MissingTranslation">Sąd</string>
-    <string name="osm_bridge" tools:ignore="MissingTranslation">Most</string>
-    <string name="osm_hangar" tools:ignore="MissingTranslation">Hangar</string>
-    <string name="osm_tower" tools:ignore="MissingTranslation">Wieża</string>
-    <string name="osm_attraction" tools:ignore="MissingTranslation">Atrakcja</string>
-    <string name="osm_zoo" tools:ignore="MissingTranslation">Ogród zoologiczny</string>
-    <string name="osm_gallery" tools:ignore="MissingTranslation">Galeria sztuki</string>
-    <string name="osm_artwork" tools:ignore="MissingTranslation">Dzieło sztuki</string>
-    <string name="osm_alpine_hut" tools:ignore="MissingTranslation">Schronisko alpejskie</string>
-    <string name="osm_plant" tools:ignore="MissingTranslation">Zakład przemysłowy</string>
-    <string name="osm_insurance" tools:ignore="MissingTranslation">Biuro ubezpieczeń</string>
-    <string name="osm_airfield" tools:ignore="MissingTranslation">Lądowisko</string>
-    <string name="osm_water_tower" tools:ignore="MissingTranslation">Wieża ciśnień</string>
-    <string name="osm_pumping_station" tools:ignore="MissingTranslation">Stacja pomp</string>
-    <string name="osm_hot_water_tank" tools:ignore="MissingTranslation">Zbiornik ciepłej wody</string>
-    <string name="osm_campanile" tools:ignore="MissingTranslation">Dzwonnica</string>
-    <string name="osm_sports_centre" tools:ignore="MissingTranslation">Centrum sportowe</string>
-    <string name="osm_fitness_centre" tools:ignore="MissingTranslation">Siłownia</string>
-    <string name="osm_beach_resort" tools:ignore="MissingTranslation">Kurort plażowy</string>
-    <string name="osm_village_green" tools:ignore="MissingTranslation">Plac wiejski</string>
-    <string name="osm_ship" tools:ignore="MissingTranslation">Statek</string>
-    <string name="osm_memorial" tools:ignore="MissingTranslation">Pomnik</string>
-    <string name="osm_synagogue" tools:ignore="MissingTranslation">Synagoga</string>
-    <string name="osm_mosque" tools:ignore="MissingTranslation">Meczet</string>
-    <string name="osm_chapel" tools:ignore="MissingTranslation">Kaplica</string>
-    <string name="osm_cathedral" tools:ignore="MissingTranslation">Katedra</string>
-    <string name="osm_train_terminal" tools:ignore="MissingTranslation">Terminal kolejowy</string>
-    <string name="osm_college" tools:ignore="MissingTranslation">Uczelnia</string>
-    <string name="osm_arts_centre" tools:ignore="MissingTranslation">Centrum sztuki</string>
-    <string name="osm_ranger_station" tools:ignore="MissingTranslation">Posterunek strażników parku</string>
-    <string name="osm_hospital" tools:ignore="MissingTranslation">Szpital</string>
-    <string name="osm_track" tools:ignore="MissingTranslation">Tor</string>
-    <string name="osm_conference_centre" tools:ignore="MissingTranslation">Centrum konferencyjne</string>
-    <string name="osm_viewpoint" tools:ignore="MissingTranslation">Punkt widokowy</string>
-    <string name="osm_supermarket" tools:ignore="MissingTranslation">Supermarket</string>
-    <string name="osm_peak" tools:ignore="MissingTranslation">Szczyt</string>
-    <string name="osm_storage_tank" tools:ignore="MissingTranslation">Zbiornik</string>
-    <string name="osm_lighthouse" tools:ignore="MissingTranslation">Latarnia morska</string>
-    <string name="osm_beacon" tools:ignore="MissingTranslation">Znacznik nawigacyjny</string>
-    <string name="osm_port" tools:ignore="MissingTranslation">Port</string>
-    <string name="osm_archaeological_site" tools:ignore="MissingTranslation">Stanowisko archeologiczne</string>
-    <string name="osm_shrine" tools:ignore="MissingTranslation">Sanktuarium</string>
-    <string name="osm_church" tools:ignore="MissingTranslation">Kościół</string>
-    <string name="osm_historic_monument" tools:ignore="MissingTranslation">Zabytek historyczny</string>
-    <string name="osm_generic_landmark" tools:ignore="MissingTranslation">Punkt orientacyjny</string>
-    <string name="osm_tourism_museum" tools:ignore="MissingTranslation">Muzeum</string>
-    <string name="osm_register_office" tools:ignore="MissingTranslation">Urząd stanu cywilnego</string>
-    <string name="osm_grave_yard" tools:ignore="MissingTranslation">Cmentarz</string>
-    <string name="osm_marketplace" tools:ignore="MissingTranslation">Targowisko</string>
-    <string name="osm_fire_station" tools:ignore="MissingTranslation">Remiza strażacka</string>
-    <string name="osm_ruins" tools:ignore="MissingTranslation">Ruiny</string>
-    <string name="osm_weir" tools:ignore="MissingTranslation">Jaz</string>
-    <string name="osm_museum" tools:ignore="MissingTranslation">Muzeum</string>
-    <string name="osm_mall" tools:ignore="MissingTranslation">Centrum handlowe</string>
-    <string name="osm_volcano" tools:ignore="MissingTranslation">Wulkan</string>
-    <string name="osm_hot_spring" tools:ignore="MissingTranslation">Źródło termalne</string>
-    <string name="osm_glacier" tools:ignore="MissingTranslation">Lodowiec</string>
-    <string name="osm_wastewater_plant" tools:ignore="MissingTranslation">Oczyszczalnia ścieków</string>
-    <string name="osm_offshore_platform" tools:ignore="MissingTranslation">Platforma morska</string>
-    <string name="osm_gasometer" tools:ignore="MissingTranslation">Gazometr</string>
-    <string name="osm_water_park" tools:ignore="MissingTranslation">Park wodny</string>
-    <string name="osm_bandstand" tools:ignore="MissingTranslation">Altana koncertowa</string>
-    <string name="osm_wreck" tools:ignore="MissingTranslation">Wrak</string>
-    <string name="osm_pillory" tools:ignore="MissingTranslation">Pręgierz</string>
-    <string name="osm_monastery" tools:ignore="MissingTranslation">Klasztor</string>
-    <string name="osm_locomotive" tools:ignore="MissingTranslation">Lokomotywa</string>
-    <string name="osm_fort" tools:ignore="MissingTranslation">Fort</string>
-    <string name="osm_services" tools:ignore="MissingTranslation">Miejsce obsługi podróżnych</string>
-    <string name="osm_lifeguard_tower" tools:ignore="MissingTranslation">Wieża ratownicza</string>
-    <string name="osm_temple" tools:ignore="MissingTranslation">Świątynia</string>
-    <string name="osm_national_park" tools:ignore="MissingTranslation">Park narodowy</string>
-    <string name="osm_heliport" tools:ignore="MissingTranslation">Heliport</string>
-    <string name="osm_public_park" tools:ignore="MissingTranslation">Park publiczny</string>
-    <string name="osm_department_store" tools:ignore="MissingTranslation">Dom towarowy</string>
-    <string name="osm_studio" tools:ignore="MissingTranslation">Studio</string>
-    <string name="osm_public_building" tools:ignore="MissingTranslation">Budynek publiczny</string>
-    <string name="osm_clock" tools:ignore="MissingTranslation">Zegar</string>
-    <string name="osm_casino" tools:ignore="MissingTranslation">Kasyno</string>
-    <string name="osm_stadium" tools:ignore="MissingTranslation">Stadion</string>
-    <string name="osm_dam" tools:ignore="MissingTranslation">Tama</string>
-    <string name="osm_dock" tools:ignore="MissingTranslation">Dok</string>
-    <string name="osm_geyser" tools:ignore="MissingTranslation">Gejzer</string>
-    <string name="osm_bay" tools:ignore="MissingTranslation">Zatoka</string>
-    <string name="osm_barracks" tools:ignore="MissingTranslation">Koszary</string>
-    <string name="osm_windmill" tools:ignore="MissingTranslation">Wiatrak</string>
-    <string name="osm_watermill" tools:ignore="MissingTranslation">Młyn wodny</string>
-    <string name="osm_communications_tower" tools:ignore="MissingTranslation">Wieża komunikacyjna</string>
-    <string name="osm_swimming_area" tools:ignore="MissingTranslation">Strefa pływania</string>
-    <string name="osm_slipway" tools:ignore="MissingTranslation">Rampa do wodowania łodzi</string>
-    <string name="osm_nature_reserve" tools:ignore="MissingTranslation">Rezerwat przyrody</string>
-    <string name="osm_marina" tools:ignore="MissingTranslation">Marina</string>
-    <string name="osm_ice_rink" tools:ignore="MissingTranslation">Lodowisko</string>
-    <string name="osm_manor" tools:ignore="MissingTranslation">Dwór</string>
-    <string name="osm_city_gate" tools:ignore="MissingTranslation">Brama miejska</string>
-    <string name="osm_castle" tools:ignore="MissingTranslation">Zamek</string>
-    <string name="osm_aircraft" tools:ignore="MissingTranslation">Samolot</string>
-    <string name="osm_digester" tools:ignore="MissingTranslation">Zbiornik fermentacyjny</string>
-    <string name="osm_sally_port" tools:ignore="MissingTranslation">Brama obronna</string>
-    <string name="osm_aerodrome" tools:ignore="MissingTranslation">Aerodrom</string>
-    <string name="osm_shopping_mall" tools:ignore="MissingTranslation">Centrum handlowe</string>
-    <string name="osm_cinema" tools:ignore="MissingTranslation">Kino</string>
-    <string name="osm_rescue_station" tools:ignore="MissingTranslation">Stacja ratunkowa</string>
-    <string name="osm_airport" tools:ignore="MissingTranslation">Lotnisko</string>
-    <string name="osm_theatre" tools:ignore="MissingTranslation">Teatr</string>
-    <string name="osm_library" tools:ignore="MissingTranslation">Biblioteka</string>
-    <string name="osm_university" tools:ignore="MissingTranslation">Uniwersytet</string>
-    <string name="osm_police" tools:ignore="MissingTranslation">Komisariat policji</string>
-    <string name="osm_embassy" tools:ignore="MissingTranslation">Ambasada</string>
-    <string name="osm_bus_station" tools:ignore="MissingTranslation">Dworzec autobusowy</string>
-    <string name="osm_station" tools:ignore="MissingTranslation">Stacja</string>
-    <string name="osm_toll_booth" tools:ignore="MissingTranslation">Punkt poboru opłat</string>
-    <string name="osm_lift" tools:ignore="MissingTranslation">Winda</string>
-    <string name="osm_unmanaged_crossing" tools:ignore="MissingTranslation">Przejście dla pieszych bez sygnalizacji</string>
-    <string name="osm_pharmacy" tools:ignore="MissingTranslation">Apteka</string>
-    <string name="osm_kneipp_water_cure" tools:ignore="MissingTranslation">Kneipp (kuracja wodna)</string>
-    <string name="osm_food_court" tools:ignore="MissingTranslation">Strefa gastronomiczna</string>
-    <string name="osm_chemist" tools:ignore="MissingTranslation">Apteka</string>
-    <string name="osm_checkpoint" tools:ignore="MissingTranslation">Punkt kontrolny</string>
-    <string name="osm_dog_park" tools:ignore="MissingTranslation">Park dla psów</string>
-    <string name="osm_kissing_gate" tools:ignore="MissingTranslation">Bramka dla pieszych</string>
-    <string name="osm_car_rental" tools:ignore="MissingTranslation">Wypożyczalnia samochodów</string>
-    <string name="osm_pedestrianised_area" tools:ignore="MissingTranslation">Strefa dla pieszych</string>
-    <string name="osm_escalator" tools:ignore="MissingTranslation">Schody ruchome</string>
-    <string name="osm_shelter" tools:ignore="MissingTranslation">Wiata</string>
-    <string name="osm_water_point" tools:ignore="MissingTranslation">Punkt poboru wody</string>
-    <string name="osm_subway_entrance" tools:ignore="MissingTranslation">Wejście do metra</string>
-    <string name="osm_cave_entrance" tools:ignore="MissingTranslation">Wejście do jaskini</string>
-    <string name="osm_swing_gate" tools:ignore="MissingTranslation">Bramka skrzydłowa</string>
-    <string name="osm_stile" tools:ignore="MissingTranslation">Przejście przez ogrodzenie</string>
-    <string name="osm_car_sharing" tools:ignore="MissingTranslation">Miejsce carsharingu</string>
-    <string name="osm_customer_service" tools:ignore="MissingTranslation">Punkt obsługi klienta</string>
-    <string name="osm_watering_place" tools:ignore="MissingTranslation">Miejsce pojenia zwierząt</string>
-    <string name="osm_platform" tools:ignore="MissingTranslation">Peron</string>
-    <string name="osm_horse_stile" tools:ignore="MissingTranslation">Przejście dla koni</string>
-    <string name="osm_bureau_de_change" tools:ignore="MissingTranslation">Punkt wymiany walut</string>
-    <string name="osm_stairs" tools:ignore="MissingTranslation">Schody</string>
-    <string name="osm_bicycle_rental" tools:ignore="MissingTranslation">Wypożyczalnia rowerów</string>
-    <string name="osm_hampshire_gate" tools:ignore="MissingTranslation">Bramka typu Hampshire</string>
-    <string name="osm_full_height_turnstile" tools:ignore="MissingTranslation">Bramka obrotowa pełnej wysokości</string>
-    <string name="osm_boat_sharing" tools:ignore="MissingTranslation">Współdzielenie łodzi</string>
-    <string name="osm_help_point" tools:ignore="MissingTranslation">Punkt pomocy</string>
-    <string name="osm_open_space" tools:ignore="MissingTranslation">Teren otwarty</string>
-    <string name="osm_spending_area" tools:ignore="MissingTranslation">Strefa krótkich postojów</string>
-    <string name="osm_bicycle_repair_station" tools:ignore="MissingTranslation">Stacja napraw rowerów</string>
-    <string name="osm_motorcycle_barrier" tools:ignore="MissingTranslation">Bariera dla motocykli</string>
-    <string name="osm_kent_carriage_gap" tools:ignore="MissingTranslation">Przejście dla powozów typu Kent</string>
-    <string name="osm_shared_space" tools:ignore="MissingTranslation">Przestrzeń współdzielona</string>
-    <string name="osm_cliff" tools:ignore="MissingTranslation">Klif</string>
-    <string name="osm_training_area" tools:ignore="MissingTranslation">Teren szkoleniowy</string>
-    <string name="osm_log" tools:ignore="MissingTranslation">Kłoda</string>
-    <string name="osm_jersey_barrier" tools:ignore="MissingTranslation">Bariera typu Jersey</string>
-    <string name="osm_construction_site" tools:ignore="MissingTranslation">Plac budowy</string>
-    <string name="osm_ridge" tools:ignore="MissingTranslation">Grzbiet</string>
-    <string name="osm_nuclear_explosion_site" tools:ignore="MissingTranslation">Miejsce testu nuklearnego</string>
-    <string name="osm_dyke" tools:ignore="MissingTranslation">Wał przeciwpowodziowy</string>
-    <string name="osm_sump_buster" tools:ignore="MissingTranslation">Próg uniemożliwiający przejazd niskim pojazdom</string>
-    <string name="osm_rope" tools:ignore="MissingTranslation">Lina</string>
-    <string name="osm_debris" tools:ignore="MissingTranslation">Rumowisko</string>
-    <string name="osm_road_works" tools:ignore="MissingTranslation">Roboty drogowe</string>
-    <string name="osm_lock_gate" tools:ignore="MissingTranslation">Wrota śluzy</string>
-    <string name="osm_sinkhole" tools:ignore="MissingTranslation">Zapadlisko</string>
-    <string name="osm_range" tools:ignore="MissingTranslation">Strzelnica</string>
-    <string name="osm_ambulance_station" tools:ignore="MissingTranslation">Stacja pogotowia ratunkowego</string>
-    <string name="osm_spikes" tools:ignore="MissingTranslation">Pasy kolcowe</string>
-    <string name="osm_generic_hazard" tools:ignore="MissingTranslation">Nieokreślone zagrożenie</string>
-    <string name="osm_contact_line" tools:ignore="MissingTranslation">Linia trakcyjna</string>
-    <string name="osm_danger_area" tools:ignore="MissingTranslation">Strefa niebezpieczna</string>
-    <string name="osm_chain" tools:ignore="MissingTranslation">Bariera łańcuchowa</string>
-    <string name="osm_parking_space" tools:ignore="MissingTranslation">Miejsce parkingowe</string>
-    <string name="osm_motorcycle_parking" tools:ignore="MissingTranslation">Parking dla motocykli</string>
-    <string name="settings_section_search" tools:ignore="MissingTranslation">Wyszukiwanie</string>
-    <string name="settings_search_online" tools:ignore="MissingTranslation">Online</string>
-    <string name="settings_search_offline" tools:ignore="MissingTranslation">Offline</string>
-    <string name="settings_search_auto" tools:ignore="MissingTranslation">Automatyczny</string>
-    <string name="search_no_results" tools:ignore="MissingTranslation">Nie znaleziono wyników wyszukiwania</string>
-    <string name="search_searching" tools:ignore="MissingTranslation">Wyszukiwanie…</string>
-    <string name="menu_manage_search" tools:ignore="MissingTranslation">Wyszukiwanie</string>
-    <string name="route_not_found" tools:ignore="MissingTranslation">Nie znaleziono trasy</string>
-    <string name="advanced_markers_and_routes_export" tools:ignore="MissingTranslation">Eksportuj</string>
-    <string name="location_item_selected" tools:ignore="MissingTranslation">Wybrano</string>
-    <string name="location_item_not_selected" tools:ignore="MissingTranslation">Nie wybrano</string>
-    <string name="location_item_move_up" tools:ignore="MissingTranslation">Przenieś wyżej na liście</string>
-    <string name="location_item_move_down" tools:ignore="MissingTranslation">Przenieś niżej na liście</string>
-    <string name="street_description_between" tools:ignore="MissingTranslation">Na %1$s, między %2$s a %3$s</string>
-    <string name="street_description_until" tools:ignore="MissingTranslation">Na %1$s, %2$s do %3$s</string>
-    <string name="street_description_since" tools:ignore="MissingTranslation">Na %1$s, %2$s od %3$s</string>
-    <string name="osm_city" tools:ignore="MissingTranslation">Miasto</string>
-    <string name="osm_town" tools:ignore="MissingTranslation">Miasteczko</string>
-    <string name="osm_neighbourhood" tools:ignore="MissingTranslation">Dzielnica</string>
-    <string name="osm_village" tools:ignore="MissingTranslation">Wieś</string>
-    <string name="osm_hamlet" tools:ignore="MissingTranslation">Osada</string>
-    <string name="osm_recreation_ground" tools:ignore="MissingTranslation">Teren rekreacyjny</string>
-    <string name="osm_river" tools:ignore="MissingTranslation">Rzeka</string>
-    <string name="osm_railway" tools:ignore="MissingTranslation">Linia kolejowa</string>
-    <string name="osm_wood" tools:ignore="MissingTranslation">Las</string>
-    <string name="osm_pavillion" tools:ignore="MissingTranslation">Pawilon</string>
-    <string name="osm_sport" tools:ignore="MissingTranslation">Obiekt sportowy</string>
-    <string name="osm_health_food" tools:ignore="MissingTranslation">Sklep ze zdrową żywnością</string>
-    <string name="osm_events_venue" tools:ignore="MissingTranslation">Miejsce wydarzeń</string>
-    <string name="menu_help" tools:ignore="MissingTranslation">Pomoc</string>
-    <string name="tour_welcome" tools:ignore="MissingTranslation">Witamy w samouczku Soundscape. Ten samouczek przeprowadzi Cię przez główne funkcje aplikacji. Możesz przerwać samouczek w dowolnym momencie, stukając opcję „Anuluj samouczek audio” w menu głównym. Zacznijmy od „Miejsca w pobliżu”, które pozwala znaleźć interesujące miejsca. Przycisk „Miejsca w pobliżu” znajduje się na ekranie głównym bezpośrednio pod paskiem wyszukiwania. Stuknij go teraz, aby wypróbować.</string>
-    <string name="tour_select_place" tools:ignore="MissingTranslation">„Miejsca w pobliżu” grupują punkty zainteresowania według kategorii. Przejrzyj listy miejsc i wybierz jedno.</string>
-    <string name="tour_create_marker_started" tools:ignore="MissingTranslation">Świetnie! Jesteś teraz na ekranie „Szczegóły lokalizacji”. Ten ekran pozwala wykonać różne akcje, w tym zapisać lokalizację jako znacznik (pinezkę). W Soundscape możesz oznaczać wszystko, co jest dla Ciebie ważne — na przykład dom, przystanek autobusowy, a nawet miejsce, w którym się aktualnie znajdujesz. Spróbujmy. Zapisz tę lokalizację jako znacznik, stukając „Zapisz jako znacznik (pinezkę)”.</string>
-    <string name="tour_create_marker_done" tools:ignore="MissingTranslation">Super! Podczas tworzenia znacznika możesz edytować jego nazwę i dodać dodatkowe notatki. Zrób to teraz, a gdy będziesz gotowy, stuknij „Gotowe”.</string>
-    <string name="tour_my_location" tools:ignore="MissingTranslation">Skoro wiesz już, jak korzystać ze znaczników, przyjrzyjmy się innym funkcjom. Na dole ekranu znajdują się cztery przyciski, które wypróbujemy po kolei. Przyciskiem po lewej jest „Moja lokalizacja”, który opisuje Twoje bieżące położenie. Stuknij go teraz.</string>
-    <string name="tour_around_me" tools:ignore="MissingTranslation">Kolejny przycisk to „Wokół mnie”. Informuje o tym, co jest w pobliżu w każdym kierunku. Stuknij „Wokół mnie”.</string>
-    <string name="tour_ahead" tools:ignore="MissingTranslation">Następny przycisk to „Przede mną”. Mówi o tym, co znajduje się przed Tobą. Stuknij „Przede mną”.</string>
-    <string name="tour_nearby_markers" tools:ignore="MissingTranslation">Ostatni przycisk to „Bliskie znaczniki mapy (pinezki)”, który ogłasza zapisane miejsca wokół Ciebie. Stuknij „Bliskie znaczniki mapy (pinezki)”, aby to wypróbować.</string>
-    <string name="tour_markers_and_routes" tools:ignore="MissingTranslation">Utworzyłeś teraz znacznik. Uruchomimy dźwięk naprowadzający, który poprowadzi nas do tej lokalizacji. Stuknij „Znaczniki (pinezki) i trasy”, który znajduje się tuż pod „Miejsca w pobliżu”.</string>
-    <string name="tour_markers" tools:ignore="MissingTranslation">Ekran „Znaczniki (pinezki) i trasy” ma dwie karty: jedna wyświetla trasy (listy odtwarzania znaczników), a druga pojedyncze znaczniki. Stuknij kartę „Znaczniki (pinezki)”, aby znaleźć znacznik, który utworzyłeś.</string>
-    <string name="tour_start_beacon" tools:ignore="MissingTranslation">Jesteś teraz na karcie „Znaczniki (pinezki)”, gdzie widoczne są wszystkie zapisane znaczniki. Wybierz znacznik, a gdy pojawi się ekran „Szczegóły lokalizacji”, stuknij „Uruchom dźwięk naprowadzający”.</string>
-    <string name="tour_beacon_demo" tools:ignore="MissingTranslation">Teraz możesz usłyszeć dźwięk naprowadzający. Odtwarzany jest z kierunku Twojego celu. Gdy zmieniasz kierunek, w którym wskazuje telefon, usłyszysz, jak dźwięk naprowadzający przesuwa się i zmienia brzmienie. Wypróbuj to teraz.</string>
-    <string name="tour_beacon_demo_locked" tools:ignore="MissingTranslation">Gdy telefon jest zablokowany, dźwięk naprowadzający nadal będzie odtwarzany. Jeśli idziesz lub jedziesz pojazdem, aplikacja używa kierunku Twojego ruchu do odtwarzania dźwięku naprowadzającego. Jednak nawet gdy telefon jest zablokowany, możesz trzymać go płasko przed sobą jak kompas — wtedy aplikacja użyje kierunku, w którym telefon wskazuje. Spróbuj.</string>
-    <string name="tour_stop_beacon" tools:ignore="MissingTranslation">Gdy będziesz gotowy, aby zatrzymać naprowadzanie, stuknij przycisk „Zatrzymaj trasę”.</string>
-    <string name="tour_finish" tools:ignore="MissingTranslation">To kończy samouczek. Możesz uruchomić go ponownie z menu głównego. Mamy nadzieję, że aplikacja będzie dla Ciebie przydatna!</string>
-    <string name="tour_cancel" tools:ignore="MissingTranslation">Samouczek audio został anulowany. Jeśli chcesz, możesz uruchomić go ponownie z menu głównego.</string>
-    <string name="menu_audio_tutorial" tools:ignore="MissingTranslation">Samouczek audio</string>
-    <string name="menu_audio_tutorial_cancel" tools:ignore="MissingTranslation">Anuluj samouczek audio</string>
-    <string name="search_bar_hint" tools:ignore="MissingTranslation">Wpisz nazwę miejsca docelowego lub adres</string>
-    <string name="all_places_nearby_description" tools:ignore="MissingTranslation">zobacz nieprzefiltrowaną listę wszystkich miejsc w pobliżu</string>
-    <string name="public_transit_places_nearby_description" tools:ignore="MissingTranslation">zobacz listę pobliskich przystanków transportu publicznego</string>
-    <string name="food_drink_places_nearby_description" tools:ignore="MissingTranslation">zobacz listę pobliskich restauracji i barów</string>
-    <string name="groceries_places_nearby_description" tools:ignore="MissingTranslation">zobacz listę pobliskich sklepów spożywczych</string>
-    <string name="banks_places_nearby_description" tools:ignore="MissingTranslation">zobacz listę pobliskich banków i bankomatów</string>
-    <string name="intersections_places_nearby_description" tools:ignore="MissingTranslation">zobacz listę pobliskich skrzyżowań drogowych</string>
-    <string name="places_nearby_selection_description" tools:ignore="MissingTranslation">aby wybrać z listy pobliskich miejsc</string>
-    <string name="accessibility_title" tools:ignore="MissingTranslation">Ułatwienia dostępu</string>
-    <string name="accessibility_screen_reader_enabled" tools:ignore="MissingTranslation">Ponieważ masz włączony czytnik ekranu, zalecamy korzystanie z aplikacji przy wyłączonych graficznych mapach interfejsu użytkownika. Możesz zmienić to ustawienie tutaj lub po prostu kontynuować.</string>
-    <string name="accessibility_screen_reader_disabled" tools:ignore="MissingTranslation">Ponieważ nie masz włączonego czytnika ekranu, zakładamy, że chcesz, aby graficzne mapy interfejsu użytkownika były wyświetlane. Możesz zmienić to ustawienie tutaj lub po prostu kontynuować.</string>
-    <string name="tour_continue_button" tools:ignore="MissingTranslation">Kontynuuj</string>
-    <string name="tour_continue_hint" tools:ignore="MissingTranslation">zamknij wyskakujące okno i kontynuuj samouczek</string>
-    <string name="location_detail_action_beacon_from_markers" tools:ignore="MissingTranslation">Uruchom dźwięk naprowadzający na tym znaczniku</string>
-    <string name="location_detail_full_screen_for_edit_hint" tools:ignore="MissingTranslation">wyświetl mapę w trybie pełnoekranowym i edytuj lokalizację znacznika</string>
-    <string name="location_detail_exit_full_screen_for_edit_hint" tools:ignore="MissingTranslation">zakończ tryb edycji lokalizacji znacznika</string>
-    <string name="street_description_relative_before" tools:ignore="MissingTranslation">Na %1$s tuż przed %2$s</string>
-    <string name="street_description_relative_after" tools:ignore="MissingTranslation">Na %1$s tuż po %2$s</string>
-    <string name="street_description_intersection" tools:ignore="MissingTranslation">W pobliżu skrzyżowania %1$s</string>
-    <string name="general_error_add_marker_duplicate" tools:ignore="MissingTranslation">W tej trasie już znajduje się znacznik w tej lokalizacji. Nie możemy dodać go ponownie.</string>
-    <string name="settings_explanation" tools:ignore="MissingTranslation">Różne ustawienia aplikacji pogrupowano poniżej. Stuknij grupę, aby ją rozwinąć i zobaczyć dostępne opcje.</string>
-    <string name="settings_section_units_description" tools:ignore="MissingTranslation">Wybierz jednostki miary używane do mierzenia odległości</string>
-    <string name="settings_section_search_network" tools:ignore="MissingTranslation">Tryb wyszukiwania</string>
-    <string name="settings_section_search_network_description" tools:ignore="MissingTranslation">Kontroluj, czy wyszukiwanie ma korzystać wyłącznie z danych offline</string>
-    <string name="beacon_settings_style_description" tools:ignore="MissingTranslation">Wybierz styl dźwięku naprowadzającego, którego chcesz używać</string>
-    <string name="preview_include_unnamed_roads_title_description" tools:ignore="MissingTranslation">Uwzględniaj drogi bez nazwy podczas podglądu lokalizacji</string>
-    <string name="callouts_allow_callouts_description" tools:ignore="MissingTranslation">Włącz lub wyłącz wszystkie powiadomienia</string>
-    <string name="callouts_places_and_landmarks_description" tools:ignore="MissingTranslation">Pobliskie miejsca, takie jak sklepy i restauracje</string>
-    <string name="callouts_mobility_description" tools:ignore="MissingTranslation">Informacje o skrzyżowaniach i transporcie</string>
-    <string name="callouts_audio_beacon_description" tools:ignore="MissingTranslation">Informacje o odległości do dźwięku naprowadzającego, gdy jest ustawiony</string>
-    <string name="menu_manage_language" tools:ignore="MissingTranslation">Język i region </string>
-    <string name="settings_search_results_language_description" tools:ignore="MissingTranslation">Wyszukiwanie online może używać lokalnego języka wyniku albo można wymusić zwracanie wyników w języku angielskim, francuskim lub niemieckim.</string>
-    <string name="language_mismatch_title" tools:ignore="MissingTranslation">Dostępny nowy język</string>
-    <string name="language_mismatch_message" tools:ignore="MissingTranslation">Twój telefon jest ustawiony na %1$s, a ten język jest teraz dostępny w Soundscape. Czy chcesz, aby Soundscape używał języka %1$s?</string>
-    <string name="language_mismatch_switch" tools:ignore="MissingTranslation">Przełącz na %1$s</string>
-    <string name="language_mismatch_keep" tools:ignore="MissingTranslation">Zachowaj bieżący język</string>
-    <string name="preview_go_hint" tools:ignore="MissingTranslation">przejdź w tym kierunku do następnego skrzyżowania</string>
-    <string name="error_message_route_not_found" tools:ignore="MissingTranslation">Nie udało się znaleźć trasy w bazie danych.</string>
-    <string name="error_message_deleting_route" tools:ignore="MissingTranslation">Nie udało się usunąć trasy.</string>
-    <string name="error_message_saving_route" tools:ignore="MissingTranslation">Nie udało się zapisać trasy.</string>
-    <string name="service_still_running" tools:ignore="MissingTranslation">Usługa lokalizacji Soundscape nadal działa.</string>
-    <string name="offline_map_download_complete" tools:ignore="MissingTranslation">Pobieranie zakończone</string>
-    <string name="offline_map_download_cancelled" tools:ignore="MissingTranslation">Pobieranie anulowane</string>
-    <string name="offline_map_download_error" tools:ignore="MissingTranslation">Błąd pobierania</string>
-    <string name="behavior_scavenger_hunt_callout_next_flag_short_route" tools:ignore="MissingTranslation">Ustawiono naprowadzanie na %1$s, w odległości %2$s</string>
-    <string name="route_beacon_progress" tools:ignore="MissingTranslation">Naprowadzanie na %1$s</string>
-    <string name="menu_route" tools:ignore="MissingTranslation">Sterowanie trasą</string>
-    <string name="menu_route_next_waypoint" tools:ignore="MissingTranslation">Następny punkt trasy</string>
-    <string name="menu_route_previous_waypoint" tools:ignore="MissingTranslation">Poprzedni punkt trasy</string>
-    <string name="menu_no_routes" tools:ignore="MissingTranslation">Brak zapisanych tras</string>
-    <string name="menu_main_menu" tools:ignore="MissingTranslation">Menu główne</string>
-    <string name="first_launch_permissions_record_audio" tools:ignore="MissingTranslation">Nagrywanie dźwięku</string>
-    <string name="first_launch_permissions_required_for_voice_control" tools:ignore="MissingTranslation">To uprawnienie jest opcjonalne, ale jest wymagane, jeśli chcesz używać poleceń głosowych do sterowania aplikacją.</string>
-    <string name="menu_media_controls" tools:ignore="MissingTranslation">Sterowanie przyciskami multimedialnymi</string>
-    <string name="settings_section_media_controls" tools:ignore="MissingTranslation">Tryb sterowania przyciskami multimedialnymi</string>
-    <string name="settings_section_media_controls_description" tools:ignore="MissingTranslation">Przyciski sterowania mediami w słuchawkach lub pilocie można skonfigurować tak, aby działały w różny sposób w zależności od wybranego trybu.</string>
-    <string name="settings_media_controls_original" tools:ignore="MissingTranslation">Tryb oryginalny</string>
-    <string name="settings_media_controls_voice_command" tools:ignore="MissingTranslation">Polecenia głosowe</string>
-    <string name="settings_media_controls_audio_menu" tools:ignore="MissingTranslation">Menu audio</string>
-    <string name="voice_cmd_help_response" tools:ignore="MissingTranslation">Dostępne polecenia głosowe:</string>
-    <string name="voice_cmd_listening" tools:ignore="MissingTranslation">Słucham…</string>
-    <string name="voice_cmd_not_recognized" tools:ignore="MissingTranslation">Przepraszam, nie mogę znaleźć polecenia %1$s. Polecenie głosowe „%2$s” wyświetli listę dostępnych poleceń.</string>
-    <string name="voice_cmd_list_routes" tools:ignore="MissingTranslation">Wyświetl trasy</string>
-    <string name="voice_cmd_routes_list" tools:ignore="MissingTranslation">Dostępne trasy to:</string>
-    <string name="voice_cmd_list_markers" tools:ignore="MissingTranslation">Wyświetl znaczniki</string>
-    <string name="voice_cmd_markers_list" tools:ignore="MissingTranslation">Dostępne znaczniki to:</string>
-    <string name="voice_cmd_no_routes" tools:ignore="MissingTranslation">Nie zapisano żadnych tras</string>
-    <string name="voice_cmd_no_markers" tools:ignore="MissingTranslation">Nie zapisano żadnych znaczników (pinezek)</string>
-    <string name="voice_cmd_route_not_found" tools:ignore="MissingTranslation">Nie znaleziono trasy: %1$s</string>
-    <string name="voice_cmd_starting_route" tools:ignore="MissingTranslation">Rozpoczynam trasę %1$s</string>
-    <string name="voice_cmd_start_route" tools:ignore="MissingTranslation">Rozpocznij trasę %1$s</string>
-    <string name="voice_cmd_start_beacon_at_marker_with_name" tools:ignore="MissingTranslation">Uruchom dźwięk naprowadzający na %1$s</string>
-    <string name="voice_cmd_starting_beacon_at_marker" tools:ignore="MissingTranslation">Uruchamianie dźwięku naprowadzającego na %1$s</string>
-    <string name="voice_cmd_marker_not_found" tools:ignore="MissingTranslation">Nie znaleziono znacznika: %1$s</string>
-    <string name="voice_cmd_explain_dynamic_markers" tools:ignore="MissingTranslation">Możesz także uruchamiać trasy i znaczniki po nazwie, na przykład.</string>
-    <string name="voice_cmd_speech_recognition_error_network_timeout" tools:ignore="MissingTranslation">Błąd: rozpoznawanie mowy — przekroczono limit czasu sieci.</string>
-    <string name="voice_cmd_speech_recognition_error_network" tools:ignore="MissingTranslation">Błąd sieci podczas rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_audio" tools:ignore="MissingTranslation">Błąd podczas nagrywania dźwięku do rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_server" tools:ignore="MissingTranslation">Błąd serwera rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_client" tools:ignore="MissingTranslation">Błąd klienta rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_speech_timeout" tools:ignore="MissingTranslation">Upłynął czas oczekiwania na mowę, nasłuchiwanie zostało zatrzymane. Spróbuj ponownie.</string>
-    <string name="voice_cmd_speech_recognition_not_match" tools:ignore="MissingTranslation">Nie wykryto mowy, nasłuchiwanie zostało zatrzymane. Spróbuj ponownie.</string>
-    <string name="voice_cmd_speech_recognition_busy" tools:ignore="MissingTranslation">Usługa rozpoznawania mowy jest zajęta.</string>
-    <string name="voice_cmd_speech_recognition_error_permissions" tools:ignore="MissingTranslation">Brak wystarczających uprawnień do uruchomienia rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_too_many_requests" tools:ignore="MissingTranslation">Błąd rozpoznawania mowy: zbyt wiele żądań.</string>
-    <string name="voice_cmd_speech_recognition_error_server_disconnected" tools:ignore="MissingTranslation">Serwer rozpoznawania mowy został rozłączony.</string>
-    <string name="voice_cmd_speech_recognition_error_language_not_supported" tools:ignore="MissingTranslation">Obecny język nie jest obsługiwany przez Androida do rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_language_unavailable" tools:ignore="MissingTranslation">Obsługa bieżącego języka jest dostępna, ale nie została pobrana na tym telefonie.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_check_support" tools:ignore="MissingTranslation">Błąd sprawdzania obsługi rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events" tools:ignore="MissingTranslation">Błąd: nie można nasłuchiwać zdarzeń pobierania rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_unknown" tools:ignore="MissingTranslation">Nieznany błąd rozpoznawania mowy.</string>
-    <string name="voice_cmd_speech_recognition_error_unsupported" tools:ignore="MissingTranslation">Rozpoznawanie mowy nie jest obsługiwane na tym telefonie.</string>
-    <string name="settings_voice_command_listening_prompt" tools:ignore="MissingTranslation">Powiadamiaj o nasłuchiwaniu</string>
-    <string name="settings_voice_command_listening_prompt_description" tools:ignore="MissingTranslation">Wypowiedz komunikat informujący o nasłuchiwaniu przed rozpoczęciem rozpoznawania mowy.</string>
-    <string name="settings_voice_command_microphone" tools:ignore="MissingTranslation">Mikrofon</string>
-    <string name="settings_voice_command_microphone_description" tools:ignore="MissingTranslation">Wybierz mikrofon, który będzie używany do poleceń głosowych.</string>
+    <string name="notification_text">Usługa lokalizacji Soundscape działa nawet wtedy, gdy telefon jest zablokowany.</string>
+    <string name="cancel_search_contentDescription">Anuluj wyszukiwanie</string>
+    <string name="osm_train_station">Stacja kolejowa</string>
+    <string name="osm_train_station_named">Stacja kolejowa – %1$s</string>
+    <string name="osm_tram_stop">Przystanek tramwajowy</string>
+    <string name="osm_tram_stop_named">Przystanek tramwajowy – %1$s</string>
+    <string name="osm_subway">Stacja metra</string>
+    <string name="osm_subway_named">Stacja metra – %1$s</string>
+    <string name="osm_ferry_terminal">Terminal promowy</string>
+    <string name="osm_ferry_terminal_named">Terminal promowy– %1$s</string>
+    <string name="menu_manage_audio">Dźwięk</string>
+    <string name="menu_manage_accessibility">Ułatwienia dostępu</string>
+    <string name="settings_theme_light_dark">Jasny lub ciemny motyw</string>
+    <string name="settings_theme_auto">Automatyczny</string>
+    <string name="settings_theme_is_light">Użyj jasnego motywu</string>
+    <string name="settings_theme_light">Jasny</string>
+    <string name="settings_theme_dark">Ciemny</string>
+    <string name="settings_theme_contrast">Kontrast motywu</string>
+    <string name="settings_theme_contrast_regular">Niski</string>
+    <string name="settings_theme_contrast_medium">Średni</string>
+    <string name="settings_theme_contrast_high">Wysoki</string>
+    <string name="settings_list_item_description">%1$s to opcja %2$s z %3$s</string>
+    <string name="settings_keep_value">zachowaj</string>
+    <string name="settings_use_value">użyj</string>
+    <string name="street_preview_exit">Zakończ podgląd lokalizacji</string>
+    <string name="settings_travel_recording">Włącz rejestrowanie podróży</string>
+    <string name="settings_show_map">Wyświetlaj mapy na ekranie</string>
+    <string name="settings_debug_heading">Opcje debugowania</string>
+    <string name="settings_search_results_language">Język wyszukiwania</string>
+    <string name="menu_share_recorded_route">Udostępnij zapis podróży</string>
+    <string name="confect_name_to_via">%1$s do %2$s przez %3$s</string>
+    <string name="confect_name_to">%1$s do %2$s</string>
+    <string name="confect_name_joins">%1$s łącząca %2$s i %3$s</string>
+    <string name="confect_name_via">%1$s przez %2$s</string>
+    <string name="confect_name_pavement_next_to">Chodnik obok %1$s</string>
+    <string name="confect_name_pavement">Chodnik</string>
+    <string name="confect_name_dead_end">ślepa uliczka</string>
+    <string name="about_soundscape">Soundscape bada wykorzystanie innowacyjnej technologii opartej na dźwięku, aby umożliwić ludziom zbudowanie pełniejszej świadomości otoczenia, co zwiększa ich pewność siebie i daje większą niezależność w poruszaniu się.</string>
+    <string name="route_detail_action_previous_disabled_hint">Funkcja nieaktywna, brak wcześniejszych punktów trasy</string>
+    <string name="route_detail_action_next_disabled_hint">Funkcja nieaktywna, brak kolejnych punktów trasy</string>
+    <string name="osm_entrance">wejście</string>
+    <string name="osm_main_entrance">główne wejście</string>
+    <string name="osm_entrance_named_with_destination">%1$s %2$s od %3$s</string>
+    <string name="osm_entrance_with_destination">%1$s %2$s</string>
+    <string name="offline_maps_title">Mapy offline</string>
+    <string name="offline_map_details_title">Szczegóły mapy offline</string>
+    <string name="offline_maps_loading">Wczytywanie listy map…</string>
+    <string name="offline_maps_downloading">Pobieranie %1$s</string>
+    <string name="offline_maps_caching">Serwer przygotowuje %1$s do pobrania. Pobieranie rozpocznie się automatycznie w ciągu kilku minut.</string>
+    <string name="offline_maps_free_space">%1$s wolne</string>
+    <string name="offline_maps_storage">Mapy są zapisywane do %1$s, pozostało %2$s wolnego miejsca</string>
+    <string name="offline_maps_already_downloaded">Pobrane mapy</string>
+    <string name="offline_maps_nearby">Mapy offline w pobliżu</string>
+    <string name="offline_maps_loading_manifest">Wczytywanie listy map offline</string>
+    <string name="offline_map_details_delete">Usuń mapę offline</string>
+    <string name="offline_map_details_download">Pobierz mapę offline</string>
+    <string name="offline_map_details_size_on_phone">Rozmiar w pamięci urządzenia: %1$s</string>
+    <string name="offline_map_details_size_on_server">Rozmiar plików do pobrania: %1$s</string>
+    <string name="offline_map_details_name">Nazwa mapy: %1$s</string>
+    <string name="offline_map_details_city_list">Mapa zawiera następujące lokalizacje: %1$s</string>
+    <string name="offline_map_details_alternate_city_list">Miejsca znane też jako: %1$s</string>
+    <string name="offline_map_storage_title">Ścieżka zapisu map offline</string>
+    <string name="offline_map_storage_description">Aby umożliwić używanie Soundscape bez połączenia z internetem można pobierać i zapisywać mapy w pamięci urządzenia. Domyślna lokalizacja zapisu to pamięć zewnętrzna urządzenia ale można wybrać tutaj inną ścieżkę zapisu.</string>
+    <string name="offline_map_wifi_only">Pobieranie map tylko przez sieci WiFi</string>
+    <string name="text_field_clear_text">Usuń tekst</string>
+    <string name="marker_name_description_hint">edytuj nazwę markera (pinezki)</string>
+    <string name="annotation_description_hint">Dodaj opcjonalną adnotację aby łatwiej rozpoznawać ten marker (pinezkę)</string>
+    <string name="route_name_description_hint">edytuj nazwę trasy</string>
+    <string name="route_description_description_hint">dodaj opcjonalny opis trasy</string>
+    <string name="fab_add_item">Dodaj element</string>
+    <string name="fab_add_route">Dodaj trasę</string>
+    <string name="route_waypoint_progress">Trasa %1$s, punkt trasy %2$s z %3$s</string>
+    <string name="home_screen_title">Soundscape - Ekran główny</string>
+    <string name="offline_maps_manifest_failed">Nie udało się pobrać danych map offline</string>
+    <string name="settings_reset_button">Przywróć ustawienia domyślne</string>
+    <string name="settings_reset_button_hint">przywróci ustawienia do wartości domyślnych, a następnie uruchomi aplikację ponownie.</string>
+    <string name="settings_reset_dialog_title">Czy na pewno?</string>
+    <string name="settings_reset_dialog_message">Przywrócenie ustawień spowoduje usunięcie wszystkich skonfigurowanych opcji w aplikacji. Czy chcesz kontynuować?</string>
+    <string name="menu_advanced_markers_and_routes">Zaawansowane znaczniki (pinezki) i trasy</string>
+    <string name="advanced_markers_and_routes_description">Na tym ekranie możesz eksportować i importować znaczniki (pinezki) oraz trasy, a także usuwać wszystkie istniejące znaczniki i trasy.</string>
+    <string name="advanced_markers_and_routes_export_button">Eksportuj bazę danych znaczników (pinezek) i tras</string>
+    <string name="advanced_markers_and_routes_import_button">Importuj bazę danych znaczników (pinezek) i tras</string>
+    <string name="markers_and_routes_import_success">Import znaczników i tras zakończony.</string>
+    <string name="markers_and_routes_import_failure">Import znaczników i tras nie powiódł się.</string>
+    <string name="advanced_markers_and_routes_clear_all_button">Usuń wszystkie znaczniki (pinezki) i trasy</string>
+    <string name="advanced_markers_and_routes_clear_all_alert_message">Usunięcie wszystkich znaczników (pinezek) i tras jest nieodwracalne. Czy chcesz kontynuować?</string>
+    <string name="menu_advanced_markers_and_routes_clear_all_success">Znaczniki i trasy usunięte</string>
+    <string name="new_version_info_text">Informacje o nowej wersji</string>
+    <string name="new_version_info_completed">Zamknij okno informacji o nowej wersji</string>
+    <string name="new_version_info_details">\nW tej wersji dodaliśmy dwie nowe funkcje umożliwiające zdalne sterowanie aplikacją nawet wtedy, gdy telefon jest zablokowany. Dzięki temu telefon można trzymać w kieszeni, a mimo to sterować podstawowymi funkcjami aplikacji.\n\nObie metody zdalnego sterowania wykorzystują przyciski multimedialne Bluetooth — te w słuchawkach lub dodatkowe niewielkie piloty, które można trzymać w ręce lub kieszeni. Tryb sterowania wybiera się w Ustawieniach → Sterowanie przyciskami multimedialnymi. Możesz wybrać „Polecenia głosowe”, aby rozmawiać z aplikacją, lub „Menu audio”, gdzie aplikacja odczytuje menu z opcjami do wyboru. „Tryb oryginalny” sprawia, że przyciski Bluetooth działają tak jak w poprzednich wersjach.\n\nW trybie poleceń głosowych naciśnięcie przycisku odtwarzania/pauzy w słuchawkach powoduje, że aplikacja zaczyna nasłuchiwać mowy — usłyszysz krótki dźwięk informujący o tym. Jeśli powiesz „Help” (Pomoc), aplikacja wyświetli listę dostępnych poleceń. Następnie możesz ponownie kliknąć przycisk i spróbować innych poleceń. Niestety systemowe rozpoznawanie mowy Androida nie obsługuje wszystkich języków i nie jest dostępne we wszystkich telefonach.\n\nGłównym utrudnieniem w trybie poleceń głosowych jest fakt, że niektóre słuchawki potrzebują więcej czasu na aktywację mikrofonu niż inne. Oznacza to, że po naciśnięciu przycisku odtwarzania/pauzy może być konieczne odczekanie nawet do 5 sekund, zanim będzie można mówić. Aby sprawdzić, ile to trwa, najlepiej nacisnąć odtwarzanie/pauzę i policzyć od 1 do 10. Telefon powinien powiedzieć, jaką mowę rozpoznał — liczba, od której zacznie, to numer pierwszego rozpoznanego słowa. To pomoże określić, ile trzeba odczekać przed rozpoczęciem mówienia. Niektóre słuchawki wydają wyraźny dźwięk po włączeniu mikrofonu, co ułatwia sprawę, inne są zupełnie ciche — niestety może to wymagać ćwiczeń.\n\nDrugi nowy tryb zdalny — Menu audio — działa we wszystkich językach i na wszystkich telefonach. Przyciski dalej/wstecz przesuwają Cię przez opcje w menu, a przycisk odtwarzania/pauzy wybiera aktualną opcję. Jest menu główne oraz jedna warstwa podmenu, które grupują podobne polecenia.\n\nFunkcje te są bardzo nowe, dlatego będziemy wdzięczni za informacje zwrotne, czy dobrze działają i jakie inne polecenia chciałbyś widzieć.\n\nZgłaszaj wszelkie problemy — nawet drobne — za pomocą opcji *Kontakt z pomocą techniczną* w menu głównym.\n</string>
+    <string name="menu_open_source_licenses">Licencje open source</string>
+    <string name="osm_tag_ferry_terminal">Terminal promowy</string>
+    <string name="osm_tag_ferry_terminal_named">%1$s Terminal promowy</string>
+    <string name="osm_office">Biuro</string>
+    <string name="osm_school">Szkoła</string>
+    <string name="osm_roof">Dach</string>
+    <string name="osm_convenience">Sklep osiedlowy</string>
+    <string name="osm_lift_gate">Brama podnoszona</string>
+    <string name="osm_toilets">Toalety</string>
+    <string name="osm_parking">Parking</string>
+    <string name="osm_taxi">Postój taksówek</string>
+    <string name="osm_bicycle_parking">Parking rowerowy</string>
+    <string name="osm_fuel">Stacja paliw</string>
+    <string name="osm_recycling">Punkt recyklingu</string>
+    <string name="osm_drinking_water">Woda pitna</string>
+    <string name="osm_pitch">Boisko</string>
+    <string name="osm_picnic_site">Miejsce piknikowe</string>
+    <string name="osm_information">Informacja</string>
+    <string name="osm_fire_extinguisher">Gaśnica</string>
+    <string name="osm_defibrillator">Defibrylator</string>
+    <string name="osm_guide">Drogowskaz</string>
+    <string name="osm_water">Woda</string>
+    <string name="osm_fire_hose">Wąż przeciwpożarowy</string>
+    <string name="osm_fire_flapper">Narzędzie do tłumienia ognia</string>
+    <string name="osm_information_point">Punkt informacyjny</string>
+    <string name="osm_wetland">Obszar podmokły</string>
+    <string name="osm_mud">Błoto</string>
+    <string name="osm_access_point">Punkt dostępu</string>
+    <string name="osm_life_ring">Koło ratunkowe</string>
+    <string name="osm_generic_info">Informacja ogólna</string>
+    <string name="osm_turntable">Platforma obrotowa</string>
+    <string name="osm_survey_point">Punkt geodezyjny</string>
+    <string name="osm_snow_net">Siatka przeciwśnieżna</string>
+    <string name="osm_silo">Silos</string>
+    <string name="osm_mast">Maszt</string>
+    <string name="osm_bird_hide">Punkt obserwacji ptaków</string>
+    <string name="osm_transformer_tower">Wieża transformatorowa</string>
+    <string name="osm_generic_object">Obiekt ogólny</string>
+    <string name="osm_signal">Sygnalizacja</string>
+    <string name="osm_rock">Skała</string>
+    <string name="osm_kiln">Piec</string>
+    <string name="osm_crane">Dźwig</string>
+    <string name="osm_rune_stone">Kamień runiczny</string>
+    <string name="osm_milestone">Kamień milowy</string>
+    <string name="osm_lifeguard_platform">Platforma ratownicza</string>
+    <string name="osm_water_tank">Zbiornik na wodę</string>
+    <string name="osm_sty">Chlew</string>
+    <string name="osm_navigationaid">Pomoc nawigacyjna</string>
+    <string name="osm_terminal">Terminal</string>
+    <string name="osm_water_tap">Kran z wodą pitną</string>
+    <string name="osm_water_well">Studnia</string>
+    <string name="osm_petroleum_well">Studnia naftowa</string>
+    <string name="osm_cross">Krzyż</string>
+    <string name="osm_gallows">Szubienica</string>
+    <string name="osm_speed_camera">Fotoradar</string>
+    <string name="osm_siren">Syrena</string>
+    <string name="osm_pylon">Pylon</string>
+    <string name="osm_mineshaft">Szyb kopalniany</string>
+    <string name="osm_flagpole">Maszt flagowy</string>
+    <string name="osm_optical_telegraph">Telegraf optyczny</string>
+    <string name="osm_cannon">Armata</string>
+    <string name="osm_boundary_stone">Kamień graniczny</string>
+    <string name="osm_shed">Szopa</string>
+    <string name="osm_traffic_cones">Pachołki drogowe</string>
+    <string name="osm_firepit">Palenisko</string>
+    <string name="osm_stone">Kamień</string>
+    <string name="osm_surveillance">Monitoring</string>
+    <string name="osm_monitoring_station">Stacja monitoringu</string>
+    <string name="osm_wayside_shrine">Kapliczka przydrożna</string>
+    <string name="osm_wayside_cross">Krzyż przydrożny</string>
+    <string name="osm_tomb">Grobowiec</string>
+    <string name="osm_traffic_signals">Sygnalizacja świetlna</string>
+    <string name="osm_hut">Chatka</string>
+    <string name="osm_static_caravan">Przyczepa stacjonarna</string>
+    <string name="osm_bollard">Słupek</string>
+    <string name="osm_block">Blok</string>
+    <string name="osm_waste_disposal">Punkt utylizacji odpadów</string>
+    <string name="osm_photo_booth">Budka fotograficzna</string>
+    <string name="osm_bbq">Grill</string>
+    <string name="osm_shop">Sklep</string>
+    <string name="osm_newsagent">Kiosk z prasą</string>
+    <string name="osm_anime">Sklep z anime</string>
+    <string name="osm_musical_instrument">Sklep muzyczny</string>
+    <string name="osm_vacuum_cleaner">Sklep z odkurzaczami</string>
+    <string name="osm_mobile_phone">Sklep z telefonami komórkowymi</string>
+    <string name="osm_carpet">Sklep z dywanami</string>
+    <string name="osm_trade">Sklep handlowy</string>
+    <string name="osm_garden_centre">Centrum ogrodnicze</string>
+    <string name="osm_florist">Kwiaciarnia</string>
+    <string name="osm_fireplace">Kominek</string>
+    <string name="osm_massage">Salon masażu</string>
+    <string name="osm_herbalist">Sklep zielarski</string>
+    <string name="osm_bag">Sklep z torbami</string>
+    <string name="osm_pastry">Ciastkarnia</string>
+    <string name="osm_deli">Delikatesy</string>
+    <string name="osm_beverages">Sklep z napojami</string>
+    <string name="osm_alcohol">Sklep monopolowy</string>
+    <string name="osm_substation">Stacja transformatorowa</string>
+    <string name="osm_travel_agent">Biuro podróży</string>
+    <string name="osm_research">Ośrodek badawczy</string>
+    <string name="osm_newspaper">Sklep z prasą</string>
+    <string name="osm_ammunition">Sklep z amunicją</string>
+    <string name="osm_wildlife_hide">Szałas do obserwacji przyrody</string>
+    <string name="osm_watchmaker">Sklep zegarmistrzowski</string>
+    <string name="osm_tinsmith">Warsztat blacharski</string>
+    <string name="osm_sun_protection">Sklep z produktami przeciwsłonecznymi</string>
+    <string name="osm_sculptor">Pracownia rzeźbiarza</string>
+    <string name="osm_metal_construction">Zakład konstrukcji metalowych</string>
+    <string name="osm_handicraft">Sklep z rękodziełem</string>
+    <string name="osm_cowshed">Obora</string>
+    <string name="osm_cabin">Chatka</string>
+    <string name="osm_barn">Stodoła</string>
+    <string name="osm_warehouse">Magazyn</string>
+    <string name="osm_houseboat">Barka mieszkalna</string>
+    <string name="osm_book_store">Księgarnia</string>
+    <string name="osm_generic_place">Miejsce</string>
+    <string name="osm_hunting_stand">Ambona myśliwska</string>
+    <string name="osm_game_feeding">Miejsce dokarmiania zwierzyny</string>
+    <string name="osm_crypt">Krypta</string>
+    <string name="osm_animal_shelter">Schronisko dla zwierząt</string>
+    <string name="osm_animal_boarding">Pensjonat dla zwierząt</string>
+    <string name="osm_blood_donation">Punkt krwiodawstwa</string>
+    <string name="osm_nursing_home">Dom opieki</string>
+    <string name="osm_dentist">Gabinet stomatologiczny</string>
+    <string name="osm_baby_hatch">Okienko życia</string>
+    <string name="osm_language_school">Szkoła językowa</string>
+    <string name="osm_public_bookcase">Publiczna biblioteczka</string>
+    <string name="osm_biergarten">Ogródek piwny</string>
+    <string name="osm_running">Tor biegowy</string>
+    <string name="osm_glaziery">Zakład szklarski</string>
+    <string name="osm_garages">Garaże</string>
+    <string name="osm_retail">Sklep detaliczny</string>
+    <string name="osm_hotel">Hotel</string>
+    <string name="osm_camp_site">Pole namiotowe</string>
+    <string name="osm_rugby_league">Boisko do rugby</string>
+    <string name="osm_roller_skating">Tor do jazdy na wrotkach</string>
+    <string name="osm_multi">Obiekt wielofunkcyjny</string>
+    <string name="osm_ice_hockey">Lodowisko do hokeja</string>
+    <string name="osm_hapkido">Hapkido</string>
+    <string name="osm_croquet">Krokiet</string>
+    <string name="osm_cricket">Krykiet</string>
+    <string name="osm_cockfighting">Walki kogutów</string>
+    <string name="osm_boxing">Boks</string>
+    <string name="osm_bmx">Tor BMX</string>
+    <string name="osm_billiards">Bilard</string>
+    <string name="osm_toys">Sklep z zabawkami</string>
+    <string name="osm_pyrotechnics">Sklep z fajerwerkami</string>
+    <string name="osm_laundry">Pralnia</string>
+    <string name="osm_funeral_directors">Zakład pogrzebowy</string>
+    <string name="osm_dry_cleaning">Pralnia chemiczna</string>
+    <string name="osm_copyshop">Punkt ksero</string>
+    <string name="osm_chalet">Domek górski</string>
+    <string name="osm_apartment">Mieszkanie</string>
+    <string name="osm_water_ski">Narty wodne</string>
+    <string name="osm_water_polo">Piłka wodna</string>
+    <string name="osm_table_soccer">Piłkarzyki</string>
+    <string name="osm_table_tennis">Tenis stołowy</string>
+    <string name="osm_skateboard">Jazda na deskorolce</string>
+    <string name="osm_sailing">Żeglarstwo</string>
+    <string name="osm_safety_training">Szkolenie z bezpieczeństwa</string>
+    <string name="osm_rowing">Wioślarstwo</string>
+    <string name="osm_model_aerodrome">Lotnisko modelarskie</string>
+    <string name="osm_korfball">Korfball</string>
+    <string name="osm_ice_stock">Eisstok (sport na lodzie)</string>
+    <string name="osm_gymnastics">Gimnastyka</string>
+    <string name="osm_football">Piłka nożna</string>
+    <string name="osm_field_hockey">Hokej na trawie</string>
+    <string name="osm_equestrian">Jeździectwo</string>
+    <string name="osm_cycling">Kolarstwo</string>
+    <string name="osm_curling">Curling</string>
+    <string name="osm_cricket_nets">Siatki treningowe krykieta</string>
+    <string name="osm_cliff_diving">Skoki z klifu</string>
+    <string name="osm_boules">Petanque (bule)</string>
+    <string name="osm_bobsleigh">Bobslej</string>
+    <string name="osm_baseball">Baseball</string>
+    <string name="osm_aikido">Aikido</string>
+    <string name="osm_10pin">Kręgielnia (tenpin)</string>
+    <string name="osm_weapons">Sklep z bronią</string>
+    <string name="osm_pet">Sklep zoologiczny</string>
+    <string name="osm_money_lender">Firma pożyczkowa</string>
+    <string name="osm_gift">Sklep z upominkami</string>
+    <string name="osm_books">Księgarnia</string>
+    <string name="osm_bookmaker">Bukmacher</string>
+    <string name="osm_photo">Studio fotograficzne</string>
+    <string name="osm_craft">Sklep z rękodziełem</string>
+    <string name="osm_motorcycle">Sklep motocyklowy</string>
+    <string name="osm_hunting">Sklep myśliwski</string>
+    <string name="osm_window_blind">Sklep z żaluzjami</string>
+    <string name="osm_curtain">Sklep z zasłonami</string>
+    <string name="osm_antiques">Sklep z antykami</string>
+    <string name="osm_paint">Sklep z farbami</string>
+    <string name="osm_tattoo">Studio tatuażu</string>
+    <string name="osm_nutrition_supplements">Sklep z suplementami diety</string>
+    <string name="osm_hearing_aids">Sklep z aparatami słuchowymi</string>
+    <string name="osm_cosmetics">Sklep kosmetyczny</string>
+    <string name="osm_watches">Sklep z zegarkami</string>
+    <string name="osm_jewelry">Sklep jubilerski</string>
+    <string name="osm_boutique">Butik</string>
+    <string name="osm_baby_goods">Sklep z artykułami dla niemowląt</string>
+    <string name="osm_tea">Herbaciarnia</string>
+    <string name="osm_pasta">Sklep z makaronami</string>
+    <string name="osm_coffee">Kawiarnia</string>
+    <string name="osm_quango">Organizacja quasi-rządowa</string>
+    <string name="osm_political_party">Partia polityczna</string>
+    <string name="osm_association">Stowarzyszenie</string>
+    <string name="osm_architect">Biuro architektoniczne</string>
+    <string name="osm_advertising_agency">Agencja reklamowa</string>
+    <string name="osm_summer_camp">Obóz letni</string>
+    <string name="osm_dance">Studio tańca</string>
+    <string name="osm_amusement_arcade">Salon gier</string>
+    <string name="osm_adult_gaming_centre">Centrum gier dla dorosłych</string>
+    <string name="osm_window_construction">Produkcja i montaż okien</string>
+    <string name="osm_upholsterer">Tapicer</string>
+    <string name="osm_shoemaker">Szewc</string>
+    <string name="osm_sawmill">Tartak</string>
+    <string name="osm_pottery">Pracownia garncarska</string>
+    <string name="osm_key_cutter">Punkt dorabiania kluczy</string>
+    <string name="osm_hvac">Wykonawca instalacji grzewczych, wentylacyjnych i klimatyzacyjnych</string>
+    <string name="osm_clockmaker">Zegarmistrz</string>
+    <string name="osm_carpenter">Stolarz</string>
+    <string name="osm_builder">Wykonawca budowlany</string>
+    <string name="osm_bookbinder">Introligator</string>
+    <string name="osm_boatbuilder">Producent łodzi</string>
+    <string name="osm_brewery">Browar</string>
+    <string name="osm_blacksmith">Kowal</string>
+    <string name="osm_basket_maker">Wytwórca koszy</string>
+    <string name="osm_greenhouse">Szklarnia</string>
+    <string name="osm_farm_auxiliary">Budynek gospodarczy</string>
+    <string name="osm_civic">Budynek użyteczności publicznej</string>
+    <string name="osm_bungalow">Dom parterowy</string>
+    <string name="osm_detached">Dom wolnostojący</string>
+    <string name="osm_hair_dresser">Salon fryzjerski</string>
+    <string name="osm_clothing_store">Sklep odzieżowy</string>
+    <string name="osm_user">Użytkownik</string>
+    <string name="osm_dojo">Dojo</string>
+    <string name="osm_nightclub">Klub nocny</string>
+    <string name="osm_community_centre">Centrum społecznościowe</string>
+    <string name="osm_brothel">Dom publiczny</string>
+    <string name="osm_veterinary">Klinika weterynaryjna</string>
+    <string name="osm_social_facility">Placówka opieki społecznej</string>
+    <string name="osm_clinic">Przychodnia</string>
+    <string name="osm_charging_station">Stacja ładowania pojazdów elektrycznych</string>
+    <string name="osm_kindergarten">Przedszkole</string>
+    <string name="osm_ice_cream">Lodziarnia</string>
+    <string name="osm_fast_food">Restauracja typu fast food</string>
+    <string name="osm_commercial">Budynek komercyjny</string>
+    <string name="osm_canoe">Kajakarstwo</string>
+    <string name="osm_scuba_diving">Nurkowanie z akwalungiem</string>
+    <string name="osm_fishing">Wędkowanie</string>
+    <string name="osm_optician">Optyk</string>
+    <string name="osm_confectionery">Sklep z słodyczami</string>
+    <string name="osm_bunker">Bunkier</string>
+    <string name="osm_sleeping_pods">Kapsuły sypialne</string>
+    <string name="osm_motel">Motel</string>
+    <string name="osm_guest_house">Pensjonat</string>
+    <string name="osm_wrestling">Zapaśnictwo</string>
+    <string name="osm_toboggan">Tor saneczkowy</string>
+    <string name="osm_skiing">Stok narciarski</string>
+    <string name="osm_rc_car">Tor dla samochodów zdalnie sterowanych</string>
+    <string name="osm_paddle_tennis">Kort do padla</string>
+    <string name="osm_hockey">Boisko do hokeja</string>
+    <string name="osm_fencing">Szermierka</string>
+    <string name="osm_bowls">Boisko do bowls (gra na trawie)</string>
+    <string name="osm_badminton">Kort do badmintona</string>
+    <string name="osm_archery">Łucznictwo</string>
+    <string name="osm_american_football">Boisko do futbolu amerykańskiego</string>
+    <string name="osm_travel_agency">Biuro podróży</string>
+    <string name="osm_tobacco">Sklep tytoniowy</string>
+    <string name="osm_e_cigarette">Sklep z e-papierosami</string>
+    <string name="osm_video">Wypożyczalnia filmów</string>
+    <string name="osm_car_repair">Warsztat samochodowy</string>
+    <string name="osm_hifi">Sklep Hi‑Fi</string>
+    <string name="osm_lamps">Sklep z oświetleniem</string>
+    <string name="osm_kitchen">Sklep z wyposażeniem kuchni</string>
+    <string name="osm_interior_decoration">Sklep z dekoracjami wnętrz</string>
+    <string name="osm_houseware">Sklep z artykułami gospodarstwa domowego</string>
+    <string name="osm_erotic">Sklep erotyczny</string>
+    <string name="osm_beauty">Salon kosmetyczny</string>
+    <string name="osm_wine">Sklep z winami</string>
+    <string name="osm_dairy">Sklep z nabiałem</string>
+    <string name="osm_cheese">Sklep serowy</string>
+    <string name="osm_bakery">Piekarnia</string>
+    <string name="osm_telecommunication">Sklep telekomunikacyjny</string>
+    <string name="osm_tax">Urząd skarbowy</string>
+    <string name="osm_real_estate_agent">Biuro nieruchomości</string>
+    <string name="osm_notary">Kancelaria notarialna</string>
+    <string name="osm_ngo">Biuro organizacji pozarządowej</string>
+    <string name="osm_lawyer">Kancelaria prawna</string>
+    <string name="osm_it">Usługi IT</string>
+    <string name="osm_foundation">Fundacja</string>
+    <string name="osm_employment_agency">Agencja pracy</string>
+    <string name="osm_educational_institution">Placówka edukacyjna</string>
+    <string name="osm_adoption_agency">Agencja adopcyjna</string>
+    <string name="osm_miniature_golf">Minigolf</string>
+    <string name="osm_building">Budynek</string>
+    <string name="osm_winery">Winiarnia</string>
+    <string name="osm_tiler">Glazurnik</string>
+    <string name="osm_chimney_sweeper">Kominiarz</string>
+    <string name="osm_stand_builder">Firma budująca stoiska</string>
+    <string name="osm_saddler">Siodlarz</string>
+    <string name="osm_plumber">Hydraulik</string>
+    <string name="osm_plasterer">Tynkarz</string>
+    <string name="osm_painter">Malarz</string>
+    <string name="osm_jeweller">Sklep jubilerski</string>
+    <string name="osm_floorer">Układacz podłóg</string>
+    <string name="osm_distillery">Destylarnia</string>
+    <string name="osm_carpet_layer">Montażysta wykładzin</string>
+    <string name="osm_beekeeper">Pszczelarz</string>
+    <string name="osm_public">Publiczny</string>
+    <string name="osm_dormitory">Internat</string>
+    <string name="osm_apartments">Budynek mieszkalny</string>
+    <string name="osm_internet_cafe">Kafejka internetowa</string>
+    <string name="osm_shoe_shop">Sklep obuwniczy</string>
+    <string name="osm_generic_shop">Sklep</string>
+    <string name="osm_coffee_shop">Kawiarnia</string>
+    <string name="osm_coworking_space">Przestrzeń coworkingowa</string>
+    <string name="osm_stripclub">Klub ze striptizem</string>
+    <string name="osm_ev_charging">Stacja ładowania pojazdów elektrycznych</string>
+    <string name="osm_pub">Pub</string>
+    <string name="osm_obstacle_course">Tor przeszkód</string>
+    <string name="osm_volleyball">Boisko do siatkówki</string>
+    <string name="osm_tennis">Kort tenisowy</string>
+    <string name="osm_soccer">Boisko piłkarskie</string>
+    <string name="osm_shooting">Strzelnica</string>
+    <string name="osm_rugby_union">Boisko do rugby</string>
+    <string name="osm_orienteering">Teren do biegu na orientację</string>
+    <string name="osm_netball">Boisko do netballu</string>
+    <string name="osm_motor">Sklep motoryzacyjny</string>
+    <string name="osm_kitesurfing">Miejsce do kitesurfingu</string>
+    <string name="osm_karting">Tor kartingowy</string>
+    <string name="osm_judo">Sala do judo</string>
+    <string name="osm_horseshoes">Miejsce do gry w podkowy</string>
+    <string name="osm_handball">Boisko do piłki ręcznej</string>
+    <string name="osm_golf">Pole golfowe</string>
+    <string name="osm_gaelic_games">Boisko do gier gaelickich</string>
+    <string name="osm_diving">Miejsce do nurkowania</string>
+    <string name="osm_darts">Miejsce do gry w rzutki</string>
+    <string name="osm_climbing_adventure">Park wspinaczkowy</string>
+    <string name="osm_basketball">Boisko do koszykówki</string>
+    <string name="osm_bandy">Lodowisko do bandy</string>
+    <string name="osm_australian_football">Boisko do futbolu australijskiego</string>
+    <string name="osm_9pin">Tor do kręgli (9-pin)</string>
+    <string name="osm_vacant">Pusty</string>
+    <string name="osm_lottery">Punkt sprzedaży losów</string>
+    <string name="osm_trophy">Sklep z pucharami i medalami</string>
+    <string name="osm_music">Sklep muzyczny</string>
+    <string name="osm_games">Sklep z grami</string>
+    <string name="osm_tyres">Sklep z oponami</string>
+    <string name="osm_sports">Sklep sportowy</string>
+    <string name="osm_outdoor">Sklep turystyczny</string>
+    <string name="osm_car">Salon samochodowy</string>
+    <string name="osm_electronics">Sklep z elektroniką</string>
+    <string name="osm_computer">Sklep komputerowy</string>
+    <string name="osm_furniture">Sklep meblowy</string>
+    <string name="osm_candles">Sklep z świecami</string>
+    <string name="osm_hardware">Sklep z narzędziami</string>
+    <string name="osm_gas">Stacja paliw</string>
+    <string name="osm_energy">Firma energetyczna</string>
+    <string name="osm_doityourself">Sklep dla majsterkowiczów</string>
+    <string name="osm_bathroom_furnishing">Sklep z wyposażeniem łazienki</string>
+    <string name="osm_medical_supply">Sklep z wyposażeniem medycznym</string>
+    <string name="osm_variety_store">Sklep wielobranżowy</string>
+    <string name="osm_second_hand">Sklep z używanymi rzeczami</string>
+    <string name="osm_charity">Sklep charytatywny</string>
+    <string name="osm_fashion">Sklep modowy</string>
+    <string name="osm_fabric">Sklep z tkaninami</string>
+    <string name="osm_clothes">Sklep odzieżowy</string>
+    <string name="osm_butcher">Sklep mięsny</string>
+    <string name="osm_water_utility">Przedsiębiorstwo wodociągowe</string>
+    <string name="osm_realtor">Pośrednik nieruchomości</string>
+    <string name="osm_company">Firma</string>
+    <string name="osm_accountant">Księgowy</string>
+    <string name="osm_bunker_silo">Silos bunkrowy</string>
+    <string name="osm_hackerspace">Hakerspace</string>
+    <string name="osm_lifeguard_base">Baza ratowników</string>
+    <string name="osm_roofer">Dekarz</string>
+    <string name="osm_rigger">Monter lin i urządzeń</string>
+    <string name="osm_parquet_layer">Parkieciarz</string>
+    <string name="osm_gardener">Ogrodnik</string>
+    <string name="osm_stable">Stajnia</string>
+    <string name="osm_garage">Garaż</string>
+    <string name="osm_transportation">Obiekt transportowy</string>
+    <string name="osm_house">Dom</string>
+    <string name="osm_helipad">Lądowisko helikopterów</string>
+    <string name="osm_apron">Płyta postojowa</string>
+    <string name="osm_consumer_electronics_store">Sklep z elektroniką</string>
+    <string name="osm_speciality_store">Sklep specjalistyczny</string>
+    <string name="osm_defined">Zdefiniowane</string>
+    <string name="osm_sauna">Sauna</string>
+    <string name="osm_gym">Siłownia</string>
+    <string name="osm_crematorium">Krematorium</string>
+    <string name="osm_gambling">Miejsce hazardowe</string>
+    <string name="osm_music_school">Szkoła muzyczna</string>
+    <string name="osm_bar">Bar</string>
+    <string name="osm_farm">Gospodarstwo rolne</string>
+    <string name="osm_bicycle">Sklep rowerowy</string>
+    <string name="osm_tailor">Krawiec</string>
+    <string name="osm_locksmith">Ślusarz</string>
+    <string name="osm_industrial">Przemysłowy</string>
+    <string name="osm_wilderness_hut">Chatka na odludziu</string>
+    <string name="osm_hostel">Hostel</string>
+    <string name="osm_caravan_site">Pole kempingowe</string>
+    <string name="osm_weightlifting">Obiekt do podnoszenia ciężarów</string>
+    <string name="osm_taekwondo">Klub taekwon-do</string>
+    <string name="osm_swimming">Basen</string>
+    <string name="osm_surfing">Miejsce do surfingu</string>
+    <string name="osm_skating">Miejsce do jazdy na łyżwach i rolkach</string>
+    <string name="osm_racquet">Obiekt do sportów rakietowych</string>
+    <string name="osm_pelota">Kort do pelota</string>
+    <string name="osm_paragliding">Miejsce do paralotniarstwa</string>
+    <string name="osm_parachuting">Strefa skoków spadochronowych</string>
+    <string name="osm_motocross">Tor motocrossowy</string>
+    <string name="osm_ice_skating">Lodowisko</string>
+    <string name="osm_horse_racing">Tor wyścigów konnych</string>
+    <string name="osm_dog_racing">Tor wyścigów psów</string>
+    <string name="osm_climbing">Miejsce wspinaczki</string>
+    <string name="osm_chess">Klub szachowy</string>
+    <string name="osm_canadian_football">Boisko do futbolu kanadyjskiego</string>
+    <string name="osm_beachvolleyball">Boisko do siatkówki plażowej</string>
+    <string name="osm_base">Baza</string>
+    <string name="osm_athletics">Bieżnia lekkoatletyczna</string>
+    <string name="osm_pawnbroker">Lombard</string>
+    <string name="osm_ticket">Kasa biletowa</string>
+    <string name="osm_stationery">Sklep papierniczy</string>
+    <string name="osm_video_games">Sklep z grami wideo</string>
+    <string name="osm_model">Sklep modelarski</string>
+    <string name="osm_frame">Pracownia oprawy obrazów</string>
+    <string name="osm_art">Sklep artystyczny</string>
+    <string name="osm_car_parts">Sklep z częściami samochodowymi</string>
+    <string name="osm_radiotechnics">Sklep z urządzeniami radiowymi</string>
+    <string name="osm_bed">Sklep z łóżkami</string>
+    <string name="osm_garden_furniture">Sklep z meblami ogrodowymi</string>
+    <string name="osm_electrical">Sklep elektryczny</string>
+    <string name="osm_perfumery">Perfumeria</string>
+    <string name="osm_hairdresser">Salon fryzjerski</string>
+    <string name="osm_drugstore">Drogeria</string>
+    <string name="osm_shoes">Sklep obuwniczy</string>
+    <string name="osm_leather">Sklep z galanterią skórzaną</string>
+    <string name="osm_general">Sklep ogólnospożywczy</string>
+    <string name="osm_seafood">Sklep rybny</string>
+    <string name="osm_organic">Sklep ekologiczny</string>
+    <string name="osm_greengrocer">Warzywniak</string>
+    <string name="osm_chocolate">Sklep z czekoladą</string>
+    <string name="osm_brewing_supplies">Sklep z akcesoriami do domowego warzenia piwa</string>
+    <string name="osm_tax_advisor">Doradca podatkowy</string>
+    <string name="osm_private_investigator">Prywatny detektyw</string>
+    <string name="osm_government">Urząd rządowy</string>
+    <string name="osm_forestry">Leśnictwo</string>
+    <string name="osm_estate_agent">Agent nieruchomości</string>
+    <string name="osm_spring">Źródło</string>
+    <string name="osm_golf_course">Pole golfowe</string>
+    <string name="osm_ses_station">Posterunek Służby Ratunkowej (SES)</string>
+    <string name="osm_lifeguard_place">Punkt ratownika wodnego</string>
+    <string name="osm_stonemason">Kamieniarz</string>
+    <string name="osm_scaffolder">Monter rusztowań</string>
+    <string name="osm_sailmaker">Zakład szycia żagli</string>
+    <string name="osm_photographic_laboratory">Laboratorium fotograficzne</string>
+    <string name="osm_photographer">Fotograf</string>
+    <string name="osm_insulation">Izolacja</string>
+    <string name="osm_electrician">Elektryk</string>
+    <string name="osm_dressmaker">Krawiec</string>
+    <string name="osm_caterer">Firma cateringowa</string>
+    <string name="osm_terrace">Taras</string>
+    <string name="osm_toy_shop">Sklep z zabawkami</string>
+    <string name="osm_dive_centre">Centrum nurkowe</string>
+    <string name="osm_swingerclub">Klub swingersów</string>
+    <string name="osm_doctors">Przychodnia lekarska</string>
+    <string name="osm_driving_school">Szkoła nauki jazdy</string>
+    <string name="osm_free_flying">Miejsce do lotów swobodnych (np. paralotniarstwo)</string>
+    <string name="osm_religion">Religia</string>
+    <string name="osm_kiosk">Kiosk</string>
+    <string name="osm_residential">Obszar mieszkaniowy</string>
+    <string name="osm_food">Punkt z żywnością</string>
+    <string name="osm_waterfall">Wodospad</string>
+    <string name="osm_boatyard">Stocznia</string>
+    <string name="osm_theme_park">Park rozrywki</string>
+    <string name="osm_roundhouse">Okrągła remiza lokomotyw</string>
+    <string name="osm_generator">Agregat prądotwórczy</string>
+    <string name="osm_beach">Plaża</string>
+    <string name="osm_naval_base">Baza marynarki wojennej</string>
+    <string name="osm_works">Zakłady przemysłowe</string>
+    <string name="osm_water_works">Zakład wodociągowy</string>
+    <string name="osm_telescope">Teleskop</string>
+    <string name="osm_pier">Molo</string>
+    <string name="osm_observatory">Obserwatorium astronomiczne</string>
+    <string name="osm_reservoir">Zbiornik wodny</string>
+    <string name="osm_monument">Pomnik</string>
+    <string name="osm_battlefield">Pole bitwy</string>
+    <string name="osm_planetarium">Planetarium</string>
+    <string name="osm_social_centre">Centrum społeczne</string>
+    <string name="osm_prison">Więzienie</string>
+    <string name="osm_courthouse">Sąd</string>
+    <string name="osm_bridge">Most</string>
+    <string name="osm_hangar">Hangar</string>
+    <string name="osm_tower">Wieża</string>
+    <string name="osm_attraction">Atrakcja</string>
+    <string name="osm_zoo">Ogród zoologiczny</string>
+    <string name="osm_gallery">Galeria sztuki</string>
+    <string name="osm_artwork">Dzieło sztuki</string>
+    <string name="osm_alpine_hut">Schronisko alpejskie</string>
+    <string name="osm_plant">Zakład przemysłowy</string>
+    <string name="osm_insurance">Biuro ubezpieczeń</string>
+    <string name="osm_airfield">Lądowisko</string>
+    <string name="osm_water_tower">Wieża ciśnień</string>
+    <string name="osm_pumping_station">Stacja pomp</string>
+    <string name="osm_hot_water_tank">Zbiornik ciepłej wody</string>
+    <string name="osm_campanile">Dzwonnica</string>
+    <string name="osm_sports_centre">Centrum sportowe</string>
+    <string name="osm_fitness_centre">Siłownia</string>
+    <string name="osm_beach_resort">Kurort plażowy</string>
+    <string name="osm_village_green">Plac wiejski</string>
+    <string name="osm_ship">Statek</string>
+    <string name="osm_memorial">Pomnik</string>
+    <string name="osm_synagogue">Synagoga</string>
+    <string name="osm_mosque">Meczet</string>
+    <string name="osm_chapel">Kaplica</string>
+    <string name="osm_cathedral">Katedra</string>
+    <string name="osm_train_terminal">Terminal kolejowy</string>
+    <string name="osm_college">Uczelnia</string>
+    <string name="osm_arts_centre">Centrum sztuki</string>
+    <string name="osm_ranger_station">Posterunek strażników parku</string>
+    <string name="osm_hospital">Szpital</string>
+    <string name="osm_track">Tor</string>
+    <string name="osm_conference_centre">Centrum konferencyjne</string>
+    <string name="osm_viewpoint">Punkt widokowy</string>
+    <string name="osm_supermarket">Supermarket</string>
+    <string name="osm_peak">Szczyt</string>
+    <string name="osm_storage_tank">Zbiornik</string>
+    <string name="osm_lighthouse">Latarnia morska</string>
+    <string name="osm_beacon">Znacznik nawigacyjny</string>
+    <string name="osm_port">Port</string>
+    <string name="osm_archaeological_site">Stanowisko archeologiczne</string>
+    <string name="osm_shrine">Sanktuarium</string>
+    <string name="osm_church">Kościół</string>
+    <string name="osm_historic_monument">Zabytek historyczny</string>
+    <string name="osm_generic_landmark">Punkt orientacyjny</string>
+    <string name="osm_tourism_museum">Muzeum</string>
+    <string name="osm_register_office">Urząd stanu cywilnego</string>
+    <string name="osm_grave_yard">Cmentarz</string>
+    <string name="osm_marketplace">Targowisko</string>
+    <string name="osm_fire_station">Remiza strażacka</string>
+    <string name="osm_ruins">Ruiny</string>
+    <string name="osm_weir">Jaz</string>
+    <string name="osm_museum">Muzeum</string>
+    <string name="osm_mall">Centrum handlowe</string>
+    <string name="osm_volcano">Wulkan</string>
+    <string name="osm_hot_spring">Źródło termalne</string>
+    <string name="osm_glacier">Lodowiec</string>
+    <string name="osm_wastewater_plant">Oczyszczalnia ścieków</string>
+    <string name="osm_offshore_platform">Platforma morska</string>
+    <string name="osm_gasometer">Gazometr</string>
+    <string name="osm_water_park">Park wodny</string>
+    <string name="osm_bandstand">Altana koncertowa</string>
+    <string name="osm_wreck">Wrak</string>
+    <string name="osm_pillory">Pręgierz</string>
+    <string name="osm_monastery">Klasztor</string>
+    <string name="osm_locomotive">Lokomotywa</string>
+    <string name="osm_fort">Fort</string>
+    <string name="osm_services">Miejsce obsługi podróżnych</string>
+    <string name="osm_lifeguard_tower">Wieża ratownicza</string>
+    <string name="osm_temple">Świątynia</string>
+    <string name="osm_national_park">Park narodowy</string>
+    <string name="osm_heliport">Heliport</string>
+    <string name="osm_public_park">Park publiczny</string>
+    <string name="osm_department_store">Dom towarowy</string>
+    <string name="osm_studio">Studio</string>
+    <string name="osm_public_building">Budynek publiczny</string>
+    <string name="osm_clock">Zegar</string>
+    <string name="osm_casino">Kasyno</string>
+    <string name="osm_stadium">Stadion</string>
+    <string name="osm_dam">Tama</string>
+    <string name="osm_dock">Dok</string>
+    <string name="osm_geyser">Gejzer</string>
+    <string name="osm_bay">Zatoka</string>
+    <string name="osm_barracks">Koszary</string>
+    <string name="osm_windmill">Wiatrak</string>
+    <string name="osm_watermill">Młyn wodny</string>
+    <string name="osm_communications_tower">Wieża komunikacyjna</string>
+    <string name="osm_swimming_area">Strefa pływania</string>
+    <string name="osm_slipway">Rampa do wodowania łodzi</string>
+    <string name="osm_nature_reserve">Rezerwat przyrody</string>
+    <string name="osm_marina">Marina</string>
+    <string name="osm_ice_rink">Lodowisko</string>
+    <string name="osm_manor">Dwór</string>
+    <string name="osm_city_gate">Brama miejska</string>
+    <string name="osm_castle">Zamek</string>
+    <string name="osm_aircraft">Samolot</string>
+    <string name="osm_digester">Zbiornik fermentacyjny</string>
+    <string name="osm_sally_port">Brama obronna</string>
+    <string name="osm_aerodrome">Aerodrom</string>
+    <string name="osm_shopping_mall">Centrum handlowe</string>
+    <string name="osm_cinema">Kino</string>
+    <string name="osm_rescue_station">Stacja ratunkowa</string>
+    <string name="osm_airport">Lotnisko</string>
+    <string name="osm_theatre">Teatr</string>
+    <string name="osm_library">Biblioteka</string>
+    <string name="osm_university">Uniwersytet</string>
+    <string name="osm_police">Komisariat policji</string>
+    <string name="osm_embassy">Ambasada</string>
+    <string name="osm_bus_station">Dworzec autobusowy</string>
+    <string name="osm_station">Stacja</string>
+    <string name="osm_toll_booth">Punkt poboru opłat</string>
+    <string name="osm_lift">Winda</string>
+    <string name="osm_unmanaged_crossing">Przejście dla pieszych bez sygnalizacji</string>
+    <string name="osm_pharmacy">Apteka</string>
+    <string name="osm_kneipp_water_cure">Kneipp (kuracja wodna)</string>
+    <string name="osm_food_court">Strefa gastronomiczna</string>
+    <string name="osm_chemist">Apteka</string>
+    <string name="osm_checkpoint">Punkt kontrolny</string>
+    <string name="osm_dog_park">Park dla psów</string>
+    <string name="osm_kissing_gate">Bramka dla pieszych</string>
+    <string name="osm_car_rental">Wypożyczalnia samochodów</string>
+    <string name="osm_pedestrianised_area">Strefa dla pieszych</string>
+    <string name="osm_escalator">Schody ruchome</string>
+    <string name="osm_shelter">Wiata</string>
+    <string name="osm_water_point">Punkt poboru wody</string>
+    <string name="osm_subway_entrance">Wejście do metra</string>
+    <string name="osm_cave_entrance">Wejście do jaskini</string>
+    <string name="osm_swing_gate">Bramka skrzydłowa</string>
+    <string name="osm_stile">Przejście przez ogrodzenie</string>
+    <string name="osm_car_sharing">Miejsce carsharingu</string>
+    <string name="osm_customer_service">Punkt obsługi klienta</string>
+    <string name="osm_watering_place">Miejsce pojenia zwierząt</string>
+    <string name="osm_platform">Peron</string>
+    <string name="osm_horse_stile">Przejście dla koni</string>
+    <string name="osm_bureau_de_change">Punkt wymiany walut</string>
+    <string name="osm_stairs">Schody</string>
+    <string name="osm_bicycle_rental">Wypożyczalnia rowerów</string>
+    <string name="osm_hampshire_gate">Bramka typu Hampshire</string>
+    <string name="osm_full_height_turnstile">Bramka obrotowa pełnej wysokości</string>
+    <string name="osm_boat_sharing">Współdzielenie łodzi</string>
+    <string name="osm_help_point">Punkt pomocy</string>
+    <string name="osm_open_space">Teren otwarty</string>
+    <string name="osm_spending_area">Strefa krótkich postojów</string>
+    <string name="osm_bicycle_repair_station">Stacja napraw rowerów</string>
+    <string name="osm_motorcycle_barrier">Bariera dla motocykli</string>
+    <string name="osm_kent_carriage_gap">Przejście dla powozów typu Kent</string>
+    <string name="osm_shared_space">Przestrzeń współdzielona</string>
+    <string name="osm_cliff">Klif</string>
+    <string name="osm_training_area">Teren szkoleniowy</string>
+    <string name="osm_log">Kłoda</string>
+    <string name="osm_jersey_barrier">Bariera typu Jersey</string>
+    <string name="osm_construction_site">Plac budowy</string>
+    <string name="osm_ridge">Grzbiet</string>
+    <string name="osm_nuclear_explosion_site">Miejsce testu nuklearnego</string>
+    <string name="osm_dyke">Wał przeciwpowodziowy</string>
+    <string name="osm_sump_buster">Próg uniemożliwiający przejazd niskim pojazdom</string>
+    <string name="osm_rope">Lina</string>
+    <string name="osm_debris">Rumowisko</string>
+    <string name="osm_road_works">Roboty drogowe</string>
+    <string name="osm_lock_gate">Wrota śluzy</string>
+    <string name="osm_sinkhole">Zapadlisko</string>
+    <string name="osm_range">Strzelnica</string>
+    <string name="osm_ambulance_station">Stacja pogotowia ratunkowego</string>
+    <string name="osm_spikes">Pasy kolcowe</string>
+    <string name="osm_generic_hazard">Nieokreślone zagrożenie</string>
+    <string name="osm_contact_line">Linia trakcyjna</string>
+    <string name="osm_danger_area">Strefa niebezpieczna</string>
+    <string name="osm_chain">Bariera łańcuchowa</string>
+    <string name="osm_parking_space">Miejsce parkingowe</string>
+    <string name="osm_motorcycle_parking">Parking dla motocykli</string>
+    <string name="settings_section_search">Wyszukiwanie</string>
+    <string name="settings_search_online">Online</string>
+    <string name="settings_search_offline">Offline</string>
+    <string name="settings_search_auto">Automatyczny</string>
+    <string name="search_no_results">Nie znaleziono wyników wyszukiwania</string>
+    <string name="search_searching">Wyszukiwanie…</string>
+    <string name="menu_manage_search">Wyszukiwanie</string>
+    <string name="route_not_found">Nie znaleziono trasy</string>
+    <string name="advanced_markers_and_routes_export">Eksportuj</string>
+    <string name="location_item_selected">Wybrano</string>
+    <string name="location_item_not_selected">Nie wybrano</string>
+    <string name="location_item_move_up">Przenieś wyżej na liście</string>
+    <string name="location_item_move_down">Przenieś niżej na liście</string>
+    <string name="street_description_between">Na %1$s, między %2$s a %3$s</string>
+    <string name="street_description_until">Na %1$s, %2$s do %3$s</string>
+    <string name="street_description_since">Na %1$s, %2$s od %3$s</string>
+    <string name="osm_city">Miasto</string>
+    <string name="osm_town">Miasteczko</string>
+    <string name="osm_neighbourhood">Dzielnica</string>
+    <string name="osm_village">Wieś</string>
+    <string name="osm_hamlet">Osada</string>
+    <string name="osm_recreation_ground">Teren rekreacyjny</string>
+    <string name="osm_river">Rzeka</string>
+    <string name="osm_railway">Linia kolejowa</string>
+    <string name="osm_wood">Las</string>
+    <string name="osm_pavillion">Pawilon</string>
+    <string name="osm_sport">Obiekt sportowy</string>
+    <string name="osm_health_food">Sklep ze zdrową żywnością</string>
+    <string name="osm_events_venue">Miejsce wydarzeń</string>
+    <string name="menu_help">Pomoc</string>
+    <string name="tour_welcome">Witamy w samouczku Soundscape. Ten samouczek przeprowadzi Cię przez główne funkcje aplikacji. Możesz przerwać samouczek w dowolnym momencie, stukając opcję „Anuluj samouczek audio” w menu głównym. Zacznijmy od „Miejsca w pobliżu”, które pozwala znaleźć interesujące miejsca. Przycisk „Miejsca w pobliżu” znajduje się na ekranie głównym bezpośrednio pod paskiem wyszukiwania. Stuknij go teraz, aby wypróbować.</string>
+    <string name="tour_select_place">„Miejsca w pobliżu” grupują punkty zainteresowania według kategorii. Przejrzyj listy miejsc i wybierz jedno.</string>
+    <string name="tour_create_marker_started">Świetnie! Jesteś teraz na ekranie „Szczegóły lokalizacji”. Ten ekran pozwala wykonać różne akcje, w tym zapisać lokalizację jako znacznik (pinezkę). W Soundscape możesz oznaczać wszystko, co jest dla Ciebie ważne — na przykład dom, przystanek autobusowy, a nawet miejsce, w którym się aktualnie znajdujesz. Spróbujmy. Zapisz tę lokalizację jako znacznik, stukając „Zapisz jako znacznik (pinezkę)”.</string>
+    <string name="tour_create_marker_done">Super! Podczas tworzenia znacznika możesz edytować jego nazwę i dodać dodatkowe notatki. Zrób to teraz, a gdy będziesz gotowy, stuknij „Gotowe”.</string>
+    <string name="tour_my_location">Skoro wiesz już, jak korzystać ze znaczników, przyjrzyjmy się innym funkcjom. Na dole ekranu znajdują się cztery przyciski, które wypróbujemy po kolei. Przyciskiem po lewej jest „Moja lokalizacja”, który opisuje Twoje bieżące położenie. Stuknij go teraz.</string>
+    <string name="tour_around_me">Kolejny przycisk to „Wokół mnie”. Informuje o tym, co jest w pobliżu w każdym kierunku. Stuknij „Wokół mnie”.</string>
+    <string name="tour_ahead">Następny przycisk to „Przede mną”. Mówi o tym, co znajduje się przed Tobą. Stuknij „Przede mną”.</string>
+    <string name="tour_nearby_markers">Ostatni przycisk to „Bliskie znaczniki mapy (pinezki)”, który ogłasza zapisane miejsca wokół Ciebie. Stuknij „Bliskie znaczniki mapy (pinezki)”, aby to wypróbować.</string>
+    <string name="tour_markers_and_routes">Utworzyłeś teraz znacznik. Uruchomimy dźwięk naprowadzający, który poprowadzi nas do tej lokalizacji. Stuknij „Znaczniki (pinezki) i trasy”, który znajduje się tuż pod „Miejsca w pobliżu”.</string>
+    <string name="tour_markers">Ekran „Znaczniki (pinezki) i trasy” ma dwie karty: jedna wyświetla trasy (listy odtwarzania znaczników), a druga pojedyncze znaczniki. Stuknij kartę „Znaczniki (pinezki)”, aby znaleźć znacznik, który utworzyłeś.</string>
+    <string name="tour_start_beacon">Jesteś teraz na karcie „Znaczniki (pinezki)”, gdzie widoczne są wszystkie zapisane znaczniki. Wybierz znacznik, a gdy pojawi się ekran „Szczegóły lokalizacji”, stuknij „Uruchom dźwięk naprowadzający”.</string>
+    <string name="tour_beacon_demo">Teraz możesz usłyszeć dźwięk naprowadzający. Odtwarzany jest z kierunku Twojego celu. Gdy zmieniasz kierunek, w którym wskazuje telefon, usłyszysz, jak dźwięk naprowadzający przesuwa się i zmienia brzmienie. Wypróbuj to teraz.</string>
+    <string name="tour_beacon_demo_locked">Gdy telefon jest zablokowany, dźwięk naprowadzający nadal będzie odtwarzany. Jeśli idziesz lub jedziesz pojazdem, aplikacja używa kierunku Twojego ruchu do odtwarzania dźwięku naprowadzającego. Jednak nawet gdy telefon jest zablokowany, możesz trzymać go płasko przed sobą jak kompas — wtedy aplikacja użyje kierunku, w którym telefon wskazuje. Spróbuj.</string>
+    <string name="tour_stop_beacon">Gdy będziesz gotowy, aby zatrzymać naprowadzanie, stuknij przycisk „Zatrzymaj trasę”.</string>
+    <string name="tour_finish">To kończy samouczek. Możesz uruchomić go ponownie z menu głównego. Mamy nadzieję, że aplikacja będzie dla Ciebie przydatna!</string>
+    <string name="tour_cancel">Samouczek audio został anulowany. Jeśli chcesz, możesz uruchomić go ponownie z menu głównego.</string>
+    <string name="menu_audio_tutorial">Samouczek audio</string>
+    <string name="menu_audio_tutorial_cancel">Anuluj samouczek audio</string>
+    <string name="search_bar_hint">Wpisz nazwę miejsca docelowego lub adres</string>
+    <string name="all_places_nearby_description">zobacz nieprzefiltrowaną listę wszystkich miejsc w pobliżu</string>
+    <string name="public_transit_places_nearby_description">zobacz listę pobliskich przystanków transportu publicznego</string>
+    <string name="food_drink_places_nearby_description">zobacz listę pobliskich restauracji i barów</string>
+    <string name="groceries_places_nearby_description">zobacz listę pobliskich sklepów spożywczych</string>
+    <string name="banks_places_nearby_description">zobacz listę pobliskich banków i bankomatów</string>
+    <string name="intersections_places_nearby_description">zobacz listę pobliskich skrzyżowań drogowych</string>
+    <string name="places_nearby_selection_description">aby wybrać z listy pobliskich miejsc</string>
+    <string name="accessibility_title">Ułatwienia dostępu</string>
+    <string name="accessibility_screen_reader_enabled">Ponieważ masz włączony czytnik ekranu, zalecamy korzystanie z aplikacji przy wyłączonych graficznych mapach interfejsu użytkownika. Możesz zmienić to ustawienie tutaj lub po prostu kontynuować.</string>
+    <string name="accessibility_screen_reader_disabled">Ponieważ nie masz włączonego czytnika ekranu, zakładamy, że chcesz, aby graficzne mapy interfejsu użytkownika były wyświetlane. Możesz zmienić to ustawienie tutaj lub po prostu kontynuować.</string>
+    <string name="tour_continue_button">Kontynuuj</string>
+    <string name="tour_continue_hint">zamknij wyskakujące okno i kontynuuj samouczek</string>
+    <string name="location_detail_action_beacon_from_markers">Uruchom dźwięk naprowadzający na tym znaczniku</string>
+    <string name="location_detail_full_screen_for_edit_hint">wyświetl mapę w trybie pełnoekranowym i edytuj lokalizację znacznika</string>
+    <string name="location_detail_exit_full_screen_for_edit_hint">zakończ tryb edycji lokalizacji znacznika</string>
+    <string name="street_description_relative_before">Na %1$s tuż przed %2$s</string>
+    <string name="street_description_relative_after">Na %1$s tuż po %2$s</string>
+    <string name="street_description_intersection">W pobliżu skrzyżowania %1$s</string>
+    <string name="general_error_add_marker_duplicate">W tej trasie już znajduje się znacznik w tej lokalizacji. Nie możemy dodać go ponownie.</string>
+    <string name="settings_explanation">Różne ustawienia aplikacji pogrupowano poniżej. Stuknij grupę, aby ją rozwinąć i zobaczyć dostępne opcje.</string>
+    <string name="settings_section_units_description">Wybierz jednostki miary używane do mierzenia odległości</string>
+    <string name="settings_section_search_network">Tryb wyszukiwania</string>
+    <string name="settings_section_search_network_description">Kontroluj, czy wyszukiwanie ma korzystać wyłącznie z danych offline</string>
+    <string name="beacon_settings_style_description">Wybierz styl dźwięku naprowadzającego, którego chcesz używać</string>
+    <string name="preview_include_unnamed_roads_title_description">Uwzględniaj drogi bez nazwy podczas podglądu lokalizacji</string>
+    <string name="callouts_allow_callouts_description">Włącz lub wyłącz wszystkie powiadomienia</string>
+    <string name="callouts_places_and_landmarks_description">Pobliskie miejsca, takie jak sklepy i restauracje</string>
+    <string name="callouts_mobility_description">Informacje o skrzyżowaniach i transporcie</string>
+    <string name="callouts_audio_beacon_description">Informacje o odległości do dźwięku naprowadzającego, gdy jest ustawiony</string>
+    <string name="menu_manage_language">Język i region </string>
+    <string name="settings_search_results_language_description">Wyszukiwanie online może używać lokalnego języka wyniku albo można wymusić zwracanie wyników w języku angielskim, francuskim lub niemieckim.</string>
+    <string name="language_mismatch_title">Dostępny nowy język</string>
+    <string name="language_mismatch_message">Twój telefon jest ustawiony na %1$s, a ten język jest teraz dostępny w Soundscape. Czy chcesz, aby Soundscape używał języka %1$s?</string>
+    <string name="language_mismatch_switch">Przełącz na %1$s</string>
+    <string name="language_mismatch_keep">Zachowaj bieżący język</string>
+    <string name="preview_go_hint">przejdź w tym kierunku do następnego skrzyżowania</string>
+    <string name="error_message_route_not_found">Nie udało się znaleźć trasy w bazie danych.</string>
+    <string name="error_message_deleting_route">Nie udało się usunąć trasy.</string>
+    <string name="error_message_saving_route">Nie udało się zapisać trasy.</string>
+    <string name="service_still_running">Usługa lokalizacji Soundscape nadal działa.</string>
+    <string name="offline_map_download_complete">Pobieranie zakończone</string>
+    <string name="offline_map_download_cancelled">Pobieranie anulowane</string>
+    <string name="offline_map_download_error">Błąd pobierania</string>
+    <string name="behavior_scavenger_hunt_callout_next_flag_short_route">Ustawiono naprowadzanie na %1$s, w odległości %2$s</string>
+    <string name="route_beacon_progress">Naprowadzanie na %1$s</string>
+    <string name="menu_route">Sterowanie trasą</string>
+    <string name="menu_route_next_waypoint">Następny punkt trasy</string>
+    <string name="menu_route_previous_waypoint">Poprzedni punkt trasy</string>
+    <string name="menu_no_routes">Brak zapisanych tras</string>
+    <string name="menu_main_menu">Menu główne</string>
+    <string name="first_launch_permissions_record_audio">Nagrywanie dźwięku</string>
+    <string name="first_launch_permissions_required_for_voice_control">To uprawnienie jest opcjonalne, ale jest wymagane, jeśli chcesz używać poleceń głosowych do sterowania aplikacją.</string>
+    <string name="menu_media_controls">Sterowanie przyciskami multimedialnymi</string>
+    <string name="settings_section_media_controls">Tryb sterowania przyciskami multimedialnymi</string>
+    <string name="settings_section_media_controls_description">Przyciski sterowania mediami w słuchawkach lub pilocie można skonfigurować tak, aby działały w różny sposób w zależności od wybranego trybu.</string>
+    <string name="settings_media_controls_original">Tryb oryginalny</string>
+    <string name="settings_media_controls_voice_command">Polecenia głosowe</string>
+    <string name="settings_media_controls_audio_menu">Menu audio</string>
+    <string name="voice_cmd_help_response">Dostępne polecenia głosowe:</string>
+    <string name="voice_cmd_listening">Słucham…</string>
+    <string name="voice_cmd_not_recognized">Przepraszam, nie mogę znaleźć polecenia %1$s. Polecenie głosowe „%2$s” wyświetli listę dostępnych poleceń.</string>
+    <string name="voice_cmd_list_routes">Wyświetl trasy</string>
+    <string name="voice_cmd_routes_list">Dostępne trasy to:</string>
+    <string name="voice_cmd_list_markers">Wyświetl znaczniki</string>
+    <string name="voice_cmd_markers_list">Dostępne znaczniki to:</string>
+    <string name="voice_cmd_no_routes">Nie zapisano żadnych tras</string>
+    <string name="voice_cmd_no_markers">Nie zapisano żadnych znaczników (pinezek)</string>
+    <string name="voice_cmd_route_not_found">Nie znaleziono trasy: %1$s</string>
+    <string name="voice_cmd_starting_route">Rozpoczynam trasę %1$s</string>
+    <string name="voice_cmd_start_route">Rozpocznij trasę %1$s</string>
+    <string name="voice_cmd_start_beacon_at_marker_with_name">Uruchom dźwięk naprowadzający na %1$s</string>
+    <string name="voice_cmd_starting_beacon_at_marker">Uruchamianie dźwięku naprowadzającego na %1$s</string>
+    <string name="voice_cmd_marker_not_found">Nie znaleziono znacznika: %1$s</string>
+    <string name="voice_cmd_explain_dynamic_markers">Możesz także uruchamiać trasy i znaczniki po nazwie, na przykład.</string>
+    <string name="voice_cmd_speech_recognition_error_network_timeout">Błąd: rozpoznawanie mowy — przekroczono limit czasu sieci.</string>
+    <string name="voice_cmd_speech_recognition_error_network">Błąd sieci podczas rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_audio">Błąd podczas nagrywania dźwięku do rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_server">Błąd serwera rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_client">Błąd klienta rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_speech_timeout">Upłynął czas oczekiwania na mowę, nasłuchiwanie zostało zatrzymane. Spróbuj ponownie.</string>
+    <string name="voice_cmd_speech_recognition_not_match">Nie wykryto mowy, nasłuchiwanie zostało zatrzymane. Spróbuj ponownie.</string>
+    <string name="voice_cmd_speech_recognition_busy">Usługa rozpoznawania mowy jest zajęta.</string>
+    <string name="voice_cmd_speech_recognition_error_permissions">Brak wystarczających uprawnień do uruchomienia rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_too_many_requests">Błąd rozpoznawania mowy: zbyt wiele żądań.</string>
+    <string name="voice_cmd_speech_recognition_error_server_disconnected">Serwer rozpoznawania mowy został rozłączony.</string>
+    <string name="voice_cmd_speech_recognition_error_language_not_supported">Obecny język nie jest obsługiwany przez Androida do rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_language_unavailable">Obsługa bieżącego języka jest dostępna, ale nie została pobrana na tym telefonie.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_check_support">Błąd sprawdzania obsługi rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_cannot_listen_to_download_events">Błąd: nie można nasłuchiwać zdarzeń pobierania rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_unknown">Nieznany błąd rozpoznawania mowy.</string>
+    <string name="voice_cmd_speech_recognition_error_unsupported">Rozpoznawanie mowy nie jest obsługiwane na tym telefonie.</string>
+    <string name="settings_voice_command_listening_prompt">Powiadamiaj o nasłuchiwaniu</string>
+    <string name="settings_voice_command_listening_prompt_description">Wypowiedz komunikat informujący o nasłuchiwaniu przed rozpoczęciem rozpoznawania mowy.</string>
+    <string name="settings_voice_command_microphone">Mikrofon</string>
+    <string name="settings_voice_command_microphone_description">Wybierz mikrofon, który będzie używany do poleceń głosowych.</string>
     <string name="battery_optimization_title">Zużycie baterii w tle</string>
     <string name="battery_optimization_message">Soundscape wymaga, aby system nie ograniczał użycia baterii dla tej aplikacji, aby mogła nadal zapewniać nawigację dźwiękową, gdy telefon jest zablokowany. Zezwól na to w następnym oknie dialogowym. Jeśli zamkniesz Soundscape, wszystkie usługi zostaną zatrzymane i aplikacja przestanie zużywać baterię.</string>
     <string name="route_detail_action_start_route_reverse">Rozpocznij trasę w odwrotnej kolejności</string>
