@@ -82,8 +82,16 @@ class IosHeadTrackingProvider(
         }
         newScope.launch {
             locationProvider.filteredLocationFlow.collect { loc ->
-                lastCourseDegrees =
-                    if (loc != null && loc.hasBearing) loc.bearing.toDouble() else null
+                val usable = loc != null &&
+                    loc.hasBearing &&
+                    loc.hasSpeed &&
+                    loc.speed >= COURSE_MIN_SPEED_MPS
+                if (usable) {
+                    lastCourseDegrees = loc!!.bearing.toDouble()
+                    lastCourseTimestampMillis = uptimeMillis()
+                } else {
+                    lastCourseDegrees = null
+                }
             }
         }
     }
@@ -106,6 +114,9 @@ class IosHeadTrackingProvider(
     @Volatile
     private var lastCourseDegrees: Double? = null
 
+    @Volatile
+    private var lastCourseTimestampMillis: Long = 0L
+
     private fun onDeviceMotion(motion: CMDeviceMotion) {
         val attitude = motion.attitude ?: return
         val rawYawRadians = attitude.yaw
@@ -115,9 +126,17 @@ class IosHeadTrackingProvider(
         val timestampMillis = uptimeMillis()
 
         calibrationManager.pushDeviceReference(yawDegrees, lastDeviceHeadingDegrees, timestampMillis)
-        lastCourseDegrees?.let { course ->
-            calibrationManager.pushCourseReference(yawDegrees, course, timestampMillis)
-        }
+
+        val course = lastCourseDegrees
+        val fresh = course != null &&
+            (timestampMillis - lastCourseTimestampMillis) <= COURSE_STALENESS_MILLIS
+        // Push null when stale/missing so the course calibrator drops its partial window,
+        // mirroring how the iOS reference clears samples when its heading observer goes nil.
+        calibrationManager.pushCourseReference(
+            yawDegrees,
+            if (fresh) course else null,
+            timestampMillis,
+        )
 
         val heading = calibrationManager.headingFor(yawDegrees)
         if (heading != null) {
@@ -163,6 +182,11 @@ class IosHeadTrackingProvider(
         (NSProcessInfo.processInfo.systemUptime * 1000.0).toLong()
 
     companion object {
+        // Match FilteredCourseProvider on iOS: ignore course while effectively stationary
+        // (CLLocation course is noisy below walking pace) and treat updates older than 3 s as stale.
+        private const val COURSE_MIN_SPEED_MPS = 0.4f
+        private const val COURSE_STALENESS_MILLIS = 3_000L
+
         fun isHeadphoneMotionSupported(): Boolean {
             // CMHeadphoneMotionManager requires iOS 14.0+; AirPods Max landed in 14.2/14.3,
             // so the iOS reference gates on 14.4. Match that.
