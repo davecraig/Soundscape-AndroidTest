@@ -4,7 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ExitToApp
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Snooze
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,8 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.home_screen_title
@@ -31,8 +28,7 @@ import org.scottishtecharmy.soundscape.screens.talkbackHint
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SharedHomeTopAppBar(
-    drawerState: DrawerState,
-    coroutineScope: CoroutineScope,
+    onMenuClick: () -> Unit,
     streetPreviewState: Boolean,
     streetPreviewFunctions: StreetPreviewFunctions,
     onSleep: () -> Unit,
@@ -45,7 +41,7 @@ fun SharedHomeTopAppBar(
         },
         leftSide = {
             IconButton(
-                onClick = { coroutineScope.launch { drawerState.open() } },
+                onClick = onMenuClick,
                 modifier = Modifier
                     .talkbackHint(stringResource(Res.string.ui_menu_hint))
                     .testTag("topBarMenu"),

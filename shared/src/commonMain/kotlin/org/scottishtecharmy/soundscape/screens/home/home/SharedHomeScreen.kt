@@ -1,23 +1,27 @@
 package org.scottishtecharmy.soundscape.screens.home.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.MainSearchBar
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
@@ -40,6 +44,7 @@ fun keyboardAsState(): State<Boolean> {
     return rememberUpdatedState(isImeVisible)
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SharedHomeScreen(
     state: HomeState,
@@ -71,8 +76,7 @@ fun SharedHomeScreen(
         PreferenceKeys.SHOW_MAP,
         PreferenceDefaults.SHOW_MAP,
     )
-    val coroutineScope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    var drawerOpen by remember { mutableStateOf(false) }
     val fullscreenMap = remember { mutableStateOf(false) }
     val keyboardOpen = keyboardAsState()
     val routePlaying = (state.currentRouteData.routeData != null)
@@ -105,31 +109,13 @@ fun SharedHomeScreen(
         }
     }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        gesturesEnabled = drawerState.isOpen,
-        drawerContent = {
-            SharedDrawerContent(
-                drawerState = drawerState,
-                onNavigate = onNavigate,
-                rateSoundscape = rateSoundscape,
-                contactSupport = contactSupport,
-                shareRecording = shareRecording,
-                offlineMaps = offlineMaps,
-                toggleTutorial = toggleTutorial,
-                tutorialRunning = tutorialRunning,
-                recordingEnabled = recordingEnabled,
-                newReleaseDialog = newReleaseDialog,
-            )
-        },
-        modifier = modifier,
-    ) {
+    Box(modifier = modifier) {
         Scaffold(
+            modifier = if (drawerOpen) Modifier.clearAndSetSemantics { } else Modifier,
             topBar = {
                 if (!keyboardOpen.value) {
                     SharedHomeTopAppBar(
-                        drawerState = drawerState,
-                        coroutineScope = coroutineScope,
+                        onMenuClick = { drawerOpen = true },
                         streetPreviewState = state.streetPreviewState.enabled != StreetPreviewEnabled.OFF,
                         streetPreviewFunctions = streetPreviewFunctions,
                         onSleep = onSleep,
@@ -210,6 +196,29 @@ fun SharedHomeScreen(
                     voiceCommandListening = voiceCommandListening,
                 )
             }
+        }
+
+        AnimatedVisibility(
+            visible = drawerOpen,
+            enter = slideInHorizontally(initialOffsetX = { -it }),
+            exit = slideOutHorizontally(targetOffsetX = { -it }),
+        ) {
+            SharedDrawerContent(
+                onClose = { drawerOpen = false },
+                onNavigate = onNavigate,
+                rateSoundscape = rateSoundscape,
+                contactSupport = contactSupport,
+                shareRecording = shareRecording,
+                offlineMaps = offlineMaps,
+                toggleTutorial = toggleTutorial,
+                tutorialRunning = tutorialRunning,
+                recordingEnabled = recordingEnabled,
+                newReleaseDialog = newReleaseDialog,
+            )
+        }
+
+        BackHandler(enabled = drawerOpen) {
+            drawerOpen = false
         }
     }
 }

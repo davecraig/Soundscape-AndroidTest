@@ -1,10 +1,12 @@
 package org.scottishtecharmy.soundscape.screens.home.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,7 +20,6 @@ import androidx.compose.material.icons.rounded.Markunread
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,10 +30,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.DrawerMenuItem
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
@@ -53,7 +52,7 @@ import org.scottishtecharmy.soundscape.ui.theme.spacing
 
 @Composable
 fun SharedDrawerContent(
-    drawerState: DrawerState,
+    onClose: () -> Unit,
     onNavigate: (String) -> Unit,
     rateSoundscape: () -> Unit,
     contactSupport: () -> Unit,
@@ -64,25 +63,19 @@ fun SharedDrawerContent(
     recordingEnabled: Boolean,
     newReleaseDialog: MutableState<Boolean>?,
 ) {
-    val scope = rememberCoroutineScope()
     val running = remember(tutorialRunning) { mutableStateOf(tutorialRunning) }
 
-    ModalDrawerSheet(
-        drawerContainerColor = MaterialTheme.colorScheme.background,
-        drawerContentColor = MaterialTheme.colorScheme.onBackground,
-    ) {
+    BoxWithConstraints {
+        val screenWidth = maxWidth
+        ModalDrawerSheet(
+            modifier = Modifier.requiredWidth(screenWidth),
+            drawerContainerColor = MaterialTheme.colorScheme.background,
+            drawerContentColor = MaterialTheme.colorScheme.onBackground,
+        ) {
         Scaffold(
             topBar = {
                 IconButton(
-                    onClick = {
-                        scope.launch {
-                            if (drawerState.isClosed) {
-                                drawerState.open()
-                            } else {
-                                drawerState.close()
-                            }
-                        }
-                    },
+                    onClick = onClose,
                     modifier = Modifier.testTag("menuDrawerBack"),
                 ) {
                     Icon(
@@ -131,7 +124,7 @@ fun SharedDrawerContent(
                 )
                 DrawerMenuItem(
                     onClick = {
-                        scope.launch { drawerState.close() }
+                        onClose()
                         toggleTutorial()
                     },
                     label = if (running.value) {
@@ -182,6 +175,7 @@ fun SharedDrawerContent(
                     )
                 }
             }
+        }
         }
     }
 }
