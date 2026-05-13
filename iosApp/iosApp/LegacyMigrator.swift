@@ -45,18 +45,14 @@ final class LegacyReferenceEntity: Object {
     @Persisted var estimatedAddress: String?
     @Persisted var annotation: String?
 
-    override class func _realmObjectName() -> String? {
-        "ReferenceEntity"
-    }
+    override class func _realmObjectName() -> String? { "ReferenceEntity" }
 }
 
 final class LegacyRouteWaypoint: EmbeddedObject {
     @Persisted var index: Int = -1
     @Persisted var markerId: String = ""
 
-    override class func _realmObjectName() -> String? {
-        "RouteWaypoint"
-    }
+    override class func _realmObjectName() -> String? { "RouteWaypoint" }
 }
 
 final class LegacyRoute: Object {
@@ -71,9 +67,7 @@ final class LegacyRoute: Object {
     @Persisted var lastUpdatedDate: Date = Date()
     @Persisted var lastSelectedDate: Date = Date()
 
-    override class func _realmObjectName() -> String? {
-        "Route"
-    }
+    override class func _realmObjectName() -> String? { "Route" }
 }
 
 // MARK: - Migrator
@@ -136,9 +130,7 @@ enum LegacyMigrator {
         // no-op block lets Realm treat any minor mismatch as a migration
         // it can handle without prompting.
         config.schemaVersion = 1
-        config.migrationBlock = {
-            _, _ in
-        }
+        config.migrationBlock = { _, _ in }
         config.deleteRealmIfMigrationNeeded = false
 
         let realm: Realm
@@ -154,7 +146,10 @@ enum LegacyMigrator {
         markersJson.reserveCapacity(savedReferences.count)
 
         for ref in savedReferences {
-            let name = ref.nickname?.nonEmpty ?? ref.estimatedAddress?.nonEmpty ?? ref.entityKey?.nonEmpty ?? "Unnamed"
+            let name = ref.nickname?.nonEmpty
+                ?? ref.estimatedAddress?.nonEmpty
+                ?? ref.entityKey?.nonEmpty
+                ?? "Unnamed"
             markersJson.append([
                 "legacyId": ref.id,
                 "name": name,
@@ -169,14 +164,11 @@ enum LegacyMigrator {
         routesJson.reserveCapacity(routes.count)
 
         for route in routes {
-            let waypointIds = route.waypoints.sorted(byKeyPath: "index", ascending: true).map {
-                $0.markerId
-            }.filter {
-                !$0.isEmpty
-            }
-            guard !waypointIds.isEmpty else {
-                continue
-            }
+            let waypointIds = route.waypoints
+                .sorted(byKeyPath: "index", ascending: true)
+                .map { $0.markerId }
+                .filter { !$0.isEmpty }
+            guard !waypointIds.isEmpty else { continue }
 
             routesJson.append([
                 "name": route.name,
@@ -194,9 +186,7 @@ enum LegacyMigrator {
             print("[LegacyMigrator] could not encode payload: \(error)")
             return -1
         }
-        guard let json = String(data: data, encoding: .utf8) else {
-            return -1
-        }
+        guard let json = String(data: data, encoding: .utf8) else { return -1 }
 
         return LegacyMigrationKt.runLegacyMigrationImport(payloadJson: json)
     }
@@ -207,7 +197,7 @@ enum LegacyMigrator {
         // Units
         if defaults.object(forKey: "GDASettingsMetric") != nil {
             let metric = defaults.bool(forKey: "GDASettingsMetric")
-            defaults.set(metric ? "Metric": "Imperial", forKey: "MeasurementUnits")
+            defaults.set(metric ? "Metric" : "Imperial", forKey: "MeasurementUnits")
         }
 
         // App language. The legacy app stored a locale identifier; the new
@@ -236,26 +226,16 @@ enum LegacyMigrator {
         if let legacyBeacon = defaults.string(forKey: "GDASelectedBeaconName") {
             let mapped: String
             switch legacyBeacon {
-            case "V2Beacon", "Current":
-                mapped = "Current"
-            case "Classic", "Original":
-                mapped = "Original"
-            case "Tactile":
-                mapped = "Tactile"
-            case "Flare":
-                mapped = "Flare"
-            case "Shimmer":
-                mapped = "Shimmer"
-            case "Ping":
-                mapped = "Ping"
-            case "Drop":
-                mapped = "Drop"
-            case "Signal":
-                mapped = "Signal"
-            case "Mallet":
-                mapped = "Mallet"
-            default:
-                mapped = "Current"
+            case "V2Beacon", "Current": mapped = "Current"
+            case "Classic", "Original": mapped = "Original"
+            case "Tactile": mapped = "Tactile"
+            case "Flare": mapped = "Flare"
+            case "Shimmer": mapped = "Shimmer"
+            case "Ping": mapped = "Ping"
+            case "Drop": mapped = "Drop"
+            case "Signal": mapped = "Signal"
+            case "Mallet": mapped = "Mallet"
+            default: mapped = "Current"
             }
             defaults.set(mapped, forKey: "BeaconType")
         }
@@ -274,8 +254,10 @@ enum LegacyMigrator {
         // remaining four legacy categories (information, safety,
         // intersections, destination) have no equivalent and are dropped —
         // documented in docs/ios-upgrade-from-legacy.md.
-        let placeOn = defaults.object(forKey: "GDASettingsPlaceSenseEnabled") == nil ? true: defaults.bool(forKey: "GDASettingsPlaceSenseEnabled")
-        let landmarkOn = defaults.object(forKey: "GDASettingsLandmarkSenseEnabled") == nil ? true: defaults.bool(forKey: "GDASettingsLandmarkSenseEnabled")
+        let placeOn = defaults.object(forKey: "GDASettingsPlaceSenseEnabled") == nil
+            ? true : defaults.bool(forKey: "GDASettingsPlaceSenseEnabled")
+        let landmarkOn = defaults.object(forKey: "GDASettingsLandmarkSenseEnabled") == nil
+            ? true : defaults.bool(forKey: "GDASettingsLandmarkSenseEnabled")
         defaults.set(placeOn || landmarkOn, forKey: "PlaceAndLandmarks")
 
         if defaults.object(forKey: "GDASettingsMobilitySenseEnabled") != nil {
@@ -370,30 +352,20 @@ enum LegacyMigrator {
         let preserved: Set<String> = [doneKey]
 
         for (key, value) in defaults.dictionaryRepresentation() {
-            if preserved.contains(key) {
-                continue
-            }
+            if preserved.contains(key) { continue }
 
             if key.hasPrefix("GDA") {
                 defaults.removeObject(forKey: key)
                 continue
             }
 
-            let isSystem = systemPrefixes.contains {
-                key.hasPrefix($0)
-            }
-            if isSystem {
-                continue
-            }
+            let isSystem = systemPrefixes.contains { key.hasPrefix($0) }
+            if isSystem { continue }
 
             // ComposePreference accepts Bool/Number/String and arrays of
             // strings. NSNumber covers Bool/Int/Float/Double for free.
-            if value is NSString || value is NSNumber {
-                continue
-            }
-            if let array = value as ? [String] {
-                _ = array; continue
-            }
+            if value is NSString || value is NSNumber { continue }
+            if let array = value as? [String] { _ = array; continue }
 
             defaults.removeObject(forKey: key)
         }
@@ -410,15 +382,15 @@ enum LegacyMigrator {
             documentsPath + "/database.realm.management",
         ]
         for path in realmFiles {
-            try ? fm.removeItem(atPath: path)
+            try? fm.removeItem(atPath: path)
         }
 
         // Cache realms live in Library/cache.<n>.realm — POI cache, fully
         // regenerable. Sweep them out so we don't waste space.
         let libraryPath = NSHomeDirectory() + "/Library"
-        if let entries = try ? fm.contentsOfDirectory(atPath: libraryPath) {
+        if let entries = try? fm.contentsOfDirectory(atPath: libraryPath) {
             for entry in entries where entry.hasPrefix("cache.") && entry.contains(".realm") {
-                try ? fm.removeItem(atPath: libraryPath + "/" + entry)
+                try? fm.removeItem(atPath: libraryPath + "/" + entry)
             }
         }
     }
@@ -427,7 +399,5 @@ enum LegacyMigrator {
 private extension String {
     /// Returns nil if the string is empty, otherwise returns self. Lets the
     /// migrator chain optional fallbacks without manually checking each.
-    var nonEmpty: String? {
-        isEmpty ? nil: self
-    }
+    var nonEmpty: String? { isEmpty ? nil : self }
 }

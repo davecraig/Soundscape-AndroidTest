@@ -24,17 +24,14 @@ final class ShareViewController: UIViewController {
     }
 
     private func processInputItems() {
-        guard let items = extensionContext?.inputItems as ? [NSExtensionItem] else {
+        guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
             finish()
             return
         }
-        let rawProviders = items.flatMap {
-            $0.attachments ?? []
-        }
+        let rawProviders = items.flatMap { $0.attachments ?? [] }
         // Try the most data-rich providers first: a public.url from Apple Maps carries
         // coordinate+name; a map-item is next best; plain-text is just the place name.
-        let providers = rawProviders.sorted {
-            a, b in
+        let providers = rawProviders.sorted { a, b in
             providerPriority(a) < providerPriority(b)
         }
         guard !providers.isEmpty else {
@@ -45,15 +42,9 @@ final class ShareViewController: UIViewController {
     }
 
     private func providerPriority(_ provider: NSItemProvider) -> Int {
-        if provider.hasItemConformingToTypeIdentifier(UTType.url.identifier) {
-            return 0
-        }
-        if provider.hasItemConformingToTypeIdentifier(Self.mapItemType) {
-            return 1
-        }
-        if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) {
-            return 2
-        }
+        if provider.hasItemConformingToTypeIdentifier(UTType.url.identifier) { return 0 }
+        if provider.hasItemConformingToTypeIdentifier(Self.mapItemType) { return 1 }
+        if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) { return 2 }
         return 3
     }
 
@@ -64,10 +55,9 @@ final class ShareViewController: UIViewController {
         }
         let provider = providers[index]
         if provider.hasItemConformingToTypeIdentifier(Self.mapItemType) {
-            provider.loadItem(forTypeIdentifier: Self.mapItemType, options: nil) {
-                [weak self] item, _ in
-                if let mapItem = item as ?MKMapItem,
-                let url = self?.buildSoundscapeURL(from: mapItem) {
+            provider.loadItem(forTypeIdentifier: Self.mapItemType, options: nil) { [weak self] item, _ in
+                if let mapItem = item as? MKMapItem,
+                   let url = self?.buildSoundscapeURL(from: mapItem) {
                     self?.open(url: url)
                 } else {
                     self?.tryNext(providers: providers, index: index + 1)
@@ -76,10 +66,9 @@ final class ShareViewController: UIViewController {
             return
         }
         if provider.hasItemConformingToTypeIdentifier(UTType.url.identifier) {
-            provider.loadItem(forTypeIdentifier: UTType.url.identifier, options: nil) {
-                [weak self] item, _ in
-                if let url = item as ?URL,
-                let soundscapeURL = self?.buildSoundscapeURL(from: url) {
+            provider.loadItem(forTypeIdentifier: UTType.url.identifier, options: nil) { [weak self] item, _ in
+                if let url = item as? URL,
+                   let soundscapeURL = self?.buildSoundscapeURL(from: url) {
                     self?.open(url: soundscapeURL)
                 } else {
                     self?.tryNext(providers: providers, index: index + 1)
@@ -88,11 +77,10 @@ final class ShareViewController: UIViewController {
             return
         }
         if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) {
-            provider.loadItem(forTypeIdentifier: UTType.plainText.identifier, options: nil) {
-                [weak self] item, _ in
-                if let text = item as ?String,
-                let url = URL(string: text),
-                let soundscapeURL = self?.buildSoundscapeURL(from: url) {
+            provider.loadItem(forTypeIdentifier: UTType.plainText.identifier, options: nil) { [weak self] item, _ in
+                if let text = item as? String,
+                   let url = URL(string: text),
+                   let soundscapeURL = self?.buildSoundscapeURL(from: url) {
                     self?.open(url: soundscapeURL)
                 } else {
                     self?.tryNext(providers: providers, index: index + 1)
@@ -107,9 +95,7 @@ final class ShareViewController: UIViewController {
 
     private func buildSoundscapeURL(from mapItem: MKMapItem) -> URL? {
         let coord = mapItem.placemark.coordinate
-        guard CLLocationCoordinate2DIsValid(coord) else {
-            return nil
-        }
+        guard CLLocationCoordinate2DIsValid(coord) else { return nil }
         return makeSoundscapeURL(latitude: coord.latitude, longitude: coord.longitude, name: mapItem.name)
     }
 
@@ -123,25 +109,16 @@ final class ShareViewController: UIViewController {
         //   - older /maps?q=name&ll=lat,lon
         //   - newer /place?coordinate=lat,lon&name=name (seen on iOS 17+)
         //   - search results: sll=lat,lon
-        let name = items.first(where: {
-            $0.name == "name"
-        })?.value ?? items.first(where: {
-            $0.name == "q"
-        })?.value
-        let coord = items.first(where: {
-            $0.name == "ll"
-        })?.value ?? items.first(where: {
-            $0.name == "coordinate"
-        })?.value ?? items.first(where: {
-            $0.name == "sll"
-        })?.value
-        guard let latLonStr = coord else {
-            return nil
-        }
+        let name = items.first(where: { $0.name == "name" })?.value
+            ?? items.first(where: { $0.name == "q" })?.value
+        let coord = items.first(where: { $0.name == "ll" })?.value
+            ?? items.first(where: { $0.name == "coordinate" })?.value
+            ?? items.first(where: { $0.name == "sll" })?.value
+        guard let latLonStr = coord else { return nil }
         let parts = latLonStr.split(separator: ",")
         guard parts.count == 2,
-        let lat = Double(parts[0].trimmingCharacters(in: .whitespaces)),
-        let lon = Double(parts[1].trimmingCharacters(in: .whitespaces)) else {
+              let lat = Double(parts[0].trimmingCharacters(in: .whitespaces)),
+              let lon = Double(parts[1].trimmingCharacters(in: .whitespaces)) else {
             return nil
         }
         return makeSoundscapeURL(latitude: lat, longitude: lon, name: name)
@@ -172,13 +149,9 @@ final class ShareViewController: UIViewController {
             finish()
             return
         }
-        DispatchQueue.main.async {
-            [weak self] in
-            guard let self = self else {
-                return
-            }
-            context.open(url) {
-                success in
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            context.open(url) { success in
                 if success {
                     DispatchQueue.main.async {
                         context.completeRequest(returningItems: nil, completionHandler: nil)
@@ -198,9 +171,8 @@ final class ShareViewController: UIViewController {
     private func openViaResponderChain(url: URL, context: NSExtensionContext) {
         var responder: UIResponder? = self
         while let current = responder {
-            if let app = current as ?UIApplication {
-                app.open(url, options: [:]) {
-                    _ in
+            if let app = current as? UIApplication {
+                app.open(url, options: [:]) { _ in
                     DispatchQueue.main.async {
                         context.completeRequest(returningItems: nil, completionHandler: nil)
                     }
@@ -213,8 +185,7 @@ final class ShareViewController: UIViewController {
     }
 
     private func finish() {
-        DispatchQueue.main.async {
-            [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
         }
     }

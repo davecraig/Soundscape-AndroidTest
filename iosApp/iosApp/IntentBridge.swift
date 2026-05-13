@@ -11,8 +11,7 @@ final class IntentBridge {
     private let geocoder = CLGeocoder()
     private let geocodeTimeout: TimeInterval = 3.0
 
-    private init() {
-    }
+    private init() {}
 
     func handle(url: URL) {
         let service = IosSoundscapeService.companion.getInstance()
@@ -22,11 +21,9 @@ final class IntentBridge {
             return
         }
 
-        guard let parsed = IntentParser.shared.parseUrl(url: url.absoluteString) else {
-            return
-        }
+        guard let parsed = IntentParser.shared.parseUrl(url: url.absoluteString) else { return }
 
-        if let latLon = parsed as ?IncomingIntent.OpenLatLon {
+        if let latLon = parsed as? IncomingIntent.OpenLatLon {
             if let name = latLon.displayName, !name.isEmpty {
                 service.publishPendingIntent(intent: latLon)
             } else {
@@ -41,23 +38,15 @@ final class IntentBridge {
 
     private func handleFileImport(url: URL, service: IosSoundscapeService) {
         let needsScopedAccess = url.startAccessingSecurityScopedResource()
-        defer {
-            if needsScopedAccess {
-                url.stopAccessingSecurityScopedResource()
-            }
-        }
+        defer { if needsScopedAccess { url.stopAccessingSecurityScopedResource() } }
 
-        guard let data = try ? Data(contentsOf: url, options: .mappedIfSafe) else {
-            return
-        }
-        guard data.count <= 1_000_000 else {
-            return
-        }
-        guard let text = String(data: data, encoding: .utf8) else {
-            return
-        }
+        guard let data = try? Data(contentsOf: url, options: .mappedIfSafe) else { return }
+        guard data.count <= 1_000_000 else { return }
+        guard let text = String(data: data, encoding: .utf8) else { return }
 
-        let parsed: IncomingIntent.ImportRoute? = url.pathExtension.lowercased() == "gpx" ? IntentParser.shared.parseGpx(text: text): IntentParser.shared.parseRouteJson(text: text)
+        let parsed: IncomingIntent.ImportRoute? = url.pathExtension.lowercased() == "gpx"
+            ? IntentParser.shared.parseGpx(text: text)
+            : IntentParser.shared.parseRouteJson(text: text)
 
         if let intent = parsed {
             service.publishPendingIntent(intent: intent)
@@ -69,11 +58,8 @@ final class IntentBridge {
     private func upgradeWithGeocoder(intent: IncomingIntent.OpenLatLon, service: IosSoundscapeService) {
         let location = CLLocation(latitude: intent.latitude, longitude: intent.longitude)
         var didPublish = false
-        let timeoutWork = DispatchWorkItem {
-            [weak self] in
-            guard let self = self else {
-                return
-            }
+        let timeoutWork = DispatchWorkItem { [weak self] in
+            guard let self = self else { return }
             if !didPublish {
                 didPublish = true
                 self.geocoder.cancelGeocode()
@@ -82,17 +68,12 @@ final class IntentBridge {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + geocodeTimeout, execute: timeoutWork)
 
-        geocoder.reverseGeocodeLocation(location) {
-            placemarks, _ in
+        geocoder.reverseGeocodeLocation(location) { placemarks, _ in
             DispatchQueue.main.async {
-                if didPublish {
-                    return
-                }
+                if didPublish { return }
                 didPublish = true
                 timeoutWork.cancel()
-                let displayName = placemarks?.first.flatMap {
-                    Self.displayName(for: $0)
-                }
+                let displayName = placemarks?.first.flatMap { Self.displayName(for: $0) }
                 if let name = displayName {
                     let upgraded = IncomingIntent.OpenLatLon(
                         latitude: intent.latitude,
@@ -107,10 +88,8 @@ final class IntentBridge {
         }
     }
 
-    private static func displayName(forplacemark: CLPlacemark) -> String? {
-        if let name = placemark.name, !name.isEmpty {
-            return name
-        }
+    private static func displayName(for placemark: CLPlacemark) -> String? {
+        if let name = placemark.name, !name.isEmpty { return name }
         if let thoroughfare = placemark.thoroughfare {
             if let subThoroughfare = placemark.subThoroughfare {
                 return "\(subThoroughfare) \(thoroughfare)"
