@@ -1,8 +1,6 @@
 package org.scottishtecharmy.soundscape
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -350,7 +348,7 @@ fun VoicesHelpPreview() {
 @Composable
 fun PreviewDrawerContent() {
     SharedDrawerContent(
-        drawerState = rememberDrawerState(initialValue = DrawerValue.Open),
+        onClose = {},
         onNavigate = {},
         rateSoundscape = {},
         contactSupport = {},
