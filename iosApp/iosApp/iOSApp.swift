@@ -16,23 +16,22 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                ComposeView()
-                    .ignoresSafeArea(.all)
-                    .onOpenURL { url in
+                ComposeView().ignoresSafeArea(.all).onOpenURL {
+                    url in
+                    IntentBridge.shared.handle(url: url)
+                }.onContinueUserActivity(NSUserActivityTypeBrowsingWeb) {
+                    activity in
+                    if let url = activity.webpageURL {
                         IntentBridge.shared.handle(url: url)
                     }
-                    .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
-                        if let url = activity.webpageURL {
-                            IntentBridge.shared.handle(url: url)
-                        }
-                    }
+                }
 
                 if splashCoordinator.isVisible {
-                    SplashView()
-                        .transition(.opacity)
+                    SplashView().transition(.opacity)
                 }
+            }.onAppear {
+                splashCoordinator.start()
             }
-            .onAppear { splashCoordinator.start() }
         }
     }
 }
@@ -42,5 +41,6 @@ struct ComposeView: UIViewControllerRepresentable {
         MainViewControllerKt.MainViewController()
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    }
 }

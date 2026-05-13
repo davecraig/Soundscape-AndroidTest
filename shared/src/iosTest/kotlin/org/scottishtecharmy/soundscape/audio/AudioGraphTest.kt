@@ -8,8 +8,8 @@ import platform.AVFAudio.AVAudioFormat
 import platform.AVFAudio.AVAudioPCMBuffer
 import platform.AVFAudio.AVAudioPlayerNode
 import platform.AVFAudio.AVAudioSession
-import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.AVAudioSessionCategoryOptionMixWithOthers
+import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.setActive
 import platform.CoreAudioTypes.kAudioChannelLayoutTag_Stereo
 import kotlin.test.Test
@@ -37,6 +37,7 @@ class AudioGraphTest {
         }
 
         val engine = AVAudioEngine()
+
         @Suppress("UNUSED_VARIABLE")
         val mixer = engine.mainMixerNode // force init
 
@@ -85,7 +86,8 @@ class AudioGraphTest {
         engine.attachNode(env)
 
         val mono = monoFloat32(44100.0) ?: run { println("SKIP: can't create mono format"); return }
-        val stereo = createStereoFormat(44100.0) ?: run { println("SKIP: can't create stereo format"); return }
+        val stereo = createStereoFormat(44100.0)
+            ?: run { println("SKIP: can't create stereo format"); return }
 
         println("  mono: ${mono.channelCount}ch ${mono.sampleRate}Hz")
         println("  stereo: ${stereo.channelCount}ch ${stereo.sampleRate}Hz")

@@ -14,17 +14,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.ic_markers
+import org.scottishtecharmy.soundscape.resources.markers_no_markers_hint_1
+import org.scottishtecharmy.soundscape.resources.markers_no_markers_hint_2
+import org.scottishtecharmy.soundscape.resources.markers_no_markers_title
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.MarkersAndRoutesListSort
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesList
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.resources.*
 
 @Composable
 fun MarkersScreen(
@@ -65,8 +69,8 @@ fun MarkersScreen(
             } else {
                 Column(
                     modifier =
-                    Modifier
-                        .fillMaxSize(),
+                        Modifier
+                            .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     if (uiState.entries.isEmpty()) {

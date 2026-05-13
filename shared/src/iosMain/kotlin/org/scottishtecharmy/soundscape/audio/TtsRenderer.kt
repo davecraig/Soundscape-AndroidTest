@@ -23,6 +23,7 @@ class TtsRenderer {
     private val synthesizer = AVSpeechSynthesizer()
     private var language: String? = null
     private var voiceId: String? = null
+
     // User-facing multiplier from PreferenceKeys.SPEECH_RATE: 1.0 = normal,
     // 2.0 = max, 0.5 = slowest. Translated to AVSpeechUtterance.rate at render time.
     private var rateMultiplier: Float = 1.0f

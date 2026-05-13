@@ -75,7 +75,8 @@ object GeoJsonParser {
         obj["id"]?.let { idElement ->
             try {
                 feature.id = idElement.jsonPrimitive.content
-            } catch (_: Exception) {}
+            } catch (_: Exception) {
+            }
         }
 
         return feature

@@ -20,7 +20,10 @@ const val DEFAULT_RENDERING_DISTANCE = 2.0
  *   z = distance * sin(bearing_rad - π/2)
  */
 @OptIn(ExperimentalForeignApi::class)
-fun bearingToPoint(bearingDegrees: Double, distance: Double = DEFAULT_RENDERING_DISTANCE): CValue<AVAudio3DPoint> {
+fun bearingToPoint(
+    bearingDegrees: Double,
+    distance: Double = DEFAULT_RENDERING_DISTANCE
+): CValue<AVAudio3DPoint> {
     var radians = bearingDegrees * PI / 180.0 - PI / 2.0
     if (radians < 0) radians += 2.0 * PI
     return cValue {

@@ -9,7 +9,7 @@ import com.google.android.gms.location.LocationServices
 import java.util.concurrent.Executors
 import kotlin.math.abs
 
-class GooglePlayDirectionProvider(context : Context) :
+class GooglePlayDirectionProvider(context: Context) :
     DirectionProvider() {
 
     private val fusedOrientationProviderClient =
@@ -19,7 +19,7 @@ class GooglePlayDirectionProvider(context : Context) :
     private var lastUpdateValue = 0.0
 
     override fun destroy() {
-        if(::listener.isInitialized)
+        if (::listener.isInitialized)
             fusedOrientationProviderClient.removeOrientationUpdates(listener)
     }
 
@@ -50,8 +50,9 @@ class GooglePlayDirectionProvider(context : Context) :
             }
         }
 
-        val request = DeviceOrientationRequest.Builder(DeviceOrientationRequest.OUTPUT_PERIOD_DEFAULT)
-            .build()
+        val request =
+            DeviceOrientationRequest.Builder(DeviceOrientationRequest.OUTPUT_PERIOD_DEFAULT)
+                .build()
 
         val executor = Executors.newSingleThreadExecutor()
         fusedOrientationProviderClient.requestOrientationUpdates(request, executor, listener)

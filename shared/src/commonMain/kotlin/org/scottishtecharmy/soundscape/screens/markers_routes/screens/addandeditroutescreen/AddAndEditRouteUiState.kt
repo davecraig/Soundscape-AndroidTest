@@ -7,7 +7,7 @@ enum class ActionType {
 }
 
 data class AddAndEditRouteUiState(
-    val routeObjectId: Long ?= null,
+    val routeObjectId: Long? = null,
     val name: String = "",
     val description: String = "",
     val nameError: Boolean = false,

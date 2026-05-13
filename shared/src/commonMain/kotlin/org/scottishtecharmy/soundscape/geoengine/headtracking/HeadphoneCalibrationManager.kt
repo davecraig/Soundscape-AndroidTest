@@ -25,7 +25,11 @@ class HeadphoneCalibrationManager(
         return (yawDegrees + offset).normalizeDegrees()
     }
 
-    fun pushDeviceReference(yawDegrees: Double, deviceHeadingDegrees: Double?, timestampMillis: Long) {
+    fun pushDeviceReference(
+        yawDegrees: Double,
+        deviceHeadingDegrees: Double?,
+        timestampMillis: Long
+    ) {
         if (!active) return
         calibrator.processDevice(yawDegrees, deviceHeadingDegrees, timestampMillis)
     }

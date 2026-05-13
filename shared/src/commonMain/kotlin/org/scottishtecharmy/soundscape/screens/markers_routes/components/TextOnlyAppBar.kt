@@ -10,11 +10,12 @@ import androidx.compose.ui.semantics.Role
 import org.scottishtecharmy.soundscape.ui.theme.extraSmallPadding
 
 @Composable
-fun TextOnlyAppBar(title : String = "",
-                   onNavigateUp: () -> Unit = {},
-                   navigationButtonTitle: String = "    ",
-                   onRightButton: () -> Unit = {},
-                   rightButtonTitle: String = "    "
+fun TextOnlyAppBar(
+    title: String = "",
+    onNavigateUp: () -> Unit = {},
+    navigationButtonTitle: String = "    ",
+    onRightButton: () -> Unit = {},
+    rightButtonTitle: String = "    "
 ) {
     FlexibleAppBar(
         title = title,

@@ -9,23 +9,29 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapVert
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.ui.platform.testTag
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
+import org.jetbrains.compose.resources.stringResource
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_distance
+import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_distance_voiceover
+import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_name
+import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_name_voiceover
+import org.scottishtecharmy.soundscape.resources.routes_sort_by_distance
+import org.scottishtecharmy.soundscape.resources.routes_sort_by_name
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.resources.*
 
 @Composable
 fun MarkersAndRoutesListSort(
@@ -55,11 +61,11 @@ fun MarkersAndRoutesListSort(
             modifier = Modifier
                 .testTag("SortOrder")
                 .size(spacing.targetSize)
-            .toggleable(
-                value = isAscending,
-                role = Role.Button,
-                onValueChange = { onToggleSortOrder() }
-            ),
+                .toggleable(
+                    value = isAscending,
+                    role = Role.Button,
+                    onValueChange = { onToggleSortOrder() }
+                ),
             imageVector = Icons.Default.SwapVert,
             tint = MaterialTheme.colorScheme.onSurface,
             contentDescription = "" // TODO: Add ascending/descending hint
@@ -69,7 +75,7 @@ fun MarkersAndRoutesListSort(
 
         Text(
             text = if (isSortByName) stringResource(Res.string.markers_sort_button_sort_by_name)
-                   else stringResource(Res.string.markers_sort_button_sort_by_distance),
+            else stringResource(Res.string.markers_sort_button_sort_by_distance),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface,
@@ -78,14 +84,14 @@ fun MarkersAndRoutesListSort(
                 role = Role.Button,
                 onValueChange = { onToggleSortByName() }
             )
-            .testTag("SortValue")
+                .testTag("SortValue")
         )
 
         Spacer(modifier = Modifier.width(spacing.small))
 
         Text(
             text = if (isSortByName) stringResource(Res.string.routes_sort_by_distance)
-                   else stringResource(Res.string.routes_sort_by_name),
+            else stringResource(Res.string.routes_sort_by_name),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface,
@@ -94,7 +100,7 @@ fun MarkersAndRoutesListSort(
                 role = Role.Button,
                 onValueChange = { onToggleSortByName() }
             )
-            .testTag("SortOption")
+                .testTag("SortOption")
         )
     }
 }

@@ -31,18 +31,75 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.preferences.rememberBooleanPreferenceState
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.beacon_settings_style
+import org.scottishtecharmy.soundscape.resources.beacon_settings_style_description
+import org.scottishtecharmy.soundscape.resources.callout_settings_position_description
+import org.scottishtecharmy.soundscape.resources.callout_settings_position_text
+import org.scottishtecharmy.soundscape.resources.callouts_allow_callouts
+import org.scottishtecharmy.soundscape.resources.callouts_allow_callouts_description
+import org.scottishtecharmy.soundscape.resources.callouts_audio_beacon
+import org.scottishtecharmy.soundscape.resources.callouts_audio_beacon_description
+import org.scottishtecharmy.soundscape.resources.callouts_mobility
+import org.scottishtecharmy.soundscape.resources.callouts_mobility_description
+import org.scottishtecharmy.soundscape.resources.callouts_places_and_landmarks
+import org.scottishtecharmy.soundscape.resources.callouts_places_and_landmarks_description
+import org.scottishtecharmy.soundscape.resources.general_alert_cancel
+import org.scottishtecharmy.soundscape.resources.menu_advanced_markers_and_routes
+import org.scottishtecharmy.soundscape.resources.menu_manage_accessibility
+import org.scottishtecharmy.soundscape.resources.menu_manage_audio
+import org.scottishtecharmy.soundscape.resources.menu_manage_callouts
+import org.scottishtecharmy.soundscape.resources.menu_manage_language
+import org.scottishtecharmy.soundscape.resources.menu_manage_search
+import org.scottishtecharmy.soundscape.resources.menu_media_controls
+import org.scottishtecharmy.soundscape.resources.offline_map_storage_title
+import org.scottishtecharmy.soundscape.resources.settings_debug_heading
+import org.scottishtecharmy.soundscape.resources.settings_explanation
+import org.scottishtecharmy.soundscape.resources.settings_head_tracking
+import org.scottishtecharmy.soundscape.resources.settings_head_tracking_description
+import org.scottishtecharmy.soundscape.resources.settings_media_controls_audio_menu
+import org.scottishtecharmy.soundscape.resources.settings_media_controls_original
+import org.scottishtecharmy.soundscape.resources.settings_mix_audio
+import org.scottishtecharmy.soundscape.resources.settings_mix_audio_description
+import org.scottishtecharmy.soundscape.resources.settings_relative_directions_clockface
+import org.scottishtecharmy.soundscape.resources.settings_relative_directions_degrees
+import org.scottishtecharmy.soundscape.resources.settings_relative_directions_description
+import org.scottishtecharmy.soundscape.resources.settings_relative_directions_left_right
+import org.scottishtecharmy.soundscape.resources.settings_relative_directions_text
+import org.scottishtecharmy.soundscape.resources.settings_reset_button
+import org.scottishtecharmy.soundscape.resources.settings_reset_button_hint
+import org.scottishtecharmy.soundscape.resources.settings_reset_dialog_message
+import org.scottishtecharmy.soundscape.resources.settings_reset_dialog_title
+import org.scottishtecharmy.soundscape.resources.settings_screen_title
+import org.scottishtecharmy.soundscape.resources.settings_search_auto
+import org.scottishtecharmy.soundscape.resources.settings_search_offline
+import org.scottishtecharmy.soundscape.resources.settings_search_results_language
+import org.scottishtecharmy.soundscape.resources.settings_search_results_language_description
+import org.scottishtecharmy.soundscape.resources.settings_section_media_controls
+import org.scottishtecharmy.soundscape.resources.settings_section_media_controls_description
+import org.scottishtecharmy.soundscape.resources.settings_section_search_network
+import org.scottishtecharmy.soundscape.resources.settings_section_search_network_description
+import org.scottishtecharmy.soundscape.resources.settings_section_units
+import org.scottishtecharmy.soundscape.resources.settings_section_units_description
+import org.scottishtecharmy.soundscape.resources.settings_show_map
+import org.scottishtecharmy.soundscape.resources.settings_theme_auto
+import org.scottishtecharmy.soundscape.resources.settings_travel_recording
+import org.scottishtecharmy.soundscape.resources.settings_units_imperial
+import org.scottishtecharmy.soundscape.resources.settings_units_metric
+import org.scottishtecharmy.soundscape.resources.ui_back_button_title
+import org.scottishtecharmy.soundscape.resources.ui_continue
+import org.scottishtecharmy.soundscape.resources.voice_settings_speaking_rate
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomAppBar
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
 import org.scottishtecharmy.soundscape.screens.onboarding.language.LanguageDropDownMenu
 import org.scottishtecharmy.soundscape.screens.onboarding.language.getAppLocale
 import org.scottishtecharmy.soundscape.screens.onboarding.language.getSystemLocale
 import org.scottishtecharmy.soundscape.screens.onboarding.language.indexOfBestLanguageMatch
-import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages as appSupportedLanguages
 import org.scottishtecharmy.soundscape.screens.talkbackHint
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.smallPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
+import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages as appSupportedLanguages
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -133,7 +190,8 @@ fun SharedSettingsScreen(
     val defaultMediaControlsValues = listOf("Original", "AudioMenu")
 
     val effectiveMediaControlsValues = mediaControlsValues ?: defaultMediaControlsValues
-    val effectiveMediaControlsDescriptions = mediaControlsDescriptions ?: defaultMediaControlsDescriptions
+    val effectiveMediaControlsDescriptions =
+        mediaControlsDescriptions ?: defaultMediaControlsDescriptions
 
     val geocoderDescriptions = listOf(
         stringResource(Res.string.settings_search_auto),
@@ -173,7 +231,10 @@ fun SharedSettingsScreen(
                 ExpandableSectionHeader(
                     title = stringResource(Res.string.menu_manage_callouts),
                     expanded = expandedSection.value == "callouts",
-                    onToggle = { expandedSection.value = if (expandedSection.value == "callouts") null else "callouts" },
+                    onToggle = {
+                        expandedSection.value =
+                            if (expandedSection.value == "callouts") null else "callouts"
+                    },
                     textColor = textColor,
                 )
             }
@@ -182,34 +243,64 @@ fun SharedSettingsScreen(
                     key = PreferenceKeys.ALLOW_CALLOUTS,
                     defaultValue = PreferenceDefaults.ALLOW_CALLOUTS,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.callouts_allow_callouts, Res.string.callouts_allow_callouts_description, textColor) },
+                    title = {
+                        SettingDetails(
+                            Res.string.callouts_allow_callouts,
+                            Res.string.callouts_allow_callouts_description,
+                            textColor
+                        )
+                    },
                 )
                 switchPreference(
                     key = PreferenceKeys.PLACES_AND_LANDMARKS,
                     defaultValue = PreferenceDefaults.PLACES_AND_LANDMARKS,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.callouts_places_and_landmarks, Res.string.callouts_places_and_landmarks_description, textColor) },
+                    title = {
+                        SettingDetails(
+                            Res.string.callouts_places_and_landmarks,
+                            Res.string.callouts_places_and_landmarks_description,
+                            textColor
+                        )
+                    },
                     enabled = { allowCallouts },
                 )
                 switchPreference(
                     key = PreferenceKeys.MOBILITY,
                     defaultValue = PreferenceDefaults.MOBILITY,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.callouts_mobility, Res.string.callouts_mobility_description, textColor) },
+                    title = {
+                        SettingDetails(
+                            Res.string.callouts_mobility,
+                            Res.string.callouts_mobility_description,
+                            textColor
+                        )
+                    },
                     enabled = { allowCallouts },
                 )
                 switchPreference(
                     key = PreferenceKeys.DISTANCE_TO_BEACON,
                     defaultValue = PreferenceDefaults.DISTANCE_TO_BEACON,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.callouts_audio_beacon, Res.string.callouts_audio_beacon_description, textColor) },
+                    title = {
+                        SettingDetails(
+                            Res.string.callouts_audio_beacon,
+                            Res.string.callouts_audio_beacon_description,
+                            textColor
+                        )
+                    },
                     enabled = { allowCallouts },
                 )
                 switchPreference(
                     key = PreferenceKeys.POSITION_INCLUDES_HEADING_AND_DISTANCE,
                     defaultValue = PreferenceDefaults.POSITION_INCLUDES_HEADING_AND_DISTANCE,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.callout_settings_position_text, Res.string.callout_settings_position_description, textColor) },
+                    title = {
+                        SettingDetails(
+                            Res.string.callout_settings_position_text,
+                            Res.string.callout_settings_position_description,
+                            textColor
+                        )
+                    },
                     enabled = { allowCallouts },
                 )
                 listPreference(
@@ -217,11 +308,32 @@ fun SharedSettingsScreen(
                     defaultValue = PreferenceDefaults.RELATIVE_DIRECTION,
                     values = relativeDirectionValues,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.settings_relative_directions_text, Res.string.settings_relative_directions_description, textColor) },
-                    item = { value, currentValue, onClick ->
-                        ListPreferenceItem(relativeDirectionDescriptions[relativeDirectionValues.indexOf(value)], value, currentValue, onClick, relativeDirectionValues.indexOf(value), relativeDirectionValues.size)
+                    title = {
+                        SettingDetails(
+                            Res.string.settings_relative_directions_text,
+                            Res.string.settings_relative_directions_description,
+                            textColor
+                        )
                     },
-                    summary = { ClickableOption(relativeDirectionDescriptions[relativeDirectionValues.indexOf(it)], textColor) },
+                    item = { value, currentValue, onClick ->
+                        ListPreferenceItem(
+                            relativeDirectionDescriptions[relativeDirectionValues.indexOf(
+                                value
+                            )],
+                            value,
+                            currentValue,
+                            onClick,
+                            relativeDirectionValues.indexOf(value),
+                            relativeDirectionValues.size
+                        )
+                    },
+                    summary = {
+                        ClickableOption(
+                            relativeDirectionDescriptions[relativeDirectionValues.indexOf(
+                                it
+                            )], textColor
+                        )
+                    },
                 )
             }
 
@@ -230,7 +342,10 @@ fun SharedSettingsScreen(
                 ExpandableSectionHeader(
                     title = stringResource(Res.string.menu_manage_search),
                     expanded = expandedSection.value == "search",
-                    onToggle = { expandedSection.value = if (expandedSection.value == "search") null else "search" },
+                    onToggle = {
+                        expandedSection.value =
+                            if (expandedSection.value == "search") null else "search"
+                    },
                     textColor = textColor,
                 )
             }
@@ -240,22 +355,61 @@ fun SharedSettingsScreen(
                     defaultValue = PreferenceDefaults.GEOCODER_MODE,
                     values = geocoderValues,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.settings_section_search_network, Res.string.settings_section_search_network_description, textColor) },
-                    item = { value, currentValue, onClick ->
-                        ListPreferenceItem(geocoderDescriptions[geocoderValues.indexOf(value)], value, currentValue, onClick, geocoderValues.indexOf(value), geocoderValues.size)
+                    title = {
+                        SettingDetails(
+                            Res.string.settings_section_search_network,
+                            Res.string.settings_section_search_network_description,
+                            textColor
+                        )
                     },
-                    summary = { ClickableOption(geocoderDescriptions[geocoderValues.indexOf(it)], textColor) },
+                    item = { value, currentValue, onClick ->
+                        ListPreferenceItem(
+                            geocoderDescriptions[geocoderValues.indexOf(value)],
+                            value,
+                            currentValue,
+                            onClick,
+                            geocoderValues.indexOf(value),
+                            geocoderValues.size
+                        )
+                    },
+                    summary = {
+                        ClickableOption(
+                            geocoderDescriptions[geocoderValues.indexOf(it)],
+                            textColor
+                        )
+                    },
                 )
                 listPreference(
                     key = PreferenceKeys.SEARCH_LANGUAGE,
                     defaultValue = PreferenceDefaults.SEARCH_LANGUAGE,
                     values = searchLanguageValues,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.settings_search_results_language, Res.string.settings_search_results_language_description, textColor) },
-                    item = { value, currentValue, onClick ->
-                        ListPreferenceItem(searchLanguageDescriptions[searchLanguageValues.indexOf(value)], value, currentValue, onClick, searchLanguageValues.indexOf(value), searchLanguageValues.size)
+                    title = {
+                        SettingDetails(
+                            Res.string.settings_search_results_language,
+                            Res.string.settings_search_results_language_description,
+                            textColor
+                        )
                     },
-                    summary = { ClickableOption(searchLanguageDescriptions[searchLanguageValues.indexOf(it)], textColor) },
+                    item = { value, currentValue, onClick ->
+                        ListPreferenceItem(
+                            searchLanguageDescriptions[searchLanguageValues.indexOf(
+                                value
+                            )],
+                            value,
+                            currentValue,
+                            onClick,
+                            searchLanguageValues.indexOf(value),
+                            searchLanguageValues.size
+                        )
+                    },
+                    summary = {
+                        ClickableOption(
+                            searchLanguageDescriptions[searchLanguageValues.indexOf(
+                                it
+                            )], textColor
+                        )
+                    },
                 )
             }
 
@@ -268,7 +422,10 @@ fun SharedSettingsScreen(
                     ExpandableSectionHeader(
                         title = stringResource(Res.string.menu_manage_accessibility),
                         expanded = expandedSection.value == "accessibility",
-                        onToggle = { expandedSection.value = if (expandedSection.value == "accessibility") null else "accessibility" },
+                        onToggle = {
+                            expandedSection.value =
+                                if (expandedSection.value == "accessibility") null else "accessibility"
+                        },
                         textColor = textColor,
                     )
                 }
@@ -304,7 +461,10 @@ fun SharedSettingsScreen(
                     ExpandableSectionHeader(
                         title = stringResource(Res.string.offline_map_storage_title),
                         expanded = expandedSection.value == "storage",
-                        onToggle = { expandedSection.value = if (expandedSection.value == "storage") null else "storage" },
+                        onToggle = {
+                            expandedSection.value =
+                                if (expandedSection.value == "storage") null else "storage"
+                        },
                         textColor = textColor,
                     )
                 }
@@ -318,7 +478,10 @@ fun SharedSettingsScreen(
                 ExpandableSectionHeader(
                     title = stringResource(Res.string.menu_manage_audio),
                     expanded = expandedSection.value == "audio",
-                    onToggle = { expandedSection.value = if (expandedSection.value == "audio") null else "audio" },
+                    onToggle = {
+                        expandedSection.value =
+                            if (expandedSection.value == "audio") null else "audio"
+                    },
                     textColor = textColor,
                 )
             }
@@ -329,9 +492,22 @@ fun SharedSettingsScreen(
                         defaultValue = PreferenceDefaults.BEACON_TYPE,
                         values = beaconTypes,
                         modifier = expandedSectionModifier,
-                        title = { SettingDetails(Res.string.beacon_settings_style, Res.string.beacon_settings_style_description, textColor) },
+                        title = {
+                            SettingDetails(
+                                Res.string.beacon_settings_style,
+                                Res.string.beacon_settings_style_description,
+                                textColor
+                            )
+                        },
                         item = { value, currentValue, onClick ->
-                            ListPreferenceItem(value, value, currentValue, onClick, beaconTypes.indexOf(value), beaconTypes.size)
+                            ListPreferenceItem(
+                                value,
+                                value,
+                                currentValue,
+                                onClick,
+                                beaconTypes.indexOf(value),
+                                beaconTypes.size
+                            )
                         },
                         summary = { ClickableOption(it, textColor) },
                     )
@@ -343,24 +519,46 @@ fun SharedSettingsScreen(
                     key = PreferenceKeys.SPEECH_RATE,
                     defaultValue = PreferenceDefaults.SPEECH_RATE,
                     modifier = expandedSectionModifier,
-                    title = { Text(text = stringResource(Res.string.voice_settings_speaking_rate), color = textColor) },
+                    title = {
+                        Text(
+                            text = stringResource(Res.string.voice_settings_speaking_rate),
+                            color = textColor
+                        )
+                    },
                     valueRange = 0.5f..2.0f,
                     valueSteps = 10,
-                    valueText = { Text(text = "${((it * 10).toInt() / 10.0)}x", color = textColor) },
+                    valueText = {
+                        Text(
+                            text = "${((it * 10).toInt() / 10.0)}x",
+                            color = textColor
+                        )
+                    },
                 )
 
                 switchPreference(
                     key = PreferenceKeys.MIX_AUDIO,
                     defaultValue = PreferenceDefaults.MIX_AUDIO,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.settings_mix_audio, Res.string.settings_mix_audio_description, textColor) },
+                    title = {
+                        SettingDetails(
+                            Res.string.settings_mix_audio,
+                            Res.string.settings_mix_audio_description,
+                            textColor
+                        )
+                    },
                 )
 
                 switchPreference(
                     key = PreferenceKeys.HEAD_TRACKING_ENABLED,
                     defaultValue = PreferenceDefaults.HEAD_TRACKING_ENABLED,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.settings_head_tracking, Res.string.settings_head_tracking_description, textColor) },
+                    title = {
+                        SettingDetails(
+                            Res.string.settings_head_tracking,
+                            Res.string.settings_head_tracking_description,
+                            textColor
+                        )
+                    },
                 )
             }
 
@@ -369,7 +567,10 @@ fun SharedSettingsScreen(
                 ExpandableSectionHeader(
                     title = stringResource(Res.string.menu_manage_language),
                     expanded = expandedSection.value == "language",
-                    onToggle = { expandedSection.value = if (expandedSection.value == "language") null else "language" },
+                    onToggle = {
+                        expandedSection.value =
+                            if (expandedSection.value == "language") null else "language"
+                    },
                     textColor = textColor,
                 )
             }
@@ -379,11 +580,29 @@ fun SharedSettingsScreen(
                     defaultValue = PreferenceDefaults.MEASUREMENT_UNITS,
                     values = unitsValues,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.settings_section_units, Res.string.settings_section_units_description, textColor) },
-                    item = { value, currentValue, onClick ->
-                        ListPreferenceItem(unitsDescriptions[unitsValues.indexOf(value)], value, currentValue, onClick, unitsValues.indexOf(value), unitsValues.size)
+                    title = {
+                        SettingDetails(
+                            Res.string.settings_section_units,
+                            Res.string.settings_section_units_description,
+                            textColor
+                        )
                     },
-                    summary = { ClickableOption(unitsDescriptions[unitsValues.indexOf(it)], textColor) },
+                    item = { value, currentValue, onClick ->
+                        ListPreferenceItem(
+                            unitsDescriptions[unitsValues.indexOf(value)],
+                            value,
+                            currentValue,
+                            onClick,
+                            unitsValues.indexOf(value),
+                            unitsValues.size
+                        )
+                    },
+                    summary = {
+                        ClickableOption(
+                            unitsDescriptions[unitsValues.indexOf(it)],
+                            textColor
+                        )
+                    },
                 )
 
                 if (onSetApplicationLocale != null) {
@@ -413,7 +632,10 @@ fun SharedSettingsScreen(
                 ExpandableSectionHeader(
                     title = stringResource(Res.string.menu_media_controls),
                     expanded = expandedSection.value == "media_controls",
-                    onToggle = { expandedSection.value = if (expandedSection.value == "media_controls") null else "media_controls" },
+                    onToggle = {
+                        expandedSection.value =
+                            if (expandedSection.value == "media_controls") null else "media_controls"
+                    },
                     textColor = textColor,
                 )
             }
@@ -423,11 +645,32 @@ fun SharedSettingsScreen(
                     defaultValue = PreferenceDefaults.MEDIA_CONTROLS_MODE,
                     values = effectiveMediaControlsValues,
                     modifier = expandedSectionModifier,
-                    title = { SettingDetails(Res.string.settings_section_media_controls, Res.string.settings_section_media_controls_description, textColor) },
-                    item = { value, currentValue, onClick ->
-                        ListPreferenceItem(effectiveMediaControlsDescriptions[effectiveMediaControlsValues.indexOf(value)], value, currentValue, onClick, effectiveMediaControlsValues.indexOf(value), effectiveMediaControlsValues.size)
+                    title = {
+                        SettingDetails(
+                            Res.string.settings_section_media_controls,
+                            Res.string.settings_section_media_controls_description,
+                            textColor
+                        )
                     },
-                    summary = { ClickableOption(effectiveMediaControlsDescriptions[effectiveMediaControlsValues.indexOf(it)], textColor) },
+                    item = { value, currentValue, onClick ->
+                        ListPreferenceItem(
+                            effectiveMediaControlsDescriptions[effectiveMediaControlsValues.indexOf(
+                                value
+                            )],
+                            value,
+                            currentValue,
+                            onClick,
+                            effectiveMediaControlsValues.indexOf(value),
+                            effectiveMediaControlsValues.size
+                        )
+                    },
+                    summary = {
+                        ClickableOption(
+                            effectiveMediaControlsDescriptions[effectiveMediaControlsValues.indexOf(
+                                it
+                            )], textColor
+                        )
+                    },
                 )
 
                 platformMediaControlsContent?.invoke(this)
@@ -438,7 +681,10 @@ fun SharedSettingsScreen(
                 ExpandableSectionHeader(
                     title = stringResource(Res.string.settings_debug_heading),
                     expanded = expandedSection.value == "debug",
-                    onToggle = { expandedSection.value = if (expandedSection.value == "debug") null else "debug" },
+                    onToggle = {
+                        expandedSection.value =
+                            if (expandedSection.value == "debug") null else "debug"
+                    },
                     textColor = textColor,
                 )
             }
@@ -447,7 +693,12 @@ fun SharedSettingsScreen(
                     key = PreferenceKeys.RECORD_TRAVEL,
                     defaultValue = PreferenceDefaults.RECORD_TRAVEL,
                     modifier = expandedSectionModifier,
-                    title = { Text(text = stringResource(Res.string.settings_travel_recording), color = textColor) },
+                    title = {
+                        Text(
+                            text = stringResource(Res.string.settings_travel_recording),
+                            color = textColor
+                        )
+                    },
                 )
 
                 if (onNavigateToAdvancedMarkersAndRoutes != null) {

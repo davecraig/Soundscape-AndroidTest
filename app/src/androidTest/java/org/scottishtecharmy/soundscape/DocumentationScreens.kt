@@ -1,6 +1,5 @@
 package org.scottishtecharmy.soundscape
 
-import org.scottishtecharmy.soundscape.resources.*
 import android.os.Environment
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeDrawing
@@ -12,13 +11,15 @@ import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
-import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.junit.Rule
 import org.junit.Test
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.menu_help
+import org.scottishtecharmy.soundscape.screens.home.HomeState
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.BottomButtonFunctions
 import org.scottishtecharmy.soundscape.screens.home.home.RouteFunctions
@@ -29,7 +30,7 @@ import org.scottishtecharmy.soundscape.screens.home.home.StreetPreviewFunctions
 import org.scottishtecharmy.soundscape.screens.home.home.helpPages
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.SharedRouteDetailsScreen
 import org.scottishtecharmy.soundscape.services.RoutePlayerState
-import org.scottishtecharmy.soundscape.screens.home.HomeState
+import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import java.io.File
 import java.io.FileOutputStream
 
@@ -91,7 +92,8 @@ class DocumentationScreens {
 
     private fun runScreenTest(
         screenshotFileName: String,
-        testCode: @Composable () -> Unit) {
+        testCode: @Composable () -> Unit
+    ) {
 
         val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
 
@@ -113,7 +115,7 @@ class DocumentationScreens {
     }
 
     @Test
-    fun homeScreen(){
+    fun homeScreen() {
 
         runScreenTest("homeScreen") {
             SharedHomeScreen(
@@ -153,7 +155,7 @@ class DocumentationScreens {
     }
 
     @Test
-    fun homeScreenWithRoute(){
+    fun homeScreenWithRoute() {
         val routePlayerState = RoutePlayerState(
             routeData = routeToShops,
             currentWaypoint = 0
@@ -198,7 +200,7 @@ class DocumentationScreens {
     }
 
     @Test
-    fun routeDetailsScreen(){
+    fun routeDetailsScreen() {
         val waypoints = routeToShops.markers.map { marker ->
             LocationDescription(
                 name = marker.name,
@@ -223,6 +225,7 @@ class DocumentationScreens {
             )
         }
     }
+
     @Test
     fun getHelp() {
 
@@ -238,7 +241,7 @@ class DocumentationScreens {
 
         for (page in helpPages) {
 
-            if(page.titleId == Res.string.menu_help)
+            if (page.titleId == Res.string.menu_help)
                 continue
             val pageTitle = runBlocking { getString(page.titleId) }
 
@@ -253,7 +256,7 @@ class DocumentationScreens {
             markdownOutput.append("# ")
             markdownOutput.append(pageTitle)
             markdownOutput.append("\n")
-            for(section in page.sections) {
+            for (section in page.sections) {
                 when (section.type) {
                     SectionType.Faq -> {
                         markdownOutput.append("\n")
@@ -264,11 +267,13 @@ class DocumentationScreens {
                             markdownOutput.append(runBlocking { getString(answer) })
                         }
                     }
+
                     SectionType.Title -> {
                         markdownOutput.append("\n")
                         markdownOutput.append("## ")
                         markdownOutput.append(runBlocking { getString(section.textId) })
                     }
+
                     else -> {
                         markdownOutput.append("\n")
                         markdownOutput.append(runBlocking { getString(section.textId) })

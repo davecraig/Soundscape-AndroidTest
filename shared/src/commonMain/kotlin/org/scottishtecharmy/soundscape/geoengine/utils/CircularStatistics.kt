@@ -3,9 +3,9 @@ package org.scottishtecharmy.soundscape.geoengine.utils
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.ln
 import kotlin.math.sin
 import kotlin.math.sqrt
-import kotlin.math.ln
 
 private const val DEG_TO_RAD = PI / 180.0
 private const val RAD_TO_DEG = 180.0 / PI

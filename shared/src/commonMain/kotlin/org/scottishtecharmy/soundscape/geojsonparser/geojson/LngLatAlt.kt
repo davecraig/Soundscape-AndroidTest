@@ -7,7 +7,7 @@ open class LngLatAlt(
 ) {
     fun hasAltitude(): Boolean = altitude != null && altitude?.isNaN() == false
 
-    fun clone() : LngLatAlt {
+    fun clone(): LngLatAlt {
         return LngLatAlt(longitude, latitude, altitude)
     }
 

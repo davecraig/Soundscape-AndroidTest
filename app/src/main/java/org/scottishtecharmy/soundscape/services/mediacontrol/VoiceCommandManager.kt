@@ -26,19 +26,53 @@ import android.speech.RecognizerIntent.EXTRA_AUDIO_SOURCE_SAMPLING_RATE
 import android.speech.RecognizerIntent.EXTRA_PARTIAL_RESULTS
 import android.speech.SpeechRecognizer
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine.Companion.EARCON_CALLOUTS_OFF
+import org.scottishtecharmy.soundscape.audio.NativeAudioEngine.Companion.EARCON_CALLOUTS_ON
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.beacon_action_mute_beacon
+import org.scottishtecharmy.soundscape.resources.callouts_nearby_markers
+import org.scottishtecharmy.soundscape.resources.directions_my_location
+import org.scottishtecharmy.soundscape.resources.help_explore_page_title
+import org.scottishtecharmy.soundscape.resources.help_orient_page_title
+import org.scottishtecharmy.soundscape.resources.menu_help
+import org.scottishtecharmy.soundscape.resources.route_detail_action_next
+import org.scottishtecharmy.soundscape.resources.route_detail_action_previous
+import org.scottishtecharmy.soundscape.resources.route_detail_action_stop_route
+import org.scottishtecharmy.soundscape.resources.voice_cmd_explain_dynamic_markers
+import org.scottishtecharmy.soundscape.resources.voice_cmd_help_response
+import org.scottishtecharmy.soundscape.resources.voice_cmd_list_markers
+import org.scottishtecharmy.soundscape.resources.voice_cmd_list_routes
+import org.scottishtecharmy.soundscape.resources.voice_cmd_listening
+import org.scottishtecharmy.soundscape.resources.voice_cmd_not_recognized
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_busy
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_audio
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_cannot_check_support
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_cannot_listen_to_download_events
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_client
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_language_not_supported
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_language_unavailable
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_network
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_network_timeout
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_permissions
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_server
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_server_disconnected
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_speech_timeout
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_too_many_requests
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_unknown
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_error_unsupported
+import org.scottishtecharmy.soundscape.resources.voice_cmd_speech_recognition_not_match
+import org.scottishtecharmy.soundscape.resources.voice_cmd_start_beacon_at_marker_with_name
+import org.scottishtecharmy.soundscape.resources.voice_cmd_start_route
 import org.scottishtecharmy.soundscape.services.SoundscapeService
-import androidx.preference.PreferenceManager
-import org.scottishtecharmy.soundscape.MainActivity
-import org.scottishtecharmy.soundscape.audio.NativeAudioEngine.Companion.EARCON_CALLOUTS_ON
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
 import org.scottishtecharmy.soundscape.utils.fuzzyCompare
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
@@ -55,8 +89,11 @@ class VoiceCommandManager(
     private var speechRecognizer: SpeechRecognizer? = null
     private val _state = MutableStateFlow<VoiceCommandState>(VoiceCommandState.Idle)
     val state: StateFlow<VoiceCommandState> = _state.asStateFlow()
-    @Volatile private var listOfRoutes: List<RouteEntity> = emptyList()
-    @Volatile private var listOfMarkers: List<MarkerEntity> = emptyList()
+    @Volatile
+    private var listOfRoutes: List<RouteEntity> = emptyList()
+    @Volatile
+    private var listOfMarkers: List<MarkerEntity> = emptyList()
+
     // Language tag validated against the recognizer's supported list; set by initialize().
     private var cachedLanguage: String? = null
     private val audioManager = service.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -118,7 +155,7 @@ class VoiceCommandManager(
         Thread({
             val buf = ByteArray(bufferSize)
 
-            val debugStream : java.io.FileOutputStream? = null
+            val debugStream: java.io.FileOutputStream? = null
 //            val debugFile = java.io.File(context.getExternalFilesDir(null), "bt_audio_debug.pcm")
 //            val debugStream = java.io.FileOutputStream(debugFile)
 //            println("BT audio: writing debug PCM to ${debugFile.absolutePath}")
@@ -189,8 +226,8 @@ class VoiceCommandManager(
             val state = intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, -1)
             when (state) {
                 AudioManager.SCO_AUDIO_STATE_DISCONNECTED -> println("SCO Audio state DISCONNECTED")
-                AudioManager.SCO_AUDIO_STATE_CONNECTING   -> println("SCO Audio state CONNECTING")
-                AudioManager.SCO_AUDIO_STATE_CONNECTED    -> println("SCO Audio state CONNECTED")
+                AudioManager.SCO_AUDIO_STATE_CONNECTING -> println("SCO Audio state CONNECTING")
+                AudioManager.SCO_AUDIO_STATE_CONNECTED -> println("SCO Audio state CONNECTED")
                 else -> println("SCO Audio state $state")
             }
             if (state == AudioManager.SCO_AUDIO_STATE_CONNECTED && scoDisconnectedCallback == null) {
@@ -252,20 +289,23 @@ class VoiceCommandManager(
 
     // ── Commands & matching ─────────────────────────────────────────────────────
 
-    data class VoiceCommand(val stringId: StringResource, val action: (arg: ArrayList<String>) -> Unit)
+    data class VoiceCommand(
+        val stringId: StringResource,
+        val action: (arg: ArrayList<String>) -> Unit
+    )
 
     private val simpleCommands = arrayOf(
-        VoiceCommand(Res.string.directions_my_location)          { service.myLocation() },
-        VoiceCommand(Res.string.help_orient_page_title)          { service.whatsAroundMe() },
-        VoiceCommand(Res.string.help_explore_page_title)         { service.aheadOfMe() },
-        VoiceCommand(Res.string.callouts_nearby_markers)         { service.nearbyMarkers() },
-        VoiceCommand(Res.string.route_detail_action_next)        { service.routeSkipNext() },
-        VoiceCommand(Res.string.route_detail_action_previous)    { service.routeSkipPrevious() },
-        VoiceCommand(Res.string.beacon_action_mute_beacon)       { service.routeMute() },
-        VoiceCommand(Res.string.route_detail_action_stop_route)  { service.routeStop() },
-        VoiceCommand(Res.string.voice_cmd_list_routes)           { service.routeListRoutes() },
-        VoiceCommand(Res.string.voice_cmd_list_markers)          { service.routeListMarkers() },
-        VoiceCommand(Res.string.menu_help)                       { voiceHelp() },
+        VoiceCommand(Res.string.directions_my_location) { service.myLocation() },
+        VoiceCommand(Res.string.help_orient_page_title) { service.whatsAroundMe() },
+        VoiceCommand(Res.string.help_explore_page_title) { service.aheadOfMe() },
+        VoiceCommand(Res.string.callouts_nearby_markers) { service.nearbyMarkers() },
+        VoiceCommand(Res.string.route_detail_action_next) { service.routeSkipNext() },
+        VoiceCommand(Res.string.route_detail_action_previous) { service.routeSkipPrevious() },
+        VoiceCommand(Res.string.beacon_action_mute_beacon) { service.routeMute() },
+        VoiceCommand(Res.string.route_detail_action_stop_route) { service.routeStop() },
+        VoiceCommand(Res.string.voice_cmd_list_routes) { service.routeListRoutes() },
+        VoiceCommand(Res.string.voice_cmd_list_markers) { service.routeListMarkers() },
+        VoiceCommand(Res.string.menu_help) { voiceHelp() },
     )
 
     private fun matchDynamicMarkers(speech: String): Boolean {
@@ -276,8 +316,9 @@ class VoiceCommandManager(
         // Markers
         var bestMarker: MarkerEntity? = null
         for (marker in markers) {
-            val commandString = kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_beacon_at_marker_with_name) }
-                .format(marker.name).lowercase()
+            val commandString =
+                kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_beacon_at_marker_with_name) }
+                    .format(marker.name).lowercase()
             println("Marker compare \"$commandString\" with \"$speech\"")
             val match = commandString.fuzzyCompare(speech, false)
             if (match < 0.2 && match < minMatch) {
@@ -293,8 +334,9 @@ class VoiceCommandManager(
         // Routes
         var bestRoute: RouteEntity? = null
         for (route in routes) {
-            val commandString = kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_route) }
-                .format(route.name).lowercase()
+            val commandString =
+                kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_route) }
+                    .format(route.name).lowercase()
             println("Route compare \"$commandString\" with \"$speech\"")
             val match = commandString.fuzzyCompare(speech, false)
             if (match < 0.2 && match < minMatch) {
@@ -318,7 +360,8 @@ class VoiceCommandManager(
 
             // Start with simpleCommands which don't contain any dynamic arguments
             for (command in simpleCommands) {
-                val commandString = kotlinx.coroutines.runBlocking { getString(command.stringId) }.lowercase()
+                val commandString =
+                    kotlinx.coroutines.runBlocking { getString(command.stringId) }.lowercase()
                 val match = commandString.fuzzyCompare(t, false)
                 if (match < 0.3 && match < minMatch) {
                     minMatch = match
@@ -343,8 +386,11 @@ class VoiceCommandManager(
             AnalyticsProvider.getInstance().logEvent("voice_command_recognized", null)
         } else {
             service.speak2dText(
-                kotlinx.coroutines.runBlocking { getString(
-                    Res.string.voice_cmd_not_recognized) }.format(
+                kotlinx.coroutines.runBlocking {
+                    getString(
+                        Res.string.voice_cmd_not_recognized
+                    )
+                }.format(
                     speech.firstOrNull() ?: "",
                     kotlinx.coroutines.runBlocking { getString(Res.string.menu_help) }),
                 false,
@@ -358,7 +404,8 @@ class VoiceCommandManager(
         val firstRoute = listOfRoutes.firstOrNull()?.name
         val firstMarker = listOfMarkers.firstOrNull()?.name
 
-        val commandNames = simpleCommands.map { kotlinx.coroutines.runBlocking { getString(it.stringId) } }
+        val commandNames =
+            simpleCommands.map { kotlinx.coroutines.runBlocking { getString(it.stringId) } }
         val builder = StringBuilder()
         builder.append(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_help_response) })
         commandNames.forEach { builder.append(it).append(". ") }
@@ -366,9 +413,11 @@ class VoiceCommandManager(
         if (firstRoute != null || firstMarker != null)
             builder.append(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_explain_dynamic_markers) })
         if (firstRoute != null)
-            builder.append(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_route) }.format(firstRoute)).append(". ")
+            builder.append(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_route) }
+                .format(firstRoute)).append(". ")
         if (firstMarker != null)
-            builder.append(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_beacon_at_marker_with_name) }.format(firstMarker)).append(". ")
+            builder.append(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_beacon_at_marker_with_name) }
+                .format(firstMarker)).append(". ")
 
         service.speak2dText(builder.toString())
     }
@@ -428,6 +477,7 @@ class VoiceCommandManager(
             println("onEndOfSpeech")
             stopBluetoothAudioCapture()
         }
+
         override fun onBeginningOfSpeech() {}
         override fun onRmsChanged(rmsdB: Float) {}
         override fun onBufferReceived(buffer: ByteArray?) {}
@@ -435,23 +485,35 @@ class VoiceCommandManager(
             println("onPartialResults")
             onResults(partialResults)
         }
+
         override fun onEvent(eventType: Int, params: Bundle?) {}
     }
 
     private fun buildRecognitionIntent(language: String?): Intent =
         Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
             if (language != null) putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val biasingStrings = ArrayList<String>()
-                simpleCommands.forEach { biasingStrings.add(kotlinx.coroutines.runBlocking { getString(it.stringId) }) }
+                simpleCommands.forEach {
+                    biasingStrings.add(kotlinx.coroutines.runBlocking {
+                        getString(
+                            it.stringId
+                        )
+                    })
+                }
                 val markers = listOfMarkers
                 val routes = listOfRoutes
                 for (marker in markers)
-                    biasingStrings.add(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_beacon_at_marker_with_name) }.format(marker.name))
+                    biasingStrings.add(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_beacon_at_marker_with_name) }
+                        .format(marker.name))
                 for (route in routes)
-                    biasingStrings.add(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_route) }.format(route.name))
+                    biasingStrings.add(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_start_route) }
+                        .format(route.name))
                 putStringArrayListExtra(RecognizerIntent.EXTRA_BIASING_STRINGS, biasingStrings)
             }
             // If BT audio capture is active, pipe our AudioRecord to the recognizer
@@ -504,7 +566,10 @@ class VoiceCommandManager(
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val probeIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                )
             }
             speechRecognizer?.checkRecognitionSupport(
                 probeIntent,
@@ -550,17 +615,17 @@ class VoiceCommandManager(
         val inputs = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
         return inputs.firstOrNull {
             it.type == type && (
-                (it.address.isNotBlank() && it.address == identifier) ||
-                (it.address.isBlank() && it.productName.toString() == identifier)
-            )
+                    (it.address.isNotBlank() && it.address == identifier) ||
+                            (it.address.isBlank() && it.productName.toString() == identifier)
+                    )
         }
     }
 
     @Suppress("NewApi") // Inlined int constants, safe on all API levels
     private fun isBluetooth(device: AudioDeviceInfo?): Boolean =
         device?.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
-        device?.type == AudioDeviceInfo.TYPE_BLE_HEADSET ||
-        device?.type == AudioDeviceInfo.TYPE_HEARING_AID
+                device?.type == AudioDeviceInfo.TYPE_BLE_HEADSET ||
+                device?.type == AudioDeviceInfo.TYPE_HEARING_AID
 
     fun startListening() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -574,8 +639,13 @@ class VoiceCommandManager(
         if (prefs.getBoolean(
                 MainActivity.VOICE_COMMAND_LISTENING_PROMPT_KEY,
                 MainActivity.VOICE_COMMAND_LISTENING_PROMPT_DEFAULT
-            )) {
-            service.speak2dText(kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_listening) }, false, EARCON_CALLOUTS_ON)
+            )
+        ) {
+            service.speak2dText(
+                kotlinx.coroutines.runBlocking { getString(Res.string.voice_cmd_listening) },
+                false,
+                EARCON_CALLOUTS_ON
+            )
             val deadline = System.currentTimeMillis() + 1000L
             while (service.isAudioEngineBusy() && System.currentTimeMillis() < deadline) {
                 sleep(20)
@@ -599,8 +669,8 @@ class VoiceCommandManager(
             } else {
                 audioManager.availableCommunicationDevices.firstOrNull {
                     it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
-                    it.type == AudioDeviceInfo.TYPE_BLE_HEADSET ||
-                    it.type == AudioDeviceInfo.TYPE_HEARING_AID
+                            it.type == AudioDeviceInfo.TYPE_BLE_HEADSET ||
+                            it.type == AudioDeviceInfo.TYPE_HEARING_AID
                 }
             }
             if (bluetoothHeadset != null) {
@@ -638,7 +708,7 @@ class VoiceCommandManager(
                 startListeningInternal()
                 return
             }
-            if(audioManager.isBluetoothScoAvailableOffCall) {
+            if (audioManager.isBluetoothScoAvailableOffCall) {
                 // Suppress audio stream restart while SCO is active
                 service.audioEngine.setSuppressRestart(true)
                 audioManager.mode = AudioManager.MODE_IN_COMMUNICATION

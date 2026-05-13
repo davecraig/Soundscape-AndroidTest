@@ -83,9 +83,9 @@ class IosHeadTrackingProvider(
         newScope.launch {
             locationProvider.filteredLocationFlow.collect { loc ->
                 val usable = loc != null &&
-                    loc.hasBearing &&
-                    loc.hasSpeed &&
-                    loc.speed >= COURSE_MIN_SPEED_MPS
+                        loc.hasBearing &&
+                        loc.hasSpeed &&
+                        loc.speed >= COURSE_MIN_SPEED_MPS
                 if (usable) {
                     lastCourseDegrees = loc!!.bearing.toDouble()
                     lastCourseTimestampMillis = uptimeMillis()
@@ -125,11 +125,15 @@ class IosHeadTrackingProvider(
         val yawDegrees = 180.0 - rawYawRadians * RAD_TO_DEG
         val timestampMillis = uptimeMillis()
 
-        calibrationManager.pushDeviceReference(yawDegrees, lastDeviceHeadingDegrees, timestampMillis)
+        calibrationManager.pushDeviceReference(
+            yawDegrees,
+            lastDeviceHeadingDegrees,
+            timestampMillis
+        )
 
         val course = lastCourseDegrees
         val fresh = course != null &&
-            (timestampMillis - lastCourseTimestampMillis) <= COURSE_STALENESS_MILLIS
+                (timestampMillis - lastCourseTimestampMillis) <= COURSE_STALENESS_MILLIS
         // Push null when stale/missing so the course calibrator drops its partial window,
         // mirroring how the iOS reference clears samples when its heading observer goes nil.
         calibrationManager.pushCourseReference(

@@ -1,14 +1,5 @@
 package org.scottishtecharmy.soundscape
 
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoMoshi
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
-import org.scottishtecharmy.soundscape.geoengine.utils.getPoiFeatureCollectionBySuperCategory
-import org.scottishtecharmy.soundscape.geoengine.utils.getTilesForRegion
-import org.scottishtecharmy.soundscape.geoengine.utils.getXYTile
-import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
 import com.squareup.moshi.Moshi
 import org.junit.Assert
 import org.junit.Test
@@ -21,8 +12,6 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geoengine.utils.TileGrid.Companion.getTileGrid
 import org.scottishtecharmy.soundscape.geoengine.utils.Triangle
 import org.scottishtecharmy.soundscape.geoengine.utils.createPolygonFromTriangle
@@ -33,11 +22,22 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeatureColle
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getGpsFromNormalizedMapCoordinates
 import org.scottishtecharmy.soundscape.geoengine.utils.getNormalizedFromGpsMapCoordinates
+import org.scottishtecharmy.soundscape.geoengine.utils.getPoiFeatureCollectionBySuperCategory
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionsPolygons
+import org.scottishtecharmy.soundscape.geoengine.utils.getTilesForRegion
+import org.scottishtecharmy.soundscape.geoengine.utils.getXYTile
+import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
 import org.scottishtecharmy.soundscape.geoengine.utils.removeDuplicateOsmIds
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
 import org.scottishtecharmy.soundscape.geoengine.utils.superCategoryMap
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoMoshi
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 
 class TileUtilsTest {
     private val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
@@ -113,7 +113,10 @@ class TileUtilsTest {
         for (feature in testIntersectionsCollectionFromTileFeatureCollection) {
             Assert.assertTrue("Feature should be of type Intersection", feature is Intersection)
         }
-        Assert.assertEquals(5265, testIntersectionsCollectionFromTileFeatureCollection.features.size)
+        Assert.assertEquals(
+            5265,
+            testIntersectionsCollectionFromTileFeatureCollection.features.size
+        )
     }
 
     @Test
@@ -156,7 +159,7 @@ class TileUtilsTest {
             getPoiFeatureCollectionBySuperCategory(SuperCategoryId.OBJECT, testPoiCollection)
         Assert.assertEquals(101, testSuperCategoryPoiCollection.features.size)
 
-        for(feature in testSuperCategoryPoiCollection) {
+        for (feature in testSuperCategoryPoiCollection) {
             val mvtFeature = feature as MvtFeature
             println("${mvtFeature.featureType} - ${mvtFeature.featureValue}")
         }
@@ -235,7 +238,8 @@ class TileUtilsTest {
 
     @Test
     fun getWhatsAroundMeTest() {
-        val gridState = getGridStateForLocation(sixtyAcresCloseTestLocation, MAX_ZOOM_LEVEL, GRID_SIZE)
+        val gridState =
+            getGridStateForLocation(sixtyAcresCloseTestLocation, MAX_ZOOM_LEVEL, GRID_SIZE)
         val poiCollection = gridState.getFeatureCollection(TreeId.POIS)
 
         val currentLat = 51.43931965688239
@@ -440,8 +444,8 @@ class TileUtilsTest {
         val gridState = getGridStateForLocation(longAshtonRoadTestLocation, MAX_ZOOM_LEVEL, 1)
         val poiTree = gridState.getFeatureTree(TreeId.POIS)
         val fc = poiTree.getAllCollection()
-        for(feature in fc) {
-            if(feature.geometry.type == "Polygon") {
+        for (feature in fc) {
+            if (feature.geometry.type == "Polygon") {
                 val mvtFeature = feature as MvtFeature
                 println("${mvtFeature.name}")
                 val nearestPoint = getDistanceToFeature(userGeometry.location, feature, ruler).point
@@ -477,8 +481,16 @@ class TileUtilsTest {
             userGeometry.location,
             fovIntersectionsFeatureCollection
         )
-        Assert.assertEquals(6.24, sortedByDistanceToTest.features[0].properties?.get("distance_to") as Double, 0.1)
-        Assert.assertEquals(36.8, sortedByDistanceToTest.features[1].properties?.get("distance_to") as Double, 0.1)
+        Assert.assertEquals(
+            6.24,
+            sortedByDistanceToTest.features[0].properties?.get("distance_to") as Double,
+            0.1
+        )
+        Assert.assertEquals(
+            36.8,
+            sortedByDistanceToTest.features[1].properties?.get("distance_to") as Double,
+            0.1
+        )
 
     }
 
@@ -525,7 +537,8 @@ class TileUtilsTest {
         val nearestPoiFeature =
             poiTree.getNearestFeatureWithinTriangle(triangle, userGeometry.ruler)
 
-        val distance = getDistanceToFeature(userGeometry.location, nearestPoiFeature!!, userGeometry.ruler)
+        val distance =
+            getDistanceToFeature(userGeometry.location, nearestPoiFeature!!, userGeometry.ruler)
 
         Assert.assertEquals(101.68, distance.distance, 0.1)
 
@@ -691,7 +704,8 @@ class TileUtilsTest {
         val fovRoadsFeatureCollection = roadTree.getAllWithinTriangle(triangle)
 
         // Create a FOV triangle to pick up the intersections
-        val nearestIntersection = intersectionTree.getNearestFeatureWithinTriangle(triangle, userGeometry.ruler)
+        val nearestIntersection =
+            intersectionTree.getNearestFeatureWithinTriangle(triangle, userGeometry.ruler)
         assert(nearestIntersection != null)
 
         // how far away is the intersection?

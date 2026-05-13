@@ -44,20 +44,28 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.OnboardButton
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.first_launch_permissions_location
+import org.scottishtecharmy.soundscape.resources.first_launch_permissions_message
+import org.scottishtecharmy.soundscape.resources.first_launch_permissions_notification
+import org.scottishtecharmy.soundscape.resources.first_launch_permissions_record_audio
+import org.scottishtecharmy.soundscape.resources.first_launch_permissions_required
+import org.scottishtecharmy.soundscape.resources.first_launch_permissions_required_for_voice_control
+import org.scottishtecharmy.soundscape.resources.first_launch_permissions_title
+import org.scottishtecharmy.soundscape.resources.ui_continue
 import org.scottishtecharmy.soundscape.screens.onboarding.component.BoxWithGradientBackground
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.resources.*
 
 enum class Permission(
     val manifestIdentifier: String,

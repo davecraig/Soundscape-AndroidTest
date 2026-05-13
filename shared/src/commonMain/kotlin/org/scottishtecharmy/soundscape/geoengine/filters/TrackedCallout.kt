@@ -1,9 +1,8 @@
 package org.scottishtecharmy.soundscape.geoengine.filters
 
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
-
 import org.scottishtecharmy.soundscape.geoengine.PositionedString
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 
 class TrackedCallout(
@@ -16,16 +15,15 @@ class TrackedCallout(
     private val filter: Boolean = true,
     var calloutHistory: CalloutHistory? = null,
     var locationFilter: LocationUpdateFilter? = null
-)
-{
+) {
     val time = userGeometry?.timestampMilliseconds ?: 0L
     val ruler = location.createCheapRuler()
 
-    override fun equals(other: Any?) : Boolean {
-        if(!filter) return false
+    override fun equals(other: Any?): Boolean {
+        if (!filter) return false
 
-        if(other is TrackedCallout) {
-            if(isGeneric && other.isGeneric) {
+        if (other is TrackedCallout) {
+            if (isGeneric && other.isGeneric) {
                 // If the POIs are both generic OSM POIs and are within the appropriate proximity
                 // range+ of each other, treat them as a match
                 // TODO: Don't hard code the distance here - also, we need to compare more than
@@ -47,12 +45,13 @@ class TrackedCallout(
     }
 }
 
-class CalloutHistory(expiryPeriodMilliseconds : Long = 60000) {
+class CalloutHistory(expiryPeriodMilliseconds: Long = 60000) {
 
     // List of recent history
     private val history = mutableListOf<TrackedCallout>()
 
-    private var expiryPeriod : Long = 0
+    private var expiryPeriod: Long = 0
+
     init {
         expiryPeriod = expiryPeriodMilliseconds
     }
@@ -65,22 +64,26 @@ class CalloutHistory(expiryPeriodMilliseconds : Long = 60000) {
         val now = userGeometry.timestampMilliseconds
         // TODO : Remove hardcoded expiry time and distance should be based on category
         history.removeAll {
-            val result = ((now - it.time) > expiryPeriod) || (it.isPoint && userGeometry.ruler.distance(userGeometry.location, it.location) > 50.0)
+            val result =
+                ((now - it.time) > expiryPeriod) || (it.isPoint && userGeometry.ruler.distance(
+                    userGeometry.location,
+                    it.location
+                ) > 50.0)
 //            if(result)  println("Trim ${it.callout} - ${now - it.time} ${userGeometry.location.distance(it.location)}")
             result
         }
     }
 
-    fun find(callout: TrackedCallout) : Boolean {
-        for(tc in history) {
-            if(tc == callout) {
+    fun find(callout: TrackedCallout): Boolean {
+        for (tc in history) {
+            if (tc == callout) {
                 return true
             }
         }
         return false
     }
 
-    fun size() : Int {
+    fun size(): Int {
         return history.size
     }
 }

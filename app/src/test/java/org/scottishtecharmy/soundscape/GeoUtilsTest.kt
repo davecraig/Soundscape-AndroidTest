@@ -1,7 +1,40 @@
 package org.scottishtecharmy.soundscape
 
+import org.junit.Assert
+import org.junit.Test
+import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
+import org.scottishtecharmy.soundscape.geoengine.utils.Triangle
+import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
+import org.scottishtecharmy.soundscape.geoengine.utils.calculateCenterOfCircle
+import org.scottishtecharmy.soundscape.geoengine.utils.circleToPolygon
+import org.scottishtecharmy.soundscape.geoengine.utils.createPolygonFromTriangle
+import org.scottishtecharmy.soundscape.geoengine.utils.distance
+import org.scottishtecharmy.soundscape.geoengine.utils.distanceToPolygon
+import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxCorners
+import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfLineString
+import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfMultiLineString
+import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfMultiPoint
+import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfPoint
+import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfPolygon
+import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxesOfMultiPolygon
+import org.scottishtecharmy.soundscape.geoengine.utils.getCenterOfBoundingBox
+import org.scottishtecharmy.soundscape.geoengine.utils.getDestinationCoordinate
+import org.scottishtecharmy.soundscape.geoengine.utils.getPixelXY
+import org.scottishtecharmy.soundscape.geoengine.utils.getPolygonOfBoundingBox
+import org.scottishtecharmy.soundscape.geoengine.utils.getReferenceCoordinate
+import org.scottishtecharmy.soundscape.geoengine.utils.groundResolution
+import org.scottishtecharmy.soundscape.geoengine.utils.lineStringsIntersect
+import org.scottishtecharmy.soundscape.geoengine.utils.mapSize
+import org.scottishtecharmy.soundscape.geoengine.utils.mergePolygons
+import org.scottishtecharmy.soundscape.geoengine.utils.pixelXYToLatLon
+import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
-
+import org.scottishtecharmy.soundscape.geoengine.utils.straightLinesIntersect
+import org.scottishtecharmy.soundscape.geoengine.utils.straightLinesIntersectLngLatAlt
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiLineString
@@ -9,40 +42,6 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPoint
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
-import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
-import org.scottishtecharmy.soundscape.geoengine.utils.distance
-import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxCorners
-import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfLineString
-import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfMultiLineString
-import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfMultiPoint
-import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfPoint
-import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxOfPolygon
-import org.scottishtecharmy.soundscape.geoengine.utils.getCenterOfBoundingBox
-import org.scottishtecharmy.soundscape.geoengine.utils.getDestinationCoordinate
-import org.scottishtecharmy.soundscape.geoengine.utils.getPixelXY
-import org.scottishtecharmy.soundscape.geoengine.utils.getPolygonOfBoundingBox
-import org.scottishtecharmy.soundscape.geoengine.utils.getReferenceCoordinate
-import org.scottishtecharmy.soundscape.geoengine.utils.groundResolution
-import org.scottishtecharmy.soundscape.geoengine.utils.mapSize
-import org.scottishtecharmy.soundscape.geoengine.utils.pixelXYToLatLon
-import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
-import org.junit.Assert
-import org.junit.Test
-import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
-import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
-import org.scottishtecharmy.soundscape.geoengine.utils.Triangle
-import org.scottishtecharmy.soundscape.geoengine.utils.calculateCenterOfCircle
-import org.scottishtecharmy.soundscape.geoengine.utils.circleToPolygon
-import org.scottishtecharmy.soundscape.geoengine.utils.createPolygonFromTriangle
-import org.scottishtecharmy.soundscape.geoengine.utils.distanceToPolygon
-import org.scottishtecharmy.soundscape.geoengine.utils.getBoundingBoxesOfMultiPolygon
-import org.scottishtecharmy.soundscape.geoengine.utils.lineStringsIntersect
-import org.scottishtecharmy.soundscape.geoengine.utils.mergePolygons
-import org.scottishtecharmy.soundscape.geoengine.utils.straightLinesIntersect
-import org.scottishtecharmy.soundscape.geoengine.utils.straightLinesIntersectLngLatAlt
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
 import java.io.FileOutputStream
 
@@ -305,12 +304,13 @@ class GeoUtilsTest {
 
         val testBearingBetweenTwoPointsSouthToNorth = bearingFromTwoPoints(
             LngLatAlt(0.0, 0.0),
-            LngLatAlt(0.0, 1.0))
+            LngLatAlt(0.0, 1.0)
+        )
         Assert.assertEquals(0.0, testBearingBetweenTwoPointsSouthToNorth, 0.1)
 
         val testBearingBetweenTwoPointsNorthToSouth = bearingFromTwoPoints(
-            LngLatAlt(0.0,1.0),
-            LngLatAlt(0.0,0.0)
+            LngLatAlt(0.0, 1.0),
+            LngLatAlt(0.0, 0.0)
         )
         Assert.assertEquals(180.0, testBearingBetweenTwoPointsNorthToSouth, 0.1)
     }
@@ -340,18 +340,19 @@ class GeoUtilsTest {
     }
 
     @Test
-    fun getDestinationCoordinateTest(){
+    fun getDestinationCoordinateTest() {
 
         val destinationCoordinateTest = getDestinationCoordinate(
             LngLatAlt(0.0, 0.0),
             0.0,
-            111319.49)
+            111319.49
+        )
         Assert.assertEquals(0.0, destinationCoordinateTest.longitude, 0.000001)
         Assert.assertEquals(1.0, destinationCoordinateTest.latitude, 0.000001)
     }
 
     @Test
-    fun getReferenceCoordinateTest(){
+    fun getReferenceCoordinateTest() {
         val lineStringObject = LineString().also {
             it.coordinates = arrayListOf(
                 LngLatAlt(0.0, 0.0),
@@ -359,11 +360,11 @@ class GeoUtilsTest {
             )
         }
         val distanceBetweenCoordinates = distance(0.0, 0.0, 0.0, 1.0)
-        Assert.assertEquals(111319.49,distanceBetweenCoordinates, 0.1)
+        Assert.assertEquals(111319.49, distanceBetweenCoordinates, 0.1)
 
         val referenceCoordinateTest = getReferenceCoordinate(
             lineStringObject,
-            distanceBetweenCoordinates/2,
+            distanceBetweenCoordinates / 2,
             false
         )
         Assert.assertEquals(0.5, referenceCoordinateTest.longitude, 0.000001)
@@ -371,7 +372,7 @@ class GeoUtilsTest {
     }
 
     @Test
-    fun createTriangleFOVTest(){
+    fun createTriangleFOVTest() {
 
         val polygonTriangleFOV = createPolygonFromTriangle(
             Triangle(
@@ -393,7 +394,7 @@ class GeoUtilsTest {
     }
 
     @Test
-    fun distanceToPolygonTest(){
+    fun distanceToPolygonTest() {
         val lngLat = 0.01
         val accuracy = 0.01
         val ruler = CheapRuler(lngLat)
@@ -410,136 +411,249 @@ class GeoUtilsTest {
         }
         val minDistanceToPolygon1 = distanceToPolygon(LngLatAlt(0.0, -lngLat), polygonObject, ruler)
         Assert.assertEquals(1105.74, minDistanceToPolygon1, accuracy)
-        val minDistanceToPolygon2 = distanceToPolygon(LngLatAlt(0.0, lngLat * 2), polygonObject, ruler)
+        val minDistanceToPolygon2 =
+            distanceToPolygon(LngLatAlt(0.0, lngLat * 2), polygonObject, ruler)
         Assert.assertEquals(1105.74, minDistanceToPolygon2, accuracy)
         val minDistanceToPolygon3 = distanceToPolygon(LngLatAlt(0.0, 0.0), polygonObject, ruler)
         Assert.assertEquals(0.0, minDistanceToPolygon3, accuracy)
     }
 
     @Test
-    fun calculateCenterOfCircleFromSegmentTest(){
+    fun calculateCenterOfCircleFromSegmentTest() {
         //this test uses coordinates for a circle generated from:
         // val circleTest = circleToPolygon(32,51.4378656388476,-2.747654754997829, 5.0)
         // segments as linestrings/segments to test
         val segmentLineString1 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.7475827010838696,
-                    51.437865683763356),
-                LngLatAlt(-2.747584099636648,
-                    51.43787444552683),
-                LngLatAlt(-2.747588213435333,
-                    51.437882868854565),
-                LngLatAlt(-2.7475948843889473,
-                    51.437890630042794),
-                LngLatAlt(-2.7476038561364855,
-                    51.4378974308334),
-                LngLatAlt(-2.7476147838987206,
+                LngLatAlt(
+                    -2.7475827010838696,
+                    51.437865683763356
+                ),
+                LngLatAlt(
+                    -2.747584099636648,
+                    51.43787444552683
+                ),
+                LngLatAlt(
+                    -2.747588213435333,
+                    51.437882868854565
+                ),
+                LngLatAlt(
+                    -2.7475948843889473,
+                    51.437890630042794
+                ),
+                LngLatAlt(
+                    -2.7476038561364855,
+                    51.4378974308334
+                ),
+                LngLatAlt(
+                    -2.7476147838987206,
                     51.43790300987583
                 ),
-                LngLatAlt(-2.7476272477278783,
+                LngLatAlt(
+                    -2.7476272477278783,
                     51.4379071527706
                 ),
-                LngLatAlt(-2.747640768645994,
-                    51.437909700308595)
+                LngLatAlt(
+                    -2.747640768645994,
+                    51.437909700308595
+                )
             )
         }
         val segmentLineString2 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.747654827051767,
-                    51.437910554589344),
-                LngLatAlt(-2.7476688826885476,
-                    51.437909682783335),
-                LngLatAlt(-2.747682395406097,
-                    51.43790711839357),
-                LngLatAlt(-2.7476948459182573,
-                    51.43790295996812),
-                LngLatAlt(-2.7477057557588287,
-                    51.437897367312935),
-                LngLatAlt(-2.747714705668757,
+                LngLatAlt(
+                    -2.747654827051767,
+                    51.437910554589344
+                ),
+                LngLatAlt(
+                    -2.7476688826885476,
+                    51.437909682783335
+                ),
+                LngLatAlt(
+                    -2.747682395406097,
+                    51.43790711839357
+                ),
+                LngLatAlt(
+                    -2.7476948459182573,
+                    51.43790295996812
+                ),
+                LngLatAlt(
+                    -2.7477057557588287,
+                    51.437897367312935
+                ),
+                LngLatAlt(
+                    -2.747714705668757,
                     51.43789055535062
                 ),
-                LngLatAlt(-2.7477213517080217,
+                LngLatAlt(
+                    -2.7477213517080217,
                     51.43788278586107
                 ),
-                LngLatAlt(-2.747725438473062,
-                    51.43787435742141)
+                LngLatAlt(
+                    -2.747725438473062,
+                    51.43787435742141
+                )
             )
         }
         val segmentLineString3 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.7477268089117883,
-                    51.43786559393184),
-                LngLatAlt(-2.74772541035901,
-                    51.437856832168364),
-                LngLatAlt(-2.747721296560325,
-                    51.43784840884063),
-                LngLatAlt(-2.7477146256067106,
-                    51.4378406476524),
-                LngLatAlt(-2.7477056538591724,
-                    51.43783384686179),
-                LngLatAlt(-2.7476947260969373,
+                LngLatAlt(
+                    -2.7477268089117883,
+                    51.43786559393184
+                ),
+                LngLatAlt(
+                    -2.74772541035901,
+                    51.437856832168364
+                ),
+                LngLatAlt(
+                    -2.747721296560325,
+                    51.43784840884063
+                ),
+                LngLatAlt(
+                    -2.7477146256067106,
+                    51.4378406476524
+                ),
+                LngLatAlt(
+                    -2.7477056538591724,
+                    51.43783384686179
+                ),
+                LngLatAlt(
+                    -2.7476947260969373,
                     51.43782826781936
                 ),
-                LngLatAlt(-2.7476822622677797,
+                LngLatAlt(
+                    -2.7476822622677797,
                     51.437824124924596
                 ),
-                LngLatAlt(-2.747668741349664,
-                    51.4378215773866)
+                LngLatAlt(
+                    -2.747668741349664,
+                    51.4378215773866
+                )
             )
         }
         val segmentLineString4 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.747654682943891,
-                    51.43782072310585),
-                LngLatAlt( -2.7476406273071103,
-                    51.43782159491186),
-                LngLatAlt(-2.747627114589561,
-                    51.43782415930163),
-                LngLatAlt(-2.7476146640774006,
-                    51.437828317727075),
-                LngLatAlt(-2.7476037542368292,
-                    51.43783391038226),
-                LngLatAlt(-2.747594804326901,
+                LngLatAlt(
+                    -2.747654682943891,
+                    51.43782072310585
+                ),
+                LngLatAlt(
+                    -2.7476406273071103,
+                    51.43782159491186
+                ),
+                LngLatAlt(
+                    -2.747627114589561,
+                    51.43782415930163
+                ),
+                LngLatAlt(
+                    -2.7476146640774006,
+                    51.437828317727075
+                ),
+                LngLatAlt(
+                    -2.7476037542368292,
+                    51.43783391038226
+                ),
+                LngLatAlt(
+                    -2.747594804326901,
                     51.437840722344575
                 ),
-                LngLatAlt(-2.7475881582876363,
+                LngLatAlt(
+                    -2.7475881582876363,
                     51.437848491834124
                 ),
-                LngLatAlt(-2.747584071522596,
-                    51.43785692027379)
+                LngLatAlt(
+                    -2.747584071522596,
+                    51.43785692027379
+                )
             )
         }
         // minimum segment length possible (three points)
         val segmentLineString5 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.747654682943891,
-                    51.43782072310585),
-                LngLatAlt( -2.7476406273071103,
-                    51.43782159491186),
-                LngLatAlt(-2.747627114589561,
-                    51.43782415930163)
+                LngLatAlt(
+                    -2.747654682943891,
+                    51.43782072310585
+                ),
+                LngLatAlt(
+                    -2.7476406273071103,
+                    51.43782159491186
+                ),
+                LngLatAlt(
+                    -2.747627114589561,
+                    51.43782415930163
+                )
             )
         }
         val actualCircleCenter = LngLatAlt(-2.747654754997829, 51.4378656388476)
 
         val circle1 = calculateCenterOfCircle(segmentLineString1)
-        Assert.assertEquals(0.11, distance(actualCircleCenter.latitude, actualCircleCenter.longitude, circle1.center.latitude, circle1.center.longitude), 0.1)
+        Assert.assertEquals(
+            0.11,
+            distance(
+                actualCircleCenter.latitude,
+                actualCircleCenter.longitude,
+                circle1.center.latitude,
+                circle1.center.longitude
+            ),
+            0.1
+        )
 
         val circle2 = calculateCenterOfCircle(segmentLineString2)
-        Assert.assertEquals(0.11, distance(actualCircleCenter.latitude, actualCircleCenter.longitude, circle2.center.latitude, circle2.center.longitude), 0.1)
+        Assert.assertEquals(
+            0.11,
+            distance(
+                actualCircleCenter.latitude,
+                actualCircleCenter.longitude,
+                circle2.center.latitude,
+                circle2.center.longitude
+            ),
+            0.1
+        )
 
         val circle3 = calculateCenterOfCircle(segmentLineString3)
-        Assert.assertEquals(0.11, distance(actualCircleCenter.latitude, actualCircleCenter.longitude, circle3.center.latitude, circle3.center.longitude), 0.1)
+        Assert.assertEquals(
+            0.11,
+            distance(
+                actualCircleCenter.latitude,
+                actualCircleCenter.longitude,
+                circle3.center.latitude,
+                circle3.center.longitude
+            ),
+            0.1
+        )
 
         val circle4 = calculateCenterOfCircle(segmentLineString4)
-        Assert.assertEquals(0.11, distance(actualCircleCenter.latitude, actualCircleCenter.longitude, circle4.center.latitude, circle4.center.longitude), 0.1)
+        Assert.assertEquals(
+            0.11,
+            distance(
+                actualCircleCenter.latitude,
+                actualCircleCenter.longitude,
+                circle4.center.latitude,
+                circle4.center.longitude
+            ),
+            0.1
+        )
 
         val circle5 = calculateCenterOfCircle(segmentLineString5)
-        Assert.assertEquals(0.11, distance(actualCircleCenter.latitude, actualCircleCenter.longitude, circle5.center.latitude, circle5.center.longitude), 0.11)
+        Assert.assertEquals(
+            0.11,
+            distance(
+                actualCircleCenter.latitude,
+                actualCircleCenter.longitude,
+                circle5.center.latitude,
+                circle5.center.longitude
+            ),
+            0.11
+        )
     }
 
 
-    fun cheapTestPoint(ruler: CheapRuler, point: LngLatAlt, line: LineString, fc: FeatureCollection) {
+    fun cheapTestPoint(
+        ruler: CheapRuler,
+        point: LngLatAlt,
+        line: LineString,
+        fc: FeatureCollection
+    ) {
         val pdh = ruler.distanceToLineString(point, line)
         val pointFeature1 = Feature()
         pointFeature1.geometry = Point(point)
@@ -575,14 +689,14 @@ class GeoUtilsTest {
             -2.653228,
             190.0
         )
-        for(point in testCircle.coordinates[0]) {
+        for (point in testCircle.coordinates[0]) {
             cheapTestPoint(ruler, point, line, fc)
         }
 
         val lineFeature = Feature()
         lineFeature.geometry = line
         lineFeature.properties = hashMapOf()
-        fc. addFeature(lineFeature)
+        fc.addFeature(lineFeature)
 
         val adapter = GeoJsonObjectMoshiAdapter()
         val mapMatchingOutput = FileOutputStream("cheap-ruler.geojson")
@@ -607,7 +721,7 @@ class GeoUtilsTest {
         val fc = FeatureCollection()
 
         val ruler = CheapRuler(center.latitude)
-        for(point in circle.coordinates[0]) {
+        for (point in circle.coordinates[0]) {
             val distance = ruler.distance(center, point)
             val heading = ruler.bearing(center, point)
             val text = formatDistanceAndDirection(distance, heading, null, 270.0, "LeftRight")
@@ -625,31 +739,31 @@ class GeoUtilsTest {
     }
 
     @Test
-    fun intersectingLinesTest(){
+    fun intersectingLinesTest() {
 
         val testLinesIntersectLngLatAlt1 = straightLinesIntersect(
-            LngLatAlt(0.0,0.5),
+            LngLatAlt(0.0, 0.5),
             LngLatAlt(1.0, 0.5),
             LngLatAlt(0.5, 0.0),
-            LngLatAlt(0.5,1.0)
+            LngLatAlt(0.5, 1.0)
         )
 
         //we have a vertical and a horizontal line here (cross), so they should intersect at 0.5, 0.5
         Assert.assertEquals(true, testLinesIntersectLngLatAlt1)
 
         val testLinesIntersectLngLatAlt2 = straightLinesIntersect(
-            LngLatAlt(0.0,0.5),
+            LngLatAlt(0.0, 0.5),
             LngLatAlt(1.0, 0.5),
             LngLatAlt(0.0, 0.0),
-            LngLatAlt(0.0,1.0)
+            LngLatAlt(0.0, 1.0)
         )
         //crossing lines (T shape) should intersect
         Assert.assertEquals(true, testLinesIntersectLngLatAlt2)
 
         val testLinesIntersectLngLatAlt3 = straightLinesIntersect(
-            LngLatAlt(0.0,0.0),
-            LngLatAlt (1.0,1.0),
-            LngLatAlt(1.0,0.0),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 1.0),
+            LngLatAlt(1.0, 0.0),
             LngLatAlt(0.0, 1.0)
         )
         // These lines are diagonal and should intersect
@@ -694,26 +808,26 @@ class GeoUtilsTest {
     }
 
     @Test
-    fun intersectingLineStringsTest(){
+    fun intersectingLineStringsTest() {
         val lineString1 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.6856311440872105,51.44095049507263),
-                LngLatAlt(-2.6854046355432217,51.44085784067977),
-                LngLatAlt(-2.6852524501146036,51.440941670852794)
+                LngLatAlt(-2.6856311440872105, 51.44095049507263),
+                LngLatAlt(-2.6854046355432217, 51.44085784067977),
+                LngLatAlt(-2.6852524501146036, 51.440941670852794)
             )
         }
 
         val lineString2 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.685340930014803,51.4409946161459),
-                LngLatAlt(-2.6853480084065495,51.44081371947439)
+                LngLatAlt(-2.685340930014803, 51.4409946161459),
+                LngLatAlt(-2.6853480084065495, 51.44081371947439)
             )
         }
 
         val lineString3 = LineString().also {
             it.coordinates = arrayListOf(
-                LngLatAlt(-2.6851321174495126,51.44103432507555),
-                LngLatAlt(-2.685135656646054,51.44082474977969)
+                LngLatAlt(-2.6851321174495126, 51.44103432507555),
+                LngLatAlt(-2.685135656646054, 51.44082474977969)
             )
         }
 
@@ -727,39 +841,39 @@ class GeoUtilsTest {
 
         // These linestrings do intersect - they share a vertex
         val intersect3 = straightLinesIntersect(
-            LngLatAlt(-4.305750131607056,55.947229354934144),
-            LngLatAlt(-4.30576890707016,55.947257891396816),
-            LngLatAlt(-4.306174131587852,55.946848076693094),
-            LngLatAlt(-4.305750131607056,55.947229354934144)
+            LngLatAlt(-4.305750131607056, 55.947229354934144),
+            LngLatAlt(-4.30576890707016, 55.947257891396816),
+            LngLatAlt(-4.306174131587852, 55.946848076693094),
+            LngLatAlt(-4.305750131607056, 55.947229354934144)
         )
         Assert.assertEquals(true, intersect3)
     }
 
     @Test
-    fun intersectingStraightLngLatAltTest(){
+    fun intersectingStraightLngLatAltTest() {
         val testLinesIntersectLngLatAlt1 = straightLinesIntersectLngLatAlt(
-            LngLatAlt(0.0,0.5),
+            LngLatAlt(0.0, 0.5),
             LngLatAlt(1.0, 0.5),
             LngLatAlt(0.5, 0.0),
-            LngLatAlt(0.5,1.0)
+            LngLatAlt(0.5, 1.0)
         )
 
         //we have a vertical and a horizontal line here (cross), so they should intersect at 0.5, 0.5
         Assert.assertEquals(LngLatAlt(0.5, 0.5), testLinesIntersectLngLatAlt1)
 
         val testLinesIntersectLngLatAlt2 = straightLinesIntersectLngLatAlt(
-            LngLatAlt(0.0,0.5),
+            LngLatAlt(0.0, 0.5),
             LngLatAlt(1.0, 0.5),
             LngLatAlt(0.0, 0.0),
-            LngLatAlt(0.0,1.0)
+            LngLatAlt(0.0, 1.0)
         )
         //crossing lines (T shape) should intersect at 0.0, 0.5 as we have a horizontal line and a vertical line
         Assert.assertEquals(LngLatAlt(0.0, 0.5), testLinesIntersectLngLatAlt2)
 
         val testLinesIntersectLngLatAlt3 = straightLinesIntersectLngLatAlt(
-            LngLatAlt(0.0,0.0),
-            LngLatAlt (1.0,1.0),
-            LngLatAlt(1.0,0.0),
+            LngLatAlt(0.0, 0.0),
+            LngLatAlt(1.0, 1.0),
+            LngLatAlt(1.0, 0.0),
             LngLatAlt(0.0, 1.0)
         )
         // These lines are diagonal and should cross at 0.5, 0.5
@@ -804,12 +918,8 @@ class GeoUtilsTest {
     }
 
 
-
-
-
-
     @Test
-    fun nearestCoordinateOnPolygonSegmentTest(){
+    fun nearestCoordinateOnPolygonSegmentTest() {
 
         val currentLocation1 = LngLatAlt(0.0, 0.0)
         //closed triangle/polygon
@@ -824,12 +934,17 @@ class GeoUtilsTest {
             )
         }
 
-        val nearestDistance1 = distanceToPolygon(currentLocation1, polygon1, currentLocation1.createCheapRuler())
+        val nearestDistance1 =
+            distanceToPolygon(currentLocation1, polygon1, currentLocation1.createCheapRuler())
         val nearestPoint1 = nearestPointOnPolygonSegment(currentLocation1, polygon1)
 
         // distance to midpoint of hypotenuse (large error used is because the distance doesn't use
         // haversine calculation and so over 78km is off by a large amount)
-        Assert.assertEquals(78714.27, nearestDistance1, 300.0) // We're using CheapRuler which is inaccurate at these distances
+        Assert.assertEquals(
+            78714.27,
+            nearestDistance1,
+            300.0
+        ) // We're using CheapRuler which is inaccurate at these distances
         // midpoint of hypotenuse
         Assert.assertEquals(LngLatAlt(0.5, 0.5), nearestPoint1)
 
@@ -848,7 +963,12 @@ class GeoUtilsTest {
                 val end = ring[(i + 1) % ring.size]
 
                 val nearestPointOnSegment = nearestPointOnSegment(point, start, end)
-                val distance = distance(point.latitude, point.longitude, nearestPointOnSegment.latitude, nearestPointOnSegment.longitude)
+                val distance = distance(
+                    point.latitude,
+                    point.longitude,
+                    nearestPointOnSegment.latitude,
+                    nearestPointOnSegment.longitude
+                )
 
                 if (distance < minDistance) {
                     minDistance = distance
@@ -860,7 +980,11 @@ class GeoUtilsTest {
         return nearestPoint
     }
 
-    private fun nearestPointOnSegment(point: LngLatAlt, start: LngLatAlt, end: LngLatAlt): LngLatAlt {
+    private fun nearestPointOnSegment(
+        point: LngLatAlt,
+        start: LngLatAlt,
+        end: LngLatAlt
+    ): LngLatAlt {
         val segment = subtractLngLatAlt(end, start)
         val segmentLengthSquared = dotProductLngLatAlt(segment, segment)
 
@@ -868,7 +992,10 @@ class GeoUtilsTest {
             return start
         }
 
-        val t = (dotProductLngLatAlt(subtractLngLatAlt(point, start), segment) / segmentLengthSquared).coerceIn(0.0, 1.0)
+        val t = (dotProductLngLatAlt(
+            subtractLngLatAlt(point, start),
+            segment
+        ) / segmentLengthSquared).coerceIn(0.0, 1.0)
         return addLngLatAlt(start, multiplyLngLatAltByScalar(segment, t))
     }
 
@@ -1003,9 +1130,10 @@ class GeoUtilsTest {
         val mergedPolygon = mergedFeature.geometry as Polygon
         // Check we have one outer and one inner ring
         assert(mergedPolygon.coordinates.size == 2)
-   }
+    }
+
     @Test
-    fun cheapRulerWrapTest(){
+    fun cheapRulerWrapTest() {
         val a = LngLatAlt(0.0, 0.0)
         val b = LngLatAlt(0.0, 0.0)
         a.createCheapRuler().distance(b, a)

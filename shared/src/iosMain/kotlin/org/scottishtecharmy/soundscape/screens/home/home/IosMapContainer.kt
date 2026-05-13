@@ -8,15 +8,14 @@ import androidx.compose.ui.graphics.toArgb
 import org.maplibre.compose.style.BaseStyle
 import org.maplibre.spatialk.geojson.Geometry
 import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
-import org.scottishtecharmy.soundscape.geoengine.PROTOMAPS_SERVER_PATH
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.mapstyle.AccessibleTheme
 import org.scottishtecharmy.soundscape.mapstyle.accessibleLayerOverrides
 import org.scottishtecharmy.soundscape.mapstyle.argbToRgba
 import org.scottishtecharmy.soundscape.mapstyle.buildMapStyle
 import org.scottishtecharmy.soundscape.mapstyle.resolveTileSourceUrl
-import platform.Foundation.NSHomeDirectory
 import platform.Foundation.NSBundle
+import platform.Foundation.NSHomeDirectory
 
 private fun getTileProviderUrl(): String {
     return NSBundle.mainBundle.objectForInfoDictionaryKey("TileProviderURL") as? String ?: ""
@@ -45,7 +44,11 @@ fun rememberIosMapBaseStyle(location: LngLatAlt?, forceOnlineTiles: Boolean = fa
         val assetsDir = getMapAssetsBundlePath()
         val extractsPath = NSHomeDirectory() + "/Documents"
         val tileSourceUrl = if (forceOnlineTiles) {
-            resolveTileSourceUrl(location = null, extractsPath = "", networkTileUrl = getTileProviderUrl())
+            resolveTileSourceUrl(
+                location = null,
+                extractsPath = "",
+                networkTileUrl = getTileProviderUrl()
+            )
         } else {
             resolveTileSourceUrl(
                 location = location,
@@ -81,7 +84,8 @@ fun IosMapContainerLibre(
     extractGeometry: Geometry? = null,
     forceOnlineTiles: Boolean = false,
 ) {
-    val baseStyle = rememberIosMapBaseStyle(location = mapCenter, forceOnlineTiles = forceOnlineTiles)
+    val baseStyle =
+        rememberIosMapBaseStyle(location = mapCenter, forceOnlineTiles = forceOnlineTiles)
 
     MapContainerLibre(
         mapCenter = mapCenter,

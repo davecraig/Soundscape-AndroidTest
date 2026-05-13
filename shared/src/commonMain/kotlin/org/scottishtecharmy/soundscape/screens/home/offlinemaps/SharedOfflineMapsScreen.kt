@@ -42,9 +42,6 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.network.DownloadStateCommon
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.general_alert_cancel
-import org.scottishtecharmy.soundscape.resources.offline_map_download_cancelled
-import org.scottishtecharmy.soundscape.resources.offline_map_download_complete
-import org.scottishtecharmy.soundscape.resources.offline_map_download_error
 import org.scottishtecharmy.soundscape.resources.offline_map_details_title
 import org.scottishtecharmy.soundscape.resources.offline_maps_already_downloaded
 import org.scottishtecharmy.soundscape.resources.offline_maps_caching
@@ -86,12 +83,14 @@ fun SharedOfflineMapsScreen(
                     downloading.value = false
                     caching.value = false
                 }
+
                 is DownloadStateCommon.Caching -> {
                     caching.value = true
                     downloading.value = true
                     progress.intValue = 0
                     progressForBar.intValue = 0
                 }
+
                 is DownloadStateCommon.Downloading -> {
                     if (caching.value) caching.value = false
                     if (progressForBar.intValue != state.progress / 10) {
@@ -102,14 +101,17 @@ fun SharedOfflineMapsScreen(
                     }
                     if (!downloading.value) downloading.value = true
                 }
+
                 is DownloadStateCommon.Success -> {
                     downloading.value = false
                     caching.value = false
                 }
+
                 is DownloadStateCommon.Error -> {
                     downloading.value = false
                     caching.value = false
                 }
+
                 is DownloadStateCommon.Canceled -> {
                     downloading.value = false
                     caching.value = false
@@ -166,7 +168,9 @@ fun OfflineMapsScreenContent(
                         modifier = Modifier.testTag("appBarLeft"),
                     ) {
                         when {
-                            extractDetailsFeature.value != null -> extractDetailsFeature.value = null
+                            extractDetailsFeature.value != null -> extractDetailsFeature.value =
+                                null
+
                             downloading -> onCancelDownload()
                             else -> onBack()
                         }
@@ -195,6 +199,7 @@ fun OfflineMapsScreenContent(
                         .background(MaterialTheme.colorScheme.surface),
                 )
             }
+
             downloading -> {
                 Column(
                     modifier = Modifier
@@ -228,6 +233,7 @@ fun OfflineMapsScreenContent(
                     )
                 }
             }
+
             else -> {
                 OfflineMapsList(
                     uiState = uiState,

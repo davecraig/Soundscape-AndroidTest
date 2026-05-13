@@ -182,16 +182,21 @@ fun formatDistanceAndDirection(
                 "ClockFace" -> {
                     val timeHeading = getRelativeClockTime(heading.toInt(), userHeading.toInt())
                     headingText = ", " +
-                        (localized?.get(StringKey.RelativeClockDirection, timeHeading.toString())
-                            ?: "at $timeHeading o'clock")
+                            (localized?.get(
+                                StringKey.RelativeClockDirection,
+                                timeHeading.toString()
+                            )
+                                ?: "at $timeHeading o'clock")
                 }
+
                 "Degrees" -> {
                     val relativeHeading = (heading - userHeading)
                     val degrees = normalizeHeading(((relativeHeading / 5.0).roundToInt() * 5))
                     headingText = ", " +
-                        (localized?.get(StringKey.RelativeDegreesDirection, degrees.toString())
-                            ?: "at $degrees degrees")
+                            (localized?.get(StringKey.RelativeDegreesDirection, degrees.toString())
+                                ?: "at $degrees degrees")
                 }
+
                 "LeftRight" -> {
                     val labelKey = getRelativeLeftRightLabel((heading - userHeading).toInt())
                     headingText = ", " + (localized?.get(labelKey) ?: when (labelKey) {
@@ -214,7 +219,7 @@ fun formatDistanceAndDirection(
 
 internal fun decimalSeparator(localized: LocalizedStrings?, forAccessibility: Boolean): String {
     val key = if (forAccessibility) StringKey.NumberDecimalSeparatorA11y
-              else StringKey.NumberDecimalSeparator
+    else StringKey.NumberDecimalSeparator
     return localized?.get(key) ?: if (forAccessibility) " point " else "."
 }
 
@@ -328,8 +333,9 @@ fun describeReverseGeocode(
     settlementGrid: GridState,
     localized: LocalizedStrings?,
 ): PositionedString? {
-    val name = travellingReverseGeocodeName(userGeometry.location, gridState, settlementGrid, localized)
-        ?: return null
+    val name =
+        travellingReverseGeocodeName(userGeometry.location, gridState, settlementGrid, localized)
+            ?: return null
     return PositionedString(
         text = name,
         location = userGeometry.location,

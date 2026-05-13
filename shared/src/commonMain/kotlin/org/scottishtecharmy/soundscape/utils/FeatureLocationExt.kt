@@ -1,7 +1,5 @@
 package org.scottishtecharmy.soundscape.utils
 
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.scottishtecharmy.soundscape.components.LocationSource
@@ -61,24 +59,28 @@ fun LocationDescription.process() {
                             locationTypeProperty =
                                 setIfLower(LocationType.StreetNumber, locationTypeProperty)
                         }
+
                         "street" -> {
                             jsonFields["road"] = value.toString()
                             locationTypeProperty =
                                 setIfLower(LocationType.Street, locationTypeProperty)
                             address = true
                         }
+
                         "district" -> {
                             jsonFields["neighbourhood"] = value.toString()
                             locationTypeProperty =
                                 setIfLower(LocationType.City, locationTypeProperty)
                             address = true
                         }
+
                         "city" -> {
                             jsonFields[key] = value.toString()
                             locationTypeProperty =
                                 setIfLower(LocationType.City, locationTypeProperty)
                             address = true
                         }
+
                         "county" -> jsonFields[key] = value.toString()
                         "opposite" -> oppositeProperty = (value as Boolean)
                         "postcode", "country", "state" -> {}
@@ -97,7 +99,11 @@ fun LocationDescription.process() {
                 }
             }
             if (address) {
-                val formatter = AddressFormatter(abbreviate = false, appendCountry = false, appendUnknown = false)
+                val formatter = AddressFormatter(
+                    abbreviate = false,
+                    appendCountry = false,
+                    appendUnknown = false
+                )
                 val jsonObject = buildJsonObject {
                     for ((k, v) in jsonFields) put(k, v)
                 }
@@ -121,7 +127,8 @@ fun LocationDescription.process() {
                 }
 
                 if (nameLocal != null) {
-                    locationTypeProperty = setIfLower(LocationType.StreetNumber, locationTypeProperty)
+                    locationTypeProperty =
+                        setIfLower(LocationType.StreetNumber, locationTypeProperty)
                 }
                 if (mvt != null) {
                     nameLocal = mvt.name

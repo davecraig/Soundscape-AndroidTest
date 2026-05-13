@@ -45,7 +45,8 @@ class HeadphoneCalibrator(
         }
         samples.removeFirst()
 
-        val differences = samples.map { circularDifferenceDegrees(it.referenceDegrees, it.yawDegrees) }
+        val differences =
+            samples.map { circularDifferenceDegrees(it.referenceDegrees, it.yawDegrees) }
         val stdev = differences.circularStdDevDegrees() ?: return null
         if (stdev >= stdDevGateDegrees) return null
         val mean = differences.circularMeanDegrees() ?: return null

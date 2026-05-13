@@ -9,7 +9,10 @@ import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.audio.AudioTourInstruction
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.menu_audio_tutorial
+import org.scottishtecharmy.soundscape.resources.tour_continue_button
+import org.scottishtecharmy.soundscape.resources.tour_continue_hint
 import org.scottishtecharmy.soundscape.screens.talkbackHint
 
 @Composable

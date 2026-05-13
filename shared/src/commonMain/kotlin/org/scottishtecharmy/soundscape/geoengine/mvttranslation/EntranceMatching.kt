@@ -5,9 +5,6 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.cloneHashMap
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.iterator
 
 class EntranceMatching {
 
@@ -17,7 +14,7 @@ class EntranceMatching {
      * in the map along with any entrance. After processing it should be straightforward to match
      * up entrances to their POI polygons.
      */
-    private val buildingNodes : HashMap< Int, ArrayList<EntranceDetails>> = hashMapOf()
+    private val buildingNodes: HashMap<Int, ArrayList<EntranceDetails>> = hashMapOf()
     private val addedIds = mutableSetOf<Long>()
 
     /**
@@ -26,11 +23,12 @@ class EntranceMatching {
      * @param details describes the line that is being added.
      *
      */
-    fun addGeometry(pointArray : ArrayList<Pair<Int, Int>>,
-                   details : EntranceDetails
+    fun addGeometry(
+        pointArray: ArrayList<Pair<Int, Int>>,
+        details: EntranceDetails
     ) {
-        if(addedIds.contains(details.osmId)) {
-            if(details.layer == null) {
+        if (addedIds.contains(details.osmId)) {
+            if (details.layer == null) {
                 // There's no layer specified in the new details so there's no extra information
                 return
             }
@@ -38,10 +36,11 @@ class EntranceMatching {
         addedIds.add(details.osmId)
 
         // If we're adding a polygon don't duplicate the first point by including the last point
-        val dropCount = if(pointArray.size > 1) 1 else 0
+        val dropCount = if (pointArray.size > 1) 1 else 0
         for (point in pointArray.dropLast(dropCount)) {
-            if((point.first < 0) || (point.first > 4095) ||
-                (point.second < 0) || (point.second > 4095)) {
+            if ((point.first < 0) || (point.first > 4095) ||
+                (point.second < 0) || (point.second > 4095)
+            ) {
                 continue
             }
 
@@ -50,11 +49,10 @@ class EntranceMatching {
             val coordinateKey = point.first.shl(12) + point.second
             if (buildingNodes[coordinateKey] == null) {
                 buildingNodes[coordinateKey] = arrayListOf(details.copy())
-            }
-            else {
+            } else {
                 // Remove any previous entries for this osmID as they didn't have a level set
-                for(node in buildingNodes[coordinateKey]!!) {
-                    if(node.osmId == details.osmId) {
+                for (node in buildingNodes[coordinateKey]!!) {
+                    if (node.osmId == details.osmId) {
                         buildingNodes[coordinateKey]?.remove(node)
                         break
                     }
@@ -73,19 +71,21 @@ class EntranceMatching {
      * @param tileY the tile y coordinate so that the tile relative location of the intersection can
      *      * be turned into a latitude/longitude
      */
-    fun generateEntrances(collection: FeatureCollection,
-                          poiMap : HashMap<Long, MutableList<Feature>>,
-                          buildingMap: HashMap<Long, Feature>,
-                          tileX : Int,
-                          tileY : Int,
-                          tileZoom : Int) {
+    fun generateEntrances(
+        collection: FeatureCollection,
+        poiMap: HashMap<Long, MutableList<Feature>>,
+        buildingMap: HashMap<Long, Feature>,
+        tileX: Int,
+        tileY: Int,
+        tileZoom: Int
+    ) {
         // Add points for the intersections that we found
         for ((key, nodes) in buildingNodes) {
 
             // Generate an entrance with a matching POI polygon
-            var entranceDetails : EntranceDetails? = null
-            for(node in nodes) {
-                if(!node.poi) {
+            var entranceDetails: EntranceDetails? = null
+            for (node in nodes) {
+                if (!node.poi) {
                     // We have an entrance!
                     entranceDetails = node
                     break
@@ -94,8 +94,8 @@ class EntranceMatching {
 
             // If we have an entrance at this point then we generate a feature to represent it
             // using the POI that it is coincident with if there is one.
-            if(entranceDetails != null) {
-                var poiDetails : EntranceDetails? = null
+            if (entranceDetails != null) {
+                var poiDetails: EntranceDetails? = null
                 // Where there are multiple buildings, try and match the `layer` of the entrance
                 // with that of the POI. If there is no `layer` then it means that it is zero.
                 // There's also the confusing factor of `layer` vs. `level`. `level` is what is
@@ -113,7 +113,7 @@ class EntranceMatching {
                 var poiCount = 0
                 for (node in nodes) {
                     if (node.poi) {
-                        if(node.layer == entranceDetails.layer) {
+                        if (node.layer == entranceDetails.layer) {
                             poiCount++
                             if (poiCount > 1) {
                                 // There are multiple buildings at this point and we don't know
@@ -128,7 +128,7 @@ class EntranceMatching {
                 }
                 // We didn't find a perfect match, lets try for a match where we don't compare
                 // the layers
-                if(poiDetails == null) {
+                if (poiDetails == null) {
                     for (node in nodes) {
                         if (node.poi) {
                             poiCount++
@@ -145,7 +145,7 @@ class EntranceMatching {
                     }
                 }
 
-                when(entranceDetails.entranceType) {
+                when (entranceDetails.entranceType) {
                     // Filter on the type of entrances that we want to add using values from:
                     //    https://taginfo.openstreetmap.org/keys/entrance#values
                     // Amongst others we're excluding home which are for individual homes, garage,
@@ -168,30 +168,31 @@ class EntranceMatching {
                         val point = arrayListOf(Pair(x, y))
                         val coordinates = convertGeometry(tileX, tileY, tileZoom, point)
 
-                        if(poiDetails != null) {
+                        if (poiDetails != null) {
                             // If there's no matching POI then there's no entrance feature to make
                             val poiList = poiMap[poiDetails.osmId]
-                            val poi = if((poiList != null) && (poiList.isNotEmpty()))
+                            val poi = if ((poiList != null) && (poiList.isNotEmpty()))
                                 poiList[0]
                             else
                                 buildingMap[poiDetails.osmId]
 
-                            if(poi != null) {
+                            if (poi != null) {
                                 // We're going to duplicate the POI, but change it to being a point
                                 // instead of a polygon, and add the entrance name if it has one
                                 val entrance = MvtFeature()
                                 entrance.copyProperties(poi as MvtFeature)
                                 entrance.geometry =
                                     Point(coordinates[0])
-                                entrance.properties = (cloneHashMap(poi.properties) ?: HashMap()).apply {
-                                    set("entrance", entranceDetails.entranceType)
+                                entrance.properties =
+                                    (cloneHashMap(poi.properties) ?: HashMap()).apply {
+                                        set("entrance", entranceDetails.entranceType)
 
-                                    // This is an entrance, so remove any marking that the POI has
-                                    remove("has_entrances")
+                                        // This is an entrance, so remove any marking that the POI has
+                                        remove("has_entrances")
 
-                                    if (entranceDetails.name != null)
-                                        set( "entrance_name", entranceDetails.name)
-                                }
+                                        if (entranceDetails.name != null)
+                                            set("entrance_name", entranceDetails.name)
+                                    }
                                 collection.addFeature(entrance)
                                 //println("POI entrance: ${entrance.properties?.get("name")} ${entranceDetails.entranceType} ${entranceDetails.osmId} ")
 
@@ -209,7 +210,7 @@ class EntranceMatching {
                         entrance.properties = HashMap()
 
                         var confected = (entranceDetails.name != null)
-                        if(entranceDetails.entranceType == "subway_entrance") {
+                        if (entranceDetails.entranceType == "subway_entrance") {
                             // Subway station entrances
                             entrance.featureClass = "railway"
                             entrance.featureSubClass = "subway"
@@ -217,9 +218,9 @@ class EntranceMatching {
                             entrance.featureValue = "subway"
                             entrance.superCategory = SuperCategoryId.MOBILITY
                             confected = true
-                        }
-                        else if((entranceDetails.properties?.get("railway") == "train_station_entrance") ||
-                                (entranceDetails.properties?.get("railway") == "entrance")) {
+                        } else if ((entranceDetails.properties?.get("railway") == "train_station_entrance") ||
+                            (entranceDetails.properties?.get("railway") == "entrance")
+                        ) {
                             // Train station entrances
                             entrance.featureClass = "railway"
                             entrance.featureSubClass = "station"
@@ -228,7 +229,7 @@ class EntranceMatching {
                             entrance.superCategory = SuperCategoryId.MOBILITY
                             confected = true
                         }
-                        if(confected)  {
+                        if (confected) {
                             entrance.setProperty("entrance", entranceDetails.entranceType)
                             entrance.name = entranceDetails.name
                             entrance.superCategory = SuperCategoryId.PLACE
@@ -236,6 +237,7 @@ class EntranceMatching {
                             //println("Confected Entrance: ${entrance.name} ${entranceDetails.entranceType} ${entranceDetails.osmId} ${entrance.featureClass} ${entrance.featureSubClass}")
                         }
                     }
+
                     else -> {
                         // Ignore other types of entrance for now
                     }
@@ -246,10 +248,10 @@ class EntranceMatching {
 }
 
 data class EntranceDetails(
-    val name : String?,
-    val entranceType : String?,
+    val name: String?,
+    val entranceType: String?,
     val layer: String?,
     val properties: HashMap<String, Any?>?,
     val poi: Boolean,
-    val osmId : Long,
+    val osmId: Long,
 )

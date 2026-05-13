@@ -16,7 +16,7 @@ data class LocationDescription(
     var name: String = "",
     var location: LngLatAlt,
     var opposite: Boolean = false,
-    var locationType : LocationType = LocationType.Country,
+    var locationType: LocationType = LocationType.Country,
     var description: String? = null,
     var typeDescription: TextForFeature? = null,
     var source: LocationSource = LocationSource.UnknownSource,

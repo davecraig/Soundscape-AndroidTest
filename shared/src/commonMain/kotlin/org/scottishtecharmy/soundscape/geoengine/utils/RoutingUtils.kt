@@ -1,11 +1,10 @@
 package org.scottishtecharmy.soundscape.geoengine.utils
 
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
-
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -29,7 +28,7 @@ fun dijkstraOnWaysWithLoops(
     val visited = mutableSetOf<Pair<Intersection, Double>>()
     val distanceToEnd = maxDistance
 
-    priorityQueue.add(Triple(start,0.0,0.0))
+    priorityQueue.add(Triple(start, 0.0, 0.0))
     start.dijkstraRunCount = dijkstraRunCount
     start.dijkstraDistance = 0.0
     start.dijkstraPrevious = null
@@ -51,7 +50,7 @@ fun dijkstraOnWaysWithLoops(
                     val totalDist = currentDist + weight
                     val directDistanceToEnd = ruler.distance(adjacent.location, end.location)
                     if ((totalDist + directDistanceToEnd) < distanceToEnd) {
-                        if(adjacent.dijkstraRunCount != dijkstraRunCount) {
+                        if (adjacent.dijkstraRunCount != dijkstraRunCount) {
                             // Lazy initialization of internal distance
                             adjacent.dijkstraRunCount = dijkstraRunCount
                             adjacent.dijkstraDistance = Double.MAX_VALUE
@@ -61,9 +60,14 @@ fun dijkstraOnWaysWithLoops(
 
                             adjacent.dijkstraDistance = totalDist
                             adjacent.dijkstraPrevious = node
-                            priorityQueue.add(Triple(adjacent, totalDist, (totalDist + directDistanceToEnd)))
-                            if(adjacent == end)
-                            {
+                            priorityQueue.add(
+                                Triple(
+                                    adjacent,
+                                    totalDist,
+                                    (totalDist + directDistanceToEnd)
+                                )
+                            )
+                            if (adjacent == end) {
                                 return end.dijkstraDistance
                             }
                         }
@@ -75,11 +79,13 @@ fun dijkstraOnWaysWithLoops(
     return end.dijkstraDistance
 }
 
-class ShortestDistanceResults(val distance: Double,
-                              val startIntersection: Intersection,
-                              val startWay: Way,
-                              val endIntersection: Intersection,
-                              val endWay: Way?) {
+class ShortestDistanceResults(
+    val distance: Double,
+    val startIntersection: Intersection,
+    val startWay: Way,
+    val endIntersection: Intersection,
+    val endWay: Way?
+) {
 
     fun tidy() {
         startWay.removeIntersection(startIntersection)
@@ -107,13 +113,13 @@ fun findShortestDistance(
     endIntersection: Intersection?,
     debugFeatureCollection: FeatureCollection?,
     maxDistance: Double = Double.MAX_VALUE,
-) : ShortestDistanceResults  {
+): ShortestDistanceResults {
 
     val ruler = startLocation.createCheapRuler()
 
     val newStartIntersection = startWay.createTemporaryIntersectionAndWays(startLocation, ruler)
     var newEndIntersection = endIntersection
-    if(endIntersection == null)
+    if (endIntersection == null)
         newEndIntersection = endWay!!.createTemporaryIntersectionAndWays(endLocation!!, ruler)
 
     val shortestDistance = dijkstraOnWaysWithLoops(
@@ -138,28 +144,29 @@ fun findShortestDistance(
         newStartIntersection,
         startWay,
         newEndIntersection,
-        endWay)
+        endWay
+    )
 }
 
 fun getPathWays(
     endNode: Intersection
 ): List<Way> {
     val ways = mutableListOf<Way>()
-    var currentNode : Intersection? = endNode
+    var currentNode: Intersection? = endNode
 
     while (currentNode?.dijkstraPrevious != null) {
         val previousNode = currentNode.dijkstraPrevious
         // Add Way which connects the two nodes
-        for(member in currentNode.members){
-            if(
+        for (member in currentNode.members) {
+            if (
                 (
-                    (member.intersections[WayEnd.START.id] == currentNode) and
-                    (member.intersections[WayEnd.END.id] == previousNode)
-                ) or
+                        (member.intersections[WayEnd.START.id] == currentNode) and
+                                (member.intersections[WayEnd.END.id] == previousNode)
+                        ) or
                 (
-                    (member.intersections[WayEnd.END.id] == currentNode) and
-                    (member.intersections[WayEnd.START.id] == previousNode)
-                )
+                        (member.intersections[WayEnd.END.id] == currentNode) and
+                                (member.intersections[WayEnd.START.id] == previousNode)
+                        )
             ) {
                 ways.add(member)
             }

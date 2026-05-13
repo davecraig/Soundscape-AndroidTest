@@ -13,9 +13,10 @@ fun BoxWithGradientBackground(
     color: Color,
     content: @Composable () -> Unit,
 ) {
-    Box(modifier = modifier
-        .background(color)
-        .fillMaxSize()
+    Box(
+        modifier = modifier
+            .background(color)
+            .fillMaxSize()
     ) {
         content()
     }

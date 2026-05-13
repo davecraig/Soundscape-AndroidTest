@@ -41,7 +41,9 @@ actual fun PlatformMapContainer(
         try {
             val buildConfigClass = Class.forName("org.scottishtecharmy.soundscape.BuildConfig")
             buildConfigClass.getField("TILE_PROVIDER_URL").get(null) as? String ?: ""
-        } catch (_: Exception) { "" }
+        } catch (_: Exception) {
+            ""
+        }
     }
 
     // Use offline extracts if available, otherwise fall back to network — unless
@@ -51,7 +53,11 @@ actual fun PlatformMapContainer(
     val extractsPath = context.getExternalFilesDir(null)?.absolutePath ?: ""
     val tileSourceUrl = remember(mapCenter, forceOnlineTiles) {
         if (forceOnlineTiles) {
-            resolveTileSourceUrl(location = null, extractsPath = "", networkTileUrl = tileProviderUrl)
+            resolveTileSourceUrl(
+                location = null,
+                extractsPath = "",
+                networkTileUrl = tileProviderUrl
+            )
         } else {
             resolveTileSourceUrl(
                 location = mapCenter,

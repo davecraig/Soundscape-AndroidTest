@@ -43,7 +43,8 @@ fun speakCalloutCommon(
             if (type == AudioType.LOCALIZED) type = AudioType.STANDARD
             if (resultEarcon != null)
                 audioEngine.createEarcon(resultEarcon, type, 0.0, 0.0, result.heading ?: 0.0)
-            lastHandle = audioEngine.createTextToSpeech(result.text, type, 0.0, 0.0, result.heading ?: 0.0)
+            lastHandle =
+                audioEngine.createTextToSpeech(result.text, type, 0.0, 0.0, result.heading ?: 0.0)
         } else {
             if (resultEarcon != null) {
                 audioEngine.createEarcon(

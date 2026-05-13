@@ -38,7 +38,10 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                     val point =
                         feature.geometry as org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
                     rtreeList.add(
-                        Entry(feature, Point(point.coordinates.longitude, point.coordinates.latitude))
+                        Entry(
+                            feature,
+                            Point(point.coordinates.longitude, point.coordinates.latitude)
+                        )
                     )
                 }
 
@@ -62,7 +65,12 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                             rtreeList.add(
                                 Entry(
                                     feature,
-                                    Line(point.longitude, point.latitude, next.longitude, next.latitude)
+                                    Line(
+                                        point.longitude,
+                                        point.latitude,
+                                        next.longitude,
+                                        next.latitude
+                                    )
                                 )
                             )
                         }
@@ -75,7 +83,12 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                     rtreeList.add(
                         Entry(
                             feature,
-                            Rectangle(box.westLongitude, box.southLatitude, box.eastLongitude, box.northLatitude)
+                            Rectangle(
+                                box.westLongitude,
+                                box.southLatitude,
+                                box.eastLongitude,
+                                box.northLatitude
+                            )
                         )
                     )
                 }
@@ -87,7 +100,12 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                         rtreeList.add(
                             Entry(
                                 feature,
-                                Rectangle(box.westLongitude, box.southLatitude, box.eastLongitude, box.northLatitude)
+                                Rectangle(
+                                    box.westLongitude,
+                                    box.southLatitude,
+                                    box.eastLongitude,
+                                    box.northLatitude
+                                )
                             )
                         )
                     }
@@ -103,7 +121,8 @@ class FeatureTree(featureCollection: FeatureCollection?) {
 
     private fun createBoundingSquare(center: LngLatAlt, radius: Double): Rectangle {
         val latOffset = (radius) / EARTH_RADIUS_METERS * (180 / PI)
-        val lngOffset = (radius) / (EARTH_RADIUS_METERS * cos(toRadians(center.latitude))) * (180 / PI)
+        val lngOffset =
+            (radius) / (EARTH_RADIUS_METERS * cos(toRadians(center.latitude))) * (180 / PI)
         return Rectangle(
             center.longitude - lngOffset,
             center.latitude - latOffset,
@@ -174,10 +193,14 @@ class FeatureTree(featureCollection: FeatureCollection?) {
     }
 
     private fun createBoundingSquareContainingTriangle(triangle: Triangle): Rectangle {
-        val minLatitude = minOf(triangle.origin.latitude, triangle.left.latitude, triangle.right.latitude)
-        val maxLatitude = maxOf(triangle.origin.latitude, triangle.left.latitude, triangle.right.latitude)
-        val minLongitude = minOf(triangle.origin.longitude, triangle.left.longitude, triangle.right.longitude)
-        val maxLongitude = maxOf(triangle.origin.longitude, triangle.left.longitude, triangle.right.longitude)
+        val minLatitude =
+            minOf(triangle.origin.latitude, triangle.left.latitude, triangle.right.latitude)
+        val maxLatitude =
+            maxOf(triangle.origin.latitude, triangle.left.latitude, triangle.right.latitude)
+        val minLongitude =
+            minOf(triangle.origin.longitude, triangle.left.longitude, triangle.right.longitude)
+        val maxLongitude =
+            maxOf(triangle.origin.longitude, triangle.left.longitude, triangle.right.longitude)
         return Rectangle(minLongitude, minLatitude, maxLongitude, maxLatitude)
     }
 
@@ -202,8 +225,8 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             lastPoint = point
         }
         return (polygonContainsCoordinates(triangle.origin, polygon) ||
-            polygonContainsCoordinates(triangle.left, polygon) ||
-            polygonContainsCoordinates(triangle.right, polygon))
+                polygonContainsCoordinates(triangle.left, polygon) ||
+                polygonContainsCoordinates(triangle.right, polygon))
     }
 
     private fun testMultiPolygonInFov(polygon: MultiPolygon, triangle: Triangle): Boolean =
@@ -258,7 +281,12 @@ class FeatureTree(featureCollection: FeatureCollection?) {
 
             val unsortedList = mutableListOf<EntryWithDistance>()
             for (entry in resultsWithinTriangle) {
-                unsortedList.add(EntryWithDistance(entry, distanceToEntry(entry, triangle.origin, ruler)))
+                unsortedList.add(
+                    EntryWithDistance(
+                        entry,
+                        distanceToEntry(entry, triangle.origin, ruler)
+                    )
+                )
             }
             val sortedList = unsortedList.sortedBy { it.distance }
 
@@ -283,7 +311,11 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         return featureCollection
     }
 
-    fun getNearbyCollection(location: LngLatAlt, distance: Double, ruler: Ruler): FeatureCollection {
+    fun getNearbyCollection(
+        location: LngLatAlt,
+        distance: Double,
+        ruler: Ruler
+    ): FeatureCollection {
         val featureCollection = FeatureCollection()
         if (tree != null) {
             val deduplicationSet = mutableSetOf<Feature>()
@@ -308,6 +340,7 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             val distanceResults = nearestWithinDistance(location, distance, -1, ruler)
 
             data class EntryWithDistance(val entry: Entry<Feature, Geometry>, val distance: Double)
+
             val unsortedList = distanceResults
                 .map { entry -> EntryWithDistance(entry, distanceToEntry(entry, location, ruler)) }
                 .groupBy { it.entry.value }
@@ -318,18 +351,25 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             val initialItemIterator = initialCollection?.features?.iterator()
             val newItemIterator = sortedList.iterator()
 
-            var initialItem: Feature? = if (initialItemIterator?.hasNext() == true) initialItemIterator.next() else null
-            var newItem: EntryWithDistance? = if (newItemIterator.hasNext()) newItemIterator.next() else null
+            var initialItem: Feature? =
+                if (initialItemIterator?.hasNext() == true) initialItemIterator.next() else null
+            var newItem: EntryWithDistance? =
+                if (newItemIterator.hasNext()) newItemIterator.next() else null
 
             while ((initialItem != null) or (newItem != null)) {
                 if (featureCollection.features.size > maxCount) break
                 if (initialItem != null) {
                     var addInitial = false
                     if (newItem == null) addInitial = true
-                    if (!addInitial) addInitial = getDistanceToFeature(location, initialItem, ruler).distance < newItem!!.distance
+                    if (!addInitial) addInitial = getDistanceToFeature(
+                        location,
+                        initialItem,
+                        ruler
+                    ).distance < newItem!!.distance
                     if (addInitial) {
                         featureCollection.addFeature(initialItem)
-                        initialItem = if (initialItemIterator?.hasNext() == true) initialItemIterator.next() else null
+                        initialItem =
+                            if (initialItemIterator?.hasNext() == true) initialItemIterator.next() else null
                         continue
                     }
                 }
@@ -385,7 +425,8 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         if (tree == null) return FeatureCollection()
 
         val result = FeatureCollection()
-        val pointBox = Rectangle(location.longitude, location.latitude, location.longitude, location.latitude)
+        val pointBox =
+            Rectangle(location.longitude, location.latitude, location.longitude, location.latitude)
         for (entry in tree!!.search(pointBox)) {
             val geom = entry.value.geometry
             val match = when (geom.type) {
@@ -418,7 +459,12 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                         val polygon = feature.geometry as Polygon
                         for (geometry in polygon.coordinates) {
                             for (point in geometry) {
-                                if (ruler.pointToSegmentDistance(point, p1, p2) < distance) return true
+                                if (ruler.pointToSegmentDistance(
+                                        point,
+                                        p1,
+                                        p2
+                                    ) < distance
+                                ) return true
                             }
                         }
                         return false
@@ -428,7 +474,12 @@ class FeatureTree(featureCollection: FeatureCollection?) {
                         val multiPolygon = feature.geometry as MultiPolygon
                         for (polygon in multiPolygon.coordinates) {
                             for (point in polygon[0]) {
-                                if (ruler.pointToSegmentDistance(point, p1, p2) < distance) return true
+                                if (ruler.pointToSegmentDistance(
+                                        point,
+                                        p1,
+                                        p2
+                                    ) < distance
+                                ) return true
                             }
                         }
                         return false
@@ -446,7 +497,8 @@ class FeatureTree(featureCollection: FeatureCollection?) {
         distance: Double
     ): Rectangle {
         val latOffset = (distance) / EARTH_RADIUS_METERS * (180 / PI)
-        val lngOffset = (distance) / (EARTH_RADIUS_METERS * cos(toRadians(p1.latitude))) * (180 / PI)
+        val lngOffset =
+            (distance) / (EARTH_RADIUS_METERS * cos(toRadians(p1.latitude))) * (180 / PI)
 
         val minLat = minOf(p1.latitude, p2.latitude)
         val maxLat = maxOf(p1.latitude, p2.latitude)
@@ -486,7 +538,8 @@ class FeatureTree(featureCollection: FeatureCollection?) {
             var lastPoint = LngLatAlt()
             for ((index, point) in line.coordinates.withIndex()) {
                 if (index > 0) {
-                    val results = searchNearLine(lastPoint, point, distance, deduplicationSet, ruler).toList()
+                    val results =
+                        searchNearLine(lastPoint, point, distance, deduplicationSet, ruler).toList()
                     deduplicationSet += results.map { it.value }
                 }
                 lastPoint = point

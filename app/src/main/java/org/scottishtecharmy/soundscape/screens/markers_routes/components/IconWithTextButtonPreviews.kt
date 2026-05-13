@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(fontScale = 1.5f, showBackground = true)
 @Preview(showBackground = true)
 @Composable
-fun CustomIconButtonPreview(){
+fun CustomIconButtonPreview() {
     IconWithTextButton(
         text = "Back",
         onClick = { /*TODO*/ }

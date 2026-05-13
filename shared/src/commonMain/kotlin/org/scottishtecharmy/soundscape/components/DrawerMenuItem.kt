@@ -9,12 +9,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
-fun DrawerMenuItem(onClick: () -> Unit, label: String, icon: ImageVector, modifier: Modifier = Modifier) {
+fun DrawerMenuItem(
+    onClick: () -> Unit,
+    label: String,
+    icon: ImageVector,
+    modifier: Modifier = Modifier
+) {
     NavigationDrawerItem(
-        label = { Text(
-            text = label,
-            color = MaterialTheme.colorScheme.onBackground,
-        ) },
+        label = {
+            Text(
+                text = label,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+        },
         icon = {
             Icon(
                 icon,

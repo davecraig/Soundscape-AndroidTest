@@ -5,9 +5,10 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 
-val LocalAppButtonColors: androidx.compose.runtime.ProvidableCompositionLocal<ButtonColors> = compositionLocalOf {
-    error("No AppButtonColors provided.")
-}
+val LocalAppButtonColors: androidx.compose.runtime.ProvidableCompositionLocal<ButtonColors> =
+    compositionLocalOf {
+        error("No AppButtonColors provided.")
+    }
 
 val currentAppButtonColors: ButtonColors
     @Composable

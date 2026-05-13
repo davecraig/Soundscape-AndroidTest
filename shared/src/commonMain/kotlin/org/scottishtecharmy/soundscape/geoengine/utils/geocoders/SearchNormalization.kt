@@ -2,7 +2,8 @@ package org.scottishtecharmy.soundscape.geoengine.utils.geocoders
 
 expect fun normalizeUnicode(input: String): String
 
-private val apostrophes = setOf('\'', '\u2018', '\u2019', '\u201B', '\u02BB', '\u02BC', '\u02B9', '\uA78C', '\uFF07')
+private val apostrophes =
+    setOf('\'', '\u2018', '\u2019', '\u201B', '\u02BB', '\u02BC', '\u02B9', '\uA78C', '\uFF07')
 
 fun normalizeForSearch(input: String): String {
     val nfkd = normalizeUnicode(input)

@@ -3,6 +3,7 @@ package org.scottishtecharmy.soundscape.audio
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.cValue
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.services.mediacontrol.MediaControlTarget
 import platform.AVFAudio.AVAudio3DAngularOrientation
 import platform.AVFAudio.AVAudioChannelLayout
 import platform.AVFAudio.AVAudioEngine
@@ -11,8 +12,8 @@ import platform.AVFAudio.AVAudioFormat
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryOptionMixWithOthers
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
-import platform.AVFAudio.AVAudioSessionInterruptionTypeEnded
 import platform.AVFAudio.AVAudioSessionInterruptionTypeBegan
+import platform.AVFAudio.AVAudioSessionInterruptionTypeEnded
 import platform.AVFAudio.AVAudioSessionInterruptionTypeKey
 import platform.AVFAudio.setActive
 import platform.CoreAudioTypes.kAudioChannelLayoutTag_Stereo
@@ -26,8 +27,6 @@ import platform.MediaPlayer.MPNowPlayingInfoCenter
 import platform.MediaPlayer.MPNowPlayingInfoPropertyMediaType
 import platform.MediaPlayer.MPRemoteCommandCenter
 import platform.MediaPlayer.MPRemoteCommandHandlerStatusSuccess
-
-import org.scottishtecharmy.soundscape.services.mediacontrol.MediaControlTarget
 
 /**
  * iOS audio engine implementing the KMP AudioEngine interface.
@@ -213,7 +212,8 @@ class IosAudioEngine : AudioEngine {
         // Create new environment node
         val envNode = AVAudioEnvironmentNode()
         engine.attachNode(envNode)
-        envNode.distanceAttenuationParameters.referenceDistance = DEFAULT_RENDERING_DISTANCE.toFloat()
+        envNode.distanceAttenuationParameters.referenceDistance =
+            DEFAULT_RENDERING_DISTANCE.toFloat()
         envNode.outputVolume = 1.0f
 
         // Apply current listener heading
@@ -242,11 +242,13 @@ class IosAudioEngine : AudioEngine {
                 val b = bearing(listenerLatitude, listenerLongitude, latitude, longitude)
                 bearingToPoint(b)
             }
+
             AudioType.RELATIVE -> {
                 if (heading.isNaN()) return null
                 val absHeading = (listenerHeading ?: 0.0) + heading
                 bearingToPoint(absHeading)
             }
+
             AudioType.COMPASS -> {
                 if (heading.isNaN()) return null
                 bearingToPoint(heading)
@@ -343,7 +345,12 @@ class IosAudioEngine : AudioEngine {
                             player.layer.connect(engine.mainMixerNode)
                         }
 
-                        val position = positionForType(sound.audioType, sound.latitude, sound.longitude, sound.heading)
+                        val position = positionForType(
+                            sound.audioType,
+                            sound.latitude,
+                            sound.longitude,
+                            sound.heading
+                        )
                         if (position != null) player.layer.position = position
 
                         player.layer.play()
@@ -367,7 +374,8 @@ class IosAudioEngine : AudioEngine {
                 player.layer.connect(engine.mainMixerNode)
             }
 
-            val position = positionForType(sound.audioType, sound.latitude, sound.longitude, sound.heading)
+            val position =
+                positionForType(sound.audioType, sound.latitude, sound.longitude, sound.heading)
             if (position != null) player.layer.position = position
 
             player.layer.play()

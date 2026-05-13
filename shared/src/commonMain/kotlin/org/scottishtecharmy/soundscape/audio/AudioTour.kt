@@ -10,7 +10,23 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.tour_ahead
+import org.scottishtecharmy.soundscape.resources.tour_around_me
+import org.scottishtecharmy.soundscape.resources.tour_beacon_demo
+import org.scottishtecharmy.soundscape.resources.tour_beacon_demo_locked
+import org.scottishtecharmy.soundscape.resources.tour_cancel
+import org.scottishtecharmy.soundscape.resources.tour_create_marker_done
+import org.scottishtecharmy.soundscape.resources.tour_create_marker_started
+import org.scottishtecharmy.soundscape.resources.tour_finish
+import org.scottishtecharmy.soundscape.resources.tour_markers
+import org.scottishtecharmy.soundscape.resources.tour_markers_and_routes
+import org.scottishtecharmy.soundscape.resources.tour_my_location
+import org.scottishtecharmy.soundscape.resources.tour_nearby_markers
+import org.scottishtecharmy.soundscape.resources.tour_select_place
+import org.scottishtecharmy.soundscape.resources.tour_start_beacon
+import org.scottishtecharmy.soundscape.resources.tour_stop_beacon
+import org.scottishtecharmy.soundscape.resources.tour_welcome
 
 data class AudioTourInstruction(
     val text: String
@@ -65,12 +81,12 @@ class AudioTour(
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
 
-    fun isRunning() : Boolean {
+    fun isRunning(): Boolean {
         return (_currentStep.value != AudioTourStep.NOT_STARTED)
     }
 
     fun toggleState() {
-        if(_currentStep.value == AudioTourStep.NOT_STARTED)
+        if (_currentStep.value == AudioTourStep.NOT_STARTED)
             start()
         else
             stop()
@@ -94,6 +110,7 @@ class AudioTour(
                     advanceToStep(AudioTourStep.BEACON_DEMO_LOCKED)
                 }
             }
+
             AudioTourStep.BEACON_DEMO_LOCKED -> {
                 // Start delay timer after dialog dismissal
                 coroutineScope.launch {
@@ -101,10 +118,12 @@ class AudioTour(
                     advanceToStep(AudioTourStep.STOP_BEACON)
                 }
             }
+
             AudioTourStep.FINISH, AudioTourStep.CANCEL -> {
                 // Reset to NOT_STARTED after dialog dismissal
                 _currentStep.value = AudioTourStep.NOT_STARTED
             }
+
             else -> {
                 // For other steps, advance to pending step if set
                 pendingStepAfterAcknowledgment?.let { step ->
@@ -135,6 +154,7 @@ class AudioTour(
                     advanceToStep(AudioTourStep.AROUND_ME_PROMPT)
                 }
             }
+
             AudioTourStep.AROUND_ME_WAIT -> {
                 if (button == TourButton.AROUND_ME) {
                     coroutineScope.launch {
@@ -143,6 +163,7 @@ class AudioTour(
                     }
                 }
             }
+
             AudioTourStep.AHEAD_WAIT -> {
                 if (button == TourButton.AHEAD_OF_ME) {
                     coroutineScope.launch {
@@ -151,6 +172,7 @@ class AudioTour(
                     }
                 }
             }
+
             AudioTourStep.NEARBY_MARKERS_WAIT -> {
                 if (button == TourButton.NEARBY_MARKERS) {
                     coroutineScope.launch {
@@ -159,7 +181,9 @@ class AudioTour(
                     }
                 }
             }
-            else -> { /* Ignore button presses in other states */ }
+
+            else -> { /* Ignore button presses in other states */
+            }
         }
     }
 
@@ -221,7 +245,7 @@ class AudioTour(
 
     private fun advanceToStep(step: AudioTourStep) {
         println("$TAG: Advancing to step: $step")
-        if(_currentStep.value == AudioTourStep.NOT_STARTED)
+        if (_currentStep.value == AudioTourStep.NOT_STARTED)
             return
 
         _currentStep.value = step
@@ -230,57 +254,73 @@ class AudioTour(
                 showTourInstruction(runBlocking { getString(Res.string.tour_my_location) })
                 pendingStepAfterAcknowledgment = AudioTourStep.MY_LOCATION_WAIT
             }
+
             AudioTourStep.AROUND_ME_PROMPT -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_around_me) })
                 pendingStepAfterAcknowledgment = AudioTourStep.AROUND_ME_WAIT
             }
+
             AudioTourStep.AHEAD_PROMPT -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_ahead) })
                 pendingStepAfterAcknowledgment = AudioTourStep.AHEAD_WAIT
             }
+
             AudioTourStep.NEARBY_MARKERS_PROMPT -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_nearby_markers) })
                 pendingStepAfterAcknowledgment = AudioTourStep.NEARBY_MARKERS_WAIT
             }
+
             AudioTourStep.SELECT_PLACE -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_select_place) })
             }
+
             AudioTourStep.CREATE_MARKER_STARTED -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_create_marker_started) })
             }
+
             AudioTourStep.CREATE_MARKER_DONE -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_create_marker_done) })
             }
+
             AudioTourStep.MARKERS_AND_ROUTES -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_markers_and_routes) })
             }
+
             AudioTourStep.MARKERS -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_markers) })
             }
+
             AudioTourStep.START_BEACON -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_start_beacon) })
             }
+
             AudioTourStep.BEACON_DEMO -> {
                 // Show dialog, delay timer starts in onInstructionAcknowledged()
                 showTourInstruction(runBlocking { getString(Res.string.tour_beacon_demo) })
             }
+
             AudioTourStep.BEACON_DEMO_LOCKED -> {
                 // Show dialog, delay timer starts in onInstructionAcknowledged()
                 showTourInstruction(runBlocking { getString(Res.string.tour_beacon_demo_locked) })
             }
+
             AudioTourStep.STOP_BEACON -> {
                 showTourInstruction(runBlocking { getString(Res.string.tour_stop_beacon) })
             }
+
             AudioTourStep.FINISH -> {
                 // Show dialog, reset to NOT_STARTED in onInstructionAcknowledged()
                 showTourInstruction(runBlocking { getString(Res.string.tour_finish) })
             }
+
             AudioTourStep.CANCEL -> {
                 host.clearTextToSpeechQueue()
                 // Show dialog, reset to NOT_STARTED in onInstructionAcknowledged()
                 showTourInstruction(runBlocking { getString(Res.string.tour_cancel) })
             }
-            else -> { /* No action needed */ }
+
+            else -> { /* No action needed */
+            }
         }
     }
 
@@ -294,7 +334,7 @@ class AudioTour(
             delay(100)
             waited += 100
         }
-        while(true) {
+        while (true) {
             // Wait for the audio queue to empty, debounce and then check it's still not busy
             while (host.isAudioEngineBusy()) {
                 delay(100)

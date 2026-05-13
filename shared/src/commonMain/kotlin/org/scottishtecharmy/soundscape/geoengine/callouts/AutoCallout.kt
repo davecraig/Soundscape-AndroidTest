@@ -5,10 +5,10 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.Earcons
-import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.PositionedString
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.describeReverseGeocode
 import org.scottishtecharmy.soundscape.geoengine.filters.CalloutHistory
 import org.scottishtecharmy.soundscape.geoengine.filters.LocationUpdateFilter
@@ -69,9 +69,11 @@ class AutoCallout(
         )
     }
 
-    private fun buildCalloutForRoadSense(userGeometry: UserGeometry,
-                                         gridState: GridState,
-                                         settlementState: GridState): TrackedCallout? {
+    private fun buildCalloutForRoadSense(
+        userGeometry: UserGeometry,
+        gridState: GridState,
+        settlementState: GridState
+    ): TrackedCallout? {
 
         // Check that our location/time has changed enough to generate this callout
         if (!locationFilter.shouldUpdate(userGeometry)) {
@@ -91,11 +93,11 @@ class AutoCallout(
 
         // Reverse geocode the current location (this is the iOS name for the function)
         val result = describeReverseGeocode(userGeometry, gridState, settlementState, localized)
-        if(result != null) {
+        if (result != null) {
             val callout = TrackedCallout(
                 userGeometry,
                 trackedText = result.text,
-                location =result.location!!,
+                location = result.location!!,
                 positionedStrings = listOf(result),
                 isPoint = false,
                 isGeneric = false,
@@ -114,13 +116,16 @@ class AutoCallout(
 
         return null
     }
-    fun buildCalloutForIntersections(userGeometry: UserGeometry,
-                                     gridState: GridState) : TrackedCallout? {
+
+    fun buildCalloutForIntersections(
+        userGeometry: UserGeometry,
+        gridState: GridState
+    ): TrackedCallout? {
 
         // We rely heavily on having map matched our GPS location to a nearby way. If we're not in
         // StreetPreview mode and we don't have that Way, then skip intersection callouts until we
         // do.
-        if((userGeometry.mapMatchedWay == null) && !userGeometry.inStreetPreview) {
+        if ((userGeometry.mapMatchedWay == null) && !userGeometry.inStreetPreview) {
             return null
         }
 
@@ -139,7 +144,8 @@ class AutoCallout(
 
         val roadsDescription = getRoadsDescriptionFromFov(
             gridState,
-            userGeometry)
+            userGeometry
+        )
 
         // Don't describe the road we're on if there's an intersection
         return addIntersectionCalloutFromDescription(
@@ -150,8 +156,10 @@ class AutoCallout(
         )
     }
 
-    private fun buildCalloutForNearbyPOI(userGeometry: UserGeometry,
-                                         gridState: GridState) : TrackedCallout? {
+    private fun buildCalloutForNearbyPOI(
+        userGeometry: UserGeometry,
+        gridState: GridState
+    ): TrackedCallout? {
         if (!poiFilter.shouldUpdateActivity(userGeometry)) {
             return null
         }
@@ -180,9 +188,10 @@ class AutoCallout(
         pois.features.filter { feature ->
 
             val name = getTextForFeature(localized, feature as MvtFeature)
-            val nearestPoint = getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
+            val nearestPoint =
+                getDistanceToFeature(userGeometry.location, feature, userGeometry.ruler)
 
-            if(name.text.isEmpty())
+            if (name.text.isEmpty())
                 return@filter true
 
             val callout = TrackedCallout(
@@ -194,9 +203,14 @@ class AutoCallout(
                 name.generic
             )
             val currentBeacon = userGeometry.currentBeacon
-            if(currentBeacon != null) {
+            if (currentBeacon != null) {
                 // If the feature is within 1m of the current beacon, don't call it out
-                if(getDistanceToFeature(currentBeacon, feature, userGeometry.ruler).distance < 1.0) {
+                if (getDistanceToFeature(
+                        currentBeacon,
+                        feature,
+                        userGeometry.ruler
+                    ).distance < 1.0
+                ) {
                     // We do want to add it to the POI history though so that when it's no longer
                     // the currentBeacon it doesn't immediately get called out.
                     if (!poiCalloutHistory.find(callout))
@@ -206,7 +220,7 @@ class AutoCallout(
                 }
             }
 
-            if(feature.superCategory == SuperCategoryId.UNCATEGORIZED) {
+            if (feature.superCategory == SuperCategoryId.UNCATEGORIZED) {
                 true
             } else {
                 if (nearestPoint.distance > userGeometry.getTriggerRange(feature.superCategory)) {
@@ -222,13 +236,13 @@ class AutoCallout(
                         if (!uniquelyNamedPOIs.containsKey(name.text)) {
                             // Don't filter out
                             uniquelyNamedPOIs[name.text] = feature
-                            val earcon = when(feature.superCategory) {
+                            val earcon = when (feature.superCategory) {
                                 SuperCategoryId.INFORMATION -> Earcons.INFORMATION_ALERT
                                 SuperCategoryId.SAFETY -> Earcons.SENSE_SAFETY
                                 SuperCategoryId.MOBILITY -> Earcons.SENSE_MOBILITY
                                 else -> Earcons.SENSE_POI
                             }
-                            if(nearestPoint.distance == 0.0) {
+                            if (nearestPoint.distance == 0.0) {
                                 callout.positionedStrings = List(1) {
                                     PositionedString(
                                         text = localized?.get(StringKey.DirectionsAtPoi, name.text)
@@ -276,13 +290,13 @@ class AutoCallout(
         userGeometry: UserGeometry,
         gridState: GridState,
         settlementGrid: GridState
-    ) : TrackedCallout? {
+    ): TrackedCallout? {
 
         // Run the code within the treeContext to protect it from changes to the trees whilst it's
         // running.
         return runBlocking {
             withContext(gridState.treeContext) {
-                var trackedCallout : TrackedCallout? = null
+                var trackedCallout: TrackedCallout? = null
 
                 val destinationCallout = buildCalloutForDestination(userGeometry)
                 if (destinationCallout != null) {
@@ -303,23 +317,21 @@ class AutoCallout(
                             intersectionCallout.locationFilter = intersectionFilter
                             trackedCallout = intersectionCallout
                         }
-                        if((intersectionCallout == null) || userGeometry.inStreetPreview) {
+                        if ((intersectionCallout == null) || userGeometry.inStreetPreview) {
                             // Get normal callouts for nearby POIs, for the destination, and for beacons
                             val poiCallout = buildCalloutForNearbyPOI(userGeometry, gridState)
 
                             // Update time/location filter for our new position
                             if (poiCallout != null) {
                                 poiCallout.locationFilter = poiFilter
-                                if(userGeometry.inStreetPreview) {
+                                if (userGeometry.inStreetPreview) {
                                     // In Street Preview we want to add the call outs on to any intersection that
                                     // is being called out.
-                                    if(trackedCallout != null) {
+                                    if (trackedCallout != null) {
                                         trackedCallout.positionedStrings += poiCallout.positionedStrings
-                                    }
-                                    else
+                                    } else
                                         trackedCallout = poiCallout
-                                }
-                                else
+                                } else
                                     trackedCallout = poiCallout
                             }
                         }

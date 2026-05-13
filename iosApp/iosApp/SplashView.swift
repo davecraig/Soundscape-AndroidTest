@@ -23,14 +23,17 @@ final class SplashCoordinator: ObservableObject {
     private var hasStarted = false
 
     func start() {
-        guard !hasStarted else { return }
+        guard !hasStarted else {
+            return
+        }
         hasStarted = true
 
         let currentMinor = currentMinorVersion()
         let storedMinor = UserDefaults.standard.string(forKey: lastNewReleaseKey)
 
         if storedMinor == currentMinor {
-            DispatchQueue.main.asyncAfter(deadline: .now() + alreadyPlayedDelay) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + alreadyPlayedDelay) {
+                [weak self] in
                 self?.dismiss()
             }
             return
@@ -40,7 +43,8 @@ final class SplashCoordinator: ObservableObject {
         // the next launch — matches MainActivity.kt:319-321.
         UserDefaults.standard.set(currentMinor, forKey: lastNewReleaseKey)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + attributionMinDelay) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + attributionMinDelay) {
+            [weak self] in
             self?.minDelayPassed = true
             self?.dismissIfReady()
         }
@@ -65,8 +69,10 @@ final class SplashCoordinator: ObservableObject {
             #endif
             let p = try AVAudioPlayer(contentsOf: url)
             p.volume = 0.7
-            let delegate = SplashAudioDelegate { [weak self] in
-                Task { @MainActor [weak self] in
+            let delegate = SplashAudioDelegate {
+                [weak self] in
+                Task {
+                    @MainActor [weak self] in
                     self?.didFinishAudio = true
                     self?.dismissIfReady()
                 }
@@ -87,24 +93,28 @@ final class SplashCoordinator: ObservableObject {
     }
 
     private func dismissIfReady() {
-        guard didFinishAudio && minDelayPassed else { return }
+        guard didFinishAudio && minDelayPassed else {
+            return
+        }
         dismiss()
     }
 
     private func dismiss() {
-        guard isVisible else { return }
+        guard isVisible else {
+            return
+        }
         withAnimation(.easeOut(duration: 0.25)) {
             isVisible = false
         }
         player = nil
         audioDelegate = nil
         #if os(iOS)
-        try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+        try ? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
         #endif
     }
 
     private func currentMinorVersion() -> String {
-        let raw = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "0.0.0"
+        let raw = (Bundle.main.infoDictionary ?["CFBundleShortVersionString"] as ?String) ?? "0.0.0"
         if let lastDot = raw.range(of: ".", options: .backwards) {
             return String(raw[..<lastDot.lowerBound])
         }
@@ -114,9 +124,18 @@ final class SplashCoordinator: ObservableObject {
 
 private final class SplashAudioDelegate: NSObject, AVAudioPlayerDelegate {
     private let onFinish: () -> Void
-    init(onFinish: @escaping () -> Void) { self.onFinish = onFinish }
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) { onFinish() }
-    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) { onFinish() }
+
+    init(onFinish: @escaping () -> Void) {
+        self.onFinish = onFinish
+    }
+
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        onFinish()
+    }
+
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        onFinish()
+    }
 }
 
 struct SplashView: View {
@@ -125,18 +144,9 @@ struct SplashView: View {
             Color("SplashBackground").ignoresSafeArea()
             VStack(spacing: 0) {
                 Spacer()
-                Image("SoundscapeLogo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 200)
-                    .accessibilityHidden(true)
+                Image("SoundscapeLogo").resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200).accessibilityHidden(true)
                 Spacer()
-                Image("DoubleTapBranding")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 240)
-                    .padding(.bottom, 48)
-                    .accessibilityLabel("Presented by Double Tap")
+                Image("DoubleTapBranding").resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 240).padding(.bottom, 48).accessibilityLabel("Presented by Double Tap")
             }
         }
     }

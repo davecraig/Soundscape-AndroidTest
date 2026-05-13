@@ -26,5 +26,7 @@ abstract class HeadTrackingProvider {
 
     abstract fun start()
     abstract fun stop()
-    open fun destroy() { stop() }
+    open fun destroy() {
+        stop()
+    }
 }

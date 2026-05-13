@@ -87,7 +87,6 @@ import org.scottishtecharmy.soundscape.resources.search_nearby_screen_title
 import org.scottishtecharmy.soundscape.resources.search_use_current_location
 import org.scottishtecharmy.soundscape.resources.search_view_markers
 import org.scottishtecharmy.soundscape.resources.voice_cmd_listening
-import org.scottishtecharmy.soundscape.screens.home.HomeState
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.talkbackDescription
 import org.scottishtecharmy.soundscape.screens.talkbackHint

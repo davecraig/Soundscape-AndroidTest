@@ -5,15 +5,14 @@ import android.os.Environment
 import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
 import org.json.JSONObject
-
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.scottishtecharmy.soundscape.components.LocationSource
@@ -22,9 +21,9 @@ import org.scottishtecharmy.soundscape.geoengine.ProtomapsGridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
-import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
+import org.scottishtecharmy.soundscape.geoengine.utils.address.AddressFormatter
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.FusedGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.OfflineGeocoder
@@ -35,14 +34,13 @@ import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.screens.home.data.LocationType
 import org.scottishtecharmy.soundscape.screens.onboarding.language.Language
 import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
-import org.scottishtecharmy.soundscape.utils.toLocationDescription
 import org.scottishtecharmy.soundscape.utils.process
-import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
-import org.scottishtecharmy.soundscape.geoengine.utils.address.AddressFormatter
+import org.scottishtecharmy.soundscape.utils.toLocationDescription
 
 @RunWith(AndroidJUnit4::class)
 class GeocoderTest {
@@ -52,7 +50,8 @@ class GeocoderTest {
         userGeometry: UserGeometry,
         localizedContext: Context
     ): LocationDescription? {
-        val description = geocoder.getAddressFromLngLat(userGeometry, ComposeLocalizedStrings(), false   )
+        val description =
+            geocoder.getAddressFromLngLat(userGeometry, ComposeLocalizedStrings(), false)
         return description
     }
 
@@ -64,7 +63,7 @@ class GeocoderTest {
         settlementState: GridState,
         localizedContext: Context,
         nameForMatchedRoad: String = ""
-    ) : List<LocationDescription?> {
+    ): List<LocationDescription?> {
         val cheapRuler = CheapRuler(location.latitude)
         return runBlocking {
             // Update the grid states for this location
@@ -74,8 +73,8 @@ class GeocoderTest {
             // Find the nearby road so as we can pretend that we are map matched
             val roadTree = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
             val roads = roadTree.getNearestCollection(location, 500.0, 10, gridState.ruler)
-            var mapMatchedWay : Way? = null
-            if(nameForMatchedRoad.isNotEmpty()) {
+            var mapMatchedWay: Way? = null
+            if (nameForMatchedRoad.isNotEmpty()) {
                 for (road in roads) {
                     if ((road as Way).name == nameForMatchedRoad) {
                         mapMatchedWay = road
@@ -87,8 +86,11 @@ class GeocoderTest {
                 location = location,
                 mapMatchedWay = mapMatchedWay,
                 mapMatchedLocation =
-                    if(mapMatchedWay != null)
-                        gridState.ruler.distanceToLineString(location, mapMatchedWay.geometry as LineString)
+                    if (mapMatchedWay != null)
+                        gridState.ruler.distanceToLineString(
+                            location,
+                            mapMatchedWay.geometry as LineString
+                        )
                     else
                         null
             )
@@ -101,7 +103,7 @@ class GeocoderTest {
 
             // Handle the results
             results.forEachIndexed { index, result ->
-                if(result != null) {
+                if (result != null) {
                     val distance = cheapRuler.distance(result.location, location)
                     Log.e("GeocoderTest", "${distance}m from ${list[index]}: $result")
                 }
@@ -124,7 +126,8 @@ class GeocoderTest {
             val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
             val gridState = ProtomapsGridState()
-            val settlementGrid = ProtomapsGridState(zoomLevel = 12, gridSize = 3, gridState.treeContext)
+            val settlementGrid =
+                ProtomapsGridState(zoomLevel = 12, gridSize = 3, gridState.treeContext)
 
             val geocoderList = listOf(
                 AndroidGeocoder(appContext),
@@ -134,31 +137,42 @@ class GeocoderTest {
             val local = 2
 
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
-            val extractsPath = sharedPreferences.getString(MainActivity.SELECTED_STORAGE_KEY, MainActivity.SELECTED_STORAGE_DEFAULT)!!
+            val extractsPath = sharedPreferences.getString(
+                MainActivity.SELECTED_STORAGE_KEY,
+                MainActivity.SELECTED_STORAGE_DEFAULT
+            )!!
             val offlineExtractPath = extractsPath + "/" + Environment.DIRECTORY_DOWNLOADS
             gridState.validateContext = false
-            gridState.startWithContext(ApplicationProvider.getApplicationContext(), offlineExtractPath)
+            gridState.startWithContext(
+                ApplicationProvider.getApplicationContext(),
+                offlineExtractPath
+            )
             settlementGrid.validateContext = false
-            settlementGrid.startWithContext(ApplicationProvider.getApplicationContext(), offlineExtractPath)
+            settlementGrid.startWithContext(
+                ApplicationProvider.getApplicationContext(),
+                offlineExtractPath
+            )
 
-            val briarwellLaneLocation = LngLatAlt( 	-4.3067678, 55.9414919)
+            val briarwellLaneLocation = LngLatAlt(-4.3067678, 55.9414919)
             var results = reverseGeocodeLocation(
                 geocoderList,
                 briarwellLaneLocation,
                 gridState,
                 settlementGrid,
                 appContext,
-                "Briarwell Lane")
+                "Briarwell Lane"
+            )
             //assertNotEquals("Dougalston Golf Course", results[local]!!.name)
 
-            val roseleaLocation = LngLatAlt( 	-4.3056, 55.9466)
+            val roseleaLocation = LngLatAlt(-4.3056, 55.9466)
             reverseGeocodeLocation(
                 geocoderList,
                 roseleaLocation,
                 gridState,
                 settlementGrid,
                 appContext,
-                "Roselea Drive")
+                "Roselea Drive"
+            )
 
             // On Braeside Avenue opposite the numbered houses
             // House number mapped on OSM and Google
@@ -169,7 +183,8 @@ class GeocoderTest {
                 gridState,
                 settlementGrid,
                 appContext,
-                "Braeside Avenue")
+                "Braeside Avenue"
+            )
             //assertEquals(true, results[local]!!.opposite)
             //assertEquals("10 Braeside Avenue", results[local]!!.name)
 
@@ -182,7 +197,8 @@ class GeocoderTest {
                 gridState,
                 settlementGrid,
                 appContext,
-                "Craigdhu Road")
+                "Craigdhu Road"
+            )
             //assertEquals(false, results[local]!!.opposite)
             //assertEquals("10 Craigdhu Road", results[local]!!.name)
 
@@ -192,7 +208,8 @@ class GeocoderTest {
                 gridState,
                 settlementGrid,
                 appContext,
-                "Ferguson Avenue")
+                "Ferguson Avenue"
+            )
             //assertEquals(false, results[local]!!.opposite)
             //assertEquals("1 Ferguson Avenue", results[local]!!.name)
 
@@ -219,21 +236,45 @@ class GeocoderTest {
             // Junction of driveway for Baldernock Lodge and Craigmaddie Road near Baldernock
             // OSM doesn't know much at all, Google has all the information
             val ruralLocation = LngLatAlt(-4.2791516, 55.9465324)
-            reverseGeocodeLocation(geocoderList, ruralLocation, gridState, settlementGrid, appContext)
+            reverseGeocodeLocation(
+                geocoderList,
+                ruralLocation,
+                gridState,
+                settlementGrid,
+                appContext
+            )
 
             // On A809 along from Queens View car park
             // OSM knows about the car park, but doesn't return the road. Google is accurate to the
             // point that the car park is returned in the second result because it's further away.
             val veryRuralLocation = LngLatAlt(-4.387525, 55.995528)
-            reverseGeocodeLocation(geocoderList, veryRuralLocation, gridState, settlementGrid, appContext)
+            reverseGeocodeLocation(
+                geocoderList,
+                veryRuralLocation,
+                gridState,
+                settlementGrid,
+                appContext
+            )
 
             // Next to St. Giles Cathedral on the Royal Mile in Edinburgh
             val busyLocation = LngLatAlt(-3.1917130, 55.9494934)
-            reverseGeocodeLocation(geocoderList, busyLocation, gridState, settlementGrid, appContext)
+            reverseGeocodeLocation(
+                geocoderList,
+                busyLocation,
+                gridState,
+                settlementGrid,
+                appContext
+            )
 
             // Kamakura in 6-chome-3 Zaimokuza
             val japanLocation = LngLatAlt(139.55200432751576, 35.30598235172923)
-            reverseGeocodeLocation(geocoderList, japanLocation, gridState, settlementGrid, appContext)
+            reverseGeocodeLocation(
+                geocoderList,
+                japanLocation,
+                gridState,
+                settlementGrid,
+                appContext
+            )
         }
     }
 
@@ -253,8 +294,13 @@ class GeocoderTest {
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val appStrings = ComposeLocalizedStrings()
-        suspend fun findPlace(geocoder: SoundscapeGeocoder, searchString: String, nearbyLocation: LngLatAlt): List<LocationDescription>? {
-            val description = geocoder.getAddressFromLocationName(searchString, nearbyLocation, appStrings)
+        suspend fun findPlace(
+            geocoder: SoundscapeGeocoder,
+            searchString: String,
+            nearbyLocation: LngLatAlt
+        ): List<LocationDescription>? {
+            val description =
+                geocoder.getAddressFromLocationName(searchString, nearbyLocation, appStrings)
             println("findPlace complete")
             return description
         }
@@ -273,7 +319,11 @@ class GeocoderTest {
                             findPlace(geocoder, searchString, nearbyLocation)
                         } catch (e: Exception) {
                             // If a geocoder fails, log the error and return null for that result
-                            Log.e("GeocoderTest", "Geocoding failed for ${geocoder::class.simpleName}", e)
+                            Log.e(
+                                "GeocoderTest",
+                                "Geocoding failed for ${geocoder::class.simpleName}",
+                                e
+                            )
                             null
                         }
                     }
@@ -283,8 +333,8 @@ class GeocoderTest {
 
             // Handle the results
             results?.forEachIndexed { index, result ->
-                if(result != null) {
-                    if(result.isNotEmpty()) {
+                if (result != null) {
+                    if (result.isNotEmpty()) {
                         val distance = cheapRuler.distance(result.first().location, nearbyLocation)
                         Log.e("GeocoderTest", "${distance}m from ${list[index]}: $result")
                     }
@@ -301,7 +351,8 @@ class GeocoderTest {
             val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
             val gridState = ProtomapsGridState()
-            val settlementGrid = ProtomapsGridState(zoomLevel = 12, gridSize = 3, gridState.treeContext)
+            val settlementGrid =
+                ProtomapsGridState(zoomLevel = 12, gridSize = 3, gridState.treeContext)
 
             val geocoderList = listOf(
                 AndroidGeocoder(appContext),
@@ -316,13 +367,31 @@ class GeocoderTest {
 
             val milngavie = LngLatAlt(-4.317166334292434, 55.941822016283)
             geocodeLocation(geocoderList, milngavie, "Greggs Milngavi", gridState, settlementGrid)
-            geocodeLocation(geocoderList, milngavie, "Honeybee Bakery, Milngavie", gridState, settlementGrid)
+            geocodeLocation(
+                geocoderList,
+                milngavie,
+                "Honeybee Bakery, Milngavie",
+                gridState,
+                settlementGrid
+            )
 
             val lisbon = LngLatAlt(-9.145010116796168, 38.707989573367804)
-            geocodeLocation(geocoderList, lisbon, "Taberna Tosca, Lisbon", gridState, settlementGrid)
+            geocodeLocation(
+                geocoderList,
+                lisbon,
+                "Taberna Tosca, Lisbon",
+                gridState,
+                settlementGrid
+            )
 
             val tarland = LngLatAlt(-2.8581118922791124, 57.1274095150638)
-            geocodeLocation(geocoderList, tarland, "Commercial Hotel, Tarland", gridState, settlementGrid)
+            geocodeLocation(
+                geocoderList,
+                tarland,
+                "Commercial Hotel, Tarland",
+                gridState,
+                settlementGrid
+            )
             geocodeLocation(geocoderList, tarland, "234ksdfhn98yjkhbd", gridState, settlementGrid)
         }
     }
@@ -366,8 +435,9 @@ class GeocoderTest {
 
     @Test
     fun fallbackCountryTest() {
-        for(language in supportedLanguages) {
-            val formatter = AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
+        for (language in supportedLanguages) {
+            val formatter =
+                AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
             val jsonObject = JSONObject()
             jsonObject.put("house_number", "10")
             jsonObject.put("road", "Main Street")
@@ -388,8 +458,9 @@ class GeocoderTest {
         val brokenLanguages = listOf(
             Language("中国人", "zh", "CNA"),
         )
-        for(language in brokenLanguages) {
-            val formatter = AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
+        for (language in brokenLanguages) {
+            val formatter =
+                AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
             val jsonObject = JSONObject()
             jsonObject.put("house_number", "10")
             jsonObject.put("road", "Main Street")
@@ -417,7 +488,8 @@ class GeocoderTest {
 
             val gridState = ProtomapsGridState()
             val photonGeocoder = PhotonGeocoder(PhotonSearchProvider, processor = { it.process() })
-            val platformGeocoder = if (AndroidGeocoder.enabled) AndroidGeocoder(appContext) else null
+            val platformGeocoder =
+                if (AndroidGeocoder.enabled) AndroidGeocoder(appContext) else null
             val geocoder = FusedGeocoder(gridState, photonGeocoder, platformGeocoder)
             val appStrings = ComposeLocalizedStrings()
 
@@ -425,19 +497,37 @@ class GeocoderTest {
             gridState.startWithContext(ApplicationProvider.getApplicationContext())
 
             val wellKnownLocation = LngLatAlt(-4.3215166, 55.9404307)
-            val halfordsResults = geocoder.getAddressFromLocationName("halfords crow road", wellKnownLocation, appStrings)
+            val halfordsResults = geocoder.getAddressFromLocationName(
+                "halfords crow road",
+                wellKnownLocation,
+                appStrings
+            )
 
-            val wellKnownResults = geocoder.getAddressFromLocationName("20 braeside avenue milngavie", wellKnownLocation, appStrings)
+            val wellKnownResults = geocoder.getAddressFromLocationName(
+                "20 braeside avenue milngavie",
+                wellKnownLocation,
+                appStrings
+            )
 
             val milngavie = LngLatAlt(-4.317166334292434, 55.941822016283)
-            val milngavieResults = geocoder.getAddressFromLocationName("Honeybee Bakery, Milngavie", milngavie, appStrings)
-            val greggsResults = geocoder.getAddressFromLocationName("Greggs Milngavi", milngavie, appStrings)
+            val milngavieResults = geocoder.getAddressFromLocationName(
+                "Honeybee Bakery, Milngavie",
+                milngavie,
+                appStrings
+            )
+            val greggsResults =
+                geocoder.getAddressFromLocationName("Greggs Milngavi", milngavie, appStrings)
 
             val lisbon = LngLatAlt(-9.145010116796168, 38.707989573367804)
-            val lisbonResults = geocoder.getAddressFromLocationName("Taberna Tosca, Lisbon", lisbon, appStrings)
+            val lisbonResults =
+                geocoder.getAddressFromLocationName("Taberna Tosca, Lisbon", lisbon, appStrings)
 
             val tarland = LngLatAlt(-2.8581118922791124, 57.1274095150638)
-            val tarlandResults = geocoder.getAddressFromLocationName("Commercial Hotel, Tarland", tarland, appStrings)
+            val tarlandResults = geocoder.getAddressFromLocationName(
+                "Commercial Hotel, Tarland",
+                tarland,
+                appStrings
+            )
         }
     }
 
@@ -456,7 +546,7 @@ class GeocoderTest {
             val features = gridState.getFeatureCollection(TreeId.POIS)
             features.forEach { feature ->
                 val mvt = feature as MvtFeature
-                if(mvt.name == "Greggs") {
+                if (mvt.name == "Greggs") {
                     val ld = feature.toLocationDescription(
                         LocationSource.OfflineGeocoder,
                         getDistanceToFeature(milngavie, feature, gridState.ruler).point,

@@ -3,11 +3,11 @@ package org.scottishtecharmy.soundscape.geoengine.utils
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.LinearRing
-import org.locationtech.jts.geom.Polygon as JtsPolygon
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
+import org.locationtech.jts.geom.Polygon as JtsPolygon
 
 private fun polygonOuterRingToCoordinateArray(
     polygon: Polygon?,
@@ -74,11 +74,12 @@ actual fun mergePolygons(polygon1: Feature, polygon2: Feature): Feature {
 
             val ringCount = mergedGeometryJTS.numInteriorRing
             for (ring in 0 until ringCount) {
-                val innerRing = mergedGeometryJTS.getInteriorRingN(ring).coordinates?.map { coordinate ->
-                    LngLatAlt(coordinate.x, coordinate.y)
-                }?.let {
-                    arrayListOf(*it.toTypedArray())
-                }
+                val innerRing =
+                    mergedGeometryJTS.getInteriorRingN(ring).coordinates?.map { coordinate ->
+                        LngLatAlt(coordinate.x, coordinate.y)
+                    }?.let {
+                        arrayListOf(*it.toTypedArray())
+                    }
                 if (innerRing != null) {
                     polygon.addInteriorRing(innerRing)
                 }

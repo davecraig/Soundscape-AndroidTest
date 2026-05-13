@@ -35,7 +35,8 @@ class AndroidLocationProvider(context: Context) : LocationProvider() {
         }
 
         @Deprecated("Deprecated in API level 29")
-        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        }
 
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
@@ -48,12 +49,14 @@ class AndroidLocationProvider(context: Context) : LocationProvider() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             val lastGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            val lastNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            val lastNetworkLocation =
+                locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
             val lastLocation = when {
                 lastGpsLocation != null && lastNetworkLocation != null -> {
                     if (lastGpsLocation.time > lastNetworkLocation.time) lastGpsLocation else lastNetworkLocation
                 }
+
                 lastGpsLocation != null -> lastGpsLocation
                 lastNetworkLocation != null -> lastNetworkLocation
                 else -> null

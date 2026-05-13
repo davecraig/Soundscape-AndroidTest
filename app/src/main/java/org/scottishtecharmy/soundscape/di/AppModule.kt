@@ -4,25 +4,25 @@ import androidx.preference.PreferenceManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
-import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
-import org.scottishtecharmy.soundscape.preferences.AndroidPreferencesProvider
-import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.SoundscapeIntents
-import org.scottishtecharmy.soundscape.intents.IntentEventBus
-import org.scottishtecharmy.soundscape.services.ServiceConnection
+import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.audio.AudioTourHost
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
 import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider
+import org.scottishtecharmy.soundscape.intents.IntentEventBus
+import org.scottishtecharmy.soundscape.preferences.AndroidPreferencesProvider
+import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
+import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
 import org.scottishtecharmy.soundscape.screens.home.Navigator
 import org.scottishtecharmy.soundscape.screens.onboarding.AudioOnboardingViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.AccessibilityOnboardingViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.OffscreenStorageOnboardingViewModel
+import org.scottishtecharmy.soundscape.services.ServiceConnection
 import org.scottishtecharmy.soundscape.utils.AndroidMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.AndroidOfflineMapsManager
 import org.scottishtecharmy.soundscape.utils.MarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
-import org.scottishtecharmy.soundscape.screens.home.HomeViewModel
 
 val appModule = module {
 

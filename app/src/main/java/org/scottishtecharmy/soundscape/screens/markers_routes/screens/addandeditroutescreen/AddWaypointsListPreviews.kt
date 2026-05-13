@@ -14,31 +14,83 @@ fun AddWaypointsListPreview() {
             AddAndEditRouteUiState(
                 routeMembers =
                     mutableListOf(
-                        LocationDescription(name = "Waypoint 1", location = LngLatAlt(), databaseId = 1L),
-                        LocationDescription(name = "Waypoint 2", location = LngLatAlt(), databaseId = 2L),
-                        LocationDescription(name = "Waypoint 3", location = LngLatAlt(), databaseId = 3L),
+                        LocationDescription(
+                            name = "Waypoint 1",
+                            location = LngLatAlt(),
+                            databaseId = 1L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 2",
+                            location = LngLatAlt(),
+                            databaseId = 2L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 3",
+                            location = LngLatAlt(),
+                            databaseId = 3L
+                        ),
                     ),
                 markers =
                     mutableListOf(
-                        LocationDescription(name = "Waypoint 1", location = LngLatAlt(), databaseId = 1L),
-                        LocationDescription(name = "Waypoint 2", location = LngLatAlt(), databaseId = 2L),
-                        LocationDescription(name = "Waypoint 3", location = LngLatAlt(), databaseId = 3L),
-                        LocationDescription(name = "Waypoint 4", location = LngLatAlt(), databaseId = 4L),
-                        LocationDescription(name = "Waypoint 5", location = LngLatAlt(), databaseId = 5L),
-                        LocationDescription(name = "Waypoint 6", location = LngLatAlt(), databaseId = 6L),
-                        LocationDescription(name = "Waypoint 7", location = LngLatAlt(), databaseId = 7L),
-                        LocationDescription(name = "Waypoint 8", location = LngLatAlt(), databaseId = 8L),
+                        LocationDescription(
+                            name = "Waypoint 1",
+                            location = LngLatAlt(),
+                            databaseId = 1L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 2",
+                            location = LngLatAlt(),
+                            databaseId = 2L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 3",
+                            location = LngLatAlt(),
+                            databaseId = 3L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 4",
+                            location = LngLatAlt(),
+                            databaseId = 4L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 5",
+                            location = LngLatAlt(),
+                            databaseId = 5L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 6",
+                            location = LngLatAlt(),
+                            databaseId = 6L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 7",
+                            location = LngLatAlt(),
+                            databaseId = 7L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 8",
+                            location = LngLatAlt(),
+                            databaseId = 8L
+                        ),
                     ),
                 toggledMembers =
                     listOf(
-                        LocationDescription(name = "Waypoint 2", location = LngLatAlt(), databaseId = 2L),
-                        LocationDescription(name = "Waypoint 5", location = LngLatAlt(), databaseId = 5L),
+                        LocationDescription(
+                            name = "Waypoint 2",
+                            location = LngLatAlt(),
+                            databaseId = 2L
+                        ),
+                        LocationDescription(
+                            name = "Waypoint 5",
+                            location = LngLatAlt(),
+                            databaseId = 5L
+                        ),
                     )
             ),
         placesNearbyUiState = PlacesNearbyUiState(),
-        onClickFolder = {_,_ -> },
-        onSelectLocation = {_ -> },
-        onToggleMember = {_ -> },
+        onClickFolder = { _, _ -> },
+        onSelectLocation = { _ -> },
+        onToggleMember = { _ -> },
         userLocation = LngLatAlt(),
         getCurrentLocationDescription = { LocationDescription("Location", LngLatAlt()) },
     )

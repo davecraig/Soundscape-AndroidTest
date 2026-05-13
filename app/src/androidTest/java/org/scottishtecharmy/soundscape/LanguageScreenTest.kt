@@ -1,6 +1,5 @@
 package org.scottishtecharmy.soundscape
 
-import org.scottishtecharmy.soundscape.resources.*
 import android.content.Context
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -14,6 +13,11 @@ import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Rule
 import org.junit.Test
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.first_launch_soundscape_language
+import org.scottishtecharmy.soundscape.resources.first_launch_soundscape_language_text
+import org.scottishtecharmy.soundscape.resources.no_language_selected
+import org.scottishtecharmy.soundscape.resources.ui_continue
 import org.scottishtecharmy.soundscape.screens.onboarding.language.SharedLanguageScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
@@ -28,7 +32,7 @@ class LanguageScreenTest {
     private val context: Context = ApplicationProvider.getApplicationContext()
 
     @Test
-    fun whenNoLanguageSelectedThenNoLanguageLabelDisplayedAndContinueButtonDisabled(){
+    fun whenNoLanguageSelectedThenNoLanguageLabelDisplayedAndContinueButtonDisabled() {
         composeTestRule.setContent {
             SoundscapeTheme {
                 SharedLanguageScreen(
@@ -39,23 +43,33 @@ class LanguageScreenTest {
                 )
             }
         }
-        val stringLanguageTitle = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_soundscape_language) }
-        val stringLanguageText = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_soundscape_language_text) }
+        val stringLanguageTitle =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_soundscape_language) }
+        val stringLanguageText =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_soundscape_language_text) }
 
         composeTestRule.onNodeWithText(stringLanguageTitle)
             .assertIsDisplayed()
         composeTestRule.onNodeWithText(stringLanguageText)
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText(kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.no_language_selected) })
+        composeTestRule.onNodeWithText(kotlinx.coroutines.runBlocking {
+            org.jetbrains.compose.resources.getString(
+                Res.string.no_language_selected
+            )
+        })
             .assertIsDisplayed()
 
-        composeTestRule.onNodeWithText(kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.ui_continue) })
+        composeTestRule.onNodeWithText(kotlinx.coroutines.runBlocking {
+            org.jetbrains.compose.resources.getString(
+                Res.string.ui_continue
+            )
+        })
             .assertIsNotEnabled()
 
     }
 
     @Test
-    fun whenALanguageIsSelectedThenItsNameAppearsInTheDefaultButtonAndLanguageIsMarkedAsSelectedInTheMenu(){
+    fun whenALanguageIsSelectedThenItsNameAppearsInTheDefaultButtonAndLanguageIsMarkedAsSelectedInTheMenu() {
         val selectedIndex = 1
         composeTestRule.setContent {
             SoundscapeTheme {
@@ -73,7 +87,7 @@ class LanguageScreenTest {
             .performClick()
 
         supportedLanguages.forEachIndexed { index, language ->
-            if( index == selectedIndex ) {
+            if (index == selectedIndex) {
                 composeTestRule.onNodeWithTag(
                     testTag = "${TestTags.LANGUAGE_DROPDOWN_ITEM}${language.code}-${language.region}",
                     useUnmergedTree = true
@@ -87,7 +101,11 @@ class LanguageScreenTest {
 
         }
 
-        composeTestRule.onNodeWithText(kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.ui_continue) })
+        composeTestRule.onNodeWithText(kotlinx.coroutines.runBlocking {
+            org.jetbrains.compose.resources.getString(
+                Res.string.ui_continue
+            )
+        })
             .assertIsEnabled()
     }
 }

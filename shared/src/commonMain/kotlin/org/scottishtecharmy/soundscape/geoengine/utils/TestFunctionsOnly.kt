@@ -1,8 +1,8 @@
 package org.scottishtecharmy.soundscape.geoengine.utils
 
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
 import org.scottishtecharmy.soundscape.dto.Circle
 import org.scottishtecharmy.soundscape.dto.Tile
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
@@ -162,8 +162,12 @@ fun calculateCenter(
     arcMidPoint: LngLatAlt
 ): Circle {
     val chordLength = start.createCheapRuler().distance(start, end)
-    val radius = calculateRadius(chordLength, arcMidPoint, LngLatAlt((start.longitude + end.longitude) / 2, (start.latitude + end.latitude) / 2))
-    val chordBearing = if(pointOnRightSide(start, arcMidPoint, end)){
+    val radius = calculateRadius(
+        chordLength,
+        arcMidPoint,
+        LngLatAlt((start.longitude + end.longitude) / 2, (start.latitude + end.latitude) / 2)
+    )
+    val chordBearing = if (pointOnRightSide(start, arcMidPoint, end)) {
         bearingFromTwoPoints(end, start)
     } else {
         bearingFromTwoPoints(start, end)

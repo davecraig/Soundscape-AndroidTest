@@ -37,7 +37,11 @@ class SoundscapeIntents(
                     Log.d(TAG, "getFromLocationName $location has ${addresses.size} result")
                     val address = addresses.firstOrNull()
                     if (address != null) {
-                        publishGeocoded(address.getAddressLine(0), address.longitude, address.latitude)
+                        publishGeocoded(
+                            address.getAddressLine(0),
+                            address.longitude,
+                            address.latitude
+                        )
                     } else if (fallbackLat != null && fallbackLon != null) {
                         publishLatLon(fallbackLat, fallbackLon)
                     }
@@ -88,7 +92,7 @@ class SoundscapeIntents(
     fun getRedirectUrlSync(
         url: String,
         context: Context?,
-    ) : String {
+    ): String {
         val urlTmp: URL?
         val connection: HttpURLConnection?
 
@@ -103,7 +107,7 @@ class SoundscapeIntents(
             val redUrl = connection.url.toString()
             connection.disconnect()
 
-            if(connection.responseCode != 200)
+            if (connection.responseCode != 200)
                 return ""
 
             Log.d(TAG, "Maps URL: $redUrl")
@@ -194,22 +198,27 @@ class SoundscapeIntents(
                     publishLatLon(lat, lon)
                 }
             }
+
             is IncomingIntent.OpenLocation -> {
                 AnalyticsProvider.getInstance().logEvent("intentShareMarker", null)
                 bus.publish(intent)
             }
+
             is IncomingIntent.OpenFeature -> {
                 AnalyticsProvider.getInstance().logEvent("intentOpenFeature", null)
                 bus.publish(intent)
             }
+
             IncomingIntent.StopRoute -> {
                 AnalyticsProvider.getInstance().logEvent("intentStopRoute", null)
                 bus.publish(intent)
             }
+
             is IncomingIntent.StartRouteByName -> {
                 AnalyticsProvider.getInstance().logEvent("intentStartRoute", null)
                 bus.publish(intent)
             }
+
             is IncomingIntent.StartRoute,
             is IncomingIntent.ImportRoute -> {
                 bus.publish(intent)
@@ -225,11 +234,12 @@ class SoundscapeIntents(
             input.use { stream ->
                 if (stream.available() > 1_000_000) throw Exception("File too large")
                 val text = stream.bufferedReader().readText()
-                val imported = if (intent.type == "application/json" || intent.type == "application/octet-stream") {
-                    IntentParser.parseRouteJson(text) ?: IntentParser.parseGpx(text)
-                } else {
-                    IntentParser.parseGpx(text) ?: IntentParser.parseRouteJson(text)
-                }
+                val imported =
+                    if (intent.type == "application/json" || intent.type == "application/octet-stream") {
+                        IntentParser.parseRouteJson(text) ?: IntentParser.parseGpx(text)
+                    } else {
+                        IntentParser.parseGpx(text) ?: IntentParser.parseRouteJson(text)
+                    }
                 if (imported != null) {
                     AnalyticsProvider.getInstance().logEvent("intentJsonImport", null)
                     bus.publish(imported)

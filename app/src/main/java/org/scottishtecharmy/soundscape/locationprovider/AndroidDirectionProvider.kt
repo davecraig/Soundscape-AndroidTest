@@ -33,6 +33,7 @@ class AndroidDirectionProvider(context: Context) : DirectionProvider() {
                 Sensor.TYPE_ROTATION_VECTOR -> {
                     processRotationVector(event.values, event.timestamp)
                 }
+
                 Sensor.TYPE_ACCELEROMETER -> {
                     System.arraycopy(event.values, 0, accelerometerReading, 0, 3)
                     hasAccelerometerReading = true
@@ -40,6 +41,7 @@ class AndroidDirectionProvider(context: Context) : DirectionProvider() {
                         processAccelerometerMagnetometer(event.timestamp)
                     }
                 }
+
                 Sensor.TYPE_MAGNETIC_FIELD -> {
                     System.arraycopy(event.values, 0, magnetometerReading, 0, 3)
                     hasMagnetometerReading = true
@@ -59,7 +61,8 @@ class AndroidDirectionProvider(context: Context) : DirectionProvider() {
 
         val quaternion = FloatArray(4)
         SensorManager.getQuaternionFromVector(quaternion, rotationVector)
-        val reorderedQuaternion = floatArrayOf(quaternion[1], quaternion[2], quaternion[3], quaternion[0])
+        val reorderedQuaternion =
+            floatArrayOf(quaternion[1], quaternion[2], quaternion[3], quaternion[0])
 
         emitOrientation(headingDegrees, reorderedQuaternion, timestampNanos)
     }
@@ -147,7 +150,11 @@ class AndroidDirectionProvider(context: Context) : DirectionProvider() {
         return quaternion
     }
 
-    private fun emitOrientation(headingDegrees: Float, quaternion: FloatArray, timestampNanos: Long) {
+    private fun emitOrientation(
+        headingDegrees: Float,
+        quaternion: FloatArray,
+        timestampNanos: Long
+    ) {
         val newHeading = headingDegrees.toDouble()
 
         val delta = newHeading - lastUpdateValue

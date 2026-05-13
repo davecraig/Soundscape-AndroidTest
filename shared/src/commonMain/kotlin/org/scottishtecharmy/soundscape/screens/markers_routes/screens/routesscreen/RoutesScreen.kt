@@ -14,18 +14,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.ic_routes
+import org.scottishtecharmy.soundscape.resources.routes_no_routes_hint_1
+import org.scottishtecharmy.soundscape.resources.routes_no_routes_hint_2
+import org.scottishtecharmy.soundscape.resources.routes_no_routes_title
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.MarkersAndRoutesListSort
-import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesList
+import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.resources.*
 
 @Composable
 fun RoutesScreen(
@@ -40,9 +44,9 @@ fun RoutesScreen(
 ) {
     Column(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface),
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Display error message if it exists
@@ -69,40 +73,40 @@ fun RoutesScreen(
             ) {
                 if (uiState.entries.isEmpty()) {
                     // Display UI when no routes are available
-                        Box(modifier = Modifier.padding(top = spacing.large)) {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_routes),
-                                contentDescription = null,
-                                modifier = Modifier.size(spacing.targetSize * 2),
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        Box(modifier = Modifier.mediumPadding()) {
-                            Text(
-                                stringResource(Res.string.routes_no_routes_title),
-                                style = MaterialTheme.typography.titleLarge,
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        Box(modifier = Modifier.mediumPadding()) {
-                            Text(
-                                stringResource(Res.string.routes_no_routes_hint_1),
-                                style = MaterialTheme.typography.bodyLarge,
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        Box(modifier = Modifier.mediumPadding()) {
-                            Text(
-                                stringResource(Res.string.routes_no_routes_hint_2),
-                                style = MaterialTheme.typography.bodyLarge,
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                    Box(modifier = Modifier.padding(top = spacing.large)) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_routes),
+                            contentDescription = null,
+                            modifier = Modifier.size(spacing.targetSize * 2),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Box(modifier = Modifier.mediumPadding()) {
+                        Text(
+                            stringResource(Res.string.routes_no_routes_title),
+                            style = MaterialTheme.typography.titleLarge,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Box(modifier = Modifier.mediumPadding()) {
+                        Text(
+                            stringResource(Res.string.routes_no_routes_hint_1),
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Box(modifier = Modifier.mediumPadding()) {
+                        Text(
+                            stringResource(Res.string.routes_no_routes_hint_2),
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     }
                 } else {
                     MarkersAndRoutesListSort(

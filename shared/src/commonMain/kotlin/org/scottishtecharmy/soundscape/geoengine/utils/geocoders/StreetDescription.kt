@@ -1,7 +1,5 @@
 package org.scottishtecharmy.soundscape.geoengine.utils.geocoders
 
-import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
-import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
@@ -21,8 +19,8 @@ import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
-import kotlin.collections.iterator
-import kotlin.collections.set
+import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
+import org.scottishtecharmy.soundscape.i18n.StringKey
 import kotlin.math.round
 import kotlin.math.sign
 
@@ -41,10 +39,12 @@ class StreetDescription(val name: String, val gridState: GridState) {
     var rightSortedNumbers: Map<Double, MvtFeature> = emptyMap()
     var rightMode: HouseNumberMode = HouseNumberMode.MIXED
 
-    fun whichSide(way: Way,
-                  direction: Boolean,
-                  pdh: PointAndDistanceAndHeading,
-                  location: LngLatAlt) : Side {
+    fun whichSide(
+        way: Way,
+        direction: Boolean,
+        pdh: PointAndDistanceAndHeading,
+        location: LngLatAlt
+    ): Side {
         val line = way.geometry as LineString
         var start = line.coordinates[pdh.index]
         var end = line.coordinates[pdh.index + 1]
@@ -58,14 +58,15 @@ class StreetDescription(val name: String, val gridState: GridState) {
         return getSideOfLine(start, end, location)
     }
 
-    fun sideToBool(side: Side) : Boolean? {
+    fun sideToBool(side: Side): Boolean? {
         return when (side) {
             Side.LEFT -> false
             Side.RIGHT -> true
             else -> null
         }
     }
-    fun otherSide(side: Side) : Side? {
+
+    fun otherSide(side: Side): Side? {
         return when (side) {
             Side.LEFT -> Side.RIGHT
             Side.RIGHT -> Side.LEFT
@@ -73,7 +74,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         }
     }
 
-    fun parseHouseNumber(houseNumber: String) : Int? {
+    fun parseHouseNumber(houseNumber: String): Int? {
         val numericPart = houseNumber.takeWhile { it.isDigit() }
 
         // Check if we actually found any digits before trying to parse.
@@ -83,11 +84,11 @@ class StreetDescription(val name: String, val gridState: GridState) {
         return null
     }
 
-    fun parseHouseNumberRange(houseNumber: String) : Pair<Int,Int>? {
+    fun parseHouseNumberRange(houseNumber: String): Pair<Int, Int>? {
         var highest = 0
         var lowest = Int.MAX_VALUE
         var remaining = houseNumber
-        while(true) {
+        while (true) {
             remaining = remaining.dropWhile { !it.isDigit() }
             if (remaining.isEmpty()) break
 
@@ -100,13 +101,13 @@ class StreetDescription(val name: String, val gridState: GridState) {
                 remaining = remaining.drop(numericPart.length)
             }
         }
-        return if(lowest == Int.MAX_VALUE)
+        return if (lowest == Int.MAX_VALUE)
             null
         else
             Pair(lowest, highest)
     }
 
-    fun distanceAlongLine(nearestWay: Way, pdh: PointAndDistanceAndHeading) : Double {
+    fun distanceAlongLine(nearestWay: Way, pdh: PointAndDistanceAndHeading): Double {
         var totalDistance = 0.0
         for (way in ways) {
             if (way.first == nearestWay) {
@@ -122,7 +123,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                     line.coordinates[pdh.index],
                     line.coordinates[pdh.index + 1]
                 )
-                totalDistance += if(way.second) {
+                totalDistance += if (way.second) {
                     lineDistance
                 } else {
                     (way.first.length - lineDistance)
@@ -133,42 +134,43 @@ class StreetDescription(val name: String, val gridState: GridState) {
         }
         return totalDistance
     }
-    fun nearestWayOnStreet(location: LngLatAlt?) : Pair<Way, Boolean>? {
-        if(location == null)
+
+    fun nearestWayOnStreet(location: LngLatAlt?): Pair<Way, Boolean>? {
+        if (location == null)
             return null
 
-        var nearestWay : Pair<Way, Boolean>? = null
+        var nearestWay: Pair<Way, Boolean>? = null
         var nearestPdh = PointAndDistanceAndHeading()
 
-        for(way in ways) {
+        for (way in ways) {
             val pdh = getDistanceToFeature(location, way.first, gridState.ruler)
-            if(pdh.distance < nearestPdh.distance) {
+            if (pdh.distance < nearestPdh.distance) {
                 nearestWay = way
                 nearestPdh = pdh
             }
         }
         return nearestWay
     }
-    fun distanceAlongStreet(startPoint: LngLatAlt?, distance: Double, ruler: Ruler) : LngLatAlt? {
-        if(startPoint == null) return null
+
+    fun distanceAlongStreet(startPoint: LngLatAlt?, distance: Double, ruler: Ruler): LngLatAlt? {
+        if (startPoint == null) return null
         val nearestWayToStart = nearestWayOnStreet(startPoint) ?: return null
 
         var searching = true
         var distanceLeft = distance
-        for(way in ways) {
-            if(searching) {
-                if(way.first == nearestWayToStart.first) {
+        for (way in ways) {
+            if (searching) {
+                if (way.first == nearestWayToStart.first) {
                     searching = false
-                    if(way.first.length > distanceLeft) {
+                    if (way.first.length > distanceLeft) {
                         return ruler.along(way.first.geometry as LineString, distanceLeft)
                     }
-                }
-                else {
+                } else {
                     distanceLeft -= way.first.length
                     continue
                 }
             }
-            if(distance > way.first.length) {
+            if (distance > way.first.length) {
                 distanceLeft -= way.first.length
                 continue
             }
@@ -182,8 +184,9 @@ class StreetDescription(val name: String, val gridState: GridState) {
         ODD,
         MIXED
     }
+
     fun assignHouseNumberModes(odd: Array<Int>, even: Array<Int>) {
-        if((odd[0] + odd[1] + even[0] + even[1]) >= 2) {
+        if ((odd[0] + odd[1] + even[0] + even[1]) >= 2) {
             // We have at least 2 house numbers
             if (
                 (odd[0] == 0) &&
@@ -213,11 +216,13 @@ class StreetDescription(val name: String, val gridState: GridState) {
         rightMode = HouseNumberMode.MIXED
     }
 
-    private fun addHouse(house: MvtFeature,
-                         nearestWay: Pair<Way,Boolean>?,
-                         points: MutableMap<Double, MvtFeature>,
-                         streetConfidence: Boolean) {
-        if(nearestWay != null) {
+    private fun addHouse(
+        house: MvtFeature,
+        nearestWay: Pair<Way, Boolean>?,
+        points: MutableMap<Double, MvtFeature>,
+        streetConfidence: Boolean
+    ) {
+        if (nearestWay != null) {
             val location = getCentralPointForFeature(house) ?: return
             val pdh = getDistanceToFeature(location, nearestWay.first, gridState.ruler)
             val totalDistance = distanceAlongLine(nearestWay.first, pdh)
@@ -234,38 +239,38 @@ class StreetDescription(val name: String, val gridState: GridState) {
         }
     }
 
-    fun checkSortedNumberConsistency(sortedNumbers: Map<Double, MvtFeature>) : Map<Double, MvtFeature> {
+    fun checkSortedNumberConsistency(sortedNumbers: Map<Double, MvtFeature>): Map<Double, MvtFeature> {
 
         var firstConfidentHouse = Double.MIN_VALUE
         var lastConfidentHouse = Double.MIN_VALUE
         for (house in sortedNumbers) {
-            if(house.value.streetConfidence) {
-                if(firstConfidentHouse == Double.MIN_VALUE)
+            if (house.value.streetConfidence) {
+                if (firstConfidentHouse == Double.MIN_VALUE)
                     firstConfidentHouse = house.key
                 lastConfidentHouse = house.key
             }
         }
-        if(lastConfidentHouse == Double.MIN_VALUE) {
+        if (lastConfidentHouse == Double.MIN_VALUE) {
             // There are no houses on this side that we are confident about the number of
             return emptyMap()
         }
 
         var lastDelta = 0
-        var lastHouse : MvtFeature? = null
-        var lastNumbers : Pair<Int, Int>? = null
+        var lastHouse: MvtFeature? = null
+        var lastNumbers: Pair<Int, Int>? = null
         val removalSet = mutableSetOf<MvtFeature>()
         for (house in sortedNumbers) {
 
-            if((house.key < firstConfidentHouse) || (house.key > lastConfidentHouse)) {
+            if ((house.key < firstConfidentHouse) || (house.key > lastConfidentHouse)) {
                 // We only allow houses that are in between ones that we are confident belong to
                 // this street.
                 removalSet.add(house.value)
                 continue
             }
             val numbers = parseHouseNumberRange(house.value.housenumber ?: "")
-            if((lastNumbers != null) && (numbers != null)) {
+            if ((lastNumbers != null) && (numbers != null)) {
                 // Check for overlap of range
-                if((numbers.first <= lastNumbers.second) && (numbers.second >= lastNumbers.first)) {
+                if ((numbers.first <= lastNumbers.second) && (numbers.second >= lastNumbers.first)) {
                     // The range overlaps
                 } else {
                     val newDelta = numbers.first - lastNumbers.first
@@ -291,12 +296,12 @@ class StreetDescription(val name: String, val gridState: GridState) {
             lastHouse = house.value
             lastNumbers = numbers
         }
-        if(removalSet.isEmpty())
+        if (removalSet.isEmpty())
             return sortedNumbers
 
         // We need to remove some houses, so create a new map
         val newMap = mutableMapOf<Double, MvtFeature>()
-        for(house in sortedNumbers) {
+        for (house in sortedNumbers) {
             if (!removalSet.contains(house.value)) {
                 newMap[house.key] = house.value
             }
@@ -304,16 +309,19 @@ class StreetDescription(val name: String, val gridState: GridState) {
         return newMap.toList().sortedBy { it.first }.toMap()
     }
 
-    private fun descriptiveIntersection(intersection: Intersection, localizedStrings: LocalizedStrings?) : Boolean {
+    private fun descriptiveIntersection(
+        intersection: Intersection,
+        localizedStrings: LocalizedStrings?
+    ): Boolean {
         // Return true if this intersection is useful for describing the street. If it's just an
         // un-named path with no confection then we return false.
         var count = 0
-        for(member in intersection.members) {
-            if(member.name == name) {
+        for (member in intersection.members) {
+            if (member.name == name) {
                 // Skip this street
                 continue
             }
-            if(member.properties?.get("pavement") != null) {
+            if (member.properties?.get("pavement") != null) {
                 // Skip over pavements
                 continue
             }
@@ -325,7 +333,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                 nonGenericOnly = true,
                 noGenericDeadEnds = true
             )
-            if(segmentName.isEmpty()) continue
+            if (segmentName.isEmpty()) continue
 
             val segmentNameReverse = member.getName(
                 !direction,
@@ -336,7 +344,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
             )
             // If the description is the same in both directions, then we don't want to include it
             // as it's probably a loop joining on to our road
-            if(segmentName.isNotEmpty() && ((segmentName == member.name) || (segmentName != segmentNameReverse))) ++count
+            if (segmentName.isNotEmpty() && ((segmentName == member.name) || (segmentName != segmentNameReverse))) ++count
         }
 
         return count > 0
@@ -352,23 +360,22 @@ class StreetDescription(val name: String, val gridState: GridState) {
         // We've got part of our street, so follow it in each direction adding to our list
         var intersection = matchedWay.intersections[WayEnd.START.id]
         var currentWay = matchedWay
-        for(index in -1..0) {
+        for (index in -1..0) {
             while (intersection != null) {
                 intersection = currentWay.getOtherIntersection(intersection)
                 val direction = (intersection == currentWay.intersections[WayEnd.END.id])
-                if(index == 0) {
+                if (index == 0) {
                     if (ways.isEmpty() || (ways[0].first != currentWay)) {
                         val newPair = Pair(currentWay, !direction)
-                        if(ways.contains(newPair)) {
+                        if (ways.contains(newPair)) {
                             // We've looped around to a Way that we already have
                             break
                         }
                         ways.add(index, newPair)
                     }
-                }
-                else {
+                } else {
                     val newPair = Pair(currentWay, direction)
-                    if(ways.contains(newPair)) {
+                    if (ways.contains(newPair)) {
                         // We've looped around to a Way that we already have
                         break
                     }
@@ -387,7 +394,8 @@ class StreetDescription(val name: String, val gridState: GridState) {
                     //  confuses the odd/even numbering analysis.
                     for (member in intersection.members) {
                         if ((currentWay != member) &&
-                            ((member.name == name) || (member.wayType == WayType.JOINER))) {
+                            ((member.name == name) || (member.wayType == WayType.JOINER))
+                        ) {
                             // We've got a Way of the same name extending away. See if it's continuing
                             // on in the same direction
                             newWay = member
@@ -397,8 +405,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                     }
                     if (found) {
                         currentWay = newWay
-                    }
-                    else {
+                    } else {
                         // We reached an intersection which has no Way of the same name, so we're done
                         intersection = null
                     }
@@ -411,7 +418,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         // We've now got an ordered list of Ways for our named street. Add all of the intersections
         // to our linear map
         var totalDistance = 0.0
-        for(way in ways) {
+        for (way in ways) {
             val beginIntersection =
                 if (way.second)
                     way.first.intersections[WayEnd.START.id]
@@ -419,8 +426,8 @@ class StreetDescription(val name: String, val gridState: GridState) {
                     way.first.intersections[WayEnd.END.id]
 
             if (beginIntersection != null) {
-                if(beginIntersection.intersectionType != IntersectionType.TILE_EDGE) {
-                    if(descriptiveIntersection(beginIntersection, localizedStrings))
+                if (beginIntersection.intersectionType != IntersectionType.TILE_EDGE) {
+                    if (descriptiveIntersection(beginIntersection, localizedStrings))
                         descriptivePoints[totalDistance] = beginIntersection
                 }
             }
@@ -433,7 +440,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                         way.first.intersections[WayEnd.START.id]
 
                 if (lastIntersection != null) {
-                    if(descriptiveIntersection(lastIntersection, localizedStrings))
+                    if (descriptiveIntersection(lastIntersection, localizedStrings))
                         descriptivePoints[totalDistance + way.first.length] = lastIntersection
                 }
             }
@@ -441,9 +448,9 @@ class StreetDescription(val name: String, val gridState: GridState) {
 
         // Add all of the house numbers with known street to our linear map
         val houseNumberTree = gridState.gridStreetNumberTreeMap[name]
-        if(houseNumberTree != null) {
+        if (houseNumberTree != null) {
             val houseCollection = houseNumberTree.getAllCollection()
-            for(house in houseCollection) {
+            for (house in houseCollection) {
                 val nearestWay = nearestWayOnStreet(getCentralPointForFeature(house as MvtFeature))
                 addHouse(house, nearestWay, houseNumberPoints, true)
             }
@@ -451,19 +458,20 @@ class StreetDescription(val name: String, val gridState: GridState) {
 
         // Now search in the house numbers which don't have a known street
         val unknownStreetTree = gridState.gridStreetNumberTreeMap["null"]
-        if(unknownStreetTree != null) {
+        if (unknownStreetTree != null) {
             // Search each of our ways for street numbers with no street
-            for(way in ways) {
+            for (way in ways) {
                 val results = unknownStreetTree.getNearbyLine(
                     way.first.geometry as LineString,
                     25.0,
                     gridState.ruler
                 )
-                for(house in results) {
+                for (house in results) {
                     // A searched for house should only be added if it's the nearest Way that it was
                     // found in.
-                    val nearestWay = nearestWayOnStreet(getCentralPointForFeature(house as MvtFeature))
-                    if(way.first == nearestWay?.first) {
+                    val nearestWay =
+                        nearestWayOnStreet(getCentralPointForFeature(house as MvtFeature))
+                    if (way.first == nearestWay?.first) {
                         addHouse(house, way, houseNumberPoints, false)
                     }
                 }
@@ -473,15 +481,15 @@ class StreetDescription(val name: String, val gridState: GridState) {
         // Look for POI near the road
         val poiTree = gridState.getFeatureTree(TreeId.LANDMARK_POIS)
         // Search each of our ways for street numbers with no street
-        for(way in ways) {
+        for (way in ways) {
             val results = poiTree.getNearbyLine(
                 way.first.geometry as LineString,
                 25.0,
                 gridState.ruler
             )
-            for(poi in results) {
+            for (poi in results) {
                 val nearestWay = nearestWayOnStreet(getCentralPointForFeature(poi as MvtFeature))
-                if(way.first == nearestWay?.first) {
+                if (way.first == nearestWay?.first) {
                     addHouse(poi, way, descriptivePoints, false)
                 }
             }
@@ -490,28 +498,28 @@ class StreetDescription(val name: String, val gridState: GridState) {
         sortedDescriptivePoints = descriptivePoints.toList().sortedBy { it.first }.toMap()
 
         // Analyse the house numbers on each side of the road
-        val odd = arrayOf(0,0)
-        val even = arrayOf(0,0)
-        val sides = arrayOf(true,false)
-        for(side in 0..1) {
+        val odd = arrayOf(0, 0)
+        val even = arrayOf(0, 0)
+        val sides = arrayOf(true, false)
+        for (side in 0..1) {
             val numberPoints: MutableMap<Double, MvtFeature> = mutableMapOf()
             for (point in houseNumberPoints) {
-                if(point.value.side != sides[side])
+                if (point.value.side != sides[side])
                     continue
 
                 // We have a house number on the side of the street that we're interested in
-                if(point.value.housenumber != null) {
+                if (point.value.housenumber != null) {
                     val houseNumber = parseHouseNumber(point.value.housenumber!!)
-                    if(houseNumber != null) {
+                    if (houseNumber != null) {
                         numberPoints[point.key] = point.value
-                        if(houseNumber % 2 == 0)
+                        if (houseNumber % 2 == 0)
                             even[side]++
                         else
                             odd[side]++
                     }
                 }
             }
-            if(sides[side]) {
+            if (sides[side]) {
                 leftSortedNumbers = numberPoints.toList().sortedBy { it.first }.toMap()
             } else {
                 rightSortedNumbers = numberPoints.toList().sortedBy { it.first }.toMap()
@@ -524,13 +532,16 @@ class StreetDescription(val name: String, val gridState: GridState) {
         assignHouseNumberModes(odd, even)
     }
 
-    fun getInterpolateLocation(needle: Int, sortedNumbers: Map<Double, MvtFeature>) : Pair<LngLatAlt, String>? {
+    fun getInterpolateLocation(
+        needle: Int,
+        sortedNumbers: Map<Double, MvtFeature>
+    ): Pair<LngLatAlt, String>? {
         var lastKey = 0.0
-        var lastParsed : Int = Int.MAX_VALUE
-        var lastPoint : LngLatAlt? = null
+        var lastParsed: Int = Int.MAX_VALUE
+        var lastPoint: LngLatAlt? = null
         for (number in sortedNumbers) {
             val parsedHaystack = parseHouseNumber(number.value.housenumber ?: "")
-            if(parsedHaystack == null)
+            if (parsedHaystack == null)
                 continue
 
             if (parsedHaystack == needle) {
@@ -540,14 +551,15 @@ class StreetDescription(val name: String, val gridState: GridState) {
                     number.value.housenumber ?: ""
                 )
             }
-            if(lastParsed != Int.MAX_VALUE) {
+            if (lastParsed != Int.MAX_VALUE) {
                 val range = minOf(lastParsed, parsedHaystack)..maxOf(lastParsed, parsedHaystack)
-                if(needle in range) {
+                if (needle in range) {
                     // We're going to interpolate between two house numbers
-                    val ratio = (needle - lastParsed).toDouble() / (parsedHaystack - lastParsed).toDouble()
+                    val ratio =
+                        (needle - lastParsed).toDouble() / (parsedHaystack - lastParsed).toDouble()
                     val distance = lastKey + (ratio * (number.key - lastKey))
                     val location = distanceAlongStreet(lastPoint, distance, gridState.ruler)
-                    if(location != null)
+                    if (location != null)
                         return Pair(location, needle.toString())
 
                     return null
@@ -558,22 +570,22 @@ class StreetDescription(val name: String, val gridState: GridState) {
             lastKey = number.key
             lastPoint = (number.value.geometry as Point).coordinates
         }
-        return  null
+        return null
     }
 
-    fun getLocationFromStreetNumber(houseNumber: String) : Pair<LngLatAlt, String>? {
+    fun getLocationFromStreetNumber(houseNumber: String): Pair<LngLatAlt, String>? {
         val parsedNeedle = parseHouseNumber(houseNumber) ?: return null
         val left = getInterpolateLocation(parsedNeedle, leftSortedNumbers)
         val right = getInterpolateLocation(parsedNeedle, rightSortedNumbers)
-        return if(left == null) right
-        else if(right == null) left
-        else if(parsedNeedle.mod(2) == 0) {
-            if(leftMode == HouseNumberMode.EVEN)
+        return if (left == null) right
+        else if (right == null) left
+        else if (parsedNeedle.mod(2) == 0) {
+            if (leftMode == HouseNumberMode.EVEN)
                 left
             else
                 right
         } else {
-            if(leftMode == HouseNumberMode.ODD)
+            if (leftMode == HouseNumberMode.ODD)
                 left
             else
                 right
@@ -584,17 +596,17 @@ class StreetDescription(val name: String, val gridState: GridState) {
      * Given a point and a Way this function returns the best guess house number for it. The Boolean
      * is true if the house number is on the other side of the street.
      */
-    fun getStreetNumber(way: Way, location: LngLatAlt) : Pair<String, Boolean> {
+    fun getStreetNumber(way: Way, location: LngLatAlt): Pair<String, Boolean> {
 
         // Find the way in our list and see which direction it's going
         var direction: Boolean? = null
-        for(member in ways) {
-            if(way == member.first) {
+        for (member in ways) {
+            if (way == member.first) {
                 direction = member.second
                 break
             }
         }
-        if(direction == null) return Pair("", false)
+        if (direction == null) return Pair("", false)
 
         // Get the distance along our lines of points
         val pdh = getDistanceToFeature(location, way, gridState.ruler)
@@ -605,17 +617,17 @@ class StreetDescription(val name: String, val gridState: GridState) {
 
         // Try that side first, but it could be that there are no street numbers on this side,
         // so we also have to fallback to trying the other side too.
-        for(side in listOf(locationSide, otherSide(locationSide))) {
+        for (side in listOf(locationSide, otherSide(locationSide))) {
             val sortedNumbers = when (side) {
                 Side.LEFT -> leftSortedNumbers
                 Side.RIGHT -> rightSortedNumbers
                 else -> continue
             }
             val ceiling = sortedNumbers.keys.firstOrNull { it >= distance }
-            val ceilingValue = if(ceiling != null) sortedNumbers[ceiling] else null
+            val ceilingValue = if (ceiling != null) sortedNumbers[ceiling] else null
             var ceilingDistance = Double.MAX_VALUE
             val floor = sortedNumbers.keys.lastOrNull { it <= distance }
-            val floorValue = if(floor != null) sortedNumbers[floor] else null
+            val floorValue = if (floor != null) sortedNumbers[floor] else null
             var floorDistance = Double.MAX_VALUE
 
             var houseNumber = ""
@@ -627,7 +639,8 @@ class StreetDescription(val name: String, val gridState: GridState) {
             if (floor != null) {
                 floorDistance = distance - floor
                 if ((floorDistance < 10.0) &&
-                    ((floorDistance < ceilingDistance) || houseNumber.isEmpty()))
+                    ((floorDistance < ceilingDistance) || houseNumber.isEmpty())
+                )
                     houseNumber = floorValue?.housenumber ?: ""
             }
 
@@ -635,7 +648,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
             if (houseNumber.isNotEmpty())
                 return Pair(houseNumber, side != locationSide)
 
-            if((ceilingDistance != Double.MAX_VALUE) && ((floorDistance != Double.MAX_VALUE))) {
+            if ((ceilingDistance != Double.MAX_VALUE) && ((floorDistance != Double.MAX_VALUE))) {
                 val floorNumber = parseHouseNumber(floorValue?.housenumber ?: "")!!
                 val ceilingNumber = parseHouseNumber(ceilingValue?.housenumber ?: "")!!
                 val adjustment = floorDistance / (ceilingDistance + floorDistance)
@@ -660,11 +673,15 @@ class StreetDescription(val name: String, val gridState: GridState) {
         var ahead: StreetPosition = StreetPosition()
     )
 
-    fun getIntersectionText(intersection: Intersection?, way: Way?, localizedStrings: LocalizedStrings?) : String? {
-        if(intersection != null) {
-            if(way != null) {
+    fun getIntersectionText(
+        intersection: Intersection?,
+        way: Way?,
+        localizedStrings: LocalizedStrings?
+    ): String? {
+        if (intersection != null) {
+            if (way != null) {
                 // Describe the intersection from the perspective of Way
-                for(crossStreet in intersection.members) {
+                for (crossStreet in intersection.members) {
                     if (crossStreet.name != name) {
                         val crossStreetName = crossStreet.getName(
                             crossStreet.intersections[WayEnd.START.id] == intersection,
@@ -672,7 +689,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
                             localizedStrings,
                             nonGenericOnly = true
                         )
-                        if(crossStreetName.isNotEmpty())
+                        if (crossStreetName.isNotEmpty())
                             return crossStreetName
                     }
                 }
@@ -684,8 +701,13 @@ class StreetDescription(val name: String, val gridState: GridState) {
         return null
     }
 
-    fun describeLocation(location: LngLatAlt, heading: Double?, nearestWay: Way?, localizedStrings: LocalizedStrings?) : StreetLocationDescription {
-        if(nearestWay == null) return StreetLocationDescription()
+    fun describeLocation(
+        location: LngLatAlt,
+        heading: Double?,
+        nearestWay: Way?,
+        localizedStrings: LocalizedStrings?
+    ): StreetLocationDescription {
+        if (nearestWay == null) return StreetLocationDescription()
 
         // Get the distance along our lines of points
         val pdh = getDistanceToFeature(location, nearestWay, gridState.ruler)
@@ -704,7 +726,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         var tmpAhead = StreetPosition()
         if (ahead != null) {
             val aheadValue = sortedDescriptivePoints[ahead]
-            if(aheadValue != null) {
+            if (aheadValue != null) {
                 val text = getIntersectionText(
                     aheadValue as? Intersection?,
                     nearestWay,
@@ -717,7 +739,7 @@ class StreetDescription(val name: String, val gridState: GridState) {
         var tmpBehind = StreetPosition()
         if (behind != null) {
             val behindValue = sortedDescriptivePoints[behind]
-            if(behindValue != null) {
+            if (behindValue != null) {
                 val text = getIntersectionText(
                     behindValue as? Intersection?,
                     nearestWay,
@@ -731,11 +753,10 @@ class StreetDescription(val name: String, val gridState: GridState) {
         }
 
         // The StreetLocationDescription is relative to the direction that the user is travelling
-        if(direction) {
+        if (direction) {
             result.ahead = tmpAhead
             result.behind = tmpBehind
-        }
-        else {
+        } else {
             result.behind = tmpAhead
             result.ahead = tmpBehind
         }
@@ -744,9 +765,9 @@ class StreetDescription(val name: String, val gridState: GridState) {
 
     fun describeStreet() {
         println("Describe $name")
-        for(point in sortedDescriptivePoints) {
-            val text = getTextForFeature(null,point.value)
-            when(point.value.side) {
+        for (point in sortedDescriptivePoints) {
+            val text = getTextForFeature(null, point.value)
+            when (point.value.side) {
                 null -> println("\t\t\t\t\t${point.key.toInt()}m (${text.text})")
                 true -> println("\t\t\t\t\t${point.key.toInt()}m ${text.text}")
                 false -> println("${text.text}\t${point.key.toInt()}m")

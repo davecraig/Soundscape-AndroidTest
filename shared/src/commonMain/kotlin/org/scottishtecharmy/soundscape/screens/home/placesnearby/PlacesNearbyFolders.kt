@@ -18,9 +18,21 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.all_places_nearby_description
+import org.scottishtecharmy.soundscape.resources.banks_places_nearby_description
+import org.scottishtecharmy.soundscape.resources.filter_all
+import org.scottishtecharmy.soundscape.resources.filter_banks
+import org.scottishtecharmy.soundscape.resources.filter_food_drink
+import org.scottishtecharmy.soundscape.resources.filter_groceries
+import org.scottishtecharmy.soundscape.resources.filter_transit
+import org.scottishtecharmy.soundscape.resources.food_drink_places_nearby_description
+import org.scottishtecharmy.soundscape.resources.groceries_places_nearby_description
+import org.scottishtecharmy.soundscape.resources.intersections_places_nearby_description
+import org.scottishtecharmy.soundscape.resources.osm_intersection
+import org.scottishtecharmy.soundscape.resources.public_transit_places_nearby_description
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.utils.deferredToLocationDescription
-import org.scottishtecharmy.soundscape.resources.*
 
 data class Folder(
     val nameResource: StringResource,
@@ -30,12 +42,42 @@ data class Folder(
 )
 
 val placesNearbyFolders = listOf(
-    Folder(Res.string.filter_all, Icons.Rounded.ControlCamera, "", Res.string.all_places_nearby_description),
-    Folder(Res.string.filter_transit, Icons.Rounded.DirectionsBus, "transit", Res.string.public_transit_places_nearby_description),
-    Folder(Res.string.filter_food_drink, Icons.Rounded.Fastfood, "food_and_drink", Res.string.food_drink_places_nearby_description),
-    Folder(Res.string.filter_groceries, Icons.Rounded.LocalGroceryStore, "groceries", Res.string.groceries_places_nearby_description),
-    Folder(Res.string.filter_banks, Icons.Rounded.AttachMoney, "banks", Res.string.banks_places_nearby_description),
-    Folder(Res.string.osm_intersection, Icons.Rounded.ForkLeft, "intersections", Res.string.intersections_places_nearby_description),
+    Folder(
+        Res.string.filter_all,
+        Icons.Rounded.ControlCamera,
+        "",
+        Res.string.all_places_nearby_description
+    ),
+    Folder(
+        Res.string.filter_transit,
+        Icons.Rounded.DirectionsBus,
+        "transit",
+        Res.string.public_transit_places_nearby_description
+    ),
+    Folder(
+        Res.string.filter_food_drink,
+        Icons.Rounded.Fastfood,
+        "food_and_drink",
+        Res.string.food_drink_places_nearby_description
+    ),
+    Folder(
+        Res.string.filter_groceries,
+        Icons.Rounded.LocalGroceryStore,
+        "groceries",
+        Res.string.groceries_places_nearby_description
+    ),
+    Folder(
+        Res.string.filter_banks,
+        Icons.Rounded.AttachMoney,
+        "banks",
+        Res.string.banks_places_nearby_description
+    ),
+    Folder(
+        Res.string.osm_intersection,
+        Icons.Rounded.ForkLeft,
+        "intersections",
+        Res.string.intersections_places_nearby_description
+    ),
 )
 
 fun filterLocations(uiState: PlacesNearbyUiState): List<LocationDescription> {
@@ -59,8 +101,11 @@ fun filterLocations(uiState: PlacesNearbyUiState): List<LocationDescription> {
         uiState.nearbyPlaces.features.filter { feature ->
             // Filter based on any folder selected and filter out POIs with entrances
             !featureHasEntrances(feature) &&
-            featureIsInFilterGroup(feature, uiState.filter) &&
-                    getTextForFeature(ComposeLocalizedStrings(), feature as MvtFeature).text.isNotEmpty()
+                    featureIsInFilterGroup(feature, uiState.filter) &&
+                    getTextForFeature(
+                        ComposeLocalizedStrings(),
+                        feature as MvtFeature
+                    ).text.isNotEmpty()
         }.map { feature ->
             feature.deferredToLocationDescription(
                 LocationSource.OfflineGeocoder,

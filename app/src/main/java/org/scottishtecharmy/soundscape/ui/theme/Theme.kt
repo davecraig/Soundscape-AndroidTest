@@ -1,21 +1,14 @@
 package org.scottishtecharmy.soundscape.ui.theme
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ColorScheme
+
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import org.scottishtecharmy.soundscape.ThemeState
 
@@ -304,11 +297,10 @@ fun SoundscapeTheme(
     val themeState = themeStateFlow?.collectAsState()
     val hintsEnabled = remember(themeState?.value) { themeState?.value?.hintsEnabled != false }
     val currentColorScheme = remember(themeState?.value, testTheme) {
-        if(testTheme) {
+        if (testTheme) {
             // Override theme for checking color usage
             testColorTheme
-        }
-        else {
+        } else {
             if (themeState?.value?.themeIsLight == true) {
                 when (themeState.value.themeContrast) {
                     "Regular" -> lightScheme

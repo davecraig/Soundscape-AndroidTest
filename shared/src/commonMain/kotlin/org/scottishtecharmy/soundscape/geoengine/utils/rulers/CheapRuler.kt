@@ -14,24 +14,24 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 /** This code is a Kotlin port of the mapbox/cheap-ruler JavaScript code. The original code is under
-    this ISC license, reproduced here for ease:
+this ISC license, reproduced here for ease:
 
-    ISC License
+ISC License
 
-    Copyright (c) 2024, Mapbox
+Copyright (c) 2024, Mapbox
 
-    Permission to use, copy, modify, and/or distribute this software for any purpose
-    with or without fee is hereby granted, provided that the above copyright notice
-    and this permission notice appear in all copies.
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
 
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
-    FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
-    OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-    TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
-    THIS SOFTWARE.
-*/
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+ */
 
 const val meters = 1000.0
 //const val kilometers = 1.0
@@ -51,7 +51,7 @@ private const val RAD = PI / 180
  * normalize a degree value into [-180..180] range
  * @param {number} deg
  */
-fun wrap(deg: Double) : Double {
+fun wrap(deg: Double): Double {
     var tmp = deg
     while (tmp < -180.0) tmp += 360.0
     while (tmp > 180.0) tmp -= 360.0
@@ -86,7 +86,7 @@ class CheapRuler(val lat: Double) : Ruler() {
         ky = m * w * w2 * (1 - E2)  // based on meridional radius of curvature
     }
 
-    fun needsReplacing(newLat: Double) : Boolean {
+    fun needsReplacing(newLat: Double): Boolean {
         // If the latitude changes by more than 0.01 degrees, then create a new ruler to maintain
         // accuracy of calculations.
         return (abs(lat - newLat) > 0.01)
@@ -99,7 +99,7 @@ class CheapRuler(val lat: Double) : Ruler() {
      * @param b another point as a LngLatAlt
      * @returns {number} distance between points
      */
-    override fun distance(a: LngLatAlt, b: LngLatAlt) : Double {
+    override fun distance(a: LngLatAlt, b: LngLatAlt): Double {
         val dx = wrap(a.longitude - b.longitude) * kx
         val dy = (a.latitude - b.latitude) * ky
 
@@ -113,7 +113,7 @@ class CheapRuler(val lat: Double) : Ruler() {
      * @param b another point as a LngLatAlt
      * @returns {number} bearing from point a to point b
      */
-    override fun bearing(a: LngLatAlt, b: LngLatAlt) : Double {
+    override fun bearing(a: LngLatAlt, b: LngLatAlt): Double {
         val dx = wrap(b.longitude - a.longitude) * kx
         val dy = (b.latitude - a.latitude) * ky
 
@@ -131,7 +131,7 @@ class CheapRuler(val lat: Double) : Ruler() {
      * const point = ruler.destination([30.5, 50.5], 0.1, 90);
      * //=point
      */
-    override fun destination(p: LngLatAlt, dist: Double, bearing: Double) : LngLatAlt {
+    override fun destination(p: LngLatAlt, dist: Double, bearing: Double): LngLatAlt {
         val a = bearing * RAD
         return offset(
             p,
@@ -151,7 +151,7 @@ class CheapRuler(val lat: Double) : Ruler() {
      * const point = ruler.offset([30.5, 50.5], 10, 10);
      * //=point
      */
-    fun offset(p: LngLatAlt, dx: Double, dy: Double) : LngLatAlt {
+    fun offset(p: LngLatAlt, dx: Double, dy: Double): LngLatAlt {
         return LngLatAlt(
             p.longitude + dx / kx,
             p.latitude + dy / ky
@@ -170,7 +170,7 @@ class CheapRuler(val lat: Double) : Ruler() {
      * ]);
      * //=length
      */
-    override fun lineLength(line: LineString) : Double {
+    override fun lineLength(line: LineString): Double {
         var total = 0.0
 
         for (i in 0 until line.coordinates.size - 1) {
@@ -219,7 +219,7 @@ class CheapRuler(val lat: Double) : Ruler() {
      * const point = ruler.along(line, 2.5);
      * //=point
      */
-    override fun along(line: LineString, dist: Double) : LngLatAlt {
+    override fun along(line: LineString, dist: Double): LngLatAlt {
         var sum = 0.0
 
         if (dist <= 0.0) return line.coordinates[0]
@@ -247,14 +247,15 @@ class CheapRuler(val lat: Double) : Ruler() {
      * const distance = ruler.pointToSegmentDistance([-67.04, 50.5], [-67.05, 50.57], [-67.03, 50.54]);
      * //=distance
      */
-    override fun pointToSegmentDistance(p: LngLatAlt, a: LngLatAlt, b: LngLatAlt) : Double {
+    override fun pointToSegmentDistance(p: LngLatAlt, a: LngLatAlt, b: LngLatAlt): Double {
         var x = a.longitude
         var y = a.latitude
         var dx = wrap(b.longitude - x) * this.kx
         var dy = (b.latitude - y) * this.ky
 
         if (dx != 0.0 || dy != 0.0) {
-            val t = (wrap(p.longitude - x) * this.kx * dx + (p.latitude - y) * this.ky * dy) / (dx * dx + dy * dy)
+            val t =
+                (wrap(p.longitude - x) * this.kx * dx + (p.latitude - y) * this.ky * dy) / (dx * dx + dy * dy)
 
             if (t > 1) {
                 x = b.longitude
@@ -284,27 +285,28 @@ class CheapRuler(val lat: Double) : Ruler() {
      * const point = ruler.pointOnLine(line, [-67.04, 50.5]).point;
      * //=point
      */
-    override fun distanceToLineString(p: LngLatAlt, line: LineString) : PointAndDistanceAndHeading {
+    override fun distanceToLineString(p: LngLatAlt, line: LineString): PointAndDistanceAndHeading {
         var minDist = Double.MAX_VALUE
         var minX = line.coordinates[0].longitude
         var minY = line.coordinates[0].latitude
         var minI = 0
         var minT = 0.0
 
-        for(i in 0 until line.coordinates.size - 1) {
+        for (i in 0 until line.coordinates.size - 1) {
 
             var x = line.coordinates[i].longitude
             var y = line.coordinates[i].latitude
-            var dx = wrap(line.coordinates[i+1].longitude - x) * kx
-            var dy = (line.coordinates[i+1].latitude - y) * ky
+            var dx = wrap(line.coordinates[i + 1].longitude - x) * kx
+            var dy = (line.coordinates[i + 1].latitude - y) * ky
             var t = 0.0
 
             if (dx != 0.0 || dy != 0.0) {
-                t = ((wrap(p.longitude - x) * kx * dx) + ((p.latitude - y) * ky * dy)) / ((dx * dx) + (dy * dy))
+                t =
+                    ((wrap(p.longitude - x) * kx * dx) + ((p.latitude - y) * ky * dy)) / ((dx * dx) + (dy * dy))
 
                 if (t > 1.0) {
-                    x = line.coordinates[i+1].longitude
-                    y = line.coordinates[i+1].latitude
+                    x = line.coordinates[i + 1].longitude
+                    y = line.coordinates[i + 1].latitude
 
                 } else if (t > 0) {
                     x += (dx / kx) * t
@@ -484,7 +486,7 @@ class CheapRuler(val lat: Double) : Ruler() {
  * @param {number} t
  * @returns {[number, number]}
  */
-fun cheapInterpolate(a: LngLatAlt, b: LngLatAlt, t: Double) : LngLatAlt {
+fun cheapInterpolate(a: LngLatAlt, b: LngLatAlt, t: Double): LngLatAlt {
     val dx = wrap(b.longitude - a.longitude)
     val dy = b.latitude - a.latitude
     return LngLatAlt(a.longitude + (dx * t), a.latitude + (dy * t))

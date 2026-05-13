@@ -32,7 +32,147 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.platform.isIos
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.about_soundscape
+import org.scottishtecharmy.soundscape.resources.beacon_audio_beacon
+import org.scottishtecharmy.soundscape.resources.callouts_automatic_callouts
+import org.scottishtecharmy.soundscape.resources.callouts_nearby_markers
+import org.scottishtecharmy.soundscape.resources.copyright_notices
+import org.scottishtecharmy.soundscape.resources.directions_my_location
+import org.scottishtecharmy.soundscape.resources.faq_background_battery_impact_answer
+import org.scottishtecharmy.soundscape.resources.faq_background_battery_impact_question
+import org.scottishtecharmy.soundscape.resources.faq_battery_impact_answer
+import org.scottishtecharmy.soundscape.resources.faq_battery_impact_question
+import org.scottishtecharmy.soundscape.resources.faq_beacon_on_address_answer
+import org.scottishtecharmy.soundscape.resources.faq_beacon_on_address_question
+import org.scottishtecharmy.soundscape.resources.faq_beacon_on_home_answer
+import org.scottishtecharmy.soundscape.resources.faq_beacon_on_home_question
+import org.scottishtecharmy.soundscape.resources.faq_callouts_stopping_in_vehicle_answer
+import org.scottishtecharmy.soundscape.resources.faq_callouts_stopping_in_vehicle_question
+import org.scottishtecharmy.soundscape.resources.faq_controlling_what_you_hear_answer
+import org.scottishtecharmy.soundscape.resources.faq_controlling_what_you_hear_question
+import org.scottishtecharmy.soundscape.resources.faq_difference_from_map_apps_answer
+import org.scottishtecharmy.soundscape.resources.faq_difference_from_map_apps_question
+import org.scottishtecharmy.soundscape.resources.faq_headset_battery_impact_answer
+import org.scottishtecharmy.soundscape.resources.faq_headset_battery_impact_question
+import org.scottishtecharmy.soundscape.resources.faq_holding_phone_flat_answer
+import org.scottishtecharmy.soundscape.resources.faq_holding_phone_flat_question
+import org.scottishtecharmy.soundscape.resources.faq_how_close_to_destination_answer
+import org.scottishtecharmy.soundscape.resources.faq_how_close_to_destination_question
+import org.scottishtecharmy.soundscape.resources.faq_how_to_use_beacon_answer
+import org.scottishtecharmy.soundscape.resources.faq_how_to_use_beacon_question
+import org.scottishtecharmy.soundscape.resources.faq_markers_function_answer
+import org.scottishtecharmy.soundscape.resources.faq_markers_function_question
+import org.scottishtecharmy.soundscape.resources.faq_miss_a_callout_answer
+import org.scottishtecharmy.soundscape.resources.faq_miss_a_callout_question
+import org.scottishtecharmy.soundscape.resources.faq_mobile_data_use_answer
+import org.scottishtecharmy.soundscape.resources.faq_mobile_data_use_question
+import org.scottishtecharmy.soundscape.resources.faq_road_names_answer
+import org.scottishtecharmy.soundscape.resources.faq_road_names_question
+import org.scottishtecharmy.soundscape.resources.faq_section_getting_the_best_experience
+import org.scottishtecharmy.soundscape.resources.faq_section_how_soundscape_works
+import org.scottishtecharmy.soundscape.resources.faq_section_what_is_soundscape
+import org.scottishtecharmy.soundscape.resources.faq_sleep_mode_battery_answer
+import org.scottishtecharmy.soundscape.resources.faq_sleep_mode_battery_question
+import org.scottishtecharmy.soundscape.resources.faq_snooze_mode_battery_answer
+import org.scottishtecharmy.soundscape.resources.faq_snooze_mode_battery_question
+import org.scottishtecharmy.soundscape.resources.faq_supported_headsets_answer
+import org.scottishtecharmy.soundscape.resources.faq_supported_headsets_question
+import org.scottishtecharmy.soundscape.resources.faq_supported_phones_answer
+import org.scottishtecharmy.soundscape.resources.faq_supported_phones_question
+import org.scottishtecharmy.soundscape.resources.faq_tip_beacon_quiet
+import org.scottishtecharmy.soundscape.resources.faq_tip_create_marker_at_bus_stop
+import org.scottishtecharmy.soundscape.resources.faq_tip_finding_bus_stops
+import org.scottishtecharmy.soundscape.resources.faq_tip_hold_phone_flat
+import org.scottishtecharmy.soundscape.resources.faq_tip_setting_beacon_on_address
+import org.scottishtecharmy.soundscape.resources.faq_tip_turning_beacon_off
+import org.scottishtecharmy.soundscape.resources.faq_tip_turning_off_auto_callouts
+import org.scottishtecharmy.soundscape.resources.faq_tips_title
+import org.scottishtecharmy.soundscape.resources.faq_title
+import org.scottishtecharmy.soundscape.resources.faq_title_abbreviated
+import org.scottishtecharmy.soundscape.resources.faq_turn_beacon_back_on_answer
+import org.scottishtecharmy.soundscape.resources.faq_turn_beacon_back_on_question
+import org.scottishtecharmy.soundscape.resources.faq_use_with_wayfinding_apps_answer
+import org.scottishtecharmy.soundscape.resources.faq_use_with_wayfinding_apps_question
+import org.scottishtecharmy.soundscape.resources.faq_what_can_I_set_answer
+import org.scottishtecharmy.soundscape.resources.faq_what_can_I_set_question
+import org.scottishtecharmy.soundscape.resources.faq_what_is_osm_answer
+import org.scottishtecharmy.soundscape.resources.faq_what_is_osm_question
+import org.scottishtecharmy.soundscape.resources.faq_when_to_use_soundscape_answer
+import org.scottishtecharmy.soundscape.resources.faq_when_to_use_soundscape_question
+import org.scottishtecharmy.soundscape.resources.faq_why_does_beacon_disappear_answer
+import org.scottishtecharmy.soundscape.resources.faq_why_does_beacon_disappear_question
+import org.scottishtecharmy.soundscape.resources.faq_why_not_every_business_answer
+import org.scottishtecharmy.soundscape.resources.faq_why_not_every_business_question
+import org.scottishtecharmy.soundscape.resources.help_config_voices_content
+import org.scottishtecharmy.soundscape.resources.help_config_voices_content_ios
+import org.scottishtecharmy.soundscape.resources.help_configuration_section_title
+import org.scottishtecharmy.soundscape.resources.help_creating_markers_page_title
+import org.scottishtecharmy.soundscape.resources.help_edit_markers_page_title
+import org.scottishtecharmy.soundscape.resources.help_explore_page_title
+import org.scottishtecharmy.soundscape.resources.help_offline_description
+import org.scottishtecharmy.soundscape.resources.help_offline_limitations_description
+import org.scottishtecharmy.soundscape.resources.help_offline_limitations_heading
+import org.scottishtecharmy.soundscape.resources.help_offline_page_title
+import org.scottishtecharmy.soundscape.resources.help_offline_troubleshooting_description
+import org.scottishtecharmy.soundscape.resources.help_offline_troubleshooting_heading
+import org.scottishtecharmy.soundscape.resources.help_orient_page_title
+import org.scottishtecharmy.soundscape.resources.help_remote_page_title
+import org.scottishtecharmy.soundscape.resources.help_text_ahead_of_me_how
+import org.scottishtecharmy.soundscape.resources.help_text_ahead_of_me_what
+import org.scottishtecharmy.soundscape.resources.help_text_ahead_of_me_when
+import org.scottishtecharmy.soundscape.resources.help_text_around_me_how
+import org.scottishtecharmy.soundscape.resources.help_text_around_me_what
+import org.scottishtecharmy.soundscape.resources.help_text_around_me_when
+import org.scottishtecharmy.soundscape.resources.help_text_automatic_callouts_how_1
+import org.scottishtecharmy.soundscape.resources.help_text_automatic_callouts_how_2
+import org.scottishtecharmy.soundscape.resources.help_text_automatic_callouts_what
+import org.scottishtecharmy.soundscape.resources.help_text_automatic_callouts_when_1
+import org.scottishtecharmy.soundscape.resources.help_text_automatic_callouts_when_2
+import org.scottishtecharmy.soundscape.resources.help_text_automatic_callouts_when_3
+import org.scottishtecharmy.soundscape.resources.help_text_creating_markers_content_1
+import org.scottishtecharmy.soundscape.resources.help_text_creating_markers_content_2
+import org.scottishtecharmy.soundscape.resources.help_text_customizing_markers_content_1
+import org.scottishtecharmy.soundscape.resources.help_text_customizing_markers_content_2
+import org.scottishtecharmy.soundscape.resources.help_text_destination_beacons_how_1
+import org.scottishtecharmy.soundscape.resources.help_text_destination_beacons_how_2
+import org.scottishtecharmy.soundscape.resources.help_text_destination_beacons_how_3
+import org.scottishtecharmy.soundscape.resources.help_text_destination_beacons_what
+import org.scottishtecharmy.soundscape.resources.help_text_destination_beacons_when
+import org.scottishtecharmy.soundscape.resources.help_text_markers_content_1
+import org.scottishtecharmy.soundscape.resources.help_text_markers_content_2
+import org.scottishtecharmy.soundscape.resources.help_text_markers_content_3
+import org.scottishtecharmy.soundscape.resources.help_text_my_location_how
+import org.scottishtecharmy.soundscape.resources.help_text_my_location_what
+import org.scottishtecharmy.soundscape.resources.help_text_my_location_when
+import org.scottishtecharmy.soundscape.resources.help_text_nearby_markers_how
+import org.scottishtecharmy.soundscape.resources.help_text_nearby_markers_what
+import org.scottishtecharmy.soundscape.resources.help_text_nearby_markers_when
+import org.scottishtecharmy.soundscape.resources.help_text_remote_control_how
+import org.scottishtecharmy.soundscape.resources.help_text_remote_control_what
+import org.scottishtecharmy.soundscape.resources.help_text_remote_control_when
+import org.scottishtecharmy.soundscape.resources.help_text_routes_content_how_1
+import org.scottishtecharmy.soundscape.resources.help_text_routes_content_how_2
+import org.scottishtecharmy.soundscape.resources.help_text_routes_content_how_3
+import org.scottishtecharmy.soundscape.resources.help_text_routes_content_what
+import org.scottishtecharmy.soundscape.resources.help_text_routes_content_when
+import org.scottishtecharmy.soundscape.resources.help_text_section_title_how
+import org.scottishtecharmy.soundscape.resources.help_text_section_title_what
+import org.scottishtecharmy.soundscape.resources.help_text_section_title_when
+import org.scottishtecharmy.soundscape.resources.markers_title
+import org.scottishtecharmy.soundscape.resources.menu_help
+import org.scottishtecharmy.soundscape.resources.menu_open_source_licenses
+import org.scottishtecharmy.soundscape.resources.openmaptiles_copyright
+import org.scottishtecharmy.soundscape.resources.osm_copyright
+import org.scottishtecharmy.soundscape.resources.routes_title
+import org.scottishtecharmy.soundscape.resources.search_view_markers
+import org.scottishtecharmy.soundscape.resources.settings_about_app
+import org.scottishtecharmy.soundscape.resources.settings_help_section_beacons_and_pois
+import org.scottishtecharmy.soundscape.resources.settings_help_section_home_screen_buttons
+import org.scottishtecharmy.soundscape.resources.steam_copyright
+import org.scottishtecharmy.soundscape.resources.trademark_disclaimer
+import org.scottishtecharmy.soundscape.resources.ui_back_button_title
+import org.scottishtecharmy.soundscape.resources.voice_voices
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomAppBar
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
 import org.scottishtecharmy.soundscape.ui.theme.currentAppButtonColors
@@ -302,36 +442,140 @@ val helpPages = listOf(
         Res.string.faq_title,
         listOf(
             Section(Res.string.faq_section_what_is_soundscape, SectionType.Title),
-            Section(Res.string.faq_when_to_use_soundscape_question, SectionType.Faq, faqAnswer = Res.string.faq_when_to_use_soundscape_answer),
-            Section(Res.string.faq_markers_function_question, SectionType.Faq, faqAnswer = Res.string.faq_markers_function_answer),
+            Section(
+                Res.string.faq_when_to_use_soundscape_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_when_to_use_soundscape_answer
+            ),
+            Section(
+                Res.string.faq_markers_function_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_markers_function_answer
+            ),
 
             Section(Res.string.faq_section_getting_the_best_experience, SectionType.Title),
-            Section(Res.string.faq_what_can_I_set_question, SectionType.Faq, faqAnswer = Res.string.faq_what_can_I_set_answer),
-            Section(Res.string.faq_how_to_use_beacon_question, SectionType.Faq, faqAnswer = Res.string.faq_how_to_use_beacon_answer),
-            Section(Res.string.faq_why_does_beacon_disappear_question, SectionType.Faq, faqAnswer = Res.string.faq_why_does_beacon_disappear_answer),
-            Section(Res.string.faq_beacon_on_address_question, SectionType.Faq, faqAnswer = Res.string.faq_beacon_on_address_answer),
-            Section(Res.string.faq_beacon_on_home_question, SectionType.Faq, faqAnswer = Res.string.faq_beacon_on_home_answer),
-            Section(Res.string.faq_how_close_to_destination_question, SectionType.Faq, faqAnswer = Res.string.faq_how_close_to_destination_answer),
-            Section(Res.string.faq_turn_beacon_back_on_question, SectionType.Faq, faqAnswer = Res.string.faq_turn_beacon_back_on_answer),
-            Section(Res.string.faq_road_names_question, SectionType.Faq, faqAnswer = Res.string.faq_road_names_answer),
-            Section(Res.string.faq_why_not_every_business_question, SectionType.Faq, faqAnswer = Res.string.faq_why_not_every_business_answer),
-            Section(Res.string.faq_callouts_stopping_in_vehicle_question, SectionType.Faq, faqAnswer = Res.string.faq_callouts_stopping_in_vehicle_answer),
-            Section(Res.string.faq_miss_a_callout_question, SectionType.Faq, faqAnswer = Res.string.faq_miss_a_callout_answer),
+            Section(
+                Res.string.faq_what_can_I_set_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_what_can_I_set_answer
+            ),
+            Section(
+                Res.string.faq_how_to_use_beacon_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_how_to_use_beacon_answer
+            ),
+            Section(
+                Res.string.faq_why_does_beacon_disappear_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_why_does_beacon_disappear_answer
+            ),
+            Section(
+                Res.string.faq_beacon_on_address_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_beacon_on_address_answer
+            ),
+            Section(
+                Res.string.faq_beacon_on_home_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_beacon_on_home_answer
+            ),
+            Section(
+                Res.string.faq_how_close_to_destination_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_how_close_to_destination_answer
+            ),
+            Section(
+                Res.string.faq_turn_beacon_back_on_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_turn_beacon_back_on_answer
+            ),
+            Section(
+                Res.string.faq_road_names_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_road_names_answer
+            ),
+            Section(
+                Res.string.faq_why_not_every_business_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_why_not_every_business_answer
+            ),
+            Section(
+                Res.string.faq_callouts_stopping_in_vehicle_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_callouts_stopping_in_vehicle_answer
+            ),
+            Section(
+                Res.string.faq_miss_a_callout_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_miss_a_callout_answer
+            ),
 
             Section(Res.string.faq_section_how_soundscape_works, SectionType.Title),
-            Section(Res.string.faq_supported_phones_question, SectionType.Faq, faqAnswer = Res.string.faq_supported_phones_answer),
-            Section(Res.string.faq_supported_headsets_question, SectionType.Faq, faqAnswer = Res.string.faq_supported_headsets_answer),
-            Section(Res.string.faq_battery_impact_question, SectionType.Faq, faqAnswer = Res.string.faq_battery_impact_answer),
-            Section(Res.string.faq_sleep_mode_battery_question, SectionType.Faq, faqAnswer = Res.string.faq_sleep_mode_battery_answer),
-            Section(Res.string.faq_snooze_mode_battery_question, SectionType.Faq, faqAnswer = Res.string.faq_snooze_mode_battery_answer),
-            Section(Res.string.faq_headset_battery_impact_question, SectionType.Faq, faqAnswer = Res.string.faq_headset_battery_impact_answer),
-            Section(Res.string.faq_background_battery_impact_question, SectionType.Faq, faqAnswer = Res.string.faq_background_battery_impact_answer),
-            Section(Res.string.faq_mobile_data_use_question, SectionType.Faq, faqAnswer = Res.string.faq_mobile_data_use_answer),
-            Section(Res.string.faq_difference_from_map_apps_question, SectionType.Faq, faqAnswer = Res.string.faq_difference_from_map_apps_answer),
-            Section(Res.string.faq_use_with_wayfinding_apps_question, SectionType.Faq, faqAnswer = Res.string.faq_use_with_wayfinding_apps_answer),
-            Section(Res.string.faq_controlling_what_you_hear_question, SectionType.Faq, faqAnswer = Res.string.faq_controlling_what_you_hear_answer),
-            Section(Res.string.faq_holding_phone_flat_question, SectionType.Faq, faqAnswer = Res.string.faq_holding_phone_flat_answer),
-            Section(Res.string.faq_what_is_osm_question, SectionType.Faq, faqAnswer = Res.string.faq_what_is_osm_answer),
+            Section(
+                Res.string.faq_supported_phones_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_supported_phones_answer
+            ),
+            Section(
+                Res.string.faq_supported_headsets_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_supported_headsets_answer
+            ),
+            Section(
+                Res.string.faq_battery_impact_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_battery_impact_answer
+            ),
+            Section(
+                Res.string.faq_sleep_mode_battery_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_sleep_mode_battery_answer
+            ),
+            Section(
+                Res.string.faq_snooze_mode_battery_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_snooze_mode_battery_answer
+            ),
+            Section(
+                Res.string.faq_headset_battery_impact_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_headset_battery_impact_answer
+            ),
+            Section(
+                Res.string.faq_background_battery_impact_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_background_battery_impact_answer
+            ),
+            Section(
+                Res.string.faq_mobile_data_use_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_mobile_data_use_answer
+            ),
+            Section(
+                Res.string.faq_difference_from_map_apps_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_difference_from_map_apps_answer
+            ),
+            Section(
+                Res.string.faq_use_with_wayfinding_apps_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_use_with_wayfinding_apps_answer
+            ),
+            Section(
+                Res.string.faq_controlling_what_you_hear_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_controlling_what_you_hear_answer
+            ),
+            Section(
+                Res.string.faq_holding_phone_flat_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_holding_phone_flat_answer
+            ),
+            Section(
+                Res.string.faq_what_is_osm_question,
+                SectionType.Faq,
+                faqAnswer = Res.string.faq_what_is_osm_answer
+            ),
         )
     ),
     Sections(
@@ -405,70 +649,70 @@ fun SharedHelpScreen(
                     verticalArrangement = Arrangement.spacedBy(spacing.small),
                 ) {
                     items(sections.sections) { section ->
-                      Box(
-                          modifier = Modifier.semantics(mergeDescendants = true) {}
-                      ) {
-                        when (section.type) {
-                            SectionType.Title -> {
-                                Text(
-                                    text = stringResource(section.textId),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier
-                                        .padding(top = spacing.medium)
-                                        .semantics {
-                                            heading()
-                                            if (section.skipTalkback)
-                                                invisibleToUser()
+                        Box(
+                            modifier = Modifier.semantics(mergeDescendants = true) {}
+                        ) {
+                            when (section.type) {
+                                SectionType.Title -> {
+                                    Text(
+                                        text = stringResource(section.textId),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier
+                                            .padding(top = spacing.medium)
+                                            .semantics {
+                                                heading()
+                                                if (section.skipTalkback)
+                                                    invisibleToUser()
+                                            },
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                    )
+                                }
+
+                                SectionType.Paragraph -> {
+                                    val htmlText = markdownToHtml(stringResource(section.textId))
+                                    Text(
+                                        text = parseHtmlToAnnotatedString(htmlText),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        modifier = Modifier
+                                            .semantics {
+                                                if (section.skipTalkback)
+                                                    invisibleToUser()
+                                            }
+                                    )
+                                }
+
+                                SectionType.Link, SectionType.Faq -> {
+                                    Button(
+                                        onClick = {
+                                            if (section.type == SectionType.Faq) {
+                                                onNavigate("${SharedRoutes.HELP}/faq${section.textId.key}.${section.faqAnswer?.key}")
+                                            } else {
+                                                onNavigate("${SharedRoutes.HELP}/page${section.textId.key}")
+                                            }
                                         },
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                )
-                            }
-
-                            SectionType.Paragraph -> {
-                                val htmlText = markdownToHtml(stringResource(section.textId))
-                                Text(
-                                    text = parseHtmlToAnnotatedString(htmlText),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .semantics {
-                                            if (section.skipTalkback)
-                                                invisibleToUser()
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(spacing.extraSmall),
+                                        colors = if (!LocalInspectionMode.current) currentAppButtonColors else ButtonDefaults.buttonColors(),
+                                    ) {
+                                        Box(Modifier.weight(6f)) {
+                                            Text(
+                                                text = stringResource(section.textId),
+                                                textAlign = TextAlign.Start,
+                                                style = MaterialTheme.typography.titleMedium,
+                                            )
                                         }
-                                )
-                            }
-
-                            SectionType.Link, SectionType.Faq -> {
-                                Button(
-                                    onClick = {
-                                        if (section.type == SectionType.Faq) {
-                                            onNavigate("${SharedRoutes.HELP}/faq${section.textId.key}.${section.faqAnswer?.key}")
-                                        } else {
-                                            onNavigate("${SharedRoutes.HELP}/page${section.textId.key}")
+                                        Box(Modifier.weight(1f)) {
+                                            Icon(
+                                                Icons.Rounded.ChevronRight,
+                                                null,
+                                                modifier = Modifier.align(Alignment.CenterEnd)
+                                            )
                                         }
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                    shape = RoundedCornerShape(spacing.extraSmall),
-                                    colors = if (!LocalInspectionMode.current) currentAppButtonColors else ButtonDefaults.buttonColors(),
-                                ) {
-                                    Box(Modifier.weight(6f)) {
-                                        Text(
-                                            text = stringResource(section.textId),
-                                            textAlign = TextAlign.Start,
-                                            style = MaterialTheme.typography.titleMedium,
-                                        )
-                                    }
-                                    Box(Modifier.weight(1f)) {
-                                        Icon(
-                                            Icons.Rounded.ChevronRight,
-                                            null,
-                                            modifier = Modifier.align(Alignment.CenterEnd)
-                                        )
                                     }
                                 }
                             }
                         }
-                      }
                     }
                     item {
                         if (sections.titleId == Res.string.settings_about_app && onOpenSourceLicenses != null) {

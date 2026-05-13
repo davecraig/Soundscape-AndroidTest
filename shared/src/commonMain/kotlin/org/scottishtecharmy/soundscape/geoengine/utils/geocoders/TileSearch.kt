@@ -3,12 +3,12 @@ package org.scottishtecharmy.soundscape.geoengine.utils.geocoders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import okio.Path.Companion.toPath
 import org.scottishtecharmy.soundscape.components.LocationSource
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
-import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.convertGeometry
@@ -19,35 +19,36 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.translatePropert
 import org.scottishtecharmy.soundscape.geoengine.utils.decompressTile
 import org.scottishtecharmy.soundscape.geoengine.utils.getCentroidOfPolygon
 import org.scottishtecharmy.soundscape.geoengine.utils.getXYTile
+import org.scottishtecharmy.soundscape.geoengine.utils.pmtiles.PmTilesReader
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
+import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.geoengine.utils.pmtiles.PmTilesReader
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 import org.scottishtecharmy.soundscape.utils.fuzzyCompare
 import org.scottishtecharmy.soundscape.utils.toLocationDescription
 import vector_tile.Tile
-import okio.Path.Companion.toPath
-import kotlin.collections.isNotEmpty
-import kotlin.text.iterator
 
-class TileSearch(val offlineExtractPath: String,
-                 val gridState: GridState,
-                 val settlementGrid: GridState) : TileSearcher {
+class TileSearch(
+    val offlineExtractPath: String,
+    val gridState: GridState,
+    val settlementGrid: GridState
+) : TileSearcher {
 
     val stringCache = mutableMapOf<Long, List<String>>()
 
-    private fun cacheIndex(x: Int, y: Int) : Long{
+    private fun cacheIndex(x: Int, y: Int): Long {
         return x.toLong() + (y.toLong().shl(32))
     }
+
     private fun trimCache(keepSet: MutableSet<Long>) {
         // Remove all tiles which aren't in the keepSet
         stringCache.keys.removeAll { !keepSet.contains(it) }
     }
 
-    fun findNearestNamedWay(location: LngLatAlt, name: String?) : Way? {
+    fun findNearestNamedWay(location: LngLatAlt, name: String?): Way? {
         val nearestWays =
             gridState.getFeatureTree(TreeId.ROADS).getNearestCollection(
                 location,
@@ -58,7 +59,7 @@ class TileSearch(val offlineExtractPath: String,
                 )
         for (way in nearestWays) {
             val wayName = (way as MvtFeature?)?.name
-            if(name != null) {
+            if (name != null) {
                 if (wayName == name) {
                     return way as Way?
                 }
@@ -77,11 +78,14 @@ class TileSearch(val offlineExtractPath: String,
         val tileX: Int,
         val tileY: Int,
     )
-    fun compareAndAddToResults(normalizedNeedle: String,
-                               haystackString: String,
-                               searchResults: MutableList<TileSearchResult>,
-                               searchResultLimit: Int,
-                               tileX: Int, tileY: Int) : Boolean {
+
+    fun compareAndAddToResults(
+        normalizedNeedle: String,
+        haystackString: String,
+        searchResults: MutableList<TileSearchResult>,
+        searchResultLimit: Int,
+        tileX: Int, tileY: Int
+    ): Boolean {
         val score = normalizedNeedle.fuzzyCompare(haystackString, true)
         if (score < 0.25) {
             // If we already have better search results, discard this one
@@ -99,31 +103,31 @@ class TileSearch(val offlineExtractPath: String,
         return false
     }
 
-    fun addLastWords(wordCount: Int, words: List<String>) : String {
+    fun addLastWords(wordCount: Int, words: List<String>): String {
         val result = StringBuilder()
         var count = wordCount
-        for(word in words.reversed()) {
+        for (word in words.reversed()) {
             result.insert(0, word)
-            if(--count == 0)
+            if (--count == 0)
                 break
             result.insert(0, " ")
         }
         return result.toString()
     }
 
-    fun generateWithoutSettlement(string: String, settlementNames: Set<String>) : String? {
+    fun generateWithoutSettlement(string: String, settlementNames: Set<String>): String? {
         val hayStackWords = string.trim().split(" ")
 
         // Try and match the last words with settlements - non fuzzy!
         var wordTarget = hayStackWords.size
-        for(settlementName in settlementNames) {
+        for (settlementName in settlementNames) {
             if (settlementName.fuzzyCompare(hayStackWords.last(), true) < 0.25) {
                 // We have a one word match
                 wordTarget = hayStackWords.size - 1
                 break
             } else {
                 // Search for settlements with up to 5 words in name
-                for(count in 1 .. 5) {
+                for (count in 1..5) {
                     if ((hayStackWords.size > count) && (settlementName.fuzzyCompare(
                             addLastWords(count, hayStackWords), true
                         ) < 0.25)
@@ -133,23 +137,23 @@ class TileSearch(val offlineExtractPath: String,
                     }
                 }
             }
-            if(wordTarget != hayStackWords.size) break
+            if (wordTarget != hayStackWords.size) break
         }
         // No matches found, so only search on full string
-        if(wordTarget == hayStackWords.size) return null
+        if (wordTarget == hayStackWords.size) return null
 
         val finalWordsBuilder = StringBuilder()
         for (word in hayStackWords) {
             finalWordsBuilder.append(word)
             finalWordsBuilder.append(" ")
             --wordTarget
-            if(wordTarget == 0)
+            if (wordTarget == 0)
                 break
         }
         return finalWordsBuilder.toString().trim()
     }
 
-    fun generateEndOfString(string: String, maxLength: Int) : String {
+    fun generateEndOfString(string: String, maxLength: Int): String {
         val normalizedString = normalizeForSearch(string)
 
         val hayStackWords = normalizedString.split(" ")
@@ -169,7 +173,7 @@ class TileSearch(val offlineExtractPath: String,
         searchString: String,
         localizedStrings: LocalizedStrings?,
         settlementNames: Set<String>
-    ) : List<LocationDescription> {
+    ): List<LocationDescription> {
         val tileLocation = getXYTile(location, MAX_ZOOM_LEVEL)
         val extracts = findExtractPaths(offlineExtractPath).toMutableList()
         var reader: PmTilesReader? = null
@@ -257,7 +261,7 @@ class TileSearch(val offlineExtractPath: String,
                         x, y
                     )
                 ) {
-                    if(string.length > normalizedNeedle.length) {
+                    if (string.length > normalizedNeedle.length) {
                         if (compareAndAddToResults
                                 (
                                 normalizedNeedle,
@@ -269,7 +273,7 @@ class TileSearch(val offlineExtractPath: String,
                         )
                             continue
                     }
-                    if(needleWithoutSettlement != null) {
+                    if (needleWithoutSettlement != null) {
                         compareAndAddToResults(
                             needleWithoutSettlement,
                             string,
@@ -308,15 +312,15 @@ class TileSearch(val offlineExtractPath: String,
         // duplicates due to tile boundary overlap and roads crossing tiles
         val ruler = CheapRuler(location.latitude)
         val detailedResults = mutableListOf<DetailedSearchResult>()
-        for(result in searchResults) {
+        for (result in searchResults) {
             val tileData = reader?.getTile(MAX_ZOOM_LEVEL, result.tileX, result.tileY)
             if (tileData != null) {
                 val tile = decompressTile(reader.tileCompression, tileData)
-                if(tile != null) {
+                if (tile != null) {
                     var stringValue = ""
-                    for(layer in tile.layers) {
+                    for (layer in tile.layers) {
                         // Was the string found in transportation or POI? TODO: Or both?
-                        if((layer.name == "transportation") || (layer.name == "poi")){
+                        if ((layer.name == "transportation") || (layer.name == "poi")) {
                             var nameTag = -1
                             for ((index, value) in layer.keys.withIndex()) {
                                 if (value == "name") {
@@ -329,14 +333,14 @@ class TileSearch(val offlineExtractPath: String,
                             for ((index, value) in layer.values.withIndex()) {
                                 val sv = value.string_value
                                 if (sv != null) {
-                                    if(normalizeForSearch(sv) == result.string) {
+                                    if (normalizeForSearch(sv) == result.string) {
                                         stringKey = index
                                         stringValue = sv
                                         break
                                     } else {
-                                        if(sv.length <= result.string.length)
+                                        if (sv.length <= result.string.length)
                                             continue
-                                        if(
+                                        if (
                                             generateEndOfString(
                                                 sv, result.string.length
                                             ) == result.string
@@ -348,7 +352,7 @@ class TileSearch(val offlineExtractPath: String,
                                     }
                                 }
                             }
-                            if(stringKey != -1) {
+                            if (stringKey != -1) {
                                 // We need to look for the feature
                                 for (feature in layer.features) {
                                     var firstInPair = true
@@ -358,7 +362,7 @@ class TileSearch(val offlineExtractPath: String,
                                         if (firstInPair) {
                                             skip = (tag != nameTag)
                                         } else {
-                                            if(!skip) {
+                                            if (!skip) {
                                                 val raw = layer.values[tag]
                                                 if (raw.string_value != null && (tag == stringKey)) {
                                                     found = true
@@ -410,8 +414,9 @@ class TileSearch(val offlineExtractPath: String,
                                                         result.tileX,
                                                         result.tileY,
                                                         MAX_ZOOM_LEVEL,
-                                                        point)
-                                                    for(coordinate in coordinates) {
+                                                        point
+                                                    )
+                                                    for (coordinate in coordinates) {
                                                         detailedResults.add(
                                                             DetailedSearchResult(
                                                                 result.score,
@@ -432,7 +437,8 @@ class TileSearch(val offlineExtractPath: String,
                                                 feature.geometry
                                             )
                                             for (line in lines) {
-                                                val interpolatedNodes : MutableList<LngLatAlt> = mutableListOf()
+                                                val interpolatedNodes: MutableList<LngLatAlt> =
+                                                    mutableListOf()
                                                 val clippedLines = convertGeometryAndClipLineToTile(
                                                     result.tileX,
                                                     result.tileY,
@@ -443,8 +449,10 @@ class TileSearch(val offlineExtractPath: String,
                                                 var resultValid = false
                                                 for (clippedLine in clippedLines) {
                                                     resultValid = true
-                                                    val centreDistance = ruler.lineLength(clippedLine)/2
-                                                    val lineCentre = ruler.along(clippedLine, centreDistance)
+                                                    val centreDistance =
+                                                        ruler.lineLength(clippedLine) / 2
+                                                    val lineCentre =
+                                                        ruler.along(clippedLine, centreDistance)
                                                     detailedResults.add(
                                                         DetailedSearchResult(
                                                             result.score,
@@ -456,11 +464,10 @@ class TileSearch(val offlineExtractPath: String,
                                                     )
                                                     break
                                                 }
-                                                if(resultValid) break
+                                                if (resultValid) break
                                             }
                                             break
-                                        }
-                                        else if(feature.type == Tile.GeomType.POLYGON) {
+                                        } else if (feature.type == Tile.GeomType.POLYGON) {
                                             val polygons = parseGeometry(
                                                 false,
                                                 feature.geometry
@@ -470,16 +477,20 @@ class TileSearch(val offlineExtractPath: String,
                                             // discard it
                                             var allOutside = true
                                             for (polygon in polygons) {
-                                                for(point in polygon) {
-                                                    if(!pointIsOffTile(point.first, point.second)) {
+                                                for (point in polygon) {
+                                                    if (!pointIsOffTile(
+                                                            point.first,
+                                                            point.second
+                                                        )
+                                                    ) {
                                                         allOutside = false
                                                         break
                                                     }
                                                 }
-                                                if(!allOutside)
+                                                if (!allOutside)
                                                     break
                                             }
-                                            if(allOutside) continue
+                                            if (allOutside) continue
 
                                             for (polygon in polygons) {
                                                 val polygonGeo = Polygon(
@@ -516,12 +527,11 @@ class TileSearch(val offlineExtractPath: String,
         // Sort the results so far and deduplicate them
         val whittledResults = detailedResults
             .sortedWith { a, b ->
-                if(a.score == b.score) {
+                if (a.score == b.score) {
                     val aDistance = ruler.distance(a.location, location)
                     val bDistance = ruler.distance(b.location, location)
                     aDistance.compareTo(bDistance)
-                }
-                else
+                } else
                     a.score.compareTo(b.score)
             }
             .fold(mutableListOf<DetailedSearchResult>()) { accumulator, result ->
@@ -552,12 +562,12 @@ class TileSearch(val offlineExtractPath: String,
             // We've got results, see if we can improve the description from our GridState
             runBlocking {
                 withContext(gridState.treeContext) {
-                    if(gridState.isLocationWithinGrid(result.location)) {
+                    if (gridState.isLocationWithinGrid(result.location)) {
                         val nearestWay = findNearestNamedWay(
                             result.location,
                             mvt.properties?.get("street") as String?
                         )
-                        if(nearestWay != null) {
+                        if (nearestWay != null) {
                             if (mvt.properties?.get("street") == null) {
                                 mvt.properties?.set("street", nearestWay.name)
                             }
@@ -565,7 +575,7 @@ class TileSearch(val offlineExtractPath: String,
                                 val sd = StreetDescription(result.string, gridState)
                                 sd.createDescription(nearestWay, localizedStrings)
                                 val numberResult = sd.getLocationFromStreetNumber(housenumber)
-                                if(numberResult != null) {
+                                if (numberResult != null) {
                                     mvt.properties?.set("housenumber", numberResult.second)
                                     result.location = numberResult.first
                                     mvt.geometry = Point(result.location)
@@ -583,12 +593,12 @@ class TileSearch(val offlineExtractPath: String,
                         // update dynamically which would mean that the time taken was less
                         // important.
                         if (result.layer == "transportation") {
-                            if(mvt.name != null) {
+                            if (mvt.name != null) {
                                 mvt.properties?.set("street", mvt.name)
                             }
                         }
                     }
-                    if(settlementGrid.isLocationWithinGrid(result.location)) {
+                    if (settlementGrid.isLocationWithinGrid(result.location)) {
 
                         // Get the nearest settlements. Nominatim uses the following proximities,
                         // so we do the same:
@@ -600,11 +610,20 @@ class TileSearch(val offlineExtractPath: String,
                         //
                         var nearestDistrict: MvtFeature?
                         nearestDistrict = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_HAMLET)
-                            .getNearestFeature(location, settlementGrid.ruler, 1000.0) as MvtFeature?
-                        if(nearestDistrict?.name == null) {
-                            nearestDistrict = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_VILLAGE)
-                                    .getNearestFeature(result.location, settlementGrid.ruler, 2000.0) as MvtFeature?
-                            if(nearestDistrict?.name == null) {
+                            .getNearestFeature(
+                                location,
+                                settlementGrid.ruler,
+                                1000.0
+                            ) as MvtFeature?
+                        if (nearestDistrict?.name == null) {
+                            nearestDistrict =
+                                settlementGrid.getFeatureTree(TreeId.SETTLEMENT_VILLAGE)
+                                    .getNearestFeature(
+                                        result.location,
+                                        settlementGrid.ruler,
+                                        2000.0
+                                    ) as MvtFeature?
+                            if (nearestDistrict?.name == null) {
                                 nearestDistrict =
                                     settlementGrid.getFeatureTree(TreeId.SETTLEMENT_TOWN)
                                         .getNearestFeature(
@@ -631,18 +650,18 @@ class TileSearch(val offlineExtractPath: String,
             }
             Pair(mvt, result)
         }.fold(mutableListOf<Pair<MvtFeature, DetailedSearchResult>>()) { accumulator, result ->
-                // Check if we already have this exact name at approximately the same location
-                val isDuplicate = accumulator.any {
-                    it.second.string == result.second.string && ruler.distance(
-                        it.second.location,
-                        result.second.location
-                    ) < 100.0
-                }
-                if (!isDuplicate) {
-                    accumulator.add(result)
-                }
-                accumulator
+            // Check if we already have this exact name at approximately the same location
+            val isDuplicate = accumulator.any {
+                it.second.string == result.second.string && ruler.distance(
+                    it.second.location,
+                    result.second.location
+                ) < 100.0
             }
+            if (!isDuplicate) {
+                accumulator.add(result)
+            }
+            accumulator
+        }
         return streetResults.map { (mvt, result) ->
             mvt.toLocationDescription(
                 LocationSource.OfflineGeocoder,

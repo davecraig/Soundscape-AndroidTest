@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import okio.Path.Companion.toPath
-import org.scottishtecharmy.soundscape.platform.systemFileSystem
 import org.scottishtecharmy.soundscape.geoengine.utils.polygonContainsCoordinates
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
@@ -22,6 +21,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.platform.systemFileSystem
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 import org.scottishtecharmy.soundscape.utils.formatBytes
 
@@ -64,9 +64,10 @@ class OfflineMapManager(
             for (path in paths) {
                 val baseName = path.substringAfterLast("/")
                 val match = manifest?.features?.firstOrNull { feature ->
-                    val filename = feature.properties?.get("filename") as? String ?: return@firstOrNull false
+                    val filename =
+                        feature.properties?.get("filename") as? String ?: return@firstOrNull false
                     filename.substringAfterLast("/") == baseName ||
-                        filename.substringAfter("-").substringAfter("-") == baseName
+                            filename.substringAfter("-").substringAfter("-") == baseName
                 }
                 if (match != null) {
                     fc.addFeature(match.withSizeString())
@@ -140,7 +141,8 @@ class OfflineMapManager(
         val sizeLong = sizeBytes.toLong()
         val localized = ComposeLocalizedStrings()
         props["extract-size-string"] = formatBytes(sizeLong, localized)
-        props["extract-size-a11y-string"] = formatBytes(sizeLong, localized, forAccessibility = true)
+        props["extract-size-a11y-string"] =
+            formatBytes(sizeLong, localized, forAccessibility = true)
         properties = props
         return this
     }
@@ -153,6 +155,7 @@ class OfflineMapManager(
                 poly.coordinates.addAll(polygonRings)
                 polygonContainsCoordinates(location, poly)
             }
+
             else -> false
         }
     }
@@ -197,12 +200,16 @@ class OfflineMapManager(
                             // Rename temp file to final
                             val tempFile = tempPath.toPath()
                             val finalFile = outputPath.toPath()
-                            try { systemFileSystem.delete(finalFile) } catch (_: Exception) {}
+                            try {
+                                systemFileSystem.delete(finalFile)
+                            } catch (_: Exception) {
+                            }
                             systemFileSystem.atomicMove(tempFile, finalFile)
                             _downloadState.value = DownloadStateCommon.Success
                             refreshDownloaded()
                             return@launch
                         }
+
                         is DownloadResultCommon.HttpError -> {
                             if (result.code == 503) {
                                 // Server caching — back off and retry
@@ -224,10 +231,16 @@ class OfflineMapManager(
                 }
             } catch (e: CancellationException) {
                 _downloadState.value = DownloadStateCommon.Canceled
-                try { systemFileSystem.delete(tempPath.toPath()) } catch (_: Exception) {}
+                try {
+                    systemFileSystem.delete(tempPath.toPath())
+                } catch (_: Exception) {
+                }
             } catch (e: Exception) {
                 _downloadState.value = DownloadStateCommon.Error(e.message ?: "Download failed")
-                try { systemFileSystem.delete(tempPath.toPath()) } catch (_: Exception) {}
+                try {
+                    systemFileSystem.delete(tempPath.toPath())
+                } catch (_: Exception) {
+                }
             }
         }
     }
@@ -243,7 +256,10 @@ class OfflineMapManager(
         try {
             systemFileSystem.delete(path.toPath())
             // Also delete the metadata file if it exists
-            try { systemFileSystem.delete("$path.geojson".toPath()) } catch (_: Exception) {}
+            try {
+                systemFileSystem.delete("$path.geojson".toPath())
+            } catch (_: Exception) {
+            }
             refreshDownloaded()
         } catch (e: Exception) {
             println("OfflineMapManager: Error deleting extract: ${e.message}")

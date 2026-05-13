@@ -42,7 +42,19 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.preferences.rememberBooleanPreference
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.location_detail_action_beacon
+import org.scottishtecharmy.soundscape.resources.location_detail_action_beacon_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_action_edit_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_action_preview_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_action_save_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_action_share_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_title_default
+import org.scottishtecharmy.soundscape.resources.markers_edit_screen_title_edit
+import org.scottishtecharmy.soundscape.resources.offline_maps_nearby
+import org.scottishtecharmy.soundscape.resources.preview_title
+import org.scottishtecharmy.soundscape.resources.share_title
+import org.scottishtecharmy.soundscape.resources.universal_links_alert_action_marker
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.FullScreenMapFab
 import org.scottishtecharmy.soundscape.screens.home.home.PlatformMapContainer
@@ -177,7 +189,12 @@ private fun LocationDescriptionTextsSection(
             val bearing = ruler.bearing(userLocation, locationDescription.location)
             val localized = ComposeLocalizedStrings()
             formatDistanceAndDirection(distance, bearing, localized) to
-                formatDistanceAndDirection(distance, bearing, localized, forAccessibility = true)
+                    formatDistanceAndDirection(
+                        distance,
+                        bearing,
+                        localized,
+                        forAccessibility = true
+                    )
         }
         val (distanceString, distanceStringA11y) = distanceStrings
         if (distanceString.isNotEmpty()) {

@@ -16,18 +16,15 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.asin
 import kotlin.math.atan
-import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.ln
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
-import kotlin.math.roundToLong
 import kotlin.math.sin
 import kotlin.math.sinh
 import kotlin.math.sqrt
-
 
 
 /**
@@ -90,8 +87,9 @@ fun getCentroidOfPolygon(polygon: Polygon): LngLatAlt? {
 
     return LngLatAlt(finalCentroidX, finalCentroidY)
 }
-fun getCentralPointForFeature(feature: Feature) : LngLatAlt? {
-    return when(feature.geometry.type) {
+
+fun getCentralPointForFeature(feature: Feature): LngLatAlt? {
+    return when (feature.geometry.type) {
         "Point" -> (feature.geometry as Point).coordinates
         "Polygon" -> getCentroidOfPolygon(feature.geometry as Polygon)
         else -> null
@@ -288,7 +286,7 @@ fun getBoundingBoxOfMultiLineString(multiLineString: MultiLineString): BoundingB
  * Polygon object.
  * @return A Bounding Box for the Polygon.
  */
-fun getBoundingBoxOfPolygon(polygon: Polygon): BoundingBox{
+fun getBoundingBoxOfPolygon(polygon: Polygon): BoundingBox {
     var westLon = Int.MAX_VALUE.toDouble()
     var southLat = Int.MAX_VALUE.toDouble()
     var eastLon = Int.MIN_VALUE.toDouble()
@@ -338,10 +336,14 @@ fun getBoundingBoxesOfMultiPolygon(multiPolygon: MultiPolygon): List<BoundingBox
  */
 fun getBoundingBoxCorners(boundingBox: BoundingBox): BoundingBoxCorners {
     val boundingBoxCorners = BoundingBoxCorners()
-    boundingBoxCorners.northWestCorner = LngLatAlt(boundingBox.westLongitude, boundingBox.northLatitude)
-    boundingBoxCorners.southWestCorner = LngLatAlt(boundingBox.westLongitude, boundingBox.southLatitude)
-    boundingBoxCorners.southEastCorner = LngLatAlt(boundingBox.eastLongitude, boundingBox.southLatitude)
-    boundingBoxCorners.northEastCorner = LngLatAlt(boundingBox.eastLongitude, boundingBox.northLatitude)
+    boundingBoxCorners.northWestCorner =
+        LngLatAlt(boundingBox.westLongitude, boundingBox.northLatitude)
+    boundingBoxCorners.southWestCorner =
+        LngLatAlt(boundingBox.westLongitude, boundingBox.southLatitude)
+    boundingBoxCorners.southEastCorner =
+        LngLatAlt(boundingBox.eastLongitude, boundingBox.southLatitude)
+    boundingBoxCorners.northEastCorner =
+        LngLatAlt(boundingBox.eastLongitude, boundingBox.northLatitude)
 
     return boundingBoxCorners
 }
@@ -355,10 +357,30 @@ fun getBoundingBoxCorners(boundingBox: BoundingBox): BoundingBoxCorners {
 fun getCenterOfBoundingBox(
     bbCorners: BoundingBoxCorners
 ): LngLatAlt {
-    val maxLat = maxOf(bbCorners.northWestCorner.latitude, bbCorners.southWestCorner.latitude, bbCorners.southEastCorner.latitude, bbCorners.northEastCorner.latitude)
-    val minLat = minOf(bbCorners.northWestCorner.latitude, bbCorners.southWestCorner.latitude, bbCorners.southEastCorner.latitude, bbCorners.northEastCorner.latitude)
-    val maxLon = maxOf(bbCorners.northWestCorner.longitude, bbCorners.southWestCorner.longitude, bbCorners.southEastCorner.longitude, bbCorners.northEastCorner.longitude)
-    val minLon = minOf(bbCorners.northWestCorner.longitude, bbCorners.southWestCorner.longitude, bbCorners.southEastCorner.longitude, bbCorners.northEastCorner.longitude)
+    val maxLat = maxOf(
+        bbCorners.northWestCorner.latitude,
+        bbCorners.southWestCorner.latitude,
+        bbCorners.southEastCorner.latitude,
+        bbCorners.northEastCorner.latitude
+    )
+    val minLat = minOf(
+        bbCorners.northWestCorner.latitude,
+        bbCorners.southWestCorner.latitude,
+        bbCorners.southEastCorner.latitude,
+        bbCorners.northEastCorner.latitude
+    )
+    val maxLon = maxOf(
+        bbCorners.northWestCorner.longitude,
+        bbCorners.southWestCorner.longitude,
+        bbCorners.southEastCorner.longitude,
+        bbCorners.northEastCorner.longitude
+    )
+    val minLon = minOf(
+        bbCorners.northWestCorner.longitude,
+        bbCorners.southWestCorner.longitude,
+        bbCorners.southEastCorner.longitude,
+        bbCorners.northEastCorner.longitude
+    )
     val e1 = (minLat + maxLat) / 2
     val e2 = (maxLon + minLon) / 2
 
@@ -371,16 +393,31 @@ fun getCenterOfBoundingBox(
  * A BoundingBox object.
  * @return A closed Polygon.
  */
-fun getPolygonOfBoundingBox(boundingBox: BoundingBox): Polygon{
+fun getPolygonOfBoundingBox(boundingBox: BoundingBox): Polygon {
     val cornerCoordinates = getBoundingBoxCorners(boundingBox)
     val polygonObject = Polygon().also {
         it.coordinates = arrayListOf(
             arrayListOf(
-                LngLatAlt(cornerCoordinates.northWestCorner.longitude, cornerCoordinates.northWestCorner.latitude ),
-                LngLatAlt(cornerCoordinates.southWestCorner.longitude, cornerCoordinates.southWestCorner.latitude),
-                LngLatAlt(cornerCoordinates.southEastCorner.longitude, cornerCoordinates.southEastCorner.latitude),
-                LngLatAlt(cornerCoordinates.northEastCorner.longitude, cornerCoordinates.northEastCorner.latitude),
-                LngLatAlt(cornerCoordinates.northWestCorner.longitude, cornerCoordinates.northWestCorner.latitude)
+                LngLatAlt(
+                    cornerCoordinates.northWestCorner.longitude,
+                    cornerCoordinates.northWestCorner.latitude
+                ),
+                LngLatAlt(
+                    cornerCoordinates.southWestCorner.longitude,
+                    cornerCoordinates.southWestCorner.latitude
+                ),
+                LngLatAlt(
+                    cornerCoordinates.southEastCorner.longitude,
+                    cornerCoordinates.southEastCorner.latitude
+                ),
+                LngLatAlt(
+                    cornerCoordinates.northEastCorner.longitude,
+                    cornerCoordinates.northEastCorner.latitude
+                ),
+                LngLatAlt(
+                    cornerCoordinates.northWestCorner.longitude,
+                    cornerCoordinates.northWestCorner.latitude
+                )
             )
         )
     }
@@ -401,7 +438,10 @@ fun getPolygonOfBoundingBox(boundingBox: BoundingBox): Polygon{
  * An ArrayList of the points of the polygon to test.
  * @return If coordinate is in polygon.
  */
-fun regionContainsCoordinates(lngLatAlt: LngLatAlt, regionCoordinates: ArrayList<LngLatAlt>): Boolean {
+fun regionContainsCoordinates(
+    lngLatAlt: LngLatAlt,
+    regionCoordinates: ArrayList<LngLatAlt>
+): Boolean {
 
     var intersections = 0
     for (i in 1 until regionCoordinates.size) {
@@ -449,8 +489,8 @@ fun polygonContainsCoordinates(lngLatAlt: LngLatAlt, polygon: Polygon): Boolean 
 
 fun multiPolygonContainsCoordinates(lngLatAlt: LngLatAlt, multiPolygon: MultiPolygon): Boolean {
 
-    for(polygon in multiPolygon.coordinates)
-        if(regionContainsCoordinates(lngLatAlt, polygon[0]))
+    for (polygon in multiPolygon.coordinates)
+        if (regionContainsCoordinates(lngLatAlt, polygon[0]))
             return true
 
     return false
@@ -480,7 +520,11 @@ fun multiPolygonContainsCoordinates(lngLatAlt: LngLatAlt, multiPolygon: MultiPol
  * Reverse the sort order of the LineString coordinates so "first" is "last"
  * @return The new coordinate as a LngLatAlt object.
  */
-fun getReferenceCoordinate(path: LineString, targetDistance: Double, reverseLineString: Boolean): LngLatAlt {
+fun getReferenceCoordinate(
+    path: LineString,
+    targetDistance: Double,
+    reverseLineString: Boolean
+): LngLatAlt {
 
     if (path.coordinates.size == 1 || targetDistance <= 0.0) return path.coordinates.first()
 
@@ -619,7 +663,7 @@ fun createPolygonFromTriangle(triangle: Triangle): Polygon {
     return polygonTriangleFOV
 }
 
-fun getTriangleForDirection(featureCollection: FeatureCollection, direction: Int) : Triangle {
+fun getTriangleForDirection(featureCollection: FeatureCollection, direction: Int): Triangle {
     val geometry = featureCollection.features[direction].geometry as Polygon
     // The order of coordinates is as passed in to createTriangleFOV
     return Triangle(
@@ -675,7 +719,7 @@ fun circleToPolygon(segments: Int, centerLat: Double, centerLon: Double, radius:
     points.add(LngLatAlt(points[0].longitude, points[0].latitude))
 
     val tempCirclePoints = arrayListOf(LngLatAlt())
-    for(point in points){
+    for (point in points) {
         tempCirclePoints.add(point)
     }
     tempCirclePoints.removeAt(0)
@@ -700,10 +744,10 @@ fun distanceToRegion(
     pointCoordinates: LngLatAlt,
     outerRing: LineString,
     ruler: Ruler,
-    nearestPoint: LngLatAlt? = null) : Double
-{
+    nearestPoint: LngLatAlt? = null
+): Double {
     val pdh = ruler.distanceToLineString(pointCoordinates, outerRing)
-    if(nearestPoint != null) {
+    if (nearestPoint != null) {
         nearestPoint.latitude = pdh.point.latitude
         nearestPoint.longitude = pdh.point.longitude
     }
@@ -714,18 +758,18 @@ fun distanceToPolygon(
     pointCoordinates: LngLatAlt,
     polygon: Polygon,
     ruler: Ruler,
-    nearestPoint: LngLatAlt? = null)
-: Double {
+    nearestPoint: LngLatAlt? = null
+)
+        : Double {
 
     // We're only looking at the outer ring, which is really just a LineString
     val lineString = LineString()
     lineString.coordinates = polygon.coordinates[0]
-    return if(polygonContainsCoordinates(pointCoordinates, polygon)) {
+    return if (polygonContainsCoordinates(pointCoordinates, polygon)) {
         nearestPoint?.latitude = pointCoordinates.latitude
         nearestPoint?.longitude = pointCoordinates.longitude
         0.0
-    }
-    else
+    } else
         distanceToRegion(pointCoordinates, lineString, ruler, nearestPoint)
 }
 
@@ -733,15 +777,16 @@ fun distanceToMultiPolygon(
     pointCoordinates: LngLatAlt,
     polygon: MultiPolygon,
     ruler: Ruler,
-    nearestPoint: LngLatAlt? = null)
+    nearestPoint: LngLatAlt? = null
+)
         : Double {
 
     // Check each polygon in turn
     var shortestDistance = Double.POSITIVE_INFINITY
-    for(region in polygon.coordinates) {
-        if(
+    for (region in polygon.coordinates) {
+        if (
             polygonContainsCoordinates(
-            pointCoordinates, Polygon(region[0])
+                pointCoordinates, Polygon(region[0])
             )
         ) {
             return 0.0
@@ -750,7 +795,7 @@ fun distanceToMultiPolygon(
         val lineString = LineString()
         lineString.coordinates = region[0]
         val distance = distanceToRegion(pointCoordinates, lineString, ruler, nearestPoint)
-        if(distance < shortestDistance)
+        if (distance < shortestDistance)
             shortestDistance = distance
     }
     return shortestDistance
@@ -768,13 +813,15 @@ fun distanceToMultiPolygon(
  * @param y double
  * @return the distance of the point to the line
  */
-fun distance(x1: Double,
-             y1: Double,
-             x2: Double,
-             y2: Double,
-             x: Double,
-             y: Double,
-             nearestPoint: LngLatAlt? = null): Double {
+fun distance(
+    x1: Double,
+    y1: Double,
+    x2: Double,
+    y2: Double,
+    x: Double,
+    y: Double,
+    nearestPoint: LngLatAlt? = null
+): Double {
     val xx: Double
     val yy: Double
 
@@ -784,11 +831,13 @@ fun distance(x1: Double,
             xx = x
             yy = y1
         }
+
         x1 == x2 -> {
             // vertical line
             xx = x1
             yy = y
         }
+
         else -> {
             // y=s*x  +c
             val s = (y2 - y1) / (x2 - x1)
@@ -816,7 +865,7 @@ fun distance(x1: Double,
         val distance2 = sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2))
 
         // Set nearestPoint to be the nearest location on the line
-        if(distance1 < distance2) {
+        if (distance1 < distance2) {
             nearestPoint?.latitude = x1
             nearestPoint?.longitude = y1
         } else {
@@ -876,7 +925,12 @@ fun calculateRadius(
     chordMidPoint: LngLatAlt
 ): Double {
     val h =
-        distance(arcMidPoint.latitude, arcMidPoint.longitude, chordMidPoint.latitude, chordMidPoint.longitude)
+        distance(
+            arcMidPoint.latitude,
+            arcMidPoint.longitude,
+            chordMidPoint.latitude,
+            chordMidPoint.longitude
+        )
     // https://math.stackexchange.com/questions/2809531/how-to-find-a-circle-given-a-segment
     var radius = (h / 2) + (chordLength * chordLength / (8 * h))
     // Iterate to refine radius (more repeats more accuracy but we don't need to be super accurate
@@ -977,10 +1031,16 @@ fun straightLinesIntersect(
                 // parallel -> they don't intersect
                 false
             }
+
         line1Horizontal && line2Horizontal -> {
             if (line1Start.longitude == line2Start.longitude) {
                 // lines are both horizontal check whether they overlap
-                if (isBetween(line1Start.latitude, line1End.latitude, line2Start.latitude) || isBetween(line1Start.latitude, line1End.latitude, line2End.latitude)) {
+                if (isBetween(
+                        line1Start.latitude,
+                        line1End.latitude,
+                        line2Start.latitude
+                    ) || isBetween(line1Start.latitude, line1End.latitude, line2End.latitude)
+                ) {
                     true
                 } else {
                     false // No intersection
@@ -989,6 +1049,7 @@ fun straightLinesIntersect(
                 false // Parallel lines, no intersection
             }
         }
+
         line1Vertical && line2Horizontal -> {
             val intersectLon = line1Start.longitude
             val intersectLat = line2Start.latitude
@@ -1002,6 +1063,7 @@ fun straightLinesIntersect(
                 false // No intersection
             }
         }
+
         line1Horizontal && line2Vertical -> {
             // If line1 is horizontal and line2 is vertical
             // the intersection point is the longitude of line2 and the latitude of line1
@@ -1017,25 +1079,39 @@ fun straightLinesIntersect(
                 false // No intersection
             }
         }
+
         line1Vertical -> {
-            val gradient2 = (line2End.longitude - line2Start.longitude) / (line2End.latitude - line2Start.latitude)
+            val gradient2 =
+                (line2End.longitude - line2Start.longitude) / (line2End.latitude - line2Start.latitude)
             val a2 = line2Start.longitude - gradient2 * line2Start.latitude
             val yi = a2 + gradient2 * line1Start.latitude
 
-            isBetween(line1Start.longitude, line1End.longitude, yi) && isBetween(line2Start.longitude, line2End.longitude, yi)
+            isBetween(
+                line1Start.longitude,
+                line1End.longitude,
+                yi
+            ) && isBetween(line2Start.longitude, line2End.longitude, yi)
         }
+
         line2Vertical -> {
-            val gradient1 = (line1End.longitude - line1Start.longitude) / (line1End.latitude - line1Start.latitude)
+            val gradient1 =
+                (line1End.longitude - line1Start.longitude) / (line1End.latitude - line1Start.latitude)
             val a1 = line1Start.longitude - gradient1 * line1Start.latitude
             val yi = a1 + gradient1 * line2Start.latitude
 
-            isBetween(line1Start.longitude, line1End.longitude, yi) && isBetween(line2Start.longitude, line2End.longitude, yi)
+            isBetween(
+                line1Start.longitude,
+                line1End.longitude,
+                yi
+            ) && isBetween(line2Start.longitude, line2End.longitude, yi)
         }
+
         else -> {
-            if((line1Start == line2Start) ||
-               (line1Start == line2End) ||
-               (line1End == line2Start) ||
-               (line1End == line2End)) {
+            if ((line1Start == line2Start) ||
+                (line1Start == line2End) ||
+                (line1End == line2Start) ||
+                (line1End == line2End)
+            ) {
                 true
             } else {
                 val gradient1 =
@@ -1103,7 +1179,12 @@ fun straightLinesIntersectLngLatAlt(
         line1Vertical && line2Vertical -> {
             if (line1Start.latitude == line2Start.latitude) {
                 // lines are both vertical check whether they overlap
-                if (isBetween(line1Start.longitude, line1End.longitude, line2Start.longitude) || isBetween(line1Start.longitude, line1End.longitude, line2End.longitude)) {
+                if (isBetween(
+                        line1Start.longitude,
+                        line1End.longitude,
+                        line2Start.longitude
+                    ) || isBetween(line1Start.longitude, line1End.longitude, line2End.longitude)
+                ) {
                     line2Start // Return line2Start as intersection point
                 } else {
                     null // No intersection
@@ -1112,10 +1193,16 @@ fun straightLinesIntersectLngLatAlt(
                 null // Parallel lines, no intersection
             }
         }
+
         line1Horizontal && line2Horizontal -> {
             if (line1Start.longitude == line2Start.longitude) {
                 // lines are both horizontal check whether they overlap
-                if (isBetween(line1Start.latitude, line1End.latitude, line2Start.latitude) || isBetween(line1Start.latitude, line1End.latitude, line2End.latitude)) {
+                if (isBetween(
+                        line1Start.latitude,
+                        line1End.latitude,
+                        line2Start.latitude
+                    ) || isBetween(line1Start.latitude, line1End.latitude, line2End.latitude)
+                ) {
                     line2Start // Return line2Start as intersection point
                 } else {
                     null // No intersection
@@ -1124,6 +1211,7 @@ fun straightLinesIntersectLngLatAlt(
                 null // Parallel lines, no intersection
             }
         }
+
         line1Vertical && line2Horizontal -> {
             val intersectLon = line1Start.longitude
             val intersectLat = line2Start.latitude
@@ -1132,11 +1220,16 @@ fun straightLinesIntersectLngLatAlt(
             if (isBetween(line1Start.longitude, line1End.longitude, intersectLon) &&
                 isBetween(line2Start.latitude, line2End.latitude, intersectLat)
             ) {
-                LngLatAlt(intersectLon, intersectLat, line1Start.altitude) // Return intersection point
+                LngLatAlt(
+                    intersectLon,
+                    intersectLat,
+                    line1Start.altitude
+                ) // Return intersection point
             } else {
                 null // No intersection
             }
         }
+
         line1Horizontal && line2Vertical -> {
             // If line1 is horizontal and line2 is vertical
             // the intersection point is the longitude of line2 and the latitude of line1
@@ -1147,40 +1240,69 @@ fun straightLinesIntersectLngLatAlt(
             if (isBetween(line1Start.latitude, line1End.latitude, intersectLat) &&
                 isBetween(line2Start.longitude, line2End.longitude, intersectLon)
             ) {
-                LngLatAlt(intersectLon, intersectLat, line1Start.altitude) // Return intersection point
+                LngLatAlt(
+                    intersectLon,
+                    intersectLat,
+                    line1Start.altitude
+                ) // Return intersection point
             } else {
                 null // No intersection
             }
         }
+
         line1Vertical -> {
-            val gradient2 = (line2End.longitude - line2Start.longitude) / (line2End.latitude - line2Start.latitude)
+            val gradient2 =
+                (line2End.longitude - line2Start.longitude) / (line2End.latitude - line2Start.latitude)
             val a2 = line2Start.longitude - gradient2 * line2Start.latitude
             val intersectLon = a2 + gradient2 * line1Start.latitude
 
 
             // Check if the intersection point is within the bounds of both lines
-            if (isBetween(line1Start.longitude, line1End.longitude, intersectLon) && isBetween(line2Start.latitude, line2End.latitude, a2)) {
-                LngLatAlt(intersectLon, line1Start.latitude, line1Start.altitude) // Return intersection point with calculated longitude
+            if (isBetween(line1Start.longitude, line1End.longitude, intersectLon) && isBetween(
+                    line2Start.latitude,
+                    line2End.latitude,
+                    a2
+                )
+            ) {
+                LngLatAlt(
+                    intersectLon,
+                    line1Start.latitude,
+                    line1Start.altitude
+                ) // Return intersection point with calculated longitude
             } else {
                 null // No intersection
             }
         }
+
         line2Vertical -> {
 
-            val gradient1 = (line1End.latitude - line1Start.latitude) / (line1End.longitude - line1Start.longitude)
+            val gradient1 =
+                (line1End.latitude - line1Start.latitude) / (line1End.longitude - line1Start.longitude)
             val a1 = line1Start.longitude - gradient1 * line1Start.latitude
             val intersectLon = a1 + gradient1 * line2Start.latitude
 
             // Check if the intersection point is within the bounds of both lines
-            if (isBetween(line1Start.latitude, line1End.latitude, a1) && isBetween(line2Start.longitude, line2End.longitude, intersectLon)) {
-                LngLatAlt(intersectLon, a1, line2Start.altitude) // Return intersection point with calculated longitude
+            if (isBetween(
+                    line1Start.latitude,
+                    line1End.latitude,
+                    a1
+                ) && isBetween(line2Start.longitude, line2End.longitude, intersectLon)
+            ) {
+                LngLatAlt(
+                    intersectLon,
+                    a1,
+                    line2Start.altitude
+                ) // Return intersection point with calculated longitude
             } else {
                 null // No intersection
             }
         }
+
         else -> {
-            val gradient1 = (line1End.longitude - line1Start.longitude) / (line1End.latitude - line1Start.latitude)
-            val gradient2 = (line2End.longitude - line2Start.longitude) / (line2End.latitude - line2Start.latitude)
+            val gradient1 =
+                (line1End.longitude - line1Start.longitude) / (line1End.latitude - line1Start.latitude)
+            val gradient2 =
+                (line2End.longitude - line2Start.longitude) / (line2End.latitude - line2Start.latitude)
 
             if (gradient1 == gradient2) {
                 // Lines are parallel, check if they overlap
@@ -1195,8 +1317,10 @@ fun straightLinesIntersectLngLatAlt(
                 }
             } else {
                 // Lines are not parallel, calculate intersection point
-                val intersectLat = (line2Start.longitude - line1Start.longitude + gradient1 * line1Start.latitude - gradient2 * line2Start.latitude) / (gradient1 - gradient2)
-                val intersectLon = line1Start.longitude + gradient1 * (intersectLat - line1Start.latitude)
+                val intersectLat =
+                    (line2Start.longitude - line1Start.longitude + gradient1 * line1Start.latitude - gradient2 * line2Start.latitude) / (gradient1 - gradient2)
+                val intersectLon =
+                    line1Start.longitude + gradient1 * (intersectLat - line1Start.latitude)
 
                 // Check if the intersection point is within the bounds of both lines
                 if (isBetween(line1Start.latitude, line1End.latitude, intersectLat) &&
@@ -1204,7 +1328,11 @@ fun straightLinesIntersectLngLatAlt(
                     isBetween(line1Start.longitude, line1End.longitude, intersectLon) &&
                     isBetween(line2Start.longitude, line2End.longitude, intersectLon)
                 ) {
-                    LngLatAlt(intersectLon, intersectLat, line1Start.altitude) // Return intersection point
+                    LngLatAlt(
+                        intersectLon,
+                        intersectLat,
+                        line1Start.altitude
+                    ) // Return intersection point
                 } else {
                     null // Lines do not intersect within their bounds
                 }
@@ -1229,8 +1357,8 @@ fun isBetween(x1: Double, x2: Double, value: Double): Boolean {
     }
 }
 
-fun pointIsWithinBoundingBox(point: LngLatAlt?, box: BoundingBox) : Boolean {
-    if(point == null)
+fun pointIsWithinBoundingBox(point: LngLatAlt?, box: BoundingBox): Boolean {
+    if (point == null)
         return true
 
     return (isBetween(box.westLongitude, box.eastLongitude, point.longitude) &&

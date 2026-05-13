@@ -45,9 +45,9 @@ fun PreviewSearchItemButton() {
 fun PreviewCompactSearchItemButton() {
     Column(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -104,9 +104,9 @@ fun PreviewCompactSearchItemButton() {
 fun PreviewOrderedItemButton() {
     Column(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

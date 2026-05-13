@@ -7,8 +7,10 @@ class AddressFormatterTest {
 
     @Test
     fun basicGBFormatting() {
-        val formatter = AddressFormatter(abbreviate = false, appendCountry = false, appendUnknown = false)
-        val json = """{"house_number":"48","road":"Station Road","city":"Glasgow","postcode":"G62 8AB","country_code":"GB"}"""
+        val formatter =
+            AddressFormatter(abbreviate = false, appendCountry = false, appendUnknown = false)
+        val json =
+            """{"house_number":"48","road":"Station Road","city":"Glasgow","postcode":"G62 8AB","country_code":"GB"}"""
         val result = formatter.format(json)
         println("GB result: [$result]")
         assert(result.contains("Station Road")) { "Expected Station Road in: $result" }
@@ -17,8 +19,10 @@ class AddressFormatterTest {
 
     @Test
     fun basicUSFormatting() {
-        val formatter = AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
-        val json = """{"house_number":"123","road":"Main St","city":"Springfield","state":"Illinois","postcode":"62701","country_code":"US"}"""
+        val formatter =
+            AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
+        val json =
+            """{"house_number":"123","road":"Main St","city":"Springfield","state":"Illinois","postcode":"62701","country_code":"US"}"""
         val result = formatter.format(json)
         println("US result: [$result]")
         assert(result.contains("Main St")) { "Expected Main St in: $result" }
@@ -27,7 +31,8 @@ class AddressFormatterTest {
 
     @Test
     fun fallbackCountryCode() {
-        val formatter = AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
+        val formatter =
+            AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
         val json = """{"house_number":"10","road":"Main Street","city":"Springfield"}"""
         val result = formatter.format(json, "GB")
         println("Fallback GB result: [$result]")
@@ -36,7 +41,8 @@ class AddressFormatterTest {
 
     @Test
     fun noRoadOrPostcode() {
-        val formatter = AddressFormatter(abbreviate = false, appendCountry = false, appendUnknown = false)
+        val formatter =
+            AddressFormatter(abbreviate = false, appendCountry = false, appendUnknown = false)
         val json = """{"city":"Glasgow","neighbourhood":"Milngavie","country_code":"GB"}"""
         val result = formatter.format(json)
         println("Fallback result: [$result]")
@@ -65,7 +71,8 @@ class AddressFormatterTest {
             "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE",
             "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"
         )
-        val formatter = AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
+        val formatter =
+            AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
         var failures = 0
         for (cc in countries) {
             val json = """{"house_number":"10","road":"Main Street","city":"Springfield"}"""

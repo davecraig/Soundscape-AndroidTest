@@ -43,7 +43,7 @@ private fun parseTag(tag: String): LocaleSnapshot {
     // 2 chars or 3 digits.
     val region = parts.drop(1).lastOrNull { part ->
         (part.length == 2 && part.all { it.isLetter() }) ||
-            (part.length == 3 && part.all { it.isDigit() })
+                (part.length == 3 && part.all { it.isDigit() })
     }?.uppercase()
     return LocaleSnapshot(language.lowercase(), region)
 }

@@ -7,6 +7,7 @@ import org.scottishtecharmy.soundscape.geoengine.MIN_MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.processTileFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
+import org.scottishtecharmy.soundscape.geoengine.utils.superCategoryMap
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoJsonObject
@@ -14,13 +15,13 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPoint
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
-import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
-import org.scottishtecharmy.soundscape.geoengine.utils.superCategoryMap
 import vector_tile.Tile
-import kotlin.collections.get
 
 
-private fun addToStreetNumberMap(mvt: MvtFeature, streetNumberMap: HashMap<String, FeatureCollection>) {
+private fun addToStreetNumberMap(
+    mvt: MvtFeature,
+    streetNumberMap: HashMap<String, FeatureCollection>
+) {
     if (mvt.housenumber != null) {
         val street = mvt.properties?.get("street")
         val streetString = street.toString()
@@ -178,13 +179,15 @@ private fun addToStreetNumberMap(mvt: MvtFeature, streetNumberMap: HashMap<Strin
  *  every segment between intersections. Now we generate the intersections and add the Ways directly
  *  to them. Let's do this in a separate class for now so that we can test it.
  */
-fun vectorTileToGeoJson(tileX: Int,
-                        tileY: Int,
-                        mvt: Tile,
-                        intersectionMap:  HashMap<LngLatAlt, Intersection>,
-                        streetNumberMap: HashMap<String, FeatureCollection>,
-                        cropPoints: Boolean = true,
-                        tileZoom: Int = MAX_ZOOM_LEVEL): Array<FeatureCollection> {
+fun vectorTileToGeoJson(
+    tileX: Int,
+    tileY: Int,
+    mvt: Tile,
+    intersectionMap: HashMap<LngLatAlt, Intersection>,
+    streetNumberMap: HashMap<String, FeatureCollection>,
+    cropPoints: Boolean = true,
+    tileZoom: Int = MAX_ZOOM_LEVEL
+): Array<FeatureCollection> {
 
     val collection = FeatureCollection()
     val wayGenerator = WayGenerator()
@@ -194,7 +197,7 @@ fun vectorTileToGeoJson(tileX: Int,
     // The main TileGrid is at the MAX_ZOOM_LEVEL and we parse transportation, poi and building
     // layers. However, we also create TileGrids at lower zoom levels to get towns, cities etc. from
     // the place layer.
-    val layerIds = if(tileZoom >= MIN_MAX_ZOOM_LEVEL) {
+    val layerIds = if (tileZoom >= MIN_MAX_ZOOM_LEVEL) {
         arrayOf("transportation", "poi", "building", "housenumber")
     } else {
         arrayOf("place")
@@ -202,26 +205,26 @@ fun vectorTileToGeoJson(tileX: Int,
 
     // POI can have duplicate entries for polygons and points and also duplicates in the Buildings
     // layer we de-duplicate them with these maps.
-    val mapPolygonFeatures : HashMap<Long, MutableList<Feature>> = hashMapOf()
-    val mapBuildingFeatures : HashMap<Long, Feature> = hashMapOf()
-    val mapPointFeatures : HashMap<Long, Feature> = hashMapOf()
+    val mapPolygonFeatures: HashMap<Long, MutableList<Feature>> = hashMapOf()
+    val mapBuildingFeatures: HashMap<Long, Feature> = hashMapOf()
+    val mapPointFeatures: HashMap<Long, Feature> = hashMapOf()
 
-    for(layer in mvt.layers) {
-        if(!layerIds.contains(layer.name)) {
+    for (layer in mvt.layers) {
+        if (!layerIds.contains(layer.name)) {
             continue
         }
         //println("Process layer: " + layer.name)
 
-        val mapInterpolatedNodes : HashMap<Long, Feature> = hashMapOf()
+        val mapInterpolatedNodes: HashMap<Long, Feature> = hashMapOf()
         for (feature in layer.features) {
 
             var entrance = false
             val id = feature.id ?: 0L
-            var name : String? = null
-            var featureClass : String? = null
-            var featureSubClass : String? = null
-            var housenumber : String? = null
-            var street : String? = null
+            var name: String? = null
+            var featureClass: String? = null
+            var featureSubClass: String? = null
+            var housenumber: String? = null
+            var street: String? = null
 
             // Convert coordinates to GeoJSON. This is where we find out how many features
             // we're actually dealing with as there can be multiple features that have the
@@ -256,7 +259,7 @@ fun vectorTileToGeoJson(tileX: Int,
                 }
 
                 if (!firstInPair) {
-                    when(key) {
+                    when (key) {
                         "name" -> name = value.toString()
                         "class" -> featureClass = value.toString()
                         "subclass" -> featureSubClass = value.toString()
@@ -274,9 +277,9 @@ fun vectorTileToGeoJson(tileX: Int,
                     firstInPair = false
             }
 
-            if(layer.name == "building") {
+            if (layer.name == "building") {
                 // Check that we have a name, otherwise we're not interested
-                if(name == null)
+                if (name == null)
                     continue
             }
 
@@ -292,16 +295,16 @@ fun vectorTileToGeoJson(tileX: Int,
                     // discard it
                     var allOutside = true
                     for (polygon in polygons) {
-                        for(point in polygon) {
-                            if(!pointIsOffTile(point.first, point.second)) {
+                        for (point in polygon) {
+                            if (!pointIsOffTile(point.first, point.second)) {
                                 allOutside = false
                                 break
                             }
                         }
-                        if(!allOutside)
+                        if (!allOutside)
                             break
                     }
-                    if(allOutside)
+                    if (allOutside)
                         continue
 
                     // The polygon geometry encoding has some subtleties:
@@ -317,7 +320,7 @@ fun vectorTileToGeoJson(tileX: Int,
                     var lastClockwisePolygon: Polygon? = null
                     for (polygon in polygons) {
 
-                        if(areCoordinatesClockwise(polygon)) {
+                        if (areCoordinatesClockwise(polygon)) {
                             // We have an exterior ring, so create a new Polygon
                             lastClockwisePolygon = Polygon(
                                 convertGeometry(
@@ -330,7 +333,7 @@ fun vectorTileToGeoJson(tileX: Int,
                             listOfGeometries.add(lastClockwisePolygon)
                         } else {
                             // We have an inner ring, add it to the last polygon
-                            if(lastClockwisePolygon != null) {
+                            if (lastClockwisePolygon != null) {
                                 lastClockwisePolygon.addInteriorRing(
                                     convertGeometry(
                                         tileX,
@@ -344,14 +347,16 @@ fun vectorTileToGeoJson(tileX: Int,
                             }
                         }
 
-                        if(layer.name == "poi" || layer.name == "building") {
-                            if(name != null) {
-                                val entranceDetails = EntranceDetails(name,
+                        if (layer.name == "poi" || layer.name == "building") {
+                            if (name != null) {
+                                val entranceDetails = EntranceDetails(
+                                    name,
                                     null,
                                     properties?.get("layer")?.toString(),
                                     null,
                                     true,
-                                    id)
+                                    id
+                                )
                                 entranceMatching.addGeometry(polygon, entranceDetails)
                             }
                         }
@@ -364,7 +369,7 @@ fun vectorTileToGeoJson(tileX: Int,
                     for (point in points) {
                         if (point.isNotEmpty()) {
                             val coordinates = convertGeometry(tileX, tileY, tileZoom, point)
-                            for(coordinate in coordinates) {
+                            for (coordinate in coordinates) {
                                 listOfGeometries.add(
                                     Point(coordinate)
                                 )
@@ -397,27 +402,28 @@ fun vectorTileToGeoJson(tileX: Int,
                         feature.geometry
                     )
 
-                    if(layer.name == "transportation")
-                    {
+                    if (layer.name == "transportation") {
                         for (line in lines) {
-                            if(id == 0L) {
+                            if (id == 0L) {
                                 println("Feature ID is zero for $name")
                             }
-                            if((featureClass == "transit") || (featureClass == "rail"))
+                            if ((featureClass == "transit") || (featureClass == "rail"))
                                 transitGenerator.addLine(line)
                             else
                                 wayGenerator.addLine(line)
-                            val interpolatedNodes : MutableList<LngLatAlt> = mutableListOf()
-                            val clippedLines = convertGeometryAndClipLineToTile(tileX,
-                                                                                tileY,
-                                                                                tileZoom,
-                                                                                line,
-                                                                                interpolatedNodes)
-                            for(clippedLine in clippedLines) {
+                            val interpolatedNodes: MutableList<LngLatAlt> = mutableListOf()
+                            val clippedLines = convertGeometryAndClipLineToTile(
+                                tileX,
+                                tileY,
+                                tileZoom,
+                                line,
+                                interpolatedNodes
+                            )
+                            for (clippedLine in clippedLines) {
                                 listOfGeometries.add(clippedLine)
                             }
 
-                            if(interpolatedNodes.isNotEmpty()) {
+                            if (interpolatedNodes.isNotEmpty()) {
                                 // If the line went off the edge of the tile then we will have
                                 // generated an interpolated node at the tile edge. We store this in
                                 // a Feature which is a list of those nodes for this OSM id. It may
@@ -426,8 +432,9 @@ fun vectorTileToGeoJson(tileX: Int,
                                 if (mapInterpolatedNodes.containsKey(id)) {
                                     // If we've already got this OSM id, we want to extend it with
                                     // the new points
-                                    val currentLine = mapInterpolatedNodes[id]?.geometry as MultiPoint
-                                    for(node in interpolatedNodes) {
+                                    val currentLine =
+                                        mapInterpolatedNodes[id]?.geometry as MultiPoint
+                                    for (node in interpolatedNodes) {
                                         currentLine.coordinates.add(node)
                                     }
                                 } else {
@@ -451,7 +458,7 @@ fun vectorTileToGeoJson(tileX: Int,
                 }
             }
 
-            if(entrance) {
+            if (entrance) {
                 // We've added the entrance to our matching code and so we don't need to add it as
                 // as feature now
                 continue
@@ -463,12 +470,12 @@ fun vectorTileToGeoJson(tileX: Int,
                 geoFeature.geometry = geometry
                 geoFeature.osmId = id
                 geoFeature.housenumber = housenumber
-                if(layer.name == "housenumber") {
+                if (layer.name == "housenumber") {
                     // We store house numbers in a FeatureCollection per named street
                     // TODO: What if there's no street? That's an OSM error, but there are plenty of
                     //  cases where it happens.
                     geoFeature.superCategory = SuperCategoryId.HOUSENUMBER
-                    if(!streetNumberMap.containsKey(street.toString())) {
+                    if (!streetNumberMap.containsKey(street.toString())) {
                         streetNumberMap[street.toString()] = FeatureCollection()
                     }
                     streetNumberMap[street]?.addFeature(geoFeature)
@@ -527,7 +534,7 @@ fun vectorTileToGeoJson(tileX: Int,
             }
         }
 
-        if(layer.name == "transportation") {
+        if (layer.name == "transportation") {
             // Add all of our interpolated nodes
             for (feature in mapInterpolatedNodes) {
                 collection.addFeature(feature.value)
@@ -546,7 +553,7 @@ fun vectorTileToGeoJson(tileX: Int,
 
     // Add all of the polygon features
     for (featureList in mapPolygonFeatures) {
-        for(feature in featureList.value) {
+        for (feature in featureList.value) {
             collection.addFeature(feature)
             addToStreetNumberMap(feature as MvtFeature, streetNumberMap)
         }
@@ -575,7 +582,8 @@ fun vectorTileToGeoJson(tileX: Int,
         tileData[TreeId.ROADS.id],
         collection,
         intersectionMap,
-        tileX, tileY, tileZoom)
+        tileX, tileY, tileZoom
+    )
 
     // We're currently throwing away intersections for transit lines
     transitGenerator.generateWays(
@@ -584,7 +592,8 @@ fun vectorTileToGeoJson(tileX: Int,
         null,
         collection,
         null,
-        tileX, tileY, tileZoom)
+        tileX, tileY, tileZoom
+    )
 
     // TODO:
     //  This is the first step towards categorising Features as we go rather than returning
@@ -605,7 +614,7 @@ fun vectorTileToGeoJson(tileX: Int,
  * @return a map of properties that can be used in the same way as those from soundscape-backend
  */
 
-fun translateProperties(feature: MvtFeature) : Boolean {
+fun translateProperties(feature: MvtFeature): Boolean {
     // This mapping is constructed from the class description in:
     // https://github.com/davecraig/openmaptiles/blob/master/layers/transportation/transportation.yaml
     when (feature.featureClass) {
@@ -636,8 +645,11 @@ fun translateProperties(feature: MvtFeature) : Boolean {
         }
 
         "crossing" -> {
-            if(feature.properties?.get("crossing") == "unmarked") {
-                if((feature.properties?.get("tactile_paving") == "no") || (feature.properties?.containsKey("tactile_paving") == false)) {
+            if (feature.properties?.get("crossing") == "unmarked") {
+                if ((feature.properties?.get("tactile_paving") == "no") || (feature.properties?.containsKey(
+                        "tactile_paving"
+                    ) == false)
+                ) {
                     // Unmarked crossings without tactile paving should be ignored.
                     return false
                 }

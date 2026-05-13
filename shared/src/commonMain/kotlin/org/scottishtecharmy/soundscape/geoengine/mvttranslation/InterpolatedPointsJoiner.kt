@@ -4,11 +4,11 @@ import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 
-fun pointIsOffTile(x: Int, y: Int) : Boolean {
+fun pointIsOffTile(x: Int, y: Int): Boolean {
     return (x < 0 || y < 0 || x >= 4096 || y >= 4096)
 }
 
-fun sampleToFractionOfTile(sample: Int) : Double {
+fun sampleToFractionOfTile(sample: Int): Double {
     return (sample.toDouble() + 0.5) / 4096.0
 }
 
@@ -26,10 +26,10 @@ fun convertGeometryAndClipLineToTile(
     tileZoom: Int,
     line: ArrayList<Pair<Int, Int>>,
     interpolatedNodes: MutableList<LngLatAlt>
-) : List<LineString> {
+): List<LineString> {
     val returnList = mutableListOf<LineString>()
 
-    if(line.isEmpty()) {
+    if (line.isEmpty()) {
         return returnList
     }
 
@@ -41,9 +41,9 @@ fun convertGeometryAndClipLineToTile(
     var offTile = pointIsOffTile(line[0].first, line[0].second)
     val segment = arrayListOf<LngLatAlt>()
     var lastPoint = line[0]
-    for(point in line) {
-        if(pointIsOffTile(point.first, point.second) != offTile){
-            if(offTile) {
+    for (point in line) {
+        if (pointIsOffTile(point.first, point.second) != offTile) {
+            if (offTile) {
                 // We started off tile and this point is now on tile
                 // Add interpolated point from lastPoint to this point
                 val interpolatedPoint = getTileCrossingPoint(lastPoint, point)
@@ -87,8 +87,7 @@ fun convertGeometryAndClipLineToTile(
 
             // Update the current point state
             offTile = offTile.xor(true)
-        }
-        else if(!offTile) {
+        } else if (!offTile) {
             segment.add(
                 getLatLonTileWithOffset(
                     tileX,
@@ -102,7 +101,7 @@ fun convertGeometryAndClipLineToTile(
             // We're continuing off tile, but we need to check if the line between the two off tile
             // points crossed over the tile.
             val interpolatedPoints = getTileCrossingPoint(lastPoint, point)
-            for(ip in interpolatedPoints) {
+            for (ip in interpolatedPoints) {
                 val interpolatedLatLon = getLatLonTileWithOffset(
                     tileX,
                     tileY,
@@ -113,7 +112,7 @@ fun convertGeometryAndClipLineToTile(
                 segment.add(interpolatedLatLon)
                 interpolatedNodes.add(interpolatedLatLon)
             }
-            if(segment.isNotEmpty()) {
+            if (segment.isNotEmpty()) {
                 returnList.add(LineString(ArrayList(segment)))
                 segment.clear()
             }
@@ -121,7 +120,7 @@ fun convertGeometryAndClipLineToTile(
 
         lastPoint = point
     }
-    if(segment.isNotEmpty()) {
+    if (segment.isNotEmpty()) {
         returnList.add(LineString(segment))
     }
     return returnList
@@ -136,7 +135,10 @@ fun convertGeometryAndClipLineToTile(
  * @return The coordinates at which the line crosses the tile boundary as a list of pairs of Doubles
  * to give  us the best precision.
  */
-fun getTileCrossingPoint(point1 : Pair<Int, Int>, point2 : Pair<Int, Int>) : List<Pair<Double, Double>> {
+fun getTileCrossingPoint(
+    point1: Pair<Int, Int>,
+    point2: Pair<Int, Int>
+): List<Pair<Double, Double>> {
 
     // Extract the coordinates of the points and square boundaries
     val x1 = point1.first.toDouble() + 0.5
@@ -180,7 +182,7 @@ fun getTileCrossingPoint(point1 : Pair<Int, Int>, point2 : Pair<Int, Int>) : Lis
     return intersections
 }
 
-fun calculateSlope(aConst: Double, a1: Double, a2: Double) : Double? {
+fun calculateSlope(aConst: Double, a1: Double, a2: Double): Double? {
     if (a1 == a2) {
         // Parallel lines, so no intersection
         return null
@@ -196,7 +198,7 @@ fun calculateSlope(aConst: Double, a1: Double, a2: Double) : Double? {
 // Function to calculate the intersection with a vertical line (x = constant)
 fun intersectVertical(xConst: Double, y1: Double, y2: Double, x1: Double, x2: Double): Double? {
     val t = calculateSlope(xConst, x1, x2)
-    if(t != null) {
+    if (t != null) {
         return y1 + t * (y2 - y1)
     }
     return null
@@ -205,7 +207,7 @@ fun intersectVertical(xConst: Double, y1: Double, y2: Double, x1: Double, x2: Do
 // Function to calculate the intersection with a horizontal line (y = constant)
 fun intersectHorizontal(yConst: Double, x1: Double, x2: Double, y1: Double, y2: Double): Double? {
     val t = calculateSlope(yConst, y1, y2)
-    if(t != null) {
+    if (t != null) {
         return x1 + t * (x2 - x1)
     }
     return null

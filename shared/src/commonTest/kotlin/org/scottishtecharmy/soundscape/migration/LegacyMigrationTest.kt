@@ -253,7 +253,9 @@ private class FakeRouteDao : RouteDao {
 
     override suspend fun updateMarker(marker: MarkerEntity) = nope()
     override suspend fun getMarkerById(markerId: Long): MarkerEntity? = nope()
-    override suspend fun getMarkerByLocation(longitude: Double, latitude: Double): MarkerEntity? = nope()
+    override suspend fun getMarkerByLocation(longitude: Double, latitude: Double): MarkerEntity? =
+        nope()
+
     override fun getAllMarkersFlow(): Flow<List<MarkerEntity>> = flowOf(emptyList())
     override suspend fun removeMarkerFromRoute(routeId: Long, markerId: Long) = nope()
     override suspend fun removeMarkersForRoute(routeId: Long) = nope()

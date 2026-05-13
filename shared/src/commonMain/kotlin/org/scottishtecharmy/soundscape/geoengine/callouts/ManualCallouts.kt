@@ -14,13 +14,13 @@ import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.RelativeDirections
+import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.SoundscapeGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirection
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirectionAlong
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.getFovTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeDirectionsPolygons
 import org.scottishtecharmy.soundscape.geoengine.utils.getTriangleForDirection
-import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.SoundscapeGeocoder
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
 import org.scottishtecharmy.soundscape.i18n.StringKey
@@ -112,7 +112,10 @@ fun buildMyLocationCallout(
                         if (roadName != null) {
                             list.add(
                                 PositionedString(
-                                    text = localizedStrings.get(StringKey.StationaryOnWay, roadName),
+                                    text = localizedStrings.get(
+                                        StringKey.StationaryOnWay,
+                                        roadName
+                                    ),
                                     type = AudioType.STANDARD
                                 )
                             )
@@ -181,7 +184,11 @@ fun buildWhatsAroundMeCallout(
                         val dir = direction.next()
                         val triangle = getTriangleForDirection(individualRelativePolygons, dir)
                         val featureCollection =
-                            featureTree.getNearestCollectionWithinTriangle(triangle, 4, userGeometry.ruler)
+                            featureTree.getNearestCollectionWithinTriangle(
+                                triangle,
+                                4,
+                                userGeometry.ruler
+                            )
                         if (featureCollection.features.isNotEmpty()) {
                             for (feature in featureCollection) {
                                 var duplicate = false
@@ -190,7 +197,10 @@ fun buildWhatsAroundMeCallout(
                                 for (otherFeature in featuresByDirection) {
                                     if (otherFeature == null) continue
                                     val otherName =
-                                        getTextForFeature(localizedStrings, otherFeature as MvtFeature).text
+                                        getTextForFeature(
+                                            localizedStrings,
+                                            otherFeature as MvtFeature
+                                        ).text
                                     if (featureName == otherName) duplicate = true
                                 }
                                 if (!duplicate) {

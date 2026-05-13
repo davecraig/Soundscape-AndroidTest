@@ -83,20 +83,23 @@ fun SharedHomeScreen(
 
     val newReleaseDialog = remember {
         mutableStateOf(
-            (preferencesProvider?.getString(PreferenceKeys.LAST_NEW_RELEASE, PreferenceDefaults.LAST_NEW_RELEASE)
-                != appVersionMinorTrimmed()) &&
-                analyticsEnabled,
+            (preferencesProvider?.getString(
+                PreferenceKeys.LAST_NEW_RELEASE,
+                PreferenceDefaults.LAST_NEW_RELEASE
+            )
+                    != appVersionMinorTrimmed()) &&
+                    analyticsEnabled,
         )
     }
     val phoneLanguage = remember { getLanguageMismatch() }
     val languageMismatchDialog = remember {
         mutableStateOf(
             (phoneLanguage != null &&
-                (preferencesProvider?.getBoolean(
-                    PreferenceKeys.LANGUAGE_SUPPORTED_PROMPTED,
-                    PreferenceDefaults.LANGUAGE_SUPPORTED_PROMPTED,
-                ) == false)) &&
-                analyticsEnabled,
+                    (preferencesProvider?.getBoolean(
+                        PreferenceKeys.LANGUAGE_SUPPORTED_PROMPTED,
+                        PreferenceDefaults.LANGUAGE_SUPPORTED_PROMPTED,
+                    ) == false)) &&
+                    analyticsEnabled,
         )
     }
 

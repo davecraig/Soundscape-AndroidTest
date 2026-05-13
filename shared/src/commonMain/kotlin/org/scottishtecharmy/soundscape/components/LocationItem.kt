@@ -1,8 +1,5 @@
 package org.scottishtecharmy.soundscape.components
 
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
-import org.scottishtecharmy.soundscape.resources.*
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -26,16 +23,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.onClick
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
-import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.location_item_move_down
+import org.scottishtecharmy.soundscape.resources.location_item_move_up
+import org.scottishtecharmy.soundscape.resources.location_item_not_selected
+import org.scottishtecharmy.soundscape.resources.location_item_selected
+import org.scottishtecharmy.soundscape.resources.route_detail_action_start_route_hint
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.ui.theme.extraSmallPadding
 import org.scottishtecharmy.soundscape.ui.theme.smallPadding
@@ -73,12 +77,15 @@ fun LocationItem(
 ) {
     var distanceString = ""
     var distanceStringA11y = ""
-    val selectionText = if (decoration.editRoute.value) stringResource(Res.string.location_item_selected) else stringResource(Res.string.location_item_not_selected)
+    val selectionText =
+        if (decoration.editRoute.value) stringResource(Res.string.location_item_selected) else stringResource(
+            Res.string.location_item_not_selected
+        )
     val moveUpLabel = stringResource(Res.string.location_item_move_up)
     val moveUpDown = stringResource(Res.string.location_item_move_down)
     val defaultStartPlaybackLabel = stringResource(Res.string.route_detail_action_start_route_hint)
     val startPlaybackLabel = decoration.startPlayback.hint.ifEmpty { defaultStartPlaybackLabel }
-    if(userLocation != null) {
+    if (userLocation != null) {
         val ruler = item.location.createCheapRuler()
         val distance = ruler.distance(userLocation, item.location)
         val bearing = ruler.bearing(userLocation, item.location)
@@ -98,7 +105,7 @@ fun LocationItem(
                 if (decoration.details.enabled) {
                     decoration.details.functionLocation(item)
                 } else if (decoration.editRoute.enabled) {
-                   decoration.editRoute.functionBoolean(!decoration.editRoute.value)
+                    decoration.editRoute.functionBoolean(!decoration.editRoute.value)
                 }
             }
             .testTag("LocationItem-${item.name}-${item.orderId}")
@@ -111,7 +118,12 @@ fun LocationItem(
                         "${decoration.indexDescription} ${decoration.index + 1}. ${item.name}"
 
                     else -> item.description?.takeIf { it.startsWith(item.name) }
-                        ?: listOfNotNull(item.name, item.typeDescription?.additionalText, item.description, distanceStringA11y).joinToString(", ")
+                        ?: listOfNotNull(
+                            item.name,
+                            item.typeDescription?.additionalText,
+                            item.description,
+                            distanceStringA11y
+                        ).joinToString(", ")
                 }
 
                 if (decoration.editRoute.enabled) {
@@ -120,7 +132,7 @@ fun LocationItem(
                         action = { false }
                     )
                 }
-                if(decoration.reorderable) {
+                if (decoration.reorderable) {
                     customActions = listOf(
                         CustomAccessibilityAction(
                             label = moveUpLabel,
@@ -132,7 +144,7 @@ fun LocationItem(
                         ),
                     )
                 }
-                if(decoration.startPlayback.enabled) {
+                if (decoration.startPlayback.enabled) {
                     customActions = listOf(
                         CustomAccessibilityAction(
                             label = startPlaybackLabel,
@@ -146,8 +158,8 @@ fun LocationItem(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if(decoration.location) {
-            val icon = when(decoration.source) {
+        if (decoration.location) {
+            val icon = when (decoration.source) {
                 LocationSource.OfflineGeocoder -> Icons.Rounded.LocationOff
                 else -> Icons.Rounded.LocationOn
             }
@@ -173,14 +185,14 @@ fun LocationItem(
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleLarge,
             )
-            if(distanceString.isNotEmpty()) {
+            if (distanceString.isNotEmpty()) {
                 Text(
                     text = distanceString,
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if(item.description?.isNotEmpty() == true) {
+            if (item.description?.isNotEmpty() == true) {
                 item.description?.let {
                     Text(
                         text = it,
@@ -189,7 +201,7 @@ fun LocationItem(
                     )
                 }
             }
-            if(item.typeDescription?.generic != true) {
+            if (item.typeDescription?.generic != true) {
                 item.typeDescription?.additionalText?.let { text ->
                     Text(
                         text = text,
@@ -199,7 +211,7 @@ fun LocationItem(
                 }
             }
         }
-        if(decoration.editRoute.enabled) {
+        if (decoration.editRoute.enabled) {
             Switch(
                 checked = decoration.editRoute.value,
                 onCheckedChange = null,                     // Handled by the row
@@ -209,7 +221,7 @@ fun LocationItem(
                 ),
                 modifier = Modifier.extraSmallPadding()
             )
-        } else if(decoration.details.enabled) {
+        } else if (decoration.details.enabled) {
             Icon(
                 Icons.Rounded.ChevronRight,
                 contentDescription = null,
@@ -218,7 +230,7 @@ fun LocationItem(
             )
         }
     }
-    if(!decoration.reorderable) {
+    if (!decoration.reorderable) {
         HorizontalDivider(
             thickness = spacing.tiny,
             color = MaterialTheme.colorScheme.outlineVariant

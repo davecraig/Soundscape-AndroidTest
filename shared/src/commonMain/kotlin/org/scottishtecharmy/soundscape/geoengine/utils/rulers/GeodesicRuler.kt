@@ -9,12 +9,12 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 
 class GeodesicRuler() : Ruler() {
 
-    override fun distance(a: LngLatAlt, b: LngLatAlt) : Double {
+    override fun distance(a: LngLatAlt, b: LngLatAlt): Double {
         return distance(a.latitude, a.longitude, b.latitude, b.longitude)
     }
 
-    override fun bearing(a: LngLatAlt, b: LngLatAlt) : Double {
-        return  bearingFromTwoPoints(a, b)
+    override fun bearing(a: LngLatAlt, b: LngLatAlt): Double {
+        return bearingFromTwoPoints(a, b)
     }
 
     /**
@@ -28,7 +28,7 @@ class GeodesicRuler() : Ruler() {
      * const point = ruler.destination([30.5, 50.5], 0.1, 90);
      * //=point
      */
-    override fun destination(p: LngLatAlt, dist: Double, bearing: Double) : LngLatAlt {
+    override fun destination(p: LngLatAlt, dist: Double, bearing: Double): LngLatAlt {
 
         return getDestinationCoordinate(p, bearing, dist)
     }
@@ -45,7 +45,7 @@ class GeodesicRuler() : Ruler() {
      * ]);
      * //=length
      */
-    override fun lineLength(line: LineString) : Double {
+    override fun lineLength(line: LineString): Double {
         var total = 0.0
 
         for (i in 0 until line.coordinates.size - 1) {
@@ -94,7 +94,7 @@ class GeodesicRuler() : Ruler() {
      * const point = ruler.along(line, 2.5);
      * //=point
      */
-    override fun along(line: LineString, dist: Double) : LngLatAlt {
+    override fun along(line: LineString, dist: Double): LngLatAlt {
         // TODO: implement
         require(false)
         return LngLatAlt()
@@ -112,7 +112,7 @@ class GeodesicRuler() : Ruler() {
      * const distance = ruler.pointToSegmentDistance([-67.04, 50.5], [-67.05, 50.57], [-67.03, 50.54]);
      * //=distance
      */
-    override fun pointToSegmentDistance(p: LngLatAlt, a: LngLatAlt, b: LngLatAlt) : Double {
+    override fun pointToSegmentDistance(p: LngLatAlt, a: LngLatAlt, b: LngLatAlt): Double {
         // TODO: implement
         require(false)
         return 0.0
@@ -130,7 +130,7 @@ class GeodesicRuler() : Ruler() {
      * const point = ruler.pointOnLine(line, [-67.04, 50.5]).point;
      * //=point
      */
-    override fun distanceToLineString(p: LngLatAlt, line: LineString) : PointAndDistanceAndHeading {
+    override fun distanceToLineString(p: LngLatAlt, line: LineString): PointAndDistanceAndHeading {
         // TODO: implement
         require(false)
         return PointAndDistanceAndHeading()

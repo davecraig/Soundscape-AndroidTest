@@ -1,32 +1,31 @@
 package org.scottishtecharmy.soundscape
 
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.platform.app.InstrumentationRegistry
-import kotlinx.coroutines.runBlocking
-import org.junit.Test
-import org.scottishtecharmy.soundscape.geoengine.ProtomapsGridState
-import org.scottishtecharmy.soundscape.geoengine.TreeId
-import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
-import org.scottishtecharmy.soundscape.geoengine.mvttranslation.vectorTileToGeoJson
-import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import vector_tile.Tile
-import kotlin.time.measureTime
 import android.os.Debug
 import android.os.Environment
 import androidx.preference.PreferenceManager
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
 import org.scottishtecharmy.soundscape.dto.BoundingBox
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
+import org.scottishtecharmy.soundscape.geoengine.ProtomapsGridState
+import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.vectorTileToGeoJson
+import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.getXYTile
-import org.scottishtecharmy.soundscape.utils.Analytics
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
+import vector_tile.Tile
+import kotlin.time.measureTime
 
 class MvtPerformanceTest {
 
@@ -40,10 +39,18 @@ class MvtPerformanceTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val remoteTile = context.assets.open(filename)
         val tile: Tile = Tile.ADAPTER.decode(remoteTile.readBytes())
-        val intersectionMap:  HashMap<LngLatAlt, Intersection> = hashMapOf()
-        val streetNumberMap:  HashMap<String, FeatureCollection> = hashMapOf()
+        val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
+        val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
 
-        return vectorTileToGeoJson(tileX, tileY, tile, intersectionMap, streetNumberMap, cropPoints, 15)
+        return vectorTileToGeoJson(
+            tileX,
+            tileY,
+            tile,
+            intersectionMap,
+            streetNumberMap,
+            cropPoints,
+            15
+        )
     }
 
     @Test
@@ -66,14 +73,15 @@ class MvtPerformanceTest {
         var end = System.currentTimeMillis()
 
         // We have all the points in an rtree
-        println("Tree size: ${tree.tree!!.size} - ${end-start}ms")
+        println("Tree size: ${tree.tree!!.size} - ${end - start}ms")
 
         start = System.currentTimeMillis()
         val ruler = CheapRuler(55.941861)
-        val distanceResults = tree.getNearbyCollection(LngLatAlt(-4.316914, 55.941861), 10.0, ruler).features.toList()
+        val distanceResults =
+            tree.getNearbyCollection(LngLatAlt(-4.316914, 55.941861), 10.0, ruler).features.toList()
         end = System.currentTimeMillis()
-        println("Search result in ${end-start}ms")
-        for(dResult in distanceResults) {
+        println("Search result in ${end - start}ms")
+        for (dResult in distanceResults) {
             println((dResult as MvtFeature).name)
         }
     }
@@ -82,11 +90,12 @@ class MvtPerformanceTest {
         println("Testing tile $x,$y")
         runBlocking {
             val featureCollections = Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
-            val intersectionMap:  HashMap<LngLatAlt, Intersection> = hashMapOf()
-            val streetNumberMap:  HashMap<String, FeatureCollection> = hashMapOf()
+            val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
+            val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
             gridState.updateTile(x, y, 0, featureCollections, intersectionMap, streetNumberMap)
         }
     }
+
     fun tileProviderAvailable(): Boolean {
         return !BuildConfig.TILE_PROVIDER_URL.isEmpty()
     }
@@ -95,7 +104,7 @@ class MvtPerformanceTest {
     @Test
     fun testParsing() {
 
-        if(!tileProviderAvailable())
+        if (!tileProviderAvailable())
             return
 
         val gridState = ProtomapsGridState()
@@ -103,16 +112,16 @@ class MvtPerformanceTest {
 
         // Test Edinburgh, because that's where many of our testers are!
         println("Test Edinburgh")
-        for(x in 16090 until 16095) {
-            for(y in 10207 until 10212) {
+        for (x in 16090 until 16095) {
+            for (y in 10207 until 10212) {
                 downloadAndParseTile(x, y, gridState)
             }
         }
 
         // Test the capital of Cameroon because it's dense
         println("Test Yaoundé")
-        for(x in 17430/2 until 17437/2) {
-            for(y in 16029/2 until 16034/2) {
+        for (x in 17430 / 2 until 17437 / 2) {
+            for (y in 16029 / 2 until 16034 / 2) {
                 downloadAndParseTile(x, y, gridState)
             }
         }
@@ -122,12 +131,13 @@ class MvtPerformanceTest {
     @Test
     fun testRouting() {
 
-        if(!tileProviderAvailable())
+        if (!tileProviderAvailable())
             return
 
         val gridState = ProtomapsGridState()
 
-        val directory = InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null)
+        val directory =
+            InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null)
         println(directory)
         gridState.validateContext = false
         gridState.startWithContext(ApplicationProvider.getApplicationContext())
@@ -170,33 +180,47 @@ class MvtPerformanceTest {
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun testGridCache(boundingBox: BoundingBox, count: Int = 1 ) {
+    private fun testGridCache(boundingBox: BoundingBox, count: Int = 1) {
 
-        if(!tileProviderAvailable())
+        if (!tileProviderAvailable())
             return
 
         // This test 'moves' from the center of one tile to the center of the next to check that
         // we can parse the contents of the bounding box
         val gridState = ProtomapsGridState()
-        val directory = InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null)
+        val directory =
+            InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null)
         println(directory)
         gridState.validateContext = false
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         getOfflineMapStorage(context)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val path = sharedPreferences.getString(MainActivity.SELECTED_STORAGE_KEY, MainActivity.SELECTED_STORAGE_DEFAULT)
-        val offlineExtractPath =  path + "/" + Environment.DIRECTORY_DOWNLOADS
+        val path = sharedPreferences.getString(
+            MainActivity.SELECTED_STORAGE_KEY,
+            MainActivity.SELECTED_STORAGE_DEFAULT
+        )
+        val offlineExtractPath = path + "/" + Environment.DIRECTORY_DOWNLOADS
         gridState.startWithContext(
             ApplicationProvider.getApplicationContext(),
             offlineExtractPath
         )
 
-        val (minX, minY) = getXYTile(LngLatAlt(boundingBox.westLongitude, boundingBox.northLatitude), MAX_ZOOM_LEVEL)
-        val (maxX, maxY) = getXYTile(LngLatAlt(boundingBox.eastLongitude, boundingBox.southLatitude), MAX_ZOOM_LEVEL)
+        val (minX, minY) = getXYTile(
+            LngLatAlt(
+                boundingBox.westLongitude,
+                boundingBox.northLatitude
+            ), MAX_ZOOM_LEVEL
+        )
+        val (maxX, maxY) = getXYTile(
+            LngLatAlt(
+                boundingBox.eastLongitude,
+                boundingBox.southLatitude
+            ), MAX_ZOOM_LEVEL
+        )
 
         var longestDuration = measureTime {}
-        for(i in 0 until count) {
+        for (i in 0 until count) {
             for (x in minX until maxX) {
                 for (y in minY until maxY) {
 
@@ -213,11 +237,10 @@ class MvtPerformanceTest {
                                 emptySet()
                             )
                         }
-                        if(duration > longestDuration) {
+                        if (duration > longestDuration) {
                             longestDuration = duration
                             println("Total time to move grid $duration LONGEST")
-                        }
-                        else
+                        } else
                             println("Total time to move grid $duration")
                     }
                 }
@@ -225,11 +248,12 @@ class MvtPerformanceTest {
             gridState.stop()
         }
     }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testSingleGridCache() {
 
-        if(!tileProviderAvailable())
+        if (!tileProviderAvailable())
             return
 
         println("Start test")
@@ -264,7 +288,7 @@ class MvtPerformanceTest {
 
     @Test
     fun testMapAreas() {
-        if(!tileProviderAvailable())
+        if (!tileProviderAvailable())
             return
 
 //        val newYork = BoundingBox(-74.0231755, 40.7120699, -73.9197845, 40.8303351)

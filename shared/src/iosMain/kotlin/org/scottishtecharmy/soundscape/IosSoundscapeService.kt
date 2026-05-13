@@ -7,53 +7,37 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.audio.AudioTourHost
 import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.IosAudioEngine
-import org.scottishtecharmy.soundscape.services.mediacontrol.AudioMenu
-import org.scottishtecharmy.soundscape.services.mediacontrol.AudioMenuMediaControls
-import org.scottishtecharmy.soundscape.services.mediacontrol.MediaControllableService
-import org.scottishtecharmy.soundscape.services.mediacontrol.OriginalMediaControls
 import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider
 import org.scottishtecharmy.soundscape.database.local.dao.RouteDao
-import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.services.BeaconState
-import org.scottishtecharmy.soundscape.services.RoutePlayer
-import org.scottishtecharmy.soundscape.services.RoutePlayerState
-import org.scottishtecharmy.soundscape.services.ServiceConnection
 import org.scottishtecharmy.soundscape.geoengine.GeoEngine
 import org.scottishtecharmy.soundscape.geoengine.GeoEngineListener
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewChoice
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
-import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.speakCalloutCommon
 import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.IosGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
-import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
-import org.scottishtecharmy.soundscape.geoengine.speakCalloutCommon
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
-import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.intents.IncomingIntent
 import org.scottishtecharmy.soundscape.intents.resolveRouteByName
-import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyUiState
-import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.locationprovider.DeviceDirection
-import org.scottishtecharmy.soundscape.locationprovider.DirectionProvider
 import org.scottishtecharmy.soundscape.locationprovider.IosDirectionProvider
 import org.scottishtecharmy.soundscape.locationprovider.IosHeadTrackingProvider
 import org.scottishtecharmy.soundscape.locationprovider.IosLocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.LocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation
 import org.scottishtecharmy.soundscape.locationprovider.StaticLocationProvider
-import org.scottishtecharmy.soundscape.resources.Res
-import org.scottishtecharmy.soundscape.resources.first_launch_callouts_example_3
-import org.scottishtecharmy.soundscape.resources.preview_go_title
-import org.jetbrains.compose.resources.getString
 import org.scottishtecharmy.soundscape.network.IosFileDownloader
 import org.scottishtecharmy.soundscape.network.KmpPhotonSearch
 import org.scottishtecharmy.soundscape.network.ManifestClient
@@ -64,6 +48,18 @@ import org.scottishtecharmy.soundscape.preferences.IosPreferencesProvider
 import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.first_launch_callouts_example_3
+import org.scottishtecharmy.soundscape.resources.preview_go_title
+import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
+import org.scottishtecharmy.soundscape.services.BeaconState
+import org.scottishtecharmy.soundscape.services.RoutePlayer
+import org.scottishtecharmy.soundscape.services.RoutePlayerState
+import org.scottishtecharmy.soundscape.services.ServiceConnection
+import org.scottishtecharmy.soundscape.services.mediacontrol.AudioMenu
+import org.scottishtecharmy.soundscape.services.mediacontrol.AudioMenuMediaControls
+import org.scottishtecharmy.soundscape.services.mediacontrol.MediaControllableService
+import org.scottishtecharmy.soundscape.services.mediacontrol.OriginalMediaControls
 import org.scottishtecharmy.soundscape.utils.Analytics
 import org.scottishtecharmy.soundscape.utils.IosMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.IosNetworkUtils
@@ -114,7 +110,9 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     private val documentsPath = platform.Foundation.NSHomeDirectory() + "/Documents"
     val offlineMapManager by lazy {
         val manifestClient = ManifestClient(
-            io.ktor.client.HttpClient(io.ktor.client.engine.darwin.Darwin) { expectSuccess = false },
+            io.ktor.client.HttpClient(io.ktor.client.engine.darwin.Darwin) {
+                expectSuccess = false
+            },
             EXTRACT_PROVIDER_URL
         )
         OfflineMapManager(
@@ -185,8 +183,12 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     // Audio tour — shared with the Compose UI
     val audioTour: AudioTour by lazy {
         AudioTour(object : AudioTourHost {
-            override fun isAudioEngineBusy(): Boolean = this@IosSoundscapeService.isAudioEngineBusy()
-            override fun clearTextToSpeechQueue() { this@IosSoundscapeService.clearTextToSpeechQueue() }
+            override fun isAudioEngineBusy(): Boolean =
+                this@IosSoundscapeService.isAudioEngineBusy()
+
+            override fun clearTextToSpeechQueue() {
+                this@IosSoundscapeService.clearTextToSpeechQueue()
+            }
         })
     }
 
@@ -208,12 +210,14 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
                 )
                 audioEngine.setBeaconType(type)
             }
+
             PreferenceKeys.MIX_AUDIO -> {
                 audioEngine.mixWithOthers = preferencesProvider.getBoolean(
                     PreferenceKeys.MIX_AUDIO,
                     PreferenceDefaults.MIX_AUDIO,
                 )
             }
+
             PreferenceKeys.MEDIA_CONTROLS_MODE -> {
                 val mode = preferencesProvider.getString(
                     PreferenceKeys.MEDIA_CONTROLS_MODE,
@@ -221,9 +225,11 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
                 )
                 updateMediaControls(mode)
             }
+
             PreferenceKeys.HEAD_TRACKING_ENABLED -> {
                 applyHeadTrackingEnabled()
             }
+
             PreferenceKeys.SELECTED_TTS_VOICE_ID -> {
                 audioEngine.setSpeechVoice(
                     preferencesProvider.getString(
@@ -233,6 +239,7 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
                 )
                 playTtsSample()
             }
+
             PreferenceKeys.SPEECH_RATE -> {
                 audioEngine.setSpeechRate(
                     preferencesProvider.getFloat(
@@ -408,7 +415,8 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
 
     override fun streetPreviewGo() {
         val choices = geoEngine.streetPreviewGo()
-        _streetPreviewFlow.value = _streetPreviewFlow.value.copy(choices = choices, bestChoice = null)
+        _streetPreviewFlow.value =
+            _streetPreviewFlow.value.copy(choices = choices, bestChoice = null)
         geoEngine.recomputeStreetPreviewBestChoice()
     }
 
@@ -417,7 +425,8 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
     }
 
     override fun announceStreetPreviewBestChoice(bestChoice: StreetPreviewChoice) {
-        val compassLabel = ComposeLocalizedStrings().get(getCompassLabel(bestChoice.heading.toInt()))
+        val compassLabel =
+            ComposeLocalizedStrings().get(getCompassLabel(bestChoice.heading.toInt()))
         val go = kotlinx.coroutines.runBlocking { getString(Res.string.preview_go_title) }
         speakText("$go ${bestChoice.name} $compassLabel", AudioType.STANDARD)
     }
@@ -788,11 +797,14 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
 
         // Read from Info.plist (values set via Local.xcconfig which is gitignored)
         private val TILE_PROVIDER_URL: String
-            get() = platform.Foundation.NSBundle.mainBundle.objectForInfoDictionaryKey("TileProviderURL") as? String ?: ""
+            get() = platform.Foundation.NSBundle.mainBundle.objectForInfoDictionaryKey("TileProviderURL") as? String
+                ?: ""
         private val SEARCH_PROVIDER_URL: String
-            get() = platform.Foundation.NSBundle.mainBundle.objectForInfoDictionaryKey("SearchProviderURL") as? String ?: ""
+            get() = platform.Foundation.NSBundle.mainBundle.objectForInfoDictionaryKey("SearchProviderURL") as? String
+                ?: ""
         private val EXTRACT_PROVIDER_URL: String
-            get() = platform.Foundation.NSBundle.mainBundle.objectForInfoDictionaryKey("ExtractProviderURL") as? String ?: ""
+            get() = platform.Foundation.NSBundle.mainBundle.objectForInfoDictionaryKey("ExtractProviderURL") as? String
+                ?: ""
 
         private var INSTANCE: IosSoundscapeService? = null
 

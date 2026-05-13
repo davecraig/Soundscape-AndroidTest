@@ -38,7 +38,7 @@ fun StreetPreview(
                 roads.isEmpty() -> ""
                 roads.size == 1 -> roads.first()
                 else -> roads.dropLast(1).joinToString(", ") +
-                    stringResource(Res.string.last_entry_in_list, roads.last())
+                        stringResource(Res.string.last_entry_in_list, roads.last())
             }
 
             if (intersectionText.isNotEmpty()) {

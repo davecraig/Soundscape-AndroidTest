@@ -29,11 +29,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.OnboardButton
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.terms_of_use_accept_checkbox_acc_label
@@ -86,7 +86,12 @@ fun TermsScreen(
                     .background(MaterialTheme.colorScheme.surfaceContainer)
                     .focusable()
             ) {
-                TermsItem(stringResource(Res.string.terms_of_use_message, stringResource(Res.string.terms_of_use_service_agreement)))
+                TermsItem(
+                    stringResource(
+                        Res.string.terms_of_use_message,
+                        stringResource(Res.string.terms_of_use_service_agreement)
+                    )
+                )
                 TermsItem(stringResource(Res.string.terms_of_use_medical_safety_disclaimer))
             }
 

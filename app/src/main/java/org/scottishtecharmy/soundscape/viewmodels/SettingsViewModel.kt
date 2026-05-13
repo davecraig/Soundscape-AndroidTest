@@ -20,21 +20,22 @@ import org.scottishtecharmy.soundscape.screens.onboarding.audiobeacons.getBeacon
 import org.scottishtecharmy.soundscape.utils.StorageUtils
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
+
 class SettingsViewModel(
     private val soundscapeServiceConnection: SoundscapeServiceConnection,
     val appContext: Context
 ) : ViewModel() {
     data class SettingsUiState(
         // Data for the ViewMode that affects the UI
-        var beaconDescriptions : List<org.jetbrains.compose.resources.StringResource> = emptyList(),
-        var beaconValues : List<String> = emptyList(),
-        var engineTypes : List<String> = emptyList(),
-        var voiceTypes : List<String> = emptyList(),
-        var storages : List<StorageUtils.StorageSpace> = emptyList(),
+        var beaconDescriptions: List<org.jetbrains.compose.resources.StringResource> = emptyList(),
+        var beaconValues: List<String> = emptyList(),
+        var engineTypes: List<String> = emptyList(),
+        var voiceTypes: List<String> = emptyList(),
+        var storages: List<StorageUtils.StorageSpace> = emptyList(),
         var currentStoragePath: String = "",
         var selectedStorageIndex: Int = -1,
-        var microphoneDescriptions : List<String> = listOf("Auto"),
-        var microphoneValues : List<String> = listOf(MainActivity.VOICE_COMMAND_MICROPHONE_DEFAULT),
+        var microphoneDescriptions: List<String> = listOf("Auto"),
+        var microphoneValues: List<String> = listOf(MainActivity.VOICE_COMMAND_MICROPHONE_DEFAULT),
     )
 
     private val _state: MutableStateFlow<SettingsUiState> = MutableStateFlow(SettingsUiState())
@@ -47,11 +48,14 @@ class SettingsViewModel(
             // demonstrate settings changes.
             val storages = getOfflineMapStorage(appContext)
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
-            val path = sharedPreferences.getString(MainActivity.SELECTED_STORAGE_KEY, MainActivity.SELECTED_STORAGE_DEFAULT)
+            val path = sharedPreferences.getString(
+                MainActivity.SELECTED_STORAGE_KEY,
+                MainActivity.SELECTED_STORAGE_DEFAULT
+            )
             var currentPath = ""
             var currentIndex = 0
-            if((path != null) && (path.isNotEmpty())) {
-                for((index, storage) in storages.withIndex()) {
+            if ((path != null) && (path.isNotEmpty())) {
+                for ((index, storage) in storages.withIndex()) {
                     if (storage.path == path) {
                         currentIndex = index
                         currentPath = path
@@ -59,7 +63,7 @@ class SettingsViewModel(
                     }
                 }
             } else {
-                if(storages.isNotEmpty()) {
+                if (storages.isNotEmpty()) {
                     currentPath = storages[0].path
                     currentIndex = 0
                 }
@@ -110,7 +114,8 @@ class SettingsViewModel(
                                 }
 
                                 val audioEngineBeaconTypes = audioEngine.getListOfBeaconTypes()
-                                val beaconTypes = mutableListOf<org.jetbrains.compose.resources.StringResource>()
+                                val beaconTypes =
+                                    mutableListOf<org.jetbrains.compose.resources.StringResource>()
                                 val beaconValues = mutableListOf<String>()
                                 for (type in audioEngineBeaconTypes) {
                                     beaconTypes.add(getBeaconResourceId(type))
@@ -122,20 +127,18 @@ class SettingsViewModel(
                                     voiceTypes = voiceTypes,
                                     engineTypes = audioEngineTypes.map { engine -> "${engine.label}:::${engine.name}" },
                                 )
-                            }
-                            else {
+                            } else {
                                 Log.d(TAG, "Engine has gone uninitialized")
                             }
                         }
                     }
-                }
-                else
-                {
+                } else {
                     serviceBoundJob?.cancel()
                 }
             }
         }
     }
+
     fun refreshMicrophones() {
         val am = appContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val inputs = am.getDevices(AudioManager.GET_DEVICES_INPUTS)
@@ -175,7 +178,7 @@ class SettingsViewModel(
         sharedPreferences.edit(commit = true) { putString(MainActivity.SELECTED_STORAGE_KEY, path) }
 
         var currentIndex = -1
-        for((index, storage) in _state.value.storages.withIndex()) {
+        for ((index, storage) in _state.value.storages.withIndex()) {
             if (storage.path == path) {
                 currentIndex = index
                 break

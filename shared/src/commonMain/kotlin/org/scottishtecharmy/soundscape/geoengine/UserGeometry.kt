@@ -1,9 +1,9 @@
 package org.scottishtecharmy.soundscape.geoengine
 
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeading
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import kotlin.math.abs
@@ -37,50 +37,52 @@ import kotlin.math.abs
  *      user (head), course (travel), device (phone)
  *
  */
-class UserGeometry(val location: LngLatAlt = LngLatAlt(),
-                   var phoneHeading: Double? = null,
-                   var fovDistance: Double = 50.0,
-                   val speed: Double = 0.0,
-                   val mapMatchedWay: Way? = null,
-                   val mapMatchedLocation: PointAndDistanceAndHeading? = null,
-                   val currentBeacon: LngLatAlt? = null,
-                   val ruler: Ruler = CheapRuler(location.latitude),
-                   val timestampMilliseconds: Long = 0L,
-                   private val headingMode: HeadingMode = HeadingMode.CourseAuto,
-                   private var travelHeading: Double? = null,
-                   private var headHeading: Double? = null,
-                   val errorDistance: Double = 0.0,
-                   val errorHeading: Double = 0.0,
-                   val inStreetPreview: Boolean = false)
-{
+class UserGeometry(
+    val location: LngLatAlt = LngLatAlt(),
+    var phoneHeading: Double? = null,
+    var fovDistance: Double = 50.0,
+    val speed: Double = 0.0,
+    val mapMatchedWay: Way? = null,
+    val mapMatchedLocation: PointAndDistanceAndHeading? = null,
+    val currentBeacon: LngLatAlt? = null,
+    val ruler: Ruler = CheapRuler(location.latitude),
+    val timestampMilliseconds: Long = 0L,
+    private val headingMode: HeadingMode = HeadingMode.CourseAuto,
+    private var travelHeading: Double? = null,
+    private var headHeading: Double? = null,
+    val errorDistance: Double = 0.0,
+    val errorHeading: Double = 0.0,
+    val inStreetPreview: Boolean = false
+) {
     private val automotiveRangeMultiplier = 6.0
     private val streetPreviewRangeIncrement = 10.0
 
-    fun inVehicle() : Boolean {
+    fun inVehicle(): Boolean {
         // The Activity Recognition seemed unreliable, and so we use the current speed instead.
         // Travelling at over 5m/s (10mph) assumes we're in a vehicle. When the vehicle stops at
         // junctions it will switch to non-vehicle mode.
         return speed > 5.0
     }
-    fun inMotion() : Boolean {
+
+    fun inMotion(): Boolean {
         return speed > 0.2
     }
 
-    private fun transform(distance: Double) : Double {
-        if(inVehicle()) return distance * automotiveRangeMultiplier
-        if(inStreetPreview) return distance + streetPreviewRangeIncrement
+    private fun transform(distance: Double): Double {
+        if (inVehicle()) return distance * automotiveRangeMultiplier
+        if (inStreetPreview) return distance + streetPreviewRangeIncrement
         return distance
     }
 
-    fun getTravelHeading() : Double? {
-        if(inMotion() && (travelHeading != null))
+    fun getTravelHeading(): Double? {
+        if (inMotion() && (travelHeading != null))
             return travelHeading
         return null
     }
 
-    fun snappedHeading() : Double? {
+    fun snappedHeading(): Double? {
         var heading = heading()
-        if(heading != null) {
+        if (heading != null) {
             // Snap heading to matched way heading if we're close to it
             val wayHeading = mapMatchedLocation?.heading
             if (wayHeading != null) {
@@ -95,12 +97,13 @@ class UserGeometry(val location: LngLatAlt = LngLatAlt(),
         }
         return heading
     }
-    fun heading() : Double? {
-        when(headingMode) {
+
+    fun heading(): Double? {
+        when (headingMode) {
             // Priority: travel, head, phone
             HeadingMode.CourseAuto -> {
                 var heading = getTravelHeading()
-                if(heading == null) {
+                if (heading == null) {
                     heading = headHeading
                     if (heading == null) {
                         heading = phoneHeading
@@ -112,7 +115,7 @@ class UserGeometry(val location: LngLatAlt = LngLatAlt(),
             // Priority: Head, phone, travel
             HeadingMode.HeadAuto -> {
                 var heading = headHeading
-                if(heading == null) {
+                if (heading == null) {
                     heading = phoneHeading
                     if (heading == null) {
                         heading = getTravelHeading()
@@ -120,15 +123,16 @@ class UserGeometry(val location: LngLatAlt = LngLatAlt(),
                 }
                 return heading
             }
+
             HeadingMode.Phone -> return phoneHeading
             HeadingMode.Travel -> return travelHeading
         }
     }
 
-    fun presentationHeading() : Double? {
+    fun presentationHeading(): Double? {
         // Priority: Head, travel, phone
         var heading = headHeading
-        if(heading == null) {
+        if (heading == null) {
             heading = getTravelHeading()
             if (heading == null) {
                 heading = phoneHeading
@@ -140,15 +144,15 @@ class UserGeometry(val location: LngLatAlt = LngLatAlt(),
     /**
      * getSearchDistance returns the distance to use when searching for POIs
      */
-    fun getSearchDistance() : Double {
+    fun getSearchDistance(): Double {
         return transform(50.0)
     }
 
     /**
      * getTriggerRange returns the distance to use when detecting POIs to call out
      */
-    fun getTriggerRange(category: SuperCategoryId) : Double {
-        return when(category) {
+    fun getTriggerRange(category: SuperCategoryId): Double {
+        return when (category) {
             SuperCategoryId.OBJECT,
             SuperCategoryId.SAFETY -> transform(10.0)
 
@@ -167,8 +171,8 @@ class UserGeometry(val location: LngLatAlt = LngLatAlt(),
     /**
      * getTriggerRange returns the distance if a POI is still in proximity after a callout
      */
-    fun getProximityRange(category: SuperCategoryId) : Double {
-        return when(category) {
+    fun getProximityRange(category: SuperCategoryId): Double {
+        return when (category) {
             SuperCategoryId.OBJECT,
             SuperCategoryId.SAFETY -> transform(20.0)
 

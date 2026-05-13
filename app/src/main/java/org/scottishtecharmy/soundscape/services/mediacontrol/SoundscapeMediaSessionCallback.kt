@@ -14,7 +14,7 @@ import androidx.media3.session.MediaSession
  */
 class SoundscapeMediaSessionCallback(
     private val getTarget: () -> MediaControlTarget
-):
+) :
     MediaSession.Callback {
     // Configure commands available to the controller in onConnect()
     @OptIn(UnstableApi::class)
@@ -36,7 +36,7 @@ class SoundscapeMediaSessionCallback(
         intent: Intent
     ): Boolean {
 
-        val keyEvent : KeyEvent? = IntentCompat.getParcelableExtra(
+        val keyEvent: KeyEvent? = IntentCompat.getParcelableExtra(
             intent,
             Intent.EXTRA_KEY_EVENT,
             KeyEvent::class.java
@@ -55,17 +55,19 @@ class SoundscapeMediaSessionCallback(
         //  play nicely with the audioMenu, more work is required.
 
         keyEvent?.let { event ->
-            val decodedKey = when(event.keyCode) {
+            val decodedKey = when (event.keyCode) {
                 KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
                     // ⏯ Play/Pause: Mute any current callouts and if the audio beacon is set, toggle the beacon audio.
                     getTarget().onPlayPause()
                     "Play/Pause"
                 }
+
                 KeyEvent.KEYCODE_MEDIA_SKIP_FORWARD -> {
                     // ⏩ Skip Forward
                     getTarget().onNext()
                     "Skip forward"
                 }
+
                 KeyEvent.KEYCODE_MEDIA_NEXT -> {
                     // ⏭ Next
                     getTarget().onNext()
@@ -76,6 +78,7 @@ class SoundscapeMediaSessionCallback(
                     // ⏮ Previous
                     getTarget().onPrevious()
                 }
+
                 KeyEvent.KEYCODE_MEDIA_SKIP_BACKWARD -> {
                     // ⏪ Skip Backward
                     getTarget().onPrevious()

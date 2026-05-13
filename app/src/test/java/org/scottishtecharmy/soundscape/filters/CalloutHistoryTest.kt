@@ -17,7 +17,8 @@ class CalloutHistoryTest {
     fun testAddAndFind() {
         val history = CalloutHistory(10)
         val location = LngLatAlt(0.0, 0.0, 0.0) // Example location
-        val callout = TrackedCallout(UserGeometry(), "Poi number one", location,
+        val callout = TrackedCallout(
+            UserGeometry(), "Poi number one", location,
             isPoint = true,
             isGeneric = false
         )
@@ -38,7 +39,8 @@ class CalloutHistoryTest {
             isGeneric = true
         )
         history.add(callout)
-        history.trim(UserGeometry(
+        history.trim(
+            UserGeometry(
                 location = location,
                 timestampMilliseconds = 11L
             )
@@ -52,7 +54,8 @@ class CalloutHistoryTest {
         val history = CalloutHistory(10)
         val location = LngLatAlt(0.0, 0.0, 0.0) // Example location
         val distantLocation = LngLatAlt(10.0, 10.0, 10.0)
-        val callout = TrackedCallout(UserGeometry(), "Poi number three", distantLocation,
+        val callout = TrackedCallout(
+            UserGeometry(), "Poi number three", distantLocation,
             isPoint = true,
             isGeneric = false
         )
@@ -72,7 +75,7 @@ class CalloutHistoryTest {
 
     @Test
     fun testAdaptiveLocationFilter() {
-        val filter = LocationUpdateFilter(0,100.0)
+        val filter = LocationUpdateFilter(0, 100.0)
 
         var calloutCount = 0
         val destination = LngLatAlt()
@@ -83,13 +86,13 @@ class CalloutHistoryTest {
         while (distanceAway >= 0.0) {
             distanceAway -= 10.0
 
-            val remoteLocation =  ruler.destination(destination, distanceAway, 0.0)
+            val remoteLocation = ruler.destination(destination, distanceAway, 0.0)
             val userGeometry = UserGeometry(
                 location = remoteLocation,
                 timestampMilliseconds = 1,
                 ruler = ruler
             )
-            if(filter.shouldUpdate(userGeometry, destination)) {
+            if (filter.shouldUpdate(userGeometry, destination)) {
                 println("Updating on $distanceAway")
                 calloutCount += 1
                 filter.update(userGeometry)

@@ -28,7 +28,13 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.settings_collapse_section
+import org.scottishtecharmy.soundscape.resources.settings_collapsed
+import org.scottishtecharmy.soundscape.resources.settings_expand_section
+import org.scottishtecharmy.soundscape.resources.settings_expanded
+import org.scottishtecharmy.soundscape.resources.settings_keep_value
+import org.scottishtecharmy.soundscape.resources.settings_use_value
 import org.scottishtecharmy.soundscape.screens.talkbackHint
 import org.scottishtecharmy.soundscape.ui.theme.extraSmallPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
@@ -82,7 +88,9 @@ fun ExpandableSectionHeader(
             .fillMaxWidth()
             .clickable(
                 role = Role.Button,
-                onClickLabel = if (expanded) stringResource(Res.string.settings_collapse_section) else stringResource(Res.string.settings_expand_section),
+                onClickLabel = if (expanded) stringResource(Res.string.settings_collapse_section) else stringResource(
+                    Res.string.settings_expand_section
+                ),
             ) { onToggle() }
             .extraSmallPadding()
             .defaultMinSize(minHeight = spacing.targetSize),
@@ -98,7 +106,9 @@ fun ExpandableSectionHeader(
         Icon(
             imageVector = if (expanded) Icons.Filled.KeyboardArrowDown
             else Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = if (expanded) stringResource(Res.string.settings_expanded) else stringResource(Res.string.settings_collapsed),
+            contentDescription = if (expanded) stringResource(Res.string.settings_expanded) else stringResource(
+                Res.string.settings_collapsed
+            ),
             tint = textColor,
         )
     }

@@ -6,7 +6,6 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayType
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.PointAndDistanceAndHeading
 import org.scottishtecharmy.soundscape.geoengine.utils.addSidewalk
 import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
@@ -15,6 +14,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.clone
 import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
 import org.scottishtecharmy.soundscape.geoengine.utils.fromRadians
 import org.scottishtecharmy.soundscape.geoengine.utils.getDestinationCoordinate
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geoengine.utils.toRadians
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
@@ -23,8 +23,8 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import kotlin.math.asin
 import kotlin.math.cos
-import kotlin.math.min
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sign
 import kotlin.math.sqrt
@@ -38,6 +38,7 @@ enum class RoadFollowerState {
     DIRECTION_CHANGED,
     DISTANT
 }
+
 data class RoadFollowerStatus(val frechetAverage: Double, val state: RoadFollowerState)
 
 /**
@@ -55,12 +56,12 @@ data class RoadFollowerStatus(val frechetAverage: Double, val state: RoadFollowe
  */
 class IndexedLineString {
 
-    var line : LineString? = null
+    var line: LineString? = null
     var indices: Array<Int>? = null
     var direction: Array<Boolean>? = null
     var hashCode: Int = 0
 
-    fun getWayIndex(pointIndex: Int) : Int? {
+    fun getWayIndex(pointIndex: Int): Int? {
 
         indices?.let { indices ->
             for ((index, offset) in indices.withIndex()) {
@@ -93,10 +94,10 @@ class IndexedLineString {
         for ((index, way) in route.withIndex()) {
 
             var forwards: Boolean
-            if(index < route.size - 1) {
+            if (index < route.size - 1) {
                 // Most of the Ways in the route
                 val (nextIntersection, ourIndex) = route[index].doesIntersect(route[index + 1])
-                if(nextIntersection == null) {
+                if (nextIntersection == null) {
                     // We can get here if the tile grid is recalculated, and tiles rejoined and the route is
                     // left with out of date and disconnected ways.
                     line = null
@@ -106,7 +107,7 @@ class IndexedLineString {
             } else {
                 // The last Way in the route
                 val (firstIntersection, ourIndex) = route[index].doesIntersect(route[index - 1])
-                if(firstIntersection == null) {
+                if (firstIntersection == null) {
                     // We can get here if the tile grid is recalculated, and tiles rejoined and the route is
                     // left with out of date and disconnected ways.
                     line = null
@@ -120,8 +121,7 @@ class IndexedLineString {
             // each intersection, but is simple.
             if (forwards) {
                 line!!.coordinates.addAll((way.geometry as LineString).coordinates)
-            }
-            else {
+            } else {
                 line!!.coordinates.addAll((way.geometry as LineString).coordinates.reversed())
             }
             direction?.set(index, forwards)
@@ -133,10 +133,12 @@ class IndexedLineString {
     }
 }
 
-class RoadFollower(val parent: MapMatchFilter,
-                   var route: MutableList<Way>,
-                   var lastGpsLocation: LngLatAlt?,
-                   val colorIndex: Int) {
+class RoadFollower(
+    val parent: MapMatchFilter,
+    var route: MutableList<Way>,
+    var lastGpsLocation: LngLatAlt?,
+    val colorIndex: Int
+) {
 
     var radius = 2.0
     var lastChordPoints: Array<LngLatAlt> = arrayOf(LngLatAlt(), LngLatAlt())
@@ -180,6 +182,7 @@ class RoadFollower(val parent: MapMatchFilter,
     val color: String
     var directionOnLine = 0.0
     var directionHysteresis = 5
+
     init {
         val colorArray = arrayOf(
             "#ff0000",
@@ -203,9 +206,9 @@ class RoadFollower(val parent: MapMatchFilter,
 
     fun validateRoute() {
         val hashMap = HashMap<Intersection, Int>()
-        for(way in route) {
-            for(intersection in way.intersections) {
-                if(intersection != null) {
+        for (way in route) {
+            for (intersection in way.intersections) {
+                if (intersection != null) {
                     if (hashMap.containsKey(intersection)) {
                         hashMap[intersection] = hashMap[intersection]!! + 1
                     } else {
@@ -214,8 +217,8 @@ class RoadFollower(val parent: MapMatchFilter,
                 }
             }
         }
-        for(count in hashMap) {
-            if(count.value > 2) {
+        for (count in hashMap) {
+            if (count.value > 2) {
                 println("Too many intersections")
                 // We can get here 'legally' if we add a way which loops back and joins the current
                 // way e.g. https://www.openstreetmap.org/way/945577262
@@ -228,7 +231,7 @@ class RoadFollower(val parent: MapMatchFilter,
      * If a Way in a route is more than 60m away, then trim it off. If we get close to it again, we
      * can add it back in.
      */
-    fun trimRoute(location: LngLatAlt, ruler: CheapRuler) : Boolean {
+    fun trimRoute(location: LngLatAlt, ruler: CheapRuler): Boolean {
         var trimmed = false
 
         // Trim start
@@ -249,41 +252,44 @@ class RoadFollower(val parent: MapMatchFilter,
         }
 
         // Trim end
-        while(iterator.hasPrevious()) {
+        while (iterator.hasPrevious()) {
             val way = iterator.previous()
-            if(ruler.distanceToLineString(location, way.geometry as LineString).distance > 60.0) {
+            if (ruler.distanceToLineString(location, way.geometry as LineString).distance > 60.0) {
                 iterator.remove()
                 trimmed = true
             } else {
                 break
             }
         }
-        if(trimmed) {
+        if (trimmed) {
             validateRoute()
             ils.updateFromRoute(route)
         }
         return trimmed
     }
 
-    fun getRouteIntersectionIndices(newWay: Way) : Pair<Int, Int> {
+    fun getRouteIntersectionIndices(newWay: Way): Pair<Int, Int> {
         var minIndex = Int.MAX_VALUE
         var maxIndex = -1
-        for((index, way) in route.withIndex()) {
-            if(way.doesIntersect(newWay).first != null) {
-                if(index < minIndex) minIndex = index
-                if(index > maxIndex) maxIndex = index
+        for ((index, way) in route.withIndex()) {
+            if (way.doesIntersect(newWay).first != null) {
+                if (index < minIndex) minIndex = index
+                if (index > maxIndex) maxIndex = index
             }
         }
         return Pair(minIndex, maxIndex)
     }
-    fun createExtendedFollower(extensionAddedAtStart: Boolean,
-                               newWay: Way,
-                               colorIndexOffset: Int) : RoadFollower {
+
+    fun createExtendedFollower(
+        extensionAddedAtStart: Boolean,
+        newWay: Way,
+        colorIndexOffset: Int
+    ): RoadFollower {
         // Create a new follower which is a copy of this one, but with an extended route
         val newRoute = mutableListOf<Way>()
 
         val (minIndex, maxIndex) = getRouteIntersectionIndices(newWay)
-        if(minIndex != maxIndex) {
+        if (minIndex != maxIndex) {
             // newWay intersects with more than one of our ways, so we need to drop one.
             if (extensionAddedAtStart) {
                 // Replace the first way
@@ -306,7 +312,8 @@ class RoadFollower(val parent: MapMatchFilter,
             }
         }
 
-        val newFollower = RoadFollower(parent, newRoute, lastGpsLocation?.clone(), colorIndex + colorIndexOffset)
+        val newFollower =
+            RoadFollower(parent, newRoute, lastGpsLocation?.clone(), colorIndex + colorIndexOffset)
 
         // Clone all the data that we need
         newFollower.averagePointGap = averagePointGap
@@ -316,38 +323,40 @@ class RoadFollower(val parent: MapMatchFilter,
         newFollower.currentNearestRoad = currentNearestRoad
 
         frechetQueue.forEach { newFollower.frechetQueue.add(it) }
-        lastChordPoints.forEachIndexed { index,point -> newFollower.lastChordPoints[index] = point.clone() }
+        lastChordPoints.forEachIndexed { index, point ->
+            newFollower.lastChordPoints[index] = point.clone()
+        }
         newFollower.lastMatchedLocation = lastMatchedLocation?.clone()
 
         return newFollower
     }
 
-    fun extendToNewWay(newWay: Way, ruler: Ruler) : Boolean {
+    fun extendToNewWay(newWay: Way, ruler: Ruler): Boolean {
         val (minIndex, maxIndex) = getRouteIntersectionIndices(newWay)
-        if(minIndex != maxIndex) {
+        if (minIndex != maxIndex) {
             // We can't extend the route as the newWay intersects with more than one of the ways in
             // the route already.
             return false
         }
 
         val newRoute = mutableListOf<Way>()
-        if(route.first().doesIntersect(newWay).first != null) {
-            if(!route.first().intersections.contains(null)) {
+        if (route.first().doesIntersect(newWay).first != null) {
+            if (!route.first().intersections.contains(null)) {
                 newRoute.add(newWay)
                 newRoute.addAll(route)
             }
-        } else if(route.last().doesIntersect(newWay).first != null) {
-            if(!route.last().intersections.contains(null)) {
+        } else if (route.last().doesIntersect(newWay).first != null) {
+            if (!route.last().intersections.contains(null)) {
                 newRoute.addAll(route)
                 newRoute.add(newWay)
             }
         }
-        if(newRoute.isNotEmpty()) {
+        if (newRoute.isNotEmpty()) {
 
             route = newRoute
             validateRoute()
             ils.updateFromRoute(route)
-            if(ils.line != null) {
+            if (ils.line != null) {
                 nearestPoint?.let { point ->
                     nearestPoint = ruler.distanceToLineString(point.point, ils.line as LineString)
                 }
@@ -363,11 +372,11 @@ class RoadFollower(val parent: MapMatchFilter,
         gpsLocation: LngLatAlt,
         collection: FeatureCollection,
         ruler: CheapRuler
-    ) : RoadFollowerStatus {
+    ): RoadFollowerStatus {
 
-        if(ils.line == null)
+        if (ils.line == null)
             return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.DISTANT)
-        if(trimRoute(gpsLocation, ruler)) {
+        if (trimRoute(gpsLocation, ruler)) {
             // The route was trimmed
             if (route.isEmpty() || ils.line == null) {
                 return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.DISTANT)
@@ -387,8 +396,8 @@ class RoadFollower(val parent: MapMatchFilter,
         var directionChange = false
         lastGpsLocation?.let { lastLocation ->
 
-            if(lastLocation == gpsLocation) {
-                if (frechetQueue.size > FRECHET_QUEUE_SIZE/2) {
+            if (lastLocation == gpsLocation) {
+                if (frechetQueue.size > FRECHET_QUEUE_SIZE / 2) {
                     return RoadFollowerStatus(frechetQueue.average(), RoadFollowerState.LOCKED)
                 }
                 return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.UNLOCKED)
@@ -422,15 +431,15 @@ class RoadFollower(val parent: MapMatchFilter,
                 ruler.distanceToLineString(gpsLocation, ils.line as LineString)
             nearestPoint?.let { nearestPoint ->
 
-                if((lastNearestPoint != null) &&
+                if ((lastNearestPoint != null) &&
                     !lastNearestPoint.positionAlongLine.isNaN() &&
-                    !nearestPoint.positionAlongLine.isNaN())
-                {
+                    !nearestPoint.positionAlongLine.isNaN()
+                ) {
                     val delta = nearestPoint.positionAlongLine - lastNearestPoint.positionAlongLine
-                    if((directionOnLine != 0.0) && ((sign(delta) != sign(directionOnLine)) || (delta == 0.0))) {
+                    if ((directionOnLine != 0.0) && ((sign(delta) != sign(directionOnLine)) || (delta == 0.0))) {
                         // Change of direction?
                         --directionHysteresis
-                        if(directionHysteresis == 0) {
+                        if (directionHysteresis == 0) {
                             directionHysteresis = 5
                             directionOnLine = delta
                         }
@@ -444,17 +453,17 @@ class RoadFollower(val parent: MapMatchFilter,
                 }
 
                 val routeIndex = ils.getWayIndex(nearestPoint.index)
-                if(routeIndex != null) {
+                if (routeIndex != null) {
                     currentNearestRoad = route[routeIndex]
 
-                    if(ils.direction?.get(routeIndex) == false) {
+                    if (ils.direction?.get(routeIndex) == false) {
                         // The coordinates were reversed, so we need to reverse the heading
                         nearestPoint.heading = (nearestPoint.heading + 180.0) % 360.0
                     }
                 }
 
                 // Dispose of this if we're a long way away
-                if(nearestPoint.distance > 30.0) {
+                if (nearestPoint.distance > 30.0) {
                     return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.DISTANT)
                 }
 
@@ -468,14 +477,17 @@ class RoadFollower(val parent: MapMatchFilter,
                     if (ar.isNaN()) ar = 1.0
                     lastCenter = getDestinationCoordinate(gpsLocation, c1, d1 * ar)
                     matchedPoint =
-                        ruler.distanceToLineString(lastCenter, currentNearestRoad.geometry as LineString)
+                        ruler.distanceToLineString(
+                            lastCenter,
+                            currentNearestRoad.geometry as LineString
+                        )
                     radius = max(dMin, ruler.distance(gpsLocation, lastGpsLocation!!) * ar)
                 }
 
                 if (matchedPoint.distance > radius)
                     radius = matchedPoint.distance * 1.2
 
-                if(radius > 30.0) {
+                if (radius > 30.0) {
                     return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.DISTANT)
                 }
 
@@ -520,14 +532,17 @@ class RoadFollower(val parent: MapMatchFilter,
             if (cosHeadingDifference < 0.703) {
                 // Unreliable GPS heading - the GPS is moving in a very different direction
                 // to the road.
-                if(frechetQueue.size > (FRECHET_QUEUE_SIZE / 2))
+                if (frechetQueue.size > (FRECHET_QUEUE_SIZE / 2))
                     return RoadFollowerStatus(frechetQueue.average(), RoadFollowerState.ANGLED_AWAY)
 
                 return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.ANGLED_AWAY)
             }
         }
-        if(frechetQueue.size > (FRECHET_QUEUE_SIZE / 2)) {
-            return RoadFollowerStatus(frechetQueue.average(), if(directionChange) RoadFollowerState.DIRECTION_CHANGED else RoadFollowerState.LOCKED)
+        if (frechetQueue.size > (FRECHET_QUEUE_SIZE / 2)) {
+            return RoadFollowerStatus(
+                frechetQueue.average(),
+                if (directionChange) RoadFollowerState.DIRECTION_CHANGED else RoadFollowerState.LOCKED
+            )
         }
 
         return RoadFollowerStatus(Double.MAX_VALUE, RoadFollowerState.UNLOCKED)
@@ -562,10 +577,12 @@ class MapMatchFilter {
     var matchedFollower: RoadFollower? = null
     var lastLocation: LngLatAlt? = null
 
-    fun addWaysToFollowers(intersection: Intersection,
-                           follower: RoadFollower,
-                           iterator: MutableListIterator<RoadFollower>,
-                           ruler: Ruler) {
+    fun addWaysToFollowers(
+        intersection: Intersection,
+        follower: RoadFollower,
+        iterator: MutableListIterator<RoadFollower>,
+        ruler: Ruler
+    ) {
         var extended = false
         var extensionAddedAtStart = false
         for (member in intersection.members.withIndex()) {
@@ -577,7 +594,7 @@ class MapMatchFilter {
             if (member.value.wayType == WayType.JOINER) continue
             if (!extended) {
                 // Try and extend the follower to this way
-                if(follower.extendToNewWay(member.value, ruler)) {
+                if (follower.extendToNewWay(member.value, ruler)) {
                     extended = true
                     extensionAddedAtStart = follower.route.first() == member.value
                     continue
@@ -605,9 +622,16 @@ class MapMatchFilter {
         val roads = roadTree.getNearestCollection(location, 20.0, 8, gridState.ruler)
 
         if (followerList.isEmpty()) {
-            if(roads.features.isNotEmpty()) {
+            if (roads.features.isNotEmpty()) {
                 // Start off with a follower for the nearest road
-                followerList.add(RoadFollower(this, MutableList(1) { roads.first() as Way }, lastLocation, colorIndex))
+                followerList.add(
+                    RoadFollower(
+                        this,
+                        MutableList(1) { roads.first() as Way },
+                        lastLocation,
+                        colorIndex
+                    )
+                )
                 ++colorIndex
             }
         }
@@ -622,10 +646,11 @@ class MapMatchFilter {
                     added = true
                     break
                 }
-                if((way.properties?.containsKey("dead-end:forward") == true) ||
-                   (way.properties?.containsKey("dead-end:backward") == true)) {
+                if ((way.properties?.containsKey("dead-end:forward") == true) ||
+                    (way.properties?.containsKey("dead-end:backward") == true)
+                ) {
                     // The way is a dead end, don't follow it if it's also short
-                    if(way.length < 20.0) {
+                    if (way.length < 20.0) {
                         added = true
                         break
                     }
@@ -635,7 +660,7 @@ class MapMatchFilter {
 
                 // For each follower, see if we can append this way
                 val iterator = followerList.listIterator()
-                while(iterator.hasNext()) {
+                while (iterator.hasNext()) {
                     val follower = iterator.next()
                     val lastWayInRoute = follower.route.last()
                     val (intersection, _) = lastWayInRoute.doesIntersect(way)
@@ -650,7 +675,12 @@ class MapMatchFilter {
                         if (firstIntersection != null) {
                             // This road intersects with the first way, so it can either replace it,
                             // or be added on to it.
-                            addWaysToFollowers(firstIntersection, follower, iterator, gridState.ruler)
+                            addWaysToFollowers(
+                                firstIntersection,
+                                follower,
+                                iterator,
+                                gridState.ruler
+                            )
                             added = true
                         }
                     }
@@ -673,10 +703,10 @@ class MapMatchFilter {
         // De-duplicate list of followers
         val followerIterator = followerList.listIterator()
         val followerHashes = HashSet<Int>()
-        while(followerIterator.hasNext()) {
+        while (followerIterator.hasNext()) {
             val follower = followerIterator.next()
             val hash = follower.ils.hashCode
-            if(followerHashes.contains(hash))
+            if (followerHashes.contains(hash))
                 followerIterator.remove()
             else
                 followerHashes.add(hash)
@@ -684,28 +714,34 @@ class MapMatchFilter {
     }
 
     var colorIndex = 0
-    fun filter(location: LngLatAlt, gridState: GridState, collection: FeatureCollection, dump: Boolean): Triple<LngLatAlt?, Feature?, String> {
+    fun filter(
+        location: LngLatAlt,
+        gridState: GridState,
+        collection: FeatureCollection,
+        dump: Boolean
+    ): Triple<LngLatAlt?, Feature?, String> {
 
         extendFollowerList(location, gridState)
 
         var lowestFrechet = Double.MAX_VALUE
         var lowestFollower: RoadFollower? = null
         val followerIterator = followerList.listIterator()
-        while(followerIterator.hasNext()) {
+        while (followerIterator.hasNext()) {
             val follower = followerIterator.next()
             val frechetStatus = follower.update(location, collection, gridState.ruler)
 
-            if(frechetStatus.state == RoadFollowerState.DISTANT) {
+            if (frechetStatus.state == RoadFollowerState.DISTANT) {
                 followerIterator.remove()
                 continue
             }
-            if((frechetStatus.state == RoadFollowerState.ANGLED_AWAY) ||
-               (frechetStatus.state == RoadFollowerState.DIRECTION_CHANGED)){
+            if ((frechetStatus.state == RoadFollowerState.ANGLED_AWAY) ||
+                (frechetStatus.state == RoadFollowerState.DIRECTION_CHANGED)
+            ) {
                 continue
             }
 
             val way = follower.currentNearestRoad
-            if(frechetStatus.frechetAverage < lowestFrechet) {
+            if (frechetStatus.frechetAverage < lowestFrechet) {
                 var skip = false
                 matchedWay?.let { matched ->
                     if (matched != way) {
@@ -721,7 +757,7 @@ class MapMatchFilter {
                         // the Dijkstra distance.
 
                         var useDijkstra = true
-                        if(matched.isSidewalkOrCrossing() || way.isSidewalkOrCrossing()) {
+                        if (matched.isSidewalkOrCrossing() || way.isSidewalkOrCrossing()) {
                             // We're matching on a sidewalk, see if the other way is either the
                             // associated way or another sidewalk for the associated way
                             val roadTree = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
@@ -733,19 +769,19 @@ class MapMatchFilter {
                             val wayPavement = way.properties?.get("pavement")
                             val wayName = way.name
 
-                            if((matchedPavement != null) &&
-                               ((matchedPavement == wayName) || (matchedPavement == wayPavement))) {
+                            if ((matchedPavement != null) &&
+                                ((matchedPavement == wayName) || (matchedPavement == wayPavement))
+                            ) {
                                 // The matched way is a sidewalk, and the other way is either the
                                 // associated way or another sidewalk for the associated way
                                 useDijkstra = false
-                            }
-                            else if((wayPavement != null) && (wayPavement == matchedName)) {
+                            } else if ((wayPavement != null) && (wayPavement == matchedName)) {
                                 // The other way is a sidewalk, and the matched way is its
                                 // associated way
                                 useDijkstra = false
                             }
                         }
-                        if(useDijkstra) {
+                        if (useDijkstra) {
                             val testDistance = (follower.averagePointGap * 8) + 15.0
                             val shortestDistance = findShortestDistance(
                                 matchedLocation!!.point,
@@ -762,7 +798,7 @@ class MapMatchFilter {
                         }
                     }
                 }
-                if(!skip) {
+                if (!skip) {
                     lowestFrechet = frechetStatus.frechetAverage
                     lowestFollower = follower
                 }

@@ -65,12 +65,12 @@ interface RouteDao {
         val route = getRouteById(routeId)
         val crossReferences = getMarkerCrossReference(routeId)
 
-        if(route == null) return null
+        if (route == null) return null
 
         val markers = mutableListOf<MarkerEntity>()
-        for(crossRef in crossReferences.sortedBy { it.markerOrder }) {
+        for (crossRef in crossReferences.sortedBy { it.markerOrder }) {
             val id = getMarkerById(crossRef.markerId)
-            if(id != null)
+            if (id != null)
                 markers.add(id)
         }
         return RouteWithMarkers(route, markers)
@@ -124,7 +124,10 @@ interface RouteDao {
     }
 
     @Transaction
-    suspend fun insertRouteWithExistingMarkers(route: RouteEntity, markers: List<MarkerEntity>) : Long {
+    suspend fun insertRouteWithExistingMarkers(
+        route: RouteEntity,
+        markers: List<MarkerEntity>
+    ): Long {
         val routeId = insertRoute(route)
         markers.forEachIndexed { index, marker ->
             addMarkerToRoute(RouteMarkerCrossRef(routeId, marker.markerId, index))
@@ -133,19 +136,19 @@ interface RouteDao {
     }
 
     @Transaction
-    suspend fun insertRouteWithNewMarkers(route: RouteEntity, markers: List<MarkerEntity>) : Long {
+    suspend fun insertRouteWithNewMarkers(route: RouteEntity, markers: List<MarkerEntity>): Long {
 
         var duplicateId = 0L
         val existingRoutes = getAllRoutesWithMarkers()
-        for(existingRoute in existingRoutes) {
-            if(route == existingRoute.route) {
-                if(markers == existingRoute.markers) {
+        for (existingRoute in existingRoutes) {
+            if (route == existingRoute.route) {
+                if (markers == existingRoute.markers) {
                     duplicateId = existingRoute.route.routeId
                     break
                 }
             }
         }
-        if(duplicateId == 0L) {
+        if (duplicateId == 0L) {
             val routeId = insertRoute(route)
             markers.forEachIndexed { index, marker ->
                 val existingMarker = getMarkerByLocation(marker.longitude, marker.latitude)

@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 abstract class LocationProvider {
     abstract fun destroy()
-    open fun updateLocation(newLocation: SoundscapeLocation) { }
+    open fun updateLocation(newLocation: SoundscapeLocation) {}
 
     fun hasValidLocation(): Boolean {
         return mutableLocationFlow.value != null

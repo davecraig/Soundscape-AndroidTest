@@ -107,9 +107,11 @@ private fun Feature.toMaplibreGeometry(): org.maplibre.spatialk.geojson.Geometry
         is Polygon -> org.maplibre.spatialk.geojson.Polygon(
             g.coordinates.map { ring -> ring.toPositionRing() }
         )
+
         is MultiPolygon -> org.maplibre.spatialk.geojson.MultiPolygon(
             g.coordinates.map { polygon -> polygon.map { ring -> ring.toPositionRing() } }
         )
+
         else -> null
     }
 }

@@ -2,9 +2,9 @@ package org.scottishtecharmy.soundscape.geoengine.callouts
 
 import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.Earcons
-import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.PositionedString
+import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.filters.CalloutHistory
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
@@ -28,9 +28,10 @@ import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
 import org.scottishtecharmy.soundscape.i18n.StringKey
 import kotlin.math.abs
 
-data class IntersectionDescription(var nearestRoad: Way? = null,
-                                   val userGeometry: UserGeometry = UserGeometry(),
-                                   val intersection: Intersection? = null,
+data class IntersectionDescription(
+    var nearestRoad: Way? = null,
+    val userGeometry: UserGeometry = UserGeometry(),
+    val intersection: Intersection? = null,
 )
 
 /**
@@ -44,9 +45,10 @@ data class IntersectionDescription(var nearestRoad: Way? = null,
  * @return An IntersectionDescription containing all the data required for callouts to describe the
  * intersection.
  */
-fun getRoadsDescriptionFromFov(gridState: GridState,
-                               userGeometry: UserGeometry
-) : IntersectionDescription {
+fun getRoadsDescriptionFromFov(
+    gridState: GridState,
+    userGeometry: UserGeometry
+): IntersectionDescription {
 
     // Create FOV triangle
     val triangle = getFovTriangle(userGeometry)
@@ -56,18 +58,22 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
 
     // Find roads within FOV
     val fovRoads = roadTree.getAllWithinTriangle(triangle)
-    if(fovRoads.features.isEmpty()) return IntersectionDescription(
+    if (fovRoads.features.isEmpty()) return IntersectionDescription(
         nearestRoad = userGeometry.mapMatchedWay,
-        userGeometry = userGeometry)
+        userGeometry = userGeometry
+    )
 
     var nearestRoad = userGeometry.mapMatchedWay
-    if(nearestRoad == null) {
+    if (nearestRoad == null) {
         if (userGeometry.inStreetPreview) {
             // In StreetPreview mode, the road we're on is that matching the heading into the
             // intersection that we're at.
-            val intersection = intersectionTree.getNearestFeature(userGeometry.location, userGeometry.ruler) as Intersection?
+            val intersection = intersectionTree.getNearestFeature(
+                userGeometry.location,
+                userGeometry.ruler
+            ) as Intersection?
             val userHeading = userGeometry.heading()
-            if((userHeading != null) && (intersection != null)) {
+            if ((userHeading != null) && (intersection != null)) {
                 for (member in intersection.members) {
                     val wayHeading = (member.heading(intersection) + 180.0) % 360.0
                     if (abs(wayHeading - userHeading) < 1.0) {
@@ -84,8 +90,8 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
 
     // If we're on a mapped sidewalk, use the associated road for intersection detection instead of
     // the sidewalk itself.
-    if(nearestRoad?.isSidewalkOrCrossing() == true) {
-        if(nearestRoad.properties?.get("pavement") == null) {
+    if (nearestRoad?.isSidewalkOrCrossing() == true) {
+        if (nearestRoad.properties?.get("pavement") == null) {
             // Confect the names for the sidewalk first, this should come up with the name of the
             // associated road.
             confectNamesForRoad(nearestRoad, gridState)
@@ -95,16 +101,20 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
         // and the nearest of those.
         var bestRoad: Way? = null
         var bestRoadDistance = Double.MAX_VALUE
-        for(road in fovRoads.features) {
+        for (road in fovRoads.features) {
             val way = road as Way
-            if(nearestRoad.properties?.get("pavement") == way.name) {
+            if (nearestRoad.properties?.get("pavement") == way.name) {
                 val matched = userGeometry.mapMatchedLocation
-                if(matched?.point != null) {
+                if (matched?.point != null) {
                     val roadDistance =
-                        userGeometry.ruler.distanceToLineString(matched.point, road.geometry as LineString)
+                        userGeometry.ruler.distanceToLineString(
+                            matched.point,
+                            road.geometry as LineString
+                        )
                     val snappedHeading = userGeometry.snappedHeading()
                     if (snappedHeading != null) {
-                        val innerAngle = calculateSmallestAngleBetweenLines(roadDistance.heading, snappedHeading)
+                        val innerAngle =
+                            calculateSmallestAngleBetweenLines(roadDistance.heading, snappedHeading)
                         if (innerAngle > 45.0) {
                             // This way is not at the angle of travel, so skip it
                             continue
@@ -122,17 +132,24 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
 
     // Find intersections within FOV
     val fovIntersections = intersectionTree.getAllWithinTriangle(triangle)
-    if(fovIntersections.features.isEmpty()) return IntersectionDescription(nearestRoad, userGeometry)
+    if (fovIntersections.features.isEmpty()) return IntersectionDescription(
+        nearestRoad,
+        userGeometry
+    )
 
     // Remove intersections which are only:
     //  1. Short paths leading to sidewalks of the road, or
     //  2. Direct intersections with sidewalks.
     //  3. Within a 5m radius of the current location
     val trimmedIntersections = FeatureCollection()
-    for(i in fovIntersections.features) {
+    for (i in fovIntersections.features) {
         val intersection = i as Intersection
         var add = true
-        if(!userGeometry.inStreetPreview && userGeometry.ruler.distance(intersection.location, userGeometry.mapMatchedLocation?.point ?: userGeometry.location) < 5.0)
+        if (!userGeometry.inStreetPreview && userGeometry.ruler.distance(
+                intersection.location,
+                userGeometry.mapMatchedLocation?.point ?: userGeometry.location
+            ) < 5.0
+        )
             add = false
         else {
             var disposalCount = 0
@@ -142,26 +159,29 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
                 else if (way.isSidewalkConnector(intersection, nearestRoad, gridState))
                     ++disposalCount
             }
-            if((i.members.size - disposalCount) < 2) {
+            if ((i.members.size - disposalCount) < 2) {
                 // We're disposing of pavement intersections, if we've got fewer then 2 non-
                 // pavement Ways then we're not interested in this intersection. Intersections
                 // worth describing have the Way we're coming in on as well as at least two other
                 // Ways leaving the intersection.
                 add = false
             } else {
-                if((i.members.size - disposalCount) == 2) {
+                if ((i.members.size - disposalCount) == 2) {
                     // If the way names are the same then also skip it
-                    if(i.members[0].name == i.members[1].name)
+                    if (i.members[0].name == i.members[1].name)
                         add = false
                 }
             }
         }
-        if(add)
+        if (add)
             trimmedIntersections.features.add(intersection)
     }
 
     // Sort the FOV intersections by distance
-    val sortedFovIntersections = sortedByDistanceTo(userGeometry.mapMatchedLocation?.point ?: userGeometry.location, trimmedIntersections)
+    val sortedFovIntersections = sortedByDistanceTo(
+        userGeometry.mapMatchedLocation?.point ?: userGeometry.location,
+        trimmedIntersections
+    )
 
     // Inspect each intersection so as to skip trivial ones
     val nonTrivialIntersections = mutableListOf<Pair<Int, Intersection>>()
@@ -169,12 +189,12 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     for (intersection in sortedFovIntersections.features) {
         val intersectionLocation = (intersection.geometry as Point).coordinates
         val graphIntersection = gridState.gridIntersections[intersectionLocation]
-        if(graphIntersection != null) {
+        if (graphIntersection != null) {
             val matched = userGeometry.mapMatchedLocation
-            if((matched != null) && (nearestRoad != null)) {
+            if ((matched != null) && (nearestRoad != null)) {
                 // If our current matched way ends at this intersection, then we don't need to use
                 // more elaborate (Dijkstra) pathfinding to check the connection.
-                if(!nearestRoad.intersections.contains(graphIntersection)) {
+                if (!nearestRoad.intersections.contains(graphIntersection)) {
 
                     // Check if we can get to the intersection from our current location within a
                     // short distance. If we can, check that we don't go through any other valid
@@ -192,30 +212,34 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
                         var skip = false
                         val ways = getPathWays(graphIntersection)
                         var nextIntersection = graphIntersection
-                        for(way in ways) {
+                        for (way in ways) {
                             nextIntersection = way.getOtherIntersection(nextIntersection!!)
 
                             nextIntersection?.let { next ->
                                 var count = 0
                                 if (next.members.size > 2) {
-                                    for(member in next.members) {
-                                        if(member.properties != null) {
+                                    for (member in next.members) {
+                                        if (member.properties != null) {
                                             if (member.isSidewalkOrCrossing() &&
-                                                !member.isSidewalkConnector(intersection, nearestRoad, gridState)
+                                                !member.isSidewalkConnector(
+                                                    intersection,
+                                                    nearestRoad,
+                                                    gridState
+                                                )
                                             ) {
                                                 count++
                                             }
                                         }
                                     }
-                                    if(count > 2)
+                                    if (count > 2)
                                         skip = true
                                     return@let
                                 }
                             }
-                            if(skip)
+                            if (skip)
                                 break
                         }
-                        if(skip) {
+                        if (skip) {
                             // Skip this intersection, as it's not the nearest one of interest
                             shortestDistanceResults.tidy()
                             continue
@@ -234,14 +258,14 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
             nonTrivialIntersections.add(Pair(priority, graphIntersection))
         }
     }
-    if(nonTrivialIntersections.isEmpty()) {
+    if (nonTrivialIntersections.isEmpty()) {
         return IntersectionDescription(nearestRoad, userGeometry)
     }
 
     var intersection: Intersection? = nonTrivialIntersections.firstOrNull { prioritised ->
-                prioritised.first > 0
-            }?.second
-    if(intersection == null) {
+        prioritised.first > 0
+    }?.second
+    if (intersection == null) {
         // No intersection with a priority greater than zero, so just pick the highest
         intersection = nonTrivialIntersections.maxByOrNull { prioritised ->
             prioritised.first
@@ -251,7 +275,7 @@ fun getRoadsDescriptionFromFov(gridState: GridState,
     // Find the bearing that we're coming in at - measured to the nearest intersection
     val heading = nearestRoad?.heading(intersection!!)
     //val heading = userGeometry.heading()
-    if(heading != null) {
+    if (heading != null) {
         // And use the polygons to describe the roads at the intersection
         return IntersectionDescription(
             nearestRoad,
@@ -279,10 +303,10 @@ fun addIntersectionCalloutFromDescription(
     localized: LocalizedStrings?,
     calloutHistory: CalloutHistory? = null,
     gridState: GridState
-) : TrackedCallout? {
+): TrackedCallout? {
 
     // Report nearby road
-    if(description.intersection == null) {
+    if (description.intersection == null) {
         description.nearestRoad?.let { nearestRoad ->
 
             // Figure out which direction we're travelling along the way
@@ -315,7 +339,7 @@ fun addIntersectionCalloutFromDescription(
                     description.userGeometry,
                     calloutText,
                     LngLatAlt(),
-                    positionedStrings = List(1){
+                    positionedStrings = List(1) {
                         PositionedString(
                             text = calloutText,
                             type = AudioType.STANDARD
@@ -325,7 +349,7 @@ fun addIntersectionCalloutFromDescription(
                     isGeneric = false,
                     calloutHistory = calloutHistory
                 )
-                if(calloutHistory?.find(trackedCallout) != true) {
+                if (calloutHistory?.find(trackedCallout) != true) {
                     return trackedCallout
                 }
             }
@@ -340,8 +364,8 @@ fun addIntersectionCalloutFromDescription(
     // follow our nearestRoad to the intersection. However, we need to be careful with the heading
     // as the incoming Way to the intersection could be 90 degrees (or more?) away from the current
     // heading.
-    if(description.nearestRoad?.containsIntersection(description.intersection) != true) {
-        if(description.nearestRoad == null)
+    if (description.nearestRoad?.containsIntersection(description.intersection) != true) {
+        if (description.nearestRoad == null)
             return null
 
         val shortestDistanceResults = findShortestDistance(
@@ -358,7 +382,7 @@ fun addIntersectionCalloutFromDescription(
     }
     val heading = description.nearestRoad?.heading(description.intersection) ?: return null
 
-    if(description.intersection.members.size <= 2)
+    if (description.intersection.members.size <= 2)
         return null
 
     // Check if we should be filtering out this callout
@@ -370,7 +394,8 @@ fun addIntersectionCalloutFromDescription(
         intersectionLocation,
         positionedStrings = List(1) {
             PositionedString(
-                text = localized?.get(StringKey.IntersectionApproachingIntersection) ?: "Approaching intersection",
+                text = localized?.get(StringKey.IntersectionApproachingIntersection)
+                    ?: "Approaching intersection",
                 heading = -10000.0,
                 earcon = Earcons.SENSE_POI,
                 type = AudioType.STANDARD
@@ -380,7 +405,7 @@ fun addIntersectionCalloutFromDescription(
         isGeneric = false,
         calloutHistory = calloutHistory
     )
-    if(calloutHistory?.find(trackedCallout) == true) {
+    if (calloutHistory?.find(trackedCallout) == true) {
         return null
     }
 
@@ -393,7 +418,7 @@ fun addIntersectionCalloutFromDescription(
     val intersectionResults = trackedCallout.positionedStrings.toMutableList()
     for (way in description.intersection.members) {
 
-        if(way.properties?.get("pavement") != null)
+        if (way.properties?.get("pavement") != null)
             continue
 
         val wayHeading = way.heading(description.intersection)
@@ -403,36 +428,45 @@ fun addIntersectionCalloutFromDescription(
 
         // Don't call out the road we are on (0) as part of the intersection
         if (direction != Direction.BEHIND.value) {
-            val directionKey = when(direction) {
-                Direction.BEHIND_LEFT.value,Direction.LEFT.value,Direction.AHEAD_LEFT.value ->
+            val directionKey = when (direction) {
+                Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value ->
                     StringKey.DirectionsNameGoesLeft
-                Direction.BEHIND_RIGHT.value,Direction.RIGHT.value,Direction.AHEAD_RIGHT.value ->
+
+                Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value ->
                     StringKey.DirectionsNameGoesRight
+
                 else ->
                     StringKey.DirectionsNameContinuesAhead
             }
             var unlocalizedDirection = ""
-            if(localized == null) {
-                unlocalizedDirection = when(direction) {
-                    Direction.BEHIND_LEFT.value,Direction.LEFT.value,Direction.AHEAD_LEFT.value ->
+            if (localized == null) {
+                unlocalizedDirection = when (direction) {
+                    Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value ->
                         "goes left"
-                    Direction.BEHIND_RIGHT.value,Direction.RIGHT.value,Direction.AHEAD_RIGHT.value ->
+
+                    Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value ->
                         "goes right"
+
                     else ->
                         "continues ahead"
                 }
 
             }
 
-            val presentationHeading = incomingHeading + when(direction) {
-                Direction.BEHIND_LEFT.value,Direction.LEFT.value,Direction.AHEAD_LEFT.value -> -90.0
-                Direction.BEHIND_RIGHT.value,Direction.RIGHT.value,Direction.AHEAD_RIGHT.value -> 90.0
+            val presentationHeading = incomingHeading + when (direction) {
+                Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value -> -90.0
+                Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value -> 90.0
                 else -> 0.0
             }
 
-            val destinationText = way.getName(way.intersections[WayEnd.START.id] == description.intersection, gridState, localized)
+            val destinationText = way.getName(
+                way.intersections[WayEnd.START.id] == description.intersection,
+                gridState,
+                localized
+            )
             val intersectionCallout =
-                localized?.get(directionKey, destinationText) ?: "\t$destinationText $unlocalizedDirection"
+                localized?.get(directionKey, destinationText)
+                    ?: "\t$destinationText $unlocalizedDirection"
             intersectionResults.add(
                 PositionedString(
                     text = intersectionCallout,

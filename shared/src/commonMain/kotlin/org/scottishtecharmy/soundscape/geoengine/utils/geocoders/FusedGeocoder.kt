@@ -28,14 +28,20 @@ class FusedGeocoder(
         else
             listOf(photonGeocoder)
 
-    override suspend fun getAddressFromLocationName(locationName: String,
-                                                    nearbyLocation: LngLatAlt,
-                                                    localizedStrings: LocalizedStrings?) : List<LocationDescription> {
+    override suspend fun getAddressFromLocationName(
+        locationName: String,
+        nearbyLocation: LngLatAlt,
+        localizedStrings: LocalizedStrings?
+    ): List<LocationDescription> {
 
         val deferredResults = geocoderList.map { geocoder ->
             coroutineScope {
                 async {
-                    geocoder.getAddressFromLocationName(locationName, nearbyLocation, localizedStrings)
+                    geocoder.getAddressFromLocationName(
+                        locationName,
+                        nearbyLocation,
+                        localizedStrings
+                    )
                 }
             }
         }
@@ -43,14 +49,14 @@ class FusedGeocoder(
         val geocoderResults = deferredResults.awaitAll()
 
         val results: MutableList<LocationDescription> = mutableListOf()
-        val platformResults = if(geocoderList.size > 1) geocoderResults[0] else null
+        val platformResults = if (geocoderList.size > 1) geocoderResults[0] else null
         var streetResult: LocationDescription? = null
-        if(platformResults != null) {
+        if (platformResults != null) {
             for (platformResult in platformResults) {
                 println("Platform: $platformResult")
-                if(platformResult.locationType == LocationType.StreetNumber) {
+                if (platformResult.locationType == LocationType.StreetNumber) {
                     streetResult = platformResult
-                    if(locationName.containsNumber()) {
+                    if (locationName.containsNumber()) {
                         streetResult.name =
                             streetResult.description?.substringBefore(", ") ?: streetResult.name
                         println("Platform contains number: ${streetResult.name}")
@@ -62,13 +68,13 @@ class FusedGeocoder(
                 }
             }
         }
-        val photonResults = if(geocoderList.size > 1) geocoderResults[1] else geocoderResults[0]
-        if(photonResults != null) {
+        val photonResults = if (geocoderList.size > 1) geocoderResults[1] else geocoderResults[0]
+        if (photonResults != null) {
             for (photonResult in photonResults) {
                 println("Photon: $photonResult")
-                if(streetResult != null) {
+                if (streetResult != null) {
                     println("streetResult was set, see if we can improve the name")
-                    if(photonResult.locationType == LocationType.StreetNumber) {
+                    if (photonResult.locationType == LocationType.StreetNumber) {
                         if (gridState.ruler.distance(
                                 streetResult.location,
                                 photonResult.location
@@ -89,26 +95,32 @@ class FusedGeocoder(
         return results
     }
 
-    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry,
-                                              localizedStrings: LocalizedStrings?,
-                                              ignoreHouseNumbers: Boolean) : LocationDescription? {
+    override suspend fun getAddressFromLngLat(
+        userGeometry: UserGeometry,
+        localizedStrings: LocalizedStrings?,
+        ignoreHouseNumbers: Boolean
+    ): LocationDescription? {
         val deferredResults = geocoderList.map { geocoder ->
             coroutineScope {
                 async {
-                    geocoder.getAddressFromLngLat(userGeometry, localizedStrings, ignoreHouseNumbers)
+                    geocoder.getAddressFromLngLat(
+                        userGeometry,
+                        localizedStrings,
+                        ignoreHouseNumbers
+                    )
                 }
             }
         }
 
         val geocoderResults = deferredResults.awaitAll()
 
-        val platformResult = if(geocoderList.size > 1) geocoderResults[0] else null
+        val platformResult = if (geocoderList.size > 1) geocoderResults[0] else null
         if (platformResult != null) {
             if (platformResult.locationType == LocationType.StreetNumber) {
                 return platformResult
             }
         }
 
-        return if(geocoderList.size > 1) geocoderResults[1] else geocoderResults[0]
+        return if (geocoderList.size > 1) geocoderResults[1] else geocoderResults[0]
     }
 }

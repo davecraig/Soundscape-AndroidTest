@@ -7,30 +7,29 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import me.zhanghai.compose.preference.listPreference
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.audio.TourButton
 import org.scottishtecharmy.soundscape.audio.availableTtsVoicesForCurrentLanguage
-import org.scottishtecharmy.soundscape.resources.Res
-import org.scottishtecharmy.soundscape.resources.settings_theme_auto
-import org.scottishtecharmy.soundscape.resources.voice_voices
-import org.scottishtecharmy.soundscape.screens.home.settings.ClickableOption
-import org.scottishtecharmy.soundscape.screens.home.settings.ListPreferenceItem
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.intents.IncomingIntent
 import org.scottishtecharmy.soundscape.intents.resolveRouteByName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.platform.readResourceText
 import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.settings_theme_auto
+import org.scottishtecharmy.soundscape.resources.voice_voices
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsViewModel
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
+import org.scottishtecharmy.soundscape.screens.home.settings.ClickableOption
+import org.scottishtecharmy.soundscape.screens.home.settings.ListPreferenceItem
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routesscreen.RoutesViewModel
@@ -70,7 +69,12 @@ fun MainViewController() = ComposeUIViewController {
     }
 
     val recordingEnabled = remember {
-        MutableStateFlow(prefs.getBoolean(PreferenceKeys.RECORD_TRAVEL, PreferenceDefaults.RECORD_TRAVEL))
+        MutableStateFlow(
+            prefs.getBoolean(
+                PreferenceKeys.RECORD_TRAVEL,
+                PreferenceDefaults.RECORD_TRAVEL
+            )
+        )
     }
     DisposableEffect(prefs) {
         val listener = PreferencesListener { key ->
@@ -257,7 +261,8 @@ fun MainViewController() = ComposeUIViewController {
                 )
             },
             onRateApp = {
-                val url = NSURL.URLWithString("itms-apps://itunes.apple.com/app/idXXXXXXXX?action=write-review")
+                val url =
+                    NSURL.URLWithString("itms-apps://itunes.apple.com/app/idXXXXXXXX?action=write-review")
                 if (url != null) openExternalUrl(url)
             },
             onContactSupport = { presentContactSupport(service) },

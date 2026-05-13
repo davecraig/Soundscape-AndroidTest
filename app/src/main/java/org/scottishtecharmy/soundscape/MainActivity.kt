@@ -2,18 +2,15 @@ package org.scottishtecharmy.soundscape
 
 import android.Manifest
 import android.accessibilityservice.AccessibilityServiceInfo
-import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
-import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import android.content.Context
-import android.media.AudioDeviceInfo
-import android.media.AudioManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.AudioDeviceInfo
+import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.StrictMode
 import android.provider.Settings
 import android.text.Html
 import android.util.Log
@@ -42,25 +39,28 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import androidx.preference.PreferenceManager
 import com.google.android.play.core.review.ReviewManagerFactory
-import org.koin.android.ext.android.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
-import org.scottishtecharmy.soundscape.resources.*
+import org.koin.android.ext.android.inject
 import org.scottishtecharmy.soundscape.audio.AudioTour
+import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
-import org.scottishtecharmy.soundscape.screens.onboarding.battery.requestBatteryOptimizationExemption
+import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
+import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.permissions_required
 import org.scottishtecharmy.soundscape.screens.home.HomeScreen
 import org.scottishtecharmy.soundscape.screens.home.Navigator
+import org.scottishtecharmy.soundscape.screens.onboarding.battery.requestBatteryOptimizationExemption
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.scottishtecharmy.soundscape.utils.AnalyticsProvider
 import org.scottishtecharmy.soundscape.utils.AndroidMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.LogcatHelper
-import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.utils.findExtracts
 import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
 import java.io.File
@@ -69,7 +69,8 @@ import java.util.Locale
 data class ThemeState(
     val hintsEnabled: Boolean = false,
     val themeIsLight: Boolean = true,
-    val themeContrast: String = "High")
+    val themeContrast: String = "High"
+)
 
 fun hasPlayServices(context: Context): Boolean {
     return try {
@@ -83,11 +84,11 @@ fun hasPlayServices(context: Context): Boolean {
 }
 
 class MainActivity : AppCompatActivity() {
-    internal val soundscapeServiceConnection : SoundscapeServiceConnection by inject()
-    internal val navigator : Navigator by inject()
-    private val soundscapeIntents : SoundscapeIntents by inject()
-    private val audioTour : AudioTour by inject()
-    private val markersAndRoutesIo : AndroidMarkersAndRoutesIo by inject()
+    internal val soundscapeServiceConnection: SoundscapeServiceConnection by inject()
+    internal val navigator: Navigator by inject()
+    private val soundscapeIntents: SoundscapeIntents by inject()
+    private val audioTour: AudioTour by inject()
+    private val markersAndRoutesIo: AndroidMarkersAndRoutesIo by inject()
 
     // we need notification permission to be able to display a notification for the foreground service
     private val notificationPermissionLauncher =
@@ -114,7 +115,11 @@ class MainActivity : AppCompatActivity() {
 
             else -> {
                 // No location access granted, service can't be started as it will crash
-                Toast.makeText(this, kotlinx.coroutines.runBlocking { getString(Res.string.permissions_required) }, Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this,
+                    kotlinx.coroutines.runBlocking { getString(Res.string.permissions_required) },
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }
@@ -126,17 +131,19 @@ class MainActivity : AppCompatActivity() {
                 Lifecycle.Event.ON_START -> {
                     soundscapeServiceConnection.soundscapeService?.appInForeground(true)
                 }
+
                 Lifecycle.Event.ON_STOP -> {
                     soundscapeServiceConnection.soundscapeService?.appInForeground(false)
                 }
+
                 else -> {
                 }
             }
         }
     }
 
-    private lateinit var sharedPreferences : SharedPreferences
-    private lateinit var sharedPreferencesListener : SharedPreferences.OnSharedPreferenceChangeListener
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferencesListener: SharedPreferences.OnSharedPreferenceChangeListener
 
     private val _themeStateFlow = MutableStateFlow(ThemeState())
     private var themeStateFlow: StateFlow<ThemeState> = _themeStateFlow
@@ -149,8 +156,9 @@ class MainActivity : AppCompatActivity() {
                     THEME_LIGHTNESS_DEFAULT
                 )
                 var themeIsLight = (themeLightness == "Light")
-                if(themeLightness == "Auto") {
-                    themeIsLight = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
+                if (themeLightness == "Auto") {
+                    themeIsLight =
+                        (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
                 }
 
                 // The state of the theme light/dark setting has changed, so update the UI
@@ -172,7 +180,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             PreferenceKeys.MEDIA_CONTROLS_MODE -> {
-                val mode = preferences.getString(PreferenceKeys.MEDIA_CONTROLS_MODE, PreferenceDefaults.MEDIA_CONTROLS_MODE)!!
+                val mode = preferences.getString(
+                    PreferenceKeys.MEDIA_CONTROLS_MODE,
+                    PreferenceDefaults.MEDIA_CONTROLS_MODE
+                )!!
                 Log.e(TAG, "mediaControlsMode $mode")
                 soundscapeServiceConnection.soundscapeService?.updateMediaControls(mode)
             }
@@ -208,30 +219,34 @@ class MainActivity : AppCompatActivity() {
             1
 
         var change = false
-        if(locationPermissionGranted == -1)
+        if (locationPermissionGranted == -1)
             locationPermissionGranted = locationPermission
         else {
             change = (locationPermissionGranted != locationPermission)
             locationPermissionGranted = locationPermission
         }
-        if(notificationPermissionGranted == -1)
+        if (notificationPermissionGranted == -1)
             notificationPermissionGranted = notificationPermission
         else {
             change = change || (notificationPermissionGranted != notificationPermission)
             notificationPermissionGranted = notificationPermission
         }
 
-        if(change) {
-            Log.d(TAG, "Permissions have changed $locationPermission -> $locationPermissionGranted and $notificationPermission -> $notificationPermissionGranted")
-            when(locationPermissionGranted) {
+        if (change) {
+            Log.d(
+                TAG,
+                "Permissions have changed $locationPermission -> $locationPermissionGranted and $notificationPermission -> $notificationPermissionGranted"
+            )
+            when (locationPermissionGranted) {
                 0 -> setServiceState(false)
                 1 -> setServiceState(true)
             }
         } else {
-            if(soundscapeServiceConnection.soundscapeService?.running == false) {
+            if (soundscapeServiceConnection.soundscapeService?.running == false) {
                 // This can happen if the service failed to move to the foreground.
                 // Simply start the service now
-                AnalyticsProvider.getInstance().crashLogNotes("Attempt to start non-running service from onResume")
+                AnalyticsProvider.getInstance()
+                    .crashLogNotes("Attempt to start non-running service from onResume")
                 setServiceState(true)
             }
         }
@@ -286,8 +301,9 @@ class MainActivity : AppCompatActivity() {
 
         // The splash sound is quite invasive. As a result, we want to limit how often we play it.
         // This code means that it will be played the first time any new release is installed.
-        val splashPlayed = (sharedPreferences.getString(LAST_SPLASH_RELEASE_KEY, LAST_SPLASH_RELEASE_DEFAULT)
-                == BuildConfig.VERSION_NAME.substringBeforeLast("."))
+        val splashPlayed =
+            (sharedPreferences.getString(LAST_SPLASH_RELEASE_KEY, LAST_SPLASH_RELEASE_DEFAULT)
+                    == BuildConfig.VERSION_NAME.substringBeforeLast("."))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val timeNow = System.currentTimeMillis()
@@ -317,7 +333,10 @@ class MainActivity : AppCompatActivity() {
                     splashSoundFinished = true
                 }
                 sharedPreferences.edit(commit = true) {
-                    putString(LAST_SPLASH_RELEASE_KEY, BuildConfig.VERSION_NAME.substringBeforeLast("."))
+                    putString(
+                        LAST_SPLASH_RELEASE_KEY,
+                        BuildConfig.VERSION_NAME.substringBeforeLast(".")
+                    )
                 }
             }
 
@@ -405,7 +424,10 @@ class MainActivity : AppCompatActivity() {
         checkAndRequestNotificationPermissions()
         soundscapeServiceConnection.tryToBindToServiceIfRunning(applicationContext)
 
-        val db = org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider.getInstance(applicationContext)
+        val db =
+            org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider.getInstance(
+                applicationContext
+            )
         lifecycleScope.launch {
             db.routeDao().getAllRoutesFlow().collect { routes ->
                 updateRouteShortcuts(routes)
@@ -422,7 +444,7 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity.lifecycle.addObserver(AppLifecycleObserver())
 
                     // Parse any Intent
-                    if(intent != null) {
+                    if (intent != null) {
                         if (intent.action != "") {
                             soundscapeIntents.parse(intent, this@MainActivity)
                             // Clear the action so that it doesn't happen on every screen rotate etc.
@@ -438,7 +460,7 @@ class MainActivity : AppCompatActivity() {
                 val navController = rememberNavController()
                 val destination by navigator.destination.collectAsState()
                 LaunchedEffect(destination) {
-                    if(destination != "") {
+                    if (destination != "") {
                         if (navController.currentDestination?.route != destination) {
                             navController.navigate(destination)
                             // Reset the destination state ready for another
@@ -459,7 +481,7 @@ class MainActivity : AppCompatActivity() {
                             thisActivity.contactSupport()
                         }
                     },
-                    permissionsRequired = remember { locationPermissionGranted != 1}
+                    permissionsRequired = remember { locationPermissionGranted != 1 }
                 )
             }
         }
@@ -485,11 +507,11 @@ class MainActivity : AppCompatActivity() {
         val seenNames = mutableSetOf<String>()
         for (route in routes) {
             // You can't have shortcuts without a name
-            if(route.name.isEmpty())
+            if (route.name.isEmpty())
                 continue
 
             // Skip routes with duplicate names
-            if(!seenNames.add(route.name))
+            if (!seenNames.add(route.name))
                 continue
 
             val intent = Intent(this, MainActivity::class.java)
@@ -546,8 +568,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(Intent.ACTION_VIEW, "market://details?id=$packageName".toUri()))
         } catch (e: Exception) {
             // Fall back to browser
-            startActivity(Intent(Intent.ACTION_VIEW,
-                "https://play.google.com/store/apps/details?id=$packageName".toUri()))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    "https://play.google.com/store/apps/details?id=$packageName".toUri()
+                )
+            )
         }
     }
 
@@ -562,9 +588,15 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        builder.append(tableRow("TouchExploration Enabled", am.isTouchExplorationEnabled.toString()))
+        builder.append(
+            tableRow(
+                "TouchExploration Enabled",
+                am.isTouchExplorationEnabled.toString()
+            )
+        )
 
-        val enabledServices = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_SPOKEN)
+        val enabledServices =
+            am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_SPOKEN)
         for (serviceInfo in enabledServices) {
             builder.append(tableRow("AccessibilityService:", serviceInfo.id))
         }
@@ -591,6 +623,7 @@ class MainActivity : AppCompatActivity() {
             AudioDeviceInfo.TYPE_BUILTIN_MIC to "Built-in Mic",
             AudioDeviceInfo.TYPE_BUILTIN_EARPIECE to "Built-in Earpiece",
         )
+
         fun deviceTypeName(type: Int) = typeNames[type] ?: "Unknown($type)"
 
         val outputs = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
@@ -632,14 +665,17 @@ class MainActivity : AppCompatActivity() {
 
         bodyText.append(tableRow("AndroidGeocoder", AndroidGeocoder.enabled.toString()))
 
-        val extractPath = sharedPreferences.getString(SELECTED_STORAGE_KEY, SELECTED_STORAGE_DEFAULT)!!
-        val extractCollection = findExtracts(File(extractPath, Environment.DIRECTORY_DOWNLOADS).path)
-        if(extractCollection != null) {
+        val extractPath =
+            sharedPreferences.getString(SELECTED_STORAGE_KEY, SELECTED_STORAGE_DEFAULT)!!
+        val extractCollection =
+            findExtracts(File(extractPath, Environment.DIRECTORY_DOWNLOADS).path)
+        if (extractCollection != null) {
             for (extract in extractCollection.features) {
-                bodyText.append(tableRow
-                    (
-                    "Offline extract",
-                    "${extract.properties?.get("name")}, ${extract.properties?.get("filename")}"
+                bodyText.append(
+                    tableRow
+                        (
+                        "Offline extract",
+                        "${extract.properties?.get("name")}, ${extract.properties?.get("filename")}"
                     )
                 )
             }
@@ -688,8 +724,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun shareRecording() {
-        val shareUri = soundscapeServiceConnection.soundscapeService?.getRecordingShareUri(applicationContext)
-        if(shareUri != null) {
+        val shareUri =
+            soundscapeServiceConnection.soundscapeService?.getRecordingShareUri(applicationContext)
+        if (shareUri != null) {
             val sendIntent: Intent =
                 Intent().apply {
                     action = Intent.ACTION_SEND
@@ -709,7 +746,10 @@ class MainActivity : AppCompatActivity() {
      * starts playback. Used by the IncomingIntent.StartRouteByName dispatch path.
      */
     fun startRouteByName(name: String) {
-        val db = org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider.getInstance(applicationContext)
+        val db =
+            org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider.getInstance(
+                applicationContext
+            )
         lifecycleScope.launch {
             val id = org.scottishtecharmy.soundscape.intents.resolveRouteByName(db.routeDao(), name)
             if (id != null) {
@@ -721,7 +761,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun shareRoute(shareUri: Uri?) {
-        if(shareUri != null) {
+        if (shareUri != null) {
             val sendIntent: Intent =
                 Intent().apply {
                     action = Intent.ACTION_SEND
@@ -763,11 +803,12 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
             }
-        }else{
+        } else {
             checkAndRequestLocationPermissions()
         }
 
     }
+
     private fun checkAndRequestLocationPermissions() {
         when (ContextCompat.checkSelfPermission(
             this,
@@ -777,6 +818,7 @@ class MainActivity : AppCompatActivity() {
                 // permission already granted
                 startSoundscapeService()
             }
+
             else -> {
                 locationPermissionRequest.launch(
                     arrayOf(
@@ -790,14 +832,17 @@ class MainActivity : AppCompatActivity() {
 
     var serviceSleeping = false
     fun setServiceState(newServiceState: Boolean, sleeping: Boolean? = null) {
-        Log.d(TAG, "setServiceState $newServiceState, sleeping = $sleeping, serviceSleeping = $serviceSleeping")
+        Log.d(
+            TAG,
+            "setServiceState $newServiceState, sleeping = $sleeping, serviceSleeping = $serviceSleeping"
+        )
         // Bail out if we're a destroyed activity instance still being held by some caller —
         // ActivityResultLaunchers are unregistered on destroy and launch() would throw.
         if (isFinishing || isDestroyed) {
             Log.w(TAG, "setServiceState called on finishing/destroyed activity; ignoring")
             return
         }
-        if(!serviceSleeping || (sleeping == false)) {
+        if (!serviceSleeping || (sleeping == false)) {
             if (!newServiceState) {
                 soundscapeServiceConnection.stopService()
             } else {
@@ -805,7 +850,7 @@ class MainActivity : AppCompatActivity() {
                 soundscapeServiceConnection.tryToBindToServiceIfRunning(applicationContext)
             }
         }
-        if(sleeping != null) {
+        if (sleeping != null) {
             serviceSleeping = sleeping
         }
     }
@@ -821,7 +866,8 @@ class MainActivity : AppCompatActivity() {
         startForegroundService(serviceIntent)
         // Request microphone permission for voice commands (best-effort)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-            != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            != android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
             micPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         }
         // Prompt for battery optimization exemption if not already granted.
@@ -836,7 +882,8 @@ class MainActivity : AppCompatActivity() {
         const val ALLOW_CALLOUTS_DEFAULT = true
         const val ALLOW_CALLOUTS_KEY = "AllowCallouts"
         const val PLACES_AND_LANDMARKS_DEFAULT = true
-        const val PLACES_AND_LANDMARKS_KEY = org.scottishtecharmy.soundscape.geoengine.PLACES_AND_LANDMARKS_KEY
+        const val PLACES_AND_LANDMARKS_KEY =
+            org.scottishtecharmy.soundscape.geoengine.PLACES_AND_LANDMARKS_KEY
         const val MOBILITY_DEFAULT = true
         const val MOBILITY_KEY = org.scottishtecharmy.soundscape.geoengine.MOBILITY_KEY
         const val DISTANCE_TO_BEACON_DEFAULT = true

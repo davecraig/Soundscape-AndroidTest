@@ -49,8 +49,8 @@ private fun Float.toDegrees(): Float {
     return (this * 180 / kotlin.math.PI).toFloat()
 }
 
-fun phoneHeldFlat(deviceOrientation: DeviceDirection?) : Boolean {
-    if(deviceOrientation == null) return false
+fun phoneHeldFlat(deviceOrientation: DeviceDirection?): Boolean {
+    if (deviceOrientation == null) return false
 
     val attitude = deviceOrientation.attitude
 

@@ -12,14 +12,17 @@ import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-class AudioOnboardingViewModel(val context: Context, val audioEngine : NativeAudioEngine): ViewModel() {
+
+class AudioOnboardingViewModel(val context: Context, val audioEngine: NativeAudioEngine) :
+    ViewModel() {
 
     data class AudioBeaconsUiState(
         // Data for the ViewMode that affects the UI
-        val beaconTypes : List<String> = emptyList(),
+        val beaconTypes: List<String> = emptyList(),
         val selectedBeacon: String? = null
     )
-    private var beacon : Long = 0
+
+    private var beacon: Long = 0
     private var currentType = ""
 
     override fun onCleared() {
@@ -35,9 +38,10 @@ class AudioOnboardingViewModel(val context: Context, val audioEngine : NativeAud
     )
 
     val state: StateFlow<AudioBeaconsUiState> = _state.asStateFlow()
+
     @SuppressLint("ApplySharedPref")
     fun setAudioBeaconType(type: String) {
-        if(type != currentType) {
+        if (type != currentType) {
             audioEngine.setBeaconType(type)
             if (beacon != 0L)
                 audioEngine.destroyBeacon(beacon)
@@ -51,7 +55,7 @@ class AudioOnboardingViewModel(val context: Context, val audioEngine : NativeAud
     }
 
     fun silenceBeacon() {
-        if(beacon != 0L) {
+        if (beacon != 0L) {
             audioEngine.destroyBeacon(beacon)
             beacon = 0
             currentType = ""

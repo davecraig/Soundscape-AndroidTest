@@ -1,12 +1,12 @@
 package org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.scottishtecharmy.soundscape.MainActivity
-import androidx.core.content.edit
 import org.scottishtecharmy.soundscape.utils.StorageUtils
 import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
 
@@ -19,7 +19,7 @@ data class OfflineStorageOnboardingUiState(
     val selectedStorageIndex: Int = -1
 )
 
-class OffscreenStorageOnboardingViewModel(val appContext: Context): ViewModel() {
+class OffscreenStorageOnboardingViewModel(val appContext: Context) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OfflineStorageOnboardingUiState())
     val uiState: StateFlow<OfflineStorageOnboardingUiState> = _uiState
@@ -29,10 +29,13 @@ class OffscreenStorageOnboardingViewModel(val appContext: Context): ViewModel() 
 
         // Get the currently selected storage and if uninitialized set it to the first external storage
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
-        var path = sharedPreferences.getString(MainActivity.SELECTED_STORAGE_KEY, MainActivity.SELECTED_STORAGE_DEFAULT)
+        var path = sharedPreferences.getString(
+            MainActivity.SELECTED_STORAGE_KEY,
+            MainActivity.SELECTED_STORAGE_DEFAULT
+        )
 
         var currentIndex = -1
-        for((index, storage) in storages.withIndex()) {
+        for ((index, storage) in storages.withIndex()) {
             if (storage.path == path) {
                 currentIndex = index
                 break
@@ -50,7 +53,7 @@ class OffscreenStorageOnboardingViewModel(val appContext: Context): ViewModel() 
         sharedPreferences.edit(commit = true) { putString(MainActivity.SELECTED_STORAGE_KEY, path) }
 
         var currentIndex = -1
-        for((index, storage) in _uiState.value.storages.withIndex()) {
+        for ((index, storage) in _uiState.value.storages.withIndex()) {
             if (storage.path == path) {
                 currentIndex = index
                 break

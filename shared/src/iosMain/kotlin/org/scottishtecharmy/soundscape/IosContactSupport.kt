@@ -136,9 +136,9 @@ private fun supportUrlEncode(value: String): String {
     for (b in bytes) {
         val c = b.toInt() and 0xFF
         val isUnreserved = (c in 0x30..0x39) ||
-            (c in 0x41..0x5A) ||
-            (c in 0x61..0x7A) ||
-            c == '-'.code || c == '_'.code || c == '.'.code || c == '~'.code
+                (c in 0x41..0x5A) ||
+                (c in 0x61..0x7A) ||
+                c == '-'.code || c == '_'.code || c == '.'.code || c == '~'.code
         if (isUnreserved) {
             builder.append(c.toChar())
         } else {

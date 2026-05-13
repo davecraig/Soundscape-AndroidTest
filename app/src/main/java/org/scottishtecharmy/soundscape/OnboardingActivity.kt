@@ -5,13 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.scottishtecharmy.soundscape.screens.onboarding.SetUpOnboardingNavGraph
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
-import androidx.core.content.edit
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -21,7 +21,8 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Use the system light/dark setting
-        val themeIsLight = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
+        val themeIsLight =
+            (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
 
         setContent {
             SoundscapeTheme(MutableStateFlow(ThemeState(themeIsLight = themeIsLight))) {

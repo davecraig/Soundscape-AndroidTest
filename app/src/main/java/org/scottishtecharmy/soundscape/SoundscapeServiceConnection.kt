@@ -3,17 +3,16 @@ package org.scottishtecharmy.soundscape
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection as AndroidServiceConnection
 import android.os.IBinder
 import android.util.Log
-import org.scottishtecharmy.soundscape.locationprovider.DeviceDirection
-import org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.locationprovider.DeviceDirection
+import org.scottishtecharmy.soundscape.locationprovider.SoundscapeLocation
 import org.scottishtecharmy.soundscape.services.BeaconState
 import org.scottishtecharmy.soundscape.services.RoutePlayerState
 import org.scottishtecharmy.soundscape.services.ServiceConnection
@@ -21,6 +20,8 @@ import org.scottishtecharmy.soundscape.services.SoundscapeBinder
 import org.scottishtecharmy.soundscape.services.SoundscapeService
 import org.scottishtecharmy.soundscape.services.mediacontrol.MediaControllableService
 import org.scottishtecharmy.soundscape.services.mediacontrol.VoiceCommandState
+import android.content.ServiceConnection as AndroidServiceConnection
+
 class SoundscapeServiceConnection : ServiceConnection {
     var soundscapeService: SoundscapeService? = null
 
@@ -31,18 +32,22 @@ class SoundscapeServiceConnection : ServiceConnection {
     override val serviceBoundState = _serviceBoundState.asStateFlow()
 
     // Simplify access of flows
-    fun getLocationFlow() : StateFlow<SoundscapeLocation?>? {
+    fun getLocationFlow(): StateFlow<SoundscapeLocation?>? {
         return soundscapeService?.locationProvider?.locationFlow
     }
-    fun getOrientationFlow() : StateFlow<DeviceDirection?>? {
+
+    fun getOrientationFlow(): StateFlow<DeviceDirection?>? {
         return soundscapeService?.directionProvider?.orientationFlow
     }
+
     fun getBeaconFlow(): StateFlow<BeaconState>? {
         return soundscapeService?.beaconFlow
     }
+
     fun getStreetPreviewModeFlow(): StateFlow<StreetPreviewState>? {
         return soundscapeService?.streetPreviewFlow
     }
+
     fun getCurrentRouteFlow(): StateFlow<RoutePlayerState>? {
         return soundscapeService?.routePlayer?.currentRouteFlow
     }
@@ -55,7 +60,7 @@ class SoundscapeServiceConnection : ServiceConnection {
         return soundscapeService?.voiceCommandStateFlow
     }
 
-    fun setStreetPreviewMode(on : Boolean, location: LngLatAlt? = null) {
+    fun setStreetPreviewMode(on: Boolean, location: LngLatAlt? = null) {
         Log.d(TAG, "setStreetPreviewMode $on")
         soundscapeService?.setStreetPreviewMode(on, location)
     }
@@ -75,12 +80,15 @@ class SoundscapeServiceConnection : ServiceConnection {
     fun routeSkipPrevious() {
         soundscapeService?.routeSkipPrevious()
     }
+
     fun routeSkipNext() {
         soundscapeService?.routeSkipNext()
     }
+
     fun routeMute() {
         soundscapeService?.routeMute()
     }
+
     fun routeStop() {
         soundscapeService?.routeStop()
     }
@@ -105,10 +113,10 @@ class SoundscapeServiceConnection : ServiceConnection {
         }
     }
 
-    fun tryToBindToServiceIfRunning(context : Context) {
+    fun tryToBindToServiceIfRunning(context: Context) {
         Log.d(TAG, "tryToBindToServiceIfRunning " + serviceBoundState.value)
 
-        if(!serviceBoundState.value) {
+        if (!serviceBoundState.value) {
             Intent(context, SoundscapeService::class.java).also { intent ->
                 context.bindService(intent, connection, 0)
             }

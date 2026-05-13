@@ -1,21 +1,20 @@
 package org.scottishtecharmy.soundscape.geoengine.mvttranslation
 
-import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
-
 import org.scottishtecharmy.soundscape.geoengine.GridState
-import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
-import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.geoengine.utils.Direction
 import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
 import org.scottishtecharmy.soundscape.geoengine.utils.confectNamesForRoad
 import org.scottishtecharmy.soundscape.geoengine.utils.getCombinedDirectionSegments
 import org.scottishtecharmy.soundscape.geoengine.utils.getLatLonTileWithOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
 import org.scottishtecharmy.soundscape.geoengine.utils.toRadians
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
+import org.scottishtecharmy.soundscape.i18n.StringKey
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.asinh
@@ -38,7 +37,7 @@ class Intersection : MvtFeature() {
     // Dijkstra variables
     var dijkstraRunCount = 0
     var dijkstraDistance = Double.MAX_VALUE
-    var dijkstraPrevious : Intersection? = null
+    var dijkstraPrevious: Intersection? = null
 
     // We don't allow comparison of Intersections by data because we can have two TILE_EDGE
     // intersections at exactly the same point which are joined by a JOINER way and we can't have
@@ -46,7 +45,7 @@ class Intersection : MvtFeature() {
 
     fun toFeature() {
         geometry = Point(location)
-        properties = HashMap<String,Any?>().apply {
+        properties = HashMap<String, Any?>().apply {
             set("name", name)
             set("members", members.size)
             set(
@@ -56,12 +55,19 @@ class Intersection : MvtFeature() {
         }
     }
 
-    fun updateName(gridState: GridState? = null,
-                   strings: LocalizedStrings? = null) {
+    fun updateName(
+        gridState: GridState? = null,
+        strings: LocalizedStrings? = null
+    ) {
         val updatedName = StringBuilder()
         val namesUsed = mutableSetOf<String>()
         for (way in members) {
-            val segmentName = way.getName(way.intersections[WayEnd.START.id] == this, gridState, strings, nonGenericOnly = false)
+            val segmentName = way.getName(
+                way.intersections[WayEnd.START.id] == this,
+                gridState,
+                strings,
+                nonGenericOnly = false
+            )
             if (!namesUsed.contains(segmentName)) {
                 if (updatedName.isNotEmpty()) {
                     updatedName.append("/")
@@ -89,6 +95,7 @@ enum class WayEnd(
 }
 
 private val DirectionLookup = Direction.entries.toTypedArray()
+
 class Way : MvtFeature() {
     var length = 0.0                            // We could easily calculate this from the segments.
 
@@ -96,11 +103,13 @@ class Way : MvtFeature() {
 
     var wayType = WayType.REGULAR
 
-    fun getName(direction: Boolean? = null,
-                gridState: GridState? = null,
-                strings: LocalizedStrings? = null,
-                nonGenericOnly: Boolean = false,
-                noGenericDeadEnds: Boolean = false) : String {
+    fun getName(
+        direction: Boolean? = null,
+        gridState: GridState? = null,
+        strings: LocalizedStrings? = null,
+        nonGenericOnly: Boolean = false,
+        noGenericDeadEnds: Boolean = false
+    ): String {
 
         var destinationModifier: Any? = null
         var passesModifier: Any?
@@ -108,7 +117,7 @@ class Way : MvtFeature() {
         val genericName = (result == null)
         var passesString = ""
 
-        if(result == null) {
+        if (result == null) {
             // Un-named way, so use "class" property
             result = featureClass.toString()
             result = result.replaceFirstChar {
@@ -118,7 +127,7 @@ class Way : MvtFeature() {
                     it.toString()
             }
 
-            if(gridState != null) {
+            if (gridState != null) {
                 confectNamesForRoad(this, gridState)
             }
 
@@ -129,7 +138,7 @@ class Way : MvtFeature() {
                 else
                     properties?.get("destination:backward")
 
-                passesModifier = if(direction)
+                passesModifier = if (direction)
                     properties?.get("passes:forward")
                 else
                     properties?.get("passes:backward")
@@ -143,11 +152,16 @@ class Way : MvtFeature() {
                 }
 
                 if (destinationModifier != null) {
-                    if((destinationModifier == "dead-end") && noGenericDeadEnds)
+                    if ((destinationModifier == "dead-end") && noGenericDeadEnds)
                         return ""
 
-                    return if(passesString.isNotEmpty()) {
-                        strings?.getOrNull(StringKey.ConfectNameToVia, result, destinationModifier, passesString)
+                    return if (passesString.isNotEmpty()) {
+                        strings?.getOrNull(
+                            StringKey.ConfectNameToVia,
+                            result,
+                            destinationModifier,
+                            passesString
+                        )
                             ?: "$result to $destinationModifier via $passesString"
                     } else {
                         strings?.getOrNull(StringKey.ConfectNameTo, result, destinationModifier)
@@ -171,25 +185,29 @@ class Way : MvtFeature() {
                 properties?.get("dead-end:backward")
         }
         if (destinationModifier != null) {
-            if(destinationModifier == "dead-end") {
+            if (destinationModifier == "dead-end") {
                 destinationModifier = strings?.getOrNull(StringKey.ConfectNameDeadEnd) ?: "dead end"
             }
-            return if(passesString.isNotEmpty()) {
-                strings?.getOrNull(StringKey.ConfectNameToVia, result, destinationModifier, passesString)
+            return if (passesString.isNotEmpty()) {
+                strings?.getOrNull(
+                    StringKey.ConfectNameToVia,
+                    result,
+                    destinationModifier,
+                    passesString
+                )
                     ?: "$result to $destinationModifier via $passesString"
             } else {
                 strings?.getOrNull(StringKey.ConfectNameTo, result, destinationModifier)
                     ?: "$result to $destinationModifier"
             }
-        }
-        else {
+        } else {
             return if (passesString.isNotEmpty()) {
                 strings?.getOrNull(StringKey.ConfectNameVia, result, passesString)
                     ?: "$result via $passesString"
             } else {
                 // This is a path/service/track with no other qualifiers, so just return the name
                 // unless we're looking for a non-generic name.
-                if(nonGenericOnly && genericName) {
+                if (nonGenericOnly && genericName) {
                     ""
                 } else {
                     result
@@ -198,26 +216,27 @@ class Way : MvtFeature() {
         }
     }
 
-    fun doesIntersect(other: Way) : Pair<Intersection?, Int> {
-        for((ourIndex ,ours) in intersections.withIndex()) {
-            if(ours == null) continue
-            for(theirs in other.intersections) {
-                if(theirs == null) continue
+    fun doesIntersect(other: Way): Pair<Intersection?, Int> {
+        for ((ourIndex, ours) in intersections.withIndex()) {
+            if (ours == null) continue
+            for (theirs in other.intersections) {
+                if (theirs == null) continue
                 // Check for direct intersection first
-                if(ours == theirs)
+                if (ours == theirs)
                     return Pair(ours, ourIndex)
             }
         }
 
-        for((ourIndex ,ours) in intersections.withIndex()) {
-            if(ours == null) continue
-            for(theirs in other.intersections) {
-                if(theirs == null) continue
+        for ((ourIndex, ours) in intersections.withIndex()) {
+            if (ours == null) continue
+            for (theirs in other.intersections) {
+                if (theirs == null) continue
                 // Check for tile-edge joiner
-                if((ours.intersectionType == IntersectionType.TILE_EDGE) &&
-                    (theirs.intersectionType == IntersectionType.TILE_EDGE)) {
-                    for(member in ours.members) {
-                        if(theirs.members.contains(member)) {
+                if ((ours.intersectionType == IntersectionType.TILE_EDGE) &&
+                    (theirs.intersectionType == IntersectionType.TILE_EDGE)
+                ) {
+                    for (member in ours.members) {
+                        if (theirs.members.contains(member)) {
                             return Pair(theirs, ourIndex)
                         }
                     }
@@ -228,7 +247,7 @@ class Way : MvtFeature() {
         return Pair(null, 0)
     }
 
-    fun isSidewalkOrCrossing() : Boolean {
+    fun isSidewalkOrCrossing(): Boolean {
         val footway = properties?.get("footway")
         val bicycle = properties?.get("bicycle")
         return ((footway == "sidewalk") ||
@@ -237,7 +256,7 @@ class Way : MvtFeature() {
                 ((featureType == "highway") && (featureValue == "cycleway")))
     }
 
-    fun endsAtTileEdge() : Boolean {
+    fun endsAtTileEdge(): Boolean {
         return (intersections[WayEnd.START.id]?.intersectionType == IntersectionType.TILE_EDGE) ||
                 (intersections[WayEnd.END.id]?.intersectionType == IntersectionType.TILE_EDGE)
     }
@@ -247,32 +266,33 @@ class Way : MvtFeature() {
      * own sidewalk e.g. https://www.openstreetmap.org/way/958596881. If we are map matched to the
      * sidewalk, but calling out from the perspective of mainWay, these connectors are not useful.
      */
-    fun isSidewalkConnector(intersection: Intersection,
-                            mainWay: Way?,
-                            gridState: GridState,) : Boolean {
+    fun isSidewalkConnector(
+        intersection: Intersection,
+        mainWay: Way?,
+        gridState: GridState,
+    ): Boolean {
 
         // It's not a connector if the mainWay isn't named
-        if(mainWay == null)
+        if (mainWay == null)
             return false
 
         // It's not a connector if it's named
-        if(name != null)
+        if (name != null)
             return false
 
         // It's not a connector if it's more than 20m long, or it ends in a TILE_EDGE
-        if((length > 20.0) || endsAtTileEdge())
+        if ((length > 20.0) || endsAtTileEdge())
             return false
 
         // Look at the other end and check if it connects to a sidewalk associated with the mainWay
         getOtherIntersection(intersection)?.let { otherIntersection ->
-            for(way in otherIntersection.members) {
-                if(way == this) continue
-                if(isSidewalkOrCrossing()){
+            for (way in otherIntersection.members) {
+                if (way == this) continue
+                if (isSidewalkOrCrossing()) {
                     // This does connect to something that isn't a sidewalk, so it's not a simple
                     // connector i.e. it may connect to a sidewalk, but it goes further.
                     return false
-                }
-                else if(way.properties?.get("pavement") == null) {
+                } else if (way.properties?.get("pavement") == null) {
                     confectNamesForRoad(way, gridState)
                 }
                 // And then return true if it's the pavement for this Way
@@ -283,26 +303,27 @@ class Way : MvtFeature() {
         return false
     }
 
-    fun followWays(fromIntersection: Intersection,
-                   ways: MutableList<Pair<Boolean, Way>>,
-                   depth: Int = 0,
-                   optionalEarlyPredicate: ((Way, Way?) -> Boolean)? = null) {
+    fun followWays(
+        fromIntersection: Intersection,
+        ways: MutableList<Pair<Boolean, Way>>,
+        depth: Int = 0,
+        optionalEarlyPredicate: ((Way, Way?) -> Boolean)? = null
+    ) {
 
-        if(depth > 15)
-        {
+        if (depth > 15) {
             // Break out at arbitrarily deep following.
             return
         }
 
-        if(optionalEarlyPredicate != null) {
-            if(wayType != WayType.JOINER) {
+        if (optionalEarlyPredicate != null) {
+            if (wayType != WayType.JOINER) {
                 if (optionalEarlyPredicate(this, ways.lastOrNull()?.second))
                     return
             }
         }
 
-        for(existingWay in ways) {
-            if(this == existingWay.second) {
+        for (existingWay in ways) {
+            if (this == existingWay.second) {
                 // This way has already been added to the list so we must have looped around, that's
                 // the end of our following, otherwise we'll recurse forever deeper.
                 return
@@ -320,10 +341,10 @@ class Way : MvtFeature() {
         else
             intersections[WayEnd.START.id]
 
-        if(nextIntersection?.members?.size == 2) {
+        if (nextIntersection?.members?.size == 2) {
             // We have a next intersection and it's only got 2 ways, so follow it onwards
-            for(way in nextIntersection.members) {
-                if(way != this) {
+            for (way in nextIntersection.members) {
+                if (way != this) {
                     way.followWays(nextIntersection, ways, depth + 1, optionalEarlyPredicate)
                 }
             }
@@ -333,7 +354,7 @@ class Way : MvtFeature() {
     /** isLoopedBack is used to determine if a Way starts and ends at the same intersection.
      * @return true if the Way starts and ends at the same intersection, false otherwise
      */
-    fun isLoopedBack() : Boolean {
+    fun isLoopedBack(): Boolean {
         return (intersections[WayEnd.START.id] == intersections[WayEnd.END.id])
     }
 
@@ -344,7 +365,7 @@ class Way : MvtFeature() {
      * @param deviceHeading is the heading relative to which the direction is calculated
      * @return the Direction indicating which direction the way is relative to the device heading
      */
-    fun direction(fromIntersection: Intersection, deviceHeading: Double) : Direction {
+    fun direction(fromIntersection: Intersection, deviceHeading: Double): Direction {
         val directions = getCombinedDirectionSegments(deviceHeading)
         val heading = heading(fromIntersection)
         val index = directions.indexOfFirst { directionSegment ->
@@ -359,8 +380,7 @@ class Way : MvtFeature() {
      * the heading to be calculated
      * @return the absolute heading of the way as it leaves the intersection
      */
-    fun heading(fromIntersection: Intersection) : Double
-    {
+    fun heading(fromIntersection: Intersection): Double {
         val nextLocation = if (fromIntersection == intersections[WayEnd.START.id])
             (geometry as LineString).coordinates.drop(1).first()
         else
@@ -369,11 +389,11 @@ class Way : MvtFeature() {
         return bearingFromTwoPoints(fromIntersection.location, nextLocation)
     }
 
-    fun containsIntersection(intersection: Intersection) : Boolean {
+    fun containsIntersection(intersection: Intersection): Boolean {
         return intersections.contains(intersection)
     }
 
-    fun getOtherIntersection(fromIntersection: Intersection) : Intersection? {
+    fun getOtherIntersection(fromIntersection: Intersection): Intersection? {
         return if (fromIntersection == intersections[WayEnd.START.id])
             intersections[WayEnd.END.id]
         else
@@ -385,7 +405,7 @@ class Way : MvtFeature() {
      * @return the distance along the Way from location to the START intersection. It's measured
      * from the nearest point on the Way.
      */
-    fun createTemporaryIntersectionAndWays(location: LngLatAlt, ruler: Ruler) : Intersection {
+    fun createTemporaryIntersectionAndWays(location: LngLatAlt, ruler: Ruler): Intersection {
         val newIntersection = Intersection()
         newIntersection.location = location
 
@@ -397,14 +417,13 @@ class Way : MvtFeature() {
         line2.coordinates.add(location)
         var length1 = 0.0
         var length2 = 0.0
-        for(coordinate in (geometry as LineString).coordinates.withIndex()) {
-            if(coordinate.index <= point.index) {
-                if(coordinate.index > 0) {
+        for (coordinate in (geometry as LineString).coordinates.withIndex()) {
+            if (coordinate.index <= point.index) {
+                if (coordinate.index > 0) {
                     length1 += ruler.distance(line1.coordinates.last(), coordinate.value)
                 }
                 line1.coordinates.add(coordinate.value)
-            }
-            else {
+            } else {
                 length2 += ruler.distance(line2.coordinates.last(), coordinate.value)
                 line2.coordinates.add(coordinate.value)
             }
@@ -424,7 +443,7 @@ class Way : MvtFeature() {
         newWay2.geometry = line2
         newWay2.length = length2
 
-        if(length1 > length2) {
+        if (length1 > length2) {
             newIntersection.members.add(newWay2)
             newIntersection.members.add(newWay1)        // Sort these based on length
         } else {
@@ -432,7 +451,7 @@ class Way : MvtFeature() {
             newIntersection.members.add(newWay2)        // Sort these based on length
         }
 
-        if(intersections[WayEnd.START.id] != null) {
+        if (intersections[WayEnd.START.id] != null) {
             intersections[WayEnd.START.id]!!.members.add(newWay1)
             intersections[WayEnd.START.id]!!.members =
                 intersections[WayEnd.START.id]!!.members.sortedBy { way ->
@@ -440,7 +459,7 @@ class Way : MvtFeature() {
                 }.toMutableList()
         }
 
-        if(intersections[WayEnd.END.id] != null) {
+        if (intersections[WayEnd.END.id] != null) {
             intersections[WayEnd.END.id]!!.members.add(newWay2)
             intersections[WayEnd.END.id]!!.members =
                 intersections[WayEnd.END.id]!!.members.sortedBy { way ->
@@ -454,12 +473,12 @@ class Way : MvtFeature() {
     fun removeIntersection(intersection: Intersection) {
         // The passed in intersection has two member ways - one in each direction. Remove them from
         // the intersection at the other end.
-        if(intersections[WayEnd.START.id] != null) {
+        if (intersections[WayEnd.START.id] != null) {
             intersections[WayEnd.START.id]!!.members.remove(intersection.members[0])
             intersections[WayEnd.START.id]!!.members.remove(intersection.members[1])
         }
 
-        if(intersections[WayEnd.END.id] != null) {
+        if (intersections[WayEnd.END.id] != null) {
             intersections[WayEnd.END.id]!!.members.remove(intersection.members[0])
             intersections[WayEnd.END.id]!!.members.remove(intersection.members[1])
         }
@@ -468,8 +487,10 @@ class Way : MvtFeature() {
     }
 }
 
-fun convertBackToTileCoordinates(location: LngLatAlt,
-                                 tileZoom : Int) : Pair<Int, Int> {
+fun convertBackToTileCoordinates(
+    location: LngLatAlt,
+    tileZoom: Int
+): Pair<Int, Int> {
 
 
     val x = ((location.longitude + 180.0) / 360.0) * (1 shl tileZoom)
@@ -484,27 +505,28 @@ fun convertBackToTileCoordinates(location: LngLatAlt,
 class WayGenerator(val transit: Boolean = false) {
 
     /**
-    * highwayPoints is a sparse map which maps from a location within the tile to a list of
-    * lines which have nodes at that point. Every node on any `transportation` line will appear in the
-    * map and if after processing all of the lines there's an intersection at that point, the map
+     * highwayPoints is a sparse map which maps from a location within the tile to a list of
+     * lines which have nodes at that point. Every node on any `transportation` line will appear in the
+     * map and if after processing all of the lines there's an intersection at that point, the map
      * entry will have information for more than one line.
-    */
-    private val highwayNodes : HashMap< Int, Int> = hashMapOf()
+     */
+    private val highwayNodes: HashMap<Int, Int> = hashMapOf()
     private val wayFeatures = mutableListOf<MvtFeature>()
 
     private val ways = mutableListOf<Way>()
 
-    private val intersections : HashMap<LngLatAlt, Intersection> = hashMapOf()
+    private val intersections: HashMap<LngLatAlt, Intersection> = hashMapOf()
 
     /**
      * addLine is called for any line feature that is being added to the FeatureCollection.
      * @param line is a new `transportation` layer line to add to the map
      *
      */
-    fun addLine(line : ArrayList<Pair<Int, Int>>) {
+    fun addLine(line: ArrayList<Pair<Int, Int>>) {
         for (point in line) {
-            if((point.first < 0) || (point.first > 4095) ||
-                (point.second < 0) || (point.second > 4095)) {
+            if ((point.first < 0) || (point.first > 4095) ||
+                (point.second < 0) || (point.second > 4095)
+            ) {
                 continue
             }
 
@@ -514,8 +536,7 @@ class WayGenerator(val transit: Boolean = false) {
             val currentCount = highwayNodes[coordinateKey]
             if (currentCount == null) {
                 highwayNodes[coordinateKey] = 1
-            }
-            else {
+            } else {
                 highwayNodes[coordinateKey] = currentCount + 1
             }
         }
@@ -524,23 +545,26 @@ class WayGenerator(val transit: Boolean = false) {
     fun addFeature(feature: MvtFeature) {
         wayFeatures.add(feature)
     }
+
     /**
-    *  Inside generateIntersections, first traverse every line that was added and generate a new
-    *  segment Feature at every intersection that we hit. Add these to Ways as we go. Intersections are spotted using the
-    *  coordinate key (x + shr(y)). Put those features in two HashMaps a 'start' an 'end' one, again
-    *  keyed by the coordinate key. Once we've traversed all of the lines we should have a Way for
-    *  every segment between intersections. Now we generate the intersections and add the Ways directly
-    *  to them. Let's do this in a separate class for now so that we can test it.
-    */
-    fun addSegmentFeatureToWay(feature: MvtFeature,
-                               currentSegment: LineString,
-                               currentSegmentLength: Double,
-                               segmentIndex: Int,
-                               way: Way) {
+     *  Inside generateIntersections, first traverse every line that was added and generate a new
+     *  segment Feature at every intersection that we hit. Add these to Ways as we go. Intersections are spotted using the
+     *  coordinate key (x + shr(y)). Put those features in two HashMaps a 'start' an 'end' one, again
+     *  keyed by the coordinate key. Once we've traversed all of the lines we should have a Way for
+     *  every segment between intersections. Now we generate the intersections and add the Ways directly
+     *  to them. Let's do this in a separate class for now so that we can test it.
+     */
+    fun addSegmentFeatureToWay(
+        feature: MvtFeature,
+        currentSegment: LineString,
+        currentSegmentLength: Double,
+        segmentIndex: Int,
+        way: Way
+    ) {
         // Add feature with the segment up until this point
         val newProperties = hashMapOf<String, Any?>()
         feature.properties?.let { properties ->
-            for((key, prop) in properties) {
+            for ((key, prop) in properties) {
                 newProperties[key] = prop
             }
             newProperties["segmentIndex"] = segmentIndex.toString()
@@ -551,14 +575,16 @@ class WayGenerator(val transit: Boolean = false) {
         way.length = currentSegmentLength
     }
 
-    fun generateWays(intersectionCollection: FeatureCollection?,
-                     mainWaysCollection: FeatureCollection,
-                     roadsOnlyWaysCollection: FeatureCollection?,
-                     leftOverCollection: FeatureCollection,
-                     intersectionMap:  HashMap<LngLatAlt, Intersection>?,
-                     xTile: Int,
-                     yTile: Int,
-                     tileZoom : Int) {
+    fun generateWays(
+        intersectionCollection: FeatureCollection?,
+        mainWaysCollection: FeatureCollection,
+        roadsOnlyWaysCollection: FeatureCollection?,
+        leftOverCollection: FeatureCollection,
+        intersectionMap: HashMap<LngLatAlt, Intersection>?,
+        xTile: Int,
+        yTile: Int,
+        tileZoom: Int
+    ) {
 
         // Calculated tile limits
         val topLeft = getLatLonTileWithOffset(xTile, yTile, tileZoom, 0.0, 0.0)
@@ -566,24 +592,24 @@ class WayGenerator(val transit: Boolean = false) {
 
         val ruler = topLeft.createCheapRuler()
 
-        for(feature in wayFeatures) {
-            if(feature.geometry.type == "LineString") {
+        for (feature in wayFeatures) {
+            if (feature.geometry.type == "LineString") {
                 val line = feature.geometry as LineString
                 var currentWay = Way()
                 var currentSegment = LineString()
                 var currentSegmentLength = 0.0
                 var segmentIndex = 0
-                var coordinateKey : Int
+                var coordinateKey: Int
                 var tileEdge = false
                 for (coordinate in line.coordinates) {
 
                     tileEdge =
                         (coordinate.latitude == topLeft.latitude) or
-                        (coordinate.longitude == topLeft.longitude) or
-                        (coordinate.latitude == bottomRight.latitude) or
-                        (coordinate.longitude == bottomRight.longitude)
+                                (coordinate.longitude == topLeft.longitude) or
+                                (coordinate.latitude == bottomRight.latitude) or
+                                (coordinate.longitude == bottomRight.longitude)
 
-                    if(tileEdge and (currentSegment.coordinates.isEmpty())) {
+                    if (tileEdge and (currentSegment.coordinates.isEmpty())) {
                         // We're starting at a tile edge, so create an intersection that we can
                         // join to other tiles later
                         val intersection = Intersection()
@@ -596,9 +622,12 @@ class WayGenerator(val transit: Boolean = false) {
                         intersections[intersection.location] = intersection
                     }
 
-                    if(currentSegment.coordinates.isNotEmpty()) {
+                    if (currentSegment.coordinates.isNotEmpty()) {
                         // Add the length of the new segment
-                        currentSegmentLength += ruler.distance(currentSegment.coordinates.last(), coordinate)
+                        currentSegmentLength += ruler.distance(
+                            currentSegment.coordinates.last(),
+                            coordinate
+                        )
                     }
                     currentSegment.coordinates.add(coordinate)
 
@@ -610,7 +639,7 @@ class WayGenerator(val transit: Boolean = false) {
                         if (it > 1) {
                             // Create an intersection if we don't have one already
                             var intersection = intersections.get(coordinate)
-                            if(intersection == null) {
+                            if (intersection == null) {
                                 intersection = Intersection()
                                 intersection.name = ""
                                 intersection.location = coordinate
@@ -618,7 +647,7 @@ class WayGenerator(val transit: Boolean = false) {
                                 intersections[coordinate] = intersection
                             }
 
-                            if(currentSegment.coordinates.size > 1) {
+                            if (currentSegment.coordinates.size > 1) {
                                 addSegmentFeatureToWay(
                                     feature,
                                     currentSegment,
@@ -648,7 +677,7 @@ class WayGenerator(val transit: Boolean = false) {
                     }
                 }
 
-                if(currentSegment.coordinates.size > 1) {
+                if (currentSegment.coordinates.size > 1) {
                     addSegmentFeatureToWay(
                         feature,
                         currentSegment,
@@ -658,10 +687,10 @@ class WayGenerator(val transit: Boolean = false) {
                     )
                     ways.add(currentWay)
                     // Add completed way to intersection at start if there is one
-                    if(currentWay.intersections[WayEnd.START.id] != null) {
+                    if (currentWay.intersections[WayEnd.START.id] != null) {
                         currentWay.intersections[WayEnd.START.id]!!.members.add(currentWay)
                     }
-                    if(tileEdge) {
+                    if (tileEdge) {
                         // We're ending at a tile edge, so create an intersection that we can
                         // join to other tiles later
                         val intersection = Intersection()
@@ -677,11 +706,10 @@ class WayGenerator(val transit: Boolean = false) {
                 }
             }
         }
-        for(way in ways) {
-            when(way.geometry.type) {
-                "LineString", "MultiLineString" ->
-                {
-                    if(roadsOnlyWaysCollection != null) {
+        for (way in ways) {
+            when (way.geometry.type) {
+                "LineString", "MultiLineString" -> {
+                    if (roadsOnlyWaysCollection != null) {
                         if (way.featureType == "highway") {
                             when (way.featureValue) {
                                 "bus_stop", "crossing" -> {} // Don't add
@@ -703,10 +731,11 @@ class WayGenerator(val transit: Boolean = false) {
                         mainWaysCollection.addFeature(way)
                     }
                 }
+
                 else -> leftOverCollection.addFeature(way)
             }
         }
-        for(intersection in intersections) {
+        for (intersection in intersections) {
 
             // Sort the members by length of the Way, shortest first. This is important for when we
             // traverse the graph using the Dijkstra algorithm.
@@ -719,18 +748,18 @@ class WayGenerator(val transit: Boolean = false) {
             //intersection.value.updateName()
             intersection.value.geometry = Point(intersection.value.location)
             intersection.value.properties = hashMapOf()
-            if(transit) {
+            if (transit) {
                 intersection.value.featureType = "transit"
                 intersection.value.featureValue = "transit_intersection"
             } else {
                 intersection.value.featureType = "highway"
             }
-            if(!transit) {
-                if(intersectionCollection != null) {
+            if (!transit) {
+                if (intersectionCollection != null) {
                     if (intersection.value.intersectionType != IntersectionType.TILE_EDGE)
                         intersectionCollection.addFeature(intersection.value)
                 }
-                if(intersectionMap != null)
+                if (intersectionMap != null)
                     intersectionMap[intersection.key] = intersection.value
             }
         }

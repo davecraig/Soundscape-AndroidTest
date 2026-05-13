@@ -27,11 +27,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -116,10 +116,12 @@ fun SharedAddAndEditRouteScreen(
                     onShowSuccess(getString(Res.string.route_update_success_title))
                     onSaveComplete()
                 }
+
                 ActionType.DELETE -> {
                     onShowSuccess(getString(Res.string.routes_action_deleted))
                     onDeleteComplete()
                 }
+
                 else -> Unit
             }
         }
@@ -268,10 +270,16 @@ fun SharedAddAndEditRouteScreen(
                                 state = lazyListState,
                                 verticalArrangement = Arrangement.spacedBy(spacing.tiny),
                             ) {
-                                itemsIndexed(routeMembers, key = { _, item -> item.orderId.toString() }) { index, item ->
-                                    ReorderableItem(reorderableLazyListState, item.orderId.toString()) { _ ->
-                                        Row(modifier = Modifier
-                                            .background(MaterialTheme.colorScheme.surface)
+                                itemsIndexed(
+                                    routeMembers,
+                                    key = { _, item -> item.orderId.toString() }) { index, item ->
+                                    ReorderableItem(
+                                        reorderableLazyListState,
+                                        item.orderId.toString()
+                                    ) { _ ->
+                                        Row(
+                                            modifier = Modifier
+                                                .background(MaterialTheme.colorScheme.surface)
                                         ) {
                                             LocationItem(
                                                 item = item,
@@ -282,9 +290,10 @@ fun SharedAddAndEditRouteScreen(
                                                     reorderable = true,
                                                     moveDown = { i ->
                                                         if (i < routeMembers.size - 1) {
-                                                            routeMembers = routeMembers.toMutableList().apply {
-                                                                add(i + 1, removeAt(i))
-                                                            }
+                                                            routeMembers =
+                                                                routeMembers.toMutableList().apply {
+                                                                    add(i + 1, removeAt(i))
+                                                                }
                                                             true
                                                         } else {
                                                             false
@@ -292,9 +301,10 @@ fun SharedAddAndEditRouteScreen(
                                                     },
                                                     moveUp = { i ->
                                                         if (i > 0) {
-                                                            routeMembers = routeMembers.toMutableList().apply {
-                                                                add(i - 1, removeAt(i))
-                                                            }
+                                                            routeMembers =
+                                                                routeMembers.toMutableList().apply {
+                                                                    add(i - 1, removeAt(i))
+                                                                }
                                                             true
                                                         } else {
                                                             false

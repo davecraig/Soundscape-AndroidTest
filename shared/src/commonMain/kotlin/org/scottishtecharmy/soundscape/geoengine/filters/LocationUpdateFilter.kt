@@ -7,32 +7,34 @@ import kotlin.math.floor
 /**
  * This class acts as a filter for throttling the frequency of computation which is initiated by
  * geolocation updates.
-*/
+ */
 
 open class LocationUpdateFilter(minTimeMilliseconds: Long, private val minDistance: Double) {
 
-    private var lastLocation : UserGeometry? = null
+    private var lastLocation: UserGeometry? = null
     private var lastTime = 0L
-    private var minTimeMs : Long = 0
+    private var minTimeMs: Long = 0
+
     init {
         minTimeMs = minTimeMilliseconds
     }
 
-    fun update(userGeometry: UserGeometry?)
-    {
-        if(userGeometry != null) {
+    fun update(userGeometry: UserGeometry?) {
+        if (userGeometry != null) {
             lastTime = userGeometry.timestampMilliseconds
             lastLocation = userGeometry
         }
     }
 
-    private fun shouldUpdate(userGeometry: UserGeometry,
-                             updateTimeInterval: Long,
-                             updateDistanceInterval: Double,
-                             destination : LngLatAlt? = null)
-        : Boolean {
+    private fun shouldUpdate(
+        userGeometry: UserGeometry,
+        updateTimeInterval: Long,
+        updateDistanceInterval: Double,
+        destination: LngLatAlt? = null
+    )
+            : Boolean {
 
-        if((lastLocation == null) || (lastTime == 0L)) {
+        if ((lastLocation == null) || (lastTime == 0L)) {
             return true
         }
 
@@ -41,7 +43,7 @@ open class LocationUpdateFilter(minTimeMilliseconds: Long, private val minDistan
             val timeDifference = userGeometry.timestampMilliseconds - lastTime
 
             // Adaptive distance addition
-            if(destination != null) {
+            if (destination != null) {
                 val newDistance = userGeometry.ruler.distance(destination, userGeometry.location)
                 val adaptiveDistance = when {
                     // Only announce the distance on large changes of value if we are far away
@@ -54,7 +56,7 @@ open class LocationUpdateFilter(minTimeMilliseconds: Long, private val minDistan
                     // See if we've crossed a threshold
                     val lastDistance = userGeometry.ruler.distance(destination, geometry.location)
                     return ((floor(lastDistance / adaptiveDistance)) !=
-                            (floor(newDistance/adaptiveDistance)) &&
+                            (floor(newDistance / adaptiveDistance)) &&
                             (timeDifference >= updateTimeInterval))
                 }
             }
@@ -68,18 +70,18 @@ open class LocationUpdateFilter(minTimeMilliseconds: Long, private val minDistan
         return false
     }
 
-    fun shouldUpdate(userGeometry: UserGeometry, destination : LngLatAlt? = null) : Boolean {
+    fun shouldUpdate(userGeometry: UserGeometry, destination: LngLatAlt? = null): Boolean {
         return shouldUpdate(userGeometry, minTimeMs, minDistance, destination)
     }
 
     private val inVehicleTimeIntervalMultiplier = 4
-    fun shouldUpdateActivity(userGeometry: UserGeometry) : Boolean {
-        if(userGeometry.inVehicle()) {
+    fun shouldUpdateActivity(userGeometry: UserGeometry): Boolean {
+        if (userGeometry.inVehicle()) {
             // If travelling in a vehicle then the speed is used to determine how far has to be
             // travelled before updating and the time is increased by a multiplier.
             val timeInterval = minTimeMs * inVehicleTimeIntervalMultiplier
             var distanceInterval = minDistance
-            if(userGeometry.speed > 0) {
+            if (userGeometry.speed > 0) {
                 distanceInterval = userGeometry.speed * minTimeMs
             }
 

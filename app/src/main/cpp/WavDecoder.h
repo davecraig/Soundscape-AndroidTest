@@ -13,13 +13,18 @@ namespace soundscape {
         WavDecoder(AAssetManager *mgr, const std::string &path, int targetRate = 0);
 
         const float *data() const { return m_Data.data(); }
+
         int numFrames() const { return static_cast<int>(m_Data.size()); }
+
         int sampleRate() const { return m_SampleRate; }
+
         int originalSampleRate() const { return m_OriginalSampleRate; }
+
         bool isValid() const { return !m_Data.empty(); }
 
     private:
         void parseWav(const unsigned char *rawData, size_t rawSize);
+
         void resampleTo(int targetRate);
 
         // Strip "file:///android_asset/" prefix if present

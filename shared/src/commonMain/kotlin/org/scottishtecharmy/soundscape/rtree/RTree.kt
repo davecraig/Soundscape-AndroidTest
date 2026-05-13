@@ -8,30 +8,41 @@ data class Entry<T, out G : Geometry>(val value: T, val geometry: G)
 private sealed class QItem<T, G : Geometry>(val dist: Double) : Comparable<QItem<T, G>> {
     class NodeItem<T, G : Geometry>(dist: Double, val node: Node<T, G>) : QItem<T, G>(dist)
     class EntryItem<T, G : Geometry>(dist: Double, val entry: Entry<T, G>) : QItem<T, G>(dist)
+
     override fun compareTo(other: QItem<T, G>): Int = dist.compareTo(other.dist)
 }
 
 private class MinHeap<E : Comparable<E>> {
     private val arr = ArrayList<E>()
     fun isEmpty() = arr.isEmpty()
-    fun push(e: E) { arr.add(e); siftUp(arr.size - 1) }
+    fun push(e: E) {
+        arr.add(e); siftUp(arr.size - 1)
+    }
+
     fun pop(): E {
         val top = arr[0]
         val last = arr.removeAt(arr.size - 1)
-        if (arr.isNotEmpty()) { arr[0] = last; siftDown(0) }
+        if (arr.isNotEmpty()) {
+            arr[0] = last; siftDown(0)
+        }
         return top
     }
+
     private fun siftUp(i: Int) {
         var idx = i
         while (idx > 0) {
             val p = (idx - 1) / 2
-            if (arr[idx] < arr[p]) { val t = arr[idx]; arr[idx] = arr[p]; arr[p] = t; idx = p } else break
+            if (arr[idx] < arr[p]) {
+                val t = arr[idx]; arr[idx] = arr[p]; arr[p] = t; idx = p
+            } else break
         }
     }
+
     private fun siftDown(i: Int) {
         var idx = i
         while (true) {
-            val l = idx * 2 + 1; val r = l + 1
+            val l = idx * 2 + 1;
+            val r = l + 1
             var s = idx
             if (l < arr.size && arr[l] < arr[s]) s = l
             if (r < arr.size && arr[r] < arr[s]) s = r
@@ -95,11 +106,13 @@ class RTree<T, G : Geometry> private constructor(
                         val d = e.geometry.distanceToPoint(px, py)
                         if (d <= maxDistance) pq.push(QItem.EntryItem(d, e))
                     }
+
                     is Branch -> for (c in n.children) {
                         val d = c.mbr.distanceToPoint(px, py)
                         if (d <= maxDistance) pq.push(QItem.NodeItem(d, c))
                     }
                 }
+
                 is QItem.EntryItem -> results.add(item.entry)
             }
         }

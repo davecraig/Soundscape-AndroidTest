@@ -23,8 +23,8 @@ open class FeatureCollection : GeoJsonObject(), Iterable<Feature> {
     }
 
     fun plusAssignDeduplicate(rhs: FeatureCollection) {
-        for(feature in rhs) {
-            if(!features.contains(feature))
+        for (feature in rhs) {
+            if (!features.contains(feature))
                 features.add(feature)
         }
     }

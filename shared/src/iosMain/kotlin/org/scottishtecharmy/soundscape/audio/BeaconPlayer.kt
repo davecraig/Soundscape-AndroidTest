@@ -3,12 +3,12 @@ package org.scottishtecharmy.soundscape.audio
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.get
 import kotlinx.cinterop.set
+import platform.AVFAudio.AVAudioFile
 import platform.AVFAudio.AVAudioPCMBuffer
 import platform.AVFAudio.AVAudioPlayerNodeBufferInterrupts
 import platform.AVFAudio.AVAudioPlayerNodeBufferLoops
 import platform.AVFAudio.AVAudioTime
 import platform.Foundation.NSBundle
-import platform.AVFAudio.AVAudioFile
 import platform.Foundation.NSURL
 
 /**

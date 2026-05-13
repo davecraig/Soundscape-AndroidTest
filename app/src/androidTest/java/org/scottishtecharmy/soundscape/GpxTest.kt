@@ -24,7 +24,7 @@ class GpxTest {
         expectedName: String = "",
         expectedDescription: String = "",
         nameOverride: String? = null,
-    ) : Long {
+    ): Long {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val input = context.assets.open(filename).bufferedReader().use { it.readText() }
 
@@ -64,7 +64,7 @@ class GpxTest {
             launch {
                 // Round trip the routeData to the database
                 Log.d("gpxTest", "Inserting route")
-                id = routesDao.insertRouteWithNewMarkers (routeData.route, routeData.markers)
+                id = routesDao.insertRouteWithNewMarkers(routeData.route, routeData.markers)
                 Log.d("gpxTest", "Retrieving route")
                 val route = routesDao.getRouteWithMarkers(id)
                 Assert.assertEquals(expectedValues.size, route?.markers?.size)
@@ -175,11 +175,14 @@ class GpxTest {
     }
 
     private fun expectedRideWithGpsValues(): List<MarkerEntity> {
-        val waypoint1 = MarkerEntity(0, "Slight Left",-4.30844, 55.94722, "Turn slight left")
-        val waypoint2 = MarkerEntity(0, "Right", -4.30901, 55.94628, "Turn right onto Strathblane Road, A81")
+        val waypoint1 = MarkerEntity(0, "Slight Left", -4.30844, 55.94722, "Turn slight left")
+        val waypoint2 =
+            MarkerEntity(0, "Right", -4.30901, 55.94628, "Turn right onto Strathblane Road, A81")
         val waypoint3 = MarkerEntity(0, "Right", -4.31081, 55.9442, "Turn right")
-        val waypoint4 = MarkerEntity(0, "Left", -4.31335, 55.94245, "Turn left onto Buchanan Street")
-        val waypoint5 = MarkerEntity(0, "Right", -4.31338, 55.94181, "Turn right onto Station Road, B8030")
+        val waypoint4 =
+            MarkerEntity(0, "Left", -4.31335, 55.94245, "Turn left onto Buchanan Street")
+        val waypoint5 =
+            MarkerEntity(0, "Right", -4.31338, 55.94181, "Turn right onto Station Road, B8030")
         val waypoint6 = MarkerEntity(0, "Right", -4.31358, 55.94182, "Turn right onto Station Road")
         val waypoint7 = MarkerEntity(0, "Right", -4.31612, 55.94198, "Turn right")
         val waypoint8 = MarkerEntity(0, "Left", -4.31637, 55.94229, "Turn left")
@@ -224,7 +227,12 @@ class GpxTest {
     @Test
     fun handcraftedDatabase() {
         val expectedValues = expectedHandcraftedValues()
-        val id = testParsing("gpx/handcrafted.gpx", expectedValues, "Handcrafted", "Handcrafted description")
+        val id = testParsing(
+            "gpx/handcrafted.gpx",
+            expectedValues,
+            "Handcrafted",
+            "Handcrafted description"
+        )
         testDatabase(id, expectedValues)
     }
 
@@ -238,7 +246,12 @@ class GpxTest {
     @Test
     fun soundscapeDatabase() {
         val expectedValues = expectedSoundscapeValues()
-        val id = testParsing("gpx/soundscape.gpx", expectedValues, "Soundscape", "Soundscape description")
+        val id = testParsing(
+            "gpx/soundscape.gpx",
+            expectedValues,
+            "Soundscape",
+            "Soundscape description"
+        )
         testDatabase(id, expectedValues)
     }
 
@@ -249,8 +262,18 @@ class GpxTest {
         val roomDb = MarkersAndRoutesDatabaseProvider.getInstance(context)
         roomDb.clearAllTables()
 
-        val id1 = testParsing("gpx/soundscape.gpx", expectedValues, "Soundscape", "Soundscape description")
-        val idFail = testParsing("gpx/soundscape.gpx", expectedValues, "Soundscape", "Soundscape description")
+        val id1 = testParsing(
+            "gpx/soundscape.gpx",
+            expectedValues,
+            "Soundscape",
+            "Soundscape description"
+        )
+        val idFail = testParsing(
+            "gpx/soundscape.gpx",
+            expectedValues,
+            "Soundscape",
+            "Soundscape description"
+        )
         testDatabase(id1, expectedValues)
     }
 
@@ -261,8 +284,19 @@ class GpxTest {
         val roomDb = MarkersAndRoutesDatabaseProvider.getInstance(context)
         roomDb.clearAllTables()
 
-        val id1 = testParsing("gpx/soundscape.gpx", expectedValues, "Soundscape", "Soundscape description")
-        val id2 = testParsing("gpx/soundscape.gpx", expectedValues, "Soundscape", "Soundscape description", "Soundscape2")
+        val id1 = testParsing(
+            "gpx/soundscape.gpx",
+            expectedValues,
+            "Soundscape",
+            "Soundscape description"
+        )
+        val id2 = testParsing(
+            "gpx/soundscape.gpx",
+            expectedValues,
+            "Soundscape",
+            "Soundscape description",
+            "Soundscape2"
+        )
         testDatabase(id2, expectedValues)
         testDatabase(id1, expectedValues)
     }
@@ -272,12 +306,28 @@ class GpxTest {
     fun allRoutes() {
         // Put multiple routes into the database
         val handcraftedExpectedValues = expectedHandcraftedValues()
-        val id1 = testParsing("gpx/handcrafted.gpx", handcraftedExpectedValues, "Handcrafted", "Handcrafted description")
+        val id1 = testParsing(
+            "gpx/handcrafted.gpx",
+            handcraftedExpectedValues,
+            "Handcrafted",
+            "Handcrafted description"
+        )
         val rideWithGpsExpectedValues = expectedRideWithGpsValues()
         val id2 = testParsing("gpx/rideWithGps.gpx", rideWithGpsExpectedValues, "RideWithGps", "")
         val soundscapeExpectedValues = expectedSoundscapeValues()
-        val id3 = testParsing("gpx/soundscape.gpx", soundscapeExpectedValues, "Soundscape", "Soundscape description")
-        val id4 = testParsing("gpx/soundscape.gpx", soundscapeExpectedValues, "Soundscape", "Soundscape description", "Soundscape2")
+        val id3 = testParsing(
+            "gpx/soundscape.gpx",
+            soundscapeExpectedValues,
+            "Soundscape",
+            "Soundscape description"
+        )
+        val id4 = testParsing(
+            "gpx/soundscape.gpx",
+            soundscapeExpectedValues,
+            "Soundscape",
+            "Soundscape description",
+            "Soundscape2"
+        )
 
         // And test each of them
         testDatabase(id4, soundscapeExpectedValues)

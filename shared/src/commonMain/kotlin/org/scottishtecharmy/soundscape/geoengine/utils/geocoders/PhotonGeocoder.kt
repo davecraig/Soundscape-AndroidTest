@@ -49,7 +49,10 @@ class PhotonGeocoder(
                         val otherPoint = (it.geometry as? Point)
                         if (otherPoint != null) {
                             it.properties?.get("name") == result.properties?.get("name") &&
-                                ruler.distance(otherPoint.coordinates, point.coordinates) < 100.0
+                                    ruler.distance(
+                                        otherPoint.coordinates,
+                                        point.coordinates
+                                    ) < 100.0
                         } else false
                     }
                 }

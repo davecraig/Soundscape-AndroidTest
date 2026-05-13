@@ -38,7 +38,7 @@ namespace soundscape {
 
     SteamAudioSpatializer::~SteamAudioSpatializer() {
         // Destroy all remaining effects
-        for (auto &pair : m_Effects) {
+        for (auto &pair: m_Effects) {
             if (pair.second.effect) {
                 iplBinauralEffectRelease(&pair.second.effect);
             }
@@ -83,7 +83,7 @@ namespace soundscape {
     }
 
     void SteamAudioSpatializer::spatialize(int effectId, const float *monoIn, float *stereoOut,
-                                            int frames, float azimuth, float elevation) {
+                                           int frames, float azimuth, float elevation) {
         auto it = m_Effects.find(effectId);
         if (it == m_Effects.end() || !it->second.effect) {
             // No effect - output silence

@@ -28,10 +28,12 @@ class AndroidGeocoder(val applicationContext: Context) : SoundscapeGeocoder() {
      * business name for that address. All we can do is pass through the "locationName" that was
      * searched for, typos and all.
      */
-    override suspend fun getAddressFromLocationName(locationName: String,
-                                                    nearbyLocation: LngLatAlt,
-                                                    localizedStrings: LocalizedStrings?) : List<LocationDescription>? {
-        if(!enabled)
+    override suspend fun getAddressFromLocationName(
+        locationName: String,
+        nearbyLocation: LngLatAlt,
+        localizedStrings: LocalizedStrings?
+    ): List<LocationDescription>? {
+        if (!enabled)
             return null
 
         AnalyticsProvider.getInstance().logEvent("androidGeocode", null)
@@ -66,11 +68,12 @@ class AndroidGeocoder(val applicationContext: Context) : SoundscapeGeocoder() {
                         geocodeListener
                     )
                 } catch (e: Exception) {
-                    AnalyticsProvider.getInstance().logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
+                    AnalyticsProvider.getInstance()
+                        .logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
                     Log.d(TAG, "AndroidGeocoder error: $e")
                     continuation.resume(null)
                 }
-            }?.map{feature -> feature.toLocationDescription(locationName) }
+            }?.map { feature -> feature.toLocationDescription(locationName) }
         } else {
             @Suppress("DEPRECATION")
             try {
@@ -90,17 +93,20 @@ class AndroidGeocoder(val applicationContext: Context) : SoundscapeGeocoder() {
                     }
                 }
             } catch (e: Exception) {
-                AnalyticsProvider.getInstance().logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
+                AnalyticsProvider.getInstance()
+                    .logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
                 Log.d(TAG, "AndroidGeocoder error: $e")
             }
         }
         return null
     }
 
-    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry,
-                                              localizedStrings: LocalizedStrings?,
-                                              ignoreHouseNumbers: Boolean) : LocationDescription? {
-        if(!enabled)
+    override suspend fun getAddressFromLngLat(
+        userGeometry: UserGeometry,
+        localizedStrings: LocalizedStrings?,
+        ignoreHouseNumbers: Boolean
+    ): LocationDescription? {
+        if (!enabled)
             return null
 
         AnalyticsProvider.getInstance().logEvent("androidReverseGeocode", null)
@@ -137,7 +143,8 @@ class AndroidGeocoder(val applicationContext: Context) : SoundscapeGeocoder() {
                         }
                     )
                 } catch (e: Exception) {
-                    AnalyticsProvider.getInstance().logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
+                    AnalyticsProvider.getInstance()
+                        .logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
                     Log.d(TAG, "AndroidGeocoder error: $e")
                     continuation.resume(null)
                 }
@@ -148,7 +155,8 @@ class AndroidGeocoder(val applicationContext: Context) : SoundscapeGeocoder() {
                 val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 5)
                 return addresses?.firstOrNull()?.toLocationDescription(null)
             } catch (e: Exception) {
-                AnalyticsProvider.getInstance().logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
+                AnalyticsProvider.getInstance()
+                    .logEvent("androidGeocoderError", mapOf("exception" to e.toString()))
                 Log.d(TAG, "AndroidGeocoder error: $e")
             }
             return null

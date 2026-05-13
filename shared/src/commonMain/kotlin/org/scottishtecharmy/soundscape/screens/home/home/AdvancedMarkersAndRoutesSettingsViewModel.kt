@@ -72,7 +72,8 @@ open class AdvancedMarkersAndRoutesSettingsViewModel(
                         // Merge standalone markers first so per-route imports
                         // can reuse them via insertRouteWithNewMarkers below.
                         for (it in parsed.markers) {
-                            val existingMarker = routeDao.getMarkerByLocation(it.longitude, it.latitude)
+                            val existingMarker =
+                                routeDao.getMarkerByLocation(it.longitude, it.latitude)
                             if (existingMarker == null) {
                                 routeDao.insertMarker(it)
                             } else {

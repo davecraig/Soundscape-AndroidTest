@@ -23,7 +23,7 @@ fun buildShareLocationText(
     val encodedName = urlEncodeUtf8(desc.name)
     val soundscapeUrl =
         "https://links.soundscape.scottishtecharmy.org/v1/sharemarker?" +
-            "lat=$latitude&lon=$longitude&name=$encodedName"
+                "lat=$latitude&lon=$longitude&name=$encodedName"
     val mapsUrl = mapsUrlBuilder(latitude, longitude, encodedName)
     return messageTemplate
         .replace("Google Maps", mapsName)
@@ -51,9 +51,9 @@ private fun urlEncodeUtf8(value: String): String {
     for (b in bytes) {
         val c = b.toInt() and 0xFF
         val isUnreserved = (c in 0x30..0x39) || // 0-9
-            (c in 0x41..0x5A) || // A-Z
-            (c in 0x61..0x7A) || // a-z
-            c == '-'.code || c == '_'.code || c == '.'.code || c == '~'.code
+                (c in 0x41..0x5A) || // A-Z
+                (c in 0x61..0x7A) || // a-z
+                c == '-'.code || c == '_'.code || c == '.'.code || c == '~'.code
         if (isUnreserved) {
             builder.append(c.toChar())
         } else {

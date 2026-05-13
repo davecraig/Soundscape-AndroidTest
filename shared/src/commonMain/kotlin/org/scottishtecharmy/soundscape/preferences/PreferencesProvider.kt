@@ -32,7 +32,8 @@ fun interface PreferencesListener {
 
 object PreferenceKeys {
     const val ALLOW_CALLOUTS = "AllowCallouts"
-    const val PLACES_AND_LANDMARKS = org.scottishtecharmy.soundscape.geoengine.PLACES_AND_LANDMARKS_KEY
+    const val PLACES_AND_LANDMARKS =
+        org.scottishtecharmy.soundscape.geoengine.PLACES_AND_LANDMARKS_KEY
     const val MOBILITY = org.scottishtecharmy.soundscape.geoengine.MOBILITY_KEY
     const val DISTANCE_TO_BEACON = "DistanceToBeacon"
     const val POSITION_INCLUDES_HEADING_AND_DISTANCE = "PositionTextDescription"

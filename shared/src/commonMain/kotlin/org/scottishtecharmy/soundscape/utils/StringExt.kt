@@ -1,10 +1,10 @@
 package org.scottishtecharmy.soundscape.utils
 
-fun String.containsNumber() : Boolean {
+fun String.containsNumber(): Boolean {
     val words = split(" ")
-    for(word in words) {
-        if(word.isEmpty()) continue
-        if(word.first().isDigit()) {
+    for (word in words) {
+        if (word.isEmpty()) continue
+        if (word.first().isDigit()) {
             // If any word starts with a number return true
             return true
         }
@@ -22,7 +22,7 @@ fun String.fuzzyCompare(haystackString: String, needleCanBeShorter: Boolean): Do
     val len1 = this.length
     var len2 = haystackString.length
     var sameSizeCost = 0.0
-    if(needleCanBeShorter && (len2 > len1)) {
+    if (needleCanBeShorter && (len2 > len1)) {
         // Only compare up to the size of the needle. This allows comparison of the start of strings
         // so that "Tesco" matches with "Tesco Express" and "Christine" matches with "Christine's on
         // the Green".

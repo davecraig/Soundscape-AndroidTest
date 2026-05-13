@@ -17,25 +17,36 @@ import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 import java.util.Collections
 import java.util.Locale
 
-class TtsEngine(val audioEngine: NativeAudioEngine,
-                val engineLabelAndName: String?) :
+class TtsEngine(
+    val audioEngine: NativeAudioEngine,
+    val engineLabelAndName: String?
+) :
     TextToSpeech.OnInitListener {
 
-    private var ttsSockets = Collections.synchronizedMap(HashMap<String, Array<ParcelFileDescriptor>>())
+    private var ttsSockets =
+        Collections.synchronizedMap(HashMap<String, Array<ParcelFileDescriptor>>())
     private var currentUtteranceId: String? = null
-    private var textToSpeechInitialized : Boolean = false
-    private var utteranceIncrementingCount : Int = 0
+    private var textToSpeechInitialized: Boolean = false
+    private var utteranceIncrementingCount: Int = 0
 
     private lateinit var textToSpeech: TextToSpeech
     private var textToSpeechVoiceType = MainActivity.VOICE_TYPE_DEFAULT
     private var textToSpeechRate = 0.1f
 
-    private var sharedPreferences : SharedPreferences? = null
+    private var sharedPreferences: SharedPreferences? = null
     private var context: Context? = null
 
-    fun getCurrentLabelAndName() : String? { return engineLabelAndName }
-    fun getCurrentVoice() : String { return textToSpeechVoiceType }
-    fun getCurrentRate() : Float { return textToSpeechRate }
+    fun getCurrentLabelAndName(): String? {
+        return engineLabelAndName
+    }
+
+    fun getCurrentVoice(): String {
+        return textToSpeechVoiceType
+    }
+
+    fun getCurrentRate(): Float {
+        return textToSpeechRate
+    }
 
     fun destroy() {
         Log.d(TAG, "Destroy $engineLabelAndName TTS engine")
@@ -45,8 +56,7 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         textToSpeech.shutdown()
     }
 
-    fun initialize(context : Context)
-    {
+    fun initialize(context: Context) {
         this.context = context
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -69,20 +79,20 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         Log.d(TAG, "initialize returning")
     }
 
-    fun checkTextToSpeechInitialization(block: Boolean) : Boolean {
+    fun checkTextToSpeechInitialization(block: Boolean): Boolean {
         var timeout = 2000
-        while(!textToSpeechInitialized) {
+        while (!textToSpeechInitialized) {
             Thread.sleep(100)
             timeout -= 100
             Log.d(TAG, "$timeout")
-            if(!block || (timeout <= 0))
+            if (!block || (timeout <= 0))
                 return false
         }
 
         return true
     }
 
-    private fun clearOutUtteranceSockets(utteranceId : String) {
+    private fun clearOutUtteranceSockets(utteranceId: String) {
         synchronized(ttsSockets) {
             val sockets = ttsSockets[utteranceId]
             if (sockets != null) {
@@ -101,10 +111,13 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         var change = false
 
         // Check for change in voice type preference
-        val voiceType = sharedPreferences.getString(MainActivity.VOICE_TYPE_KEY, MainActivity.VOICE_TYPE_DEFAULT)!!
-        if(textToSpeech.voices != null) {
+        val voiceType = sharedPreferences.getString(
+            MainActivity.VOICE_TYPE_KEY,
+            MainActivity.VOICE_TYPE_DEFAULT
+        )!!
+        if (textToSpeech.voices != null) {
             for (voice in textToSpeech.voices) {
-                if(voice == null) continue
+                if (voice == null) continue
                 if (voice.name == voiceType) {
                     if (textToSpeechVoiceType != voice.name) {
                         Log.d(
@@ -133,7 +146,7 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         return change
     }
 
-    fun setSpeechLanguage(language : String) : Boolean {
+    fun setSpeechLanguage(language: String): Boolean {
         Log.d(TAG, "setSpeechLanguage to \"$language\"")
         val result = textToSpeech.setLanguage(Locale(language))
         if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -153,7 +166,10 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
             return
         }
 
-        Log.d(TAG, "Default engine '$defaultEngine' doesn't support '$languageCode', searching ${engines.size} alternative engine(s)")
+        Log.d(
+            TAG,
+            "Default engine '$defaultEngine' doesn't support '$languageCode', searching ${engines.size} alternative engine(s)"
+        )
         tryNextEngine(ctx, languageCode, engines, 0)
     }
 
@@ -191,7 +207,10 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
                         apply()
                     }
                 } else {
-                    Log.d(TAG, "Engine '${engineInfo.label}' does not support '$languageCode', trying next")
+                    Log.d(
+                        TAG,
+                        "Engine '${engineInfo.label}' does not support '$languageCode', trying next"
+                    )
                     tempTts?.shutdown()
                     tryNextEngine(context, languageCode, engines, index + 1)
                 }
@@ -287,9 +306,11 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
             Log.d(TAG, "textToSpeechInitialized")
             textToSpeechInitialized = true
             audioEngine.ttsRunningStateChanged(true)
-        }
-        else {
-            Log.w(TAG, "onInit failed with status $status, $engineLabelAndName, $textToSpeechVoiceType")
+        } else {
+            Log.w(
+                TAG,
+                "onInit failed with status $status, $engineLabelAndName, $textToSpeechVoiceType"
+            )
             val params = mapOf(
                 "onInit status" to status,
                 "engine" to engineLabelAndName,
@@ -299,7 +320,7 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         }
     }
 
-    fun getAvailableEngines() : List<TextToSpeech.EngineInfo> {
+    fun getAvailableEngines(): List<TextToSpeech.EngineInfo> {
         try {
             if (textToSpeechInitialized)
                 return textToSpeech.engines
@@ -310,7 +331,7 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         return emptyList()
     }
 
-    fun getAvailableSpeechLanguages() : Set<Locale> {
+    fun getAvailableSpeechLanguages(): Set<Locale> {
         try {
             if (textToSpeechInitialized)
                 return textToSpeech.availableLanguages
@@ -321,7 +342,7 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         return emptySet()
     }
 
-    fun getAvailableSpeechVoices() : Set<Voice> {
+    fun getAvailableSpeechVoices(): Set<Voice> {
         try {
             if (textToSpeechInitialized)
                 return textToSpeech.voices
@@ -338,7 +359,7 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
 
         // Close all of the previously queued sockets to terminate their playback
         synchronized(ttsSockets) {
-            for(ttsSocketPair in ttsSockets){
+            for (ttsSocketPair in ttsSockets) {
                 Log.d("TTS", "Close socket pair for " + ttsSocketPair.value[1].fd.toString())
                 ttsSocketPair.value[0].closeWithError("Finished")
                 ttsSocketPair.value[1].close()
@@ -353,8 +374,8 @@ class TtsEngine(val audioEngine: NativeAudioEngine,
         type: AudioType,
         latitude: Double,
         longitude: Double,
-        heading: Double) : Long
-    {
+        heading: Double
+    ): Long {
         val ttsSocketPair = ParcelFileDescriptor.createReliableSocketPair()
         val ttsSocket = ttsSocketPair[0]
 

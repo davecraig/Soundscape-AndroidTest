@@ -2,31 +2,30 @@ package org.scottishtecharmy.soundscape.utils
 
 import android.content.Context
 import android.util.Log
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.squareup.moshi.Moshi
 import org.scottishtecharmy.soundscape.BuildConfig
-import org.scottishtecharmy.soundscape.network.UserAgentInterceptor
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoMoshi
 import org.scottishtecharmy.soundscape.network.DownloadResult
 import org.scottishtecharmy.soundscape.network.FileDownloader
+import org.scottishtecharmy.soundscape.network.UserAgentInterceptor
 import org.scottishtecharmy.soundscape.network.createAndroidFileDownloader
 import org.scottishtecharmy.soundscape.network.createAndroidManifestClient
 import org.scottishtecharmy.soundscape.utils.OfflineDownloader.Companion.TAG
 import java.io.File
 import java.lang.Thread.sleep
 
-suspend fun downloadAndParseManifest(applicationContext: Context) : FeatureCollection? {
+suspend fun downloadAndParseManifest(applicationContext: Context): FeatureCollection? {
 
     val manifestClient = createAndroidManifestClient(
         baseUrl = BuildConfig.EXTRACT_PROVIDER_URL,
@@ -51,6 +50,7 @@ suspend fun downloadAndParseManifest(applicationContext: Context) : FeatureColle
     Log.e(TAG, "Error downloading manifest after all retries")
     return null
 }
+
 // --- Download State Management ---
 sealed class DownloadState {
     object Idle : DownloadState()
@@ -120,6 +120,7 @@ class OfflineDownloader {
                                 throw Exception("Failed to rename file from ${tempFile.name} to ${finalFile.name}")
                             }
                         }
+
                         is DownloadResult.HttpError -> {
                             if (result.code == 503) {
                                 // The server is likely copying the extract into it's cache and is

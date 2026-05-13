@@ -13,7 +13,8 @@ class KalmanCircularFilterTest {
         val target = 47.0
         var last = Double.NaN
         for (i in 0..200) {
-            last = filter.process(angleDegrees = target, timestamp = i * 100L, accuracyDegrees = 1.0)
+            last =
+                filter.process(angleDegrees = target, timestamp = i * 100L, accuracyDegrees = 1.0)
         }
         val diff = abs(circularDifferenceDegrees(last, target))
         assertTrue(diff < 0.5, "Expected ~$target, got $last (diff=$diff)")

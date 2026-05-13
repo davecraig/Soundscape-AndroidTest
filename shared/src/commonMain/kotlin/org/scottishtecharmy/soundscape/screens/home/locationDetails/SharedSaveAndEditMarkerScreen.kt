@@ -26,14 +26,23 @@ import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.preferences.rememberBooleanPreference
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.annotation_description_hint
+import org.scottishtecharmy.soundscape.resources.general_alert_cancel
+import org.scottishtecharmy.soundscape.resources.general_alert_done
+import org.scottishtecharmy.soundscape.resources.marker_name_description_hint
+import org.scottishtecharmy.soundscape.resources.markers_action_delete
+import org.scottishtecharmy.soundscape.resources.markers_annotation
+import org.scottishtecharmy.soundscape.resources.markers_edit_screen_title_edit
+import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_name
+import org.scottishtecharmy.soundscape.resources.user_activity_save_marker_title
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.PlatformMapContainer
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomTextField
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.TextOnlyAppBar
-import org.scottishtecharmy.soundscape.ui.theme.smallPadding
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
+import org.scottishtecharmy.soundscape.ui.theme.smallPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 
 /**
@@ -64,7 +73,7 @@ fun SharedSaveAndEditMarkerScreen(
         topBar = {
             TextOnlyAppBar(
                 title = if (isEditing) stringResource(Res.string.markers_edit_screen_title_edit)
-                        else stringResource(Res.string.user_activity_save_marker_title),
+                else stringResource(Res.string.user_activity_save_marker_title),
                 navigationButtonTitle = stringResource(Res.string.general_alert_cancel),
                 onNavigateUp = onCancel,
                 rightButtonTitle = stringResource(Res.string.general_alert_done),

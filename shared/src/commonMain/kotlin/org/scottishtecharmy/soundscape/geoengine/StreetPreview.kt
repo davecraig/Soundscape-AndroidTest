@@ -19,6 +19,7 @@ data class StreetPreviewChoice(
 enum class StreetPreviewEnabled {
     OFF, INITIALIZING, ON
 }
+
 data class StreetPreviewState(
     val enabled: StreetPreviewEnabled = StreetPreviewEnabled.OFF,
     val choices: List<StreetPreviewChoice> = emptyList(),
@@ -48,7 +49,11 @@ class StreetPreview {
         running = false
     }
 
-    fun go(userGeometry: UserGeometry, gridState: GridState, locationProvider: LocationProvider) : LngLatAlt? {
+    fun go(
+        userGeometry: UserGeometry,
+        gridState: GridState,
+        locationProvider: LocationProvider
+    ): LngLatAlt? {
 
         when (previewState) {
 
@@ -60,11 +65,14 @@ class StreetPreview {
                     Double.POSITIVE_INFINITY
                 ) as Way? ?: return null
                 var nearestDistance = Double.POSITIVE_INFINITY
-                var nearestIntersection : Intersection? = null
-                for(intersection in road.intersections) {
-                    if(intersection != null) {
-                        val distanceToIntersection = userGeometry.ruler.distance(userGeometry.location, intersection.location)
-                        if(distanceToIntersection < nearestDistance) {
+                var nearestIntersection: Intersection? = null
+                for (intersection in road.intersections) {
+                    if (intersection != null) {
+                        val distanceToIntersection = userGeometry.ruler.distance(
+                            userGeometry.location,
+                            intersection.location
+                        )
+                        if (distanceToIntersection < nearestDistance) {
                             nearestIntersection = intersection
                             nearestDistance = distanceToIntersection
                         }
@@ -72,13 +80,15 @@ class StreetPreview {
                 }
                 if (nearestIntersection != null) {
                     var heading = userGeometry.phoneHeading
-                    if(heading == null) heading = 0.0
-                    locationProvider.updateLocation(SoundscapeLocation(
-                        latitude = nearestIntersection.location.latitude,
-                        longitude = nearestIntersection.location.longitude,
-                        bearing = heading.toFloat(),
-                        hasAccuracy = true,
-                    ))
+                    if (heading == null) heading = 0.0
+                    locationProvider.updateLocation(
+                        SoundscapeLocation(
+                            latitude = nearestIntersection.location.latitude,
+                            longitude = nearestIntersection.location.longitude,
+                            bearing = heading.toFloat(),
+                            hasAccuracy = true,
+                        )
+                    )
                     previewState = PreviewState.AT_NODE
                     return nearestIntersection.location
                 }
@@ -90,7 +100,7 @@ class StreetPreview {
                 var bestHeadingDiff = Double.POSITIVE_INFINITY
 
                 val heading = userGeometry.heading()
-                if(heading != null) {
+                if (heading != null) {
                     for ((index, choice) in choices.withIndex()) {
                         val diff = calculateHeadingOffset(choice.heading, heading)
                         if (diff < bestHeadingDiff) {
@@ -100,51 +110,54 @@ class StreetPreview {
                     }
                 }
 
-                if(bestIndex != -1) {
+                if (bestIndex != -1) {
                     previewRoad = choices[bestIndex]
                     previewRoad?.let { road ->
-                        var thisIntersection : Intersection? = null
-                        for(intersection in road.way.intersections) {
-                            if(intersection?.location == userGeometry.location) {
+                        var thisIntersection: Intersection? = null
+                        for (intersection in road.way.intersections) {
+                            if (intersection?.location == userGeometry.location) {
                                 thisIntersection = intersection
                             }
                         }
-                        if(thisIntersection != null) {
+                        if (thisIntersection != null) {
                             val ways = mutableListOf<Pair<Boolean, Way>>()
                             road.way.followWays(thisIntersection, ways) { way, previousWay ->
-                                if(previousWay != null) {
-                                    if((way.wayType == WayType.JOINER) ||
-                                       (previousWay.wayType == WayType.JOINER)) {
+                                if (previousWay != null) {
+                                    if ((way.wayType == WayType.JOINER) ||
+                                        (previousWay.wayType == WayType.JOINER)
+                                    ) {
                                         false
                                     } else {
                                         (
-                                            way.properties?.get("brunnel") !=
-                                            previousWay.properties?.get("brunnel")
-                                        ) or (
-                                            way.name !=
-                                            previousWay.name
-                                        ) or (
-                                            way.featureClass !=
-                                            previousWay.featureClass
-                                        )
+                                                way.properties?.get("brunnel") !=
+                                                        previousWay.properties?.get("brunnel")
+                                                ) or (
+                                                way.name !=
+                                                        previousWay.name
+                                                ) or (
+                                                way.featureClass !=
+                                                        previousWay.featureClass
+                                                )
                                     }
                                 } else
                                     false
                             }
-                            val nextIntersection = if(ways.last().first)
+                            val nextIntersection = if (ways.last().first)
                                 ways.last().second.intersections[WayEnd.END.id]
                             else
                                 ways.last().second.intersections[WayEnd.START.id]
 
-                            if(nextIntersection != null) {
+                            if (nextIntersection != null) {
                                 lastHeading = (road.way.heading(nextIntersection) + 180.0) % 360.0
-                                locationProvider.updateLocation(SoundscapeLocation(
-                                    latitude = nextIntersection.location.latitude,
-                                    longitude = nextIntersection.location.longitude,
-                                    bearing = lastHeading.toFloat(),
-                                    speed = 1.0F,
-                                    hasAccuracy = true,
-                                ))
+                                locationProvider.updateLocation(
+                                    SoundscapeLocation(
+                                        latitude = nextIntersection.location.latitude,
+                                        longitude = nextIntersection.location.longitude,
+                                        bearing = lastHeading.toFloat(),
+                                        speed = 1.0F,
+                                        hasAccuracy = true,
+                                    )
+                                )
                                 return nextIntersection.location
                             }
                         }
@@ -160,9 +173,10 @@ class StreetPreview {
         val choices = mutableListOf<StreetPreviewChoice>()
 
         val ruler = CheapRuler(location.latitude)
-        val nearestIntersection = gridState.getNearestFeature(TreeId.INTERSECTIONS, ruler, location, 1.0) as Intersection?
-        if(nearestIntersection != null) {
-            for(member in nearestIntersection.members) {
+        val nearestIntersection =
+            gridState.getNearestFeature(TreeId.INTERSECTIONS, ruler, location, 1.0) as Intersection?
+        if (nearestIntersection != null) {
+            for (member in nearestIntersection.members) {
                 choices.add(
                     StreetPreviewChoice(
                         heading = member.heading(nearestIntersection),
@@ -178,7 +192,7 @@ class StreetPreview {
         return choices
     }
 
-    fun getLastHeading() : Double {
+    fun getLastHeading(): Double {
         return lastHeading
     }
 

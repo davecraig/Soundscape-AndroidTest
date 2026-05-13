@@ -22,10 +22,12 @@ fun featureIsInFilterGroup(feature: Feature, filter: String): Boolean {
         "food_and_drink" -> listOf(
             "restaurant", "fast_food", "cafe", "bar", "ice_cream", "pub", "coffee_shop"
         )
+
         "parks" -> listOf(
             "park", "garden", "green_space", "recreation_area", "playground", "nature_reserve",
             "botanical_garden", "public_garden", "field", "reserve"
         )
+
         "groceries" -> listOf("supermarket", "convenience", "grocery")
         "banks" -> listOf("bank", "atm")
         else -> emptyList()

@@ -13,16 +13,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.expressions.dsl.format
 import org.maplibre.compose.expressions.dsl.image
@@ -36,7 +36,6 @@ import org.maplibre.compose.map.GestureOptions
 import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.OrnamentOptions
-import org.scottishtecharmy.soundscape.platform.nativeMapRenderOptions
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.compose.style.BaseStyle
@@ -49,14 +48,20 @@ import org.maplibre.spatialk.geojson.Polygon
 import org.maplibre.spatialk.geojson.Position
 import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.resources.*
+import org.scottishtecharmy.soundscape.platform.nativeMapRenderOptions
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.location_detail_exit_full_screen_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_full_screen_hint
+import org.scottishtecharmy.soundscape.resources.location_marker
+import org.scottishtecharmy.soundscape.resources.navigation
 
 @Composable
 fun FullScreenMapFab(
     fullscreenMap: MutableState<Boolean>,
     modifier: Modifier = Modifier,
     openMapHint: StringResource = Res.string.location_detail_full_screen_hint,
-    closeMapHint: StringResource = Res.string.location_detail_exit_full_screen_hint) {
+    closeMapHint: StringResource = Res.string.location_detail_exit_full_screen_hint
+) {
     FloatingActionButton(
         onClick = { fullscreenMap.value = !fullscreenMap.value },
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -64,9 +69,9 @@ fun FullScreenMapFab(
         modifier = modifier
     ) {
         Icon(
-            imageVector = if(fullscreenMap.value) Icons.Rounded.FullscreenExit else Icons.Rounded.Fullscreen,
+            imageVector = if (fullscreenMap.value) Icons.Rounded.FullscreenExit else Icons.Rounded.Fullscreen,
             tint = MaterialTheme.colorScheme.onSurface,
-            contentDescription = if(fullscreenMap.value)
+            contentDescription = if (fullscreenMap.value)
                 stringResource(closeMapHint)
             else
                 stringResource(openMapHint)
@@ -131,7 +136,7 @@ fun MapContainerLibre(
     }
     val styleState = rememberStyleState()
 
-    if(editBeaconLocation && (beaconLocation != null)) {
+    if (editBeaconLocation && (beaconLocation != null)) {
         beaconLocation.longitude = cameraState.position.target.longitude
         beaconLocation.latitude = cameraState.position.target.latitude
     }
@@ -147,7 +152,7 @@ fun MapContainerLibre(
                 // customisation requires expect/actual code.
                 // RotationLocked = scroll + zoom on, rotation + tilt off.
                 gestureOptions = if (allowScrolling) GestureOptions.RotationLocked
-                                 else GestureOptions.AllDisabled,
+                else GestureOptions.AllDisabled,
                 ornamentOptions = OrnamentOptions.AllDisabled,
                 // Platform-specific render options: Android uses TextureView so
                 // the map participates in Compose's fade/slide nav transitions

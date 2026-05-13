@@ -72,110 +72,110 @@ fun SharedDrawerContent(
             drawerContainerColor = MaterialTheme.colorScheme.background,
             drawerContentColor = MaterialTheme.colorScheme.onBackground,
         ) {
-        Scaffold(
-            topBar = {
-                IconButton(
-                    onClick = onClose,
-                    modifier = Modifier.testTag("menuDrawerBack"),
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Rounded.ArrowBack,
+            Scaffold(
+                topBar = {
+                    IconButton(
+                        onClick = onClose,
+                        modifier = Modifier.testTag("menuDrawerBack"),
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Rounded.ArrowBack,
+                            modifier = Modifier
+                                .size(spacing.targetSize)
+                                .padding(start = spacing.extraSmall),
+                            contentDescription = stringResource(Res.string.ui_menu_close),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+                },
+                bottomBar = {
+                    Row(
                         modifier = Modifier
-                            .size(spacing.targetSize)
-                            .padding(start = spacing.extraSmall),
-                        contentDescription = stringResource(Res.string.ui_menu_close),
-                        tint = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
-            },
-            bottomBar = {
-                Row(
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = spacing.medium,
+                                vertical = spacing.medium,
+                            ),
+                        horizontalArrangement = Arrangement.End,
+                    ) {
+                        Text(
+                            text = "v${appVersionName()}",
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+                },
+            ) { innerPadding ->
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = spacing.medium,
-                            vertical = spacing.medium,
-                        ),
-                    horizontalArrangement = Arrangement.End,
+                        .padding(innerPadding)
+                        .verticalScroll(rememberScrollState()),
                 ) {
-                    Text(
-                        text = "v${appVersionName()}",
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
-            },
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                DrawerMenuItem(
-                    onClick = { onNavigate(SharedRoutes.SETTINGS) },
-                    label = stringResource(Res.string.settings_screen_title),
-                    icon = Icons.Rounded.Settings,
-                    modifier = Modifier.testTag("menuSettings"),
-                )
-                DrawerMenuItem(
-                    onClick = { onNavigate(SharedRoutes.HELP + "/page${Res.string.menu_help.key}") },
-                    label = stringResource(Res.string.menu_help),
-                    icon = Icons.AutoMirrored.Rounded.HelpOutline,
-                    modifier = Modifier.testTag("menuHelpAndTutorials"),
-                )
-                DrawerMenuItem(
-                    onClick = {
-                        onClose()
-                        toggleTutorial()
-                    },
-                    label = if (running.value) {
-                        stringResource(Res.string.menu_audio_tutorial_cancel)
-                    } else {
-                        stringResource(Res.string.menu_audio_tutorial)
-                    },
-                    icon = Icons.Rounded.Headphones,
-                    modifier = Modifier.testTag("menuAudioTutorial"),
-                )
-                DrawerMenuItem(
-                    onClick = { rateSoundscape() },
-                    label = stringResource(Res.string.menu_rate),
-                    icon = Icons.Rounded.Star,
-                    modifier = Modifier.testTag("menuRate"),
-                )
-                DrawerMenuItem(
-                    onClick = { contactSupport() },
-                    label = stringResource(Res.string.menu_contact_support),
-                    icon = Icons.Rounded.Markunread,
-                    modifier = Modifier.testTag("menuContactSupport"),
-                )
-                DrawerMenuItem(
-                    onClick = { offlineMaps() },
-                    label = stringResource(Res.string.offline_maps_title),
-                    icon = Icons.Rounded.Download,
-                    modifier = Modifier.testTag("menuOfflineMaps"),
-                )
-                DrawerMenuItem(
-                    onClick = { onNavigate(SharedRoutes.HELP + "/page${Res.string.settings_about_app.key}") },
-                    label = stringResource(Res.string.settings_about_app),
-                    icon = Icons.AutoMirrored.Rounded.HelpOutline,
-                    modifier = Modifier.testTag("menuAboutSoundscape"),
-                )
-                DrawerMenuItem(
-                    onClick = { newReleaseDialog?.value = true },
-                    label = stringResource(Res.string.new_version_info_text),
-                    icon = Icons.AutoMirrored.Rounded.Comment,
-                    modifier = Modifier.testTag("newReleaseInfo"),
-                )
-
-                if (recordingEnabled) {
                     DrawerMenuItem(
-                        onClick = { shareRecording() },
-                        label = stringResource(Res.string.menu_share_recorded_route),
-                        icon = Icons.Rounded.Share,
-                        modifier = Modifier.testTag("menuShareRecording"),
+                        onClick = { onNavigate(SharedRoutes.SETTINGS) },
+                        label = stringResource(Res.string.settings_screen_title),
+                        icon = Icons.Rounded.Settings,
+                        modifier = Modifier.testTag("menuSettings"),
                     )
+                    DrawerMenuItem(
+                        onClick = { onNavigate(SharedRoutes.HELP + "/page${Res.string.menu_help.key}") },
+                        label = stringResource(Res.string.menu_help),
+                        icon = Icons.AutoMirrored.Rounded.HelpOutline,
+                        modifier = Modifier.testTag("menuHelpAndTutorials"),
+                    )
+                    DrawerMenuItem(
+                        onClick = {
+                            onClose()
+                            toggleTutorial()
+                        },
+                        label = if (running.value) {
+                            stringResource(Res.string.menu_audio_tutorial_cancel)
+                        } else {
+                            stringResource(Res.string.menu_audio_tutorial)
+                        },
+                        icon = Icons.Rounded.Headphones,
+                        modifier = Modifier.testTag("menuAudioTutorial"),
+                    )
+                    DrawerMenuItem(
+                        onClick = { rateSoundscape() },
+                        label = stringResource(Res.string.menu_rate),
+                        icon = Icons.Rounded.Star,
+                        modifier = Modifier.testTag("menuRate"),
+                    )
+                    DrawerMenuItem(
+                        onClick = { contactSupport() },
+                        label = stringResource(Res.string.menu_contact_support),
+                        icon = Icons.Rounded.Markunread,
+                        modifier = Modifier.testTag("menuContactSupport"),
+                    )
+                    DrawerMenuItem(
+                        onClick = { offlineMaps() },
+                        label = stringResource(Res.string.offline_maps_title),
+                        icon = Icons.Rounded.Download,
+                        modifier = Modifier.testTag("menuOfflineMaps"),
+                    )
+                    DrawerMenuItem(
+                        onClick = { onNavigate(SharedRoutes.HELP + "/page${Res.string.settings_about_app.key}") },
+                        label = stringResource(Res.string.settings_about_app),
+                        icon = Icons.AutoMirrored.Rounded.HelpOutline,
+                        modifier = Modifier.testTag("menuAboutSoundscape"),
+                    )
+                    DrawerMenuItem(
+                        onClick = { newReleaseDialog?.value = true },
+                        label = stringResource(Res.string.new_version_info_text),
+                        icon = Icons.AutoMirrored.Rounded.Comment,
+                        modifier = Modifier.testTag("newReleaseInfo"),
+                    )
+
+                    if (recordingEnabled) {
+                        DrawerMenuItem(
+                            onClick = { shareRecording() },
+                            label = stringResource(Res.string.menu_share_recorded_route),
+                            icon = Icons.Rounded.Share,
+                            modifier = Modifier.testTag("menuShareRecording"),
+                        )
+                    }
                 }
             }
-        }
         }
     }
 }

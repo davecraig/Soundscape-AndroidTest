@@ -67,7 +67,7 @@ namespace soundscape {
     }
 
     bool AudioMixer::start() {
-        if(!openStream())
+        if (!openStream())
             return false;
 
         return startStream();
@@ -83,7 +83,7 @@ namespace soundscape {
         // Clean up spatializer effects
         {
             std::lock_guard<std::mutex> guard(m_SourcesMutex);
-            for (auto &ms : m_Sources) {
+            for (auto &ms: m_Sources) {
                 if (ms.effectId >= 0 && m_Spatializer) {
                     m_Spatializer->removeSourceEffect(ms.effectId);
                 }
@@ -143,7 +143,7 @@ namespace soundscape {
             TRACE("AudioMixer: sample rate changed %d -> %d on restart", prevRate, m_SampleRate);
         {
             std::lock_guard<std::mutex> guard(m_SourcesMutex);
-            for (auto &ms : m_Sources) {
+            for (auto &ms: m_Sources) {
                 if (rateChanged)
                     ms.source->setDeviceSampleRate(m_SampleRate);
                 ms.effectId = ms.source->needsSpatialize
@@ -204,7 +204,7 @@ namespace soundscape {
         // Determine which source types are actively producing audio.
         bool hasSpeech = false;
         bool hasActiveProximityBeacon = false;
-        for (auto &ms : m_Sources) {
+        for (auto &ms: m_Sources) {
             auto *src = ms.source;
             if (!src->isAudible()) continue;
             if (src->category == AudioCategory::SPEECH)
@@ -223,7 +223,7 @@ namespace soundscape {
             // close to full scale.
         }
         // Otherwise (proximity silent, no speech): main beacon at full volume.
-        for (auto &ms : m_Sources) {
+        for (auto &ms: m_Sources) {
             auto *src = ms.source;
 
             if (src->isFinished() || src->muted.load()) {
@@ -254,7 +254,7 @@ namespace soundscape {
 
                 // Reduce volume for rear-facing sounds
                 float cosAz = cosf(az);
-                if(cosAz < 0.0) {
+                if (cosAz < 0.0) {
                     float rearFactor = 1.0f + (0.5f * cosAz);
                     vol *= rearFactor;
                 }
@@ -269,20 +269,20 @@ namespace soundscape {
                 // no jumps. 0=center, +π/2=right, π=center(behind), -π/2=left.
                 float az = src->azimuth.load();
                 float pan = sinf(az);
-                float panAngle = (pan + 1.0f) * (float)M_PI_4;
+                float panAngle = (pan + 1.0f) * (float) M_PI_4;
 
                 // Reduce volume for rear-facing sounds
                 float cosAz = cosf(az);
                 float rearFactor = 1.0;
-                if(cosAz < 0.0) {
+                if (cosAz < 0.0) {
                     rearFactor = 1.0f + (0.5f * cosAz);
                 }
 
                 float attVol = vol * rearFactor;
-                float leftGain  = cosf(panAngle) * attVol;
+                float leftGain = cosf(panAngle) * attVol;
                 float rightGain = sinf(panAngle) * attVol;
                 for (int i = 0; i < numFrames; i++) {
-                    output[i * 2]     += m_MonoBuf[i] * leftGain;
+                    output[i * 2] += m_MonoBuf[i] * leftGain;
                     output[i * 2 + 1] += m_MonoBuf[i] * rightGain;
                 }
             } else {

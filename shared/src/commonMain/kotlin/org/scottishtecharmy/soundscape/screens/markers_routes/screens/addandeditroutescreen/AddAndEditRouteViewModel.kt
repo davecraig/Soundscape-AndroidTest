@@ -138,7 +138,8 @@ open class AddAndEditRouteViewModel(
     fun initializeRouteFromDatabase(routeId: Long) {
         viewModelScope.launch {
             try {
-                val route = routeDao.getRouteWithMarkers(routeId) ?: throw Exception("Route not found")
+                val route =
+                    routeDao.getRouteWithMarkers(routeId) ?: throw Exception("Route not found")
                 initializeRoute(route)
             } catch (e: Exception) {
                 println("AddAndEditRouteViewModel: Error loading route: ${e.message}")
@@ -177,7 +178,8 @@ open class AddAndEditRouteViewModel(
     }
 
     fun resetDoneActionState() {
-        _uiState.value = _uiState.value.copy(doneActionCompleted = false, actionType = ActionType.NONE)
+        _uiState.value =
+            _uiState.value.copy(doneActionCompleted = false, actionType = ActionType.NONE)
     }
 
     fun clearErrorMessage() {
@@ -243,9 +245,11 @@ open class AddAndEditRouteViewModel(
                     location = LngLatAlt(existingMarker.longitude, existingMarker.latitude),
                     databaseId = existingMarker.markerId,
                 )
-                logic.internalUiState.value = logic.uiState.value.copy(markerDescription = existingDesc)
+                logic.internalUiState.value =
+                    logic.uiState.value.copy(markerDescription = existingDesc)
             } else {
-                logic.internalUiState.value = logic.uiState.value.copy(markerDescription = locationDescription)
+                logic.internalUiState.value =
+                    logic.uiState.value.copy(markerDescription = locationDescription)
             }
         }
     }
@@ -288,8 +292,10 @@ open class AddAndEditRouteViewModel(
                     location = LngLatAlt(existingMarker.longitude, existingMarker.latitude),
                     databaseId = existingMarker.markerId,
                 )
-                val markerInRoute = _uiState.value.routeMembers.any { it.databaseId == existingDesc.databaseId }
-                val markerToggled = _uiState.value.toggledMembers.any { it.databaseId == existingDesc.databaseId }
+                val markerInRoute =
+                    _uiState.value.routeMembers.any { it.databaseId == existingDesc.databaseId }
+                val markerToggled =
+                    _uiState.value.toggledMembers.any { it.databaseId == existingDesc.databaseId }
                 if (markerInRoute != markerToggled) {
                     service?.speakCallout(
                         TrackedCallout(
@@ -321,7 +327,10 @@ open class AddAndEditRouteViewModel(
                         service?.speakCallout(
                             TrackedCallout(
                                 positionedStrings = listOf(
-                                    PositionedString(text = successMessage, type = AudioType.STANDARD)
+                                    PositionedString(
+                                        text = successMessage,
+                                        type = AudioType.STANDARD
+                                    )
                                 ),
                                 filter = false,
                             ),
@@ -332,7 +341,10 @@ open class AddAndEditRouteViewModel(
                         service?.speakCallout(
                             TrackedCallout(
                                 positionedStrings = listOf(
-                                    PositionedString(text = failureMessage, type = AudioType.STANDARD)
+                                    PositionedString(
+                                        text = failureMessage,
+                                        type = AudioType.STANDARD
+                                    )
                                 ),
                                 filter = false,
                             ),

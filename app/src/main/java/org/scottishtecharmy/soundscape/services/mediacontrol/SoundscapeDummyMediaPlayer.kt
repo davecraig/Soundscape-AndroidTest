@@ -27,7 +27,8 @@ class SoundscapeDummyMediaPlayer(
                 COMMAND_SEEK_FORWARD,
                 COMMAND_SEEK_BACK,
                 COMMAND_SEEK_TO_NEXT_MEDIA_ITEM,
-                COMMAND_SEEK_TO_PREVIOUS_MEDIA_ITEM)
+                COMMAND_SEEK_TO_PREVIOUS_MEDIA_ITEM
+            )
             .build()
 
         val playlist = listOf(

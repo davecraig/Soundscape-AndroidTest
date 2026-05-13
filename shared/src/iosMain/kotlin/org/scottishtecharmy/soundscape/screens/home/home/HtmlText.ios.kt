@@ -36,6 +36,7 @@ actual fun parseHtmlToAnnotatedString(html: String): AnnotatedString = buildAnno
                     appendStyledText(token.value, openTags)
                 }
             }
+
             is HtmlToken.Open -> {
                 when (token.tag.name) {
                     "p", "div" -> if (length > 0) pendingNewlines = maxOf(pendingNewlines, 2)
@@ -43,16 +44,19 @@ actual fun parseHtmlToAnnotatedString(html: String): AnnotatedString = buildAnno
                         flushNewlines()
                         append('\n')
                     }
+
                     "li" -> {
                         if (length > 0) append('\n')
                         append("• ")
                     }
+
                     "ul", "ol" -> if (length > 0) pendingNewlines = maxOf(pendingNewlines, 1)
                 }
                 if (!token.selfClosing && token.tag.name !in voidElements) {
                     openTags.addLast(token.tag)
                 }
             }
+
             is HtmlToken.Close -> {
                 if (openTags.isNotEmpty() && openTags.last().name == token.name) {
                     openTags.removeLast()
@@ -220,9 +224,11 @@ private fun decodeEntity(entity: String): String? = when {
         val cp = entity.substring(2).toIntOrNull(16)
         cp?.let { Char(it).toString() }
     }
+
     entity.startsWith("#") -> {
         val cp = entity.substring(1).toIntOrNull()
         cp?.let { Char(it).toString() }
     }
+
     else -> null
 }

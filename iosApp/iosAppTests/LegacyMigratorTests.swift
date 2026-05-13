@@ -18,7 +18,7 @@ final class LegacyMigratorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         suiteName = "LegacyMigratorTests-" + UUID().uuidString
-        defaults = UserDefaults(suiteName: suiteName)!
+        defaults = UserDefaults(suiteName: suiteName) !
     }
 
     override func tearDown() {
@@ -45,20 +45,20 @@ final class LegacyMigratorTests: XCTestCase {
         LegacyMigrator.migrateSettings(defaults: defaults)
 
         XCTAssertEqual(defaults.string(forKey: "SearchLanguage"), "fr-FR")
-        XCTAssertEqual(defaults.array(forKey: "AppleLanguages") as? [String], ["fr-FR"])
+        XCTAssertEqual(defaults.array(forKey: "AppleLanguages") as ? [String], ["fr-FR"])
     }
 
     func testEmptyLocaleIdentifierIsIgnored() {
         // AppleLanguages is inherited from NSGlobalDomain so we can't
         // assert nil here — instead, check the migrator doesn't write
         // anything new on top of it. Capture before/after.
-        let appleLangsBefore = defaults.array(forKey: "AppleLanguages") as? [String]
+        let appleLangsBefore = defaults.array(forKey: "AppleLanguages") as ? [String]
         defaults.set("", forKey: "GDASettingsLocaleIdentifier")
 
         LegacyMigrator.migrateSettings(defaults: defaults)
 
         XCTAssertNil(defaults.string(forKey: "SearchLanguage"))
-        XCTAssertEqual(defaults.array(forKey: "AppleLanguages") as? [String], appleLangsBefore)
+        XCTAssertEqual(defaults.array(forKey: "AppleLanguages") as ? [String], appleLangsBefore)
     }
 
     func testSpeakingRateRescalesProportionally() {
@@ -233,7 +233,7 @@ final class LegacyMigratorTests: XCTestCase {
         XCTAssertTrue(defaults.bool(forKey: "AllowCallouts"))
         XCTAssertEqual(defaults.float(forKey: "SpeechRate"), 1.5, accuracy: 0.001)
         XCTAssertEqual(defaults.string(forKey: "BeaconType"), "Current")
-        XCTAssertEqual(defaults.array(forKey: "AppleLanguages") as? [String], ["en-GB"])
+        XCTAssertEqual(defaults.array(forKey: "AppleLanguages") as ? [String], ["en-GB"])
     }
 
     func testSweepLeavesAppleAndSystemDataAlone() {

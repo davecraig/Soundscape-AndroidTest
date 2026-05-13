@@ -1,6 +1,5 @@
 package org.scottishtecharmy.soundscape
 
-import org.scottishtecharmy.soundscape.resources.*
 import android.content.Context
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.assertIsDisplayed
@@ -14,6 +13,11 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.location_detail_action_beacon_from_markers
+import org.scottishtecharmy.soundscape.resources.markers_no_markers_title
+import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_distance
+import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_name
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersScreen
@@ -58,7 +62,8 @@ class MarkersScreenTest {
             }
         }
 
-        val noMarkersTitle = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_no_markers_title) }
+        val noMarkersTitle =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_no_markers_title) }
         composeTestRule.onNodeWithText(noMarkersTitle).assertIsDisplayed()
     }
 
@@ -176,7 +181,8 @@ class MarkersScreenTest {
         }
 
         // When loading, the markers list should not be visible
-        val noMarkersTitle = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_no_markers_title) }
+        val noMarkersTitle =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_no_markers_title) }
         composeTestRule.onNodeWithText(noMarkersTitle).assertDoesNotExist()
     }
 
@@ -200,7 +206,8 @@ class MarkersScreenTest {
             }
         }
 
-        val sortByName = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_sort_button_sort_by_name) }
+        val sortByName =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_sort_button_sort_by_name) }
         composeTestRule.onNodeWithText(sortByName, useUnmergedTree = true).assertIsDisplayed()
     }
 
@@ -224,7 +231,8 @@ class MarkersScreenTest {
             }
         }
 
-        val sortByDistance = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_sort_button_sort_by_distance) }
+        val sortByDistance =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.markers_sort_button_sort_by_distance) }
         composeTestRule.onNodeWithText(sortByDistance, useUnmergedTree = true).assertIsDisplayed()
     }
 
@@ -250,18 +258,23 @@ class MarkersScreenTest {
         // Find the LocationItem node by its content description (set via clearAndSetSemantics)
         // The contentDescription includes the marker name and description
         val semanticsNode = composeTestRule
-            .onNode(hasContentDescription("Test Marker 1", substring = true), useUnmergedTree = true)
+            .onNode(
+                hasContentDescription("Test Marker 1", substring = true),
+                useUnmergedTree = true
+            )
             .fetchSemanticsNode()
 
         // Check that custom actions exist on the node
-        val customActions = semanticsNode.config.getOrElseNullable(SemanticsActions.CustomActions) { null }
+        val customActions =
+            semanticsNode.config.getOrElseNullable(SemanticsActions.CustomActions) { null }
         assertTrue(
             "Marker item should have custom accessibility actions",
             customActions != null && customActions.isNotEmpty()
         )
 
         // Verify the action label contains expected text (start beacon hint)
-        val startBeaconHint = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.location_detail_action_beacon_from_markers) }
+        val startBeaconHint =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.location_detail_action_beacon_from_markers) }
         val hasStartBeaconAction = customActions?.any { it.label == startBeaconHint } ?: false
         assertTrue(
             "Marker item should have 'Start audio beacon at this marker' accessibility action",

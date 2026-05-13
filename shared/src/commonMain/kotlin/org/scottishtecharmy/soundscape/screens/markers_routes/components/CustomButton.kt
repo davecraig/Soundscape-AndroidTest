@@ -25,8 +25,9 @@ fun CustomButton(
     textStyle: TextStyle? = MaterialTheme.typography.labelSmall, // TextStyle for button text with set default
     fontWeight: FontWeight
 ) {
-    var colors = if (!LocalInspectionMode.current) currentAppButtonColors else ButtonDefaults.buttonColors()
-    if((buttonColor != null) && (contentColor != null)) {
+    var colors =
+        if (!LocalInspectionMode.current) currentAppButtonColors else ButtonDefaults.buttonColors()
+    if ((buttonColor != null) && (contentColor != null)) {
         colors = ButtonDefaults.buttonColors(
             containerColor = buttonColor, // Customizable button background color
             contentColor = contentColor // Customizable text color
@@ -43,6 +44,6 @@ fun CustomButton(
             style = textStyle ?: MaterialTheme.typography.labelSmall,
             fontWeight = fontWeight,
             textAlign = TextAlign.Center
-            )
+        )
     }
 }

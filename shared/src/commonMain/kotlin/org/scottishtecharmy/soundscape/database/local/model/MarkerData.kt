@@ -19,8 +19,8 @@ class MarkerEntity(
     val name: String,
     val longitude: Double,
     val latitude: Double,
-    val fullAddress: String = "")
-{
+    val fullAddress: String = ""
+) {
     fun getLngLatAlt(): LngLatAlt {
         return LngLatAlt(longitude, latitude)
     }

@@ -87,9 +87,9 @@ targets:
         LSSupportsOpeningDocumentsInPlace: true
         CFBundleURLTypes:
           - CFBundleURLName: org.scottishtecharmy.soundscape.geo
-            CFBundleURLSchemes: [geo]
+            CFBundleURLSchemes: [ geo ]
           - CFBundleURLName: org.scottishtecharmy.soundscape.soundscape
-            CFBundleURLSchemes: [soundscape]
+            CFBundleURLSchemes: [ soundscape ]
         CFBundleDocumentTypes:
           - CFBundleTypeName: Soundscape Route
             LSHandlerRank: Owner
@@ -180,7 +180,7 @@ schemes:
     build:
       targets:
         iosApp: all
-        iosAppTests: [test]
+        iosAppTests: [ test ]
     run:
       config: Debug
     test:

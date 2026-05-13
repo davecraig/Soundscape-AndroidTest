@@ -89,7 +89,12 @@ data class AppCallbacks(
     val onAudioTourInstructionAcknowledged: () -> Unit = {},
     val onMapLongClick: ((LngLatAlt) -> Boolean)? = null,
     val onGoToAppSettings: () -> Unit = {},
-    val onGetCurrentLocationDescription: () -> LocationDescription = { LocationDescription("", LngLatAlt()) },
+    val onGetCurrentLocationDescription: () -> LocationDescription = {
+        LocationDescription(
+            "",
+            LngLatAlt()
+        )
+    },
     val onSetApplicationLocale: (String?) -> Unit = {},
     val onGetLanguageMismatch: () -> Language? = { null },
     val getOpenSourceLicensesJson: (() -> String)? = null,

@@ -29,7 +29,7 @@ open class Feature() : GeoJsonObject() {
     }
 }
 
-fun cloneHashMap(source: HashMap<String, Any?>?) : HashMap<String, Any?>? {
+fun cloneHashMap(source: HashMap<String, Any?>?): HashMap<String, Any?>? {
     if (source == null)
         return null
 

@@ -26,7 +26,8 @@ class CompositeHeadphoneCalibrator(
         deviceHeadingDegrees: Double?,
         timestampMillis: Long,
     ): HeadphoneCalibration? {
-        val cal = deviceCalibrator.process(yawDegrees, deviceHeadingDegrees, timestampMillis) ?: return null
+        val cal = deviceCalibrator.process(yawDegrees, deviceHeadingDegrees, timestampMillis)
+            ?: return null
         applyToFilter(cal)
         return cal
     }
@@ -36,7 +37,8 @@ class CompositeHeadphoneCalibrator(
         courseDegrees: Double?,
         timestampMillis: Long,
     ): HeadphoneCalibration? {
-        val cal = courseCalibrator.process(yawDegrees, courseDegrees, timestampMillis) ?: return null
+        val cal =
+            courseCalibrator.process(yawDegrees, courseDegrees, timestampMillis) ?: return null
         applyToFilter(cal)
         return cal
     }

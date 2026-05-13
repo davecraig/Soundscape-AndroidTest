@@ -33,6 +33,7 @@ class FirebaseAnalyticsImpl(context: Context) : Analytics {
     override fun logEvent(name: String, params: Map<String, Any?>?) {
         Firebase.analytics.logEvent(name, params.toBundle())
     }
+
     override fun logCostlyEvent(name: String, params: Map<String, Any?>?) {
         // We're going to drop events that are considered costly for now, purely to see how this
         // affects our monthly event count.
@@ -41,6 +42,7 @@ class FirebaseAnalyticsImpl(context: Context) : Analytics {
     override fun crashSetCustomKey(key: String, value: String) {
         FirebaseCrashlytics.getInstance().setCustomKey(key, value)
     }
+
     override fun crashLogNotes(name: String) {
         Firebase.crashlytics.log(name)
     }

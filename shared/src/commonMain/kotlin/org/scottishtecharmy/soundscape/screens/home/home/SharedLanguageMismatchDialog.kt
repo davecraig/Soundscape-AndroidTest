@@ -40,7 +40,10 @@ fun SharedLanguageMismatchDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    preferencesProvider?.putBoolean(PreferenceKeys.LANGUAGE_SUPPORTED_PROMPTED, true)
+                    preferencesProvider?.putBoolean(
+                        PreferenceKeys.LANGUAGE_SUPPORTED_PROMPTED,
+                        true
+                    )
                     showDialog.value = false
                     onSetApplicationLocale("${phoneLanguage.code}-${phoneLanguage.region}")
                 },
@@ -51,7 +54,10 @@ fun SharedLanguageMismatchDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    preferencesProvider?.putBoolean(PreferenceKeys.LANGUAGE_SUPPORTED_PROMPTED, true)
+                    preferencesProvider?.putBoolean(
+                        PreferenceKeys.LANGUAGE_SUPPORTED_PROMPTED,
+                        true
+                    )
                     showDialog.value = false
                 },
             ) {

@@ -117,10 +117,12 @@ class AddressFormatter(
                     countryCode = "CW"
                     components["country"] = "Curaçao"
                 }
+
                 state.contains("sint maarten", ignoreCase = true) -> {
                     countryCode = "SX"
                     components["country"] = "Sint Maarten"
                 }
+
                 state.contains("aruba", ignoreCase = true) -> {
                     countryCode = "AW"
                     components["country"] = "Aruba"
@@ -227,7 +229,11 @@ class AddressFormatter(
             if (stateCode != null) components["state_code"] = stateCode
 
             val stateVal = components["state"]!!
-            if (Regex("^washington,? d\\.?c\\.?", RegexOption.IGNORE_CASE).containsMatchIn(stateVal)) {
+            if (Regex(
+                    "^washington,? d\\.?c\\.?",
+                    RegexOption.IGNORE_CASE
+                ).containsMatchIn(stateVal)
+            ) {
                 components["state_code"] = "DC"
                 components["state"] = "District of Columbia"
                 components["city"] = "Washington"
@@ -291,6 +297,7 @@ class AddressFormatter(
             val name = when {
                 node is JsonObject && node.containsKey("default") ->
                     node["default"]!!.jsonPrimitive.content
+
                 node is JsonPrimitive -> node.content
                 else -> continue
             }
@@ -305,6 +312,7 @@ class AddressFormatter(
             val name = when {
                 node is JsonObject && node.containsKey("default") ->
                     node["default"]!!.jsonPrimitive.content
+
                 node is JsonPrimitive -> node.content
                 else -> continue
             }

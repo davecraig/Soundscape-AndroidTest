@@ -120,7 +120,8 @@ class OpenSourceLicensesViewModel(jsonString: String) : ViewModel() {
         return arr.mapNotNull { entry ->
             val licenseObj = entry as? JsonObject ?: return@mapNotNull null
             val name = licenseObj["license"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
-            val rawUrl = licenseObj["license_url"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
+            val rawUrl =
+                licenseObj["license_url"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
             // Force https:// in license URLs.
             val noProtocolUrl = rawUrl.substringAfter("//")
             val secureUrl = "https://$noProtocolUrl"

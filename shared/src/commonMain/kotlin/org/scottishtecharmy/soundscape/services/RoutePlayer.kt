@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
-import org.scottishtecharmy.soundscape.resources.*
 import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.database.local.dao.RouteDao
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
@@ -18,6 +17,11 @@ import org.scottishtecharmy.soundscape.geoengine.utils.distance
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.createCheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.behavior_scavenger_hunt_callout_next_flag
+import org.scottishtecharmy.soundscape.resources.behavior_scavenger_hunt_callout_next_flag_short_route
+import org.scottishtecharmy.soundscape.resources.route_end_completed_accessibility
+import org.scottishtecharmy.soundscape.resources.route_reverse_name
 import org.scottishtecharmy.soundscape.services.mediacontrol.MediaControllableService
 
 class RoutePlayer(
@@ -45,13 +49,13 @@ class RoutePlayer(
         // If the beacon start point is more than 30m away, then we can have it as a destination
         val currentLocation = service.filteredLocationFlow.value
         var beaconOnly = true
-        if(currentLocation != null) {
+        if (currentLocation != null) {
             val distance =
                 beaconLocation.createCheapRuler().distance(
                     LngLatAlt(currentLocation.longitude, currentLocation.latitude),
                     beaconLocation
                 )
-            if(distance > 30.0)
+            if (distance > 30.0)
                 beaconOnly = false
         }
 
@@ -75,7 +79,7 @@ class RoutePlayer(
         }
         play()
 
-        if(!beaconOnly) {
+        if (!beaconOnly) {
             // We want to describe how far we are and a route completion
             startMonitoringLocation()
         }
@@ -121,7 +125,7 @@ class RoutePlayer(
             service.filteredLocationFlow.collect { value ->
                 if (value != null) {
                     currentRouteData?.let { route ->
-                        if(currentMarker < route.markers.size) {
+                        if (currentMarker < route.markers.size) {
                             val location = route.markers[currentMarker].getLngLatAlt()
                             val distanceToWaypoint = distance(
                                 location.latitude,
@@ -161,28 +165,41 @@ class RoutePlayer(
                 val location = route.markers[index].getLngLatAlt()
 
                 val currentLocation = service.filteredLocationFlow.value
-                if(currentLocation != null) {
+                if (currentLocation != null) {
                     val distance =
                         location.createCheapRuler().distance(
                             LngLatAlt(currentLocation.longitude, currentLocation.latitude),
                             location
                         )
                     val beaconSetText =
-                        if(route.markers.size > 1) {
-                            kotlinx.coroutines.runBlocking { getString(
-                                Res.string.behavior_scavenger_hunt_callout_next_flag,
-                                route.markers[index].name,
-                                formatDistanceAndDirection(distance, null, ComposeLocalizedStrings()),
-                                (index + 1).toString(),
-                                (route.markers.size).toString()
-                            ) }
+                        if (route.markers.size > 1) {
+                            kotlinx.coroutines.runBlocking {
+                                getString(
+                                    Res.string.behavior_scavenger_hunt_callout_next_flag,
+                                    route.markers[index].name,
+                                    formatDistanceAndDirection(
+                                        distance,
+                                        null,
+                                        ComposeLocalizedStrings()
+                                    ),
+                                    (index + 1).toString(),
+                                    (route.markers.size).toString()
+                                )
+                            }
                         } else {
-                            kotlinx.coroutines.runBlocking { getString(
-                                Res.string.behavior_scavenger_hunt_callout_next_flag_short_route,
-                                route.markers[index].name,
-                                formatDistanceAndDirection(distance, null, ComposeLocalizedStrings())) }
+                            kotlinx.coroutines.runBlocking {
+                                getString(
+                                    Res.string.behavior_scavenger_hunt_callout_next_flag_short_route,
+                                    route.markers[index].name,
+                                    formatDistanceAndDirection(
+                                        distance,
+                                        null,
+                                        ComposeLocalizedStrings()
+                                    )
+                                )
+                            }
                         }
-                    if(userInitiated) service.clearTextToSpeechQueue()
+                    if (userInitiated) service.clearTextToSpeechQueue()
                     service.speakText(
                         beaconSetText,
                         AudioType.LOCALIZED, location.latitude, location.longitude, 0.0
@@ -196,10 +213,12 @@ class RoutePlayer(
 
     fun stopRoute() {
         service.destroyBeacon()
-        _currentRouteFlow.update { it.copy(
-            routeData = null,
-            currentWaypoint = 0
-        )}
+        _currentRouteFlow.update {
+            it.copy(
+                routeData = null,
+                currentWaypoint = 0
+            )
+        }
         currentRouteData = null
         stopMonitoringLocation()
     }
@@ -208,9 +227,9 @@ class RoutePlayer(
         createBeaconAtWaypoint(currentMarker, true)
     }
 
-    fun moveToNext(userInitiated: Boolean) : Boolean {
+    fun moveToNext(userInitiated: Boolean): Boolean {
         currentRouteData?.let { route ->
-            if(route.markers.size > 1) {
+            if (route.markers.size > 1) {
                 if ((currentMarker + 1) < route.markers.size) {
                     currentMarker++
                     _currentRouteFlow.update { it.copy(currentWaypoint = currentMarker) }
@@ -223,9 +242,9 @@ class RoutePlayer(
         return false
     }
 
-    fun moveToPrevious(userInitiated: Boolean) : Boolean{
+    fun moveToPrevious(userInitiated: Boolean): Boolean {
         currentRouteData?.let { route ->
-            if(route.markers.size > 1) {
+            if (route.markers.size > 1) {
                 if (currentMarker > 0) {
                     currentMarker--
                     _currentRouteFlow.update { it.copy(currentWaypoint = currentMarker) }
@@ -236,16 +255,18 @@ class RoutePlayer(
         }
         return false
     }
+
     fun isPlaying(): Boolean {
         return (currentRouteData != null)
     }
+
     override fun toString(): String {
         currentRouteData?.let { route ->
             var state = ""
             state += "Route : ${route.route.name}\n"
-            for((index, waypoint) in route.markers.withIndex()) {
+            for ((index, waypoint) in route.markers.withIndex()) {
                 state += "  ${waypoint.name} at ${waypoint.latitude},${waypoint.longitude}"
-                state += if(index == currentMarker) {
+                state += if (index == currentMarker) {
                     " <current>\n"
                 } else {
                     "\n"

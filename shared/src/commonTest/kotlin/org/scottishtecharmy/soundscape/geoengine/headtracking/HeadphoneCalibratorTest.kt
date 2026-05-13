@@ -13,7 +13,11 @@ class HeadphoneCalibratorTest {
     fun returnsNullBeforeWindowFills() {
         val cal = HeadphoneCalibrator(CalibrationSource.Device, windowSize = 200)
         for (i in 0 until 200) {
-            val result = cal.process(yawDegrees = 10.0, referenceDegrees = 57.0, timestampMillis = i.toLong())
+            val result = cal.process(
+                yawDegrees = 10.0,
+                referenceDegrees = 57.0,
+                timestampMillis = i.toLong()
+            )
             assertNull(result, "Should be null at sample $i")
         }
     }
@@ -27,16 +31,25 @@ class HeadphoneCalibratorTest {
             val yaw = (i * 0.5) // sweeping yaw
             val ref = (yaw + offset)
             val result = cal.process(yaw, ref, i.toLong())
-            if (result != null) { produced = result; break }
+            if (result != null) {
+                produced = result; break
+            }
         }
         assertNotNull(produced)
         val diff = abs(circularDifferenceDegrees(produced.offsetDegrees, offset))
-        assertTrue(diff < 0.5, "Expected offset ~$offset, got ${produced.offsetDegrees} (diff=$diff)")
+        assertTrue(
+            diff < 0.5,
+            "Expected offset ~$offset, got ${produced.offsetDegrees} (diff=$diff)"
+        )
     }
 
     @Test
     fun rejectsNoisyWindow() {
-        val cal = HeadphoneCalibrator(CalibrationSource.Device, windowSize = 200, stdDevGateDegrees = 10.0)
+        val cal = HeadphoneCalibrator(
+            CalibrationSource.Device,
+            windowSize = 200,
+            stdDevGateDegrees = 10.0
+        )
         // User spinning their head: yaw varies wildly, reference fixed
         for (i in 0..220) {
             val yaw = (i * 17.0) % 360.0

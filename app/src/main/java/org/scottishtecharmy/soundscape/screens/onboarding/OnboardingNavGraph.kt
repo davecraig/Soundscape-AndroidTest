@@ -1,25 +1,26 @@
 package org.scottishtecharmy.soundscape.screens.onboarding
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
-import org.koin.androidx.compose.koinViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.os.LocaleListCompat
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import org.koin.androidx.compose.koinViewModel
 import org.scottishtecharmy.soundscape.screens.onboarding.accessibility.AccessibilityOnboardingScreenVM
 import org.scottishtecharmy.soundscape.screens.onboarding.audiobeacons.AudioBeaconsScreen
+import org.scottishtecharmy.soundscape.screens.onboarding.battery.BatteryOptimizationScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.finish.FinishScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.hearing.HearingScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.language.SharedLanguageScreen
@@ -28,7 +29,6 @@ import org.scottishtecharmy.soundscape.screens.onboarding.language.getSystemLoca
 import org.scottishtecharmy.soundscape.screens.onboarding.language.indexOfBestLanguageMatch
 import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
 import org.scottishtecharmy.soundscape.screens.onboarding.listening.ListeningScreen
-import org.scottishtecharmy.soundscape.screens.onboarding.battery.BatteryOptimizationScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.navigating.NavigatingScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.OfflineStorageOnboardingScreenVM
 import org.scottishtecharmy.soundscape.screens.onboarding.terms.TermsScreen
@@ -84,7 +84,7 @@ fun SetUpOnboardingNavGraph(
         composable(OnboardingScreens.Hearing.route) {
             HearingScreen(
                 onBack = { navController.popBackStack() },
-                onNavigate = { navController.navigate( OnboardingScreens.AudioBeacons.route) },
+                onNavigate = { navController.navigate(OnboardingScreens.AudioBeacons.route) },
                 modifier = Modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing)
                     .semantics { testTagsAsResourceId = true },
@@ -136,9 +136,10 @@ fun SetUpOnboardingNavGraph(
         }
 
         composable(OnboardingScreens.Terms.route) {
-            TermsScreen(onNavigate = {
-                navController.navigate(OnboardingScreens.Finish.route)
-            },
+            TermsScreen(
+                onNavigate = {
+                    navController.navigate(OnboardingScreens.Finish.route)
+                },
                 modifier = Modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing)
                     .semantics { testTagsAsResourceId = true }

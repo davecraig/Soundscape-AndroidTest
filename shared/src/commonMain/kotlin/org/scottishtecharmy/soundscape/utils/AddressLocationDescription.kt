@@ -33,7 +33,8 @@ fun buildAddressLocationDescription(
     providedName: String?,
     source: LocationSource,
 ): LocationDescription {
-    val formatter = AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
+    val formatter =
+        AddressFormatter(abbreviate = false, appendCountry = true, appendUnknown = false)
     val fields = mutableMapOf<String, String>()
     var locationType: LocationType = LocationType.Country
     var fallback = fallbackCountryCode

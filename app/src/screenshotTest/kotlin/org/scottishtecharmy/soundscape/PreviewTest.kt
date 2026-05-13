@@ -50,7 +50,6 @@ import org.scottishtecharmy.soundscape.screens.onboarding.audiobeacons.AudioBeac
 import org.scottishtecharmy.soundscape.screens.onboarding.battery.BatteryOptimization
 import org.scottishtecharmy.soundscape.screens.onboarding.finish.FinishScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.hearing.Hearing
-import org.scottishtecharmy.soundscape.screens.onboarding.language.Language
 import org.scottishtecharmy.soundscape.screens.onboarding.language.SharedLanguageScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.language.supportedLanguages
 import org.scottishtecharmy.soundscape.screens.onboarding.listening.Listening
@@ -59,29 +58,167 @@ import org.scottishtecharmy.soundscape.screens.onboarding.terms.TermsScreen
 import org.scottishtecharmy.soundscape.screens.onboarding.welcome.Welcome
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 
-@Preview(name = "Arabic", locale = "arz", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Danish", locale = "da", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "German", locale = "de", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Greek", locale = "el", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "English", locale = "en", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Spanish", locale = "es", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Persian", locale = "fa", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Finnish", locale = "fi", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "French", locale = "fr", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Hindi", locale = "hi", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Icelandic", locale = "is", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Italian", locale = "it", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Japanese", locale = "ja", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Norwegian", locale = "nb", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Netherlands", locale = "nl", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Polish", locale = "pl", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Portuguese (Brasil)", locale = "pt", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Romanian", locale = "ro", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Russian", locale = "ru", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Swedish", locale = "sv", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Turkish", locale = "tr", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Ukrainian", locale = "uk", group = "Language", showBackground = true, device = "id:small_phone")
-@Preview(name = "Chinese", locale = "zh", group = "Language", showBackground = true, device = "id:small_phone")
+@Preview(
+    name = "Arabic",
+    locale = "arz",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Danish",
+    locale = "da",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "German",
+    locale = "de",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Greek",
+    locale = "el",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "English",
+    locale = "en",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Spanish",
+    locale = "es",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Persian",
+    locale = "fa",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Finnish",
+    locale = "fi",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "French",
+    locale = "fr",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Hindi",
+    locale = "hi",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Icelandic",
+    locale = "is",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Italian",
+    locale = "it",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Japanese",
+    locale = "ja",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Norwegian",
+    locale = "nb",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Netherlands",
+    locale = "nl",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Polish",
+    locale = "pl",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Portuguese (Brasil)",
+    locale = "pt",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Romanian",
+    locale = "ro",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Russian",
+    locale = "ru",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Swedish",
+    locale = "sv",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Turkish",
+    locale = "tr",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Ukrainian",
+    locale = "uk",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
+@Preview(
+    name = "Chinese",
+    locale = "zh",
+    group = "Language",
+    showBackground = true,
+    device = "id:small_phone"
+)
 annotation class LocalePreviews
 
 @Preview(name = "SmallFont", fontScale = 0.85f, group = "FontScale", device = "id:small_phone")
@@ -121,7 +258,11 @@ private object PreviewPreferencesProvider : PreferencesProvider {
 private fun previewLngLatAlt() = LngLatAlt(-4.2518, 55.8642)
 
 private fun previewLocation(name: String): LocationDescription =
-    LocationDescription(name = name, location = previewLngLatAlt(), locationType = LocationType.Street)
+    LocationDescription(
+        name = name,
+        location = previewLngLatAlt(),
+        locationType = LocationType.Street
+    )
 
 private fun previewMarkersList(): List<LocationDescription> = listOf(
     previewLocation("Home"),

@@ -15,9 +15,10 @@ import org.scottishtecharmy.soundscape.screens.talkbackLive
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FlexibleAppBar(title : String = "",
-                   leftSide: @Composable () -> Unit = {},
-                   rightSide: @Composable () -> Unit = {},
+fun FlexibleAppBar(
+    title: String = "",
+    leftSide: @Composable () -> Unit = {},
+    rightSide: @Composable () -> Unit = {},
 ) {
 
     CenterAlignedTopAppBar(

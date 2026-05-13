@@ -47,15 +47,15 @@ class GpxRecorder : LocationRecorder {
     companion object {
         private const val GPX_HEADER =
             "<?xml version='1.0' encoding='utf-8'?>\n" +
-            "<gpx xmlns=\"http://www.topografix.com/GPX/1/0\" version=\"1.0\" creator=\"Soundscape\">\n" +
-            "<trk>\n" +
-            "<name>Track 0</name>\n" +
-            "<number>0</number>\n" +
-            "<trkseg>\n"
+                    "<gpx xmlns=\"http://www.topografix.com/GPX/1/0\" version=\"1.0\" creator=\"Soundscape\">\n" +
+                    "<trk>\n" +
+                    "<name>Track 0</name>\n" +
+                    "<number>0</number>\n" +
+                    "<trkseg>\n"
 
         private const val GPX_FOOTER =
             "</trkseg>\n" +
-            "</trk>\n" +
-            "</gpx>"
+                    "</trk>\n" +
+                    "</gpx>"
     }
 }

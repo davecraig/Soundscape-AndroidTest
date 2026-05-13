@@ -18,7 +18,7 @@ import org.scottishtecharmy.soundscape.geoengine.filters.KalmanLocationFilter
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import kotlin.time.Duration.Companion.seconds
 
-class GooglePlayLocationProvider(context : Context) :
+class GooglePlayLocationProvider(context: Context) :
     LocationProvider() {
 
     private val fusedLocationClient: FusedLocationProviderClient =
@@ -27,7 +27,7 @@ class GooglePlayLocationProvider(context : Context) :
 
     private val filter = KalmanLocationFilter()
 
-    fun filterLocation(location: Location) : Location {
+    fun filterLocation(location: Location): Location {
         val filteredLocation = filter.process(
             LngLatAlt(location.longitude, location.latitude),
             System.currentTimeMillis(),
@@ -49,7 +49,8 @@ class GooglePlayLocationProvider(context : Context) :
                 .addOnSuccessListener { location: Location? ->
                     if (location != null) {
                         mutableLocationFlow.value = location.toSoundscapeLocation()
-                        mutableFilteredLocationFlow.value = filterLocation(location).toSoundscapeLocation()
+                        mutableFilteredLocationFlow.value =
+                            filterLocation(location).toSoundscapeLocation()
                     }
                 }
                 .addOnFailureListener { _: Exception ->
@@ -59,7 +60,8 @@ class GooglePlayLocationProvider(context : Context) :
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
                     mutableLocationFlow.value = location.toSoundscapeLocation()
-                    mutableFilteredLocationFlow.value = filterLocation(location).toSoundscapeLocation()
+                    mutableFilteredLocationFlow.value =
+                        filterLocation(location).toSoundscapeLocation()
                 }
             }
         }
@@ -70,7 +72,7 @@ class GooglePlayLocationProvider(context : Context) :
     }
 
     @SuppressLint("MissingPermission")
-    fun start(context : Context){
+    fun start(context: Context) {
 
         fusedLocationClient.requestLocationUpdates(
             LocationRequest.Builder(

@@ -1,15 +1,19 @@
 package org.scottishtecharmy.soundscape
 
-import org.scottishtecharmy.soundscape.resources.*
 import android.content.Context
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.core.app.ApplicationProvider
-import org.scottishtecharmy.soundscape.screens.onboarding.listening.Listening
-import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 import org.junit.Rule
 import org.junit.Test
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.first_launch_headphones_message_1
+import org.scottishtecharmy.soundscape.resources.first_launch_headphones_message_2
+import org.scottishtecharmy.soundscape.resources.first_launch_headphones_title
+import org.scottishtecharmy.soundscape.resources.ui_continue
+import org.scottishtecharmy.soundscape.screens.onboarding.listening.Listening
+import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
 
 
 // This is very helpful:
@@ -19,7 +23,7 @@ class ListeningScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun listeningScreenTest(){
+    fun listeningScreenTest() {
         composeTestRule.setContent {
             SoundscapeTheme {
                 Listening(onNavigate = {})
@@ -29,10 +33,14 @@ class ListeningScreenTest {
         val context: Context = ApplicationProvider.getApplicationContext()
         // Original iOS Soundscape doesn't have a content description for the image
         // so skipping it as we don't have the translation strings for it.
-        val stringListeningTitle = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_headphones_title) }
-        val stringListeningMessage1 = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_headphones_message_1) }
-        val stringListeningMessage2 = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_headphones_message_2) }
-        val stringListeningContinue = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.ui_continue) }
+        val stringListeningTitle =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_headphones_title) }
+        val stringListeningMessage1 =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_headphones_message_1) }
+        val stringListeningMessage2 =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.first_launch_headphones_message_2) }
+        val stringListeningContinue =
+            kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.ui_continue) }
 
         composeTestRule.onNodeWithText(stringListeningTitle).assertIsDisplayed()
         composeTestRule.onNodeWithText(stringListeningMessage1).assertIsDisplayed()

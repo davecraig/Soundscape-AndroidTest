@@ -108,7 +108,11 @@ class AndroidOfflineMapsManager(private val appContext: Context) {
         try {
             val moshi = GeoMoshi.registerAdapters(Moshi.Builder()).build()
             val adapter = moshi.adapter(Feature::class.java)
-            FileOutputStream("$path.geojson").use { it.write(adapter.toJson(feature).toByteArray()) }
+            FileOutputStream("$path.geojson").use {
+                it.write(
+                    adapter.toJson(feature).toByteArray()
+                )
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to write extract metadata", e)
         }

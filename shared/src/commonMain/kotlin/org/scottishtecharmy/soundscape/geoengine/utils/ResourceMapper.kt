@@ -54,8 +54,8 @@ import org.scottishtecharmy.soundscape.resources.osm_barn
 import org.scottishtecharmy.soundscape.resources.osm_barracks
 import org.scottishtecharmy.soundscape.resources.osm_base
 import org.scottishtecharmy.soundscape.resources.osm_baseball
-import org.scottishtecharmy.soundscape.resources.osm_basketball
 import org.scottishtecharmy.soundscape.resources.osm_basket_maker
+import org.scottishtecharmy.soundscape.resources.osm_basketball
 import org.scottishtecharmy.soundscape.resources.osm_bathroom_furnishing
 import org.scottishtecharmy.soundscape.resources.osm_battlefield
 import org.scottishtecharmy.soundscape.resources.osm_bay
@@ -81,15 +81,15 @@ import org.scottishtecharmy.soundscape.resources.osm_blacksmith
 import org.scottishtecharmy.soundscape.resources.osm_block
 import org.scottishtecharmy.soundscape.resources.osm_blood_donation
 import org.scottishtecharmy.soundscape.resources.osm_bmx
-import org.scottishtecharmy.soundscape.resources.osm_boatbuilder
 import org.scottishtecharmy.soundscape.resources.osm_boat_sharing
+import org.scottishtecharmy.soundscape.resources.osm_boatbuilder
 import org.scottishtecharmy.soundscape.resources.osm_boatyard
 import org.scottishtecharmy.soundscape.resources.osm_bobsleigh
 import org.scottishtecharmy.soundscape.resources.osm_bollard
+import org.scottishtecharmy.soundscape.resources.osm_book_store
 import org.scottishtecharmy.soundscape.resources.osm_bookbinder
 import org.scottishtecharmy.soundscape.resources.osm_bookmaker
 import org.scottishtecharmy.soundscape.resources.osm_books
-import org.scottishtecharmy.soundscape.resources.osm_book_store
 import org.scottishtecharmy.soundscape.resources.osm_boules
 import org.scottishtecharmy.soundscape.resources.osm_boundary_stone
 import org.scottishtecharmy.soundscape.resources.osm_boutique
@@ -111,22 +111,22 @@ import org.scottishtecharmy.soundscape.resources.osm_bus_stop
 import org.scottishtecharmy.soundscape.resources.osm_butcher
 import org.scottishtecharmy.soundscape.resources.osm_cabin
 import org.scottishtecharmy.soundscape.resources.osm_cafe
-import org.scottishtecharmy.soundscape.resources.osm_campanile
 import org.scottishtecharmy.soundscape.resources.osm_camp_site
+import org.scottishtecharmy.soundscape.resources.osm_campanile
 import org.scottishtecharmy.soundscape.resources.osm_canadian_football
 import org.scottishtecharmy.soundscape.resources.osm_candles
 import org.scottishtecharmy.soundscape.resources.osm_cannon
 import org.scottishtecharmy.soundscape.resources.osm_canoe
 import org.scottishtecharmy.soundscape.resources.osm_car
-import org.scottishtecharmy.soundscape.resources.osm_caravan_site
 import org.scottishtecharmy.soundscape.resources.osm_car_parts
-import org.scottishtecharmy.soundscape.resources.osm_carpenter
-import org.scottishtecharmy.soundscape.resources.osm_carpet
-import org.scottishtecharmy.soundscape.resources.osm_carpet_layer
 import org.scottishtecharmy.soundscape.resources.osm_car_rental
 import org.scottishtecharmy.soundscape.resources.osm_car_repair
 import org.scottishtecharmy.soundscape.resources.osm_car_sharing
 import org.scottishtecharmy.soundscape.resources.osm_car_wash
+import org.scottishtecharmy.soundscape.resources.osm_caravan_site
+import org.scottishtecharmy.soundscape.resources.osm_carpenter
+import org.scottishtecharmy.soundscape.resources.osm_carpet
+import org.scottishtecharmy.soundscape.resources.osm_carpet_layer
 import org.scottishtecharmy.soundscape.resources.osm_casino
 import org.scottishtecharmy.soundscape.resources.osm_castle
 import org.scottishtecharmy.soundscape.resources.osm_caterer
@@ -250,9 +250,9 @@ import org.scottishtecharmy.soundscape.resources.osm_field_hockey
 import org.scottishtecharmy.soundscape.resources.osm_fire_extinguisher
 import org.scottishtecharmy.soundscape.resources.osm_fire_flapper
 import org.scottishtecharmy.soundscape.resources.osm_fire_hose
+import org.scottishtecharmy.soundscape.resources.osm_fire_station
 import org.scottishtecharmy.soundscape.resources.osm_firepit
 import org.scottishtecharmy.soundscape.resources.osm_fireplace
-import org.scottishtecharmy.soundscape.resources.osm_fire_station
 import org.scottishtecharmy.soundscape.resources.osm_fishing
 import org.scottishtecharmy.soundscape.resources.osm_fitness_centre
 import org.scottishtecharmy.soundscape.resources.osm_flagpole
@@ -281,11 +281,11 @@ import org.scottishtecharmy.soundscape.resources.osm_garage
 import org.scottishtecharmy.soundscape.resources.osm_garages
 import org.scottishtecharmy.soundscape.resources.osm_garden
 import org.scottishtecharmy.soundscape.resources.osm_garden_centre
-import org.scottishtecharmy.soundscape.resources.osm_gardener
 import org.scottishtecharmy.soundscape.resources.osm_garden_furniture
+import org.scottishtecharmy.soundscape.resources.osm_gardener
 import org.scottishtecharmy.soundscape.resources.osm_gas
-import org.scottishtecharmy.soundscape.resources.osm_gasometer
 import org.scottishtecharmy.soundscape.resources.osm_gas_station
+import org.scottishtecharmy.soundscape.resources.osm_gasometer
 import org.scottishtecharmy.soundscape.resources.osm_gate
 import org.scottishtecharmy.soundscape.resources.osm_general
 import org.scottishtecharmy.soundscape.resources.osm_generator
@@ -333,13 +333,13 @@ import org.scottishtecharmy.soundscape.resources.osm_highway_refed
 import org.scottishtecharmy.soundscape.resources.osm_historic_monument
 import org.scottishtecharmy.soundscape.resources.osm_hockey
 import org.scottishtecharmy.soundscape.resources.osm_horse_racing
-import org.scottishtecharmy.soundscape.resources.osm_horseshoes
 import org.scottishtecharmy.soundscape.resources.osm_horse_stile
+import org.scottishtecharmy.soundscape.resources.osm_horseshoes
 import org.scottishtecharmy.soundscape.resources.osm_hospital
 import org.scottishtecharmy.soundscape.resources.osm_hostel
-import org.scottishtecharmy.soundscape.resources.osm_hotel
 import org.scottishtecharmy.soundscape.resources.osm_hot_spring
 import org.scottishtecharmy.soundscape.resources.osm_hot_water_tank
+import org.scottishtecharmy.soundscape.resources.osm_hotel
 import org.scottishtecharmy.soundscape.resources.osm_house
 import org.scottishtecharmy.soundscape.resources.osm_houseboat
 import org.scottishtecharmy.soundscape.resources.osm_houseware
@@ -382,11 +382,11 @@ import org.scottishtecharmy.soundscape.resources.osm_laundry
 import org.scottishtecharmy.soundscape.resources.osm_lawyer
 import org.scottishtecharmy.soundscape.resources.osm_leather
 import org.scottishtecharmy.soundscape.resources.osm_library
+import org.scottishtecharmy.soundscape.resources.osm_life_ring
 import org.scottishtecharmy.soundscape.resources.osm_lifeguard_base
 import org.scottishtecharmy.soundscape.resources.osm_lifeguard_place
 import org.scottishtecharmy.soundscape.resources.osm_lifeguard_platform
 import org.scottishtecharmy.soundscape.resources.osm_lifeguard_tower
-import org.scottishtecharmy.soundscape.resources.osm_life_ring
 import org.scottishtecharmy.soundscape.resources.osm_lift
 import org.scottishtecharmy.soundscape.resources.osm_lighthouse
 import org.scottishtecharmy.soundscape.resources.osm_lock_gate
@@ -425,8 +425,8 @@ import org.scottishtecharmy.soundscape.resources.osm_mud
 import org.scottishtecharmy.soundscape.resources.osm_multi
 import org.scottishtecharmy.soundscape.resources.osm_museum
 import org.scottishtecharmy.soundscape.resources.osm_music
-import org.scottishtecharmy.soundscape.resources.osm_musical_instrument
 import org.scottishtecharmy.soundscape.resources.osm_music_school
+import org.scottishtecharmy.soundscape.resources.osm_musical_instrument
 import org.scottishtecharmy.soundscape.resources.osm_national_park
 import org.scottishtecharmy.soundscape.resources.osm_nature_reserve
 import org.scottishtecharmy.soundscape.resources.osm_naval_base
@@ -467,8 +467,8 @@ import org.scottishtecharmy.soundscape.resources.osm_pastry
 import org.scottishtecharmy.soundscape.resources.osm_pavillion
 import org.scottishtecharmy.soundscape.resources.osm_pawnbroker
 import org.scottishtecharmy.soundscape.resources.osm_peak
-import org.scottishtecharmy.soundscape.resources.osm_pedestrianised_area
 import org.scottishtecharmy.soundscape.resources.osm_pedestrian_street
+import org.scottishtecharmy.soundscape.resources.osm_pedestrianised_area
 import org.scottishtecharmy.soundscape.resources.osm_pelota
 import org.scottishtecharmy.soundscape.resources.osm_perfumery
 import org.scottishtecharmy.soundscape.resources.osm_pet
@@ -564,9 +564,9 @@ import org.scottishtecharmy.soundscape.resources.osm_shared_space
 import org.scottishtecharmy.soundscape.resources.osm_shed
 import org.scottishtecharmy.soundscape.resources.osm_shelter
 import org.scottishtecharmy.soundscape.resources.osm_ship
+import org.scottishtecharmy.soundscape.resources.osm_shoe_shop
 import org.scottishtecharmy.soundscape.resources.osm_shoemaker
 import org.scottishtecharmy.soundscape.resources.osm_shoes
-import org.scottishtecharmy.soundscape.resources.osm_shoe_shop
 import org.scottishtecharmy.soundscape.resources.osm_shooting
 import org.scottishtecharmy.soundscape.resources.osm_shop
 import org.scottishtecharmy.soundscape.resources.osm_shopping_mall
@@ -622,8 +622,8 @@ import org.scottishtecharmy.soundscape.resources.osm_survey_point
 import org.scottishtecharmy.soundscape.resources.osm_swimming
 import org.scottishtecharmy.soundscape.resources.osm_swimming_area
 import org.scottishtecharmy.soundscape.resources.osm_swimming_pool
-import org.scottishtecharmy.soundscape.resources.osm_swingerclub
 import org.scottishtecharmy.soundscape.resources.osm_swing_gate
+import org.scottishtecharmy.soundscape.resources.osm_swingerclub
 import org.scottishtecharmy.soundscape.resources.osm_synagogue
 import org.scottishtecharmy.soundscape.resources.osm_table_soccer
 import org.scottishtecharmy.soundscape.resources.osm_table_tennis
@@ -654,15 +654,15 @@ import org.scottishtecharmy.soundscape.resources.osm_tourism_museum
 import org.scottishtecharmy.soundscape.resources.osm_tower
 import org.scottishtecharmy.soundscape.resources.osm_town
 import org.scottishtecharmy.soundscape.resources.osm_townhall
-import org.scottishtecharmy.soundscape.resources.osm_toys
 import org.scottishtecharmy.soundscape.resources.osm_toy_shop
+import org.scottishtecharmy.soundscape.resources.osm_toys
 import org.scottishtecharmy.soundscape.resources.osm_track
 import org.scottishtecharmy.soundscape.resources.osm_trade
 import org.scottishtecharmy.soundscape.resources.osm_traffic_cones
 import org.scottishtecharmy.soundscape.resources.osm_traffic_signals
-import org.scottishtecharmy.soundscape.resources.osm_training_area
 import org.scottishtecharmy.soundscape.resources.osm_train_station
 import org.scottishtecharmy.soundscape.resources.osm_train_terminal
+import org.scottishtecharmy.soundscape.resources.osm_training_area
 import org.scottishtecharmy.soundscape.resources.osm_tram_stop
 import org.scottishtecharmy.soundscape.resources.osm_transformer_tower
 import org.scottishtecharmy.soundscape.resources.osm_transportation
@@ -696,10 +696,7 @@ import org.scottishtecharmy.soundscape.resources.osm_wastewater_plant
 import org.scottishtecharmy.soundscape.resources.osm_watches
 import org.scottishtecharmy.soundscape.resources.osm_watchmaker
 import org.scottishtecharmy.soundscape.resources.osm_water
-import org.scottishtecharmy.soundscape.resources.osm_waterfall
 import org.scottishtecharmy.soundscape.resources.osm_water_fountain
-import org.scottishtecharmy.soundscape.resources.osm_watering_place
-import org.scottishtecharmy.soundscape.resources.osm_watermill
 import org.scottishtecharmy.soundscape.resources.osm_water_park
 import org.scottishtecharmy.soundscape.resources.osm_water_point
 import org.scottishtecharmy.soundscape.resources.osm_water_polo
@@ -710,6 +707,9 @@ import org.scottishtecharmy.soundscape.resources.osm_water_tower
 import org.scottishtecharmy.soundscape.resources.osm_water_utility
 import org.scottishtecharmy.soundscape.resources.osm_water_well
 import org.scottishtecharmy.soundscape.resources.osm_water_works
+import org.scottishtecharmy.soundscape.resources.osm_waterfall
+import org.scottishtecharmy.soundscape.resources.osm_watering_place
+import org.scottishtecharmy.soundscape.resources.osm_watermill
 import org.scottishtecharmy.soundscape.resources.osm_wayside_cross
 import org.scottishtecharmy.soundscape.resources.osm_wayside_shrine
 import org.scottishtecharmy.soundscape.resources.osm_weapons
@@ -1500,8 +1500,9 @@ class ResourceMapper {
                 put("events_venue", Res.string.osm_events_venue)
             }
         }
+
         fun getStringResource(key: String?): StringResource? {
-            if((key == null) || (key == "unclassified") || (key == "yes") || (key == "no"))
+            if ((key == null) || (key == "unclassified") || (key == "yes") || (key == "no"))
                 return null
             val result = resourceMap.get(key)
             if (result == null) {
@@ -1509,6 +1510,7 @@ class ResourceMapper {
             }
             return result
         }
+
         fun hasResource(key: String?): Boolean = getStringResource(key) != null
 
         fun getUnfoundKeys(): Set<String> {

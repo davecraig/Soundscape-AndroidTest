@@ -6,14 +6,15 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 
-fun getFovTriangle(userGeometry: UserGeometry, forceLocation: Boolean = false) : Triangle {
+fun getFovTriangle(userGeometry: UserGeometry, forceLocation: Boolean = false): Triangle {
     val heading = userGeometry.snappedHeading() ?: 0.0
     val quadrant = Quadrant(heading)
-    val location = if(forceLocation) userGeometry.location
-        else if(userGeometry.mapMatchedLocation != null) userGeometry.mapMatchedLocation.point
-        else userGeometry.location
+    val location = if (forceLocation) userGeometry.location
+    else if (userGeometry.mapMatchedLocation != null) userGeometry.mapMatchedLocation.point
+    else userGeometry.location
 
-    return Triangle(location,
+    return Triangle(
+        location,
         getDestinationCoordinate(
             location,
             quadrant.left,
@@ -40,7 +41,7 @@ fun getFovTriangle(userGeometry: UserGeometry, forceLocation: Boolean = false) :
 fun makeTriangles(
     segments: Array<Segment>,
     userGeometry: UserGeometry
-): FeatureCollection{
+): FeatureCollection {
 
     val newFeatureCollection = FeatureCollection()
     for ((count, segment) in segments.withIndex()) {
@@ -48,8 +49,16 @@ fun makeTriangles(
         val aheadTriangle = createPolygonFromTriangle(
             Triangle(
                 userGeometry.location,
-                getDestinationCoordinate(userGeometry.location, segment.left, userGeometry.fovDistance),
-                getDestinationCoordinate(userGeometry.location, segment.right, userGeometry.fovDistance)
+                getDestinationCoordinate(
+                    userGeometry.location,
+                    segment.left,
+                    userGeometry.fovDistance
+                ),
+                getDestinationCoordinate(
+                    userGeometry.location,
+                    segment.right,
+                    userGeometry.fovDistance
+                )
             )
         )
         val featureAheadTriangle = Feature().also {
@@ -79,7 +88,7 @@ fun getRelativeDirectionsPolygons(
 
     val heading = userGeometry.heading() ?: 0.0
     val segments =
-        when(relativeDirectionType){
+        when (relativeDirectionType) {
             RelativeDirections.COMBINED -> getCombinedDirectionSegments(heading)
             RelativeDirections.INDIVIDUAL -> getIndividualDirectionSegments(heading)
             RelativeDirections.AHEAD_BEHIND -> getAheadBehindDirectionSegments(heading)
@@ -91,14 +100,14 @@ fun getRelativeDirectionsPolygons(
 
 fun checkWhetherIntersectionIsOfInterest(
     intersection: Intersection,
-    testNearestRoad:Way?
+    testNearestRoad: Way?
 ): Int {
     //println("Number of roads that make up intersection ${intersectionNumber}: ${intersectionRoadNames.features.size}")
-    if(testNearestRoad == null)
+    if (testNearestRoad == null)
         return 0
 
     // We don't announce intersections with only 2 or fewer Ways
-    if(intersection.members.size <= 2)
+    if (intersection.members.size <= 2)
         return -1
 
     var needsFurtherChecking = 0
@@ -109,14 +118,13 @@ fun checkWhetherIntersectionIsOfInterest(
 
         if (isMatch) {
             // Ignore the road we're on
-        } else if(roadName == null) {
+        } else if (roadName == null) {
             // Give no points to ways named from their type
             // TODO: give negative points if it's also a dead end i.e. don't call out dead-end
             //  service roads? The current 'priority' isn't good enough, need a better way of
             //  classifying.
-        }
-        else {
-            if(setOfNames.contains(roadName)) {
+        } else {
+            if (setOfNames.contains(roadName)) {
                 // Don't increment the priority if the name is here for the second time
             } else {
                 needsFurtherChecking++

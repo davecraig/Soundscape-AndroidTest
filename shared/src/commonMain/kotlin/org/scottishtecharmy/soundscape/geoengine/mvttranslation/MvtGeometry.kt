@@ -10,8 +10,8 @@ fun parseGeometry(
 
     var x = 0
     var y = 0
-    val results = mutableListOf(arrayListOf<Pair<Int,Int>>())
-    var id : Int
+    val results = mutableListOf(arrayListOf<Pair<Int, Int>>())
+    var id: Int
     var count = 0
     var deltaX = 0
     var deltaY: Int
@@ -26,7 +26,7 @@ fun parseGeometry(
                     deltaX = 0
                     firstOfPair = true
                     ++lineCount
-                    if((lineCount > 1) && results.last().isNotEmpty())
+                    if ((lineCount > 1) && results.last().isNotEmpty())
                         results.add(arrayListOf())
                 }
 
@@ -58,12 +58,12 @@ fun parseGeometry(
                 y += deltaY
 
                 var add = true
-                if(cropToTile) {
-                    if(pointIsOffTile(x, y))
+                if (cropToTile) {
+                    if (pointIsOffTile(x, y))
                         add = false
                 }
-                if(add) {
-                    results.last().add(Pair(x,y))
+                if (add) {
+                    results.last().add(Pair(x, y))
                 }
                 --count
             }
@@ -73,15 +73,22 @@ fun parseGeometry(
     return results
 }
 
-fun convertGeometry(tileX : Int, tileY : Int, tileZoom : Int, geometry: ArrayList<Pair<Int, Int>>) : ArrayList<LngLatAlt> {
+fun convertGeometry(
+    tileX: Int,
+    tileY: Int,
+    tileZoom: Int,
+    geometry: ArrayList<Pair<Int, Int>>
+): ArrayList<LngLatAlt> {
     val results = arrayListOf<LngLatAlt>()
-    for(point in geometry) {
+    for (point in geometry) {
         results.add(
-            getLatLonTileWithOffset(tileX,
-            tileY,
-            tileZoom,
-            sampleToFractionOfTile(point.first),
-            sampleToFractionOfTile(point.second))
+            getLatLonTileWithOffset(
+                tileX,
+                tileY,
+                tileZoom,
+                sampleToFractionOfTile(point.first),
+                sampleToFractionOfTile(point.second)
+            )
         )
     }
     return results
@@ -91,7 +98,7 @@ fun areCoordinatesClockwise(
     coordinates: ArrayList<Pair<Int, Int>>
 ): Boolean {
     var area = 0.0
-    for(i in 0 until coordinates.size - 1) {
+    for (i in 0 until coordinates.size - 1) {
         area += (coordinates[i + 1].first - coordinates[i].first) * (coordinates[i + 1].second + coordinates[i].second)
 
     }

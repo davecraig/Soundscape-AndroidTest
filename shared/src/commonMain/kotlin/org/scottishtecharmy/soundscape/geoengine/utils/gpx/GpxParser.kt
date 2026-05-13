@@ -109,11 +109,19 @@ private class TokenReader(private val tokens: List<XmlToken>) {
         while (hasNext()) {
             when (val t = peek()!!) {
                 is XmlToken.EndTag -> {
-                    if (t.localName == tagName) { next(); return sb.toString() }
+                    if (t.localName == tagName) {
+                        next(); return sb.toString()
+                    }
                     break
                 }
-                is XmlToken.Text -> { sb.append(t.content); next() }
-                is XmlToken.StartTag -> { next(); skipToEndTag(t.localName) }
+
+                is XmlToken.Text -> {
+                    sb.append(t.content); next()
+                }
+
+                is XmlToken.StartTag -> {
+                    next(); skipToEndTag(t.localName)
+                }
             }
         }
         return sb.toString()
@@ -136,6 +144,7 @@ private fun buildGpx(tokens: List<XmlToken>): GpxData {
                 "trk" -> tracks.add(readTrack(reader))
                 else -> {}
             }
+
             else -> {}
         }
     }
@@ -152,6 +161,7 @@ private fun readMetadata(reader: TokenReader): GpxMetadata {
                 "desc" -> desc = reader.readTextContent("desc")
                 else -> reader.skipToEndTag(t.localName)
             }
+
             is XmlToken.EndTag -> if (t.localName == "metadata") break
             is XmlToken.Text -> {}
         }
@@ -159,7 +169,11 @@ private fun readMetadata(reader: TokenReader): GpxMetadata {
     return GpxMetadata(name, desc)
 }
 
-private fun readWaypoint(reader: TokenReader, endTag: String, attrs: Map<String, String>): GpxWaypoint {
+private fun readWaypoint(
+    reader: TokenReader,
+    endTag: String,
+    attrs: Map<String, String>
+): GpxWaypoint {
     val lat = attrs["lat"]?.toDoubleOrNull() ?: 0.0
     val lon = attrs["lon"]?.toDoubleOrNull() ?: 0.0
     var name = ""
@@ -176,6 +190,7 @@ private fun readWaypoint(reader: TokenReader, endTag: String, attrs: Map<String,
                 "time" -> time = reader.readTextContent("time")
                 else -> reader.skipToEndTag(t.localName)
             }
+
             is XmlToken.EndTag -> if (t.localName == endTag) break
             is XmlToken.Text -> {}
         }
@@ -193,6 +208,7 @@ private fun readRoute(reader: TokenReader): GpxRoute {
                 "rtept" -> points.add(readWaypoint(reader, "rtept", t.attributes))
                 else -> reader.skipToEndTag(t.localName)
             }
+
             is XmlToken.EndTag -> if (t.localName == "rte") break
             is XmlToken.Text -> {}
         }
@@ -210,6 +226,7 @@ private fun readTrack(reader: TokenReader): GpxTrack {
                 "trkseg" -> segments.add(readTrackSegment(reader))
                 else -> reader.skipToEndTag(t.localName)
             }
+
             is XmlToken.EndTag -> if (t.localName == "trk") break
             is XmlToken.Text -> {}
         }
@@ -225,6 +242,7 @@ private fun readTrackSegment(reader: TokenReader): GpxTrackSegment {
                 "trkpt" -> points.add(readTrackPoint(reader, t.attributes))
                 else -> reader.skipToEndTag(t.localName)
             }
+
             is XmlToken.EndTag -> if (t.localName == "trkseg") break
             is XmlToken.Text -> {}
         }
@@ -249,6 +267,7 @@ private fun readTrackPoint(reader: TokenReader, attrs: Map<String, String>): Gpx
                 "bearing" -> bearing = reader.readTextContent("bearing").toFloatOrNull()
                 else -> reader.skipToEndTag(t.localName)
             }
+
             is XmlToken.EndTag -> if (t.localName == "trkpt") break
             is XmlToken.Text -> {}
         }

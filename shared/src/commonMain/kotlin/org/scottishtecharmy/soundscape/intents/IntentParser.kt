@@ -1,7 +1,6 @@
 package org.scottishtecharmy.soundscape.intents
 
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.jsonArray
@@ -52,7 +51,8 @@ object IntentParser {
                 val latitude = coordinate["latitude"]?.jsonPrimitive?.doubleOrNull ?: continue
                 val longitude = coordinate["longitude"]?.jsonPrimitive?.doubleOrNull ?: continue
                 val markerName = location["name"]?.jsonPrimitive?.contentOrNull ?: ""
-                val estimatedAddress = marker["estimatedAddress"]?.jsonPrimitive?.contentOrNull ?: ""
+                val estimatedAddress =
+                    marker["estimatedAddress"]?.jsonPrimitive?.contentOrNull ?: ""
                 markers.add(
                     MarkerEntity(
                         name = markerName,
@@ -237,11 +237,13 @@ private fun percentDecode(input: String): String {
                 out.append(c)
                 i++
             }
+
             c == '+' -> {
                 flushBytes(out, bytes)
                 out.append(' ')
                 i++
             }
+
             else -> {
                 flushBytes(out, bytes)
                 out.append(c)

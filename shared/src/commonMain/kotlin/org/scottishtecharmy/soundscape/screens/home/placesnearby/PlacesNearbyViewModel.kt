@@ -50,7 +50,8 @@ open class PlacesNearbyViewModel(
     }
 
     fun onClickFolder(filter: String, title: String) {
-        internalUiState.value = internalUiState.value.copy(level = 1, filter = filter, title = title)
+        internalUiState.value =
+            internalUiState.value.copy(level = 1, filter = filter, title = title)
     }
 
     fun startBeacon(location: LngLatAlt, name: String) {

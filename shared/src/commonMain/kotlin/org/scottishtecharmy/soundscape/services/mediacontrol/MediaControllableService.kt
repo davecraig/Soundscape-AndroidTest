@@ -38,6 +38,7 @@ interface MediaControllableService {
         longitude: Double = Double.NaN,
         heading: Double = Double.NaN,
     )
+
     fun clearTextToSpeechQueue()
     fun createBeacon(location: LngLatAlt?, headingOnly: Boolean)
     fun destroyBeacon()

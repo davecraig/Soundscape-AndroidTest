@@ -80,7 +80,7 @@ val superCategoryMap: Map<String, SuperCategoryId> = buildMap {
             "photo", "craft", "motorcycle", "hunting", "window_blind", "curtain", "antiques",
             "paint", "tattoo", "nutrition_supplements", "hearing_aids", "cosmetics", "watches",
             "jewelry", "boutique", "baby_goods", "tea", "pasta", "coffee", "quango",
-            "political_party","association", "architect", "advertising_agency", "summer_camp",
+            "political_party", "association", "architect", "advertising_agency", "summer_camp",
             "pitch", "dance", "amusement_arcade", "adult_gaming_centre", "window_construction",
             "upholsterer", "shoemaker", "sawmill", "pottery", "key_cutter", "hvac", "clockmaker",
             "carpenter", "builder", "bookbinder", "boatbuilder", "brewery", "blacksmith",

@@ -8,14 +8,14 @@ import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.geoengine.getTextForFeature
-import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
-import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.getDistanceToFeature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
+import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
+import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.utils.deferredToLocationDescription
 
@@ -36,13 +36,13 @@ class OfflineGeocoder(
         val features = settlementGrid.getFeatureTree(treeId).getAllCollection()
         for (feature in features) {
             val name = (feature as MvtFeature).name
-            if(name != null) {
+            if (name != null) {
                 names.add(normalizeForSearch(name))
             }
         }
     }
 
-    fun getSettlementNames() : Set<String> {
+    fun getSettlementNames(): Set<String> {
         val names = mutableSetOf<String>()
 
         addNamesFromGrid(TreeId.SETTLEMENT_CITY, names)
@@ -57,7 +57,8 @@ class OfflineGeocoder(
     override suspend fun getAddressFromLocationName(
         locationName: String,
         nearbyLocation: LngLatAlt,
-        localizedStrings: LocalizedStrings?    ) : List<LocationDescription>? {
+        localizedStrings: LocalizedStrings?
+    ): List<LocationDescription>? {
         analyticsLogger("offlineGeocode")
 
         val settlementNames = withContext(gridState.treeContext) {
@@ -66,24 +67,28 @@ class OfflineGeocoder(
         return tileSearch?.search(nearbyLocation, locationName, localizedStrings, settlementNames)
     }
 
-    private fun getNearestPointOnFeature(feature: Feature,
-                                         location: LngLatAlt) : LngLatAlt {
+    private fun getNearestPointOnFeature(
+        feature: Feature,
+        location: LngLatAlt
+    ): LngLatAlt {
         return getDistanceToFeature(location, feature, gridState.ruler).point
     }
 
-    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry,
-                                              localizedStrings: LocalizedStrings?,
-                                              ignoreHouseNumbers: Boolean) : LocationDescription? {
+    override suspend fun getAddressFromLngLat(
+        userGeometry: UserGeometry,
+        localizedStrings: LocalizedStrings?,
+        ignoreHouseNumbers: Boolean
+    ): LocationDescription? {
 
         val location = userGeometry.location
         // We can only use the local geocoder for local locations
-        if(!gridState.isLocationWithinGrid(location))
+        if (!gridState.isLocationWithinGrid(location))
             return null
 
         analyticsLogger("offlineReverseGeocode")
 
         var nearbyWay = userGeometry.mapMatchedWay
-        if(nearbyWay == null) {
+        if (nearbyWay == null) {
             // We're not map matched, so find the nearest way by searching
             val ways = gridState.getFeatureTree(TreeId.ROADS)
                 .getNearestCollection(
@@ -92,23 +97,23 @@ class OfflineGeocoder(
                     5,
                     userGeometry.ruler
                 )
-            for(way in ways) {
-                if((way as Way).name != null) {
+            for (way in ways) {
+                if ((way as Way).name != null) {
                     nearbyWay = way
                     break
                 }
             }
         }
-        if(nearbyWay != null) {
+        if (nearbyWay != null) {
             val nearbyName = nearbyWay.properties?.get("pavement") as String? ?: nearbyWay.name
-            if(nearbyName != null) {
+            if (nearbyName != null) {
                 val description = StreetDescription(nearbyName, gridState)
                 description.createDescription(nearbyWay, localizedStrings)
                 val nearestWay = description.nearestWayOnStreet(userGeometry.location)
                 if ((nearestWay != null) && !ignoreHouseNumbers) {
                     val houseNumber =
                         description.getStreetNumber(nearestWay.first, userGeometry.location)
-                    if(houseNumber.first.isNotEmpty()) {
+                    if (houseNumber.first.isNotEmpty()) {
                         // We've got a street number
                         val houseFeature = MvtFeature()
                         houseFeature.properties = hashMapOf()
@@ -118,7 +123,8 @@ class OfflineGeocoder(
                             props["opposite"] = houseNumber.second
                         }
                         houseFeature.geometry = Point(userGeometry.location)
-                        return houseFeature.deferredToLocationDescription(LocationSource.OfflineGeocoder).also(processor)
+                        return houseFeature.deferredToLocationDescription(LocationSource.OfflineGeocoder)
+                            .also(processor)
                     }
                 }
                 // We couldn't get a street address, so try a descriptive address instead
@@ -130,40 +136,48 @@ class OfflineGeocoder(
                     localizedStrings
                 )
                 var text = ""
-                val formattedBehindDistance = formatDistanceAndDirection(result.behind.distance, null, localizedStrings)
-                val formattedAheadDistance = formatDistanceAndDirection(result.ahead.distance, null, localizedStrings)
+                val formattedBehindDistance =
+                    formatDistanceAndDirection(result.behind.distance, null, localizedStrings)
+                val formattedAheadDistance =
+                    formatDistanceAndDirection(result.ahead.distance, null, localizedStrings)
                 if (
                     (result.ahead.distance < 10.0) &&
-                    ((result.ahead.distance < result.behind.distance) || result.behind.name.isEmpty()))
-                {
+                    ((result.ahead.distance < result.behind.distance) || result.behind.name.isEmpty())
+                ) {
                     // If this is a street address, then it already includes the street name. Otherwise
                     // we want to add that in.
                     text = localizedStrings?.get(
                         StringKey.StreetDescriptionRelativeBefore, nearbyName, result.ahead.name
                     ) ?: "On $nearbyName just before ${result.ahead.name}"
-                }
-                else if (result.behind.distance < 10.0) {
+                } else if (result.behind.distance < 10.0) {
                     text = localizedStrings?.get(
                         StringKey.StreetDescriptionRelativeAfter, nearbyName, result.behind.name
                     ) ?: "On $nearbyName just after ${result.behind.name}"
-                }
-                else if(result.ahead.name.isNotEmpty() && result.behind.name.isNotEmpty()) {
+                } else if (result.ahead.name.isNotEmpty() && result.behind.name.isNotEmpty()) {
                     text = localizedStrings?.get(
-                        StringKey.StreetDescriptionBetween, nearbyName, result.behind.name, result.ahead.name
+                        StringKey.StreetDescriptionBetween,
+                        nearbyName,
+                        result.behind.name,
+                        result.ahead.name
                     ) ?: "On $nearbyName between ${result.behind.name} and ${result.ahead.name}"
                 } else {
-                    if(result.ahead.name.isNotEmpty()) {
+                    if (result.ahead.name.isNotEmpty()) {
                         text = localizedStrings?.get(
-                            StringKey.StreetDescriptionUntil, nearbyName, formattedAheadDistance, result.ahead.name
+                            StringKey.StreetDescriptionUntil,
+                            nearbyName,
+                            formattedAheadDistance,
+                            result.ahead.name
                         ) ?: "On $nearbyName, $formattedAheadDistance until ${result.ahead.name}"
-                    }
-                    else if(result.behind.name.isNotEmpty()) {
+                    } else if (result.behind.name.isNotEmpty()) {
                         text = localizedStrings?.get(
-                            StringKey.StreetDescriptionSince, nearbyName, formattedBehindDistance, result.behind.name
+                            StringKey.StreetDescriptionSince,
+                            nearbyName,
+                            formattedBehindDistance,
+                            result.behind.name
                         ) ?: "On $nearbyName, $formattedBehindDistance since ${result.behind.name}"
                     }
                 }
-                if(text.isNotEmpty()) {
+                if (text.isNotEmpty()) {
                     return LocationDescription(text, userGeometry.location)
                 }
             }
@@ -172,7 +186,7 @@ class OfflineGeocoder(
         // Check if we're near a bus/tram/train stop. This is useful when travelling on public transport
         val busStopTree = gridState.getFeatureTree(TreeId.TRANSIT_STOPS)
         val nearestBusStop = busStopTree.getNearestFeature(location, gridState.ruler, 20.0)
-        if(nearestBusStop != null) {
+        if (nearestBusStop != null) {
             val busStopText = getTextForFeature(null, nearestBusStop as MvtFeature)
             return LocationDescription(
                 name = busStopText.text,
@@ -185,7 +199,7 @@ class OfflineGeocoder(
         val insidePois = gridPoiTree.getContainingPolygons(location)
         insidePois.forEach { poi ->
             val mvt = poi as MvtFeature
-            if(!mvt.name.isNullOrEmpty()) {
+            if (!mvt.name.isNullOrEmpty()) {
                 val featureText = getTextForFeature(null, mvt)
                 return LocationDescription(
                     name = featureText.text,
@@ -198,7 +212,7 @@ class OfflineGeocoder(
         val nearbyPois = gridPoiTree.getNearestCollection(location, 300.0, 10, gridState.ruler)
         nearbyPois.forEach { poi ->
             val mvt = poi as MvtFeature
-            if(!mvt.name.isNullOrEmpty()) {
+            if (!mvt.name.isNullOrEmpty()) {
                 return LocationDescription(
                     name = getTextForFeature(null, mvt).text,
                     location = getNearestPointOnFeature(mvt, location),
@@ -216,11 +230,11 @@ class OfflineGeocoder(
         var nearestSettlement = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_HAMLET)
             .getNearestFeature(location, settlementGrid.ruler, 1000.0) as MvtFeature?
         var nearestSettlementName = nearestSettlement?.name
-        if(nearestSettlementName == null) {
+        if (nearestSettlementName == null) {
             nearestSettlement = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_VILLAGE)
                 .getNearestFeature(location, settlementGrid.ruler, 2000.0) as MvtFeature?
             nearestSettlementName = nearestSettlement?.name
-            if(nearestSettlementName == null) {
+            if (nearestSettlementName == null) {
                 nearestSettlement = settlementGrid.getFeatureTree(TreeId.SETTLEMENT_TOWN)
                     .getNearestFeature(location, settlementGrid.ruler, 4000.0) as MvtFeature?
                 nearestSettlementName = nearestSettlement?.name
@@ -233,12 +247,17 @@ class OfflineGeocoder(
         }
 
         // Check if the location is alongside a road/path
-        val nearestRoad = gridState.getNearestFeature(TreeId.WAYS_SELECTION, gridState.ruler, location, 100.0) as Way?
-        if(nearestRoad != null) {
+        val nearestRoad = gridState.getNearestFeature(
+            TreeId.WAYS_SELECTION,
+            gridState.ruler,
+            location,
+            100.0
+        ) as Way?
+        if (nearestRoad != null) {
             // We only want 'interesting' non-generic names i.e. no "Path" or "Service"
             val roadName = nearestRoad.getName(null, gridState, null, true)
-            if(roadName.isNotEmpty()) {
-                return if(nearestSettlementName != null) {
+            if (roadName.isNotEmpty()) {
+                return if (nearestSettlementName != null) {
                     LocationDescription(
                         name = roadName,
                         location = location
@@ -252,7 +271,7 @@ class OfflineGeocoder(
             }
         }
 
-        if(nearestSettlementName != null) {
+        if (nearestSettlementName != null) {
             //val distanceToSettlement = settlementGrid.ruler.distance(location, (nearestSettlement?.geometry as Point).coordinates)
             return LocationDescription(
                 name = nearestSettlementName,

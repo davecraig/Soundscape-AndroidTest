@@ -19,7 +19,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -85,17 +84,24 @@ fun HomeScreen(
     }
 
     val recordingEnabledFlow = remember(preferences) {
-        val initial = preferences.getBoolean(MainActivity.RECORD_TRAVEL_KEY, MainActivity.RECORD_TRAVEL_DEFAULT)
+        val initial = preferences.getBoolean(
+            MainActivity.RECORD_TRAVEL_KEY,
+            MainActivity.RECORD_TRAVEL_DEFAULT
+        )
         MutableStateFlow(initial).also { flow ->
             preferences.registerOnSharedPreferenceChangeListener { sp, key ->
                 if (key == MainActivity.RECORD_TRAVEL_KEY) {
-                    flow.value = sp.getBoolean(MainActivity.RECORD_TRAVEL_KEY, MainActivity.RECORD_TRAVEL_DEFAULT)
+                    flow.value = sp.getBoolean(
+                        MainActivity.RECORD_TRAVEL_KEY,
+                        MainActivity.RECORD_TRAVEL_DEFAULT
+                    )
                 }
             }
         }
     }
 
-    val permissionsRequiredFlow = remember(permissionsRequired) { MutableStateFlow(permissionsRequired) }
+    val permissionsRequiredFlow =
+        remember(permissionsRequired) { MutableStateFlow(permissionsRequired) }
     val voiceCommandListeningFlow: StateFlow<Boolean> = remember(viewModel) {
         viewModel.state.map { it.voiceCommandListening }
             .stateIn(
@@ -127,14 +133,24 @@ fun HomeScreen(
 
     val onMapLongClickListener: (LngLatAlt) -> Boolean = remember(viewModel, navStateHolder) {
         { lngLatAlt: LngLatAlt ->
-            val ld = viewModel.getLocationDescription(lngLatAlt) ?: LocationDescription("", lngLatAlt)
+            val ld =
+                viewModel.getLocationDescription(lngLatAlt) ?: LocationDescription("", lngLatAlt)
             navStateHolder.navigateWithLocation(navController, SharedRoutes.LOCATION_DETAILS, ld)
             AnalyticsProvider.getInstance().logEvent("longPressOnMap", null)
             true
         }
     }
 
-    val flows = remember(audioTour, audioTourRunningFlow, recordingEnabledFlow, permissionsRequiredFlow, voiceCommandListeningFlow, intentBus, offlineMaps, locationFlow) {
+    val flows = remember(
+        audioTour,
+        audioTourRunningFlow,
+        recordingEnabledFlow,
+        permissionsRequiredFlow,
+        voiceCommandListeningFlow,
+        intentBus,
+        offlineMaps,
+        locationFlow
+    ) {
         AppFlows(
             locationFlow = locationFlow,
             homeState = viewModel.state,
@@ -269,7 +285,8 @@ fun HomeScreen(
             },
             onLoadRoute = { routeId ->
                 kotlinx.coroutines.runBlocking {
-                    val routeWithMarkers = runCatching { routeDao.getRouteWithMarkers(routeId) }.getOrNull()
+                    val routeWithMarkers =
+                        runCatching { routeDao.getRouteWithMarkers(routeId) }.getOrNull()
                     routeWithMarkers?.markers?.map { marker ->
                         LocationDescription(
                             name = marker.name,
@@ -313,30 +330,30 @@ fun HomeScreen(
     }
 
     SharedNavHost(
-            navController = navController,
-            navStateHolder = navStateHolder,
-            flows = flows,
-            callbacks = callbacks,
-            startDestination = SharedRoutes.HOME,
-            audioTour = audioTour,
-            preferencesProvider = prefsProvider,
-            settingsContent = { navCtrl ->
-                val settingsViewModel: SettingsViewModel = koinViewModel()
-                val uiState by settingsViewModel.state.collectAsStateWithLifecycle()
+        navController = navController,
+        navStateHolder = navStateHolder,
+        flows = flows,
+        callbacks = callbacks,
+        startDestination = SharedRoutes.HOME,
+        audioTour = audioTour,
+        preferencesProvider = prefsProvider,
+        settingsContent = { navCtrl ->
+            val settingsViewModel: SettingsViewModel = koinViewModel()
+            val uiState by settingsViewModel.state.collectAsStateWithLifecycle()
 
-                Settings(
-                    navController = navCtrl,
-                    uiState = uiState,
-                    modifier = Modifier
-                        .windowInsetsPadding(WindowInsets.safeDrawing)
-                        .semantics { testTagsAsResourceId = true },
-                    storages = uiState.storages,
-                    onStorageSelected = { path -> settingsViewModel.selectStorage(path) },
-                    selectedStorageIndex = uiState.selectedStorageIndex,
-                    onResetSettings = callbacks.onResetSettings,
-                    onSetApplicationLocale = callbacks.onSetApplicationLocale,
-                )
-            },
-        )
+            Settings(
+                navController = navCtrl,
+                uiState = uiState,
+                modifier = Modifier
+                    .windowInsetsPadding(WindowInsets.safeDrawing)
+                    .semantics { testTagsAsResourceId = true },
+                storages = uiState.storages,
+                onStorageSelected = { path -> settingsViewModel.selectStorage(path) },
+                selectedStorageIndex = uiState.selectedStorageIndex,
+                onResetSettings = callbacks.onResetSettings,
+                onSetApplicationLocale = callbacks.onSetApplicationLocale,
+            )
+        },
+    )
 }
 

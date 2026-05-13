@@ -4,20 +4,20 @@ import kotlinx.coroutines.CloseableCoroutineDispatcher
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
+import okio.Path.Companion.toPath
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.vectorTileToGeoJson
-import org.scottishtecharmy.soundscape.geoengine.utils.mergeAllPolygonsInFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.decompressTile
+import org.scottishtecharmy.soundscape.geoengine.utils.mergeAllPolygonsInFeatureCollection
+import org.scottishtecharmy.soundscape.geoengine.utils.pmtiles.PmTilesReader
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.geoengine.utils.pmtiles.PmTilesReader
 import org.scottishtecharmy.soundscape.platform.ioDispatcher
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 import vector_tile.Tile
-import okio.Path.Companion.toPath
 import kotlin.coroutines.cancellation.CancellationException
-import kotlin.time.measureTime
 import kotlin.time.TimeSource
+import kotlin.time.measureTime
 
 @OptIn(ExperimentalCoroutinesApi::class, DelicateCoroutinesApi::class)
 open class ProtomapsGridState(
@@ -38,7 +38,7 @@ open class ProtomapsGridState(
 
     override fun stop() {
         super.stop()
-        for(reader in fileTileReaders)
+        for (reader in fileTileReaders)
             reader?.close()
         fileTileReaders = arrayOfNulls<PmTilesReader?>(gridSize * gridSize)
     }
@@ -80,23 +80,22 @@ open class ProtomapsGridState(
             try {
                 val startMark = TimeSource.Monotonic.markNow()
 
-                var result : Tile? = null
+                var result: Tile? = null
 
                 // Try the reader that we are currently using first
                 var reader = fileTileReaders[workerIndex]
                 var fileTile: ByteArray? = reader?.getTile(zoomLevel, x, y)
 
-                if(fileTile == null)
-                {
+                if (fileTile == null) {
                     // We failed to get a tile from the current reader, so we need to find one that
                     // does work. Reset it, and then see if we can find an extract that does work.
                     fileTileReaders[workerIndex]?.close()
                     fileTileReaders[workerIndex] = null
-                    for(extract in currentExtracts) {
+                    for (extract in currentExtracts) {
                         println("Try $extract for worker $workerIndex")
                         reader = PmTilesReader(extract.toPath())
                         fileTile = reader.getTile(zoomLevel, x, y)
-                        if(fileTile != null) {
+                        if (fileTile != null) {
                             // We've found an extract that works, so use that
                             fileTileReaders[workerIndex] = reader
                             break
@@ -104,13 +103,13 @@ open class ProtomapsGridState(
                         reader.close()
                     }
                 }
-                if(fileTile != null) {
+                if (fileTile != null) {
                     // Turn the byte array into a VectorTile
                     result = decompressTile(reader?.tileCompression, fileTile)
                 }
 
                 // Fallback to network
-                if(result == null) {
+                if (result == null) {
                     val bytes = tileClient?.getTile(x, y, zoomLevel)
                     if (bytes != null) result = Tile.ADAPTER.decode(bytes)
                 }
@@ -126,10 +125,11 @@ open class ProtomapsGridState(
                             mvt = result,
                             intersectionMap = intersectionMap,
                             streetNumberMap = streetNumberMap,
-                            tileZoom = zoomLevel)
+                            tileZoom = zoomLevel
+                        )
                     }
                     val addTime = measureTime {
-                        if(collections != null) {
+                        if (collections != null) {
                             for ((index, collection) in collections!!.withIndex()) {
                                 featureCollections[index] += collection
                             }

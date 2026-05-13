@@ -29,7 +29,8 @@ namespace soundscape {
         if (rawData && rawSize > 44) {
             parseWav(rawData, rawSize);
         } else {
-            TRACE("WavDecoder: asset too small or null: %s (%zu bytes)", assetPath.c_str(), rawSize);
+            TRACE("WavDecoder: asset too small or null: %s (%zu bytes)", assetPath.c_str(),
+                  rawSize);
         }
 
         AAsset_close(asset);

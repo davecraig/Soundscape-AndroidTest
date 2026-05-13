@@ -15,11 +15,12 @@ import org.scottishtecharmy.soundscape.components.EnabledFunction
 import org.scottishtecharmy.soundscape.components.FolderItem
 import org.scottishtecharmy.soundscape.components.LocationItem
 import org.scottishtecharmy.soundscape.components.LocationItemDecoration
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.location_detail_action_beacon_hint
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.talkbackHint
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 import org.scottishtecharmy.soundscape.utils.process
-import org.scottishtecharmy.soundscape.resources.*
 
 @Composable
 fun PlacesNearbyList(
@@ -37,9 +38,9 @@ fun PlacesNearbyList(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(spacing.tiny),
     ) {
-        if(uiState.level  == 0) {
+        if (uiState.level == 0) {
             itemsIndexed(placesNearbyFolders) { index, folderItem ->
-                if(index == 0) {
+                if (index == 0) {
                     HorizontalDivider(
                         thickness = spacing.tiny,
                         color = MaterialTheme.colorScheme.outlineVariant
@@ -59,7 +60,7 @@ fun PlacesNearbyList(
             }
         } else {
             itemsIndexed(locations) { index, locationDescription ->
-                if(index == 0) {
+                if (index == 0) {
                     HorizontalDivider(
                         thickness = spacing.tiny,
                         color = MaterialTheme.colorScheme.outlineVariant

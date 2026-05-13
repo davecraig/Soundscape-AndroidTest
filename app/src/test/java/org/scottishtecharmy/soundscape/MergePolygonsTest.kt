@@ -26,8 +26,10 @@ class MergePolygonsTest {
 
     @Test
     fun mergePolygons() {
-        val polygon1String = "{\"geometry\":{\"coordinates\":[[[-2.641388475894928,51.54281206119232],[-2.641863226890564,51.54281206119232],[-2.641788125038147,51.542920490515364],[-2.6419490575790405,51.542963862172236],[-2.6418471336364746,51.54311232637706],[-2.6416057348251343,51.543047269088504],[-2.641710340976715,51.54289880467142],[-2.641388475894928,51.54281206119232]]],\"type\":\"Polygon\"},\"feature_type\":\"building\",\"feature_value\":\"warehouse\",\"osm_ids\":[6.250644792E9],\"properties\":{\"name\":\"Amazon\",\"building\":\"warehouse\",\"osm_ids\":6.250644792E9},\"type\":\"Feature\"}"
-        val polygon2String = "{\"geometry\":{\"coordinates\":[[[-2.6413187384605408,51.54015462794914],[-2.643338441848755,51.54069847186351],[-2.6431426405906677,51.540978732447456],[-2.643257975578308,51.54100876026479],[-2.6431775093078613,51.54112553492164],[-2.6430460810661316,51.54109050255605],[-2.6425498723983765,51.541801153839955],[-2.6426008343696594,51.54181449929781],[-2.6425471901893616,51.54189290378369],[-2.642509639263153,51.54188289470791],[-2.641788125038147,51.542920490515364],[-2.6419490575790405,51.542963862172236],[-2.6419061422348022,51.54302558330498],[-2.6416218280792236,51.54302558330498],[-2.641710340976715,51.54289880467142],[-2.6407554745674133,51.5426402418898],[-2.6407313346862793,51.54267527306238],[-2.640613317489624,51.54264357819311],[-2.640637457370758,51.54260521069025],[-2.639513611793518,51.54230327399525],[-2.639618217945099,51.542153138981284],[-2.639486789703369,51.54211810740676],[-2.6406213641166687,51.54048827529291],[-2.641012966632843,51.540593373699565],[-2.6413187384605408,51.54015462794914]]],\"type\":\"Polygon\"},\"feature_type\":\"building\",\"feature_value\":\"warehouse\",\"osm_ids\":[6.250644792E9],\"properties\":{\"name\":\"Amazon\",\"building\":\"warehouse\",\"osm_ids\":6.250644792E9},\"type\":\"Feature\"}"
+        val polygon1String =
+            "{\"geometry\":{\"coordinates\":[[[-2.641388475894928,51.54281206119232],[-2.641863226890564,51.54281206119232],[-2.641788125038147,51.542920490515364],[-2.6419490575790405,51.542963862172236],[-2.6418471336364746,51.54311232637706],[-2.6416057348251343,51.543047269088504],[-2.641710340976715,51.54289880467142],[-2.641388475894928,51.54281206119232]]],\"type\":\"Polygon\"},\"feature_type\":\"building\",\"feature_value\":\"warehouse\",\"osm_ids\":[6.250644792E9],\"properties\":{\"name\":\"Amazon\",\"building\":\"warehouse\",\"osm_ids\":6.250644792E9},\"type\":\"Feature\"}"
+        val polygon2String =
+            "{\"geometry\":{\"coordinates\":[[[-2.6413187384605408,51.54015462794914],[-2.643338441848755,51.54069847186351],[-2.6431426405906677,51.540978732447456],[-2.643257975578308,51.54100876026479],[-2.6431775093078613,51.54112553492164],[-2.6430460810661316,51.54109050255605],[-2.6425498723983765,51.541801153839955],[-2.6426008343696594,51.54181449929781],[-2.6425471901893616,51.54189290378369],[-2.642509639263153,51.54188289470791],[-2.641788125038147,51.542920490515364],[-2.6419490575790405,51.542963862172236],[-2.6419061422348022,51.54302558330498],[-2.6416218280792236,51.54302558330498],[-2.641710340976715,51.54289880467142],[-2.6407554745674133,51.5426402418898],[-2.6407313346862793,51.54267527306238],[-2.640613317489624,51.54264357819311],[-2.640637457370758,51.54260521069025],[-2.639513611793518,51.54230327399525],[-2.639618217945099,51.542153138981284],[-2.639486789703369,51.54211810740676],[-2.6406213641166687,51.54048827529291],[-2.641012966632843,51.540593373699565],[-2.6413187384605408,51.54015462794914]]],\"type\":\"Polygon\"},\"feature_type\":\"building\",\"feature_value\":\"warehouse\",\"osm_ids\":[6.250644792E9],\"properties\":{\"name\":\"Amazon\",\"building\":\"warehouse\",\"osm_ids\":6.250644792E9},\"type\":\"Feature\"}"
         val feature1 = moshi.adapter(GeoJsonObject::class.java).fromJson(polygon1String)
         val feature2 = moshi.adapter(GeoJsonObject::class.java).fromJson(polygon2String)
 
@@ -46,16 +48,16 @@ class MergePolygonsTest {
         println(feature2String)*/
         val geometryFactory = GeometryFactory()
         val feature1Coordinates = (feature1.geometry as? Polygon)?.coordinates?.firstOrNull()
-            ?.map {
-                position -> Coordinate(position.longitude, position.latitude)
+            ?.map { position ->
+                Coordinate(position.longitude, position.latitude)
             }?.toTypedArray()
         val feature2Coordinates = (feature2.geometry as? Polygon)?.coordinates?.firstOrNull()
-            ?.map {
-                position -> Coordinate(position.longitude, position.latitude)
+            ?.map { position ->
+                Coordinate(position.longitude, position.latitude)
             }?.toTypedArray()
 
-        val polygon1GeometryJTS = feature1Coordinates?.let { geometryFactory.createPolygon(it)}
-        val polygon2GeometryJTS = feature2Coordinates?.let { geometryFactory.createPolygon(it)}
+        val polygon1GeometryJTS = feature1Coordinates?.let { geometryFactory.createPolygon(it) }
+        val polygon2GeometryJTS = feature2Coordinates?.let { geometryFactory.createPolygon(it) }
         // merge/union the polygons
         val mergedGeometryJTS = polygon1GeometryJTS?.union(polygon2GeometryJTS)
         // create a new Polygon with a single outer ring using the coordinates from the JTS merged geometry
@@ -67,7 +69,7 @@ class MergePolygonsTest {
             feature.geometry = Polygon().also { polygon ->
                 //Convert JTS to GeoJSON coordinates
                 val geoJsonCoordinates = mergedGeometryJTS?.coordinates?.map { coordinate ->
-                    LngLatAlt(coordinate.x, coordinate.y )
+                    LngLatAlt(coordinate.x, coordinate.y)
                 }?.let {
                     arrayListOf(arrayListOf(*it.toTypedArray()))
                 }
@@ -80,7 +82,7 @@ class MergePolygonsTest {
     }
 
     @Test
-    fun mergeAllPolygonsInGrid(){
+    fun mergeAllPolygonsInGrid() {
         val location = LngLatAlt(-2.640563550340726, 51.540046658498945)
 
         val getGeoJsonForLocationFeatureCollection = getGeoJsonForLocation(location)
@@ -108,14 +110,20 @@ class MergePolygonsTest {
 
             // Merge duplicate polygons
             if (originalFeature != null && originalFeature.geometry.type == "Polygon" && duplicate.geometry.type == "Polygon") {
-                mergedPolygonsFeatureCollection.features.add(mergePolygons(originalFeature, duplicate))
+                mergedPolygonsFeatureCollection.features.add(
+                    mergePolygons(
+                        originalFeature,
+                        duplicate
+                    )
+                )
                 // Add to the set
-                originalFeature.properties?.get("osm_ids")?.let { originalPolygonsUsedInMerge.add(it) }
+                originalFeature.properties?.get("osm_ids")
+                    ?.let { originalPolygonsUsedInMerge.add(it) }
                 // Add to the set
                 duplicate.properties?.get("osm_ids")?.let { originalPolygonsUsedInMerge.add(it) }
             } else {
                 // TODO Merge the linestrings so we get a contiguous road/path
-                if (duplicate.geometry.type == "LineString" || duplicate.geometry.type == "Point"){
+                if (duplicate.geometry.type == "LineString" || duplicate.geometry.type == "Point") {
                     duplicateLineStringsAndPoints.features.add(duplicate)
                 }
             }
@@ -129,7 +137,11 @@ class MergePolygonsTest {
 
         // Add original Features but excluding the Polygons that were merged
         for (feature in notDuplicateFeaturesFeatureCollection.features) {
-            if (!isDuplicateByOsmId(originalPolygonsUsedInMerge, feature as MvtFeature)) { // Check object identity
+            if (!isDuplicateByOsmId(
+                    originalPolygonsUsedInMerge,
+                    feature as MvtFeature
+                )
+            ) { // Check object identity
                 finalFeatureCollection.features.add(feature)
             }
         }
@@ -142,7 +154,7 @@ class MergePolygonsTest {
         // so fix that.
         for (feature in finalFeatureCollection.features) {
             if (feature.geometry.type == "Polygon") {
-                if (isPolygonClockwise(feature)){
+                if (isPolygonClockwise(feature)) {
                     (feature.geometry as Polygon).coordinates[0].reverse()
                 }
             }
@@ -151,13 +163,14 @@ class MergePolygonsTest {
         //TODO: figure out why the MVT tile has a linestring with only one coordinate? GeoJSON has a huff about it
         val thisIsTheFinalFeatureCollectionHonest = FeatureCollection()
         for (feature in finalFeatureCollection) {
-            if (feature.geometry.type == "LineString" && (feature.geometry as LineString).coordinates.size < 2 ){
+            if (feature.geometry.type == "LineString" && (feature.geometry as LineString).coordinates.size < 2) {
                 println("Bug: This is a linestring with only one coordinate")
             } else {
                 thisIsTheFinalFeatureCollectionHonest.features.add(feature)
             }
         }
-        val mergedGridPolygonsFeatureCollection = moshi.adapter(FeatureCollection::class.java).toJson(thisIsTheFinalFeatureCollectionHonest)
+        val mergedGridPolygonsFeatureCollection = moshi.adapter(FeatureCollection::class.java)
+            .toJson(thisIsTheFinalFeatureCollectionHonest)
         println(mergedGridPolygonsFeatureCollection)
     }
 
@@ -168,16 +181,16 @@ class MergePolygonsTest {
 
         val geometryFactory = GeometryFactory()
         val feature1Coordinates = (polygon1.geometry as? Polygon)?.coordinates?.firstOrNull()
-            ?.map {
-                    position -> Coordinate(position.longitude, position.latitude)
+            ?.map { position ->
+                Coordinate(position.longitude, position.latitude)
             }?.toTypedArray()
         val feature2Coordinates = (polygon2.geometry as? Polygon)?.coordinates?.firstOrNull()
-            ?.map {
-                    position -> Coordinate(position.longitude, position.latitude)
+            ?.map { position ->
+                Coordinate(position.longitude, position.latitude)
             }?.toTypedArray()
 
-        val polygon1GeometryJTS = feature1Coordinates?.let { geometryFactory.createPolygon(it)}
-        val polygon2GeometryJTS = feature2Coordinates?.let { geometryFactory.createPolygon(it)}
+        val polygon1GeometryJTS = feature1Coordinates?.let { geometryFactory.createPolygon(it) }
+        val polygon2GeometryJTS = feature2Coordinates?.let { geometryFactory.createPolygon(it) }
         // merge/union the polygons
         val mergedGeometryJTS = polygon1GeometryJTS?.union(polygon2GeometryJTS)
         // create a new Polygon with a single outer ring using the coordinates from the JTS merged geometry
@@ -187,7 +200,7 @@ class MergePolygonsTest {
             feature.geometry = Polygon().also { polygon ->
                 //Convert JTS to GeoJSON coordinates
                 val geoJsonCoordinates = mergedGeometryJTS?.coordinates?.map { coordinate ->
-                    LngLatAlt(coordinate.x, coordinate.y )
+                    LngLatAlt(coordinate.x, coordinate.y)
                 }?.let {
                     arrayListOf(arrayListOf(*it.toTypedArray()))
                 }
@@ -204,7 +217,7 @@ class MergePolygonsTest {
         val coordinates = (feature.geometry as Polygon).coordinates[0]
         var area = 0.0
         val n = coordinates.size
-        for(i in 0 until n) {
+        for (i in 0 until n) {
             val j = (i + 1) % n
             area += (coordinates[j].longitude - coordinates[i].longitude) * (coordinates[j].latitude + coordinates[i].latitude)
 
@@ -232,7 +245,7 @@ class MergePolygonsTest {
 
         // Read in the files
         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
-        val streetNumberMap:  HashMap<String, FeatureCollection> = hashMapOf()
+        val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
         val featureCollection = FeatureCollection()
         for (tile in grid.tiles) {
             val geojson = vectorTileToGeoJsonFromFile(
@@ -241,14 +254,15 @@ class MergePolygonsTest {
                 intersectionMap,
                 streetNumberMap
             )
-            for(collection in geojson) {
+            for (collection in geojson) {
                 for (feature in collection) {
                     featureCollection.addFeature(feature)
                 }
             }
         }
         val adapter = GeoJsonObjectMoshiAdapter()
-        val outputFile = FileOutputStream("${grid.tiles[0].tileX}-${grid.tiles[1].tileX}x${grid.tiles[0].tileY}-${grid.tiles[3].tileY}.geojson")
+        val outputFile =
+            FileOutputStream("${grid.tiles[0].tileX}-${grid.tiles[1].tileX}x${grid.tiles[0].tileY}-${grid.tiles[3].tileY}.geojson")
         outputFile.write(adapter.toJson(featureCollection).toByteArray())
         outputFile.close()
 
@@ -258,8 +272,8 @@ class MergePolygonsTest {
     private fun vectorTileToGeoJsonFromFile(
         tileX: Int,
         tileY: Int,
-        intersectionMap:  HashMap<LngLatAlt, Intersection>,
-        streetNumberMap:  HashMap<String, FeatureCollection>
+        intersectionMap: HashMap<LngLatAlt, Intersection>,
+        streetNumberMap: HashMap<String, FeatureCollection>
     ): Array<FeatureCollection> {
 
         val gridState = FileGridState()

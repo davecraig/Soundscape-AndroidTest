@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 data class NavigatingScreenState(
-    val permissionsStatus: Map<Permission, Boolean>) {
+    val permissionsStatus: Map<Permission, Boolean>
+) {
     val continueEnabled: Boolean
         get() = permissionsStatus.filterKeys {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

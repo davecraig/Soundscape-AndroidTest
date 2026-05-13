@@ -162,6 +162,7 @@ class PmTilesReader(path: Path, fileSystem: FileSystem = systemFileSystem) : Aut
                     val source = Buffer().write(data)
                     GzipSource(source).buffer().readByteArray()
                 }
+
                 else -> throw UnsupportedOperationException(
                     "Internal compression $compression not supported"
                 )

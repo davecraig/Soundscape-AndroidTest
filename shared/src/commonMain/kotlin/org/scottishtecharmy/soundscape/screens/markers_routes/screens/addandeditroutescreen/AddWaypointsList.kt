@@ -32,24 +32,30 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.jetbrains.compose.resources.stringResource
-import org.scottishtecharmy.soundscape.platform.ioDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.EnabledFunction
+import org.scottishtecharmy.soundscape.components.FolderItem
 import org.scottishtecharmy.soundscape.components.LocationItem
 import org.scottishtecharmy.soundscape.components.LocationItemDecoration
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.platform.ioDispatcher
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.general_loading_start
+import org.scottishtecharmy.soundscape.resources.location_detail_add_waypoint_existing_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_add_waypoint_new_hint
+import org.scottishtecharmy.soundscape.resources.places_nearby_selection_description
+import org.scottishtecharmy.soundscape.resources.search_nearby_screen_title
+import org.scottishtecharmy.soundscape.resources.search_use_current_location
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
-import org.scottishtecharmy.soundscape.ui.theme.spacing
-import org.scottishtecharmy.soundscape.components.FolderItem
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.Folder
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyUiState
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.filterLocations
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.placesNearbyFolders
 import org.scottishtecharmy.soundscape.screens.talkbackHint
+import org.scottishtecharmy.soundscape.ui.theme.spacing
 import org.scottishtecharmy.soundscape.utils.process
-import org.scottishtecharmy.soundscape.resources.*
 
 class AddWaypointsListViewModel : ViewModel() {
     private val _listState = LazyListState()
@@ -77,19 +83,23 @@ fun AddWaypointsList(
                         routeMember.databaseId == marker.databaseId
                     }
                 }
-            )
-        }
+                )
+            }
     }
     // Set the switches for those in the route to true, keyed by databaseId
     val routeMemberState = remember(uiState.routeMembers, uiState.markers, uiState.toggledMembers) {
         mutableStateMapOf<Long?, Boolean>().apply {
             // Markers not in route: true if toggled in
             uiState.markers.forEach { marker ->
-                put(marker.databaseId, uiState.toggledMembers.any { it.databaseId == marker.databaseId })
+                put(
+                    marker.databaseId,
+                    uiState.toggledMembers.any { it.databaseId == marker.databaseId })
             }
             // Route members: true unless toggled out
             uiState.routeMembers.forEach { member ->
-                put(member.databaseId, !uiState.toggledMembers.any { it.databaseId == member.databaseId })
+                put(
+                    member.databaseId,
+                    !uiState.toggledMembers.any { it.databaseId == member.databaseId })
             }
         }
     }
@@ -98,7 +108,12 @@ fun AddWaypointsList(
 
     // Add PlacesNearby entries
     val levelZeroFolders = listOf(
-        Folder(Res.string.search_nearby_screen_title, Icons.Rounded.LocationSearching, "", Res.string.places_nearby_selection_description),
+        Folder(
+            Res.string.search_nearby_screen_title,
+            Icons.Rounded.LocationSearching,
+            "",
+            Res.string.places_nearby_selection_description
+        ),
     )
     val levelOneFolders = placesNearbyFolders
     val nearbyLocations = remember(placesNearbyUiState) {
@@ -177,7 +192,9 @@ fun AddWaypointsList(
                                 .defaultMinSize(minHeight = 48.dp)
                                 .then(
                                     if (announceLoading) Modifier.semantics {
-                                        contentDescription = kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.general_loading_start) }
+                                        contentDescription = kotlinx.coroutines.runBlocking {
+                                            org.jetbrains.compose.resources.getString(Res.string.general_loading_start)
+                                        }
                                         liveRegion = LiveRegionMode.Polite
                                     } else Modifier
                                 )

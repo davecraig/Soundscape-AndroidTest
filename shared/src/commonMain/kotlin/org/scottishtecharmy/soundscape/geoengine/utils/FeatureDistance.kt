@@ -29,7 +29,8 @@ fun getDistanceToFeature(
             return PointAndDistanceAndHeading(
                 point.coordinates,
                 distanceToFeaturePoint,
-                heading)
+                heading
+            )
         }
 
         "MultiPoint" -> {
@@ -119,7 +120,11 @@ fun getDistanceToFeatureCollection(
     for (feature in featureCollection) {
         feature.properties?.put(
             "distance_to",
-            getDistanceToFeature(currentLocation, feature, currentLocation.createCheapRuler()).distance
+            getDistanceToFeature(
+                currentLocation,
+                feature,
+                currentLocation.createCheapRuler()
+            ).distance
         )
     }
     return featureCollection
@@ -135,7 +140,8 @@ fun sortedByDistanceTo(
         featureCollection
     )
     val featuresSortedByDistanceList = featuresWithDistance.features
-        .sortedBy {(it.properties?.get("distance_to") as? Number)?.toDouble() ?: Double.MAX_VALUE
+        .sortedBy {
+            (it.properties?.get("distance_to") as? Number)?.toDouble() ?: Double.MAX_VALUE
         }
     val featuresSortedByDistance = FeatureCollection()
     for (feature in featuresSortedByDistanceList) {

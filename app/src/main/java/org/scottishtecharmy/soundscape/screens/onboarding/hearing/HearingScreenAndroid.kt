@@ -5,8 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
+import org.scottishtecharmy.soundscape.resources.Res
+import org.scottishtecharmy.soundscape.resources.first_launch_callouts_example_1
+import org.scottishtecharmy.soundscape.resources.first_launch_callouts_example_3
+import org.scottishtecharmy.soundscape.resources.first_launch_callouts_example_4
 import org.scottishtecharmy.soundscape.screens.onboarding.AudioOnboardingViewModel
-import org.scottishtecharmy.soundscape.resources.*
 
 // Hearing composable is now in shared module
 

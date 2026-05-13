@@ -27,31 +27,34 @@ class MultiGeocoder(
 ) : SoundscapeGeocoder() {
 
     private val fusedGeocoder = FusedGeocoder(gridState, photonGeocoder, platformGeocoder)
-    private val localGeocoder = OfflineGeocoder(gridState, settlementState, tileSearch, analyticsLogger, processor)
+    private val localGeocoder =
+        OfflineGeocoder(gridState, settlementState, tileSearch, analyticsLogger, processor)
 
-    private fun pickGeocoder() : SoundscapeGeocoder? {
+    private fun pickGeocoder(): SoundscapeGeocoder? {
         val settingsChoice = geocoderMode()
-        return if(hasNetwork() && (settingsChoice != "Offline"))
+        return if (hasNetwork() && (settingsChoice != "Offline"))
             fusedGeocoder
         else
             localGeocoder
     }
 
-    override suspend fun getAddressFromLocationName(locationName: String,
-                                                    nearbyLocation: LngLatAlt,
-                                                    localizedStrings: LocalizedStrings?) : List<LocationDescription> {
+    override suspend fun getAddressFromLocationName(
+        locationName: String,
+        nearbyLocation: LngLatAlt,
+        localizedStrings: LocalizedStrings?
+    ): List<LocationDescription> {
 
         val results: MutableList<LocationDescription> = mutableListOf()
 
         val markers = gridState.markerTree?.getAllCollection()
-        if(markers != null) {
+        if (markers != null) {
             val needle = normalizeForSearch(locationName)
-            for(marker in markers) {
+            for (marker in markers) {
                 val mvt = marker as MvtFeature
-                if(mvt.name != null) {
+                if (mvt.name != null) {
                     val haystack = normalizeForSearch(mvt.name!!)
                     val score = haystack.fuzzyCompare(needle, true)
-                    if(score < 0.25) {
+                    if (score < 0.25) {
                         val ld = mvt.deferredToLocationDescription(LocationSource.OfflineGeocoder)
                             .also(processor)
                         results.add(ld)
@@ -60,8 +63,12 @@ class MultiGeocoder(
             }
         }
 
-        val geocoderResults = pickGeocoder()?.getAddressFromLocationName(locationName, nearbyLocation, localizedStrings)
-        if(geocoderResults != null) {
+        val geocoderResults = pickGeocoder()?.getAddressFromLocationName(
+            locationName,
+            nearbyLocation,
+            localizedStrings
+        )
+        if (geocoderResults != null) {
             for (result in geocoderResults) {
                 results.add(result)
             }
@@ -70,13 +77,16 @@ class MultiGeocoder(
         return results
     }
 
-    override suspend fun getAddressFromLngLat(userGeometry: UserGeometry,
-                                              localizedStrings: LocalizedStrings?,
-                                              ignoreHouseNumbers: Boolean) : LocationDescription? {
+    override suspend fun getAddressFromLngLat(
+        userGeometry: UserGeometry,
+        localizedStrings: LocalizedStrings?,
+        ignoreHouseNumbers: Boolean
+    ): LocationDescription? {
         val firstGeocoder = pickGeocoder()
-        var results = firstGeocoder?.getAddressFromLngLat(userGeometry, localizedStrings, ignoreHouseNumbers)
-        if(results == null) {
-            if(firstGeocoder != localGeocoder) {
+        var results =
+            firstGeocoder?.getAddressFromLngLat(userGeometry, localizedStrings, ignoreHouseNumbers)
+        if (results == null) {
+            if (firstGeocoder != localGeocoder) {
                 results = localGeocoder.getAddressFromLngLat(
                     userGeometry,
                     localizedStrings,

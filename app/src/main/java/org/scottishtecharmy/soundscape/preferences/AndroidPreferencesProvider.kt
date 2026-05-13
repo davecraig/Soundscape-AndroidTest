@@ -6,7 +6,8 @@ import androidx.core.content.edit
 class AndroidPreferencesProvider(
     private val sharedPreferences: SharedPreferences
 ) : PreferencesProvider {
-    private val androidListeners = mutableMapOf<PreferencesListener, SharedPreferences.OnSharedPreferenceChangeListener>()
+    private val androidListeners =
+        mutableMapOf<PreferencesListener, SharedPreferences.OnSharedPreferenceChangeListener>()
 
     override fun getBoolean(key: String, default: Boolean): Boolean =
         sharedPreferences.getBoolean(key, default)
