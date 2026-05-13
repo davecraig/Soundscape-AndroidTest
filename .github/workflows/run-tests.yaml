@@ -169,6 +169,7 @@ jobs:
             -configuration Debug \
             -sdk iphonesimulator \
             -destination "$SIMULATOR_DESTINATION" \
+            -derivedDataPath iosApp/build/DerivedData \
             CODE_SIGNING_ALLOWED=NO
 
       - name: Run XCTest suite
@@ -181,6 +182,7 @@ jobs:
             -configuration Debug \
             -sdk iphonesimulator \
             -destination "$SIMULATOR_DESTINATION" \
+            -derivedDataPath iosApp/build/DerivedData \
             CODE_SIGNING_ALLOWED=NO
 
       - name: Upload xcresult bundle
@@ -188,7 +190,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: ios-xcresult
-          path: ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
+          path: iosApp/build/DerivedData/Logs/Test/*.xcresult
 
       - name: Raise error on test fail
         if: steps.xctest.outcome != 'success'
