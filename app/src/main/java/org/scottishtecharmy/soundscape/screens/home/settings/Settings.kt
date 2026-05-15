@@ -33,6 +33,9 @@ fun Settings(
     selectedStorageIndex: Int,
     onResetSettings: (() -> Unit)?,
     onSetApplicationLocale: ((String?) -> Unit)?,
+    onBeaconPreviewStart: ((String) -> Unit)? = null,
+    onBeaconPreviewUpdate: ((String) -> Unit)? = null,
+    onBeaconPreviewStop: ((Boolean, String?) -> Unit)? = null,
     previewExpandedSection: String? = null,
 ) {
     val beaconValues = uiState.beaconValues
@@ -79,6 +82,9 @@ fun Settings(
         },
         onResetSettings = onResetSettings,
         onSetApplicationLocale = onSetApplicationLocale,
+        onBeaconPreviewStart = onBeaconPreviewStart,
+        onBeaconPreviewUpdate = onBeaconPreviewUpdate,
+        onBeaconPreviewStop = onBeaconPreviewStop,
         modifier = modifier,
 
         platformAccessibilityContent = {

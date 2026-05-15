@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape.screens.home.settings
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,11 +16,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import me.zhanghai.compose.preference.ProvidePreferenceLocals
 import me.zhanghai.compose.preference.listPreference
@@ -128,6 +132,24 @@ fun SharedSettingsScreen(
      * section renders a [LanguageDropDownMenu] reflecting the current locale.
      */
     onSetApplicationLocale: ((String?) -> Unit)? = null,
+    /**
+     * Beacon style audio preview. When all three are non-null the beacon style
+     * row opens a dialog that asks the platform to play a temporary beacon at
+     * the given style so the user can hear it before committing the choice.
+     * iOS currently leaves these null; the dialog still lets the user pick a
+     * style, just without an audio preview.
+     *
+     * - [onBeaconPreviewStart] is fired with the currently-saved style when the
+     *   dialog opens.
+     * - [onBeaconPreviewUpdate] is fired with the tapped style as the user
+     *   moves through the list, without persisting the choice.
+     * - [onBeaconPreviewStop] is fired with `(commit=true, chosen)` on OK or
+     *   `(commit=false, null)` on Cancel/dismiss; persistence of the chosen
+     *   style happens via the shared [PreferencesProvider] before this call.
+     */
+    onBeaconPreviewStart: ((String) -> Unit)? = null,
+    onBeaconPreviewUpdate: ((String) -> Unit)? = null,
+    onBeaconPreviewStop: ((Boolean, String?) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val showResetDialog = rememberSaveable { mutableStateOf(false) }
@@ -487,30 +509,17 @@ fun SharedSettingsScreen(
             }
             if (expandedSection.value == "audio") {
                 if (beaconTypes.isNotEmpty()) {
-                    listPreference(
-                        key = PreferenceKeys.BEACON_TYPE,
-                        defaultValue = PreferenceDefaults.BEACON_TYPE,
-                        values = beaconTypes,
-                        modifier = expandedSectionModifier,
-                        title = {
-                            SettingDetails(
-                                Res.string.beacon_settings_style,
-                                Res.string.beacon_settings_style_description,
-                                textColor
-                            )
-                        },
-                        item = { value, currentValue, onClick ->
-                            ListPreferenceItem(
-                                value,
-                                value,
-                                currentValue,
-                                onClick,
-                                beaconTypes.indexOf(value),
-                                beaconTypes.size
-                            )
-                        },
-                        summary = { ClickableOption(it, textColor) },
-                    )
+                    item(key = "beacon_style_preview") {
+                        BeaconStylePreference(
+                            beaconTypes = beaconTypes,
+                            preferencesProvider = preferencesProvider,
+                            modifier = expandedSectionModifier,
+                            textColor = textColor,
+                            onPreviewStart = onBeaconPreviewStart,
+                            onPreviewUpdate = onBeaconPreviewUpdate,
+                            onPreviewStop = onBeaconPreviewStop,
+                        )
+                    }
                 }
 
                 platformAudioContent?.invoke(this)
@@ -742,5 +751,123 @@ fun SharedSettingsScreen(
                 }
             }
         }
+    }
+}
+
+/**
+ * Beacon style preference with an inline audio preview.
+ *
+ * Tapping the row opens a dialog that:
+ *  - on open, fires [onPreviewStart] with the currently saved style so the
+ *    platform can stop any running beacon and start a temporary preview
+ *    beacon directly ahead of the listener;
+ *  - on each option tap, swaps [selectedInDialog] and fires [onPreviewUpdate]
+ *    without persisting the choice (so a Cancel cleanly reverts);
+ *  - on OK, persists the selected style via [preferencesProvider] and fires
+ *    [onPreviewStop] with `(true, chosen)` so the platform can restore the
+ *    previously-running beacon (now using the new style);
+ *  - on Cancel/dismiss, fires [onPreviewStop] with `(false, null)` so the
+ *    platform reverts the engine and restores the previously-running beacon.
+ *
+ * Preview callbacks are optional: iOS leaves them null and gets a silent
+ * picker; Android wires them through SoundscapeService.
+ */
+@Composable
+private fun BeaconStylePreference(
+    beaconTypes: List<String>,
+    preferencesProvider: PreferencesProvider?,
+    modifier: Modifier,
+    textColor: androidx.compose.ui.graphics.Color,
+    onPreviewStart: ((String) -> Unit)?,
+    onPreviewUpdate: ((String) -> Unit)?,
+    onPreviewStop: ((Boolean, String?) -> Unit)?,
+) {
+    val savedValueState = rememberPreferenceState(
+        PreferenceKeys.BEACON_TYPE,
+        PreferenceDefaults.BEACON_TYPE,
+    )
+    val savedValue by savedValueState
+
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+    var selectedInDialog by rememberSaveable { mutableStateOf(savedValue) }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(role = Role.Button) {
+                selectedInDialog = savedValue
+                showDialog = true
+            },
+    ) {
+        SettingDetails(
+            Res.string.beacon_settings_style,
+            Res.string.beacon_settings_style_description,
+            textColor,
+        )
+        ClickableOption(savedValue, textColor)
+    }
+
+    if (showDialog) {
+        // Start the preview once when the dialog opens. Using selectedInDialog
+        // (rememberSaveable) means a config-change recreate resumes on the
+        // last-tapped style rather than the persisted one. The platform side
+        // is idempotent so a re-fire is safe.
+        DisposableEffect(Unit) {
+            onPreviewStart?.invoke(selectedInDialog)
+            // Explicit OK/Cancel handlers fire onPreviewStop synchronously
+            // before dismissing the dialog, so we don't need to call it from
+            // onDispose.
+            onDispose { }
+        }
+
+        AlertDialog(
+            onDismissRequest = {
+                onPreviewStop?.invoke(false, null)
+                showDialog = false
+            },
+            title = {
+                Text(
+                    text = stringResource(Res.string.beacon_settings_style),
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            },
+            text = {
+                LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                    items(beaconTypes.size) { index ->
+                        val value = beaconTypes[index]
+                        ListPreferenceItem(
+                            description = value,
+                            value = value,
+                            currentValue = selectedInDialog,
+                            onClick = {
+                                if (selectedInDialog != value) {
+                                    selectedInDialog = value
+                                    onPreviewUpdate?.invoke(value)
+                                }
+                            },
+                            index = index,
+                            listSize = beaconTypes.size,
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    preferencesProvider?.putString(PreferenceKeys.BEACON_TYPE, selectedInDialog)
+                    onPreviewStop?.invoke(true, selectedInDialog)
+                    showDialog = false
+                }) {
+                    Text(stringResource(Res.string.ui_continue))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    onPreviewStop?.invoke(false, null)
+                    showDialog = false
+                }) {
+                    Text(stringResource(Res.string.general_alert_cancel))
+                }
+            },
+        )
     }
 }

@@ -190,6 +190,18 @@ class SettingsViewModel(
         )
     }
 
+    fun startBeaconPreview(beaconType: String) {
+        soundscapeServiceConnection.startBeaconPreview(beaconType)
+    }
+
+    fun updateBeaconPreviewType(beaconType: String) {
+        soundscapeServiceConnection.updateBeaconPreviewType(beaconType)
+    }
+
+    fun stopBeaconPreview(commit: Boolean, chosenBeaconType: String?) {
+        soundscapeServiceConnection.stopBeaconPreview(commit, chosenBeaconType)
+    }
+
     companion object {
         private const val TAG = "SettingsViewModel"
     }

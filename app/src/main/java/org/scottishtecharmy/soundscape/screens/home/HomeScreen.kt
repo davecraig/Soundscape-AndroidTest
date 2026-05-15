@@ -352,6 +352,11 @@ fun HomeScreen(
                 selectedStorageIndex = uiState.selectedStorageIndex,
                 onResetSettings = callbacks.onResetSettings,
                 onSetApplicationLocale = callbacks.onSetApplicationLocale,
+                onBeaconPreviewStart = { type -> settingsViewModel.startBeaconPreview(type) },
+                onBeaconPreviewUpdate = { type -> settingsViewModel.updateBeaconPreviewType(type) },
+                onBeaconPreviewStop = { commit, chosen ->
+                    settingsViewModel.stopBeaconPreview(commit, chosen)
+                },
             )
         },
     )
