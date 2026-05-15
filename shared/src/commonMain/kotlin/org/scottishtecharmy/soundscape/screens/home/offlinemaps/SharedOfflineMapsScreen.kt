@@ -56,6 +56,7 @@ import org.scottishtecharmy.soundscape.screens.markers_routes.components.Flexibl
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.IconWithTextButton
 import org.scottishtecharmy.soundscape.screens.talkbackHidden
 import org.scottishtecharmy.soundscape.screens.talkbackLive
+import org.scottishtecharmy.soundscape.ui.LoadingDialog
 import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 
@@ -323,6 +324,9 @@ private fun OfflineMapsList(
                 }
             }
         } else {
+            if (!uiState.manifestError) {
+                LoadingDialog()
+            }
             Text(
                 text = stringResource(
                     if (uiState.manifestError) Res.string.offline_maps_manifest_failed
