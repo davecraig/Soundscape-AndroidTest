@@ -305,6 +305,11 @@ fun MainViewController() = ComposeUIViewController {
             // No onResetSettings hook — SharedNavGraph clears the
             // PreferencesProvider and navigates to the onboarding flow when
             // the platform leaves this null.
+            onBeaconPreviewStart = { type -> service.startBeaconPreview(type) },
+            onBeaconPreviewUpdate = { type -> service.updateBeaconPreviewType(type) },
+            onBeaconPreviewStop = { commit, chosen ->
+                service.stopBeaconPreview(commit, chosen)
+            },
         ),
         startDestination = startDestination,
         audioEngine = service.audioEngine,

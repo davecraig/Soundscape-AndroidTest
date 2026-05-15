@@ -105,6 +105,18 @@ data class AppCallbacks(
      * the Debug section.
      */
     val onResetSettings: (() -> Unit)? = null,
+    /**
+     * Beacon style audio preview, plumbed through to [SharedSettingsScreen]
+     * by [SharedNavGraph] so the iOS path picks them up. Android uses its
+     * own settingsContent slot and wires [SettingsViewModel] directly, so
+     * these are typically only set on iOS. When non-null, the beacon style
+     * row in Settings opens a dialog that previews each style as the user
+     * moves through the list. See [SharedSettingsScreen] for the full
+     * contract.
+     */
+    val onBeaconPreviewStart: ((String) -> Unit)? = null,
+    val onBeaconPreviewUpdate: ((String) -> Unit)? = null,
+    val onBeaconPreviewStop: ((Boolean, String?) -> Unit)? = null,
 )
 
 data class AppFlows(

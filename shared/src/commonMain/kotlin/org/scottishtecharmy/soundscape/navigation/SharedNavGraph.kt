@@ -601,6 +601,9 @@ fun SharedNavHost(
                                 }
                             }
                         } else null,
+                        onBeaconPreviewStart = callbacks.onBeaconPreviewStart,
+                        onBeaconPreviewUpdate = callbacks.onBeaconPreviewUpdate,
+                        onBeaconPreviewStop = callbacks.onBeaconPreviewStop,
                     )
                 }
             }
