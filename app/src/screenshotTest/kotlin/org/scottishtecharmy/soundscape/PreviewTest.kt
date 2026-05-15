@@ -36,6 +36,7 @@ import org.scottishtecharmy.soundscape.screens.home.home.SharedSleepScreen
 import org.scottishtecharmy.soundscape.screens.home.home.StreetPreviewFunctions
 import org.scottishtecharmy.soundscape.screens.home.locationDetails.SharedLocationDetailsScreen
 import org.scottishtecharmy.soundscape.screens.home.locationDetails.SharedSaveAndEditMarkerScreen
+import org.scottishtecharmy.soundscape.screens.home.offlinemaps.NearbyExtractsState
 import org.scottishtecharmy.soundscape.screens.home.offlinemaps.OfflineMapsUiState
 import org.scottishtecharmy.soundscape.screens.home.offlinemaps.SharedOfflineMapsScreen
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyScreen
@@ -596,7 +597,7 @@ fun SaveAndEditMarkerPreview() {
 fun OfflineMapsScreenPreview() {
     SharedOfflineMapsScreen(
         uiState = OfflineMapsUiState(
-            nearbyExtracts = FeatureCollection(),
+            nearbyExtractsState = NearbyExtractsState.Loaded(FeatureCollection()),
             downloadedExtracts = FeatureCollection(),
         ),
         downloadState = MutableStateFlow(DownloadStateCommon.Idle),
@@ -614,7 +615,7 @@ fun OfflineMapsScreenDownloadingPreview() {
     SharedOfflineMapsScreen(
         uiState = OfflineMapsUiState(
             downloadingExtractName = "Glasgow",
-            nearbyExtracts = FeatureCollection(),
+            nearbyExtractsState = NearbyExtractsState.Loaded(FeatureCollection()),
             downloadedExtracts = FeatureCollection(),
         ),
         downloadState = MutableStateFlow(DownloadStateCommon.Downloading(progress = 420)),

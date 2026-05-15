@@ -25,6 +25,7 @@ import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.screens.home.HomeState
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsViewModel
+import org.scottishtecharmy.soundscape.screens.home.offlinemaps.NearbyExtractsState
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyUiState
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.MarkersAndRoutesUiState
@@ -113,7 +114,7 @@ data class AppFlows(
     val markersUiState: StateFlow<MarkersAndRoutesUiState>? = null,
     val routesUiState: StateFlow<MarkersAndRoutesUiState>? = null,
     val placesNearbyUiState: StateFlow<PlacesNearbyUiState>? = null,
-    val offlineMapsNearbyExtracts: StateFlow<List<Feature>>? = null,
+    val offlineMapsNearbyExtractsState: StateFlow<NearbyExtractsState>? = null,
     val offlineMapsDownloaded: StateFlow<List<String>>? = null,
     val offlineMapsDownloadedFc: StateFlow<org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection>? = null,
     val offlineMapsDownloadState: StateFlow<DownloadStateCommon>? = null,

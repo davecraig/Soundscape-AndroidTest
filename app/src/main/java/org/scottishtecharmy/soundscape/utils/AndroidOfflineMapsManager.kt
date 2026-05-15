@@ -24,6 +24,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.GeoMoshi
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.network.DownloadStateCommon
+import org.scottishtecharmy.soundscape.screens.home.offlinemaps.NearbyExtractsState
 import java.io.File
 import java.io.FileOutputStream
 
@@ -47,8 +48,9 @@ class AndroidOfflineMapsManager(private val appContext: Context) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    private val _availableExtracts = MutableStateFlow<List<Feature>>(emptyList())
-    val availableExtracts: StateFlow<List<Feature>> = _availableExtracts.asStateFlow()
+    private val _nearbyExtractsState =
+        MutableStateFlow<NearbyExtractsState>(NearbyExtractsState.Loading)
+    val nearbyExtractsState: StateFlow<NearbyExtractsState> = _nearbyExtractsState.asStateFlow()
 
     private val _downloadedExtractsFc = MutableStateFlow(FeatureCollection())
     val downloadedExtractsFc: StateFlow<FeatureCollection> = _downloadedExtractsFc.asStateFlow()
@@ -78,14 +80,16 @@ class AndroidOfflineMapsManager(private val appContext: Context) {
     }
 
     fun refresh() {
+        _nearbyExtractsState.value = NearbyExtractsState.Loading
         scope.launch {
             val fc = downloadAndParseManifest(appContext)
             if (fc != null) {
                 manifestTree = FeatureTree(fc)
                 fc.features.forEach { feature -> annotateExtractSize(feature) }
-                _availableExtracts.value = fc.features.toList()
+                _nearbyExtractsState.value = NearbyExtractsState.Loaded(fc)
             } else {
-                Log.w(TAG, "Manifest fetch failed; keeping previous availableExtracts")
+                Log.w(TAG, "Manifest fetch failed")
+                _nearbyExtractsState.value = NearbyExtractsState.Error
             }
             refreshDownloaded()
         }

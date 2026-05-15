@@ -3,16 +3,28 @@ package org.scottishtecharmy.soundscape.screens.home.offlinemaps
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 
 /**
+ * Tri-state for the nearby-extracts manifest. Drives whether the offline maps
+ * screen shows a loading spinner, the list of extracts, or an error message.
+ */
+sealed class NearbyExtractsState {
+    object Loading : NearbyExtractsState()
+    data class Loaded(val nearbyExtracts: FeatureCollection) : NearbyExtractsState()
+    object Error : NearbyExtractsState()
+}
+
+/**
  * Shared UI state for the offline maps screen, used by both Android and iOS so they
  * render identical UI.
  */
 data class OfflineMapsUiState(
     val downloadingExtractName: String = "",
 
-    val manifestError: Boolean = false,
-
-    /** Extracts in the manifest near the user's location. */
-    val nearbyExtracts: FeatureCollection? = null,
+    /**
+     * Manifest fetch / nearby-extracts state. Defaults to [NearbyExtractsState.Loading]
+     * so the spinner is shown until the platform-specific manager publishes a
+     * [NearbyExtractsState.Loaded] (success) or [NearbyExtractsState.Error] (failure).
+     */
+    val nearbyExtractsState: NearbyExtractsState = NearbyExtractsState.Loading,
 
     /** Extracts already downloaded to disk. */
     val downloadedExtracts: FeatureCollection? = null,

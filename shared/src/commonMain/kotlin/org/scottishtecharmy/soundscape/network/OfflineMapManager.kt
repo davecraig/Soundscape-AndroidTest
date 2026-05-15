@@ -22,6 +22,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.MultiPolygon
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.platform.systemFileSystem
+import org.scottishtecharmy.soundscape.screens.home.offlinemaps.NearbyExtractsState
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 import org.scottishtecharmy.soundscape.utils.formatBytes
 
@@ -44,9 +45,10 @@ class OfflineMapManager(
     private val _manifest = MutableStateFlow<FeatureCollection?>(null)
     val manifest: StateFlow<FeatureCollection?> = _manifest.asStateFlow()
 
-    // Available extracts from manifest (all of them — UI can filter by location)
-    private val _availableExtracts = MutableStateFlow<List<Feature>>(emptyList())
-    val availableExtracts: StateFlow<List<Feature>> = _availableExtracts.asStateFlow()
+    // Manifest-fetch state (Loading until refresh() completes; then Loaded(fc) or Error)
+    private val _nearbyExtractsState =
+        MutableStateFlow<NearbyExtractsState>(NearbyExtractsState.Loading)
+    val nearbyExtractsState: StateFlow<NearbyExtractsState> = _nearbyExtractsState.asStateFlow()
 
     // Downloaded extracts
     private val _downloadedExtracts = MutableStateFlow<List<String>>(emptyList())
@@ -93,19 +95,28 @@ class OfflineMapManager(
 
     /**
      * Fetch the manifest and list of downloaded extracts.
+     *
+     * Resets [nearbyExtractsState] to [NearbyExtractsState.Loading] at the start so the
+     * UI shows the spinner during a re-fetch. On success publishes
+     * [NearbyExtractsState.Loaded] wrapping the manifest as a FeatureCollection;
+     * any failure publishes [NearbyExtractsState.Error].
      */
     fun refresh() {
+        _nearbyExtractsState.value = NearbyExtractsState.Loading
         scope.launch {
             // Fetch manifest
             try {
                 val json = manifestClient.getManifestJson()
-                if (json != null) {
-                    val fc = GeoJsonParser.parseFeatureCollection(json)
+                val fc = json?.let { GeoJsonParser.parseFeatureCollection(it) }
+                if (fc != null) {
                     _manifest.value = fc
-                    _availableExtracts.value = fc?.features ?: emptyList()
+                    _nearbyExtractsState.value = NearbyExtractsState.Loaded(fc)
+                } else {
+                    _nearbyExtractsState.value = NearbyExtractsState.Error
                 }
             } catch (e: Exception) {
                 println("OfflineMapManager: Error fetching manifest: ${e.message}")
+                _nearbyExtractsState.value = NearbyExtractsState.Error
             }
 
             // Scan for downloaded extracts

@@ -305,39 +305,49 @@ private fun OfflineMapsList(
         }
         HorizontalDivider(modifier = Modifier.padding(spacing.small))
         SectionHeader(text = stringResource(Res.string.offline_maps_nearby))
-        val nearby = uiState.nearbyExtracts
-        if (nearby != null) {
-            Column(
-                modifier = Modifier.semantics {
-                    collectionInfo = CollectionInfo(
-                        rowCount = nearby.features.size,
-                        columnCount = 1,
-                    )
-                },
-            ) {
-                for ((index, extract) in nearby.features.withIndex()) {
-                    OfflineExtractRow(
-                        extract = extract,
-                        row = index,
-                        onSelect = { onSelectNearby(extract) },
-                    )
+        when (val state = uiState.nearbyExtractsState) {
+            is NearbyExtractsState.Loading -> {
+                LoadingDialog()
+                Text(
+                    text = stringResource(Res.string.offline_maps_loading_manifest),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .talkbackLive()
+                        .mediumPadding(),
+                )
+            }
+
+            is NearbyExtractsState.Error -> {
+                Text(
+                    text = stringResource(Res.string.offline_maps_manifest_failed),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .talkbackLive()
+                        .mediumPadding(),
+                )
+            }
+
+            is NearbyExtractsState.Loaded -> {
+                val nearby = state.nearbyExtracts
+                Column(
+                    modifier = Modifier.semantics {
+                        collectionInfo = CollectionInfo(
+                            rowCount = nearby.features.size,
+                            columnCount = 1,
+                        )
+                    },
+                ) {
+                    for ((index, extract) in nearby.features.withIndex()) {
+                        OfflineExtractRow(
+                            extract = extract,
+                            row = index,
+                            onSelect = { onSelectNearby(extract) },
+                        )
+                    }
                 }
             }
-        } else {
-            if (!uiState.manifestError) {
-                LoadingDialog()
-            }
-            Text(
-                text = stringResource(
-                    if (uiState.manifestError) Res.string.offline_maps_manifest_failed
-                    else Res.string.offline_maps_loading_manifest,
-                ),
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier
-                    .talkbackLive()
-                    .mediumPadding(),
-            )
         }
     }
 }

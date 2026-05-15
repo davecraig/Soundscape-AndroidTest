@@ -161,7 +161,7 @@ fun HomeScreen(
             voiceCommandListening = voiceCommandListeningFlow,
             pendingIntent = intentBus.pendingIntent,
             onPendingIntentHandled = { intentBus.handled() },
-            offlineMapsNearbyExtracts = offlineMaps.availableExtracts,
+            offlineMapsNearbyExtractsState = offlineMaps.nearbyExtractsState,
             offlineMapsDownloadedFc = offlineMaps.downloadedExtractsFc,
             offlineMapsDownloadState = offlineMaps.downloadState,
         )

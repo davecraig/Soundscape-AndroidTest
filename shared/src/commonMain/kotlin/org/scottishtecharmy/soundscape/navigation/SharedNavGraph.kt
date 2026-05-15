@@ -46,6 +46,7 @@ import org.scottishtecharmy.soundscape.screens.home.home.SharedOpenSourceLicense
 import org.scottishtecharmy.soundscape.screens.home.home.SharedSleepScreen
 import org.scottishtecharmy.soundscape.screens.home.locationDetails.SharedLocationDetailsScreen
 import org.scottishtecharmy.soundscape.screens.home.locationDetails.SharedSaveAndEditMarkerScreen
+import org.scottishtecharmy.soundscape.screens.home.offlinemaps.NearbyExtractsState
 import org.scottishtecharmy.soundscape.screens.home.offlinemaps.OfflineMapsUiState
 import org.scottishtecharmy.soundscape.screens.home.offlinemaps.SharedOfflineMapsScreen
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyScreen
@@ -339,8 +340,8 @@ fun SharedNavHost(
                 val targetLocation = remember(entry.id) {
                     navStateHolder.offlineMapsTargetFor(entry.id)
                 }
-                val allExtracts by flows.offlineMapsNearbyExtracts?.collectAsState()
-                    ?: remember { mutableStateOf(emptyList()) }
+                val nearbyState by flows.offlineMapsNearbyExtractsState?.collectAsState()
+                    ?: remember { mutableStateOf<NearbyExtractsState>(NearbyExtractsState.Loading) }
                 val downloadedFc by flows.offlineMapsDownloadedFc?.collectAsState()
                     ?: remember {
                         mutableStateOf(org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection())
@@ -355,20 +356,29 @@ fun SharedNavHost(
                 // rather than the device's current location.
                 val nearbyLngLat = targetLocation
                     ?: location?.let { LngLatAlt(it.longitude, it.latitude) }
-                val nearbyFc = remember(allExtracts, nearbyLngLat) {
-                    val list = if (nearbyLngLat != null) {
-                        callbacks.onOfflineMapsGetExtracts(nearbyLngLat)
-                    } else {
-                        allExtracts
-                    }
-                    org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection()
-                        .apply {
-                            list.forEach { addFeature(it) }
+                // Translate the manager's manifest state into the UI state. For
+                // Loaded, optionally narrow the manifest to the target location.
+                val uiNearbyState: NearbyExtractsState =
+                    remember(nearbyState, nearbyLngLat) {
+                        when (val s = nearbyState) {
+                            is NearbyExtractsState.Loading -> NearbyExtractsState.Loading
+                            is NearbyExtractsState.Error -> NearbyExtractsState.Error
+                            is NearbyExtractsState.Loaded -> {
+                                val filtered = if (nearbyLngLat != null) {
+                                    callbacks.onOfflineMapsGetExtracts(nearbyLngLat)
+                                } else {
+                                    s.nearbyExtracts.features
+                                }
+                                val fc =
+                                    org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection()
+                                        .apply { filtered.forEach { addFeature(it) } }
+                                NearbyExtractsState.Loaded(fc)
+                            }
                         }
-                }
+                    }
 
                 val uiState = OfflineMapsUiState(
-                    nearbyExtracts = nearbyFc,
+                    nearbyExtractsState = uiNearbyState,
                     downloadedExtracts = downloadedFc,
                 )
 
