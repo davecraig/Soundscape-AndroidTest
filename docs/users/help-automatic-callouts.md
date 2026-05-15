@@ -33,5 +33,5 @@ Soundscape can tell you about things around you as you approach them by calling 
 
 **Managing which callouts you hear :**
 
- To choose the types of things Soundscape will automatically callout, go to the *"Settings"* screen using the menu on the home screen. The *"Callouts"* section of the *"Settings"* screen contains a list of types of things the app can callout. Each item has a toggle button that you can turn on or off. If you wish to turn off all callouts, tap the *"Allow Callouts"* toggle at the top of the list.
+ To choose the types of things Soundscape will automatically call out, go to the *"Settings"* screen using the menu on the home screen. The *"Manage Callouts"* section of the *"Settings"* screen contains a list of types of things the app can call out. Each item has a toggle button that you can turn on or off. If you wish to turn off all callouts, tap the *"Allow Callouts"* toggle at the top of the list.
 
