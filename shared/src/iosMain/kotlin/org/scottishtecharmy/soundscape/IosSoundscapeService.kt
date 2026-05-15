@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.audio.AudioTourHost
+import org.scottishtecharmy.soundscape.audio.BeaconPreviewController
 import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.IosAudioEngine
 import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider
@@ -26,7 +27,6 @@ import org.scottishtecharmy.soundscape.geoengine.speakCalloutCommon
 import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.IosGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
-import org.scottishtecharmy.soundscape.geoengine.utils.getDestinationCoordinate
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
@@ -588,86 +588,20 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         routePlayer.startBeacon(location, name)
     }
 
-    // -----------------------------------------------------------------
-    // Beacon style preview
-    //
-    // Mirrors SoundscapeService.startBeaconPreview/updateBeaconPreviewType/
-    // stopBeaconPreview on Android. While the user is choosing a beacon
-    // style in Settings we stop any currently running real beacon, place
-    // a temporary "preview" beacon directly ahead of the listener, and
-    // let them rotate the device to hear how it sounds. On commit (OK)
-    // the chosen style has already been persisted by the shared
-    // BeaconStylePreference dialog via PreferencesProvider; on cancel we
-    // revert the engine to the type that was active when the preview
-    // started. In both cases the previously-running beacon (if any) is
-    // restarted at the same location.
-    // -----------------------------------------------------------------
-
-    private var previewBeaconHandle: Long? = null
-    private var savedBeaconLocation: LngLatAlt? = null
-    private var savedBeaconType: String? = null
-
-    fun startBeaconPreview(beaconType: String) {
-        // Defensive: a stale preview from an aborted prior session would
-        // otherwise leak its handle and clobber savedBeacon* below.
-        previewBeaconHandle?.let { audioEngine.destroyBeacon(it) }
-        previewBeaconHandle = null
-
-        // Remember what was playing so we can restore it on close.
-        savedBeaconLocation = _beaconFlow.value.location
-        savedBeaconType = preferencesProvider.getString(
-            PreferenceKeys.BEACON_TYPE,
-            PreferenceDefaults.BEACON_TYPE,
-        )
-
-        beaconHandle?.let { audioEngine.destroyBeacon(it) }
-        beaconHandle = null
-
-        audioEngine.setBeaconType(beaconType)
-        createPreviewBeacon()
+    // Beacon style preview — implementation lives in shared
+    // BeaconPreviewController so iOS and Android stay in lockstep.
+    private val beaconPreviewController by lazy {
+        BeaconPreviewController(audioEngine, this, preferencesProvider)
     }
 
-    fun updateBeaconPreviewType(beaconType: String) {
-        audioEngine.setBeaconType(beaconType)
-        previewBeaconHandle?.let { audioEngine.destroyBeacon(it) }
-        previewBeaconHandle = null
-        createPreviewBeacon()
-    }
+    fun startBeaconPreview(beaconType: String) =
+        beaconPreviewController.start(beaconType)
 
-    fun stopBeaconPreview(commit: Boolean, chosenBeaconType: String?) {
-        previewBeaconHandle?.let { audioEngine.destroyBeacon(it) }
-        previewBeaconHandle = null
+    fun updateBeaconPreviewType(beaconType: String) =
+        beaconPreviewController.update(beaconType)
 
-        if (commit && chosenBeaconType != null) {
-            // Persistence already happened in the shared dialog via
-            // PreferencesProvider. The audio engine still has the chosen
-            // type set from the last update call, so nothing to do here.
-        } else {
-            savedBeaconType?.let { audioEngine.setBeaconType(it) }
-        }
-
-        savedBeaconLocation?.let { loc ->
-            createBeacon(loc, headingOnly = false)
-        }
-
-        savedBeaconLocation = null
-        savedBeaconType = null
-    }
-
-    private fun createPreviewBeacon() {
-        requestAudioFocus()
-
-        val previewLocation = savedBeaconLocation ?: run {
-            // 150m straight ahead in the direction the device is currently pointing.
-            val listener = locationProvider.filteredLocationFlow.value
-            val base = LngLatAlt(listener?.longitude ?: 0.0, listener?.latitude ?: 0.0)
-            val heading =
-                directionProvider.orientationFlow.value?.headingDegrees?.toDouble() ?: 0.0
-            getDestinationCoordinate(base, heading, 150.0)
-        }
-
-        previewBeaconHandle = audioEngine.createBeacon(previewLocation, false)
-    }
+    fun stopBeaconPreview(commit: Boolean, chosenBeaconType: String?) =
+        beaconPreviewController.stop(commit, chosenBeaconType)
 
     fun toggleBeaconMute() {
         val muted = audioEngine.toggleBeaconMute()

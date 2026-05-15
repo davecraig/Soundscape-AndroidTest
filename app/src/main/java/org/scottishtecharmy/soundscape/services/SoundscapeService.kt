@@ -28,7 +28,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider.getUriForFile
-import androidx.core.content.edit
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -51,6 +50,7 @@ import org.scottishtecharmy.soundscape.BuildConfig
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.audio.AudioType
+import org.scottishtecharmy.soundscape.audio.BeaconPreviewController
 import org.scottishtecharmy.soundscape.audio.EARCON_MODE_ENTER
 import org.scottishtecharmy.soundscape.audio.EARCON_MODE_EXIT
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
@@ -69,7 +69,6 @@ import org.scottishtecharmy.soundscape.geoengine.speakCalloutCommon
 import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
-import org.scottishtecharmy.soundscape.geoengine.utils.getDestinationCoordinate
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.hasPlayServices
@@ -674,113 +673,20 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
         geoEngine.updateBeaconLocation(null)
     }
 
-    // -----------------------------------------------------------------
-    // Beacon style preview
-    //
-    // While the user is choosing a beacon style in Settings we stop any
-    // currently running real beacon, place a temporary "preview" beacon
-    // directly ahead of the listener, and let them rotate the phone to
-    // hear how it sounds from different angles. When they commit (OK) or
-    // dismiss (Cancel) we tear the preview down and restart whatever
-    // beacon was running before. Cancel additionally reverts the engine's
-    // beacon type to what it was when the preview started.
-    // -----------------------------------------------------------------
-
-    private var previewBeaconHandle: Long = 0L
-    private var savedBeaconLocation: LngLatAlt? = null
-    private var savedBeaconType: String? = null
-
-    /**
-     * Begin a beacon style preview. Saves the location of any currently
-     * running beacon so it can be restarted later, stops that beacon,
-     * and creates a fresh beacon using the supplied [beaconType]. If a
-     * beacon was already active the preview reuses its location; otherwise
-     * the preview is placed ~150m directly ahead of the listener.
-     */
-    fun startBeaconPreview(beaconType: String) {
-        // Defensive: a stale preview from an aborted prior session would
-        // otherwise leak its handle and clobber savedBeacon* below.
-        if (previewBeaconHandle != 0L) {
-            audioEngine.destroyBeacon(previewBeaconHandle)
-            previewBeaconHandle = 0L
-        }
-
-        // Remember what was playing so we can restore it on close.
-        savedBeaconLocation = _beaconFlow.value.location
-        savedBeaconType = sharedPreferences.getString(
-            MainActivity.BEACON_TYPE_KEY,
-            MainActivity.BEACON_TYPE_DEFAULT,
-        )
-
-        if (audioBeacon != 0L) {
-            audioEngine.destroyBeacon(audioBeacon)
-            audioBeacon = 0L
-        }
-
-        audioEngine.setBeaconType(beaconType)
-        createPreviewBeacon()
+    // Beacon style preview — implementation lives in shared
+    // BeaconPreviewController so iOS and Android stay in lockstep.
+    private val beaconPreviewController by lazy {
+        BeaconPreviewController(audioEngine, this, AndroidPreferencesProvider(sharedPreferences))
     }
 
-    /**
-     * Switch the running preview to [beaconType]. Engine state only —
-     * does not write to SharedPreferences, so a subsequent cancel reverts
-     * without any persisted side effect.
-     */
-    fun updateBeaconPreviewType(beaconType: String) {
-        audioEngine.setBeaconType(beaconType)
-        if (previewBeaconHandle != 0L) {
-            audioEngine.destroyBeacon(previewBeaconHandle)
-            previewBeaconHandle = 0L
-        }
-        createPreviewBeacon()
-    }
+    fun startBeaconPreview(beaconType: String) =
+        beaconPreviewController.start(beaconType)
 
-    /**
-     * Stop the preview. If [commit] is true the chosen style has already
-     * been persisted by the caller (via the shared PreferencesProvider)
-     * and we just leave the engine using it; otherwise revert the engine
-     * to the type that was active before the preview started. In both
-     * cases, the beacon that was running before the preview (if any) is
-     * restarted at the same location it was at.
-     */
-    fun stopBeaconPreview(commit: Boolean, chosenBeaconType: String?) {
-        if (previewBeaconHandle != 0L) {
-            audioEngine.destroyBeacon(previewBeaconHandle)
-            previewBeaconHandle = 0L
-        }
+    fun updateBeaconPreviewType(beaconType: String) =
+        beaconPreviewController.update(beaconType)
 
-        if (commit && chosenBeaconType != null) {
-            // Mirror the persisted choice into SharedPreferences in case
-            // anything in the Android stack listens there. The shared UI
-            // already wrote to PreferencesProvider; this edit is
-            // idempotent under the AndroidPreferencesProvider backing.
-            sharedPreferences.edit { putString(MainActivity.BEACON_TYPE_KEY, chosenBeaconType) }
-        } else {
-            savedBeaconType?.let { audioEngine.setBeaconType(it) }
-        }
-
-        savedBeaconLocation?.let { loc ->
-            createBeacon(loc, headingOnly = false)
-        }
-
-        savedBeaconLocation = null
-        savedBeaconType = null
-    }
-
-    private fun createPreviewBeacon() {
-        requestAudioFocus()
-
-        val previewLocation = savedBeaconLocation ?: run {
-            // 150m straight ahead in the direction the phone is currently pointing.
-            val listener = locationProvider.filteredLocationFlow.value
-            val base = LngLatAlt(listener?.longitude ?: 0.0, listener?.latitude ?: 0.0)
-            val heading =
-                directionProvider.orientationFlow.value?.headingDegrees?.toDouble() ?: 0.0
-            getDestinationCoordinate(base, heading, 150.0)
-        }
-
-        previewBeaconHandle = audioEngine.createBeacon(previewLocation, false)
-    }
+    fun stopBeaconPreview(commit: Boolean, chosenBeaconType: String?) =
+        beaconPreviewController.stop(commit, chosenBeaconType)
 
     private suspend fun awaitHandle(handle: Long) {
         while (handle != 0L && audioEngine.isHandleActive(handle)) {

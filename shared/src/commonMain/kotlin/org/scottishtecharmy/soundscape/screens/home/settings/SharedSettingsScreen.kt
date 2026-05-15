@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import me.zhanghai.compose.preference.LocalPreferenceTheme
 import me.zhanghai.compose.preference.ProvidePreferenceLocals
 import me.zhanghai.compose.preference.listPreference
 import me.zhanghai.compose.preference.rememberPreferenceState
@@ -791,6 +792,10 @@ private fun BeaconStylePreference(
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var selectedInDialog by rememberSaveable { mutableStateOf(savedValue) }
 
+    // Match the indent of library-driven listPreference rows (e.g. Voices)
+    // by wrapping the title+summary stack in the same theme.padding the
+    // library applies inside its Preference composable.
+    val theme = LocalPreferenceTheme.current
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -799,12 +804,14 @@ private fun BeaconStylePreference(
                 showDialog = true
             },
     ) {
-        SettingDetails(
-            Res.string.beacon_settings_style,
-            Res.string.beacon_settings_style_description,
-            textColor,
-        )
-        ClickableOption(savedValue, textColor)
+        Column(modifier = Modifier.padding(theme.padding)) {
+            SettingDetails(
+                Res.string.beacon_settings_style,
+                Res.string.beacon_settings_style_description,
+                textColor,
+            )
+            ClickableOption(savedValue, textColor)
+        }
     }
 
     if (showDialog) {
