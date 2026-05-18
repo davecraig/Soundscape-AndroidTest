@@ -1,11 +1,14 @@
 package org.scottishtecharmy.soundscape.bluetooth
 
+import android.Manifest
 import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,6 +44,13 @@ class AudioHeadsetBatteryMonitor(private val context: Context) {
             val device = IntentCompat.getParcelableExtra(
                 intent, BluetoothDevice.EXTRA_DEVICE, BluetoothDevice::class.java,
             ) ?: return
+            // bluetoothClass requires BLUETOOTH_CONNECT on API 31+. The broadcast
+            // itself won't reach us without that permission, but lint can't
+            // prove that, so check explicitly.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                ContextCompat.checkSelfPermission(c, Manifest.permission.BLUETOOTH_CONNECT)
+                != PackageManager.PERMISSION_GRANTED
+            ) return
             // Ignore non-audio devices (smartwatches, fitness trackers etc.).
             val major = runCatching { device.bluetoothClass?.majorDeviceClass }.getOrNull()
             if (major != BluetoothClass.Device.Major.AUDIO_VIDEO) return
