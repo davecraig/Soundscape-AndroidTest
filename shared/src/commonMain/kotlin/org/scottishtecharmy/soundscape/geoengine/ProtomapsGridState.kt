@@ -38,8 +38,9 @@ open class ProtomapsGridState(
 
     override fun stop() {
         super.stop()
-        for (reader in fileTileReaders)
-            reader?.close()
+        for (reader in fileTileReaders) {
+            try { reader?.close() } catch (_: Exception) {}
+        }
         fileTileReaders = arrayOfNulls<PmTilesReader?>(gridSize * gridSize)
     }
 
@@ -56,8 +57,9 @@ open class ProtomapsGridState(
                 analytics.logCostlyEvent("GridWithOfflineMap")
 
             // Close old file readers
-            for (reader in fileTileReaders)
-                reader?.close()
+            for (reader in fileTileReaders) {
+                try { reader?.close() } catch (_: Exception) {}
+            }
             fileTileReaders = arrayOfNulls<PmTilesReader?>(gridSize * gridSize)
         }
     }
