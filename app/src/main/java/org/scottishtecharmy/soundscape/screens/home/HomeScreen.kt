@@ -93,6 +93,8 @@ data class RouteFunctions(val viewModel: HomeViewModel?) {
     val skipNext = { viewModel?.routeSkipNext() }
     val mute = { viewModel?.routeMute() }
     val stop =  { viewModel?.routeStop() }
+    val callOut: (String, String) -> Unit = { name, distanceAndDirection -> viewModel?.beaconCallOut(name, distanceAndDirection) }
+    val moreInfo: (String, LngLatAlt, String) -> Unit = { name, location, distanceAndDirection -> viewModel?.beaconMoreInfo(name, location, distanceAndDirection) }
 }
 
 data class SearchFunctions(val viewModel: HomeViewModel?) {

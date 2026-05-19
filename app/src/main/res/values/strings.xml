@@ -118,6 +118,10 @@
 <string name="beacon_action_unmute_beacon">"Unmute Beacon"</string>
 <!-- Talkback hint for the mute button which sets the volume on the audio beacon to 100%. This is always preceded by "Double tap to " -->
 <string name="beacon_action_unmute_beacon_acc_hint">"unmute the audio beacon"</string>
+<!-- Accessibility action label to announce the beacon name, distance and direction via TTS -->
+<string name="beacon_action_call_out">"Call Out Beacon"</string>
+<!-- Accessibility action label to announce the beacon name, distance, direction and address via TTS -->
+<string name="beacon_action_more_info">"More Info"</string>
 <!-- This is the title for functionality that allows the user to select any location in the world to preview the area at street level in order to familiarise and build a mental map of the space. -->
 <string name="preview_title">"Simulate Location"</string>
 <!-- Text for button to go to the next intersection -->

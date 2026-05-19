@@ -771,6 +771,25 @@ class SoundscapeService : MediaSessionService() {
         return geoEngine.getLocationDescription(location)
     }
 
+    fun announceBeacon(name: String, distanceAndDirection: String) {
+        speak2dText("$name, $distanceAndDirection")
+    }
+
+    fun announceBeaconMoreInfo(name: String, location: LngLatAlt, distanceAndDirection: String) {
+        coroutineScope.launch {
+            val locationDescription = withContext(Dispatchers.IO) {
+                geoEngine.getLocationDescription(location)
+            }
+            val address = locationDescription.description
+            val text = if (!address.isNullOrEmpty()) {
+                "$name, $distanceAndDirection. $address"
+            } else {
+                "$name, $distanceAndDirection"
+            }
+            speak2dText(text)
+        }
+    }
+
     fun startBeacon(location: LngLatAlt, name: String) {
         routePlayer.startBeacon(location, name)
     }

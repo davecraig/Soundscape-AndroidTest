@@ -234,6 +234,18 @@ class HomeViewModel
         return soundscapeServiceConnection.soundscapeService?.getLocationDescription(location)
     }
 
+    fun beaconCallOut(name: String, distanceAndDirection: String) {
+        viewModelScope.launch {
+            soundscapeServiceConnection.soundscapeService?.announceBeacon(name, distanceAndDirection)
+        }
+    }
+
+    fun beaconMoreInfo(name: String, location: LngLatAlt, distanceAndDirection: String) {
+        viewModelScope.launch {
+            soundscapeServiceConnection.soundscapeService?.announceBeaconMoreInfo(name, location, distanceAndDirection)
+        }
+    }
+
     fun onTriggerSearch(text: String) {
         viewModelScope.launch {
             _state.update { it.copy(searchInProgress = true) }

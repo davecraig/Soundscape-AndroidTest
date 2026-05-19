@@ -48,9 +48,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
@@ -61,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import org.maplibre.android.maps.MapLibreMap.OnMapLongClickListener
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.NavigationButton
+import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
@@ -255,26 +258,63 @@ fun HomeContent(
                     Card(modifier = Modifier
                         .smallPadding(),
                     ) {
-                            Row {
-                                Text(
-                                    text =
-                                        if(routePlayerState.routeData.markers.size > 1) {
-                                            stringResource(
-                                                R.string.route_waypoint_progress
-                                            ).format(
-                                                routePlayerState.routeData.route.name,
-                                                routePlayerState.currentWaypoint + 1,
-                                                routePlayerState.routeData.markers.size
-                                            )
-                                        } else {
-                                            stringResource(
-                                                R.string.route_beacon_progress
-                                            ).format(
-                                                routePlayerState.routeData.route.name)
-                                        },
-                                    style = MaterialTheme.typography.labelLarge,
-                                    modifier = Modifier.smallPadding()
+                            val beaconDistanceString = if (routePlayerState.routeData.markers.size == 1 && beaconState?.location != null) {
+                                val ruler = beaconState.location.createCheapRuler()
+                                formatDistanceAndDirection(
+                                    ruler.distance(location, beaconState.location),
+                                    ruler.bearing(location, beaconState.location),
+                                    context
                                 )
+                            } else ""
+                            val callOutLabel = stringResource(R.string.beacon_action_call_out)
+                            val moreInfoLabel = stringResource(R.string.beacon_action_more_info)
+                            Row {
+                                Column(modifier = Modifier
+                                    .smallPadding()
+                                    .then(
+                                        if (routePlayerState.routeData.markers.size == 1 && beaconDistanceString.isNotEmpty()) {
+                                            Modifier.semantics {
+                                                customActions = listOf(
+                                                    CustomAccessibilityAction(callOutLabel) {
+                                                        routeFunctions.callOut(routePlayerState.routeData.route.name, beaconDistanceString)
+                                                        true
+                                                    },
+                                                    CustomAccessibilityAction(moreInfoLabel) {
+                                                        beaconState?.location?.let {
+                                                            routeFunctions.moreInfo(routePlayerState.routeData.route.name, it, beaconDistanceString)
+                                                        }
+                                                        true
+                                                    }
+                                                )
+                                            }
+                                        } else Modifier
+                                    )
+                                ) {
+                                    Text(
+                                        text =
+                                            if(routePlayerState.routeData.markers.size > 1) {
+                                                stringResource(
+                                                    R.string.route_waypoint_progress
+                                                ).format(
+                                                    routePlayerState.routeData.route.name,
+                                                    routePlayerState.currentWaypoint + 1,
+                                                    routePlayerState.routeData.markers.size
+                                                )
+                                            } else {
+                                                stringResource(
+                                                    R.string.route_beacon_progress
+                                                ).format(
+                                                    routePlayerState.routeData.route.name)
+                                            },
+                                        style = MaterialTheme.typography.labelLarge,
+                                    )
+                                    if (beaconDistanceString.isNotEmpty()) {
+                                        Text(
+                                            text = beaconDistanceString,
+                                            style = MaterialTheme.typography.bodySmall,
+                                        )
+                                    }
+                                }
                             }
                             if(showMap) {
                                 Row(modifier = Modifier.fillMaxWidth().aspectRatio(2.0f)) {
