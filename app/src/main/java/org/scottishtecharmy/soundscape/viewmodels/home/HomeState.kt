@@ -19,4 +19,5 @@ data class HomeState(
     var currentRouteData: RoutePlayerState = RoutePlayerState(),
     var permissionsRequired: Boolean = false,
     var voiceCommandListening: Boolean = false,
+    var recentLocations: List<LocationDescription> = emptyList(),
 )

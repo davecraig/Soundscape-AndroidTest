@@ -58,6 +58,7 @@ fun MainSearchBar(
     isSearching: Boolean = false,
     onStartBeacon: ((LocationDescription) -> Unit)? = null,
     onSaveAsMarker: ((LocationDescription) -> Unit)? = null,
+    recentLocations: List<LocationDescription> = emptyList(),
 )
 {
     val shape = RoundedCornerShape(spacing.small)
@@ -216,15 +217,79 @@ fun MainSearchBar(
                             )
                         }
                     } else if (results.isEmpty()) {
-                        Text(
-                            text = if (query.isBlank())
-                                    stringResource(R.string.search_choose_destination)
-                                else
-                                    stringResource(R.string.search_no_results),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = colors.onSurfaceVariant,
-                            modifier = Modifier.padding(spacing.small)
-                        )
+                        if (query.isBlank() && recentLocations.isNotEmpty()) {
+                            Text(
+                                text = stringResource(R.string.search_recent_header),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = colors.onSurfaceVariant,
+                                modifier = Modifier.padding(horizontal = spacing.small, vertical = spacing.tiny)
+                            )
+                            val startBeaconHint = stringResource(R.string.location_detail_action_beacon_from_markers)
+                            val imePadding = WindowInsets.ime.asPaddingValues()
+                            LazyColumn(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(),
+                                contentPadding = PaddingValues(
+                                    bottom = imePadding.calculateBottomPadding() + (spacing.targetSize * 2)
+                                )
+                            ) {
+                                itemsIndexed(recentLocations) { index, item ->
+                                    val itemModifier = Modifier.semantics {
+                                        this.collectionItemInfo = CollectionItemInfo(
+                                            rowSpan = 1, columnSpan = 1,
+                                            rowIndex = index, columnIndex = 0,
+                                        )
+                                    }
+                                    Column {
+                                        if (index == 0) {
+                                            HorizontalDivider(
+                                                thickness = spacing.tiny,
+                                                color = MaterialTheme.colorScheme.outlineVariant
+                                            )
+                                        }
+                                        LocationItem(
+                                            item = item,
+                                            decoration = LocationItemDecoration(
+                                                location = true,
+                                                source = item.source,
+                                                details = EnabledFunction(
+                                                    true,
+                                                    {
+                                                        expanded = false
+                                                        onItemClick(item)
+                                                    }
+                                                ),
+                                                startPlayback = EnabledFunction(
+                                                    enabled = onStartBeacon != null,
+                                                    functionLocation = {
+                                                        expanded = false
+                                                        onStartBeacon?.invoke(it)
+                                                    },
+                                                    hint = startBeaconHint
+                                                ),
+                                                saveAsMarkerAction = EnabledFunction(
+                                                    enabled = onSaveAsMarker != null,
+                                                    functionLocation = { onSaveAsMarker?.invoke(it) }
+                                                ),
+                                            ),
+                                            modifier = itemModifier,
+                                            userLocation = searchLocation.value
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                            Text(
+                                text = if (query.isBlank())
+                                        stringResource(R.string.search_choose_destination)
+                                    else
+                                        stringResource(R.string.search_no_results),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = colors.onSurfaceVariant,
+                                modifier = Modifier.padding(spacing.small)
+                            )
+                        }
                     } else {
                         val resultsFoundText = stringResource(
                             R.string.search_results_found,

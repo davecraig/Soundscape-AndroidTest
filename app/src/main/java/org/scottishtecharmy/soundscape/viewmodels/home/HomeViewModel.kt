@@ -2,9 +2,13 @@ package org.scottishtecharmy.soundscape.viewmodels.home
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.provider.Settings
 import android.util.Log
+import androidx.core.content.edit
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,8 +47,15 @@ class HomeViewModel
     private var job : Job? = null
     private var spJob : Job? = null
 
+    private val recentPrefs: SharedPreferences by lazy {
+        context.getSharedPreferences("RECENT_LOCATIONS", Context.MODE_PRIVATE)
+    }
+    private val gson = GsonBuilder().create()
+    private val recentLocationType = object : TypeToken<List<LocationDescription>>() {}.type
+
     init {
         handleMonitoring()
+        loadRecentLocations()
     }
 
     private fun handleMonitoring() {
@@ -296,7 +307,25 @@ class HomeViewModel
         context.startActivity(intent)
     }
 
+    private fun loadRecentLocations() {
+        val locations: List<LocationDescription> = try {
+            gson.fromJson(recentPrefs.getString(RECENT_KEY, null), recentLocationType) ?: emptyList()
+        } catch (e: Exception) { emptyList() }
+        _state.update { it.copy(recentLocations = locations) }
+    }
+
+    fun saveRecentLocation(description: LocationDescription) {
+        // Strip non-serializable GeoJSON fields before persisting
+        val storable = description.copy(feature = null, featureName = null, alternateLocation = null)
+        val current = _state.value.recentLocations
+        val deduped = current.filter { it.name != storable.name || it.location != storable.location }
+        val updated = listOf(storable) + deduped.take(14)
+        recentPrefs.edit { putString(RECENT_KEY, gson.toJson(updated)) }
+        _state.update { it.copy(recentLocations = updated) }
+    }
+
 companion object {
         private const val TAG = "HomeViewModel"
+        private const val RECENT_KEY = "RECENT_LOCATIONS_KEY"
     }
 }

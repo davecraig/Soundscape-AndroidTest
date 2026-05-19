@@ -96,6 +96,7 @@ fun Home(
     permissionsRequired: Boolean,
     onSearchStartBeacon: (LocationDescription) -> Unit = {},
     onSearchSaveAsMarker: (LocationDescription) -> Unit = {},
+    onSearchItemSelected: (LocationDescription) -> Unit = {},
 ) {
     val context = LocalContext.current
     val sharedPreferences = remember { PreferenceManager.getDefaultSharedPreferences(context) }
@@ -198,15 +199,15 @@ fun Home(
                             results = state.searchItems.orEmpty(),
                             searchFunctions = searchFunctions,
                             onItemClick = { item ->
-                                onNavigate(
-                                    generateLocationDetailsRoute(item),
-                                )
+                                onSearchItemSelected(item)
+                                onNavigate(generateLocationDetailsRoute(item))
                             },
                             hint = stringResource(R.string.search_bar_hint),
                             userLocation = state.location,
                             isSearching = state.searchInProgress,
                             onStartBeacon = onSearchStartBeacon,
-                            onSaveAsMarker = onSearchSaveAsMarker
+                            onSaveAsMarker = onSearchSaveAsMarker,
+                            recentLocations = state.recentLocations,
                         )
                     },
                     onMapLongClick = onMapLongClick,

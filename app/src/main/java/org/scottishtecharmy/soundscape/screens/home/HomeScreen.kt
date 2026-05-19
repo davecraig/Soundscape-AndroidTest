@@ -172,6 +172,7 @@ fun HomeScreen(
                     goToAppSettings = viewModel::goToAppSettings,
                     onSearchStartBeacon = { item -> viewModel.startBeacon(item.location, item.name) },
                     onSearchSaveAsMarker = { item -> viewModel.saveAsMarker(item) },
+                    onSearchItemSelected = { item -> viewModel.saveRecentLocation(item) },
                     modifier = Modifier
                         .windowInsetsPadding(WindowInsets.safeDrawing)
                         .semantics { testTagsAsResourceId = true },
