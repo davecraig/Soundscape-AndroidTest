@@ -30,7 +30,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +55,10 @@ fun MainSearchBar(
     hint: String = stringResource(R.string.settings_section_search),
     onItemClick: (LocationDescription) -> Unit,
     userLocation: LngLatAlt?,
-    isSearching: Boolean = false)
+    isSearching: Boolean = false,
+    onStartBeacon: ((LocationDescription) -> Unit)? = null,
+    onSaveAsMarker: ((LocationDescription) -> Unit)? = null,
+)
 {
     val shape = RoundedCornerShape(spacing.small)
     val colors = MaterialTheme.colorScheme
@@ -220,6 +226,19 @@ fun MainSearchBar(
                             modifier = Modifier.padding(spacing.small)
                         )
                     } else {
+                        val resultsFoundText = stringResource(
+                            R.string.search_results_found,
+                            results.size,
+                            results.firstOrNull()?.name.orEmpty()
+                        )
+                        // Announce result count to TalkBack when results arrive
+                        Box(
+                            modifier = Modifier.semantics {
+                                liveRegion = LiveRegionMode.Polite
+                                contentDescription = resultsFoundText
+                            }
+                        )
+                        val startBeaconHint = stringResource(R.string.location_detail_action_beacon_from_markers)
                         val imePadding = WindowInsets.ime.asPaddingValues()
                         LazyColumn(
                             modifier = Modifier
@@ -231,7 +250,7 @@ fun MainSearchBar(
                             )
                         ) {
                             itemsIndexed(results) { index, item ->
-                                val modifier =
+                                val itemModifier =
                                     Modifier.semantics {
                                         this.collectionItemInfo =
                                             CollectionItemInfo(
@@ -261,9 +280,21 @@ fun MainSearchBar(
                                                     expanded = false
                                                     onItemClick(item)
                                                 }
-                                            )
+                                            ),
+                                            startPlayback = EnabledFunction(
+                                                enabled = onStartBeacon != null,
+                                                functionLocation = {
+                                                    expanded = false
+                                                    onStartBeacon?.invoke(it)
+                                                },
+                                                hint = startBeaconHint
+                                            ),
+                                            saveAsMarkerAction = EnabledFunction(
+                                                enabled = onSaveAsMarker != null,
+                                                functionLocation = { onSaveAsMarker?.invoke(it) }
+                                            ),
                                         ),
-                                        modifier = modifier,
+                                        modifier = itemModifier,
                                         userLocation = searchLocation.value
                                     )
                                 }

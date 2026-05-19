@@ -71,6 +71,7 @@ data class LocationItemDecoration(
     var startPlayback: EnabledFunction = EnabledFunction(),
     var editAction: EnabledFunction = EnabledFunction(),
     var deleteAction: EnabledFunction = EnabledFunction(),
+    var saveAsMarkerAction: EnabledFunction = EnabledFunction(),
 )
 
 @Composable
@@ -89,6 +90,7 @@ fun LocationItem(
     val startPlaybackLabel = decoration.startPlayback.hint.ifEmpty { defaultStartPlaybackLabel }
     val editActionLabel = stringResource(R.string.location_item_action_edit)
     val deleteActionLabel = stringResource(R.string.location_item_action_delete)
+    val saveAsMarkerLabel = stringResource(R.string.search_action_save_as_marker)
     if(userLocation != null) {
         val ruler = item.location.createCheapRuler()
         distanceString = formatDistanceAndDirection(
@@ -145,6 +147,12 @@ fun LocationItem(
                     if (decoration.deleteAction.enabled) {
                         add(CustomAccessibilityAction(label = deleteActionLabel) {
                             decoration.deleteAction.functionLocation(item)
+                            true
+                        })
+                    }
+                    if (decoration.saveAsMarkerAction.enabled) {
+                        add(CustomAccessibilityAction(label = saveAsMarkerLabel) {
+                            decoration.saveAsMarkerAction.functionLocation(item)
                             true
                         })
                     }

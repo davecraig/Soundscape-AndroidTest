@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,11 +17,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
 import org.scottishtecharmy.soundscape.audio.AudioTour
+import org.scottishtecharmy.soundscape.database.local.dao.RouteDao
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.services.mediacontrol.VoiceCommandState
+import org.scottishtecharmy.soundscape.viewmodels.createMarker
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +33,9 @@ class HomeViewModel
     @Inject
     constructor(
         private val soundscapeServiceConnection: SoundscapeServiceConnection,
-        val audioTour: AudioTour
+        val audioTour: AudioTour,
+        private val routesDao: RouteDao,
+        @ApplicationContext private val context: Context,
     ) : ViewModel() {
     private val _state: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
@@ -228,6 +234,30 @@ class HomeViewModel
             soundscapeServiceConnection.routeStop()
             audioTour.onBeaconStopped()
         }
+    }
+
+    fun startBeacon(location: LngLatAlt, name: String) {
+        viewModelScope.launch {
+            soundscapeServiceConnection.soundscapeService?.startBeacon(location, name)
+        }
+    }
+
+    fun saveAsMarker(description: LocationDescription) {
+        createMarker(
+            locationDescription = description,
+            routeDao = routesDao,
+            viewModelScope = viewModelScope,
+            onSuccess = {
+                soundscapeServiceConnection.soundscapeService?.speak2dText(
+                    context.getString(R.string.markers_marker_created)
+                )
+            },
+            onFailure = {
+                soundscapeServiceConnection.soundscapeService?.speak2dText(
+                    context.getString(R.string.general_error_add_marker_error)
+                )
+            }
+        )
     }
 
     fun getLocationDescription(location: LngLatAlt) : LocationDescription? {

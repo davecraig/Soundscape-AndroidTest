@@ -70,6 +70,10 @@
 <string name="settings_expanded">"Expanded"</string>
 <!-- Text shown when no search results were found -->
 <string name="search_no_results">"No search results found"</string>
+<!-- Announced by TalkBack when search results arrive. %1$d = count, %2$s = first result name -->
+<string name="search_results_found">"Found %1$d results, first result is %2$s"</string>
+<!-- TalkBack custom action label on a search result to save it as a marker -->
+<string name="search_action_save_as_marker">"Save as Marker"</string>
 <!-- Text shown when no search in progress -->
 <string name="search_searching">"Searching…"</string>
 <!-- Title for option to set the speed of the text-to-speech voice. -->
