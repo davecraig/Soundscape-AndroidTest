@@ -68,7 +68,9 @@ data class LocationItemDecoration(
     var reorderable: Boolean = false,
     var moveUp: (Int) -> Boolean = { false },
     var moveDown: (Int) -> Boolean = { false },
-    var startPlayback: EnabledFunction = EnabledFunction()
+    var startPlayback: EnabledFunction = EnabledFunction(),
+    var editAction: EnabledFunction = EnabledFunction(),
+    var deleteAction: EnabledFunction = EnabledFunction(),
 )
 
 @Composable
@@ -85,6 +87,8 @@ fun LocationItem(
     val moveUpDown = stringResource(R.string.location_item_move_down)
     val defaultStartPlaybackLabel = stringResource(R.string.route_detail_action_start_route_hint)
     val startPlaybackLabel = decoration.startPlayback.hint.ifEmpty { defaultStartPlaybackLabel }
+    val editActionLabel = stringResource(R.string.location_item_action_edit)
+    val deleteActionLabel = stringResource(R.string.location_item_action_delete)
     if(userLocation != null) {
         val ruler = item.location.createCheapRuler()
         distanceString = formatDistanceAndDirection(
@@ -125,29 +129,31 @@ fun LocationItem(
                         action = { false }
                     )
                 }
-                if(decoration.reorderable) {
-                    customActions = listOf(
-                        CustomAccessibilityAction(
-                            label = moveUpLabel,
-                            action = { decoration.moveUp(decoration.index) }
-                        ),
-                        CustomAccessibilityAction(
-                            label = moveUpDown,
-                            action = { decoration.moveDown(decoration.index) }
-                        ),
-                    )
+                val actions = buildList {
+                    if (decoration.startPlayback.enabled) {
+                        add(CustomAccessibilityAction(label = startPlaybackLabel) {
+                            decoration.startPlayback.functionLocation(item)
+                            true
+                        })
+                    }
+                    if (decoration.editAction.enabled) {
+                        add(CustomAccessibilityAction(label = editActionLabel) {
+                            decoration.editAction.functionLocation(item)
+                            true
+                        })
+                    }
+                    if (decoration.deleteAction.enabled) {
+                        add(CustomAccessibilityAction(label = deleteActionLabel) {
+                            decoration.deleteAction.functionLocation(item)
+                            true
+                        })
+                    }
+                    if (decoration.reorderable) {
+                        add(CustomAccessibilityAction(label = moveUpLabel) { decoration.moveUp(decoration.index) })
+                        add(CustomAccessibilityAction(label = moveUpDown) { decoration.moveDown(decoration.index) })
+                    }
                 }
-                if(decoration.startPlayback.enabled) {
-                    customActions = listOf(
-                        CustomAccessibilityAction(
-                            label = startPlaybackLabel,
-                            action = {
-                                decoration.startPlayback.functionLocation(item)
-                                true
-                            }
-                        ),
-                    )
-                }
+                if (actions.isNotEmpty()) customActions = actions
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -7,14 +7,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -59,7 +63,8 @@ fun MarkersScreenVM(
         onToggleSortOrder = { viewModel.toggleSortOrder() },
         onToggleSortByName = { viewModel.toggleSortByName() },
         userLocation = userLocation,
-        onStartBeacon = { location, name -> viewModel.startBeacon(location, name) }
+        onStartBeacon = { location, name -> viewModel.startBeacon(location, name) },
+        onDeleteMarker = { markerId -> viewModel.deleteMarker(markerId) }
     )
 }
 
@@ -71,8 +76,10 @@ fun MarkersScreen(
     onToggleSortOrder: () -> Unit,
     onToggleSortByName: () -> Unit,
     userLocation: LngLatAlt?,
-    onStartBeacon: (LngLatAlt, String) -> Unit = { _, _ -> }
+    onStartBeacon: (LngLatAlt, String) -> Unit = { _, _ -> },
+    onDeleteMarker: (Long) -> Unit = {}
 ) {
+    var markerToDelete by remember { mutableStateOf<org.scottishtecharmy.soundscape.screens.home.data.LocationDescription?>(null) }
     Column(
         modifier =
             Modifier
@@ -181,8 +188,34 @@ fun MarkersScreen(
                             },
                             onStartBeacon = { desc ->
                                 onStartBeacon(desc.location, desc.name)
+                            },
+                            onEdit = { desc ->
+                                homeNavController.navigate(generateLocationDetailsRoute(desc))
+                            },
+                            onDelete = { desc ->
+                                markerToDelete = desc
                             }
                         )
+                        markerToDelete?.let { desc ->
+                            AlertDialog(
+                                onDismissRequest = { markerToDelete = null },
+                                title = { Text(stringResource(R.string.markers_action_delete)) },
+                                text = { Text(stringResource(R.string.marker_delete_confirm_body)) },
+                                confirmButton = {
+                                    TextButton(onClick = {
+                                        onDeleteMarker(desc.databaseId)
+                                        markerToDelete = null
+                                    }) {
+                                        Text(stringResource(R.string.markers_action_delete))
+                                    }
+                                },
+                                dismissButton = {
+                                    TextButton(onClick = { markerToDelete = null }) {
+                                        Text(stringResource(R.string.general_alert_cancel))
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }

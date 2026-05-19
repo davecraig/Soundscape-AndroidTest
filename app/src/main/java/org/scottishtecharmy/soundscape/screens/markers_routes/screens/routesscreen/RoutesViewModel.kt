@@ -80,4 +80,10 @@ class RoutesViewModel @Inject constructor(
     fun startRoute(routeId: Long) {
         soundscapeServiceConnection.routeStart(routeId)
     }
+
+    fun deleteRoute(routeId: Long) {
+        viewModelScope.launch {
+            routeDao.removeRoute(routeId)
+        }
+    }
 }

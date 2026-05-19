@@ -75,6 +75,12 @@ class MarkersViewModel
         fun startBeacon(location: LngLatAlt, name: String) {
             soundscapeServiceConnection.startBeacon(location, name)
         }
+
+        fun deleteMarker(markerId: Long) {
+            viewModelScope.launch {
+                routeDao.removeMarker(markerId)
+            }
+        }
     }
 
 fun toggleSortByName(uiState: MarkersAndRoutesUiState, context: Context) : MarkersAndRoutesUiState {

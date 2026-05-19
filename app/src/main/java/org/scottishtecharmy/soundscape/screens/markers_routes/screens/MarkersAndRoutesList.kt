@@ -22,7 +22,9 @@ fun MarkersAndRoutesList(
     modifier: Modifier = Modifier,
     onSelect: (LocationDescription) -> Unit,
     onStartPlayback: (LocationDescription) -> Unit = {},
-    onStartBeacon: (LocationDescription) -> Unit = {}
+    onStartBeacon: (LocationDescription) -> Unit = {},
+    onEdit: (LocationDescription) -> Unit = {},
+    onDelete: (LocationDescription) -> Unit = {},
 ) {
     val startBeaconHint = stringResource(R.string.location_detail_action_beacon_from_markers)
     val startRouteHint = stringResource(R.string.route_detail_action_start_route_hint)
@@ -44,7 +46,15 @@ fun MarkersAndRoutesList(
                         enabled = true,
                         functionLocation = if (uiState.markers) onStartBeacon else onStartPlayback,
                         hint = if (uiState.markers) startBeaconHint else startRouteHint
-                    )
+                    ),
+                    editAction = EnabledFunction(
+                        enabled = true,
+                        functionLocation = onEdit
+                    ),
+                    deleteAction = EnabledFunction(
+                        enabled = true,
+                        functionLocation = onDelete
+                    ),
                 ),
                 userLocation = userLocation
             )

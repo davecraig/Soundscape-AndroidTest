@@ -240,6 +240,14 @@
 <string name="markers_title">"Markers"</string>
 <!-- Button text to delete a marker -->
 <string name="markers_action_delete">"Delete Marker"</string>
+<!-- TalkBack custom action label to edit an item in the markers or routes list -->
+<string name="location_item_action_edit">"Edit"</string>
+<!-- TalkBack custom action label to delete an item in the markers or routes list -->
+<string name="location_item_action_delete">"Delete"</string>
+<!-- Confirmation dialog body when deleting a marker -->
+<string name="marker_delete_confirm_body">"Are you sure you want to delete this marker?"</string>
+<!-- Confirmation dialog body when deleting a route -->
+<string name="route_delete_confirm_body">"Are you sure you want to delete this route?"</string>
 <!-- Sort by category, Name. Used when a user is presented an option to sort a location list by name. -->
 <string name="markers_sort_button_sort_by_name">"Name"</string>
 <!-- Sort by category, Name. This is the Talkback label used when a user a location list is sorted by name. -->

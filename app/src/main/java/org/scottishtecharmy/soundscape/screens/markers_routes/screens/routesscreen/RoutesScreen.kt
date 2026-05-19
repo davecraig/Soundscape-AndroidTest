@@ -7,13 +7,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,7 +57,8 @@ fun RoutesScreenVM(
         clearErrorMessage = { viewModel.clearErrorMessage()},
         onToggleSortOrder = { viewModel.toggleSortOrder() },
         onToggleSortByName = { viewModel.toggleSortByName() },
-        onStartPlayback = { routeId -> viewModel.startRoute(routeId) }
+        onStartPlayback = { routeId -> viewModel.startRoute(routeId) },
+        onDeleteRoute = { routeId -> viewModel.deleteRoute(routeId) }
     )
 }
 
@@ -65,9 +71,11 @@ fun RoutesScreen(
     clearErrorMessage: () -> Unit,
     onToggleSortOrder: () -> Unit,
     onToggleSortByName: () -> Unit,
-    onStartPlayback: (Long) -> Unit = {}
+    onStartPlayback: (Long) -> Unit = {},
+    onDeleteRoute: (Long) -> Unit = {}
 ) {
     val context = LocalContext.current
+    var routeToDelete by remember { mutableStateOf<org.scottishtecharmy.soundscape.screens.home.data.LocationDescription?>(null) }
 
     Column(
         modifier =
@@ -155,8 +163,34 @@ fun RoutesScreen(
                         },
                         onStartPlayback = { desc ->
                             onStartPlayback(desc.databaseId)
+                        },
+                        onEdit = { desc ->
+                            homeNavController.navigate("${HomeRoutes.AddAndEditRoute.route}?command=edit&data=${desc.databaseId}")
+                        },
+                        onDelete = { desc ->
+                            routeToDelete = desc
                         }
                     )
+                    routeToDelete?.let { desc ->
+                        AlertDialog(
+                            onDismissRequest = { routeToDelete = null },
+                            title = { Text(stringResource(R.string.route_detail_edit_delete)) },
+                            text = { Text(stringResource(R.string.route_delete_confirm_body)) },
+                            confirmButton = {
+                                TextButton(onClick = {
+                                    onDeleteRoute(desc.databaseId)
+                                    routeToDelete = null
+                                }) {
+                                    Text(stringResource(R.string.route_detail_edit_delete))
+                                }
+                            },
+                            dismissButton = {
+                                TextButton(onClick = { routeToDelete = null }) {
+                                    Text(stringResource(R.string.general_alert_cancel))
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
