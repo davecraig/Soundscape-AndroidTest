@@ -72,6 +72,7 @@ data class LocationItemDecoration(
     var editAction: EnabledFunction = EnabledFunction(),
     var deleteAction: EnabledFunction = EnabledFunction(),
     var saveAsMarkerAction: EnabledFunction = EnabledFunction(),
+    var shareAction: EnabledFunction = EnabledFunction(),
 )
 
 @Composable
@@ -91,6 +92,7 @@ fun LocationItem(
     val editActionLabel = stringResource(R.string.location_item_action_edit)
     val deleteActionLabel = stringResource(R.string.location_item_action_delete)
     val saveAsMarkerLabel = stringResource(R.string.search_action_save_as_marker)
+    val shareLabel = stringResource(R.string.location_item_action_share)
     if(userLocation != null) {
         val ruler = item.location.createCheapRuler()
         distanceString = formatDistanceAndDirection(
@@ -153,6 +155,12 @@ fun LocationItem(
                     if (decoration.saveAsMarkerAction.enabled) {
                         add(CustomAccessibilityAction(label = saveAsMarkerLabel) {
                             decoration.saveAsMarkerAction.functionLocation(item)
+                            true
+                        })
+                    }
+                    if (decoration.shareAction.enabled) {
+                        add(CustomAccessibilityAction(label = shareLabel) {
+                            decoration.shareAction.functionLocation(item)
                             true
                         })
                     }

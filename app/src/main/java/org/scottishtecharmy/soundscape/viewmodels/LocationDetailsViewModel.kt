@@ -3,6 +3,7 @@ package org.scottishtecharmy.soundscape.viewmodels
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import org.scottishtecharmy.soundscape.R
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -148,6 +149,23 @@ class LocationDetailsViewModel @Inject constructor(
     companion object {
         private const val TAG = "LocationDetailsViewModel"
     }
+}
+
+fun shareLocation(context: Context, locationDescription: LocationDescription) {
+    val message = context.getString(R.string.universal_links_marker_share_message)
+    val location = locationDescription.location
+    val latitude = "%.5f".format(Locale.ROOT, location.latitude)
+    val longitude = "%.5f".format(Locale.ROOT, location.longitude)
+    val soundscapeUrl = "https://links.soundscape.scottishtecharmy.org/v1/sharemarker?" +
+        "lat=$latitude&lon=$longitude&name=${URLEncoder.encode(locationDescription.name, Charsets.UTF_8.name())}"
+    val googleMapsUrl = "https://www.google.com/maps/?q=$latitude,$longitude"
+    val sendIntent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TITLE, locationDescription.name)
+        putExtra(Intent.EXTRA_TEXT, message.format(locationDescription.name, soundscapeUrl, googleMapsUrl))
+        type = "text/plain"
+    }
+    context.startActivity(Intent.createChooser(sendIntent, null))
 }
 
 fun createMarker(

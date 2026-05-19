@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.components.EnabledFunction
@@ -14,6 +15,7 @@ import org.scottishtecharmy.soundscape.components.LocationItemDecoration
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.ui.theme.spacing
+import org.scottishtecharmy.soundscape.viewmodels.shareLocation
 
 @Composable
 fun MarkersAndRoutesList(
@@ -26,6 +28,7 @@ fun MarkersAndRoutesList(
     onEdit: (LocationDescription) -> Unit = {},
     onDelete: (LocationDescription) -> Unit = {},
 ) {
+    val context = LocalContext.current
     val startBeaconHint = stringResource(R.string.location_detail_action_beacon_from_markers)
     val startRouteHint = stringResource(R.string.route_detail_action_start_route_hint)
 
@@ -54,6 +57,10 @@ fun MarkersAndRoutesList(
                     deleteAction = EnabledFunction(
                         enabled = true,
                         functionLocation = onDelete
+                    ),
+                    shareAction = EnabledFunction(
+                        enabled = true,
+                        functionLocation = { shareLocation(context, it) }
                     ),
                 ),
                 userLocation = userLocation

@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionItemInfo
@@ -46,6 +47,7 @@ import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.talkbackDescription
 import org.scottishtecharmy.soundscape.screens.talkbackLive
 import org.scottishtecharmy.soundscape.ui.theme.spacing
+import org.scottishtecharmy.soundscape.viewmodels.shareLocation
 
 @Composable
 fun MainSearchBar(
@@ -61,6 +63,7 @@ fun MainSearchBar(
     recentLocations: List<LocationDescription> = emptyList(),
 )
 {
+    val context = LocalContext.current
     val shape = RoundedCornerShape(spacing.small)
     val colors = MaterialTheme.colorScheme
     val textStyle = MaterialTheme.typography.bodyLarge.copy(color = colors.onSurface)
@@ -272,6 +275,10 @@ fun MainSearchBar(
                                                     enabled = onSaveAsMarker != null,
                                                     functionLocation = { onSaveAsMarker?.invoke(it) }
                                                 ),
+                                                shareAction = EnabledFunction(
+                                                    enabled = true,
+                                                    functionLocation = { shareLocation(context, it) }
+                                                ),
                                             ),
                                             modifier = itemModifier,
                                             userLocation = searchLocation.value
@@ -357,6 +364,10 @@ fun MainSearchBar(
                                             saveAsMarkerAction = EnabledFunction(
                                                 enabled = onSaveAsMarker != null,
                                                 functionLocation = { onSaveAsMarker?.invoke(it) }
+                                            ),
+                                            shareAction = EnabledFunction(
+                                                enabled = true,
+                                                functionLocation = { shareLocation(context, it) }
                                             ),
                                         ),
                                         modifier = itemModifier,
