@@ -97,7 +97,7 @@ class PhotonGeocoder(val applicationContext: Context) : SoundscapeGeocoder() {
                 LocationSource.PhotonGeocoder,
                 featureName = getTextForFeature(localizedContext, mvt)
             )
-        }
+        }.sortedBy { ruler.distance(nearbyLocation, it.location) }
     }
 
     override suspend fun getAddressFromLngLat(userGeometry: UserGeometry,
