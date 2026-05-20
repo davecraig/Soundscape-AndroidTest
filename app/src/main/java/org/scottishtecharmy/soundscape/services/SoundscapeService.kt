@@ -157,13 +157,14 @@ class SoundscapeService : MediaSessionService() {
                 Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT: Focus lost temporarily")
                 audioFocusGained = false
                 duckingAllowed = false
+                coroutineScope.launch(Dispatchers.Default) { audioEngine.clearTextToSpeechQueue() }
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
                 // Temporarily lost focus, but you can duck (lower volume).
                 Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK: Ducking allowed")
-
                 audioFocusGained = false
                 duckingAllowed = true
+                coroutineScope.launch(Dispatchers.Default) { audioEngine.clearTextToSpeechQueue() }
             }
         }
     }
