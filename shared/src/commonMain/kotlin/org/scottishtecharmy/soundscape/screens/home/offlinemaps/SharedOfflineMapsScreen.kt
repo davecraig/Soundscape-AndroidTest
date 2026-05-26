@@ -193,6 +193,9 @@ fun OfflineMapsScreenContent(
                         extractDetailsFeature.value = null
                     },
                     local = localExtractDetails.value,
+                    userLocation = uiState.userLocation,
+                    userHeading = uiState.userHeading,
+                    markerLocation = uiState.markerLocation,
                     preferencesProvider = preferencesProvider,
                     modifier = Modifier
                         .fillMaxSize()

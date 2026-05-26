@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.home.offlinemaps
 
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 
 /**
  * Tri-state for the nearby-extracts manifest. Drives whether the offline maps
@@ -34,6 +35,15 @@ data class OfflineMapsUiState(
 
     /** All available storage volumes that the user could pick between. */
     val storages: List<StorageInfo> = emptyList(),
+
+    /** Live user GPS location. */
+    val userLocation: LngLatAlt? = null,
+
+    /** Live user heading (degrees) for the map symbol rotation. */
+    val userHeading: Float = 0.0f,
+
+    /** Search/marker location used to find nearby extracts. */
+    val markerLocation: LngLatAlt? = null,
 )
 
 /**

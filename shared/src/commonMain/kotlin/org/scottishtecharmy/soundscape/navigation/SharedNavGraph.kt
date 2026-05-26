@@ -337,6 +337,8 @@ fun SharedNavHost(
             composable(SharedRoutes.OFFLINE_MAPS) { entry ->
                 val location by flows.locationFlow?.collectAsState()
                     ?: remember { mutableStateOf(null) }
+                val homeState by flows.homeState?.collectAsState()
+                    ?: remember { mutableStateOf(HomeState()) }
                 val targetLocation = remember(entry.id) {
                     navStateHolder.offlineMapsTargetFor(entry.id)
                 }
@@ -380,6 +382,9 @@ fun SharedNavHost(
                 val uiState = OfflineMapsUiState(
                     nearbyExtractsState = uiNearbyState,
                     downloadedExtracts = downloadedFc,
+                    userLocation = location?.let { LngLatAlt(it.longitude, it.latitude) },
+                    userHeading = homeState.heading,
+                    markerLocation = targetLocation,
                 )
 
                 SharedOfflineMapsScreen(

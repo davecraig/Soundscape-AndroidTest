@@ -54,6 +54,9 @@ fun SharedOfflineMapExtractDetails(
     downloadExtract: (String, Feature) -> Unit,
     deleteExtract: (Feature) -> Unit,
     local: Boolean,
+    userLocation: LngLatAlt? = null,
+    userHeading: Float = 0.0f,
+    markerLocation: LngLatAlt? = null,
     preferencesProvider: PreferencesProvider? = null,
     modifier: Modifier = Modifier,
 ) {
@@ -83,12 +86,12 @@ fun SharedOfflineMapExtractDetails(
 
         if (showMap) {
             PlatformMapContainer(
-                beaconLocation = null,
+                beaconLocation = markerLocation,
                 allowScrolling = true,
                 routeData = null,
-                mapCenter = LngLatAlt(),
-                userLocation = null,
-                userSymbolRotation = 0.0f,
+                mapCenter = markerLocation ?: userLocation ?: LngLatAlt(),
+                userLocation = userLocation,
+                userSymbolRotation = userHeading,
                 extractGeometry = extractGeometry,
                 forceOnlineTiles = true,
                 modifier = Modifier
