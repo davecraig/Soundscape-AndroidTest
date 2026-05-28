@@ -62,6 +62,10 @@ fun getTextForFeature(localized: LocalizedStrings?, feature: MvtFeature): TextFo
 
     var text = name
 
+    // The default OSM descriptor is based on the feature class/subclass, but can be overridden
+    // by more complex OSM tagging structures like transit stops.
+    var osmFeatureKey: StringKey? = null
+
     val namedTransit = when (featureValue) {
         "bus_stop" -> Pair(StringKey.OsmBusStopNamed, StringKey.OsmBusStop)
         "station" -> Pair(StringKey.OsmTrainStationNamed, StringKey.OsmTrainStation)
@@ -71,6 +75,7 @@ fun getTextForFeature(localized: LocalizedStrings?, feature: MvtFeature): TextFo
         else -> null
     }
     if (namedTransit != null) {
+        osmFeatureKey = namedTransit.second
         text = if (name != null)
             localized?.get(namedTransit.first, name) ?: "$name Transit Stop"
         else
@@ -108,7 +113,8 @@ fun getTextForFeature(localized: LocalizedStrings?, feature: MvtFeature): TextFo
     }
 
     val osmText = if (localized != null) {
-        feature.featureClass?.let { localized.resolveFeatureClass(it) }
+        osmFeatureKey?.let { localized.get(it) }
+            ?: feature.featureClass?.let { localized.resolveFeatureClass(it) }
             ?: feature.featureSubClass?.let { localized.resolveFeatureClass(it) }
     } else {
         "OSM Feature"
