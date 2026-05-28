@@ -54,6 +54,19 @@ if (patchFile.exists() && !patchMarker.exists()) {
     }
 }
 
+// Ensure ComposePreference has a local.properties (at minimum sdk.dir)
+val cpLocalProps = file("ComposePreference/local.properties")
+if (!cpLocalProps.exists()) {
+    val rootLocalProps = file("local.properties")
+    if (rootLocalProps.exists()) {
+        val sdkDir = rootLocalProps.readLines()
+            .firstOrNull { it.startsWith("sdk.dir=") }
+        if (sdkDir != null) {
+            cpLocalProps.writeText("$sdkDir\n")
+        }
+    }
+}
+
 includeBuild("ComposePreference") {
     dependencySubstitution {
         substitute(module("me.zhanghai.compose.preference:preference")).using(project(":preference"))
