@@ -46,5 +46,8 @@ If you would like access to the main Soundscape tile provider for development, g
 ## Mapping data
 See [here]({% link developers/mapping.md %}) for information about how we configure and use mapping data. There's also [this document](debugging-geojson.md) which describes a possible workflow for GeoJSON debugging.
 
+## Branch strategy
+See [Branch strategy]({% link developers/branch-strategy.md %}) for which branches are active, where to send PRs, and the upcoming KMP cutover that will replace `main`.
+
 ## Continual Integration on GitHub
 See the document [here]({% link developers/actions.md %}) to learn about the GitHub actions used and how they are configured.
