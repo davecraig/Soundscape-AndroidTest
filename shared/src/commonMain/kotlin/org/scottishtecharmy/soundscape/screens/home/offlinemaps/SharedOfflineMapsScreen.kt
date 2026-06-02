@@ -10,10 +10,14 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -47,6 +51,7 @@ import org.scottishtecharmy.soundscape.resources.offline_map_details_title
 import org.scottishtecharmy.soundscape.resources.offline_maps_already_downloaded
 import org.scottishtecharmy.soundscape.resources.offline_maps_caching
 import org.scottishtecharmy.soundscape.resources.offline_maps_downloading
+import org.scottishtecharmy.soundscape.resources.offline_maps_extract_damaged
 import org.scottishtecharmy.soundscape.resources.offline_maps_loading_manifest
 import org.scottishtecharmy.soundscape.resources.offline_maps_manifest_failed
 import org.scottishtecharmy.soundscape.resources.offline_maps_nearby
@@ -419,6 +424,27 @@ private fun OfflineExtractRow(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
+            }
+            // Flag damaged downloaded extracts. The "usable" property is only set for
+            // downloaded extracts (by OfflineMapManager.downloadedExtractsFc), so nearby/available
+            // extracts are never flagged. A damaged extract can't be used by the map (it would
+            // crash MapLibre) and needs re-downloading.
+            val usable = extract.properties?.get("usable") as? Boolean
+            if (usable == false) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Rounded.Warning,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(spacing.medium),
+                    )
+                    Text(
+                        text = stringResource(Res.string.offline_maps_extract_damaged),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(start = spacing.tiny),
+                    )
+                }
             }
         }
         Text(

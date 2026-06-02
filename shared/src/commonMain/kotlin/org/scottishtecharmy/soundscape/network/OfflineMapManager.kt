@@ -25,6 +25,7 @@ import org.scottishtecharmy.soundscape.platform.systemFileSystem
 import org.scottishtecharmy.soundscape.screens.home.offlinemaps.NearbyExtractsState
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
 import org.scottishtecharmy.soundscape.utils.formatBytes
+import org.scottishtecharmy.soundscape.utils.isPmtilesUsable
 
 /**
  * Cross-platform offline map manager. Handles:
@@ -71,8 +72,18 @@ class OfflineMapManager(
                     filename.substringAfterLast("/") == baseName ||
                             filename.substringAfter("-").substringAfter("-") == baseName
                 }
+                // Validate the extract so the UI can flag a damaged download. A damaged extract
+                // (its metadata won't decompress) would crash MapLibre if used, so it is excluded
+                // from the live map (see resolveTileSourceUrl); here we surface it via the
+                // "usable" property instead. This does file I/O, but the combine runs on the
+                // manager's background scope (Dispatchers.Default), not the main thread.
+                val usable = isPmtilesUsable(path)
                 if (match != null) {
-                    fc.addFeature(match.withSizeString())
+                    val feature = match.withSizeString()
+                    val props = HashMap<String, Any?>(feature.properties ?: emptyMap())
+                    props["usable"] = usable
+                    feature.properties = props
+                    fc.addFeature(feature)
                 } else {
                     // Stub feature so the UI can at least show the filename
                     val stub = Feature()
@@ -80,6 +91,7 @@ class OfflineMapManager(
                     props["name"] = baseName.removeSuffix(".pmtiles")
                     props["filename"] = baseName
                     props["extract-size-string"] = ""
+                    props["usable"] = usable
                     stub.properties = props
                     fc.addFeature(stub)
                 }
