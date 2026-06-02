@@ -142,6 +142,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences : SharedPreferences
     private lateinit var sharedPreferencesListener : SharedPreferences.OnSharedPreferenceChangeListener
 
+    // Strong reference to the splash sound player. MediaPlayer delivers its completion callback
+    // through a WeakReference to this object, so a local-only reference can be garbage collected
+    // mid-playback (the splash sound is ~5s long and onCreate has returned by then). If that
+    // happens the OnCompletionListener never fires, the splash gate below never opens and the
+    // splash screen hangs forever. Holding the reference here keeps it alive until playback ends.
+    private var splashPlayer: android.media.MediaPlayer? = null
+
     private val _themeStateFlow = MutableStateFlow(ThemeState())
     private var themeStateFlow: StateFlow<ThemeState> = _themeStateFlow
 
@@ -304,39 +311,53 @@ class MainActivity : AppCompatActivity() {
             val timeNow = System.currentTimeMillis()
             installSplashScreen()
 
+            // Keep the splash screen visible until the sound has finished playing, with a minimum
+            // delay for attribution acknowledgements and a hard upper bound so that it can never
+            // hang if the sound never reports completion.
+            val attributionDelay = 1500L
+            val maxSplashDelay = 7000L
+            val content: View = findViewById(android.R.id.content)
+
             var splashSoundFinished = false
+            // Open the splash gate, release the player and nudge a redraw so the
+            // OnPreDrawListener below re-evaluates its conditions.
+            val finishSplashSound = {
+                splashSoundFinished = true
+                splashPlayer?.release()
+                splashPlayer = null
+                content.invalidate()
+            }
+
             if (splashPlayed) {
                 splashSoundFinished = true
             } else {
                 // We have a splash sound, so play it and keep the splash screen visible until the
-                // playback has finished
-                val splashPlayer = android.media.MediaPlayer()
+                // playback has finished.
                 try {
+                    val player = android.media.MediaPlayer()
+                    splashPlayer = player
                     val afd = assets.openFd("DoubleTap/dt_soundscape.mp3")
-                    splashPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+                    player.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
                     afd.close()
-                    splashPlayer.prepare()
-                    splashPlayer.setVolume(0.7f, 0.7f)
-                    splashPlayer.start()
-                    splashPlayer.setOnCompletionListener {
-                        it.release()
-                        splashSoundFinished = true
-                    }
+                    player.prepare()
+                    player.setVolume(0.7f, 0.7f)
+                    player.setOnCompletionListener { finishSplashSound() }
+                    player.setOnErrorListener { _, _, _ -> finishSplashSound(); true }
+                    player.start()
                 } catch (e: Exception) {
                     Log.e(TAG, "Failed to play splash sound: $e")
-                    splashPlayer.release()
-                    splashSoundFinished = true
+                    finishSplashSound()
                 }
                 sharedPreferences.edit(commit = true) {
                     putString(LAST_SPLASH_RELEASE_KEY, BuildConfig.VERSION_NAME.substringBeforeLast("."))
                 }
             }
 
-            // Keep the splash screen visible until the sound has finished playing,
-            // with a minimum delay for attribution acknowledgements.
-            val attributionDelay = 1500
-            val content: View = findViewById(android.R.id.content)
-            val context = this
+            // Safety net: never let the splash hang. If the sound hasn't reported completion by
+            // maxSplashDelay (e.g. the MediaPlayer was reclaimed before its callback could fire)
+            // open the gate anyway.
+            content.postDelayed({ if (!splashSoundFinished) finishSplashSound() }, maxSplashDelay)
+
             content.viewTreeObserver.addOnPreDrawListener(
                 object : ViewTreeObserver.OnPreDrawListener {
                     override fun onPreDraw(): Boolean {
@@ -477,6 +498,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener)
+        // Release the splash sound player if it's still playing (e.g. the activity is recreated
+        // before playback finishes) so it doesn't leak or overlap with a fresh instance.
+        splashPlayer?.release()
+        splashPlayer = null
         super.onDestroy()
     }
 
