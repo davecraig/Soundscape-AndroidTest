@@ -681,19 +681,37 @@ class SoundscapeService : MediaSessionService() {
         }
     }
 
-    private fun cancelCallout(): Boolean {
-        val wasActive = calloutJob?.isActive == true
-        if (wasActive)
-            calloutJob?.cancel()
+    /**
+     * Start a user-initiated callout.
+     *
+     * The previous callout (if any) is cancelled and the TTS queue cleared on the background
+     * coroutine dispatcher rather than on the calling thread. clearTextToSpeechQueue() makes a
+     * blocking binder call into the system TTS service (TextToSpeech.stop()), so running it on the
+     * main thread - as the old synchronous cancelCallout() did - could ANR if that service was slow.
+     *
+     * If a callout was already in progress, the user action simply cancels it (toggle behaviour)
+     * and [body] is skipped. Otherwise the TTS queue is cleared and then [body] runs, preserving the
+     * clear-before-speak ordering that callouts rely on.
+     */
+    private fun startCallout(body: suspend CoroutineScope.() -> Unit) {
+        val previousJob = calloutJob
+        calloutJob = coroutineScope.launch {
+            val wasActive = previousJob?.isActive == true
+            if (wasActive)
+                previousJob?.cancel()
 
-        // Always clear the TTS queue as there's been a user action that requires a response
-        audioEngine.clearTextToSpeechQueue()
-        return wasActive
+            // Always clear the TTS queue as there's been a user action that requires a response
+            audioEngine.clearTextToSpeechQueue()
+
+            // If a callout was already in progress, the user action just cancels it.
+            if (wasActive) return@launch
+
+            body()
+        }
     }
 
     fun myLocation() {
-        if (cancelCallout()) return
-        calloutJob = coroutineScope.launch {
+        startCallout {
             if (requestAudioFocus()) {
                 // The call to myLocation can take a second or so as it might be doing network
                 // based reverse geocoding. Ensure that the user has feedback that the action is
@@ -714,8 +732,7 @@ class SoundscapeService : MediaSessionService() {
     }
 
     fun whatsAroundMe() {
-        if (cancelCallout()) return
-        calloutJob = coroutineScope.launch {
+        startCallout {
             val results = geoEngine.whatsAroundMe()
             ensureActive()
             var lastHandle = 0L
@@ -727,8 +744,7 @@ class SoundscapeService : MediaSessionService() {
     }
 
     fun aheadOfMe() {
-        if (cancelCallout()) return
-        calloutJob = coroutineScope.launch {
+        startCallout {
             val results = geoEngine.aheadOfMe()
             ensureActive()
             var lastHandle = 0L
@@ -740,8 +756,7 @@ class SoundscapeService : MediaSessionService() {
     }
 
     fun nearbyMarkers() {
-        if (cancelCallout()) return
-        calloutJob = coroutineScope.launch {
+        startCallout {
             val results = geoEngine.nearbyMarkers()
             ensureActive()
             var lastHandle = 0L
