@@ -115,8 +115,12 @@ class TtsEngine(
             MainActivity.VOICE_TYPE_KEY,
             MainActivity.VOICE_TYPE_DEFAULT
         )!!
-        if (textToSpeech.voices != null) {
-            for (voice in textToSpeech.voices) {
+        // textToSpeech.voices is a platform getter (getVoices()) that is re-invoked on every
+        // access and can return null, so capture it once rather than checking and iterating
+        // separately (which crashed when the second read returned null).
+        val voices = textToSpeech.voices
+        if (voices != null) {
+            for (voice in voices) {
                 if (voice == null) continue
                 if (voice.name == voiceType) {
                     if (textToSpeechVoiceType != voice.name) {
@@ -334,7 +338,9 @@ class TtsEngine(
     fun getAvailableSpeechLanguages(): Set<Locale> {
         try {
             if (textToSpeechInitialized)
-                return textToSpeech.availableLanguages
+                // getAvailableLanguages() is a platform getter that can return null, so fall back
+                // to an empty set rather than returning null from a non-null-typed function.
+                return textToSpeech.availableLanguages ?: emptySet()
         } catch (e: Exception) {
             AnalyticsProvider.getInstance().logEvent("getAvailableSpeechLanguages_error", null)
             Log.e(TAG, "getAvailableSpeechVoices: $e")
@@ -345,7 +351,9 @@ class TtsEngine(
     fun getAvailableSpeechVoices(): Set<Voice> {
         try {
             if (textToSpeechInitialized)
-                return textToSpeech.voices
+                // getVoices() is a platform getter that can return null, so fall back to an
+                // empty set rather than returning null from a non-null-typed function.
+                return textToSpeech.voices ?: emptySet()
         } catch (e: Exception) {
             AnalyticsProvider.getInstance().logEvent("getAvailableSpeechVoices_error", null)
             Log.e(TAG, "getAvailableSpeechVoices: $e")
