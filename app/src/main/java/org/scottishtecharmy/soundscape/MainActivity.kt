@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape
 
 import android.Manifest
 import android.accessibilityservice.AccessibilityServiceInfo
+import android.app.ForegroundServiceStartNotAllowedException
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
@@ -188,6 +189,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
+
+        // If a foreground service start was deferred because the app wasn't yet in the foreground
+        // (e.g. a permission result delivered before onResume), retry it now that we're resumed.
+        if (pendingServiceStart) {
+            pendingServiceStart = false
+            startSoundscapeService()
+        }
 
         val locationPermission = when (ContextCompat.checkSelfPermission(
             this,
@@ -804,6 +812,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Set when startForegroundService() was blocked because the app wasn't yet in the foreground.
+    // onResume() retries the start once the activity is genuinely resumed.
+    private var pendingServiceStart = false
+
     var serviceSleeping = false
     fun setServiceState(newServiceState: Boolean, sleeping: Boolean? = null) {
         Log.d(TAG, "setServiceState $newServiceState, sleeping = $sleeping, serviceSleeping = $serviceSleeping")
@@ -834,7 +846,25 @@ class MainActivity : AppCompatActivity() {
     private fun startSoundscapeService() {
         Log.e(TAG, "startSoundscapeService")
         val serviceIntent = Intent(this, SoundscapeService::class.java)
-        startForegroundService(serviceIntent)
+        try {
+            startForegroundService(serviceIntent)
+            pendingServiceStart = false
+        } catch (e: Exception) {
+            // On Android 12+ startForegroundService() throws ForegroundServiceStartNotAllowedException
+            // when the app isn't considered to be in the foreground. This happens when a permission
+            // result is delivered during performResumeActivity() *before* onResume() runs, so the
+            // FGS-while-in-use allowance isn't active yet. Defer the start and retry from onResume(),
+            // by which point the activity is genuinely resumed and the start is permitted.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                e is ForegroundServiceStartNotAllowedException
+            ) {
+                Log.w(TAG, "startForegroundService not allowed yet; deferring to onResume")
+                Analytics.getInstance().crashLogNotes("startForegroundService not allowed; deferring to onResume")
+                pendingServiceStart = true
+                return
+            }
+            throw e
+        }
         // Request microphone permission for voice commands (best-effort)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
             != android.content.pm.PackageManager.PERMISSION_GRANTED) {
