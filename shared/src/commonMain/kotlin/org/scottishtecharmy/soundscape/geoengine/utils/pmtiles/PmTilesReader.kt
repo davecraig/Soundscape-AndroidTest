@@ -34,6 +34,24 @@ class PmTilesReader(path: Path, fileSystem: FileSystem = systemFileSystem) : Aut
         return rootDirectory.findTile(id)
     }
 
+    /**
+     * Read and decompress the JSON metadata block.
+     *
+     * MapLibre's native PMTilesFileSource decompresses this same gzip-compressed metadata
+     * section as soon as it opens a source (mbgl::util::decompress, compression.cpp:98, via
+     * PMTilesFileSource::Impl::getMetadata, pmtiles_file_source.cpp:389). That decompress is NOT
+     * wrapped in a try/catch natively, so a corrupt or truncated extract makes it throw, the
+     * exception escapes MapLibre's file-source worker thread, reaches std::terminate and aborts the
+     * whole process - a native crash we cannot catch from Kotlin.
+     *
+     * Forcing the identical decompression here, where the exception IS catchable, lets callers
+     * (see isPmtilesUsable) reject bad extracts before handing them to MapLibre.
+     */
+    fun readMetadata(): ByteArray {
+        val raw = readBytes(fileHandle, header.jsonMetadataOffset, header.jsonMetadataLength.toInt())
+        return decompress(raw, header.internalCompression)
+    }
+
     override fun close() {
         fileHandle.close()
     }
@@ -176,6 +194,8 @@ private class Header {
     var internalCompression: Byte = 0
     var rootDirOffset: Long = 0
     var rootDirLength: Long = 0
+    var jsonMetadataOffset: Long = 0
+    var jsonMetadataLength: Long = 0
     var leafDirOffset: Long = 0
     var tileDataOffset: Long = 0
 
@@ -194,6 +214,8 @@ private class Header {
         }
         rootDirOffset = readLittleEndianLong(bytes, 8)
         rootDirLength = readLittleEndianLong(bytes, 16)
+        jsonMetadataOffset = readLittleEndianLong(bytes, 24)
+        jsonMetadataLength = readLittleEndianLong(bytes, 32)
         leafDirOffset = readLittleEndianLong(bytes, 40)
         tileDataOffset = readLittleEndianLong(bytes, 56)
         internalCompression = bytes[97]

@@ -8,6 +8,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.pmtiles.PmTilesReader
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.platform.systemFileSystem
 import org.scottishtecharmy.soundscape.utils.findExtractPaths
+import org.scottishtecharmy.soundscape.utils.isPmtilesUsable
 
 /**
  * Resolves the tile source URL to use for the map style.
@@ -30,11 +31,16 @@ fun resolveTileSourceUrl(
 
     if (extractsPath.isEmpty()) return networkUrl
 
-    val offlineExtractPaths = findExtractPaths(extractsPath)
+    // Exclude any extracts that are corrupt or truncated. Handing a bad .pmtiles file to
+    // MapLibre triggers an uncaught native exception (gzip metadata decompress failure) that
+    // aborts the whole app, so we validate up front and fall back to the network tile source
+    // instead. This also covers the location == null branch below, which previously used
+    // offlineExtractPaths[0] unvalidated.
+    val offlineExtractPaths = findExtractPaths(extractsPath).filter { isPmtilesUsable(it) }
     if (offlineExtractPaths.isEmpty()) return networkUrl
 
     if (location == null) {
-        // No location — use the first available extract
+        // No location — use the first available (validated) extract
         return "pmtiles://file://${offlineExtractPaths[0]}"
     }
 
