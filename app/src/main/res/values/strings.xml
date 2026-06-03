@@ -1012,6 +1012,16 @@
 <string name="offline_map_download_cancelled">"Download cancelled"</string>
 <!-- Offscreen map message when there is an error during download -->
 <string name="offline_map_download_error">"Download error"</string>
+<!-- Button that lets the user import a .pmtiles map file already downloaded onto the phone -->
+<string name="offline_maps_import">"Import map file"</string>
+<!-- Shown while a chosen map file is being copied into the app's storage. %s is the map name. -->
+<string name="offline_maps_importing">"Importing %s"</string>
+<!-- Message shown when a map file has been imported successfully -->
+<string name="offline_map_import_complete">"Map imported"</string>
+<!-- Message shown when importing a map file failed for a reason other than the file being invalid -->
+<string name="offline_map_import_error">"Could not import map"</string>
+<!-- Message shown when the chosen file is not a usable offline map -->
+<string name="offline_map_import_invalid">"That file isn't a usable offline map"</string>
 <!-- Accessibility onboarding screen title -->
 <string name="accessibility_title">"Accessibility"</string>
 <!-- If there is a screen reader enabled, then this text is shown to the user during onboarding. -->

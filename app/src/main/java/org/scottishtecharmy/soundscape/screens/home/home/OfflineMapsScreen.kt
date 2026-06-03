@@ -1,7 +1,10 @@
 package org.scottishtecharmy.soundscape.screens.home.home
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -63,6 +67,7 @@ import org.scottishtecharmy.soundscape.ui.theme.mediumPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 import org.scottishtecharmy.soundscape.utils.DownloadState
 import org.scottishtecharmy.soundscape.utils.StorageUtils
+import org.scottishtecharmy.soundscape.viewmodels.ImportState
 import org.scottishtecharmy.soundscape.viewmodels.NearbyExtractsState
 import org.scottishtecharmy.soundscape.viewmodels.OfflineMapsUiState
 import org.scottishtecharmy.soundscape.viewmodels.OfflineMapsViewModel
@@ -98,8 +103,17 @@ fun OfflineMapsScreenVM(
     val progressForBar = remember { mutableIntStateOf(0) }
     val downloading = remember { mutableStateOf(false) }
     val caching = remember { mutableStateOf(false) }
+    val importing = remember { mutableStateOf(false) }
+    val importIndeterminate = remember { mutableStateOf(false) }
     val userMessage = remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    // System file picker for side-loading a .pmtiles extract. ".pmtiles" has no registered
+    // MIME type, so we accept any file and validate it during import.
+    val importLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = { uri: Uri? -> uri?.let { viewModel.importExtract(it) } }
+    )
 
     // In your Composable or Activity/Fragment
     LaunchedEffect(Unit) {
@@ -163,6 +177,44 @@ fun OfflineMapsScreenVM(
             }
         }
     }
+    // Reflect import progress onto the same progress UI used for downloads.
+    LaunchedEffect(Unit) {
+        viewModel.importState.collect { state ->
+            when (state) {
+                is ImportState.Idle -> {
+                    importing.value = false
+                    importIndeterminate.value = false
+                }
+
+                is ImportState.Copying -> {
+                    importing.value = true
+                    if (state.progress < 0) {
+                        importIndeterminate.value = true
+                    } else {
+                        importIndeterminate.value = false
+                        progress.intValue = state.progress
+                        progressForBar.intValue = state.progress / 10
+                    }
+                }
+
+                is ImportState.Success -> {
+                    importing.value = false
+                    importIndeterminate.value = false
+                    userMessage.value = context.getString(R.string.offline_map_import_complete)
+                    viewModel.refreshExtracts()
+                }
+
+                is ImportState.Error -> {
+                    importing.value = false
+                    importIndeterminate.value = false
+                    userMessage.value = context.getString(
+                        if (state.invalid) R.string.offline_map_import_invalid
+                        else R.string.offline_map_import_error
+                    )
+                }
+            }
+        }
+    }
     // Display error message if it exists
     LaunchedEffect(userMessage.value) {
         if (userMessage.value.isNotEmpty()) {
@@ -178,10 +230,14 @@ fun OfflineMapsScreenVM(
         progressForBar = progressForBar.intValue,
         downloading = downloading.value,
         caching = caching.value,
+        importing = importing.value,
+        importIndeterminate = importIndeterminate.value,
         modifier = modifier,
         downloadExtract = { name, feature -> viewModel.download(name, feature) },
         deleteExtract = { feature -> viewModel.delete(feature) },
-        cancelDownload = { viewModel.cancelDownload() }
+        cancelDownload = { viewModel.cancelDownload() },
+        importExtract = { importLauncher.launch(arrayOf("*/*")) },
+        cancelImport = { viewModel.cancelImport() }
     )
 }
 
@@ -308,9 +364,13 @@ fun OfflineMapsScreen(
     progressForBar: Int,
     downloading: Boolean,
     caching: Boolean,
+    importing: Boolean,
+    importIndeterminate: Boolean,
     downloadExtract: (String, Feature) -> Unit,
     deleteExtract: (Feature) -> Unit,
-    cancelDownload: () -> Unit
+    cancelDownload: () -> Unit,
+    importExtract: () -> Unit,
+    cancelImport: () -> Unit
 ) {
     val extractDetailsFeature = remember { mutableStateOf(null as Feature?) }
     val localExtractDetails = remember { mutableStateOf(false) }
@@ -319,9 +379,10 @@ fun OfflineMapsScreen(
         if (extractDetailsFeature.value != null) {
             // Swipe back exits offset details page
             extractDetailsFeature.value = null
-        } else if (!downloading) {
-            // Ignore any back swipes when downloading content. Instead we should probably have a dialog
-            // pop up at this point to check whether the user would really like to cancel the download.
+        } else if (!downloading && !importing) {
+            // Ignore any back swipes when downloading or importing content. Instead we should
+            // probably have a dialog pop up at this point to check whether the user would really
+            // like to cancel.
             navController.navigateUp()
         }
     }
@@ -336,7 +397,7 @@ fun OfflineMapsScreen(
                     stringResource(R.string.offline_maps_title),
                 leftSide = {
                     IconWithTextButton(
-                        text = if (downloading) stringResource(R.string.general_alert_cancel) else stringResource(
+                        text = if (downloading || importing) stringResource(R.string.general_alert_cancel) else stringResource(
                             R.string.ui_back_button_title
                         ),
                         color = MaterialTheme.colorScheme.onSurface,
@@ -344,6 +405,8 @@ fun OfflineMapsScreen(
                     ) {
                         if (extractDetailsFeature.value != null) {
                             extractDetailsFeature.value = null
+                        } else if (importing) {
+                            cancelImport()
                         } else if (downloading) {
                             cancelDownload()
                         } else {
@@ -375,7 +438,7 @@ fun OfflineMapsScreen(
                         .padding(padding)
                         .background(MaterialTheme.colorScheme.surface),
                 )
-            } else if (downloading) {
+            } else if (downloading || importing) {
                 Column(
                     modifier = modifier
                         .fillMaxSize()
@@ -385,29 +448,40 @@ fun OfflineMapsScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = stringResource(
-                            if (caching)
-                                R.string.offline_maps_caching
-                            else
-                                R.string.offline_maps_downloading
-                        ).format(uiState.downloadingExtractName),
+                        text = if (importing)
+                            stringResource(R.string.offline_maps_importing)
+                                .format(uiState.importingExtractName)
+                        else
+                            stringResource(
+                                if (caching)
+                                    R.string.offline_maps_caching
+                                else
+                                    R.string.offline_maps_downloading
+                            ).format(uiState.downloadingExtractName),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.talkbackLive()
                     )
-                    LinearProgressIndicator(
-                        progress = { progressForBar.toFloat() / 100.0f },
-                        modifier = Modifier
-                            .padding(spacing.medium)
-                    )
-                    Text(
-                        text = "${progressPrecise / 10.0}%",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.talkbackHidden()
-                    )
+                    if (importing && importIndeterminate) {
+                        // The picked file's size is unknown, so we can't show a percentage.
+                        LinearProgressIndicator(
+                            modifier = Modifier.padding(spacing.medium)
+                        )
+                    } else {
+                        LinearProgressIndicator(
+                            progress = { progressForBar.toFloat() / 100.0f },
+                            modifier = Modifier
+                                .padding(spacing.medium)
+                        )
+                        Text(
+                            text = "${progressPrecise / 10.0}%",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.talkbackHidden()
+                        )
+                    }
                 }
             } else {
                 Column(
@@ -419,6 +493,19 @@ fun OfflineMapsScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(spacing.tiny),
                 ) {
+
+                    // Let the user side-load a .pmtiles extract they downloaded separately.
+                    IconWithTextButton(
+                        icon = Icons.Filled.FileOpen,
+                        text = stringResource(R.string.offline_maps_import),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = spacing.targetSize)
+                            .testTag("offlineMapImport"),
+                        onClick = importExtract
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(spacing.small))
 
                     for (storage in uiState.storages) {
                         if (storage.path == uiState.currentPath) {
@@ -645,9 +732,13 @@ fun OfflineMapsScreenPreview() {
         progressPrecise = 491,
         downloading = false,
         caching = false,
+        importing = false,
+        importIndeterminate = false,
         downloadExtract = { _, _ -> },
         deleteExtract = { _ -> },
-        cancelDownload = {}
+        cancelDownload = {},
+        importExtract = {},
+        cancelImport = {}
     )
 }
 
@@ -667,8 +758,12 @@ fun OfflineMapsScreenDownloadingPreview() {
         progressPrecise = 491,
         downloading = true,
         caching = true,
+        importing = false,
+        importIndeterminate = false,
         downloadExtract = { _, _ -> },
         deleteExtract = { _ -> },
-        cancelDownload = {}
+        cancelDownload = {},
+        importExtract = {},
+        cancelImport = {}
     )
 }

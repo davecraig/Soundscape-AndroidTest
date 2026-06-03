@@ -9,9 +9,13 @@ import android.text.format.Formatter
 import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import ch.poole.geo.pmtiles.Reader
+import org.json.JSONObject
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
 import org.scottishtecharmy.soundscape.geojsonparser.moshi.GeoJsonObjectMoshiAdapter
 import org.scottishtecharmy.soundscape.utils.StorageUtils.StorageSpace
 import java.io.File
@@ -146,6 +150,60 @@ fun getMetadata(pmtilesPath: String) : Feature? {
         }
     }
     return null
+}
+
+/**
+ * Synthesize the companion metadata Feature for a side-loaded .pmtiles file.
+ *
+ * Downloaded extracts get their metadata from the server manifest, but an imported
+ * file has none, so we derive what we can from the PMTiles header: the coverage
+ * bounds become a Polygon (drawn on the extract details map) and the embedded
+ * "name" (if any) becomes the display name, falling back to the filename. The file
+ * size is read from disk. The "local-filename" property records the exact on-disk
+ * name so [OfflineMapsViewModel.delete] can remove it (and its .geojson companion)
+ * without relying on the manifest naming convention.
+ */
+fun buildImportedExtractFeature(context: Context, pmtilesFile: File): Feature {
+    val feature = Feature()
+    var name = pmtilesFile.name.removeSuffix(".pmtiles")
+
+    try {
+        Reader(pmtilesFile).use { reader ->
+            // bounds are returned as [left, bottom, right, top] = [minLon, minLat, maxLon, maxLat]
+            val b = reader.bounds
+            val ring = arrayListOf(
+                LngLatAlt(b[0], b[1]),
+                LngLatAlt(b[2], b[1]),
+                LngLatAlt(b[2], b[3]),
+                LngLatAlt(b[0], b[3]),
+                LngLatAlt(b[0], b[1]),
+            )
+            feature.geometry = Polygon(ring)
+
+            try {
+                val meta = reader.metadata
+                if (meta.isNotBlank()) {
+                    val embeddedName = JSONObject(meta).optString("name", "")
+                    if (embeddedName.isNotBlank()) name = embeddedName
+                }
+            } catch (e: Exception) {
+                Log.e(StorageUtils.TAG, "No usable embedded name in ${pmtilesFile.name}: ${e.message}")
+            }
+        }
+    } catch (e: Exception) {
+        Log.e(StorageUtils.TAG, "Could not read pmtiles header for ${pmtilesFile.name}: ${e.message}")
+    }
+
+    val size = pmtilesFile.length()
+    val properties: HashMap<String, Any?> = hashMapOf()
+    properties["name"] = name
+    properties["extract-size"] = size.toDouble()
+    properties["extract-size-string"] = Formatter.formatFileSize(context, size)
+    properties["local-filename"] = pmtilesFile.name
+    properties["imported"] = true
+    feature.properties = properties
+
+    return feature
 }
 
 fun findExtracts(path: String) : FeatureCollection? {

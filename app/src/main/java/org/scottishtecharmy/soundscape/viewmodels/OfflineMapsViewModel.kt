@@ -1,7 +1,9 @@
 package org.scottishtecharmy.soundscape.viewmodels
 
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
+import android.provider.OpenableColumns
 import android.text.format.Formatter
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -13,6 +15,9 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -29,16 +34,30 @@ import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.utils.DownloadState
 import org.scottishtecharmy.soundscape.utils.OfflineDownloader
 import org.scottishtecharmy.soundscape.utils.StorageUtils
+import org.scottishtecharmy.soundscape.utils.buildImportedExtractFeature
 import org.scottishtecharmy.soundscape.utils.downloadAndParseManifest
 import org.scottishtecharmy.soundscape.utils.findExtracts
 import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
+import org.scottishtecharmy.soundscape.utils.isPmtilesUsable
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+import kotlin.coroutines.cancellation.CancellationException
 
 sealed class NearbyExtractsState {
     object Loading : NearbyExtractsState()
     data class Loaded(val nearbyExtracts: FeatureCollection) : NearbyExtractsState()
     object Error : NearbyExtractsState()
+}
+
+sealed class ImportState {
+    object Idle : ImportState()
+    // progress is in tenths of a percent (0..1000) to match DownloadState, or -1 when the
+    // source size is unknown (indeterminate progress).
+    data class Copying(val progress: Int) : ImportState()
+    object Success : ImportState()
+    // invalid == true means the file copied fine but isn't a usable .pmtiles extract.
+    data class Error(val invalid: Boolean) : ImportState()
 }
 
 data class OfflineMapsUiState(
@@ -61,7 +80,10 @@ data class OfflineMapsUiState(
     val userHeading: Float = 0.0f,
 
     // Search/marker location used to find nearby extracts
-    val markerLocation: LngLatAlt? = null
+    val markerLocation: LngLatAlt? = null,
+
+    // Display name of the extract currently being imported (side-loaded)
+    val importingExtractName: String = ""
 )
 
 @HiltViewModel(assistedFactory = OfflineMapsViewModel.Factory::class)
@@ -75,6 +97,10 @@ class OfflineMapsViewModel @AssistedInject constructor(
     val uiState: StateFlow<OfflineMapsUiState> = _uiState
     lateinit var offlineDownloader: OfflineDownloader
     lateinit var downloadState: StateFlow<DownloadState>
+
+    private val _importState = MutableStateFlow<ImportState>(ImportState.Idle)
+    val importState: StateFlow<ImportState> = _importState
+    private var importJob: Job? = null
 
     // Add this factory interface inside the ViewModel class
     @AssistedFactory
@@ -159,9 +185,13 @@ class OfflineMapsViewModel @AssistedInject constructor(
     }
 
     fun delete(feature: Feature) {
-        val filename = feature.properties?.get("filename")
-        if (filename != null) {
-            val localFilename = translateToLocalFilenameFrom(filename as String)
+        // Imported extracts store their exact on-disk name in "local-filename"; downloaded
+        // extracts only have the manifest "filename", which needs translating to the local
+        // name. Prefer the former so arbitrary imported filenames (which may contain "-")
+        // are deleted correctly.
+        val localFilename = (feature.properties?.get("local-filename") as? String)
+            ?: (feature.properties?.get("filename") as? String)?.let { translateToLocalFilenameFrom(it) }
+        if (localFilename != null) {
             val extractsDir = File(_uiState.value.currentPath, Environment.DIRECTORY_DOWNLOADS)
             if (extractsDir.exists() && extractsDir.isDirectory) {
                 val files = extractsDir.listFiles { file ->
@@ -205,6 +235,146 @@ class OfflineMapsViewModel @AssistedInject constructor(
 
     fun cancelDownload() {
         offlineDownloader.cancelDownload()
+    }
+
+    /**
+     * Side-load a .pmtiles extract chosen from the system file picker.
+     *
+     * The picker hands back a content:// URI, but both the MapLibre pmtiles:// source and
+     * the geo engine's Reader need a real file path, so we stream the file into the selected
+     * storage's Downloads directory (where findExtractPaths/findExtracts look for extracts).
+     * The file is validated with isPmtilesUsable before it is finalised so a corrupt file can
+     * never reach (and crash) MapLibre, and a synthesized .geojson metadata companion is
+     * written so it appears in the list and can be deleted.
+     */
+    fun importExtract(uri: Uri) {
+        // Don't start a second import on top of a running one.
+        if (importJob?.isActive == true) return
+
+        importJob = viewModelScope.launch {
+            _importState.value = ImportState.Copying(-1)
+            var tempFile: File? = null
+            try {
+                val (displayName, totalSize) = withContext(Dispatchers.IO) { queryNameAndSize(uri) }
+                val filename = safePmtilesFilename(displayName)
+                _uiState.value = _uiState.value.copy(
+                    importingExtractName = filename.removeSuffix(".pmtiles")
+                )
+
+                val downloadsDir = File(_uiState.value.currentPath, Environment.DIRECTORY_DOWNLOADS)
+
+                val finalFile = withContext(Dispatchers.IO) {
+                    if (!downloadsDir.exists()) downloadsDir.mkdirs()
+                    val destination = uniqueExtractFile(downloadsDir, filename)
+                    val temp = File(downloadsDir, "${destination.name}.importing")
+                    tempFile = temp
+
+                    val input = appContext.contentResolver.openInputStream(uri)
+                        ?: throw IOException("Could not open $uri")
+                    input.use { ins ->
+                        FileOutputStream(temp).use { out ->
+                            val buffer = ByteArray(64 * 1024)
+                            var copied = 0L
+                            var lastProgress = -1
+                            while (true) {
+                                ensureActive()
+                                val read = ins.read(buffer)
+                                if (read < 0) break
+                                out.write(buffer, 0, read)
+                                copied += read
+                                if (totalSize > 0) {
+                                    val progress = (copied * 1000 / totalSize).toInt()
+                                    if (progress != lastProgress) {
+                                        lastProgress = progress
+                                        _importState.value = ImportState.Copying(progress)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Reject anything that isn't a usable extract before it becomes visible.
+                    if (!isPmtilesUsable(temp.path)) {
+                        temp.delete()
+                        return@withContext null
+                    }
+
+                    if (!temp.renameTo(destination)) {
+                        temp.delete()
+                        throw IOException("Could not finalise ${destination.name}")
+                    }
+
+                    // Write the synthesized metadata companion, mirroring download().
+                    val feature = buildImportedExtractFeature(appContext, destination)
+                    val adapter = GeoJsonObjectMoshiAdapter()
+                    FileOutputStream("${destination.path}.geojson").use {
+                        it.write(adapter.toJson(feature).toByteArray())
+                    }
+                    destination
+                }
+
+                if (finalFile == null) {
+                    _importState.value = ImportState.Error(invalid = true)
+                } else {
+                    refreshExtracts()
+                    _importState.value = ImportState.Success
+                }
+            } catch (ce: CancellationException) {
+                withContext(NonCancellable + Dispatchers.IO) { tempFile?.delete() }
+                _importState.value = ImportState.Idle
+                throw ce
+            } catch (e: Exception) {
+                Log.e(TAG, "Import failed: ${e.message}")
+                withContext(Dispatchers.IO) { tempFile?.delete() }
+                _importState.value = ImportState.Error(invalid = false)
+            }
+        }
+    }
+
+    fun cancelImport() {
+        importJob?.cancel()
+    }
+
+    /** Reads the display name and size of a picked document (either may be unavailable). */
+    private fun queryNameAndSize(uri: Uri): Pair<String?, Long> {
+        var name: String? = null
+        var size = -1L
+        appContext.contentResolver.query(
+            uri,
+            arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE),
+            null, null, null
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (nameIndex >= 0 && !cursor.isNull(nameIndex)) name = cursor.getString(nameIndex)
+                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                if (sizeIndex >= 0 && !cursor.isNull(sizeIndex)) size = cursor.getLong(sizeIndex)
+            }
+        }
+        return Pair(name, size)
+    }
+
+    /** Turn a picked document's display name into a safe single ".pmtiles" filename. */
+    private fun safePmtilesFilename(displayName: String?): String {
+        var base = (displayName ?: "imported").substringAfterLast('/').substringAfterLast('\\')
+        if (base.endsWith(".pmtiles", ignoreCase = true)) {
+            base = base.dropLast(".pmtiles".length)
+        }
+        if (base.isBlank()) base = "imported"
+        return "$base.pmtiles"
+    }
+
+    /** Pick a non-clashing destination so an import can't overwrite an existing extract. */
+    private fun uniqueExtractFile(dir: File, filename: String): File {
+        var candidate = File(dir, filename)
+        if (!candidate.exists()) return candidate
+        val base = filename.removeSuffix(".pmtiles")
+        var index = 1
+        while (candidate.exists()) {
+            candidate = File(dir, "$base ($index).pmtiles")
+            index++
+        }
+        return candidate
     }
 
     fun refreshExtracts() {
