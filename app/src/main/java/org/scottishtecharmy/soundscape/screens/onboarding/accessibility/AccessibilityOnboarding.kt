@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape.screens.onboarding.accessibility
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -68,65 +69,68 @@ fun AccessibilityOnboardingScreen(
             stringResource(R.string.accessibility_screen_reader_disabled)
         }
 
-        ProvidePreferenceLocals {
-            LazyColumn(
+        Column(
+            modifier = Modifier
+                .padding(horizontal = spacing.large)
+                .padding(top = spacing.large)
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(R.string.accessibility_title),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(horizontal = spacing.large)
-                    .padding(top = spacing.large)
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .background(MaterialTheme.colorScheme.background),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                item {
-                    Text(
-                        text = stringResource(R.string.accessibility_title),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .semantics {
-                                heading()
-                            }
-                            .focusRequester(focusRequester)
-                            .focusable()
-                    )
-                    Spacer(modifier = Modifier.height(spacing.large))
-                    Text(
-                        text = text,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier
-                            .smallPadding()
-                            .focusable()
-                    )
-                    Spacer(modifier = Modifier.height(spacing.large))
-                }
+                    .semantics {
+                        heading()
+                    }
+                    .focusRequester(focusRequester)
+                    .focusable()
+            )
+            Spacer(modifier = Modifier.height(spacing.large))
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .smallPadding()
+                    .focusable()
+            )
+            Spacer(modifier = Modifier.height(spacing.large))
 
-                switchPreference(
-                    key = MainActivity.SHOW_MAP_KEY,
-                    defaultValue = MainActivity.SHOW_MAP_DEFAULT,
-                    modifier = Modifier
-                        .testTag("accessibilityOnboardingScreenShowMapToggle"),
-                    title = {
-                        Text(
-                            text = stringResource(R.string.settings_show_map),
-                            color = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier.focusable()
-                        )
-                    },
-                )
+            ProvidePreferenceLocals {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    switchPreference(
+                        key = MainActivity.SHOW_MAP_KEY,
+                        defaultValue = MainActivity.SHOW_MAP_DEFAULT,
+                        modifier = Modifier
+                            .testTag("accessibilityOnboardingScreenShowMapToggle"),
+                        title = {
+                            Text(
+                                text = stringResource(R.string.settings_show_map),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                modifier = Modifier.focusable()
+                            )
+                        },
+                    )
 
-                if (onNavigate != null) {
-                    item {
-                        OnboardButton(
-                            text = stringResource(R.string.ui_continue),
-                            onClick = { onNavigate() },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .focusable()
-                                .testTag("accessibilityOnboardingScreenContinueButton"),
-                        )
+                    if (onNavigate != null) {
+                        item {
+                            OnboardButton(
+                                text = stringResource(R.string.ui_continue),
+                                onClick = { onNavigate() },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .focusable()
+                                    .testTag("accessibilityOnboardingScreenContinueButton"),
+                            )
+                        }
                     }
                 }
             }
