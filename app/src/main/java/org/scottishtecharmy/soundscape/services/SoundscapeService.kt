@@ -259,24 +259,26 @@ class SoundscapeService : MediaSessionService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (!running) {
+            // Normally already done at the top of onCreate(); this is a fallback retry in case
+            // that attempt failed (e.g. the notification couldn't be built at the time).
             if(startAsForegroundService()) {
                 // Reminds the user every hour that the Soundscape service is still running in the background
                 startServiceStillRunningTicker()
                 running = true
             }
+        }
 
-            if(!started) {
-                Analytics.getInstance().crashLogNotes("Start geo-engine")
-                locationProvider.start(this)
-                directionProvider.start(audioEngine, locationProvider)
-                val configLocale = getCurrentLocale()
-                val configuration = Configuration(applicationContext.resources.configuration)
-                configuration.setLocale(configLocale)
-                localizedContext = applicationContext.createConfigurationContext(configuration)
-                voiceCommandManager?.updateContext(localizedContext)
-                geoEngine.start(application, locationProvider, directionProvider, this, localizedContext, false)
-                started = true
-            }
+        if(!started) {
+            Analytics.getInstance().crashLogNotes("Start geo-engine")
+            locationProvider.start(this)
+            directionProvider.start(audioEngine, locationProvider)
+            val configLocale = getCurrentLocale()
+            val configuration = Configuration(applicationContext.resources.configuration)
+            configuration.setLocale(configLocale)
+            localizedContext = applicationContext.createConfigurationContext(configuration)
+            voiceCommandManager?.updateContext(localizedContext)
+            geoEngine.start(application, locationProvider, directionProvider, this, localizedContext, false)
+            started = true
         }
 
         return super.onStartCommand(intent, flags, startId)
@@ -290,6 +292,19 @@ class SoundscapeService : MediaSessionService() {
         Log.d(TAG, "onCreate $running")
 
         if (!running) {
+
+            // Promote to a foreground service as the very first thing we do, before any of the
+            // slower initialization below (native audio engine, Realm DB, MediaSession). The
+            // system starts its "must call startForeground() in time" timer from the client's
+            // Context.startForegroundService() call, and onCreate() always runs before
+            // onStartCommand() - so if startForeground() is deferred until onStartCommand(), any
+            // slowness here can eat the whole grace period and trigger a
+            // ForegroundServiceDidNotStartInTimeException.
+            if (startAsForegroundService()) {
+                // Reminds the user every hour that the Soundscape service is still running in the background
+                startServiceStillRunningTicker()
+                running = true
+            }
 
             // Hold a partial wake lock for the service lifetime so the CPU stays awake when the
             // screen is off and the Oboe audio callback keeps firing.
@@ -431,11 +446,21 @@ class SoundscapeService : MediaSessionService() {
                 }
             }
 
+            // Only claim the microphone type if we actually hold RECORD_AUDIO - the system
+            // requires that permission to be granted at promotion time for this type, otherwise
+            // it throws a SecurityException.
+            var serviceType = ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION or
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                == PackageManager.PERMISSION_GRANTED) {
+                serviceType = serviceType or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+            }
+
             ServiceCompat.startForeground(
                 this,
                 NOTIFICATION_ID,
                 getNotification(),
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+                serviceType
             )
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
