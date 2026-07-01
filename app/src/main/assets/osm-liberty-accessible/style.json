@@ -6,8 +6,8 @@
     "maputnik:renderer": "mbgljs",
     "openmaptiles:version": "3.x"
   },
-  "sprite": "file:///data/user/0/org.scottishtecharmy.soundscape/files/osm-liberty-accessible/osm-liberty",
-  "glyphs": "file:///data/user/0/org.scottishtecharmy.soundscape/files/osm-liberty-accessible/fonts/{fontstack}/{range}.pbf",
+  "sprite": "asset://osm-liberty-accessible/osm-liberty",
+  "glyphs": "asset://osm-liberty-accessible/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

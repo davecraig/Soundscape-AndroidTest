@@ -3,7 +3,6 @@ package org.scottishtecharmy.soundscape.screens.home.home
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.view.Gravity
@@ -314,7 +313,6 @@ fun MapContainerLibre(
             val currentBeaconIndex = remember { mutableStateOf(currentBeaconWaypointIndex) }
             val symbol = remember { mutableStateOf<Symbol?>(null) }
             val symbolManager = remember { mutableStateOf<SymbolManager?>(null) }
-            val filesDir = remember { context.filesDir.toString() }
 
             val res = context.resources
             val userPositionDrawable = remember {
@@ -381,8 +379,7 @@ fun MapContainerLibre(
                     if (mapDestroyed.get()) return@getMapAsync
                     val styleName =
                         if (accessibleMapEnabled) "style.json" else "originalStyle.json"
-                    val styleUrl =
-                        Uri.fromFile(File("$filesDir/osm-liberty-accessible/$styleName")).toString()
+                    val styleUrl = "asset://osm-liberty-accessible/$styleName"
                     mapLibre.setStyle(styleUrl) { style ->
                         // The style load is asynchronous, so the map may have been destroyed
                         // between requesting the style and it loading. Bail out before touching any
