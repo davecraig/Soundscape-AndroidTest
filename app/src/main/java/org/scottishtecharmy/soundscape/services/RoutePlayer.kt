@@ -240,7 +240,11 @@ class RoutePlayer(val service: SoundscapeService, context: Context) {
                     currentMarker++
                     _currentRouteFlow.update { it.copy(currentWaypoint = currentMarker) }
 
-                    createBeaconAtWaypoint(currentMarker, userInitiated)
+                    // Creating the beacon audio can block on the audio engine (WAV decode,
+                    // native lock), so it's dispatched off the caller's thread - callers of
+                    // moveToNext() rely on the Boolean return being available immediately.
+                    val waypoint = currentMarker
+                    coroutineScope.launch { createBeaconAtWaypoint(waypoint, userInitiated) }
                 }
                 return true
             }
@@ -255,7 +259,8 @@ class RoutePlayer(val service: SoundscapeService, context: Context) {
                 if (currentMarker > 0) {
                     currentMarker--
                     _currentRouteFlow.update { it.copy(currentWaypoint = currentMarker) }
-                    createBeaconAtWaypoint(currentMarker, userInitiated)
+                    val waypoint = currentMarker
+                    coroutineScope.launch { createBeaconAtWaypoint(waypoint, userInitiated) }
                     return true
                 }
             }

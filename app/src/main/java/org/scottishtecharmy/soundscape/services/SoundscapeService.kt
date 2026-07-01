@@ -824,7 +824,12 @@ class SoundscapeService : MediaSessionService() {
     }
 
     fun startBeacon(location: LngLatAlt, name: String) {
-        routePlayer.startBeacon(location, name)
+        // RoutePlayer.startBeacon() makes blocking audio engine calls (WAV decode, native
+        // lock), so it's dispatched off the caller's thread to avoid blocking the main thread
+        // when called directly from a UI click handler.
+        coroutineScope.launch {
+            routePlayer.startBeacon(location, name)
+        }
     }
     fun routeStartById(routeId: Long) {
         routePlayer.startRoute(routeId)
@@ -842,19 +847,20 @@ class SoundscapeService : MediaSessionService() {
     fun routeSkipNext(): Boolean {
         return routePlayer.moveToNext(true)
     }
-    fun routeMute(): Boolean {
-        if(routePlayer.isPlaying()) {
-            // Silence any current text-to-speech output
-            audioEngine.clearTextToSpeechQueue()
+    fun routeMute() {
+        // Both calls below can block on the audio engine's native lock, so run them off the
+        // caller's thread. No caller uses the old Boolean return value.
+        coroutineScope.launch {
+            if(routePlayer.isPlaying()) {
+                // Silence any current text-to-speech output
+                audioEngine.clearTextToSpeechQueue()
 
-            // Toggle the beacon mute
-            val muteState = audioEngine.toggleBeaconMute()
-            // Update the beacon flow with the new mute state
-            _beaconFlow.value = _beaconFlow.value.copy(muteState = muteState)
-
-            return true
+                // Toggle the beacon mute
+                val muteState = audioEngine.toggleBeaconMute()
+                // Update the beacon flow with the new mute state
+                _beaconFlow.value = _beaconFlow.value.copy(muteState = muteState)
+            }
         }
-        return false
     }
     fun routeListRoutes() {
         coroutineScope.launch {
