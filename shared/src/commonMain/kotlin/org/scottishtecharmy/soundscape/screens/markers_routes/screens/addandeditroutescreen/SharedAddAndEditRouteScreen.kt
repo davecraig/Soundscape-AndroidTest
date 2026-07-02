@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.resources.getString
@@ -200,7 +201,8 @@ fun SharedAddAndEditRouteScreen(
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .mediumPadding(),
+                                .mediumPadding()
+                                .testTag("addAndEditRouteDeleteButton"),
                             buttonColor = MaterialTheme.colorScheme.errorContainer,
                             contentColor = MaterialTheme.colorScheme.onErrorContainer,
                             shape = RoundedCornerShape(spacing.small),
@@ -212,7 +214,8 @@ fun SharedAddAndEditRouteScreen(
                     CustomButton(
                         Modifier
                             .fillMaxWidth()
-                            .smallPadding(),
+                            .smallPadding()
+                            .testTag("addWaypointsButton"),
                         onClick = { addWaypointDialog = true },
                         shape = RoundedCornerShape(spacing.small),
                         text = stringResource(Res.string.route_detail_edit_waypoints_button),
@@ -236,9 +239,12 @@ fun SharedAddAndEditRouteScreen(
                         CustomTextField(
                             fieldName = stringResource(Res.string.markers_sort_button_sort_by_name),
                             fieldHint = stringResource(Res.string.route_name_description_hint),
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("routeName"),
                             value = uiState.name,
                             onValueChange = { holder.onNameChange(it) },
+                            testTagPreFix = "name",
                         )
                         Spacer(modifier = Modifier.height(spacing.medium))
                         CustomTextField(
@@ -247,6 +253,7 @@ fun SharedAddAndEditRouteScreen(
                             modifier = Modifier.fillMaxWidth(),
                             value = uiState.description,
                             onValueChange = { holder.onDescriptionChange(it) },
+                            testTagPreFix = "description",
                         )
 
                         HorizontalDivider(
@@ -318,7 +325,8 @@ fun SharedAddAndEditRouteScreen(
                                                 modifier = Modifier
                                                     .draggableHandle()
                                                     .width(spacing.targetSize)
-                                                    .align(Alignment.CenterVertically),
+                                                    .align(Alignment.CenterVertically)
+                                                    .testTag("addAndEditRouteDragHandle"),
                                                 onClick = {},
                                             ) {
                                                 Icon(

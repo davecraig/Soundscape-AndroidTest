@@ -32,6 +32,14 @@ android {
 
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
+    testOptions {
+        unitTests {
+            // Let JVM unit tests touch android.util.Log (etc.) without mocking - they
+            // return default values instead of throwing "not mocked".
+            isReturnDefaultValues = true
+        }
+    }
+
     signingConfigs {
         create("release") {
             storeFile = file("keystore.jks")
@@ -181,6 +189,20 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    androidResources {
+        // Keep the map style assets stored uncompressed in the APK. "pbf" is unique to the
+        // glyph fonts in this folder; the style JSON/sprite PNGs need exact paths since those
+        // extensions are also used elsewhere in the app.
+        noCompress += listOf(
+            "pbf",
+            "assets/osm-liberty-accessible/style.json",
+            "assets/osm-liberty-accessible/originalStyle.json",
+            "assets/osm-liberty-accessible/osm-liberty.json",
+            "assets/osm-liberty-accessible/osm-liberty@2x.json",
+            "assets/osm-liberty-accessible/osm-liberty.png",
+            "assets/osm-liberty-accessible/osm-liberty@2x.png",
+        )
     }
     externalNativeBuild {
         cmake {

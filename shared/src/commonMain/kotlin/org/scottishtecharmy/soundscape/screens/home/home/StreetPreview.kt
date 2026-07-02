@@ -5,6 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.NavigationButton
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
@@ -47,7 +48,9 @@ fun StreetPreview(
             NavigationButton(
                 onClick = { streetPreviewFunctions.go() },
                 text = stringResource(Res.string.preview_go_title),
-                modifier = Modifier.talkbackHint(stringResource(Res.string.preview_go_hint)),
+                modifier = Modifier
+                    .talkbackHint(stringResource(Res.string.preview_go_hint))
+                    .testTag("streetPreviewGo"),
             )
         }
     }

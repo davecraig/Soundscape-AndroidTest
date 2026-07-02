@@ -15,6 +15,7 @@ actual fun PlatformMapContainer(
     beaconLocation: LngLatAlt?,
     routeData: RouteWithMarkers?,
     modifier: Modifier,
+    currentBeaconWaypointIndex: Int,
     extractGeometry: Geometry?,
     forceOnlineTiles: Boolean,
 ) {
@@ -26,6 +27,7 @@ actual fun PlatformMapContainer(
         beaconLocation = beaconLocation,
         routeData = routeData,
         modifier = modifier,
+        currentBeaconWaypointIndex = currentBeaconWaypointIndex,
         extractGeometry = extractGeometry,
         forceOnlineTiles = forceOnlineTiles,
     )

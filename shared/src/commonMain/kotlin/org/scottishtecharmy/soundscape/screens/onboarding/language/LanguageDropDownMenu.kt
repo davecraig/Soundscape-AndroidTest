@@ -72,9 +72,11 @@ fun LanguageDropDownMenu(
         ) {
             TextButton(
                 onClick = { expanded = !expanded },
-                modifier = Modifier.semantics {
-                    if (languageSelected) selected = true
-                },
+                modifier = Modifier
+                    .testTag("languageDropDownMenuToggleButton")
+                    .semantics {
+                        if (languageSelected) selected = true
+                    },
             ) {
                 Text(
                     text = if (languageSelected) {

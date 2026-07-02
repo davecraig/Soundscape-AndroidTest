@@ -52,6 +52,66 @@ class PmTilesReader(path: Path, fileSystem: FileSystem = systemFileSystem) : Aut
         return decompress(raw, header.internalCompression)
     }
 
+    /**
+     * Extra integrity checks beyond the constructor (root directory) and [readMetadata] (front of
+     * file): every header-declared section must fit within the file, and the physically-last tile
+     * - at the tail of the file, exactly where truncation or zero-padding corruption lands - must
+     * decompress cleanly. Metadata alone can pass while the tail is corrupt, since a truncated
+     * download keeps the front of the file intact.
+     *
+     * Throws if anything is invalid; callers (see isPmtilesUsable) treat any exception as "unusable".
+     */
+    fun validateIntegrity(fileLength: Long) {
+        fun requireInBounds(offset: Long, length: Long, name: String) {
+            if (offset < 0 || length < 0 || offset + length > fileLength) {
+                throw IllegalStateException(
+                    "PMTiles $name section out of bounds (offset=$offset length=$length fileLength=$fileLength)"
+                )
+            }
+        }
+        requireInBounds(header.rootDirOffset, header.rootDirLength, "root directory")
+        requireInBounds(header.jsonMetadataOffset, header.jsonMetadataLength, "metadata")
+        requireInBounds(header.leafDirOffset, header.leafDirLength, "leaf directory")
+        requireInBounds(header.tileDataOffset, header.tileDataLength, "tile data")
+
+        if (header.clustered == CLUSTERED && header.tileEntries > 0 && header.tileDataLength > 0) {
+            checkLastTileDecompresses()
+        }
+    }
+
+    /**
+     * Locate the physically-last tile by descending the last entry of each directory (root ->
+     * last leaf -> ... -> last tile), then read and decompress it. Throws if any read or
+     * decompress fails. Only meaningful for a clustered archive, where the last directory entry
+     * is the highest tile-data offset; offline extracts are always clustered.
+     */
+    private fun checkLastTileDecompresses() {
+        var dir = rootDirectory
+        var depth = 0
+        while (true) {
+            if (depth++ > 100) throw IllegalStateException("PMTiles leaf directory nesting too deep")
+            val entries = dir.ids.size
+            if (entries == 0) return // empty directory - nothing more to validate
+            val last = entries - 1
+            if (dir.runLengths[last] == 0L) {
+                // Leaf-directory pointer: descend into it.
+                val leaf = Directory()
+                leaf.read(
+                    fileHandle,
+                    header.leafDirOffset + dir.offsets[last],
+                    dir.lengths[last],
+                    header.internalCompression,
+                )
+                dir = leaf
+            } else {
+                // Tile entry: read and decompress its bytes.
+                val tile = readBytes(fileHandle, header.tileDataOffset + dir.offsets[last], dir.lengths[last].toInt())
+                decompress(tile, header.tileCompression)
+                return
+            }
+        }
+    }
+
     override fun close() {
         fileHandle.close()
     }
@@ -166,6 +226,7 @@ class PmTilesReader(path: Path, fileSystem: FileSystem = systemFileSystem) : Aut
     companion object {
         private const val COMPRESSION_NONE: Byte = 1
         private const val COMPRESSION_GZIP: Byte = 2
+        private const val CLUSTERED: Byte = 1
 
         private fun readBytes(handle: FileHandle, offset: Long, length: Int): ByteArray {
             val buffer = Buffer()
@@ -197,7 +258,11 @@ private class Header {
     var jsonMetadataOffset: Long = 0
     var jsonMetadataLength: Long = 0
     var leafDirOffset: Long = 0
+    var leafDirLength: Long = 0
     var tileDataOffset: Long = 0
+    var tileDataLength: Long = 0
+    var tileEntries: Long = 0
+    var clustered: Byte = 0
 
     fun read(handle: FileHandle) {
         val buffer = Buffer()
@@ -217,7 +282,11 @@ private class Header {
         jsonMetadataOffset = readLittleEndianLong(bytes, 24)
         jsonMetadataLength = readLittleEndianLong(bytes, 32)
         leafDirOffset = readLittleEndianLong(bytes, 40)
+        leafDirLength = readLittleEndianLong(bytes, 48)
         tileDataOffset = readLittleEndianLong(bytes, 56)
+        tileDataLength = readLittleEndianLong(bytes, 64)
+        tileEntries = readLittleEndianLong(bytes, 80)
+        clustered = bytes[96]
         internalCompression = bytes[97]
         tileCompression = bytes[98]
     }

@@ -19,6 +19,7 @@ expect fun PlatformMapContainer(
     beaconLocation: LngLatAlt?,
     routeData: RouteWithMarkers?,
     modifier: Modifier,
+    currentBeaconWaypointIndex: Int = 0,
     extractGeometry: Geometry? = null,
     forceOnlineTiles: Boolean = false,
 )

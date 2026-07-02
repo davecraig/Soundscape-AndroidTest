@@ -100,6 +100,7 @@ fun TermsScreen(
                     .padding(top = spacing.large)
                     .fillMaxWidth()
                     .toggleable(
+                        // This give the toggleable behaviour to the entire row, providing a better UX with alpha() Screen reader
                         value = checkedState.value,
                         role = Role.Checkbox,
                     ) {

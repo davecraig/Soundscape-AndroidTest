@@ -31,7 +31,8 @@ fun CustomTextFieldPreview() {
             onValueChange = { },
             textStyle = TextStyle(fontSize = 18.sp),
             shape = RoundedCornerShape(spacing.extraSmall),
-            isSingleLine = true
+            isSingleLine = true,
+            testTagPreFix = "name",
         )
         HorizontalDivider(thickness = 50.dp)
         CustomTextField(
@@ -41,7 +42,8 @@ fun CustomTextFieldPreview() {
             onValueChange = { },
             textStyle = TextStyle(fontSize = 18.sp),
             shape = RoundedCornerShape(spacing.extraSmall),
-            isSingleLine = true
+            isSingleLine = true,
+            testTagPreFix = "description",
         )
     }
 }

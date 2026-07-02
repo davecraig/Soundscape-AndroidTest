@@ -10,8 +10,10 @@ import io.ktor.utils.io.readAvailable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ensureActive
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 sealed class DownloadResult {
@@ -50,6 +52,13 @@ class FileDownloader internal constructor(private val httpClient: HttpClient) {
                 }
                 out.flush()
             }
+            // EOF is not the same as "got everything". If the stream ends short of the
+            // advertised Content-Length (e.g. an intermediary truncates the response with
+            // a clean close), reject it here so the caller retries rather than publishing a
+            // truncated file.
+            if (total >= 0 && downloaded != total) {
+                throw IOException("Truncated download: $downloaded of $total bytes")
+            }
             DownloadResult.Success
         }
     }
@@ -70,6 +79,10 @@ fun createAndroidFileDownloader(
         }
         .connectTimeout(connectTimeoutMinutes, TimeUnit.MINUTES)
         .readTimeout(readTimeoutMinutes, TimeUnit.MINUTES)
+        // Pin to HTTP/1.1. OkHttp only enforces Content-Length on HTTP/1.1 (a short
+        // body throws "unexpected end of stream"); over HTTP/2 a premature END_STREAM
+        // returns a clean EOF, which would let us save a silently truncated extract.
+        .protocols(listOf(Protocol.HTTP_1_1))
         .build()
     val httpClient = HttpClient(OkHttp) {
         engine { preconfigured = okHttpClient }

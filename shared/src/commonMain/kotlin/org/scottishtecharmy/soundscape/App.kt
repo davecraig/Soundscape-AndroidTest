@@ -117,6 +117,7 @@ data class AppCallbacks(
     val onBeaconPreviewStart: ((String) -> Unit)? = null,
     val onBeaconPreviewUpdate: ((String) -> Unit)? = null,
     val onBeaconPreviewStop: ((Boolean, String?) -> Unit)? = null,
+    val onExitApp: () -> Unit = {},
 )
 
 data class AppFlows(

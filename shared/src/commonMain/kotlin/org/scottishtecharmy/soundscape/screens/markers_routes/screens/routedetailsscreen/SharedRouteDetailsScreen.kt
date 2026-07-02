@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.components.LocationItem
 import org.scottishtecharmy.soundscape.components.LocationItemDecoration
@@ -168,7 +169,7 @@ fun SharedRouteDetailsScreen(
                         Column(modifier = Modifier.smallPadding()) {
                             if (isRoutePlaying) {
                                 IconWithTextButton(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth().testTag("routeDetailsStopButton"),
                                     icon = Icons.Default.Stop,
                                     textModifier = Modifier.padding(horizontal = spacing.extraSmall),
                                     text = stringResource(Res.string.route_detail_action_stop_route),
@@ -179,7 +180,7 @@ fun SharedRouteDetailsScreen(
                                 }
                             } else {
                                 IconWithTextButton(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth().testTag("routeDetailsStartButton"),
                                     icon = Icons.Default.PlayArrow,
                                     textModifier = Modifier.padding(horizontal = spacing.extraSmall),
                                     talkbackHint = stringResource(Res.string.route_detail_action_start_route_hint),
@@ -189,7 +190,7 @@ fun SharedRouteDetailsScreen(
                                     onStartRoute()
                                 }
                                 IconWithTextButton(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth().testTag("routeDetailsStartReverseButton"),
                                     icon = Icons.Default.SwapVert,
                                     textModifier = Modifier.padding(horizontal = spacing.extraSmall),
                                     talkbackHint = stringResource(Res.string.route_detail_action_start_route_reverse_hint),
@@ -201,7 +202,8 @@ fun SharedRouteDetailsScreen(
                             }
                             IconWithTextButton(
                                 modifier = Modifier.fillMaxWidth()
-                                    .defaultMinSize(minHeight = spacing.targetSize),
+                                    .defaultMinSize(minHeight = spacing.targetSize)
+                                    .testTag("routeDetailsEditButton"),
                                 icon = Icons.Default.Edit,
                                 textModifier = Modifier.padding(horizontal = spacing.extraSmall),
                                 text = stringResource(Res.string.route_detail_action_edit),
@@ -212,7 +214,7 @@ fun SharedRouteDetailsScreen(
                             }
                             if (onShareRoute != null) {
                                 IconWithTextButton(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth().testTag("routeDetailsShareButton"),
                                     icon = Icons.Default.Share,
                                     textModifier = Modifier.padding(horizontal = spacing.extraSmall),
                                     text = stringResource(Res.string.share_title),

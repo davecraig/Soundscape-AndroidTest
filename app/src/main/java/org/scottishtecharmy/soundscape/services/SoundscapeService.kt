@@ -28,6 +28,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider.getUriForFile
+import androidx.core.content.edit
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -433,11 +434,14 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (!running) {
+            // Normally already done at the top of onCreate(); this is a fallback retry in case
+            // that attempt failed (e.g. the notification couldn't be built at the time).
             if (startAsForegroundService()) {
                 // Reminds the user every hour that the Soundscape service is still running in the background
                 startServiceStillRunningTicker()
                 running = true
             }
+        }
 
             if (!started) {
                 AnalyticsProvider.getInstance().crashLogNotes("Start geo-engine")
@@ -450,7 +454,6 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
                 startGeoEngine(false)
                 started = true
             }
-        }
 
         return super.onStartCommand(intent, flags, startId)
     }
@@ -463,6 +466,19 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
         Log.d(TAG, "onCreate $running")
 
         if (!running) {
+
+            // Promote to a foreground service as the very first thing we do, before any of the
+            // slower initialization below (native audio engine, Realm DB, MediaSession). The
+            // system starts its "must call startForeground() in time" timer from the client's
+            // Context.startForegroundService() call, and onCreate() always runs before
+            // onStartCommand() - so if startForeground() is deferred until onStartCommand(), any
+            // slowness here can eat the whole grace period and trigger a
+            // ForegroundServiceDidNotStartInTimeException.
+            if (startAsForegroundService()) {
+                // Reminds the user every hour that the Soundscape service is still running in the background
+                startServiceStillRunningTicker()
+                running = true
+            }
 
             // Hold a partial wake lock for the service lifetime so the CPU stays awake when the
             // screen is off and the Oboe audio callback keeps firing.
@@ -521,6 +537,9 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
                 PreferenceDefaults.MEDIA_CONTROLS_MODE
             )!!
             updateMediaControls(mode)
+
+            // Resume whatever route/beacon was playing when sleep mode last stopped this service.
+            restoreSleepPlaybackState()
 
             // Keep biasing strings up to date whenever markers or routes change
             val dao = MarkersAndRoutesDatabaseProvider.getInstance(applicationContext).routeDao()
@@ -629,11 +648,21 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
                 }
             }
 
+            // Only claim the microphone type if we actually hold RECORD_AUDIO - the system
+            // requires that permission to be granted at promotion time for this type, otherwise
+            // it throws a SecurityException.
+            var serviceType = ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION or
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                == PackageManager.PERMISSION_GRANTED) {
+                serviceType = serviceType or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+            }
+
             ServiceCompat.startForeground(
                 this,
                 NOTIFICATION_ID,
                 getNotification(),
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+                serviceType
             )
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
@@ -660,11 +689,73 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     /**
      * Stops the foreground service and removes the notification.
      * Can be called from inside or outside the service.
+     * @param forSleep If true, the current route/beacon playback state is persisted so it can be
+     * automatically resumed when the service is next started (used by sleep mode).
      */
-    fun stopForegroundService() {
+    fun stopForegroundService(forSleep: Boolean = false) {
+        if (forSleep) {
+            saveSleepPlaybackState()
+        }
         destroyBeacon()
         abandonAudioFocus()
         stopSelf()
+    }
+
+    /**
+     * Persists whatever route/beacon RoutePlayer is currently playing so that
+     * [restoreSleepPlaybackState] can restart it after the service is recreated on waking from
+     * sleep mode.
+     */
+    private fun saveSleepPlaybackState() {
+        val state = routePlayer.currentRouteFlow.value
+        val routeData = state.routeData
+        sharedPreferences.edit {
+            if (routeData == null) {
+                putBoolean(SLEEP_RESUME_ACTIVE_KEY, false)
+            } else if (routeData.route.routeId != 0L) {
+                // A route from the markers/routes database.
+                putBoolean(SLEEP_RESUME_ACTIVE_KEY, true)
+                putLong(SLEEP_RESUME_ROUTE_ID_KEY, routeData.route.routeId)
+                putBoolean(SLEEP_RESUME_REVERSE_KEY, state.reverse)
+                putInt(SLEEP_RESUME_WAYPOINT_KEY, state.currentWaypoint)
+            } else {
+                // An ad-hoc beacon (RoutePlayer.startBeacon), identified by routeId 0.
+                val marker = routeData.markers.firstOrNull()
+                if (marker == null) {
+                    putBoolean(SLEEP_RESUME_ACTIVE_KEY, false)
+                } else {
+                    putBoolean(SLEEP_RESUME_ACTIVE_KEY, true)
+                    putLong(SLEEP_RESUME_ROUTE_ID_KEY, 0L)
+                    putString(SLEEP_RESUME_BEACON_NAME_KEY, marker.name)
+                    putString(SLEEP_RESUME_BEACON_LAT_KEY, marker.latitude.toString())
+                    putString(SLEEP_RESUME_BEACON_LON_KEY, marker.longitude.toString())
+                }
+            }
+        }
+    }
+
+    /**
+     * Restarts route/beacon playback saved by [saveSleepPlaybackState], if any. Called once when
+     * a fresh service instance is created after sleep mode stopped the previous one. The saved
+     * state is consumed (cleared) so it's only ever applied once.
+     */
+    private fun restoreSleepPlaybackState() {
+        if (!sharedPreferences.getBoolean(SLEEP_RESUME_ACTIVE_KEY, false)) return
+        sharedPreferences.edit { putBoolean(SLEEP_RESUME_ACTIVE_KEY, false) }
+
+        val routeId = sharedPreferences.getLong(SLEEP_RESUME_ROUTE_ID_KEY, 0L)
+        if (routeId != 0L) {
+            val reverse = sharedPreferences.getBoolean(SLEEP_RESUME_REVERSE_KEY, false)
+            val waypoint = sharedPreferences.getInt(SLEEP_RESUME_WAYPOINT_KEY, 0)
+            routePlayer.startRoute(routeId, reverse, waypoint)
+        } else {
+            val name = sharedPreferences.getString(SLEEP_RESUME_BEACON_NAME_KEY, null)
+            val lat = sharedPreferences.getString(SLEEP_RESUME_BEACON_LAT_KEY, null)?.toDoubleOrNull()
+            val lon = sharedPreferences.getString(SLEEP_RESUME_BEACON_LON_KEY, null)?.toDoubleOrNull()
+            if (name != null && lat != null && lon != null) {
+                routePlayer.startBeacon(LngLatAlt(lon, lat), name)
+            }
+        }
     }
 
     /**
@@ -909,7 +1000,12 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     }
 
     override fun startBeacon(location: LngLatAlt, name: String) {
-        routePlayer.startBeacon(location, name)
+        // RoutePlayer.startBeacon() makes blocking audio engine calls (WAV decode, native
+        // lock), so it's dispatched off the caller's thread to avoid blocking the main thread
+        // when called directly from a UI click handler.
+        coroutineScope.launch {
+            routePlayer.startBeacon(location, name)
+        }
     }
 
     override fun routeStartById(routeId: Long) {
@@ -933,18 +1029,22 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     }
 
     override fun routeMute(): Boolean {
-        if (routePlayer.isPlaying()) {
-            // Silence any current text-to-speech output
-            audioEngine.clearTextToSpeechQueue()
+        // Both calls below can block on the audio engine's native lock, so run them off the
+        // caller's thread. No caller uses the return value for anything beyond an immediate,
+        // best-effort indication of whether a mute toggle was triggered.
+        val wasPlaying = routePlayer.isPlaying()
+        coroutineScope.launch {
+            if (wasPlaying) {
+                // Silence any current text-to-speech output
+                audioEngine.clearTextToSpeechQueue()
 
-            // Toggle the beacon mute
-            val muteState = audioEngine.toggleBeaconMute()
-            // Update the beacon flow with the new mute state
-            _beaconFlow.value = _beaconFlow.value.copy(muteState = muteState)
-
-            return true
+                // Toggle the beacon mute
+                val muteState = audioEngine.toggleBeaconMute()
+                // Update the beacon flow with the new mute state
+                _beaconFlow.value = _beaconFlow.value.copy(muteState = muteState)
+            }
         }
-        return false
+        return wasPlaying
     }
 
     fun routeListRoutes() {
@@ -1189,6 +1289,15 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
         private const val CHANNEL_ID = "SoundscapeService_channel_01"
         private const val NOTIFICATION_CHANNEL_NAME = "Soundscape_SoundscapeService"
         private const val NOTIFICATION_ID = 100000
+
+        // Keys used to persist route/beacon playback across a sleep mode stop/restart.
+        private const val SLEEP_RESUME_ACTIVE_KEY = "sleep_resume_active"
+        private const val SLEEP_RESUME_ROUTE_ID_KEY = "sleep_resume_route_id"
+        private const val SLEEP_RESUME_REVERSE_KEY = "sleep_resume_reverse"
+        private const val SLEEP_RESUME_WAYPOINT_KEY = "sleep_resume_waypoint"
+        private const val SLEEP_RESUME_BEACON_NAME_KEY = "sleep_resume_beacon_name"
+        private const val SLEEP_RESUME_BEACON_LAT_KEY = "sleep_resume_beacon_lat"
+        private const val SLEEP_RESUME_BEACON_LON_KEY = "sleep_resume_beacon_lon"
 
         //      Variable used when simulating startForeground failure - only for debug usage
         private var startForegroundShouldFail = false

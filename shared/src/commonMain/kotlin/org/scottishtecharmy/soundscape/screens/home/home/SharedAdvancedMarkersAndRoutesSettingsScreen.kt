@@ -108,6 +108,7 @@ fun SharedAdvancedMarkersAndRoutesSettingsScreen(
                         onClearAll()
                         showConfirmationDialog.value = false
                     },
+                    modifier = Modifier.testTag("advancedMarkersClearAllConfirm"),
                 ) {
                     Text(
                         text = stringResource(Res.string.ui_continue),
@@ -119,6 +120,7 @@ fun SharedAdvancedMarkersAndRoutesSettingsScreen(
             dismissButton = {
                 TextButton(
                     onClick = { showConfirmationDialog.value = false },
+                    modifier = Modifier.testTag("advancedMarkersClearAllCancel"),
                 ) {
                     Text(stringResource(Res.string.general_alert_cancel))
                 }
@@ -160,7 +162,8 @@ fun SharedAdvancedMarkersAndRoutesSettingsScreen(
                     text = stringResource(Res.string.advanced_markers_and_routes_clear_all_button),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .smallPadding(),
+                        .smallPadding()
+                        .testTag("advancedMarkersClearAllButton"),
                     shape = RoundedCornerShape(spacing.extraSmall),
                     textStyle = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
@@ -170,7 +173,8 @@ fun SharedAdvancedMarkersAndRoutesSettingsScreen(
                     text = stringResource(Res.string.advanced_markers_and_routes_export_button),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .smallPadding(),
+                        .smallPadding()
+                        .testTag("advancedMarkersExportButton"),
                     shape = RoundedCornerShape(spacing.extraSmall),
                     textStyle = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
@@ -180,7 +184,8 @@ fun SharedAdvancedMarkersAndRoutesSettingsScreen(
                     text = stringResource(Res.string.advanced_markers_and_routes_import_button),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .smallPadding(),
+                        .smallPadding()
+                        .testTag("advancedMarkersImportButton"),
                     shape = RoundedCornerShape(spacing.extraSmall),
                     textStyle = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,

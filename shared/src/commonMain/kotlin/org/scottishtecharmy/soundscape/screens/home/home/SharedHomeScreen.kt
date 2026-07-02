@@ -60,6 +60,7 @@ fun SharedHomeScreen(
     rateSoundscape: () -> Unit,
     contactSupport: () -> Unit,
     shareRecording: () -> Unit,
+    exitApp: () -> Unit = {},
     toggleTutorial: () -> Unit,
     tutorialRunning: Boolean,
     recordingEnabled: Boolean,
@@ -115,6 +116,9 @@ fun SharedHomeScreen(
     Box(modifier = modifier) {
         Scaffold(
             modifier = if (drawerOpen) Modifier.clearAndSetSemantics { } else Modifier,
+            // If the keyboard is open, then we don't show the top or the bottom bars. This makes more
+            // room for the search. This is important when the font size is very large, but it's
+            // also good for allowing the user to view more search results.
             topBar = {
                 if (!keyboardOpen.value) {
                     SharedHomeTopAppBar(
@@ -161,6 +165,7 @@ fun SharedHomeScreen(
                     PlatformMapContainer(
                         beaconLocation = state.beaconState?.location,
                         routeData = state.currentRouteData.routeData,
+                        currentBeaconWaypointIndex = state.currentRouteData.currentWaypoint,
                         mapCenter = location,
                         allowScrolling = false,
                         userLocation = location,
@@ -217,6 +222,7 @@ fun SharedHomeScreen(
                 tutorialRunning = tutorialRunning,
                 recordingEnabled = recordingEnabled,
                 newReleaseDialog = newReleaseDialog,
+                exitApp = exitApp,
             )
         }
 

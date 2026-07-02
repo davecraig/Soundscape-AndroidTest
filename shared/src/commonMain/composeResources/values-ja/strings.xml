@@ -240,14 +240,14 @@
     <string name="help_text_destination_beacons_what">近くの場所にビーコンを設定すると、その場所の方向から音声ビーコンが鳴り、常に場所を確認することができます。このビーコンはホーム画面でミュートの設定/解除ができます。また、Soundscape のホーム画面に、その場所への距離や、住所がわかる場合は住所など、その場所の情報が表示されます。</string>
     <string name="help_text_destination_beacons_when">新しい場所に出かけるときに、知っているランドマークが常にわかるようにしておきたい場合や、どこかへ行く際に道中に何があるか周辺の情報を確認したい場合に、ビーコンを設定しておくと便利です。ビーコンの機能では、細かな道順はわかりませんが、継続的にサウンドが鳴って、現在いる場所に対してビーコンがどちらの方向にあるかがわかります。音声ビーコンを使いながら、自分で道順を考えたり、お気に入りのウェイファインディング アプリを使ったりして、目的地までの行き方を自分で選択することができます。</string>
     <string name="help_text_destination_beacons_how_1">**ビーコンを設定するには：**\n\n まず、検索バーで場所を検索するか、ホーム画面の *「近くの場所」*、*「マーカーおよびルート」*、または *「現在地」* のいずれかのボタンをタップして場所を選び、場所の詳細を表示します。*「場所の詳細」* 画面で *「音声ビーコンを開始」* ボタンを選択してください。これをタップするとホーム画面に戻り、選択した場所の方向から聞こえる音声ビーコンがオンになります。選択した場所の名前と、利用可能であれば距離や住所がメイン画面に表示されます。</string>
-    <string name="help_text_destination_beacons_how_2">**現在のビーコンを削除するには：**\n\n 単にホーム画面の *"ルートを中止する"* ボタンを押してください。</string>
-    <string name="help_text_destination_beacons_how_3">**音声ビーコンをミュートするには：**\n\n ホーム画面で *"ルートを中止する"* ボタンの隣にある *"ビーコンをミュート"* ボタンをタップしてください。</string>
-    <string name="help_text_automatic_callouts_what">Soundscape は、近づくとその場所のある方向から名前を読み上げることで、周囲にあるものについて知らせてくれます。店舗やバス停、さらには交差点など、さまざまな対象について自動的にコールアウトを行います。アプリが自動的にコールアウトする項目は、*"設定"* 画面の *"コールアウト"* セクションで構成できます。アプリを静かにしたいときは、すべてのコールアウトをオフにすることもできます。</string>
+    <string name="help_text_destination_beacons_how_2">**現在のビーコンを削除するには：**\n\n 単にホーム画面の *\"ルートを中止する\"* ボタンを押してください。</string>
+    <string name="help_text_destination_beacons_how_3">**音声ビーコンをミュートするには：**\n\n ホーム画面で *\"ルートを中止する\"* ボタンの隣にある *\"ビーコンをミュート\"* ボタンをタップしてください。</string>
+    <string name="help_text_automatic_callouts_what">Soundscape は、近づくとその場所のある方向から名前を読み上げることで、周囲にあるものについて知らせてくれます。店舗やバス停、さらには交差点など、さまざまな対象について自動的にコールアウトを行います。アプリが自動的にコールアウトする項目は、*\"設定\"* 画面の *\"コールアウト\"* セクションで構成できます。アプリを静かにしたいときは、すべてのコールアウトをオフにすることもできます。</string>
     <string name="help_text_automatic_callouts_when_1">**新しい場所の探索**:\n\n 自動コールアウトをオンにして歩くと、移動に応じて近くの店舗やレストランなどさまざまな情報を耳で確認できます。</string>
     <string name="help_text_automatic_callouts_when_2">**特定の場所への移動**:\n\n 特定の場所に向かって歩く際には、交差点の自動コールアウトが特に役立つ可能性があります。交差点のコールアウトを使用すると、交差点に近付くとその交差点の構造がわかり、交差点を出るときには、どの道路にいるかを確認できます。</string>
     <string name="help_text_automatic_callouts_when_3">**無音にしたい場合**:\n\n 交差点を横断するときや、単にアプリの音声を消したい場合、コールアウトをオフにすることができます。コールアウトをオフにすると、[*現在地*]、[*近くのマーカー*]、[*周辺*]、[*前方*] のいずれかのボタンをタップしたときにだけ、情報が伝えられます。</string>
     <string name="help_text_automatic_callouts_how_1">**コールアウトのオン／オフ：**\n\n コールアウトをオフにするとアプリは無音になります。コールアウトは、ホーム画面のメニューから開く *「設定」* 画面の *「コールアウト」* セクションで、*「コールアウトを使用」* のトグルを切り替えてオン／オフできます。ヘッドホンにメディアコントロールボタンがある場合は、*「スキップ前へ」* コマンド（ダブルタップしてホールド）でコールアウトのオン／オフを切り替えることもできます。あるいはホーム画面右上の *「スリープ」* ボタンを使って、再びウェイクアップするまで Soundscape のコールアウトを停止することもできます。</string>
-    <string name="help_text_automatic_callouts_how_2">**聞きたいコールアウトの管理：**\n\n Soundscape が自動的にコールアウトする項目の種類を選ぶには、ホーム画面のメニューから *「設定」* 画面に移動してください。*「設定」* 画面の *「コールアウト」* セクションにはアプリがコールアウトできる項目の一覧があり、各項目にはオン／オフ可能なトグルがあります。すべてのコールアウトをオフにしたい場合は、一覧の一番上にある *「コールアウトを使用」* トグルをタップしてください。</string>
+    <string name="help_text_automatic_callouts_how_2">**どのコールアウトを聞くかの管理：**\n\n Soundscape が自動的にコールアウトする項目の種類を選択するには、ホーム画面のメニューから *\"設定\"* 画面に移動してください。*\"設定\"* 画面の *\"コールアウト\"* セクションには、アプリがコールアウトできる項目の一覧があります。各項目にはオン／オフを切り替えられるトグルボタンがあります。すべてのコールアウトをオフにしたい場合は、一覧の一番上にある *\"コールアウトを使用\"* のトグルをタップしてください。</string>
     <string name="help_text_my_location_what">[*現在地*] ボタンを使用すると、自分の現在地を簡単に確認できるように情報が提供されます。[*現在地*] ボタンでは、自分が向いている方向、近くの道路や交差点がどこにあるか、近くの特定地点がどこにあるかなど、現在地に関する情報がわかります。</string>
     <string name="help_text_my_location_when">[*現在地*] は、自分の現在地や向かっている方向を確認する必要がある場合に役立ちます。</string>
     <string name="help_text_my_location_how">ホーム画面の下部の 4 つのボタンはどれも同じですが、スマートフォンの画面を上 (空) に向けて水平に持ち、スマートフォンの画面上部を自分が向いている方向に合わせてから、[*現在地*] ボタンを押します。これにより、コンパスを合わせるように、自分が向いている方向をアプリに伝えることができます。[*現在地*] ボタンをタップすると、音声が聞こえます。</string>
@@ -524,7 +524,7 @@
     <string name="menu_advanced_markers_and_routes_clear_all_success">マーカーおよびルートを削除しました</string>
     <string name="new_version_info_text">新しいリリース情報</string>
     <string name="new_version_info_completed">新しいリリース情報を閉じる</string>
-    <string name="new_version_info_details">\nこれは Soundscape の最初の本番リリースです。アプリを初めてお使いの場合は、メインメニューにある *ヘルプ* 画面や *チュートリアル* で詳細をご確認ください。\n\n私たちは引き続きアプリの改善に取り組んでいますので、どんなに小さな問題でも、メインメニューの *サポートに連絡* オプションからご報告いただけると助かります。\n</string>
+    <string name="new_version_info_details">\nこれは Soundscape の小規模な新しいリリースです。変更点は以下のとおりです。\n\nASHA 補聴器のサポートを修正しました。補聴器をお使いで Soundscape が正常に動作しない場合は、ぜひご連絡ください。\n\nメインメニューの上部に「Soundscape を終了する」オプションを追加しました。これをタップするとアプリを完全に終了させることができます。\n\nオフライン地図の詳細画面には、既にダウンロード済みのマップを再ダウンロードするためのボタンを追加しました。マップは OpenStreetMap から月に一度更新されるため、定期的にオフラインマップを再ダウンロードすることをおすすめします。また、ダウンロードしたマップの検証を改善するコードを導入し、破損したマップが使用されるのを防ぐようにしました。\n\n引き続きアプリの改良に取り組んでいます。どんなに小さな問題でも、メインメニューの *「サポートに連絡」* オプションからお知らせください。\n</string>
     <string name="menu_open_source_licenses">オープンソースライセンス</string>
     <string name="osm_tag_ferry_terminal">フェリーターミナル</string>
     <string name="osm_tag_ferry_terminal_named">%1$s フェリーターミナル</string>
@@ -1216,7 +1216,7 @@
     <string name="osm_health_food">健康食品店</string>
     <string name="osm_events_venue">イベント会場</string>
     <string name="menu_help">ヘルプ</string>
-    <string name="tour_welcome">Soundscape のチュートリアルへようこそ。このチュートリアルではアプリの主な機能を案内します。チュートリアルはいつでもメインメニューの「音声チュートリアルを中止する」をタップして停止できます。まずは「近くの場所」を使って、興味のある場所を探してみましょう。「近くの場所」ボタンはホーム画面の検索バーのすぐ下にあります。今すぐタップして試してください。</string>
+    <string name="tour_welcome">ガイド付きチュートリアルへようこそ。本チュートリアルではアプリの主な機能を順にご案内します。チュートリアルはいつでもメインメニューの「ガイド付きチュートリアルをキャンセル」をタップして中止できます。まずは「近くの場所」を見てみましょう。「近くの場所」はホーム画面の検索バーのすぐ下にあります。今すぐタップして試してください。</string>
     <string name="tour_select_place">「近くの場所」では特定地点を種類別にグループ化しています。リストを見て回り、ひとつ選択してください。</string>
     <string name="tour_create_marker_started">いいですね！現在は「場所の詳細」画面にいます。この画面では場所をマーカーとして保存するなどの操作ができます。Soundscape では自宅やバス停、今いる地点など、関心のある場所を何でもマークできます。試してみましょう。[マーカーを保存] をタップしてこの場所をマーカーとして保存してください。</string>
     <string name="tour_create_marker_done">完了です！マーカー作成時は名前を編集したり追加のメモを付けたりできます。今それを試してみて、準備ができたら [完了] をタップしてください。</string>
@@ -1231,9 +1231,9 @@
     <string name="tour_beacon_demo_locked">端末がロックされていてもビーコンは再生されます。歩行中や乗り物に乗っているときは、移動方向を基にビーコンが再生されます。ただしロック中でも、コンパスのように端末を水平に前方に向ければ、その向きを使って音が再生されます。試してみてください。</string>
     <string name="tour_stop_beacon">ビーコンを止める準備ができたら、[ルートを中止する] ボタンをタップしてください。</string>
     <string name="tour_finish">これでチュートリアルは終了です。メインメニューからいつでも再度実行できます。アプリがお役に立てることを願っています！</string>
-    <string name="tour_cancel">音声チュートリアルは中止されました。必要であれば、メインメニューから再度実行できます。</string>
-    <string name="menu_audio_tutorial">音声チュートリアル</string>
-    <string name="menu_audio_tutorial_cancel">音声チュートリアルを中止する</string>
+    <string name="tour_cancel">ガイド付きチュートリアルはキャンセルされました。必要であればメインメニューからいつでも再度実行できます。</string>
+    <string name="menu_audio_tutorial">ガイド付きチュートリアル</string>
+    <string name="menu_audio_tutorial_cancel">ガイド付きチュートリアルをキャンセル</string>
     <string name="search_bar_hint">目的地の名前または住所を入力してください</string>
     <string name="all_places_nearby_description">近くのすべての場所をフィルタなしで表示する</string>
     <string name="public_transit_places_nearby_description">近くの公共交通機関の一覧を表示する</string>
@@ -1364,4 +1364,9 @@
     <string name="openmaptiles_copyright">[©OpenMapTiles](https://github.com/openmaptiles/openmaptiles/blob/master/LICENSE.md) は、アプリで使用する地図タイルの生成に使用されています。</string>
     <string name="steam_copyright">[Steam Audio library ©Valve Corporation](https://github.com/ValveSoftware/steam-audio) は 3D オーディオの生成に使用されており、[Apache 2.0 ライセンス](https://github.com/ValveSoftware/steam-audio/blob/master/LICENSE.md) のもとで利用可能です。</string>
     <string name="trademark_disclaimer">第三者の製品名、会社名およびロゴは各社の商標または登録商標であり、それぞれの権利所有者に帰属します。</string>
+    <string name="settings_accessible_map">アクセシブルな地図スタイルを有効にする</string>
+    <string name="loading_indicator_content_description">読み込み中</string>
+    <string name="offline_maps_extract_damaged">破損しています — 削除して再ダウンロードしてください</string>
+    <string name="offline_map_details_update">オフラインマップを更新する</string>
+    <string name="menu_exit_app">Soundscape を終了する</string>
 </resources>

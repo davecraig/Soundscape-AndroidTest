@@ -16,9 +16,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -30,6 +32,8 @@ import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.annotation_description_hint
 import org.scottishtecharmy.soundscape.resources.general_alert_cancel
 import org.scottishtecharmy.soundscape.resources.general_alert_done
+import org.scottishtecharmy.soundscape.resources.location_detail_exit_full_screen_for_edit_hint
+import org.scottishtecharmy.soundscape.resources.location_detail_full_screen_for_edit_hint
 import org.scottishtecharmy.soundscape.resources.marker_name_description_hint
 import org.scottishtecharmy.soundscape.resources.markers_action_delete
 import org.scottishtecharmy.soundscape.resources.markers_annotation
@@ -37,6 +41,7 @@ import org.scottishtecharmy.soundscape.resources.markers_edit_screen_title_edit
 import org.scottishtecharmy.soundscape.resources.markers_sort_button_sort_by_name
 import org.scottishtecharmy.soundscape.resources.user_activity_save_marker_title
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
+import org.scottishtecharmy.soundscape.screens.home.home.FullScreenMapFab
 import org.scottishtecharmy.soundscape.screens.home.home.PlatformMapContainer
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomButton
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.CustomTextField
@@ -67,6 +72,7 @@ fun SharedSaveAndEditMarkerScreen(
     var name by rememberSaveable { mutableStateOf(locationDescription.name) }
     var annotation by rememberSaveable { mutableStateOf(locationDescription.description ?: "") }
     val isEditing = locationDescription.databaseId != 0L
+    val fullscreenMap = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.imePadding(),
@@ -97,7 +103,8 @@ fun SharedSaveAndEditMarkerScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .mediumPadding(),
+                            .mediumPadding()
+                            .testTag("saveMarkerDeleteButton"),
                         buttonColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer,
                         shape = RoundedCornerShape(spacing.small),
@@ -108,44 +115,70 @@ fun SharedSaveAndEditMarkerScreen(
                 }
             }
         },
+        floatingActionButton = {
+            if (showMap) FullScreenMapFab(
+                fullscreenMap = fullscreenMap,
+                modifier = Modifier.testTag("saveMarkerFullScreenMapFab"),
+                openMapHint = Res.string.location_detail_full_screen_for_edit_hint,
+                closeMapHint = Res.string.location_detail_exit_full_screen_for_edit_hint,
+            )
+        },
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .smallPadding()
-                .verticalScroll(rememberScrollState())
-        ) {
-            CustomTextField(
-                fieldName = stringResource(Res.string.markers_sort_button_sort_by_name),
-                fieldHint = stringResource(Res.string.marker_name_description_hint),
-                modifier = Modifier.fillMaxWidth(),
-                value = name,
-                onValueChange = { name = it },
+        if (fullscreenMap.value && showMap) {
+            PlatformMapContainer(
+                beaconLocation = locationDescription.location,
+                mapCenter = locationDescription.location,
+                allowScrolling = true,
+                userLocation = userLocation,
+                userSymbolRotation = heading,
+                routeData = null,
+                modifier = Modifier.fillMaxSize(),
             )
-            Spacer(modifier = Modifier.height(spacing.medium))
-            CustomTextField(
-                fieldName = stringResource(Res.string.markers_annotation),
-                fieldHint = stringResource(Res.string.annotation_description_hint),
-                modifier = Modifier.fillMaxWidth(),
-                value = annotation,
-                onValueChange = { annotation = it },
-            )
-            Spacer(modifier = Modifier.height(spacing.medium))
-
-            // Map showing the marker location
-            if (showMap) {
-                PlatformMapContainer(
-                    mapCenter = locationDescription.location,
-                    allowScrolling = true,
-                    userLocation = userLocation,
-                    userSymbolRotation = heading,
-                    beaconLocation = locationDescription.location,
-                    routeData = null,
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .smallPadding()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                CustomTextField(
+                    fieldName = stringResource(Res.string.markers_sort_button_sort_by_name),
+                    fieldHint = stringResource(Res.string.marker_name_description_hint),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(1.0f),
+                        .testTag("markerName"),
+                    value = name,
+                    onValueChange = { name = it },
+                    testTagPreFix = "name",
                 )
+                Spacer(modifier = Modifier.height(spacing.medium))
+                CustomTextField(
+                    fieldName = stringResource(Res.string.markers_annotation),
+                    fieldHint = stringResource(Res.string.annotation_description_hint),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("markerAnnotation"),
+                    value = annotation,
+                    onValueChange = { annotation = it },
+                    testTagPreFix = "notes",
+                )
+                Spacer(modifier = Modifier.height(spacing.medium))
+
+                // Map showing the marker location
+                if (showMap) {
+                    PlatformMapContainer(
+                        mapCenter = locationDescription.location,
+                        allowScrolling = true,
+                        userLocation = userLocation,
+                        userSymbolRotation = heading,
+                        beaconLocation = locationDescription.location,
+                        routeData = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1.0f),
+                    )
+                }
             }
         }
     }

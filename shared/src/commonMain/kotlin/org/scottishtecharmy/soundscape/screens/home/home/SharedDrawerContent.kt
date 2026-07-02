@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Comment
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
+import androidx.compose.material.icons.automirrored.rounded.ExitToApp
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Headphones
 import androidx.compose.material.icons.rounded.Markunread
@@ -40,6 +41,7 @@ import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.menu_audio_tutorial
 import org.scottishtecharmy.soundscape.resources.menu_audio_tutorial_cancel
 import org.scottishtecharmy.soundscape.resources.menu_contact_support
+import org.scottishtecharmy.soundscape.resources.menu_exit_app
 import org.scottishtecharmy.soundscape.resources.menu_help
 import org.scottishtecharmy.soundscape.resources.menu_rate
 import org.scottishtecharmy.soundscape.resources.menu_share_recorded_route
@@ -62,6 +64,7 @@ fun SharedDrawerContent(
     tutorialRunning: Boolean,
     recordingEnabled: Boolean,
     newReleaseDialog: MutableState<Boolean>?,
+    exitApp: () -> Unit = {},
 ) {
     val running = remember(tutorialRunning) { mutableStateOf(tutorialRunning) }
 
@@ -110,6 +113,12 @@ fun SharedDrawerContent(
                         .padding(innerPadding)
                         .verticalScroll(rememberScrollState()),
                 ) {
+                    DrawerMenuItem(
+                        onClick = { exitApp() },
+                        label = stringResource(Res.string.menu_exit_app),
+                        icon = Icons.AutoMirrored.Rounded.ExitToApp,
+                        modifier = Modifier.testTag("menuExitApp"),
+                    )
                     DrawerMenuItem(
                         onClick = { onNavigate(SharedRoutes.SETTINGS) },
                         label = stringResource(Res.string.settings_screen_title),

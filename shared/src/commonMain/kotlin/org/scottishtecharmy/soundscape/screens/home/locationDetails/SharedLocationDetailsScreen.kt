@@ -96,7 +96,10 @@ fun SharedLocationDetailsScreen(
             )
         },
         floatingActionButton = {
-            if (showMap) FullScreenMapFab(fullscreenMap)
+            if (showMap) FullScreenMapFab(
+                fullscreenMap,
+                modifier = Modifier.testTag("locationDetailsFullScreenMapFab"),
+            )
         },
     ) { padding ->
         if (fullscreenMap.value && showMap) {

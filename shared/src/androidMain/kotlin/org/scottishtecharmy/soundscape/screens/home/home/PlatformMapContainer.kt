@@ -24,6 +24,7 @@ actual fun PlatformMapContainer(
     beaconLocation: LngLatAlt?,
     routeData: RouteWithMarkers?,
     modifier: Modifier,
+    currentBeaconWaypointIndex: Int,
     extractGeometry: Geometry?,
     forceOnlineTiles: Boolean,
 ) {
@@ -50,7 +51,23 @@ actual fun PlatformMapContainer(
     // the caller explicitly requires online tiles (e.g. the offline-map details
     // preview, which should always render from the network regardless of what's
     // already downloaded).
-    val extractsPath = context.getExternalFilesDir(null)?.absolutePath ?: ""
+    //
+    // Extracts are downloaded to <user-selected storage>/Downloads (see
+    // AndroidOfflineMapsManager.extractsDir() and SoundscapeService.startGeoEngine()
+    // in the app module), not the app's external-files root — this must match or
+    // downloaded extracts are silently never found and the map falls back to
+    // network tiles. MainActivity.SELECTED_STORAGE_KEY/_DEFAULT aren't reachable
+    // from here (shared can't depend on the app module), so the well-known
+    // AndroidX preference key/file naming convention is replicated directly, same
+    // as the BuildConfig.TILE_PROVIDER_URL reflection lookup above.
+    val extractsPath = remember {
+        val prefs = context.getSharedPreferences(
+            "${context.packageName}_preferences",
+            android.content.Context.MODE_PRIVATE,
+        )
+        val selectedStorage = prefs.getString("SelectedStorage", "") ?: ""
+        "$selectedStorage/${android.os.Environment.DIRECTORY_DOWNLOADS}"
+    }
     val tileSourceUrl = remember(mapCenter, forceOnlineTiles) {
         if (forceOnlineTiles) {
             resolveTileSourceUrl(
@@ -87,6 +104,7 @@ actual fun PlatformMapContainer(
         beaconLocation = beaconLocation,
         routeData = routeData,
         modifier = modifier,
+        currentBeaconWaypointIndex = currentBeaconWaypointIndex,
         baseStyle = baseStyle,
         extractGeometry = extractGeometry,
     )

@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
@@ -691,7 +692,9 @@ fun SharedHelpScreen(
                                                 onNavigate("${SharedRoutes.HELP}/page${section.textId.key}")
                                             }
                                         },
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .testTag("helpScreenTopic${section.textId.key}"),
                                         shape = RoundedCornerShape(spacing.extraSmall),
                                         colors = if (!LocalInspectionMode.current) currentAppButtonColors else ButtonDefaults.buttonColors(),
                                     ) {
@@ -721,7 +724,8 @@ fun SharedHelpScreen(
                                 text = stringResource(Res.string.menu_open_source_licenses),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .smallPadding(),
+                                    .smallPadding()
+                                    .testTag("helpScreenOpenSourceLicenses"),
                                 shape = RoundedCornerShape(spacing.extraSmall),
                                 textStyle = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold,

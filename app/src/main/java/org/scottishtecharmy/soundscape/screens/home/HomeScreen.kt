@@ -326,6 +326,7 @@ fun HomeScreen(
                 Process.killProcess(Process.myPid())
                 exitProcess(0)
             },
+            onExitApp = { activity.exitApp() },
         )
     }
 

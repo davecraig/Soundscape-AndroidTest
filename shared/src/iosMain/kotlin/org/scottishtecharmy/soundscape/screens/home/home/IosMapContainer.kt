@@ -81,6 +81,7 @@ fun IosMapContainerLibre(
     beaconLocation: LngLatAlt? = null,
     routeData: RouteWithMarkers? = null,
     modifier: Modifier = Modifier,
+    currentBeaconWaypointIndex: Int = 0,
     extractGeometry: Geometry? = null,
     forceOnlineTiles: Boolean = false,
 ) {
@@ -95,6 +96,7 @@ fun IosMapContainerLibre(
         beaconLocation = beaconLocation,
         routeData = routeData,
         modifier = modifier,
+        currentBeaconWaypointIndex = currentBeaconWaypointIndex,
         baseStyle = baseStyle,
         extractGeometry = extractGeometry,
     )

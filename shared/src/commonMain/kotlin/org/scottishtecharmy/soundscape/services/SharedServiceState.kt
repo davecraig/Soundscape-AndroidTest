@@ -6,4 +6,5 @@ data class RoutePlayerState(
     val routeData: RouteWithMarkers? = null,
     val currentWaypoint: Int = 0,
     val beaconOnly: Boolean = false,
+    val reverse: Boolean = false,
 )

@@ -47,6 +47,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.semantics
@@ -87,7 +88,9 @@ fun MainSearchBar(
 
     // Collapsed search bar
     Surface(
-        modifier = modifier.clickable { expanded = true },
+        modifier = modifier
+            .clickable { expanded = true }
+            .testTag("mainSearchBarCollapsed"),
         shape = shape,
         color = colors.surface,
         tonalElevation = spacing.tiny,
@@ -148,7 +151,8 @@ fun MainSearchBar(
                                 onClick = {
                                     expanded = false
                                     query = ""
-                                }
+                                },
+                                modifier = Modifier.testTag("mainSearchBarBackButton")
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -176,7 +180,8 @@ fun MainSearchBar(
                                 ),
                                 modifier = Modifier
                                     .weight(1f)
-                                    .focusRequester(focusRequester),
+                                    .focusRequester(focusRequester)
+                                    .testTag("mainSearchBarTextField"),
                                 decorationBox = { inner ->
                                     Box(Modifier.fillMaxWidth()) {
                                         if (query.isEmpty()) {
@@ -191,7 +196,10 @@ fun MainSearchBar(
                             )
 
                             if (query.isNotEmpty()) {
-                                IconButton(onClick = { query = "" }) {
+                                IconButton(
+                                    onClick = { query = "" },
+                                    modifier = Modifier.testTag("mainSearchBarClearButton")
+                                ) {
                                     Icon(
                                         imageVector = Icons.Default.Close,
                                         contentDescription = stringResource(Res.string.text_field_clear_text),

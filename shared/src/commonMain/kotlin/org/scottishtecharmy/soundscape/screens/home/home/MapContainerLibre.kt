@@ -90,6 +90,8 @@ fun FullScreenMapFab(
  * @param routeData Optional route data to display route waypoint markers
  * @param modifier Modifier for the map container
  * @param editBeaconLocation If true, the beacon location tracks the camera center
+ * @param currentBeaconWaypointIndex The waypoint index the beacon marker currently represents
+ * (0-based); shown as a 1-based number label on the beacon marker, matching route waypoint markers
  * @param onMapLongClick Callback when the map is long-pressed, receives the location
  * @param styleUri The URI of the map style to use
  * @param routeMarkerImages Pre-rendered marker images for route waypoints
@@ -104,6 +106,7 @@ fun MapContainerLibre(
     routeData: RouteWithMarkers?,
     modifier: Modifier = Modifier,
     editBeaconLocation: Boolean = false,
+    currentBeaconWaypointIndex: Int = 0,
     onMapLongClick: ((LngLatAlt) -> Boolean)? = null,
     baseStyle: BaseStyle,
     routeMarkerImages: List<ImageBitmap>? = null,
@@ -218,7 +221,17 @@ fun MapContainerLibre(
                     iconImage = image(marker),
                     iconSize = const(1.2F),
                     iconAllowOverlap = const(true),
-                    iconAnchor = const(SymbolAnchor.Bottom)
+                    iconAnchor = const(SymbolAnchor.Bottom),
+                    // Default font stack (Open Sans, Arial Unicode MS) is not
+                    // bundled — must use a Roboto variant that ships with the
+                    // glyph PBFs in osm-liberty-accessible/fonts/.
+                    textField = format(span("${currentBeaconWaypointIndex + 1}")),
+                    textFont = const(listOf("Roboto Bold")),
+                    textColor = const(Color.White),
+                    textSize = const(11.sp),
+                    textAllowOverlap = const(true),
+                    textAnchor = const(SymbolAnchor.Center),
+                    textOffset = offset(0f.em, (-1.3f).em),
                 )
             }
 

@@ -88,11 +88,12 @@ class RoutePlayer(
     /** startRoute starts playback of a route from the database.
      * @param routeId The id of the route to play
      * @param reverse If true, play the route in reverse order (from last waypoint to first)
+     * @param startWaypoint The waypoint index to resume playback at, e.g. when restoring a route
+     * that was in progress before sleep mode was entered
      */
-    fun startRoute(routeId: Long, reverse: Boolean = false) {
+    fun startRoute(routeId: Long, reverse: Boolean = false, startWaypoint: Int = 0) {
         coroutineScope.launch {
             val route = routeDao.getRouteWithMarkers(routeId) ?: return@launch
-            currentMarker = 0
             currentRouteData = if (reverse) {
                 val reverseName = getString(Res.string.route_reverse_name, route.route.name)
                 RouteWithMarkers(
@@ -102,11 +103,13 @@ class RoutePlayer(
             } else {
                 route
             }
+            currentMarker = startWaypoint.coerceIn(0, currentRouteData!!.markers.size - 1)
             _currentRouteFlow.update {
                 it.copy(
                     routeData = currentRouteData,
                     currentWaypoint = currentMarker,
-                    beaconOnly = false
+                    beaconOnly = false,
+                    reverse = reverse
                 )
             }
             play()
@@ -234,7 +237,11 @@ class RoutePlayer(
                     currentMarker++
                     _currentRouteFlow.update { it.copy(currentWaypoint = currentMarker) }
 
-                    createBeaconAtWaypoint(currentMarker, userInitiated)
+                    // Creating the beacon audio can block on the audio engine (WAV decode,
+                    // native lock), so it's dispatched off the caller's thread - callers of
+                    // moveToNext() rely on the Boolean return being available immediately.
+                    val waypoint = currentMarker
+                    coroutineScope.launch { createBeaconAtWaypoint(waypoint, userInitiated) }
                 }
                 return true
             }
@@ -248,7 +255,8 @@ class RoutePlayer(
                 if (currentMarker > 0) {
                     currentMarker--
                     _currentRouteFlow.update { it.copy(currentWaypoint = currentMarker) }
-                    createBeaconAtWaypoint(currentMarker, userInitiated)
+                    val waypoint = currentMarker
+                    coroutineScope.launch { createBeaconAtWaypoint(waypoint, userInitiated) }
                     return true
                 }
             }

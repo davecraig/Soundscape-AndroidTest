@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.platform.appVersionMinorTrimmed
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
@@ -52,6 +53,7 @@ fun SharedNewReleaseDialog(
         confirmButton = { },
         dismissButton = {
             TextButton(
+                modifier = Modifier.testTag("newReleaseDialogDismiss"),
                 onClick = { newReleaseDialog.value = false },
             ) {
                 preferencesProvider?.putString(

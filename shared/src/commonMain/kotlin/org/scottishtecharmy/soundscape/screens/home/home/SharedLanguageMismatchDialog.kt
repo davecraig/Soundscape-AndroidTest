@@ -8,6 +8,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
@@ -47,6 +48,7 @@ fun SharedLanguageMismatchDialog(
                     showDialog.value = false
                     onSetApplicationLocale("${phoneLanguage.code}-${phoneLanguage.region}")
                 },
+                modifier = Modifier.testTag("languageMismatchSwitch")
             ) {
                 Text(text = stringResource(Res.string.language_mismatch_switch, phoneLanguage.name))
             }
@@ -60,6 +62,7 @@ fun SharedLanguageMismatchDialog(
                     )
                     showDialog.value = false
                 },
+                modifier = Modifier.testTag("languageMismatchKeep")
             ) {
                 Text(text = stringResource(Res.string.language_mismatch_keep))
             }

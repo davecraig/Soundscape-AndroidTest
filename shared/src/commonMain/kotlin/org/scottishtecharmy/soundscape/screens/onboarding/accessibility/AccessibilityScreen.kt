@@ -110,6 +110,7 @@ fun AccessibilityOnboardingScreen(
                     key = PreferenceKeys.SHOW_MAP,
                     defaultValue = PreferenceDefaults.SHOW_MAP,
                     rememberState = { showMap },
+                    modifier = Modifier.testTag("accessibilityOnboardingScreenShowMapToggle"),
                     title = {
                         Text(
                             text = stringResource(Res.string.settings_show_map),

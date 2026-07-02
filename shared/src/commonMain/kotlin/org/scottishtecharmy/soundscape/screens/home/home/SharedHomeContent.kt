@@ -297,6 +297,7 @@ fun SharedHomeContent(
                                     PlatformMapContainer(
                                         beaconLocation = beaconState?.location,
                                         routeData = routePlayerState.routeData,
+                                        currentBeaconWaypointIndex = routePlayerState.currentWaypoint,
                                         mapCenter = location,
                                         allowScrolling = false,
                                         userLocation = location,
@@ -408,7 +409,8 @@ fun SharedHomeContent(
                                 horizontalPadding = spacing.small,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .mediumPadding(),
+                                    .mediumPadding()
+                                    .testTag("homeAppSettings"),
                             )
                         }
                     }

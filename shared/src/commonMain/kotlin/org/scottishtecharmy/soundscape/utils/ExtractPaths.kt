@@ -18,22 +18,48 @@ fun findExtractPaths(path: String): List<String> {
 /**
  * Check that a .pmtiles extract is safe to hand to MapLibre as a tile source.
  *
- * MapLibre's native PMTilesFileSource decompresses the gzip-compressed JSON metadata section as
- * soon as it opens a source. That decompress is not wrapped in a try/catch natively, so a corrupt
- * or truncated extract throws, escapes MapLibre's worker thread, hits std::terminate and aborts the
- * whole process - a native crash we cannot catch from Kotlin.
+ * MapLibre's native PMTilesFileSource gzip-decompresses sections of the extract as it renders.
+ * Those decompress calls are not wrapped in a try/catch natively, so a corrupt or truncated
+ * extract throws, escapes MapLibre's worker thread, hits std::terminate and aborts the whole
+ * process - a native crash we cannot catch from Kotlin.
  *
- * To avoid that we open the file with [PmTilesReader] (which validates the header and root
- * directory) and force the same metadata decompression via [PmTilesReader.readMetadata], where the
- * exception IS catchable. If anything throws, the extract is corrupt and must not be used.
+ * The decompressible sections are spread across the whole file: header, root directory and JSON
+ * metadata live at the front, but leaf directories and per-tile gzip data live at the tail. An
+ * interrupted/truncated download keeps the front intact, so checking only the metadata is not
+ * enough - MapLibre still crashes on a damaged tail. So [PmTilesReader] validates:
+ *  1. the header-declared layout fits within the actual file (catches truncation cheaply),
+ *  2. the root directory + JSON metadata decompress (front of file, via the constructor and
+ *     [PmTilesReader.readMetadata]),
+ *  3. the physically-last tile decompresses (tail of file, where truncation/padding lands, via
+ *     [PmTilesReader.validateIntegrity]).
  *
  * This does file I/O, so callers should run it off the main thread.
+ *
+ * The result is cached per path, keyed by file size and last-modified time, so repeated calls for
+ * the same unchanged extract (e.g. every time a map is created) don't re-validate. A re-downloaded
+ * or deleted-and-replaced extract is re-validated automatically once its size or timestamp change.
  */
 fun isPmtilesUsable(path: String): Boolean {
-    return try {
-        val reader = PmTilesReader(path.toPath())
+    val okioPath = path.toPath()
+    val metadata = try {
+        systemFileSystem.metadata(okioPath)
+    } catch (_: Exception) {
+        return false
+    }
+    val size = metadata.size
+    val lastModified = metadata.lastModifiedAtMillis
+
+    pmtilesUsableCache[path]?.let { cached ->
+        if (cached.size == size && cached.lastModified == lastModified) {
+            return cached.usable
+        }
+    }
+
+    val usable = try {
+        val reader = PmTilesReader(okioPath)
         try {
             reader.readMetadata()
+            reader.validateIntegrity(size ?: 0L)
         } finally {
             reader.close()
         }
@@ -41,4 +67,10 @@ fun isPmtilesUsable(path: String): Boolean {
     } catch (_: Exception) {
         false
     }
+    pmtilesUsableCache[path] = PmtilesValidation(size, lastModified, usable)
+    return usable
 }
+
+private class PmtilesValidation(val size: Long?, val lastModified: Long?, val usable: Boolean)
+
+private val pmtilesUsableCache = mutableMapOf<String, PmtilesValidation>()

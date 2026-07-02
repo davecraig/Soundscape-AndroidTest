@@ -44,6 +44,7 @@ import org.scottishtecharmy.soundscape.resources.offline_map_details_download
 import org.scottishtecharmy.soundscape.resources.offline_map_details_name
 import org.scottishtecharmy.soundscape.resources.offline_map_details_size_on_phone
 import org.scottishtecharmy.soundscape.resources.offline_map_details_size_on_server
+import org.scottishtecharmy.soundscape.resources.offline_map_details_update
 import org.scottishtecharmy.soundscape.screens.home.home.PlatformMapContainer
 import org.scottishtecharmy.soundscape.screens.markers_routes.components.IconWithTextButton
 import org.scottishtecharmy.soundscape.ui.theme.spacing
@@ -129,6 +130,15 @@ private fun MapExtractButtonsSection(
         verticalArrangement = Arrangement.spacedBy(spacing.none),
     ) {
         if (local) {
+            IconWithTextButton(
+                icon = Icons.Filled.Download,
+                text = stringResource(Res.string.offline_map_details_update),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .defaultMinSize(minHeight = spacing.targetSize)
+                    .testTag("offlineMapUpdate"),
+                onClick = downloadExtract
+            )
             IconWithTextButton(
                 icon = Icons.Filled.Delete,
                 text = stringResource(Res.string.offline_map_details_delete),
