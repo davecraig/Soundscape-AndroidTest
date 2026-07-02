@@ -21,7 +21,12 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.utils.Analytics
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 
-data class RoutePlayerState(val routeData: RouteWithMarkers? = null, val currentWaypoint: Int = 0, val beaconOnly: Boolean = false)
+data class RoutePlayerState(
+    val routeData: RouteWithMarkers? = null,
+    val currentWaypoint: Int = 0,
+    val beaconOnly: Boolean = false,
+    val reverse: Boolean = false
+)
 
 class RoutePlayer(val service: SoundscapeService, context: Context) {
     private var currentRouteData: RouteWithMarkers? = null
@@ -95,8 +100,10 @@ class RoutePlayer(val service: SoundscapeService, context: Context) {
     /** startRoute starts playback of a route from the database.
      * @param routeId The id of the route to play
      * @param reverse If true, play the route in reverse order (from last waypoint to first)
+     * @param startWaypoint The waypoint index to resume playback at, e.g. when restoring a route
+     * that was in progress before sleep mode was entered
      */
-    fun startRoute(routeId: Long, reverse: Boolean = false) {
+    fun startRoute(routeId: Long, reverse: Boolean = false, startWaypoint: Int = 0) {
         val realm = MarkersAndRoutesDatabase.getMarkersInstance(localizedContext)
         val routeDao = realm.routeDao()
 
@@ -105,7 +112,6 @@ class RoutePlayer(val service: SoundscapeService, context: Context) {
         Log.e(TAG, "startRoute reverse=$reverse")
         coroutineScope.launch {
             val route = routeDao.getRouteWithMarkers(routeId) ?: return@launch
-            currentMarker = 0
             currentRouteData = if (reverse) {
                 val reverseName = localizedContext.getString(R.string.route_reverse_name, route.route.name)
                 RouteWithMarkers(
@@ -115,11 +121,13 @@ class RoutePlayer(val service: SoundscapeService, context: Context) {
             } else {
                 route
             }
+            currentMarker = startWaypoint.coerceIn(0, currentRouteData!!.markers.size - 1)
             _currentRouteFlow.update {
                 it.copy(
                     routeData = currentRouteData,
                     currentWaypoint = currentMarker,
-                    beaconOnly = false
+                    beaconOnly = false,
+                    reverse = reverse
                 )
             }
             play()

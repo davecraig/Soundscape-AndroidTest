@@ -853,7 +853,10 @@ class MainActivity : AppCompatActivity() {
         }
         if(!serviceSleeping || (sleeping == false)) {
             if (!newServiceState) {
-                soundscapeServiceConnection.stopService()
+                if (sleeping == true) {
+                    Analytics.getInstance().logEvent("sleepEnter", null)
+                }
+                soundscapeServiceConnection.stopService(forSleep = sleeping == true)
             } else {
                 checkAndRequestNotificationPermissions()
                 soundscapeServiceConnection.tryToBindToServiceIfRunning(applicationContext)

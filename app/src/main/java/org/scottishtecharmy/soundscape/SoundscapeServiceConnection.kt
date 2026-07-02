@@ -113,9 +113,9 @@ class SoundscapeServiceConnection @Inject constructor() {
         }
     }
 
-    fun stopService() {
-        Log.d(TAG, "stopService")
-        soundscapeService?.stopForegroundService()
+    fun stopService(forSleep: Boolean = false) {
+        Log.d(TAG, "stopService forSleep=$forSleep")
+        soundscapeService?.stopForegroundService(forSleep)
     }
 
     fun streetPreviewGo() {
