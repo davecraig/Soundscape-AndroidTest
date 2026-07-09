@@ -443,17 +443,17 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
             }
         }
 
-            if (!started) {
-                AnalyticsProvider.getInstance().crashLogNotes("Start geo-engine")
-                startProviders()
-                val configLocale = getCurrentLocale()
-                val configuration = Configuration(applicationContext.resources.configuration)
-                configuration.setLocale(configLocale)
-                localizedContext = applicationContext.createConfigurationContext(configuration)
-                voiceCommandManager?.updateContext(localizedContext)
-                startGeoEngine(false)
-                started = true
-            }
+        if (!started) {
+            AnalyticsProvider.getInstance().crashLogNotes("Start geo-engine")
+            startProviders()
+            val configLocale = getCurrentLocale()
+            val configuration = Configuration(applicationContext.resources.configuration)
+            configuration.setLocale(configLocale)
+            localizedContext = applicationContext.createConfigurationContext(configuration)
+            voiceCommandManager?.updateContext(localizedContext)
+            startGeoEngine(false)
+            started = true
+        }
 
         return super.onStartCommand(intent, flags, startId)
     }

@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape.screens.onboarding.accessibility
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -73,62 +74,65 @@ fun AccessibilityOnboardingScreen(
             showMap.value = !isScreenReaderActive
         }
 
-        ProvidePreferenceLocals {
-            LazyColumn(
+        Column(
+            modifier = Modifier
+                .padding(horizontal = spacing.large)
+                .padding(top = spacing.large)
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(Res.string.accessibility_title),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(horizontal = spacing.large)
-                    .padding(top = spacing.large)
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .background(MaterialTheme.colorScheme.background),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                item {
-                    Text(
-                        text = stringResource(Res.string.accessibility_title),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .semantics { heading() }
-                            .focusRequester(focusRequester)
-                            .focusable()
-                    )
-                    Spacer(modifier = Modifier.height(spacing.large))
-                    Text(
-                        text = text,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier
-                            .smallPadding()
-                            .focusable()
-                    )
-                    Spacer(modifier = Modifier.height(spacing.large))
-                }
+                    .semantics { heading() }
+                    .focusRequester(focusRequester)
+                    .focusable()
+            )
+            Spacer(modifier = Modifier.height(spacing.large))
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .smallPadding()
+                    .focusable()
+            )
+            Spacer(modifier = Modifier.height(spacing.large))
 
-                switchPreference(
-                    key = PreferenceKeys.SHOW_MAP,
-                    defaultValue = PreferenceDefaults.SHOW_MAP,
-                    rememberState = { showMap },
-                    modifier = Modifier.testTag("accessibilityOnboardingScreenShowMapToggle"),
-                    title = {
-                        Text(
-                            text = stringResource(Res.string.settings_show_map),
-                            color = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier.focusable()
+            ProvidePreferenceLocals {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    switchPreference(
+                        key = PreferenceKeys.SHOW_MAP,
+                        defaultValue = PreferenceDefaults.SHOW_MAP,
+                        rememberState = { showMap },
+                        modifier = Modifier.testTag("accessibilityOnboardingScreenShowMapToggle"),
+                        title = {
+                            Text(
+                                text = stringResource(Res.string.settings_show_map),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                modifier = Modifier.focusable()
+                            )
+                        },
+                    )
+
+                    item {
+                        OnboardButton(
+                            text = stringResource(Res.string.ui_continue),
+                            onClick = { onNavigate() },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusable()
+                                .testTag("accessibilityOnboardingScreenContinueButton"),
                         )
-                    },
-                )
-
-                item {
-                    OnboardButton(
-                        text = stringResource(Res.string.ui_continue),
-                        onClick = { onNavigate() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusable()
-                            .testTag("accessibilityOnboardingScreenContinueButton"),
-                    )
+                    }
                 }
             }
         }
