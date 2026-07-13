@@ -114,17 +114,25 @@ class Way : MvtFeature() {
         var destinationModifier: Any? = null
         var passesModifier: Any?
         var result = name
-        val genericName = (result == null)
+        var genericName = (result == null)
         var passesString = ""
 
         if (result == null) {
-            // Un-named way, so use "class" property
-            result = featureClass.toString()
-            result = result.replaceFirstChar {
-                if (it.isLowerCase())
-                    it.titlecase()
-                else
-                    it.toString()
+            // Un-named way, so use "ref" (a route number e.g. "A81"/"M8") if we have one, since
+            // that's how many trunk/motorway ways are actually signposted, otherwise fall back to
+            // the "class" property. A ref identifies the road just as well as a name, so it isn't
+            // a generic description.
+            val ref = properties?.get("ref") as? String
+            if (ref != null) {
+                result = ref
+                genericName = false
+            } else {
+                result = featureClass.toString().replaceFirstChar {
+                    if (it.isLowerCase())
+                        it.titlecase()
+                    else
+                        it.toString()
+                }
             }
 
             if (gridState != null) {
