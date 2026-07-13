@@ -254,11 +254,12 @@ internal fun formatDecimal(
 }
 
 private fun travellingReverseGeocodeName(
-    location: LngLatAlt,
+    userGeometry: UserGeometry,
     gridState: GridState,
     settlementGrid: GridState,
     localized: LocalizedStrings?,
 ): String? {
+    val location = userGeometry.location
     if (!gridState.isLocationWithinGrid(location)) return null
 
     // Check if we're near a bus/tram/train stop.
@@ -326,7 +327,9 @@ private fun travellingReverseGeocodeName(
         }
     }
 
-    val nearestRoad = gridState.getNearestFeature(
+    // Prefer the map-matched way (the road we're actually confirmed to be on) over an independent
+    // nearest-feature search, which can pick the wrong road at junctions or parallel carriageways.
+    val nearestRoad = userGeometry.mapMatchedWay ?: gridState.getNearestFeature(
         TreeId.ROADS_AND_PATHS, gridState.ruler, location, 100.0
     ) as Way?
     if (nearestRoad != null) {
@@ -363,7 +366,7 @@ fun describeReverseGeocode(
     localized: LocalizedStrings?,
 ): PositionedString? {
     val name =
-        travellingReverseGeocodeName(userGeometry.location, gridState, settlementGrid, localized)
+        travellingReverseGeocodeName(userGeometry, gridState, settlementGrid, localized)
             ?: return null
     return PositionedString(
         text = name,
