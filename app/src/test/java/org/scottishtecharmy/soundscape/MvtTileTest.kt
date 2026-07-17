@@ -1849,6 +1849,7 @@ class MvtTileTest {
 
         val gridState = FileGridState()
         gridState.start(offlineExtractPath)
+        gridState.checkOfflineMaps()
 
         data class Region(
             val name: String,
@@ -1872,13 +1873,15 @@ class MvtTileTest {
                             Array(TreeId.MAX_COLLECTION_ID.id) { FeatureCollection() }
                         val intersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
                         val streetNumberMap: HashMap<String, FeatureCollection> = hashMapOf()
+                        val transitIntersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf()
                         gridState.updateTile(
                             x,
                             y,
                             0,
                             featureCollections,
                             intersectionMap,
-                            streetNumberMap
+                            streetNumberMap,
+                            transitIntersectionMap
                         )
                     }
                 }
