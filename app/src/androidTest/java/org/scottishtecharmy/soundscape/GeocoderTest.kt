@@ -15,6 +15,8 @@ import kotlinx.coroutines.withTimeoutOrNull
 import okhttp3.internal.platform.PlatformRegistry.applicationContext
 import org.json.JSONObject
 
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.scottishtecharmy.soundscape.components.LocationSource
@@ -431,6 +433,34 @@ class GeocoderTest {
 
             val tarland = LngLatAlt(-2.8581118922791124, 57.1274095150638)
             val tarlandResults = geocoder.getAddressFromLocationName("Commercial Hotel, Tarland", tarland, appContext)
+        }
+    }
+
+    /**
+     * The Photon search server is only built with English, French, German and each location's
+     * local language (see getPhotonLanguage()). A device whose default language is something
+     * else, e.g. Arabic, isn't one of those, so the language query param must be omitted rather
+     * than passed through - Photon then falls back to matching/returning the local language,
+     * which for this Egyptian POI is Arabic. This confirms that end-to-end against the real
+     * production Photon server, not just the language-selection logic in isolation.
+     */
+    @Test
+    fun arabicPhotonSearchTest() {
+        runBlocking {
+            val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+            val photonGeocoder = PhotonGeocoder(appContext)
+
+            // Tenth of Ramadan City, Egypt - location of a hospital named "الهلال الاخضر"
+            // (Al-Hilal Al-Akhdar / "The Green Crescent") in OSM.
+            val nearby = LngLatAlt(31.7357622, 30.2869636)
+            val results = photonGeocoder.getAddressFromLocationName(
+                "الهلال الاخضر",
+                nearby,
+                appContext
+            )
+            assertNotNull(results)
+            assertTrue(results!!.isNotEmpty())
+            assertTrue(results.any { it.name.contains("الهلال") })
         }
     }
 
