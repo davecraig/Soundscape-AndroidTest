@@ -25,6 +25,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -132,18 +136,32 @@ fun AudioBeacons(
 
             Column(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(spacing.extraSmall))
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(spacing.extraSmall))
                     .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .semantics {
+                        collectionInfo = CollectionInfo(rowCount = beacons.size, columnCount = 1)
+                    }
             ) {
-                for (beacon in beacons) {
+                beacons.forEachIndexed { index, beacon ->
                     AudioBeaconItem(
                         text = stringResource(getBeaconResourceId(beacon)),
                         foregroundColor = MaterialTheme.colorScheme.onSurface,
                         isSelected = beacon == selectedBeacon,
-                        onSelect = { onBeaconSelected(beacon) },
-                        modifier = Modifier.testTag("${beacon}Button")
-                            .focusable(),
+                        onSelect = {
+                            onBeaconSelected(beacon)
+                        },
+                        modifier = Modifier
+                            .testTag("${beacon}Button")
+                            .focusable()
+                            .semantics {
+                                collectionItemInfo = CollectionItemInfo(
+                                    rowIndex = index,
+                                    rowSpan = 1,
+                                    columnIndex = 0,
+                                    columnSpan = 1
+                                )
+                            },
                     )
                 }
             }
