@@ -482,4 +482,27 @@ class SearchTest {
         val buchananStreet2 = LngLatAlt(-4.3136986, 55.9455014)
         testLineSearchLocation(buchananStreet2, "Buchanan Street")
     }
+
+    @Test
+    fun multilingualSearch() {
+        runBlocking {
+            val currentLocation = LngLatAlt(-3.2003818, 55.9487360)
+            val gridState = getGridStateForLocation(currentLocation, MAX_ZOOM_LEVEL, GRID_SIZE)
+            val settlementState = getGridStateForLocation(currentLocation, 12, 3)
+            val tileSearch = TileSearch(offlineExtractPath, gridState, settlementState)
+            val offlineGeocoder = OfflineGeocoder(gridState, settlementState, tileSearch)
+
+            var results =
+                offlineGeocoder.getAddressFromLocationName("एडिनबर्ग किला", currentLocation, null)!!
+            assertEquals("एडिनबर्ग किला", results[0].name)
+
+            results =
+                offlineGeocoder.getAddressFromLocationName("エディンバラ城", currentLocation, null)!!
+            assertEquals("エディンバラ城", results[0].name)
+
+            results =
+                offlineGeocoder.getAddressFromLocationName("Эдинбург қамалы", currentLocation, null)!!
+            assertEquals("Эдинбург қамалы", results[0].name)
+        }
+    }
 }
