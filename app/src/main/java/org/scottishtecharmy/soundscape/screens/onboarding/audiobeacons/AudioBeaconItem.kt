@@ -45,7 +45,7 @@ fun AudioBeaconItem(
                 Icons.Rounded.Done,
                 contentDescription = null,
                 tint = foregroundColor,
-                modifier = modifier
+                modifier = Modifier
                     .size(spacing.icon)
             )
         }
@@ -57,7 +57,7 @@ fun AudioBeaconItem(
         )
         Row(
             horizontalArrangement = Arrangement.End,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(end = spacing.small)
         ) {
@@ -65,7 +65,7 @@ fun AudioBeaconItem(
                 Icons.Rounded.ChevronRight,
                 contentDescription = null,
                 tint = foregroundColor,
-                modifier = modifier
+                modifier = Modifier
                     .size(spacing.icon)
             )
         }
