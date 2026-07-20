@@ -323,13 +323,10 @@ class TileSearch(val offlineExtractPath: String,
                     for(layer in tile.layersList) {
                         // Was the string found in transportation or POI? TODO: Or both?
                         if((layer.name == "transportation") || (layer.name == "poi")){
-                            var nameTag = -1
-                            for ((index, value) in layer.keysList.withIndex()) {
-                                if (value == "name") {
-                                    nameTag = index
-                                    break
-                                }
-                            }
+                            val nameTagIndices = layer.keysList.withIndex()
+                                .filter { (_, key) -> isNameKey(key) }
+                                .map { it.index }
+                                .toSet()
 
                             var stringKey = -1
                             for ((index, value) in layer.valuesList.withIndex()) {
@@ -361,7 +358,7 @@ class TileSearch(val offlineExtractPath: String,
                                     var found = false
                                     for (tag in feature.tagsList) {
                                         if (firstInPair) {
-                                            skip = (tag != nameTag)
+                                            skip = (tag !in nameTagIndices)
                                         } else {
                                             if(!skip) {
                                                 val raw = layer.getValues(tag)
@@ -546,8 +543,10 @@ class TileSearch(val offlineExtractPath: String,
         val streetResults = whittledResults.map { result ->
             val mvt = MvtFeature()
 
-            // Copy in the MVT properties
-            mvt.name = result.properties.get("name") as? String?
+            // Copy in the MVT properties. Use the exact name variant that was actually matched
+            // during search (which may be a localized name:xx tag rather than plain "name"), so
+            // the result surfaces the name that matched rather than always the Latin "name" tag.
+            mvt.name = result.string
             mvt.featureClass = result.properties.get("class") as? String?
             mvt.featureSubClass = result.properties.get("subclass") as? String?
             mvt.properties = result.properties
@@ -658,6 +657,13 @@ class TileSearch(val offlineExtractPath: String,
     }
 }
 
+// OSM/OpenMapTiles tags a feature's name under several keys depending on script/language: plain
+// "name", BCP-47/ISO-639 language-tagged variants ("name:hi", "name:en", "name:pa", ...), and
+// OpenMapTiles-generated fallbacks ("name_int", "int_name"). All of these count as a name tag when
+// resolving a fuzzy search hit back to the feature that produced it.
+fun isNameKey(key: String): Boolean =
+    key == "name" || key.startsWith("name:") || key == "name_int" || key == "int_name"
+
 private val apostrophes = setOf('\'', '’', '‘', '‛', 'ʻ', 'ʼ', 'ʹ', 'ꞌ', '＇')
 fun normalizeForSearch(input: String): String {
     // Unicode normalize (decompose accents etc.)
@@ -667,9 +673,17 @@ fun normalizeForSearch(input: String): String {
     var lastWasSpace = false
 
     for (ch in normalizedString) {
-        // Remove combining marks (diacritics)
         val type = Character.getType(ch)
-        if (type == Character.NON_SPACING_MARK.toInt()) continue
+        if (type == Character.NON_SPACING_MARK.toInt()) {
+            // Only strip Latin/Greek/Cyrillic combining diacritics, which is what NFKD produces
+            // for accented letters (e.g. é -> e + U+0301). Combining marks from other scripts
+            // (Devanagari matras/virama, Arabic harakat, Hebrew niqqud, etc.) are semantically
+            // essential, not decorative, so keep them verbatim.
+            if (ch.code in 0x0300..0x036F) continue
+            sb.append(ch)
+            lastWasSpace = false
+            continue
+        }
 
         // Make apostrophes disappear completely (missing/extra apostrophes become irrelevant)
         if (ch in apostrophes) continue
