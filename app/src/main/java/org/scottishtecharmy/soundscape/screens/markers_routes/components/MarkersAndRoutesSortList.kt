@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape.screens.markers_routes.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +40,15 @@ fun MarkersAndRoutesListSort(
         if (isSortByName) stringResource(R.string.markers_sort_button_sort_by_name_voiceover)
         else stringResource(R.string.markers_sort_button_sort_by_distance_voiceover)
 
+    // The Row below uses clearAndSetSemantics to merge the icon and both text
+    // labels into a single TalkBack-announced control - that intentionally
+    // makes the three child testTag()s below unreachable to UIAutomator too,
+    // since clearAndSetSemantics stops their semantics (including testTag)
+    // from merging upward. Wrap in a Box with its own testTag, which is a
+    // separate ancestor node unaffected by the Row's clearAndSetSemantics, so
+    // the whole control stays reachable for testing without changing the
+    // merged accessibility behavior at all.
+    Box(modifier = Modifier.testTag("markersAndRoutesSort")) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,6 +107,7 @@ fun MarkersAndRoutesListSort(
             )
             .testTag("SortOption")
         )
+    }
     }
 }
 

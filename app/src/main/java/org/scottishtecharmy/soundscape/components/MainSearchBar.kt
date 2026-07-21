@@ -32,7 +32,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.collectionItemInfo
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
@@ -45,6 +47,7 @@ import org.scottishtecharmy.soundscape.screens.talkbackDescription
 import org.scottishtecharmy.soundscape.screens.talkbackLive
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainSearchBar(
     results: List<LocationDescription>,
@@ -118,6 +121,11 @@ fun MainSearchBar(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(colors.background)
+                    // Popup opens its own window with its own semantics tree, so it
+                    // doesn't inherit testTagsAsResourceId from the screen composable's
+                    // ancestor modifier - without this, every testTag() below (and on
+                    // the shared LocationItem result rows) is invisible to Maestro/UIAutomator.
+                    .semantics { testTagsAsResourceId = true }
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     // Search header

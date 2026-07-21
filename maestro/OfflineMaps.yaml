@@ -1,0 +1,53 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises the Offline Maps screen: browse the already-downloaded extract
+# (the Glasgow pmtiles fixture CI pins before the suite runs), open its detail
+# view, and back out without starting a real download or delete (keeps the
+# suite fast and deterministic).
+#
+# Both the drawer (menuOfflineMaps) and this screen's extract list/detail
+# buttons live in scrollable content, so they're reached via SwipeAndTap.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuOfflineMaps
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: OfflineMaps
+
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: offlineExtract0
+
+# offlineExtract0 is the already-downloaded Glasgow fixture, so the detail
+# view shows Update/Delete rather than Download (that only appears for a
+# not-yet-downloaded "nearby" extract). Scroll them into view without
+# tapping - tapping Update would kick off a real download, which this flow
+# deliberately avoids.
+- scrollUntilVisible:
+    element:
+      id: offlineMapDelete
+    direction: DOWN
+- assertVisible:
+    id: offlineMapUpdate
+- assertVisible:
+    id: offlineMapDelete
+
+# Back out of the extract detail view, then out of Offline Maps entirely.
+- tapOn:
+    id: appBarLeft
+- tapOn:
+    id: appBarLeft

@@ -12,7 +12,8 @@ appId: org.scottishtecharmy.soundscape
 #         screen: Home
 #
 # Supported screens: Home, LocationDetails, PlacesNearby, MarkersAndRoutes,
-# RouteDetails, Settings. Add a new entry to the map below to support another.
+# RouteDetails, Settings, OfflineMaps, AdvancedMarkersAndRoutes. Add a new
+# entry to the map below to support another.
 ---
 # Map the requested screen name to its anchor testTag, failing fast with a clear
 # message if an unknown (or missing) name is passed.
@@ -25,7 +26,15 @@ appId: org.scottishtecharmy.soundscape
         PlacesNearby: 'placesNearby-0',
         MarkersAndRoutes: 'RoutesTab',
         RouteDetails: 'routeDetailsStartButton',
-        Settings: 'settingsSectionAudio',
+        // appBarLeft is Settings' sticky-header back button - always visible
+        // regardless of scroll position, unlike a section header such as
+        // settingsSectionAudio (which can be scrolled far out of view when
+        // returning from deep within a later section, e.g. Debug).
+        Settings: 'appBarLeft',
+        // Anchored on the already-downloaded Glasgow fixture that CI pins
+        // before the suite runs (see run-maestro-tests.yaml).
+        OfflineMaps: 'offlineExtract0',
+        AdvancedMarkersAndRoutes: 'advancedMarkersClearAllButton',
         Welcome: 'welcomeScreenContinueButton'
       };
       if (!anchors[requested]) {

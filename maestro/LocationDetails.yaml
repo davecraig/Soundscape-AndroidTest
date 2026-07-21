@@ -13,6 +13,46 @@ appId: org.scottishtecharmy.soundscape
         file: SwipeAndTap.yaml
         env:
               id: homeCurrentLocation
+
+# Exercise the Offline Maps entry point on this screen before starting the
+# beacon. Offline Maps is in-app navigation, so appBarLeft correctly returns
+# here. (The full-screen map FAB is exercised on Home by FullScreenMap.yaml -
+# not repeated here, since "Show Map" is deliberately left off for the rest
+# of the suite and this screen's other button-list items are reached via
+# SwipeAndTap, which isn't safe to mix with an actual rendered map.)
+- runFlow:
+        file: SwipeAndTap.yaml
+        env:
+              id: locationDetailsOfflineMaps
+- tapOn:
+        id: appBarLeft
+
+- runFlow:
+        file: WaitForScreen.yaml
+        env:
+              screen: LocationDetails
+
+# Share launches a system chooser in its own task; dismissing it with back
+# lands on Home rather than back on this screen, so re-navigate afterwards
+# instead of assuming we're still here.
+- runFlow:
+        file: SwipeAndTap.yaml
+        env:
+              id: locationDetailsShare
+- runFlow:
+        file: Wait.yaml
+        env:
+              timeout: 3000
+- back
+
+- runFlow:
+        file: WaitForScreen.yaml
+        env:
+              screen: Home
+- runFlow:
+        file: SwipeAndTap.yaml
+        env:
+              id: homeCurrentLocation
 - tapOn:
         id: locationDetailsStartBeacon
 

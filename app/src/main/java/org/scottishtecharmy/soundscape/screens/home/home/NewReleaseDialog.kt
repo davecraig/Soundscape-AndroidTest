@@ -11,9 +11,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -31,6 +34,7 @@ import org.scottishtecharmy.soundscape.ui.theme.spacing
 /**
  * NewReleaseDialog displays text explaining what new features are available within the app
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NewReleaseDialog(
     innerPadding: PaddingValues,
@@ -51,8 +55,12 @@ fun NewReleaseDialog(
     }
 
     AlertDialog(
+        // AlertDialog renders in its own window, so it doesn't inherit
+        // testTagsAsResourceId from the screen underneath - set it here too or
+        // every testTag() on this dialog's content is invisible to Maestro/UIAutomator.
         modifier = Modifier
-            .padding(innerPadding),
+            .padding(innerPadding)
+            .semantics { testTagsAsResourceId = true },
         title = {
             Text(text = stringResource(R.string.new_version_info_text))
         },

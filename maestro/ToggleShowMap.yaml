@@ -1,0 +1,50 @@
+appId: org.scottishtecharmy.soundscape
+# Reusable subflow: flips the "Show Map" accessibility setting (whichever way
+# it currently is) via Settings, then returns to Home. Assumes Home is
+# already the current screen. Drawer items and Settings sections are in
+# scrollable content, so every tap here goes through SwipeAndTap.
+---
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuSettings
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionAccessibility
+
+# settingsShowMapToggle is the 3rd row in the expanded Accessibility section
+# and often sits low enough on a short screen to land inside the system's
+# bottom gesture-navigation strip - confirmed via logcat (StatsLog
+# LAUNCHER_TASKBAR_HOME_BUTTON_TAP / OverviewCommandHelper "command: HOME")
+# that tapping it there gets eaten as a system "go home" gesture instead of
+# reaching the app, backgrounding it entirely. It's usually found without any
+# scrolling (SwipeAndTap's fast path), which skips its normal nudge-away-
+# from-the-edge step, so nudge unconditionally here before tapping.
+- swipe:
+    start: 50%, 70%
+    end: 50%, 55%
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsShowMapToggle
+
+# Toggling Show Map affects layout elsewhere and can trigger a heavier
+# recomposition than other switches - give it a moment before navigating
+# away, rather than a plain tapOn that can race it.
+- extendedWaitUntil:
+    visible:
+      id: appBarLeft
+    timeout: 5000
+- tapOn:
+    id: appBarLeft
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home

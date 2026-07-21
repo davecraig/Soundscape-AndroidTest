@@ -4,16 +4,19 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import org.scottishtecharmy.soundscape.R
 import org.scottishtecharmy.soundscape.audio.AudioTourInstruction
 import org.scottishtecharmy.soundscape.screens.talkbackHint
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AudioTourInstructionDialog(
     instruction: AudioTourInstruction,
@@ -22,7 +25,13 @@ fun AudioTourInstructionDialog(
     val dialogTitle = stringResource(R.string.menu_audio_tutorial)
     AlertDialog(
         onDismissRequest = { /* Don't dismiss on outside click for accessibility */ },
-        modifier = Modifier.semantics { paneTitle = dialogTitle },
+        // AlertDialog renders in its own window, so it doesn't inherit
+        // testTagsAsResourceId from the screen underneath - set it here too or
+        // every testTag() on this dialog's content is invisible to Maestro/UIAutomator.
+        modifier = Modifier.semantics {
+            paneTitle = dialogTitle
+            testTagsAsResourceId = true
+        },
         text = {
             Text(text = instruction.text)
         },

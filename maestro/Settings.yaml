@@ -1,0 +1,113 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises the Settings screen: expand/collapse every section, the beacon
+# style preview dialog, the reset confirmation (Cancel only - a real reset
+# would wipe markers/routes other flows depend on), and the entry point into
+# Advanced Markers & Routes (exercised in full by AdvancedMarkersAndRoutes.yaml).
+#
+# Individual preference rows inside each section (from the
+# me.zhanghai.compose.preference library) have no testTag - only the section
+# headers and the custom rows below are tagged, so this flow doesn't attempt
+# to toggle them individually.
+#
+# Expanding a section adds a lot of height above whatever comes next, so
+# every section header is reached via SwipeAndTap (scroll-until-visible) not
+# a plain tapOn.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
+    id: topBarMenu
+- tapOn:
+    id: menuSettings
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+
+# Sections are an accordion (only one expanded at a time) - expand each in
+# turn, which also collapses whichever was open before it.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionCallouts
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionSearch
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionAccessibility
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionStorage
+
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionAudio
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsBeaconStyleRow
+- assertVisible:
+    id: settingsBeaconStyleConfirm
+- tapOn:
+    id: settingsBeaconStyleCancel
+
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionLanguage
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionMediaControls
+
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionDebug
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsAdvancedMarkersAndRoutes
+- tapOn:
+    id: appBarLeft
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+
+# The Debug section's expanded state is saved across the round trip via
+# rememberSaveable, but re-expand defensively in case it wasn't.
+- runFlow:
+    when:
+      notVisible:
+        id: settingsResetButton
+    commands:
+      - runFlow:
+          file: SwipeAndTap.yaml
+          env:
+            id: settingsSectionDebug
+
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsResetButton
+- assertVisible:
+    id: settingsResetCancel
+- tapOn:
+    id: settingsResetCancel
+
+- tapOn:
+    id: appBarLeft

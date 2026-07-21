@@ -1,0 +1,27 @@
+appId: org.scottishtecharmy.soundscape
+# Reusable subflow: presses the system back button repeatedly until Home is
+# back in view, or gives up after a bounded number of tries. Used after
+# launching an external app/intent (Rate, Contact Support) whose dismissal
+# path is unpredictable - e.g. on an emulator image with no Play Store or
+# email app installed, the resulting "No apps can perform this action" sheet
+# can take more than one back press to fully clear.
+---
+- evalScript: |
+    ${ output.tries = 0 }
+- repeat:
+    while:
+      true: "${output.tries < 6}"
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: mainSearchBarCollapsed
+          commands:
+            - evalScript: ${output.tries = 6}
+      - runFlow:
+          when:
+            notVisible:
+              id: mainSearchBarCollapsed
+          commands:
+            - back
+            - evalScript: ${output.tries = output.tries + 1}

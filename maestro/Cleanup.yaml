@@ -1,0 +1,79 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises marker deletion. Creates a throwaway marker "C" (rather than
+# reusing "A"/"B", which
+# LocationDetails.yaml/MarkersAndRoutes.yaml/RouteCreation.yaml depend on) and
+# deletes it. Uses Places Nearby folder 0 / place 2 for a location distinct
+# from "A" (Current Location), "B" (folder 0 / place 0), and the AudioTutorial
+# flow's marker (folder 0 / place 1) - a fixed map long-press coordinate was
+# tried first but drifts onto an existing marker depending on the map's
+# current pan/zoom state (e.g. after AudioMenuNavigation.yaml's route/beacon
+# activity re-centers it), so an explicit place selection is more reliable.
+#
+# MUST RUN LAST in the suite: deleting a marker changes list ordering/indices
+# for anything downstream that asserts against LocationItem-*-<orderId> tags.
+#
+# LocationDetailsScreen's action buttons are in a scrollable Column, so
+# locationDetailsSaveAsMarker/locationDetailsEditMarker go through SwipeAndTap.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
+    id: homePlacesNearby
+- tapOn:
+    id: "placesNearby-0"
+- tapOn:
+    id: "placesNearby-2"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: locationDetailsSaveAsMarker
+- tapOn:
+    id: name-clearTextField
+- tapOn:
+    id: markerName
+- inputText: "C"
+
+# saveMarkerFullScreenMapFab is deliberately not exercised here - it's gated
+# on "Show Map", which is kept off for the rest of the suite after
+# FullScreenMap.yaml restores it (see maestro-test-suite memory), and that
+# flow already covers the equivalent FAB on Home.
+- tapOn:
+    id: flexibleAppBarRight
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: homeMarkersAndRoutes
+- tapOn:
+    id: MarkersTab
+- assertVisible:
+    id: "LocationItem-C-.*"
+- tapOn:
+    id: "LocationItem-C-.*"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: locationDetailsEditMarker
+- tapOn:
+    id: saveMarkerDeleteButton
+
+# Unlike saving an edit (which pops all the way to Home), deleting only
+# closes the dialog and leaves a stale Location Details screen for the
+# now-deleted marker behind it - go back explicitly.
+- tapOn:
+    id: appBarLeft
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: MarkersAndRoutes
+- assertNotVisible:
+    id: "LocationItem-C-.*"

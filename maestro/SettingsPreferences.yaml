@@ -1,0 +1,196 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises the individual preference rows within each Settings section
+# (switches, list pickers, the speech-rate slider) - separate from the
+# structural Settings.yaml, which only covers section expand/collapse and the
+# custom beacon-style/reset dialogs.
+#
+# Every listPreference's value-picker opens in a library-internal AlertDialog
+# (me.zhanghai.compose.preference) that can't be given a testTag from app
+# code, so picker options are selected by their visible text rather than id -
+# see maestro-test-suite memory for the full writeup. Two pickers (TTS Voice,
+# TTS Engine) are empty on a bare AOSP emulator image with no TTS engine
+# installed - those are exercised as "does the row open a real dialog"
+# reachability checks only, not an actual selection.
+#
+# Most of these settings are audio-only (no visible effect beyond the row's
+# own summary text updating) - this flow verifies interaction + persistence
+# (pick a different value, reopen the section, confirm the summary changed),
+# not that the underlying audio/behavior actually changed.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuSettings
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+
+# --- Callouts section ---
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionCallouts
+# settingsAllowCalloutsToggle itself is deliberately not tapped - the four
+# switches below are enabled = { allowCallouts.value }, so turning it off
+# would disable them and block the rest of this section.
+- assertVisible:
+    id: settingsAllowCalloutsToggle
+# direction: down here and at the start of every section below: collapsing
+# the previous (often taller) section shifts the layout, so the scroll
+# position can end up past this section's first row - "down" reveals items
+# above the fold, undoing that. SwipeAndTap no-ops the scroll if the target
+# is already visible, so this is safe even when it isn't needed.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsPlacesAndLandmarksToggle
+      direction: down
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsMobilityToggle
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsDistanceToBeaconToggle
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsPositionIncludesHeadingToggle
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsRelativeDirectionsRow
+- tapOn: "Degrees"
+
+# --- Search section ---
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionSearch
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsGeocoderModeRow
+      direction: down
+- tapOn: "Offline"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSearchLanguageRow
+- tapOn: "English"
+
+# --- Accessibility section ---
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionAccessibility
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsThemeLightDarkRow
+      direction: down
+- tapOn: "Dark"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsThemeContrastRow
+- tapOn: "High"
+# settingsShowMapToggle is deliberately not touched here - maps must stay off
+# for the rest of the suite (see FullScreenMap.yaml/maestro-test-suite memory).
+
+# --- Audio section ---
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionAudio
+# Beacon style is already fully covered by Settings.yaml.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSpeechEngineRow
+      direction: down
+- assertVisible: "Cancel"
+- tapOn: "Cancel"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsVoiceTypeRow
+- assertVisible: "Cancel"
+- tapOn: "Cancel"
+# The slider is inline (no popup); SwipeAndTap's own final tap lands inside
+# the row and moves it off its default value (Material3 Slider supports
+# tap-to-position) - there's no separate testTag for the track itself.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSpeechRateRow
+
+# --- Language section ---
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionLanguage
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsUnitsRow
+      direction: down
+- tapOn: "Metric (Meters)"
+
+# --- Media Controls section ---
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionMediaControls
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsMediaControlsModeRow
+      direction: down
+- tapOn: "Audio menu"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsVoiceCommandListeningPromptToggle
+# Microphone options are device-enumerated, but every option besides "Auto"
+# is named "Android SDK built for ..." on an emulator - portable across
+# emulator models (not to physical devices, which show real hardware names).
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsVoiceCommandMicrophoneRow
+- tapOn:
+    text: "Android SDK.*"
+    index: 0
+
+# --- Debug section ---
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionDebug
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsRecordTravelToggle
+      direction: down
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsAccessibleMapToggle
+# settingsAdvancedMarkersAndRoutes and settingsResetButton are already
+# covered by AdvancedMarkersAndRoutes.yaml/Settings.yaml.
+
+- tapOn:
+    id: appBarLeft

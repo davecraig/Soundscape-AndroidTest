@@ -25,6 +25,14 @@ appId: org.scottishtecharmy.soundscape
 # Note: swipe start/end coordinates can't be supplied via ${} variables (Maestro
 # parses them as literals and throws a number-format error), so the per-direction
 # coordinates are hard-coded below and selected with `when` conditions.
+#
+# The search-loop swipe's bottom-most point is 70%, not 80%: at 80% on a short
+# screen, a swipe starting there was landing inside the system's bottom
+# gesture-navigation zone and got interpreted as a "go home" swipe instead of
+# an in-app scroll (visible in logcat as a WindowManagerShell "TO_BACK"/
+# "QuickstepLaunchHome" transition, backgrounding the app entirely) -
+# reproduced deterministically scrolling to a low item in a long expanded
+# Settings section on a small/short device profile.
 ---
 # Validate the direction (defaulting to 'up') and stash it for the conditions
 # below.
@@ -39,8 +47,14 @@ appId: org.scottishtecharmy.soundscape
       output.swipeDir = dir;
     }
 
-# If it's already on screen we don't need to scroll, but it may still be only
-# partially visible, so the nudge below still runs.
+# If it's already on screen we don't need to scroll or nudge - it's just
+# tapped directly at the end. Nudging something already comfortably visible
+# was observed to sometimes overscroll a short list (e.g. the drawer) far
+# past the target, landing the swipe as a fling rather than a small drag -
+# harmless for a list with room to spare, but for an element near the very
+# top of a short scrollable it can scroll the target out of view entirely
+# before the tap fires. So swipeNeeded (gating the nudge below) is only set
+# inside the search loop, never by this fast-path check.
 - runFlow:
     when:
       visible:
@@ -60,7 +74,7 @@ appId: org.scottishtecharmy.soundscape
             true: "${output.swipeDir == 'up'}"
           commands:
             - swipe:
-                start: 50%, 80%
+                start: 50%, 70%
                 end: 50%, 50%
       # 'down' reveals items above (swipe the finger down).
       - runFlow:
@@ -69,27 +83,32 @@ appId: org.scottishtecharmy.soundscape
           commands:
             - swipe:
                 start: 50%, 50%
-                end: 50%, 80%
+                end: 50%, 70%
       - evalScript: ${output.swipeTries = output.swipeTries + 1}
       - runFlow:
           when:
             visible:
               id: ${id}
           commands:
-            - evalScript: ${output.swipeFound = 1}
+            - evalScript: |
+                ${
+                  output.swipeFound = 1;
+                  output.swipeNeeded = 1;
+                }
 
 # Nudge the element away from the edge it was revealed at, so a partially-visible
-# item is fully tappable rather than clipped.
+# item is fully tappable rather than clipped. Only when scrolling actually
+# happened (swipeNeeded) - see the note above.
 - runFlow:
     when:
-      true: "${output.swipeFound == 1 && output.swipeDir == 'up'}"
+      true: "${output.swipeNeeded == 1 && output.swipeDir == 'up'}"
     commands:
       - swipe:
           start: 50%, 75%
           end: 50%, 60%
 - runFlow:
     when:
-      true: "${output.swipeFound == 1 && output.swipeDir == 'down'}"
+      true: "${output.swipeNeeded == 1 && output.swipeDir == 'down'}"
     commands:
       - swipe:
           start: 50%, 60%
@@ -101,7 +120,7 @@ appId: org.scottishtecharmy.soundscape
 # visible after the nudge, so this reverse is skipped for it.
 - runFlow:
     when:
-      true: "${output.swipeFound == 1 && output.swipeDir == 'up'}"
+      true: "${output.swipeNeeded == 1 && output.swipeDir == 'up'}"
       notVisible:
         id: ${id}
     commands:
@@ -110,7 +129,7 @@ appId: org.scottishtecharmy.soundscape
           end: 50%, 75%
 - runFlow:
     when:
-      true: "${output.swipeFound == 1 && output.swipeDir == 'down'}"
+      true: "${output.swipeNeeded == 1 && output.swipeDir == 'down'}"
       notVisible:
         id: ${id}
     commands:

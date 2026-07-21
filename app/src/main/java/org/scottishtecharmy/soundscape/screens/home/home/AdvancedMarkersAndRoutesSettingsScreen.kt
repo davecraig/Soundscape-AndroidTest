@@ -25,10 +25,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -85,6 +88,7 @@ fun AdvancedMarkersAndRoutesSettingsScreenVM(
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AdvancedMarkersAndRoutesSettingsScreen(
     navController: NavHostController,
@@ -111,6 +115,10 @@ fun AdvancedMarkersAndRoutesSettingsScreen(
     if (showConfirmationDialog.value) {
         AlertDialog(
             onDismissRequest = { showConfirmationDialog.value = false },
+            // AlertDialog renders in its own window, so it doesn't inherit
+            // testTagsAsResourceId from the screen underneath - set it here too or
+            // every testTag() on this dialog's content is invisible to Maestro/UIAutomator.
+            modifier = Modifier.semantics { testTagsAsResourceId = true },
             title = { Text(stringResource(R.string.settings_reset_dialog_title)) },
             text = { Text(stringResource(R.string.advanced_markers_and_routes_clear_all_alert_message)) },
             confirmButton = {

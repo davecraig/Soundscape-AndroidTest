@@ -1,0 +1,79 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises the Route Details screen for "Test Route" (created by
+# RouteCreation.yaml, so this flow must run after it): the action buttons,
+# edit-existing-route path, and start/stop.
+#
+# The action buttons sit in a scrollable Column below the route title/
+# description, so they can be off-screen on small devices - reached via
+# SwipeAndTap rather than a plain tapOn/assertVisible.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
+    id: homeMarkersAndRoutes
+- tapOn:
+    id: RoutesTab
+- tapOn:
+    text: "Test Route.*"
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: RouteDetails
+
+# Edit path: confirm the route name is prefilled, then cancel back out
+# without changing anything.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: routeDetailsEditButton
+- assertVisible:
+    id: routeName
+- assertVisible:
+    text: "Test Route"
+- tapOn:
+    id: flexibleAppBarLeft
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: RouteDetails
+
+# Share: verify it doesn't crash the app, then back out of whatever share
+# sheet appears.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: routeDetailsShareButton
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 3000
+- back
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: RouteDetails
+
+# Start the route (pops back to Home and begins playback), then stop it from
+# Home's route-player controls so no later flow is left with a route running.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: routeDetailsStartButton
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: routeStop

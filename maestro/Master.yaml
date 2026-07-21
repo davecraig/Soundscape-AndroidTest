@@ -16,7 +16,19 @@ appId: org.scottishtecharmy.soundscape
 ---
 - runFlow: Onboarding.yaml
 - runFlow: HomePage.yaml
+- runFlow: FullScreenMap.yaml
+- runFlow: Search.yaml
 - runFlow: LocationDetails.yaml
+- runFlow: StreetPreview.yaml
 - runFlow: PlacesNearby.yaml
-- runFlow: MarkersAndRoutes.yaml
 - runFlow: RouteCreation.yaml
+- runFlow: MarkersAndRoutes.yaml
+- runFlow: RouteDetails.yaml
+- runFlow: DrawerMenu.yaml
+- runFlow: AudioTutorial.yaml
+- runFlow: Settings.yaml
+- runFlow: SettingsPreferences.yaml
+- runFlow: AdvancedMarkersAndRoutes.yaml
+- runFlow: OfflineMaps.yaml
+- runFlow: AudioMenuNavigation.yaml
+- runFlow: Cleanup.yaml

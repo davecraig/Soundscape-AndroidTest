@@ -1,0 +1,166 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises the hamburger/drawer menu items not already covered elsewhere:
+# Settings/Help/Offline Maps entry points, the Audio Tutorial and New Release
+# dialogs, and Rate/Contact Support (which launch external apps - see the
+# email-intent-launch-gotchas memory for why Contact Support opens Gmail
+# directly). menuExitApp is deliberately not exercised here: it kills the app,
+# so no later flow could assume anything about app state afterwards.
+#
+# The drawer content (DrawerContent.kt) is a scrollable Column with ~9 items,
+# so every item below the first couple can be off-screen on small devices -
+# every drawer item tap goes through SwipeAndTap, not a plain tapOn.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+# Settings entry/exit.
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuSettings
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+- tapOn:
+    id: appBarLeft
+
+# Help & Tutorials entry: drill into one topic and back out twice (topic page,
+# then the help index). HelpScreen's topic list is also a LazyColumn.
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuHelpAndTutorials
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: "helpScreenTopic.*"
+- tapOn:
+    id: appBarLeft
+- tapOn:
+    id: appBarLeft
+
+# Offline Maps entry/exit.
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuOfflineMaps
+- tapOn:
+    id: appBarLeft
+
+# Audio Tutorial: starting it shows an instruction dialog; continue, then
+# reopen the drawer and tap the same item again (now labelled "cancel") to
+# stop the tour so it doesn't keep driving the app afterwards.
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuAudioTutorial
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 3000
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuAudioTutorial
+
+# Cancelling shows a second confirmation dialog (reuses the same
+# AudioTourInstructionDialog component/tag with different text).
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# New Release info dialog, opened manually rather than relying on it
+# auto-appearing. newReleaseInfo is near the bottom of the drawer list and
+# was observed being reported "visible" by SwipeAndTap's fast path without
+# actually being reachable there (no scroll happened, and the tap landed on
+# nothing) - force a scroll first rather than trusting that check.
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: topBarMenu
+- swipe:
+    start: 50%, 70%
+    end: 50%, 50%
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: newReleaseInfo
+- assertVisible:
+    id: newReleaseDialogDismiss
+- tapOn:
+    id: newReleaseDialogDismiss
+
+# Unlike the other menu items, newReleaseInfo's onClick doesn't close the
+# drawer before showing the dialog, so dismissing it leaves the drawer open
+# behind it - close it explicitly.
+- tapOn:
+    id: menuDrawerBack
+
+# Rate: opens an external app (Play Store), or - on an emulator image without
+# it installed - a system "No apps can perform this action" sheet. Either way,
+# just confirm Soundscape doesn't crash, then get back to Home.
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuRate
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 3000
+- runFlow: BackToHome.yaml
+
+# Contact Support: opens Gmail compose directly via an explicit intent (see
+# email-intent-launch-gotchas memory), or the same "no apps" fallback if no
+# email app is installed. Confirm it doesn't crash, then return.
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuContactSupport
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 3000
+- runFlow: BackToHome.yaml

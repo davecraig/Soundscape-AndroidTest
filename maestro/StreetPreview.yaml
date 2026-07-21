@@ -1,0 +1,62 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises Street Preview mode: a long-press on the Home map creates a
+# Location Details entry (dynamic route, no user testTag on the map itself, so
+# the long-press targets a percentage coordinate), entering Street Preview from
+# there, then exiting via the top bar control back on Home.
+#
+# MapContainerLibre - and its long-press listener - only renders `if(showMap)`
+# (HomeContent.kt), and Show Map is deliberately kept off for the rest of the
+# suite (see maestro-test-suite memory / FullScreenMap.yaml). So this flow
+# turns it on for the long-press, same bracket pattern as FullScreenMap.yaml,
+# and restores it before handing off. Confirmed the long-press is otherwise a
+# no-op with the map hidden - there's nothing rendered in that screen region
+# to long-press on, not even a coincidental hit on another control (that only
+# appeared to work by chance on some screen sizes where the coordinate
+# happened to land on the "Current Location" row instead).
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- runFlow:
+    when:
+      notVisible:
+        id: homeFullScreenMap
+    commands:
+      - runFlow: ToggleShowMap.yaml
+
+- longPressOn:
+    point: "50%, 45%"
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: LocationDetails
+
+# locationDetailsStreetPreview is 3rd in LocationDetailsScreen's scrollable
+# button list, so it can be below the fold on small devices.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: locationDetailsStreetPreview
+
+# enableStreetPreview() flips service-side state; Home observes it and
+# auto-navigates back into view showing the StreetPreview overlay in place of
+# the normal Home content, so the usual "Home" anchor (the search bar) isn't
+# present here - wait on the Street Preview exit control directly instead.
+- extendedWaitUntil:
+    visible:
+      id: topBarStreetPreviewExit
+    timeout: 20000
+- tapOn:
+    id: topBarStreetPreviewExit
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- runFlow: ToggleShowMap.yaml

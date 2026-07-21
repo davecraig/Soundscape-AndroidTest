@@ -27,13 +27,18 @@ appId: org.scottishtecharmy.soundscape
 - hideKeyboard
 
 # Add the existing markers A and B as waypoints. They are listed by name; the
-# orderId suffix is unknown here so match by name prefix.
+# orderId suffix is unknown here so match by name prefix. The list is a
+# scrollable LazyColumn, so both taps go through SwipeAndTap.
 - tapOn:
     id: addWaypointsButton
-- tapOn:
-    id: "LocationItem-A-.*"
-- tapOn:
-    id: "LocationItem-B-.*"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: "LocationItem-A-.*"
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: "LocationItem-B-.*"
 # "Done" in the waypoints dialog (reuses the shared app-bar right button).
 - tapOn:
     id: flexibleAppBarRight

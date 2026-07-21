@@ -1,0 +1,91 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises the Advanced Markers & Routes debug screen: export (system share
+# sheet), import (system file picker), and Clear All (Cancel only - a real
+# clear-all would wipe the markers/routes other flows in the suite depend on).
+#
+# Debug is the last of 8 Settings sections, and this screen's own buttons sit
+# below a description paragraph in a scrollable Column - both reached via
+# SwipeAndTap rather than a plain tapOn.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
+    id: topBarMenu
+- tapOn:
+    id: menuSettings
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionDebug
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsAdvancedMarkersAndRoutes
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: AdvancedMarkersAndRoutes
+
+- assertVisible:
+    id: advancedMarkersClearAllButton
+- assertVisible:
+    id: advancedMarkersExportButton
+- assertVisible:
+    id: advancedMarkersImportButton
+
+# Export opens a system share sheet - confirm it doesn't crash the app, then
+# back out of it.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: advancedMarkersExportButton
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 3000
+- back
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: AdvancedMarkersAndRoutes
+
+# Import opens a system file picker - confirm it doesn't crash the app, then
+# back out without picking a file.
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: advancedMarkersImportButton
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 3000
+- back
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: AdvancedMarkersAndRoutes
+
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: advancedMarkersClearAllButton
+- assertVisible:
+    id: advancedMarkersClearAllConfirm
+- tapOn:
+    id: advancedMarkersClearAllCancel
+
+- tapOn:
+    id: appBarLeft

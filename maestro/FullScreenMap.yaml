@@ -11,6 +11,17 @@ appId: org.scottishtecharmy.soundscape
         env:
               screen: Home
 
+# The homeFullScreenMap FAB only renders when the "Show Map" setting is on,
+# and Onboarding.yaml turns it off (it starts checked, and onboarding taps
+# it). Turn it back on here if needed rather than depending on onboarding
+# leaving a particular state behind.
+- runFlow:
+    when:
+      notVisible:
+        id: homeFullScreenMap
+    commands:
+      - runFlow: ToggleShowMap.yaml
+
 # Normal (non-full-screen) home layout: bottom controls and the map FAB are visible.
 - assertVisible:
     id: homeFullScreenMap
@@ -28,3 +39,12 @@ appId: org.scottishtecharmy.soundscape
     id: homeFullScreenMap
 - assertVisible:
     id: homeMyLocation
+
+# Restore "Show Map" to off before handing off to the rest of the suite.
+# Maps are otherwise kept disabled throughout: a rendered, interactive map
+# under a swipe gesture's start/end point captures the touch as a pan instead
+# of letting it scroll the screen underneath, which would silently break
+# every other flow's SwipeAndTap calls on map-containing screens (Location
+# Details, Route Details, ...). Only this flow deliberately turns it on, and
+# only to tap the FAB directly - it doesn't scroll while the map is showing.
+- runFlow: ToggleShowMap.yaml

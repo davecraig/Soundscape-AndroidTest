@@ -1,0 +1,119 @@
+appId: org.scottishtecharmy.soundscape
+# Drives the Audio Menu (services/mediacontrol/AudioMenu.kt) via injected
+# hardware media-button events to start/stop a route and start/stop a beacon,
+# asserting the routeStop control's presence/absence on Home at each point
+# (the same signal LocationDetails.yaml uses to confirm a beacon is playing).
+#
+# Confirmed empirically that Maestro's pressKey "Remote Media Next/Previous/
+# Play Pause" reaches the app's MediaSession on a standard phone emulator
+# (visible in logcat as SoundscapeMediaSessionCallback.onMediaButtonEvent) -
+# no adb-shell wrapper needed.
+#
+# Menu structure (confirmed from AudioMenu.kt, not guessed):
+#   Root: [0] Callouts, [1] Route (controls an *active* route/beacon - next/
+#     previous waypoint, mute, Stop route), [2] Start Route (dynamic: saved
+#     routes + Main Menu), [3] Start Beacon (dynamic: saved markers + Main Menu)
+#   [1] Route: [0] Next waypoint, [1] Previous waypoint, [2] Mute, [3] Stop
+#     route, [4] Main Menu
+# NEXT/PREVIOUS advance/wrap the current level's index; PLAY_PAUSE enters a
+# submenu or runs a leaf action without changing position. Every submenu ends
+# with "Main Menu" (pops to root), so PREVIOUS from a freshly-entered dynamic
+# submenu (index 0) reaches it in one press regardless of route/marker count.
+#
+# Needs "Test Route" (RouteCreation.yaml) and at least one marker
+# (LocationDetails.yaml) to already exist, so this runs after both.
+#
+# The AudioMenu instance lives on the long-lived SoundscapeService, not the
+# Activity, so it isn't reset by a plain launchApp (clearState: false) - if
+# this flow ever ran twice without a real process restart in between (e.g. a
+# CI retry-on-launch-failure), leftover menu position from the first run
+# would break the "starts fresh at root index 0" assumption below. stopApp
+# first forces a genuine process restart (data/prefs/database are untouched -
+# only in-memory state is reset), independent of that history.
+---
+- stopApp
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+# Switch Media Controls to Audio Menu mode.
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuSettings
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionMediaControls
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsMediaControlsModeRow
+- tapOn: "Audio menu"
+- tapOn:
+    id: appBarLeft
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+# --- Start "Test Route": root [0]Callouts -> [2]Start Route ---
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Play Pause"
+- pressKey: "Remote Media Play Pause"
+- assertVisible:
+    id: routeStop
+
+# Back to root: PREVIOUS from index 0 wraps to "Main Menu" (last item).
+- pressKey: "Remote Media Previous"
+- pressKey: "Remote Media Play Pause"
+
+# --- Stop it: root [1]Route -> [3]Stop route ---
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Play Pause"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Play Pause"
+- assertNotVisible:
+    id: routeStop
+
+# Back to root: currently at Route-submenu index 3, so NEXT (not PREVIOUS)
+# reaches "Main Menu" at index 4.
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Play Pause"
+
+# --- Start a beacon: root [0]Callouts -> [1]Route -> [2]Start Route -> [3]Start Beacon ---
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Play Pause"
+- pressKey: "Remote Media Play Pause"
+- assertVisible:
+    id: routeStop
+
+# Back to root.
+- pressKey: "Remote Media Previous"
+- pressKey: "Remote Media Play Pause"
+
+# --- Stop the beacon: same "Stop route" action stops beacon playback too ---
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Play Pause"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Next"
+- pressKey: "Remote Media Play Pause"
+- assertNotVisible:
+    id: routeStop

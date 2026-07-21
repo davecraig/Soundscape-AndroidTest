@@ -1,0 +1,64 @@
+appId: org.scottishtecharmy.soundscape
+# Exercises the free-text search bar on Home: expand it, type a query, tap a
+# result (lands on Location Details), then a second pass that cancels out via
+# the back button instead of selecting a result.
+#
+# The text field only searches on the IME "search" action (BasicTextField's
+# KeyboardActions.onSearch), not on every keystroke - inputText alone never
+# triggers a search, so it must be followed by pressKey: Enter.
+#
+# Search results depend on a live geocoder (network), same caveat class as the
+# existing PlacesNearby.yaml/LocationDetails.yaml flows which depend on the
+# pinned Glasgow offline extract fixture.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
+    id: mainSearchBarCollapsed
+- tapOn:
+    id: mainSearchBarTextField
+- inputText: "Glasgow"
+- pressKey: Enter
+
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 10000
+
+- assertVisible:
+    id: "LocationItem-.*"
+- tapOn:
+    id: "LocationItem-.*"
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: LocationDetails
+
+- tapOn:
+    id: appBarLeft
+
+# Second pass: open search, type, then cancel out via the back button instead
+# of selecting a result.
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: mainSearchBarCollapsed
+- tapOn:
+    id: mainSearchBarTextField
+- inputText: "Edinburgh"
+- pressKey: Enter
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 10000
+- tapOn:
+    id: mainSearchBarBackButton

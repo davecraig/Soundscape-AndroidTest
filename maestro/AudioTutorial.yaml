@@ -1,0 +1,195 @@
+appId: org.scottishtecharmy.soundscape
+# Runs the full guided Audio Tutorial end to end (AudioTour.kt). It's an
+# action-gated state machine, not a linear "keep tapping Continue" script -
+# each step only advances once the *real* corresponding UI action fires (e.g.
+# navigating to Places Nearby, saving a marker, starting a beacon). See the
+# maestro-test-suite memory for the full step-by-step trace this flow is
+# built from.
+#
+# Uses Places Nearby folder 0 / place 1 (not place 0, which LocationDetails.yaml
+# already used to create marker "B" - reusing it here would make this tour try
+# to re-save an existing marker instead of offering "Save as Marker"). Names
+# the tour's marker "Tour" so step 8's LocationItem-Tour-.* is deterministic,
+# and deletes it at the end (self-cleanup, same pattern as Cleanup.yaml's
+# marker "C") so it doesn't shift order-indices for anything after it.
+#
+# Runs after MarkersAndRoutes.yaml, whose LocationItem-A-0/B-1 assertions
+# must already have passed before a third marker exists.
+---
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+# --- Start the tour (WELCOME) ---
+- tapOn:
+    id: topBarMenu
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: menuAudioTutorial
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- SELECT_PLACE: navigating to Places Nearby fires the transition ---
+- tapOn:
+    id: homePlacesNearby
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- CREATE_MARKER_STARTED: pick a folder, then a place ---
+- tapOn:
+    id: "placesNearby-0"
+- tapOn:
+    id: "placesNearby-1"
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- CREATE_MARKER_DONE: Save as Marker ---
+- tapOn:
+    id: locationDetailsSaveAsMarker
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- MARKERS_AND_ROUTES: name it and save ---
+- tapOn:
+    id: name-clearTextField
+- tapOn:
+    id: markerName
+- inputText: "Tour"
+- tapOn:
+    id: flexibleAppBarRight
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- MARKERS: arriving at Markers & Routes (Routes tab, default) fires it ---
+- tapOn:
+    id: homeMarkersAndRoutes
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- START_BEACON: switch to the Markers tab ---
+- tapOn:
+    id: MarkersTab
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- BEACON_DEMO: open the tour's marker and start its beacon ---
+- tapOn:
+    id: "LocationItem-Tour-.*"
+- tapOn:
+    id: locationDetailsStartBeacon
+
+# Starting a beacon auto-navigates back to Home (same as LocationDetails.yaml),
+# but the BEACON_DEMO dialog is already showing over it by the time we get
+# there - a modal dialog blocks the window behind it from being queried, so
+# wait on the dialog directly rather than the usual Home anchor.
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- BEACON_DEMO_LOCKED / STOP_BEACON: two pure 5s timers, no action needed ---
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 7000
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+- runFlow:
+    file: Wait.yaml
+    env:
+      timeout: 7000
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- MY_LOCATION_PROMPT: stop the beacon ---
+- tapOn:
+    id: routeStop
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+# --- MY_LOCATION_WAIT / AROUND_ME / AHEAD / NEARBY_MARKERS prompts ---
+- tapOn:
+    id: homeMyLocation
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+- tapOn:
+    id: homeAroundMe
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+- tapOn:
+    id: homeAheadOfMe
+- assertVisible:
+    id: audioTourInstructionContinue
+- tapOn:
+    id: audioTourInstructionContinue
+
+- tapOn:
+    id: homeNearbyMarkers
+- assertVisible:
+    id: audioTourInstructionContinue
+
+# --- FINISH ---
+- tapOn:
+    id: audioTourInstructionContinue
+
+# Completion signal: the drawer label reverts from "Cancel guided tutorial"
+# back to "Guided tutorial".
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: topBarMenu
+- assertVisible:
+    text: "Guided tutorial"
+- tapOn:
+    id: menuDrawerBack
+
+# --- Self-cleanup: delete the "Tour" marker ---
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+- tapOn:
+    id: homeMarkersAndRoutes
+- tapOn:
+    id: MarkersTab
+- tapOn:
+    id: "LocationItem-Tour-.*"
+- tapOn:
+    id: locationDetailsEditMarker
+- tapOn:
+    id: saveMarkerDeleteButton
+- tapOn:
+    id: appBarLeft

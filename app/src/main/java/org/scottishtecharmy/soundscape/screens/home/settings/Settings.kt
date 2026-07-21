@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.screens.home.settings
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -217,6 +219,7 @@ fun ClickableOption(text: String, textColor: Color) {
  *  - on Cancel/back, reverts the engine to the original style and restores the
  *    previously-running beacon.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BeaconStylePreference(
     beaconValues: List<String>,
@@ -288,6 +291,10 @@ fun BeaconStylePreference(
         }
 
         AlertDialog(
+            // AlertDialog renders in its own window, so it doesn't inherit
+            // testTagsAsResourceId from the screen underneath - set it here too or
+            // every testTag() on this dialog's content is invisible to Maestro/UIAutomator.
+            modifier = Modifier.semantics { testTagsAsResourceId = true },
             onDismissRequest = {
                 onPreviewStop(false, null)
                 showDialog = false
@@ -344,7 +351,7 @@ fun BeaconStylePreference(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun Settings(
     navController: NavHostController,
@@ -457,6 +464,10 @@ fun Settings(
     if (showConfirmationDialog.value) {
         AlertDialog(
             onDismissRequest = { showConfirmationDialog.value = false },
+            // AlertDialog renders in its own window, so it doesn't inherit
+            // testTagsAsResourceId from the screen underneath - set it here too or
+            // every testTag() on this dialog's content is invisible to Maestro/UIAutomator.
+            modifier = Modifier.semantics { testTagsAsResourceId = true },
             title = { Text(stringResource(R.string.settings_reset_dialog_title)) },
             text = { Text(stringResource(R.string.settings_reset_dialog_message)) },
             confirmButton = {
@@ -537,7 +548,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.ALLOW_CALLOUTS_KEY,
                     defaultValue = MainActivity.ALLOW_CALLOUTS_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsAllowCalloutsToggle"),
                     title = {
                         SettingDetails(
                             R.string.callouts_allow_callouts,
@@ -549,7 +560,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.PLACES_AND_LANDMARKS_KEY,
                     defaultValue = MainActivity.PLACES_AND_LANDMARKS_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsPlacesAndLandmarksToggle"),
                     title = {
                         SettingDetails(
                             R.string.callouts_places_and_landmarks,
@@ -562,7 +573,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.MOBILITY_KEY,
                     defaultValue = MainActivity.MOBILITY_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsMobilityToggle"),
                     title = {
                         SettingDetails(
                             R.string.callouts_mobility,
@@ -575,7 +586,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.DISTANCE_TO_BEACON_KEY,
                     defaultValue = MainActivity.DISTANCE_TO_BEACON_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsDistanceToBeaconToggle"),
                     title = {
                         SettingDetails(
                             R.string.callouts_audio_beacon,
@@ -588,7 +599,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.POSITION_INCLUDES_HEADING_AND_DISTANCE_KEY,
                     defaultValue = MainActivity.POSITION_INCLUDES_HEADING_AND_DISTANCE_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsPositionIncludesHeadingToggle"),
                     title = {
                         SettingDetails(
                             R.string.callout_settings_position_text,
@@ -602,7 +613,7 @@ fun Settings(
                     key = MainActivity.RELATIVE_DIRECTION_KEY,
                     defaultValue = MainActivity.RELATIVE_DIRECTION_DEFAULT,
                     values = relativeDirectionValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsRelativeDirectionsRow"),
                     title = {
                         SettingDetails(
                             R.string.settings_relative_directions_text,
@@ -650,7 +661,7 @@ fun Settings(
                     key = MainActivity.GEOCODER_MODE_KEY,
                     defaultValue = MainActivity.GEOCODER_MODE_DEFAULT,
                     values = geocoderValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsGeocoderModeRow"),
                     title = {
                         SettingDetails(
                             R.string.settings_section_search_network,
@@ -670,7 +681,7 @@ fun Settings(
                     key = MainActivity.SEARCH_LANGUAGE_KEY,
                     defaultValue = MainActivity.SEARCH_LANGUAGE_DEFAULT,
                     values = searchLanguageValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsSearchLanguageRow"),
                     title = {
                         SettingDetails(
                             R.string.settings_search_results_language,
@@ -702,7 +713,7 @@ fun Settings(
                     key = MainActivity.THEME_LIGHTNESS_KEY,
                     defaultValue = MainActivity.THEME_LIGHTNESS_DEFAULT,
                     values = themeLightnessValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsThemeLightDarkRow"),
                     title = {
                         Text(
                             text = stringResource(R.string.settings_theme_light_dark),
@@ -721,7 +732,7 @@ fun Settings(
                     key = MainActivity.THEME_CONTRAST_KEY,
                     defaultValue = MainActivity.THEME_CONTRAST_DEFAULT,
                     values = themeContrastValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsThemeContrastRow"),
                     title = {
                         Text(
                             text = stringResource(R.string.settings_theme_contrast),
@@ -737,7 +748,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.SHOW_MAP_KEY,
                     defaultValue = MainActivity.SHOW_MAP_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsShowMapToggle"),
                     title = {
                         Text(
                             text = stringResource(R.string.settings_show_map),
@@ -806,7 +817,7 @@ fun Settings(
                     key = MainActivity.SPEECH_ENGINE_KEY,
                     defaultValue = MainActivity.SPEECH_ENGINE_DEFAULT,
                     values = uiState.engineTypes,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsSpeechEngineRow"),
                     title = {
                         Text(
                             text = stringResource(R.string.voice_engine),
@@ -829,7 +840,7 @@ fun Settings(
                     key = MainActivity.VOICE_TYPE_KEY,
                     defaultValue = MainActivity.VOICE_TYPE_DEFAULT,
                     values = uiState.voiceTypes,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsVoiceTypeRow"),
                     title = {
                         Text(
                             text = stringResource(R.string.voice_voices),
@@ -845,7 +856,7 @@ fun Settings(
                 sliderPreference(
                     key = MainActivity.SPEECH_RATE_KEY,
                     defaultValue = MainActivity.SPEECH_RATE_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsSpeechRateRow"),
                     title = {
                         Text(
                             text = stringResource(R.string.voice_settings_speaking_rate),
@@ -873,7 +884,7 @@ fun Settings(
                     key = MainActivity.MEASUREMENT_UNITS_KEY,
                     defaultValue = MainActivity.MEASUREMENT_UNITS_DEFAULT,
                     values = unitsValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsUnitsRow"),
                     title = {
                         SettingDetails(
                             R.string.settings_section_units,
@@ -927,7 +938,7 @@ fun Settings(
                     key = MainActivity.MEDIA_CONTROLS_MODE_KEY,
                     defaultValue = MainActivity.MEDIA_CONTROLS_MODE_DEFAULT,
                     values = mediaControlsValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsMediaControlsModeRow"),
                     title = {
                         SettingDetails(
                             R.string.settings_section_media_controls,
@@ -949,7 +960,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.VOICE_COMMAND_LISTENING_PROMPT_KEY,
                     defaultValue = MainActivity.VOICE_COMMAND_LISTENING_PROMPT_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsVoiceCommandListeningPromptToggle"),
                     title = {
                         SettingDetails(
                             R.string.settings_voice_command_listening_prompt,
@@ -963,7 +974,7 @@ fun Settings(
                     key = MainActivity.VOICE_COMMAND_MICROPHONE_KEY,
                     defaultValue = MainActivity.VOICE_COMMAND_MICROPHONE_DEFAULT,
                     values = microphoneValues,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsVoiceCommandMicrophoneRow"),
                     title = {
                         SettingDetails(
                             R.string.settings_voice_command_microphone,
@@ -998,7 +1009,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.RECORD_TRAVEL_KEY,
                     defaultValue = MainActivity.RECORD_TRAVEL_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsRecordTravelToggle"),
                     title = {
                         Text(
                             text = stringResource(R.string.settings_travel_recording),
@@ -1009,7 +1020,7 @@ fun Settings(
                 switchPreference(
                     key = MainActivity.ACCESSIBLE_MAP_KEY,
                     defaultValue = MainActivity.ACCESSIBLE_MAP_DEFAULT,
-                    modifier = expandedSectionModifier,
+                    modifier = expandedSectionModifier.testTag("settingsAccessibleMapToggle"),
                     title = {
                         Text(
                             text = stringResource(R.string.settings_accessible_map),
