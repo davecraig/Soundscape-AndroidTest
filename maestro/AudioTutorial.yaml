@@ -164,15 +164,22 @@ appId: org.scottishtecharmy.soundscape
     id: audioTourInstructionContinue
 
 # Completion signal: the drawer label reverts from "Cancel guided tutorial"
-# back to "Guided tutorial".
+# back to "Guided tutorial". That text is translated, so it only asserts on
+# the English CI legs - CI passes the matrix locale in as MAESTRO_LOCALE (see
+# run-maestro-tests.yaml); local runs without -e leave it undefined, which
+# also runs the assertion (defaults to "assert" rather than silently skipping).
 - runFlow:
     file: WaitForScreen.yaml
     env:
       screen: Home
 - tapOn:
     id: topBarMenu
-- assertVisible:
-    text: "Guided tutorial"
+- runFlow:
+    when:
+      true: "${typeof MAESTRO_LOCALE === 'undefined' || MAESTRO_LOCALE !== 'ja-JP'}"
+    commands:
+      - assertVisible:
+          text: "Guided tutorial"
 - tapOn:
     id: menuDrawerBack
 

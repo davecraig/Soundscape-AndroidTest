@@ -244,8 +244,18 @@ jobs:
             # creates markers A and B, asserting their order) would double-apply
             # their changes if re-run after a mid-flow failure. The retry reuses the
             # same --output path so the report reflects the final attempt.
-            # To add a flow, add its name (without .yaml) to the list below.
-            status=0; rf(){ $HOME/.maestro/bin/maestro test --format=junit --output="maestro_outputs/report-$1.xml" --test-output-dir=maestro_outputs --no-ansi "maestro/$1.yaml"; r=$?; if [ "$r" -ne 0 ] && grep -Eq "Unable to launch app|device offline" "maestro_outputs/report-$1.xml" 2>/dev/null; then echo "::warning::launch of $1 failed; retrying once"; $HOME/.maestro/bin/maestro test --format=junit --output="maestro_outputs/report-$1.xml" --test-output-dir=maestro_outputs --no-ansi "maestro/$1.yaml"; r=$?; fi; return "$r"; }; rf Onboarding || status=1; adb shell mkdir -p /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Download; adb push glasgow-gb.pmtiles /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Download/; adb push .github/fixtures/glasgow-gb.pmtiles.geojson /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Download/; for flow in HomePage FullScreenMap Search LocationDetails StreetPreview PlacesNearby RouteCreation MarkersAndRoutes RouteDetails DrawerMenu AudioTutorial Settings SettingsPreferences AdvancedMarkersAndRoutes OfflineMaps AudioMenuNavigation Cleanup; do rf "$flow" || status=1; done; exit $status
+            # To add a flow, add its name (without .yaml) to the FLOWS list below.
+            #
+            # SettingsPreferences and AudioMenuNavigation select Settings list-picker
+            # options by their visible (translated) text - those dialogs are rendered
+            # by a third-party library (me.zhanghai.compose.preference) that can't be
+            # given a testTag from app code - so they only run on the English legs;
+            # under ja-JP those taps would target English strings against a Japanese
+            # UI. AudioTutorial's flow itself is locale-agnostic except for one
+            # completion assertion (drawer text "Guided tutorial"), so it stays in the
+            # ja-JP leg with that single assertion self-skipped via the MAESTRO_LOCALE
+            # env var passed to maestro test below (see AudioTutorial.yaml).
+            if [ "${{ matrix.locale }}" = "ja-JP" ]; then FLOWS="HomePage FullScreenMap Search LocationDetails StreetPreview PlacesNearby RouteCreation MarkersAndRoutes RouteDetails DrawerMenu AudioTutorial Settings AdvancedMarkersAndRoutes OfflineMaps Cleanup"; else FLOWS="HomePage FullScreenMap Search LocationDetails StreetPreview PlacesNearby RouteCreation MarkersAndRoutes RouteDetails DrawerMenu AudioTutorial Settings SettingsPreferences AdvancedMarkersAndRoutes OfflineMaps AudioMenuNavigation Cleanup"; fi; status=0; rf(){ $HOME/.maestro/bin/maestro test -e MAESTRO_LOCALE="${{ matrix.locale }}" --format=junit --output="maestro_outputs/report-$1.xml" --test-output-dir=maestro_outputs --no-ansi "maestro/$1.yaml"; r=$?; if [ "$r" -ne 0 ] && grep -Eq "Unable to launch app|device offline" "maestro_outputs/report-$1.xml" 2>/dev/null; then echo "::warning::launch of $1 failed; retrying once"; $HOME/.maestro/bin/maestro test -e MAESTRO_LOCALE="${{ matrix.locale }}" --format=junit --output="maestro_outputs/report-$1.xml" --test-output-dir=maestro_outputs --no-ansi "maestro/$1.yaml"; r=$?; fi; return "$r"; }; rf Onboarding || status=1; adb shell mkdir -p /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Download; adb push glasgow-gb.pmtiles /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Download/; adb push .github/fixtures/glasgow-gb.pmtiles.geojson /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Download/; for flow in $FLOWS; do rf "$flow" || status=1; done; exit $status
 
       # Artifact names must be unique across the matrix, so suffix them with the
       # combination (e.g. maestro-reports-35-large-ja-JP).
