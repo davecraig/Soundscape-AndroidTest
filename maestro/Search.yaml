@@ -7,9 +7,11 @@ appId: org.scottishtecharmy.soundscape
 # KeyboardActions.onSearch), not on every keystroke - inputText alone never
 # triggers a search, so it must be followed by pressKey: Enter.
 #
-# Search results depend on a live geocoder (network), same caveat class as the
-# existing PlacesNearby.yaml/LocationDetails.yaml flows which depend on the
-# pinned Glasgow offline extract fixture.
+# Search mode is forced to Offline first: from GitHub Actions the debug build
+# has no search provider URL configured, so the (default) online geocoder mode
+# can't resolve anything - only the pinned Glasgow offline extract fixture
+# (same one PlacesNearby.yaml/LocationDetails.yaml rely on) is searchable, via
+# generic terms like "Road"/"Street" rather than city names.
 ---
 - launchApp:
     clearState: false
@@ -20,10 +22,36 @@ appId: org.scottishtecharmy.soundscape
       screen: Home
 
 - tapOn:
+    id: topBarMenu
+- tapOn:
+    id: menuSettings
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Settings
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsSectionSearch
+- runFlow:
+    file: SwipeAndTap.yaml
+    env:
+      id: settingsGeocoderModeRow
+      direction: down
+- tapOn: "Offline"
+- tapOn:
+    id: appBarLeft
+
+- runFlow:
+    file: WaitForScreen.yaml
+    env:
+      screen: Home
+
+- tapOn:
     id: mainSearchBarCollapsed
 - tapOn:
     id: mainSearchBarTextField
-- inputText: "Glasgow"
+- inputText: "Road"
 - pressKey: Enter
 
 - runFlow:
@@ -54,7 +82,9 @@ appId: org.scottishtecharmy.soundscape
     id: mainSearchBarCollapsed
 - tapOn:
     id: mainSearchBarTextField
-- inputText: "Edinburgh"
+- tapOn:
+    id: mainSearchBarClearButton
+- inputText: "Street"
 - pressKey: Enter
 - runFlow:
     file: Wait.yaml
