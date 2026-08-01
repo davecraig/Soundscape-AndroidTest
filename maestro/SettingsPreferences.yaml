@@ -172,7 +172,7 @@ appId: org.scottishtecharmy.soundscape
     env:
       id: settingsVoiceCommandMicrophoneRow
 - tapOn:
-    text: "Android SDK.*"
+    text: "Auto"
     index: 0
 
 # --- Debug section ---
