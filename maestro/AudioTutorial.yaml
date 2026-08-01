@@ -135,6 +135,10 @@ appId: org.scottishtecharmy.soundscape
 # --- MY_LOCATION_WAIT / AROUND_ME / AHEAD / NEARBY_MARKERS prompts ---
 - tapOn:
     id: homeMyLocation
+- runFlow:
+      file: Wait.yaml
+      env:
+          timeout: 10000
 - assertVisible:
     id: audioTourInstructionContinue
 - tapOn:
@@ -142,6 +146,10 @@ appId: org.scottishtecharmy.soundscape
 
 - tapOn:
     id: homeAroundMe
+- runFlow:
+      file: Wait.yaml
+      env:
+          timeout: 30000
 - assertVisible:
     id: audioTourInstructionContinue
 - tapOn:
@@ -149,6 +157,10 @@ appId: org.scottishtecharmy.soundscape
 
 - tapOn:
     id: homeAheadOfMe
+- runFlow:
+      file: Wait.yaml
+      env:
+          timeout: 30000
 - assertVisible:
     id: audioTourInstructionContinue
 - tapOn:
@@ -156,6 +168,10 @@ appId: org.scottishtecharmy.soundscape
 
 - tapOn:
     id: homeNearbyMarkers
+- runFlow:
+      file: Wait.yaml
+      env:
+          timeout: 10000
 - assertVisible:
     id: audioTourInstructionContinue
 
