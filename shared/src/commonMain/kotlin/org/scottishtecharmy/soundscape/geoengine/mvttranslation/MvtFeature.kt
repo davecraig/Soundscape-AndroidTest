@@ -6,6 +6,7 @@ import org.scottishtecharmy.soundscape.geojsonparser.geojson.Feature
 open class MvtFeature : Feature() {
     var osmId: Long = 0L
     var name: String? = null
+    var ref: String? = null
     var housenumber: String? = null
     var street: String? = null
     var side: Boolean? = null
@@ -26,6 +27,7 @@ open class MvtFeature : Feature() {
     fun copyProperties(other: MvtFeature) {
         osmId = other.osmId
         name = other.name
+        ref = other.ref
         housenumber = other.housenumber
         street = other.street
         side = other.side
