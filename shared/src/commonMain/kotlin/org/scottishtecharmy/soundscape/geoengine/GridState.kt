@@ -63,8 +63,9 @@ enum class TreeId(
     TRANSIT(20, "Transit"),
     HOUSENUMBER(21, "House numbers"),
     HIGHWAY_JUNCTIONS(22, "Highway Junctions"),
-    MAX_COLLECTION_ID(23, ""),
-    WAYS_SELECTION(id = 23, "Either Roads OR Roads and Paths")
+    NAMED_WATER_POLYGONS(23, "Named Water Polygons"),
+    MAX_COLLECTION_ID(24, ""),
+    WAYS_SELECTION(id = 24, "Either Roads OR Roads and Paths")
 }
 
 fun treeIdToIndex(id: TreeId): TreeId {
@@ -717,6 +718,24 @@ private fun getHighwayJunctionsFromTileFeatureCollection(tileFeatureCollection: 
 }
 
 /**
+ * Parses out the named `water` layer polygons used for the water-crossing proximity check - see
+ * [org.scottishtecharmy.soundscape.geoengine.mvttranslation.extractNamedWaterPolygons].
+ * @param tileFeatureCollection
+ * A FeatureCollection object.
+ * @return A FeatureCollection object that contains only named water polygons.
+ */
+private fun getNamedWaterPolygonsFromTileFeatureCollection(tileFeatureCollection: FeatureCollection): FeatureCollection {
+    val waterPolygonsFeatureCollection = FeatureCollection()
+    for (feature in tileFeatureCollection) {
+        val mvtFeature = feature as MvtFeature
+        if (mvtFeature.featureType == "water" && mvtFeature.featureValue == "named_water_polygon") {
+            waterPolygonsFeatureCollection.addFeature(feature)
+        }
+    }
+    return waterPolygonsFeatureCollection
+}
+
+/**
  * Parses out all the Entrances in a tile FeatureCollection using the "gd_entrance_list" feature_type.
  * @param tileFeatureCollection
  * A FeatureCollection object.
@@ -749,7 +768,7 @@ private fun getPointsOfInterestFeatureCollectionFromTileFeatureCollection(
     for (feature in tileFeatureCollection) {
         var add = true
         val mvtFeature = feature as MvtFeature
-        if (mvtFeature.featureType == "highway") {
+        if (mvtFeature.featureType == "highway" || mvtFeature.featureType == "water") {
             add = false
         }
         if (mvtFeature.featureClass == "edgePoint" ||
@@ -785,6 +804,9 @@ fun processTileFeatureCollection(
         tileFeatureCollection
     )
     initialFeatureCollections[TreeId.HIGHWAY_JUNCTIONS.id] += getHighwayJunctionsFromTileFeatureCollection(
+        tileFeatureCollection
+    )
+    initialFeatureCollections[TreeId.NAMED_WATER_POLYGONS.id] += getNamedWaterPolygonsFromTileFeatureCollection(
         tileFeatureCollection
     )
 
