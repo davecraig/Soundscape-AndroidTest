@@ -23,12 +23,25 @@ The app is freely available on the Play Store [here](https://play.google.com/sto
 The first time you run the Soundscape app you will see a series of onboarding screens which let 
 you select various initial settings. English is US English and is the base for all translations. If a string is missing in the language being used then it will be replaced by the English string instead. We already know about these, but all other language issues are of interest e.g. text that is difficult to understand or where there's a problem with the ordering of phrases.
 
+The onboarding flow includes several screens:
+
+* **Welcome** — introduction to the app.
+* **Language selection** — choose the language for the app.
+* **Navigation walkthrough** — explains how the app works.
+* **Battery optimization** — asks you to exempt the app from battery optimisation so it can run in the background; we recommend doing this.
+* **Hear your surroundings** — plays a sample of the audio callouts.
+* **Choose an audio beacon** — lets you pick the beacon sound style.
+* **Offline map storage** — lets you choose where to store offline map downloads (internal storage or a microSD card if you have one).
+* **Accessibility** — additional accessibility options.
+* **Terms of use** — agree to continue.
+
 Things we're interested in on the initial screens:
 
 * Is there any text on the screens that you are unable to read or where words are split across 
   lines?
 * Do you just hear silence when you click the **Listen** button on the **Hear Your Surroundings** screen?
 * Do you only hear silence when selecting the different beacon sounds on the **Choose an Audio Beacon** screen?
+* Does the storage location dropdown on the **Offline map storage** screen show sensible options for your device?
 
 Please report any of these issues via the Help Desk.
 
@@ -52,9 +65,44 @@ Things that should happen on the Home screen and we're interested if they do not
 If you've got to this point and it all seems to be working, then you can move on to more detailed testing.
 
 ### Test 1 - Go for a walk
-As you move around, Soundscape should periodically describe your location and call out any points of interest that you pass e.g. Shops, Bus Stops etc. We're interested if there's anything that doesn't sound right. The app will consume a little bit of data as it downloads maps as you move around, but in general those are fairly small (< 50kb for a 600m square bit of map). The map tiles are cached so they will generally only be downloaded once.
+As you move around, Soundscape should periodically describe your location and call out any points of interest that you pass e.g. Shops, Bus Stops etc. We're interested if there's anything that doesn't sound right. When online, the app downloads map tiles as you move; each tile covers a small area and is cached on the device so it only needs to be downloaded once. If you want the app to work without an internet connection at all, download an offline map first (see Test 2 below).
 
-### Test 2 - Create a route and play it back
+### Test 2 - Offline maps
+Offline maps let the app work without an internet connection by downloading map data for a region to your phone in advance.
+
+#### Download an offline map
+1. Tap the hamburger menu (top left) and select **Offline Maps**.
+1. The screen shows map extracts that cover your current location. Each entry shows a name and a file size so you can judge how much storage it will use.
+1. Tap an extract and then tap **Download** to start the download. A progress bar shows the download progress.
+1. Once downloaded, the extract appears in the **Downloaded maps** section. You can delete it from here when you no longer need it.
+
+You can also reach the Offline Maps screen from a Location Details screen — useful if you want to download maps for a place you're planning to visit.
+
+Things to check:
+* Does the list of nearby extracts look correct for your location?
+* Does the download progress bar move and complete without errors?
+* Does the downloaded map appear in the Downloaded maps list?
+* If you turn off mobile data and Wi-Fi, does the app still show the map and generate audio callouts?
+* Does searching (see Test 3) work while offline when you have a downloaded map?
+
+The storage location for offline maps can be changed in Settings (see the Offline map storage section).
+
+### Test 3 - Search for places
+The search bar appears at the top of the home screen.
+
+1. Tap the search bar and type the name of a nearby street, business, or landmark.
+1. Results should appear below the search bar, each showing a name and a type (e.g. restaurant, village, road). Tap a result to open its **Location Details** screen.
+1. From **Location Details** you can start an audio beacon at that location, save it as a Marker, or open the **Offline Maps** screen centred on that location.
+1. Try an international search e.g. the name of a well-known city abroad — results from the online server should still appear.
+
+Things to check:
+* Do results appear in a reasonable time?
+* Are the result names and types readable?
+* Does tapping a result open the correct location on the map?
+
+If you have offline maps downloaded (see Test 2 above), the search will also look through those and show local results without an internet connection.
+
+### Test 4 - Create a route and play it back
 This uses a bit more of the UI, but once set up it should be fairly straightforward.
 #### Create some Markers
 Markers are points on the map which can be added together to make a route. Markers can be saved from
@@ -77,6 +125,12 @@ There should now be a route listed. Click on that and you can check that it's wh
 #### Play the route
 Click _Start Route_ on the _Route Details_ screen to start an audio beacon playing at the first waypoint of the route. The audio beacon will sound from the direction of the waypoint from where you are. When you're using the Soundscape app and your phone is unlocked, the direction used is the direction that the phone is pointing in. You can lock your phone and put it in your bag and then it will start using the direction in which your walking. The sound of the beacon will be different if you are walking towards it or away from it. If you stop moving and your phone is locked then any beacon will go quieter to indicate that there's no available direction data.
 
+You can also play the route in **reverse** using the _Start Route in Reverse_ button on the Route Details screen.
+
+While a route is playing, controls appear on the home screen: you can skip to the previous or next waypoint, mute the beacon, and stop the route.
+
+Routes can be **shared** with other users. On the Route Details screen, tap the share icon to export the route as a file that can be sent by email or any other app. Other people can import shared routes by opening the file while Soundscape is installed.
+
 ## Providing debug location trace
 The app can store up to an hour buffer of the user location recorded whilst the app is running. This feature is disabled by default, and even when enabled the data stays on the phone unless the user chooses to share it via interaction with the app. To use the feature:
 1. Tap on the Menu hamburger in the top left, and then tap on "Settings" scroll to the bottom and you'll see the "Enable recording of travel" option. Click to enable/disable.
@@ -87,9 +141,37 @@ We can load the GPX file into our test code and it will generate the callouts th
 Enabling the setting is absolutely optional, but it is useful to us for debugging.
 
 
+## Other features worth exploring
+
+### Settings
+Open the menu (top left) and tap **Settings** to find:
+* **Beacon type** — choose the audio beacon sound style.
+* **Voice engine and voice** — select the text-to-speech engine and voice used for callouts (Android only).
+* **Theme** — switch between light, dark, or auto (follows the system setting).
+* **Contrast** — regular, medium, or high contrast for the UI (Android only).
+* **Media controls** — choose how the hardware media buttons and headphone controls work: Original (same as iOS), Voice Command, or Audio Menu.
+* **Callout filters** — control which types of callout you hear (mobility, places, landmarks etc.).
+* **Offline map storage** — choose internal storage or a microSD card for downloaded offline maps.
+* **Enable recording of travel** — see the debug section above.
+* **Language** — change the app language independently of the system language.
+* **Reset settings** — returns all settings to their defaults and reruns onboarding.
+
+### Sleep mode
+Tap the sleep icon in the top-right corner of the home screen to put the app to sleep. In sleep mode the map and audio are paused but the app stays open. You can:
+* Tap **Wake up now** to resume immediately.
+* Tap **Wake up when I leave** to have the app wake automatically when you move away from your current location.
+
+### Audio tutorial
+The menu (top left) contains an **Audio tutorial** option that plays a guided walkthrough of the main app features through the speakers. Tap it again (it changes to **Cancel audio tutorial**) to stop it early.
+
+### Help and About
+The menu also links to **Help & Tutorials** and **About Soundscape**, which contain in-app documentation about how to use the app.
+
+### Sharing your location from another app
+If you share a location from Google Maps (or a `soundscape://` URL from anywhere on your phone), Soundscape will open at the Location Details screen for that place.
+
 ## Final notes
-There are other features in the app, but for this first phase of testing the focus is those 
-above. If there's anything unclear in these instructions let us know. Once we have some feedback,
+If there's anything unclear in these instructions let us know. Once we have some feedback,
 there'll be some bugs to fix, and then we'll do incremental releases. If you are interested in helping out 
 further on the project, take a look at the STA volunteer app for some available roles.
 
