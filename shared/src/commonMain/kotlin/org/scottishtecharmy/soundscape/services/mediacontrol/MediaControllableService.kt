@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.scottishtecharmy.soundscape.audio.AudioType
+import org.scottishtecharmy.soundscape.audio.TourButton
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
@@ -27,6 +28,9 @@ private val DEFAULT_HEAD_HEADING_FLOW: StateFlow<HeadHeading?> =
 
 private val DEFAULT_HEADSET_BATTERY_FLOW: StateFlow<Int?> =
     MutableStateFlow<Int?>(null).asStateFlow()
+
+private val DEFAULT_ACTIVE_CALLOUT_BUTTON_FLOW: StateFlow<TourButton?> =
+    MutableStateFlow<TourButton?>(null).asStateFlow()
 
 interface MediaControllableService {
     // Media control target methods
@@ -92,4 +96,8 @@ interface MediaControllableService {
     suspend fun searchResult(query: String): List<LocationDescription>?
     fun isAudioEngineBusy(): Boolean
     fun speakCallout(callout: TrackedCallout?, addModeEarcon: Boolean): Long
+
+    /** The [TourButton] whose callout audio is currently playing, or null when none is. */
+    val activeCalloutButtonFlow: StateFlow<TourButton?>
+        get() = DEFAULT_ACTIVE_CALLOUT_BUTTON_FLOW
 }

@@ -41,6 +41,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -55,6 +56,7 @@ import org.scottishtecharmy.soundscape.audio.BeaconPreviewController
 import org.scottishtecharmy.soundscape.audio.EARCON_MODE_ENTER
 import org.scottishtecharmy.soundscape.audio.EARCON_MODE_EXIT
 import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
+import org.scottishtecharmy.soundscape.audio.TourButton
 import org.scottishtecharmy.soundscape.bluetooth.AudioHeadsetBatteryMonitor
 import org.scottishtecharmy.soundscape.database.local.MarkersAndRoutesDatabaseProvider
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
@@ -177,6 +179,9 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
 
     // Guard to prevent duplicate user-triggered callouts
     private var calloutJob: Job? = null
+
+    private val _activeCalloutButtonFlow = MutableStateFlow<TourButton?>(null)
+    override val activeCalloutButtonFlow: StateFlow<TourButton?> = _activeCalloutButtonFlow.asStateFlow()
 
     // Wake lock — keeps CPU running while screen is off so audio callbacks continue
     private var wakeLock: PowerManager.WakeLock? = null
@@ -897,9 +902,10 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
      * and [body] is skipped. Otherwise the TTS queue is cleared and then [body] runs, preserving the
      * clear-before-speak ordering that callouts rely on.
      */
-    private fun startCallout(body: suspend CoroutineScope.() -> Unit) {
+    private fun startCallout(button: TourButton, body: suspend CoroutineScope.() -> Unit) {
         val previousJob = calloutJob
-        calloutJob = coroutineScope.launch {
+        lateinit var thisJob: Job
+        thisJob = coroutineScope.launch {
             val wasActive = previousJob?.isActive == true
             if (wasActive)
                 previousJob.cancel()
@@ -907,15 +913,27 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
             // Always clear the TTS queue as there's been a user action that requires a response
             audioEngine.clearTextToSpeechQueue()
 
-            // If a callout was already in progress, the user action just cancels it.
-            if (wasActive) return@launch
+            // If a callout was already in progress, the user action just cancels it. Guard the
+            // flow reset against a newer callout's job having already taken over calloutJob -
+            // cancellation of the old job is asynchronous, so its cleanup can otherwise run after
+            // a fresh callout has already started and clobber its "now playing" state.
+            if (wasActive) {
+                if (calloutJob === thisJob) _activeCalloutButtonFlow.value = null
+                return@launch
+            }
 
-            body()
+            _activeCalloutButtonFlow.value = button
+            try {
+                body()
+            } finally {
+                if (calloutJob === thisJob) _activeCalloutButtonFlow.value = null
+            }
         }
+        calloutJob = thisJob
     }
 
     override fun myLocation() {
-        startCallout {
+        startCallout(TourButton.MY_LOCATION) {
             if (requestAudioFocus()) {
                 // The call to myLocation can take a second or so as it might be doing network
                 // based reverse geocoding. Ensure that the user has feedback that the action is
@@ -936,7 +954,7 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     }
 
     override fun whatsAroundMe() {
-        startCallout {
+        startCallout(TourButton.AROUND_ME) {
             val results = geoEngine.whatsAroundMe()
             ensureActive()
             var lastHandle = 0L
@@ -948,7 +966,7 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     }
 
     override fun aheadOfMe() {
-        startCallout {
+        startCallout(TourButton.AHEAD_OF_ME) {
             val results = geoEngine.aheadOfMe()
             ensureActive()
             var lastHandle = 0L
@@ -960,7 +978,7 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     }
 
     override fun nearbyMarkers() {
-        startCallout {
+        startCallout(TourButton.NEARBY_MARKERS) {
             val results = geoEngine.nearbyMarkers()
             ensureActive()
             val lastHandle = speakCallout(results, true)

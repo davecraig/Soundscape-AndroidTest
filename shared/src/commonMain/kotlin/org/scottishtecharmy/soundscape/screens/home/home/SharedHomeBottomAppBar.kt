@@ -1,13 +1,22 @@
 package org.scottishtecharmy.soundscape.screens.home.home
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +41,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.scottishtecharmy.soundscape.audio.TourButton
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.ahead_of_me_24px
 import org.scottishtecharmy.soundscape.resources.around_me_24px
@@ -74,6 +85,7 @@ data class StreetPreviewFunctions(
 @Composable
 fun SharedHomeBottomAppBar(
     bottomButtonFunctions: BottomButtonFunctions,
+    activeButton: TourButton? = null,
     modifier: Modifier = Modifier,
 ) {
     val myLocationHint = stringResource(Res.string.ui_action_button_my_location_acc_hint)
@@ -118,6 +130,7 @@ fun SharedHomeBottomAppBar(
                     icon = painterResource(Res.drawable.my_location_24px),
                     text = stringResource(Res.string.ui_action_button_my_location),
                     onClick = { bottomButtonFunctions.myLocation() },
+                    isPlaying = activeButton == TourButton.MY_LOCATION,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
@@ -129,6 +142,7 @@ fun SharedHomeBottomAppBar(
                     icon = painterResource(Res.drawable.around_me_24px),
                     text = stringResource(Res.string.ui_action_button_around_me),
                     onClick = { bottomButtonFunctions.aroundMe() },
+                    isPlaying = activeButton == TourButton.AROUND_ME,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
@@ -140,6 +154,7 @@ fun SharedHomeBottomAppBar(
                     icon = painterResource(Res.drawable.ahead_of_me_24px),
                     text = stringResource(Res.string.ui_action_button_ahead_of_me),
                     onClick = { bottomButtonFunctions.aheadOfMe() },
+                    isPlaying = activeButton == TourButton.AHEAD_OF_ME,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
@@ -151,6 +166,7 @@ fun SharedHomeBottomAppBar(
                     icon = painterResource(Res.drawable.nearby_markers_24px),
                     text = stringResource(Res.string.ui_action_button_nearby_markers),
                     onClick = { bottomButtonFunctions.nearbyMarkers() },
+                    isPlaying = activeButton == TourButton.NEARBY_MARKERS,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
@@ -167,6 +183,7 @@ private fun HomeBottomAppBarButton(
     icon: Painter,
     text: String,
     onClick: () -> Unit,
+    isPlaying: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Button(
@@ -181,18 +198,67 @@ private fun HomeBottomAppBarButton(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxHeight().fillMaxWidth(),
         ) {
-            Icon(
-                painter = icon,
-                contentDescription = null,
+            Crossfade(
+                targetState = isPlaying,
                 modifier = Modifier
                     .size(spacing.icon)
                     .align(Alignment.CenterHorizontally),
-            )
+                label = "iconOrEqualizer",
+            ) { playing ->
+                if (playing) {
+                    EqualizerBars(modifier = Modifier.fillMaxSize())
+                } else {
+                    Icon(
+                        painter = icon,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(spacing.small))
             Text(
                 text = text,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
+            )
+        }
+    }
+}
+
+/**
+ * Bars pulsing at staggered rates, shown in place of a Hear My Surroundings button's icon while
+ * its callout is speaking. Mirrors the original iOS app's "now playing" indicator on these
+ * buttons - it starts on press and is replaced by the real icon the instant the audio engine
+ * reports that callout's handle has finished, so it never claims audio is playing after it has
+ * actually stopped.
+ */
+@Composable
+private fun EqualizerBars(modifier: Modifier = Modifier) {
+    val infiniteTransition = rememberInfiniteTransition(label = "equalizer")
+    val barHeights = List(3) { index ->
+        infiniteTransition.animateFloat(
+            initialValue = 0.25f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 400 + index * 150, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
+            label = "equalizerBar$index",
+        )
+    }
+    val barColor = currentAppButtonColors.contentColor
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(spacing.extraSmall, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        barHeights.forEach { barHeight ->
+            val fraction by barHeight
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(fraction)
+                    .background(barColor),
             )
         }
     }
