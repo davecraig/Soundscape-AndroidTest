@@ -9,7 +9,11 @@ import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Rule
 import org.junit.Test
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.filter_all
 import org.scottishtecharmy.soundscape.resources.filter_banks
@@ -252,5 +256,36 @@ class PlacesNearbyScreenTest {
         val title =
             kotlinx.coroutines.runBlocking { org.jetbrains.compose.resources.getString(Res.string.search_nearby_screen_title) }
         composeTestRule.onNodeWithText(title).assertIsDisplayed()
+    }
+
+    /**
+     * Un-named POIs all render with the same generic type label ("Post Box"), so the street each
+     * one sits on - associated at tile load time by GridState.attachNearestWays() - is shown
+     * underneath to tell them apart.
+     */
+    @Test
+    fun placesNearbyScreen_unnamedPoi_showsTheStreetItSitsOn() {
+        val postBox = MvtFeature().apply {
+            geometry = Point(LngLatAlt(-4.2540, 55.8701))
+            featureClass = "post"
+            featureSubClass = "post_box"
+            nearestWay = Way().apply { name = "London Road" }
+        }
+
+        composeTestRule.setContent {
+            SoundscapeTheme {
+                PlacesNearbyScreen(
+                    onSelectItem = {},
+                    uiState = PlacesNearbyUiState(
+                        level = 1,
+                        filter = "",
+                        userLocation = LngLatAlt(-4.2541, 55.8702),
+                        nearbyPlaces = FeatureCollection().apply { addFeature(postBox) },
+                    )
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("London Road").assertIsDisplayed()
     }
 }
