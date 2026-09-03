@@ -2884,4 +2884,7 @@ Please continue to report any problems, however small, through Contact Support i
     <string name="action_no_map_data">Soundscape is still loading the map for your area</string>
     <!-- Spoken when a route command is given while no route is playing. -->
     <string name="action_no_route_active">No route is playing</string>
+    <!-- Spoken when an assistant command arrives while Soundscape is not running, and the
+         command needs the running app rather than just its saved data. -->
+    <string name="action_service_not_running">Open Soundscape first</string>
 </resources>
