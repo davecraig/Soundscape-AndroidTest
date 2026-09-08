@@ -4,10 +4,14 @@ import kotlin.concurrent.Volatile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import org.jetbrains.compose.resources.getString
 import org.scottishtecharmy.soundscape.actions.ActionResult
 import org.scottishtecharmy.soundscape.actions.SoundscapeAction
@@ -395,6 +399,7 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         ) { _ ->
             println("App in FOREGROUND")
             geoEngine.appInForeground = true
+            onUiOnScreen()
         }
         center.addObserverForName(
             platform.UIKit.UIApplicationWillResignActiveNotification,
@@ -860,6 +865,139 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         return if (ok) NSURL.fileURLWithPath(outputPath) else null
     }
 
+    // --- Headless intent lifecycle ---
+
+    /**
+     * Whether this process has ever had the app's UI on screen.
+     *
+     * False in the processes iOS launches in the background purely to perform an App
+     * Intent. Every intent sets `openAppWhenRun = false`, and constructing this service
+     * is what makes that work (see SoundscapeIntentRunner.run) — but constructing it
+     * also starts the GPS at kCLLocationAccuracyBest with auto-pause disabled, and such
+     * a process has no scene, so it never appears in the app switcher and the user has
+     * no way to stop it. Left alone it holds those updates open until the phone
+     * reboots, which is what iOS eventually reports as "Soundscape has been using your
+     * location in the background".
+     *
+     * Sticky, and once it is set nothing here pauses anything again: an app the user
+     * actually opened is *meant* to keep calling out after they put the phone away, and
+     * sleep mode is how they stop that.
+     */
+    @Volatile
+    private var uiHasBeenOnScreen = false
+
+    /** Whether [onIntentFinished] took the providers away and owes them back. */
+    @Volatile
+    private var pausedAfterIntent = false
+
+    private var intentIdleJob: Job? = null
+
+    /**
+     * Called when the Compose UI mounts, and from the did-become-active observer in
+     * [observeAppLifecycle]. Both, because neither alone is airtight: this service can
+     * be constructed after the app became active, missing the notification, and a
+     * process can conceivably become active without composing.
+     */
+    fun onUiOnScreen() {
+        uiHasBeenOnScreen = true
+        intentIdleJob?.cancel()
+        intentIdleJob = null
+        resumeProvidersAfterIntent()
+    }
+
+    /**
+     * Called before an App Intent runs its action, to undo a previous
+     * [onIntentFinished]. Restarting here rather than lazily on first read is what
+     * gives the executor's ready timeout a fix to wait for.
+     */
+    fun onIntentStarted() {
+        intentIdleJob?.cancel()
+        intentIdleJob = null
+        resumeProvidersAfterIntent()
+    }
+
+    /**
+     * CLLocationManager and CMMotionManager are main-thread APIs, and both callers get
+     * here on whatever thread they happen to be on — App Intents does not promise main
+     * for [onIntentStarted]. The flag flips synchronously so a second call in the
+     * meantime doesn't start the providers twice.
+     */
+    private fun resumeProvidersAfterIntent() {
+        if (!pausedAfterIntent) return
+        pausedAfterIntent = false
+        scope.launch(Dispatchers.Main) {
+            iosLocationProvider.start()
+            directionProvider.start()
+        }
+    }
+
+    /**
+     * Called once an App Intent's action has returned. Gives the sensors back unless
+     * something still needs them, so a one-shot command like "what's around me?" leaves
+     * an intent-only process idle instead of tracking the user indefinitely.
+     *
+     * Only ever pauses; it deliberately does not tear the service down. The audio
+     * session stays up, so the process may well linger — but it lingers doing nothing,
+     * rather than holding a continuous high-accuracy fix.
+     */
+    fun onIntentFinished(action: SoundscapeAction) {
+        if (uiHasBeenOnScreen) return
+        intentIdleJob?.cancel()
+        intentIdleJob = scope.launch {
+            // The executor returns as soon as a callout is *issued* — CalloutController
+            // launches the work, and the speech that is the whole point of the command
+            // is still to come. activeCalloutFlow stays non-null until the audio handle
+            // goes quiet, but its coroutine sets it asynchronously, so give it a moment
+            // to appear before reading it or we would sail past a callout that has not
+            // started yet. The timeout is a backstop against a callout that never
+            // clears; better to stop tracking than to hold the fix open forever.
+            delay(INTENT_CALLOUT_START_MS)
+            withTimeoutOrNull(INTENT_CALLOUT_MAX_MS) {
+                calloutController.activeCalloutFlow.first { it == null }
+            }
+
+            // A route or beacon start is asynchronous — RoutePlayer.startRoute reads the
+            // database in a coroutine — so the state that says "keep running" can lag the
+            // action returning. Wait for it instead of racing it. A start that failed
+            // (no such route) never sets it, and falls through to the pause below.
+            if (action.startsOngoingWork()) {
+                withTimeoutOrNull(INTENT_ONGOING_WORK_SETTLE_MS) {
+                    currentRouteFlow.first { it.routeData != null }
+                }
+            }
+
+            if (uiHasBeenOnScreen || needsBackgroundLocation()) return@launch
+
+            pausedAfterIntent = true
+            withContext(Dispatchers.Main) {
+                iosLocationProvider.pauseAndForgetFix()
+                directionProvider.pause()
+            }
+        }
+    }
+
+    /**
+     * Whether something the user started is still running and needs a live position.
+     * A beacon and a route are exactly that: both outlive the command that started
+     * them, both are startable by voice, and both are why background location exists
+     * here in the first place. Checked as state rather than inferred from the action,
+     * so "what's around me?" asked mid-route doesn't cut the route off.
+     */
+    private fun needsBackgroundLocation(): Boolean =
+        _beaconFlow.value.location != null ||
+            currentRouteFlow.value.routeData != null
+
+    /** See the call site in [onIntentFinished] — this is about the start being async. */
+    private fun SoundscapeAction.startsOngoingWork(): Boolean = when (this) {
+        is SoundscapeAction.StartRouteById,
+        is SoundscapeAction.StartRouteNamed,
+        is SoundscapeAction.BeaconOnMarkerById,
+        is SoundscapeAction.BeaconOnMarkerNamed,
+        -> true
+
+        else -> false
+    }
+
     // --- Sleep mode ---
 
     fun setSleeping(sleeping: Boolean) {
@@ -896,6 +1034,15 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
 
     companion object {
         private const val CALLOUT_SUPPRESS_TIMEOUT_MS = 8_000L
+
+        /** How long to let an intent's callout coroutine announce itself. */
+        private const val INTENT_CALLOUT_START_MS = 1_000L
+
+        /** Backstop on waiting for that callout to finish speaking. */
+        private const val INTENT_CALLOUT_MAX_MS = 60_000L
+
+        /** Backstop on waiting for an asynchronous route or beacon start to land. */
+        private const val INTENT_ONGOING_WORK_SETTLE_MS = 5_000L
 
         // Read from Info.plist (values set via Local.xcconfig which is gitignored)
         private val TILE_PROVIDER_URL: String

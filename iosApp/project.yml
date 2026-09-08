@@ -69,7 +69,7 @@ targets:
         AppVersionName: $(APP_VERSION_NAME)
         ITSAppUsesNonExemptEncryption: false
         CADisableMinimumFrameDurationOnPhone: true
-        NSLocationWhenInUseUsageDescription: "Soundscape needs your location to provide audio navigation and describe your surroundings."
+        NSLocationWhenInUseUsageDescription: "Soundscape needs your location to provide audio navigation and describe your surroundings, including while the app is in the background."
         NSLocationAlwaysAndWhenInUseUsageDescription: "Soundscape needs your location to provide audio navigation even when the app is in the background."
         NSMotionUsageDescription: "Soundscape uses motion data to detect the direction you are facing and orient audio callouts to your surroundings."
         NSBluetoothAlwaysUsageDescription: "Soundscape uses Bluetooth to discover and connect to head-tracking headphones and other audio devices."

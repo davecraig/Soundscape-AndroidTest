@@ -46,7 +46,12 @@ import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
 
 fun MainViewController() = ComposeUIViewController {
-    val service = remember { IosSoundscapeService.getInstance() }
+    // onUiOnScreen tells the service this process is a real app launch rather than one
+    // of the background ones iOS makes to perform an App Intent, so it stops handing
+    // the sensors back between commands. See IosSoundscapeService.uiHasBeenOnScreen.
+    val service = remember {
+        IosSoundscapeService.getInstance().also { it.onUiOnScreen() }
+    }
     val mgr = service.offlineMapManager
     val prefs = service.preferencesProvider
     val audioTour = service.audioTour

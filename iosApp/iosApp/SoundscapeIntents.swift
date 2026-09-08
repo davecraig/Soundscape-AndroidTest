@@ -47,6 +47,16 @@ enum SoundscapeIntentRunner {
     static func run(_ action: SoundscapeAction) async throws -> String? {
         siriLog.notice("perform \(String(describing: action), privacy: .public)")
         let service = IosSoundscapeService.companion.getInstance()
+
+        // Bracket the action so a background launch gives its sensors back afterwards.
+        // Constructing the service starts the GPS, and with openAppWhenRun = false there
+        // is no scene and so nothing else ever stops it: the process isn't in the app
+        // switcher for the user to swipe away, and the location background mode keeps it
+        // alive indefinitely. onIntentFinished pauses the providers unless a route or
+        // beacon is running, which are the things meant to outlive the command.
+        service.onIntentStarted()
+        defer { service.onIntentFinished(action: action) }
+
         let result = try await service.actions.execute(
             action: action,
             readyTimeoutMs: readyTimeoutMs
