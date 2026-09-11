@@ -19,6 +19,10 @@ import org.scottishtecharmy.soundscape.geoengine.ProtomapsGridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.callouts.AutoCallout
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneyEvent
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneyRecorder
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySegmenter
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneyToRoute
 import org.scottishtecharmy.soundscape.geoengine.LastStationTracker
 import org.scottishtecharmy.soundscape.geoengine.NotableVehicleEventTracker
 import org.scottishtecharmy.soundscape.geoengine.describeReverseGeocode
@@ -4074,7 +4078,12 @@ class MvtTileTest {
         }
     }
 
-    fun testMovingGrid(gpxFilename: String, calloutFilename: String, geojsonFilename: String) {
+    fun testMovingGrid(
+        gpxFilename: String,
+        calloutFilename: String,
+        geojsonFilename: String,
+        journeyFilename: String? = null,
+    ) {
 
         val gridState = FileGridState()
         gridState.start(offlineExtractPath)
@@ -4091,6 +4100,11 @@ class MvtTileTest {
         val startIndex = 0
         val endIndex = gps.features.size
         val autoCallout = AutoCallout(null, null)
+        // The journey recorder is driven from the same loop so that what it sees is exactly what
+        // the app would see on this route: the same fixes, past the same accuracy gate, with the
+        // same matched Way. Landmarks reach it through AutoCallout, as they do in production.
+        val journeyRecorder = JourneyRecorder()
+        autoCallout.journeyRecorder = journeyRecorder
         val callOutText = FileOutputStream(calloutFilename)
 
         val enabledCategories = mutableSetOf<String>()
@@ -4244,6 +4258,10 @@ class MvtTileTest {
                     unobservedMillis = unobservedMillis
                 )
 
+                // Ahead of the callout, as in GeoEngine: recording is a data-capture concern
+                // and must not depend on whether anything is being spoken.
+                journeyRecorder.onLocation(userGeometry, gridState, null)
+
                 val callout = autoCallout.updateLocation(
                     userGeometry,
                     gridState,
@@ -4271,10 +4289,80 @@ class MvtTileTest {
         }
         callOutText.close()
 
+        journeyFilename?.let { writeJourneyReport(it, journeyRecorder, collection) }
+
         val adapter = GeoJsonObjectMoshiAdapter()
         val mapMatchingOutput = FileOutputStream(geojsonFilename)
         mapMatchingOutput.write(adapter.toJson(collection).toByteArray())
         mapMatchingOutput.close()
+    }
+
+    /**
+     * Writes what the journey recorder made of a replayed GPX, and adds the resulting waypoints to
+     * the emitted geojson so they can be eyeballed against the track on geojson.io.
+     *
+     * This is the tuning harness for every threshold in the journey package. The numbers in
+     * TurnDetector and JourneyToRoute are guesses until they have been read against real journeys,
+     * so the report is written to be read by a person rather than asserted on: what matters is
+     * whether the list of instructions is one you could actually follow.
+     */
+    private fun writeJourneyReport(
+        filename: String,
+        recorder: JourneyRecorder,
+        collection: FeatureCollection,
+    ) {
+        val events = recorder.snapshot()
+        val journey = JourneySegmenter.lastJourney(events)
+        val report = StringBuilder()
+
+        val turns = events.filterIsInstance<JourneyEvent.Turn>()
+        val landmarks = events.filterIsInstance<JourneyEvent.Landmark>()
+        val anchors = events.filterIsInstance<JourneyEvent.Anchor>()
+        report.append("Recorded: ${anchors.size} anchors, ${turns.size} turns, ")
+        report.append("${landmarks.size} landmarks\n")
+        report.append("Travelled: ${JourneySegmenter.travelledMetres(events).toInt()}m\n")
+
+        if (journey == null) {
+            report.append("\nNo journey worth saving.\n")
+            FileOutputStream(filename).use { it.write(report.toString().toByteArray()) }
+            return
+        }
+
+        report.append("Last journey: ${journey.size} events, ")
+        report.append("${JourneySegmenter.travelledMetres(journey).toInt()}m\n")
+
+        report.append("\nTurns detected\n")
+        for (turn in journey.filterIsInstance<JourneyEvent.Turn>()) {
+            report.append(
+                "\t${turn.signedAngleDegrees.toInt()}deg  ${turn.fromRoad} -> ${turn.toRoad}\n"
+            )
+        }
+
+        val waypoints = JourneyToRoute.waypoints(journey, strings = null)
+        report.append("\nRoute (${waypoints.size} waypoints)\n")
+        val ruler = waypoints.firstOrNull()?.getLngLatAlt()?.createCheapRuler()
+        var previous: LngLatAlt? = null
+        for ((index, waypoint) in waypoints.withIndex()) {
+            val here = waypoint.getLngLatAlt()
+            val gap = previous?.let { ruler?.distance(it, here)?.toInt() }
+            previous = here
+            report.append("\t${index + 1}. ${waypoint.name}")
+            if (waypoint.fullAddress.isNotBlank()) report.append(" - ${waypoint.fullAddress}")
+            if (gap != null) report.append("   (+${gap}m)")
+            waypoint.reverseDirection?.let { report.append("   [reverse: $it]") }
+            report.append("\n")
+
+            val feature = Feature()
+            feature.geometry = Point(here)
+            feature.properties = HashMap<String, Any?>().apply {
+                set("waypoint", index + 1)
+                set("name", waypoint.name)
+                set("marker-color", if (waypoint.reverseDirection != null) "#ff0000" else "#0000ff")
+            }
+            collection.addFeature(feature)
+        }
+
+        FileOutputStream(filename).use { it.write(report.toString().toByteArray()) }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -4288,6 +4376,56 @@ class MvtTileTest {
             "gpxFiles/$testFile.txt",
             "gpxFiles/$testFile.geojson"
         )
+    }
+
+    /**
+     * Replays one recording and reports what a route made from it would look like. The file to look
+     * at is gpxFiles/<name>.journey.txt - read it as the instructions a person would be given.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun testJourneySingleTest() {
+        val resultsStorageDir = File("gpxFiles/")
+        if (!resultsStorageDir.exists()) resultsStorageDir.mkdirs()
+        val testFile = "BackFromTown"
+        testMovingGrid(
+            "src/test/res/org/scottishtecharmy/soundscape/gpxFiles/$testFile.gpx",
+            "gpxFiles/$testFile.txt",
+            "gpxFiles/$testFile.geojson",
+            "gpxFiles/$testFile.journey.txt",
+        )
+    }
+
+    /**
+     * Replays the recordings worth judging journey recording against and writes a report for each.
+     *
+     * The mix is deliberate: walking routes with real turns, a bus trip whose stops have to survive
+     * segmentation, a recording made with poor GPS, one recorded specifically because the matcher
+     * flapped between a road and its pavement, and the trains and motorways which must produce no
+     * turns at all.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Category(NightlyOnlyTest::class)
+    @Test
+    fun testJourneys() {
+        val resultsStorageDir = File("gpxFiles/")
+        if (!resultsStorageDir.exists()) resultsStorageDir.mkdirs()
+
+        val recordings = listOf(
+            "BackFromTown", "ToTown", "ToPartick", "PartickToCentral", "CentralToBuchananStreet",
+            "FromAllander", "ToAllander", "BearsWay", "tesco", "pc-world",
+            "BusTripToMilngavie", "GiffnockToCentral", "CentralToGiffnock-poorGPS",
+            "KerslandDriveSideSwitching", "train-1", "Motorway",
+        )
+
+        for (name in recordings) {
+            testMovingGrid(
+                "src/test/res/org/scottishtecharmy/soundscape/gpxFiles/$name.gpx",
+                "gpxFiles/$name.txt",
+                "gpxFiles/$name.geojson",
+                "gpxFiles/$name.journey.txt",
+            )
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

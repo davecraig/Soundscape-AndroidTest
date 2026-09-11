@@ -36,6 +36,8 @@ private class FakeRouteDao(
 
     override suspend fun getAllMarkers(): List<MarkerEntity> = unused()
     override fun getAllMarkersFlow(): Flow<List<MarkerEntity>> = unused()
+    override suspend fun getUserMarkers(): List<MarkerEntity> = unused()
+    override fun getUserMarkersFlow(): Flow<List<MarkerEntity>> = unused()
     override suspend fun insertRoute(route: RouteEntity): Long = unused()
     override suspend fun addMarkerToRoute(crossRef: RouteMarkerCrossRef): Unit = unused()
     override suspend fun removeMarkerFromRoute(routeId: Long, markerId: Long): Unit = unused()

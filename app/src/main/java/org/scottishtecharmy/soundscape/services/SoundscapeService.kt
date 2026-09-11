@@ -21,6 +21,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import android.text.format.DateFormat
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.OptIn
@@ -67,6 +68,7 @@ import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
 import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
@@ -118,6 +120,7 @@ import org.scottishtecharmy.soundscape.utils.NetworkUtils
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Date
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -868,6 +871,12 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
 
     override suspend fun getOfflineAddress(location: LngLatAlt): LocationDescription? {
         return geoEngine.getOfflineAddress(location)
+    }
+
+    override suspend fun saveLastJourney(): JourneySaveResult {
+        val routeDao = MarkersAndRoutesDatabaseProvider.getInstance(applicationContext).routeDao()
+        val dateStamp = DateFormat.getMediumDateFormat(applicationContext).format(Date())
+        return geoEngine.saveLastJourney(routeDao, dateStamp)
     }
 
     override fun startBeacon(location: LngLatAlt, name: String) {

@@ -26,10 +26,17 @@ import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
  */
 const val GLOBAL_MARKERS_FILE_ROOT = "AllSoundscapeDatabaseMarkersInASingleRoute"
 
+/**
+ * Separates a marker's source from its reverse instruction inside GPX's single <type> element.
+ * A vertical bar because it is what other GPX writers already use to subdivide <type>, and because
+ * no road name or turn instruction contains one.
+ */
+const val GPX_TYPE_SEPARATOR = "|"
+
 /** Reads the whole library out of [dao] as GPX documents. */
 suspend fun buildMarkersAndRoutesArchive(dao: RouteDao): List<NamedGpx> {
     val routes = dao.getAllRoutesWithMarkers()
-    val markers = dao.getAllMarkers()
+    val markers = dao.getUserMarkers()
     val allMarkersRoute = RouteWithMarkers(
         route = RouteEntity(0, GLOBAL_MARKERS_FILE_ROOT, ""),
         markers = markers,
@@ -71,6 +78,11 @@ suspend fun restoreMarkersAndRoutesArchive(files: List<NamedGpx>, dao: RouteDao)
                             fullAddress = marker.fullAddress,
                             longitude = existingMarker.longitude,
                             latitude = existingMarker.latitude,
+                            source = marker.source,
+                            // Keep whatever the existing marker had when the incoming one says
+                            // nothing: a file from another tool carries no instruction, and losing
+                            // one on re-import would silently un-reverse a saved route.
+                            reverseDirection = marker.reverseDirection ?: existingMarker.reverseDirection,
                         ),
                     )
                 }
@@ -114,6 +126,17 @@ internal fun generateGpxString(route: RouteWithMarkers): String = buildString {
         append("      <wpt lat=\"${marker.latitude}\" lon=\"${marker.longitude}\">\n")
         append("        <name>${escapeXml(marker.name)}</name>\n")
         append("        <desc>${escapeXml(marker.fullAddress)}</desc>\n")
+        // GPX's own <type>, carrying whether this was a waypoint recorded from a journey or a place
+        // the user saved. Without it, exporting a recorded route and importing it back would turn
+        // every silent waypoint into a marker that announces itself - see MarkerEntity.source.
+        //
+        // The instruction for walking the route backwards rides with it, after a separator, since
+        // GPX has nowhere else to put it and the forward one is already in <desc>. Without that, a
+        // restored route keeps its turns going out and loses every one coming back.
+        marker.source?.let { source ->
+            val type = marker.reverseDirection?.let { "$source$GPX_TYPE_SEPARATOR$it" } ?: source
+            append("        <type>${escapeXml(type)}</type>\n")
+        }
         append("      </wpt>\n")
     }
     append("</gpx>")

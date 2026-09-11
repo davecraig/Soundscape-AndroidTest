@@ -31,6 +31,7 @@ import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
 import org.scottishtecharmy.soundscape.geoengine.utils.GpxRecorder
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.IosGeocoder
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
@@ -71,6 +72,10 @@ import org.scottishtecharmy.soundscape.utils.IosMarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.IosNetworkUtils
 import org.scottishtecharmy.soundscape.utils.MarkersAndRoutesIo
 import org.scottishtecharmy.soundscape.utils.routeToShareJson
+import platform.Foundation.NSDate
+import platform.Foundation.NSDateFormatter
+import platform.Foundation.NSDateFormatterMediumStyle
+import platform.Foundation.NSDateFormatterNoStyle
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSLock
 import platform.Foundation.NSHomeDirectory
@@ -799,6 +804,14 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
 
     override suspend fun getOfflineAddress(location: LngLatAlt): LocationDescription? {
         return geoEngine.getOfflineAddress(location)
+    }
+
+    override suspend fun saveLastJourney(): JourneySaveResult {
+        val dateStamp = NSDateFormatter().apply {
+            dateStyle = NSDateFormatterMediumStyle
+            timeStyle = NSDateFormatterNoStyle
+        }.stringFromDate(NSDate())
+        return geoEngine.saveLastJourney(routeDao, dateStamp)
     }
 
     override suspend fun searchResult(query: String): List<LocationDescription>? {

@@ -119,6 +119,21 @@ import org.scottishtecharmy.soundscape.resources.directions_heading_w
 import org.scottishtecharmy.soundscape.resources.directions_junction_with_ref
 import org.scottishtecharmy.soundscape.resources.directions_junction_with_ref_and_name
 import org.scottishtecharmy.soundscape.resources.directions_name_continues_ahead
+import org.scottishtecharmy.soundscape.resources.journey_turn_left
+import org.scottishtecharmy.soundscape.resources.journey_turn_right
+import org.scottishtecharmy.soundscape.resources.journey_bear_left
+import org.scottishtecharmy.soundscape.resources.journey_bear_right
+import org.scottishtecharmy.soundscape.resources.journey_sharp_left
+import org.scottishtecharmy.soundscape.resources.journey_sharp_right
+import org.scottishtecharmy.soundscape.resources.journey_junction
+import org.scottishtecharmy.soundscape.resources.journey_junction_of
+import org.scottishtecharmy.soundscape.resources.journey_railway_crossing
+import org.scottishtecharmy.soundscape.resources.journey_start
+import org.scottishtecharmy.soundscape.resources.journey_waypoint_with_direction
+import org.scottishtecharmy.soundscape.resources.journey_end
+import org.scottishtecharmy.soundscape.resources.journey_route_name
+import org.scottishtecharmy.soundscape.resources.journey_nothing_to_save
+import org.scottishtecharmy.soundscape.resources.journey_saved
 import org.scottishtecharmy.soundscape.resources.directions_name_goes_left
 import org.scottishtecharmy.soundscape.resources.directions_name_goes_right
 import org.scottishtecharmy.soundscape.resources.directions_near_name
@@ -229,6 +244,7 @@ class ComposeLocalizedStrings : LocalizedStrings {
         PluralKey.DistanceKm -> Res.plurals.distance_format_km
         PluralKey.DistanceKmA11y -> Res.plurals.distance_format_km_a11y
         PluralKey.DistanceMiles -> Res.plurals.distance_format_miles
+        PluralKey.JourneySaved -> Res.plurals.journey_saved
     }
 
     private fun resId(key: StringKey): StringResource = when (key) {
@@ -248,6 +264,20 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.DirectionsNameGoesLeft -> Res.string.directions_name_goes_left
         StringKey.DirectionsNameGoesRight -> Res.string.directions_name_goes_right
         StringKey.DirectionsNameContinuesAhead -> Res.string.directions_name_continues_ahead
+        StringKey.JourneyTurnLeft -> Res.string.journey_turn_left
+        StringKey.JourneyTurnRight -> Res.string.journey_turn_right
+        StringKey.JourneyBearLeft -> Res.string.journey_bear_left
+        StringKey.JourneyBearRight -> Res.string.journey_bear_right
+        StringKey.JourneySharpLeft -> Res.string.journey_sharp_left
+        StringKey.JourneySharpRight -> Res.string.journey_sharp_right
+        StringKey.JourneyJunctionOf -> Res.string.journey_junction_of
+        StringKey.JourneyJunction -> Res.string.journey_junction
+        StringKey.JourneyRailwayCrossing -> Res.string.journey_railway_crossing
+        StringKey.JourneyWaypointWithDirection -> Res.string.journey_waypoint_with_direction
+        StringKey.JourneyStart -> Res.string.journey_start
+        StringKey.JourneyEnd -> Res.string.journey_end
+        StringKey.JourneyRouteName -> Res.string.journey_route_name
+        StringKey.JourneyNothingToSave -> Res.string.journey_nothing_to_save
         StringKey.BytesFormatB -> Res.string.bytes_format_b
         StringKey.BytesFormatBA11y -> Res.string.bytes_format_b_a11y
         StringKey.BytesFormatKb -> Res.string.bytes_format_kb

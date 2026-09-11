@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Comment
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.automirrored.rounded.ExitToApp
+import androidx.compose.material.icons.rounded.AddRoad
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Headphones
 import androidx.compose.material.icons.rounded.Markunread
@@ -44,6 +45,7 @@ import org.scottishtecharmy.soundscape.resources.menu_contact_support
 import org.scottishtecharmy.soundscape.resources.menu_exit_app
 import org.scottishtecharmy.soundscape.resources.menu_help
 import org.scottishtecharmy.soundscape.resources.menu_rate
+import org.scottishtecharmy.soundscape.resources.menu_save_last_journey
 import org.scottishtecharmy.soundscape.resources.menu_share_recorded_route
 import org.scottishtecharmy.soundscape.resources.new_version_info_text
 import org.scottishtecharmy.soundscape.resources.offline_maps_title
@@ -59,6 +61,7 @@ fun SharedDrawerContent(
     rateSoundscape: () -> Unit,
     contactSupport: () -> Unit,
     shareRecording: () -> Unit,
+    saveLastJourney: () -> Unit,
     offlineMaps: () -> Unit,
     toggleTutorial: () -> Unit,
     tutorialRunning: Boolean,
@@ -175,6 +178,15 @@ fun SharedDrawerContent(
                         label = stringResource(Res.string.new_version_info_text),
                         icon = Icons.AutoMirrored.Rounded.Comment,
                         modifier = Modifier.testTag("newReleaseInfo"),
+                    )
+
+                    // Deliberately not gated on recordingEnabled: that switch is the developer
+                    // GPX diagnostic below, and is off by default. Remembering journeys is on.
+                    DrawerMenuItem(
+                        onClick = { saveLastJourney() },
+                        label = stringResource(Res.string.menu_save_last_journey),
+                        icon = Icons.Rounded.AddRoad,
+                        modifier = Modifier.testTag("menuSaveJourney"),
                     )
 
                     if (recordingEnabled) {

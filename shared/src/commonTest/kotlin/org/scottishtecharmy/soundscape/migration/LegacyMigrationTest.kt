@@ -528,6 +528,8 @@ private class FakeRouteDao : RouteDao {
         nope()
 
     override fun getAllMarkersFlow(): Flow<List<MarkerEntity>> = flowOf(emptyList())
+    override suspend fun getUserMarkers(): List<MarkerEntity> = markersById.values.toList()
+    override fun getUserMarkersFlow(): Flow<List<MarkerEntity>> = flowOf(emptyList())
     override suspend fun removeMarkerFromRoute(routeId: Long, markerId: Long) = nope()
     override suspend fun removeMarkersForRoute(routeId: Long) = nope()
     override suspend fun getAllRoutes(): List<RouteEntity> = routesById.values.toList()

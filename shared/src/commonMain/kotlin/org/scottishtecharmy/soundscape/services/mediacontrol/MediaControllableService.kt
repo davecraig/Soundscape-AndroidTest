@@ -9,6 +9,7 @@ import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewEnabled
 import org.scottishtecharmy.soundscape.geoengine.StreetPreviewState
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.locationprovider.DeviceDirection
 import org.scottishtecharmy.soundscape.locationprovider.HeadHeading
@@ -109,6 +110,16 @@ interface MediaControllableService {
      * no geo engine don't have to provide it.
      */
     suspend fun getOfflineAddress(location: LngLatAlt): LocationDescription? = null
+    /**
+     * Turn the journey the user has just travelled into a saved Route, and say what happened.
+     *
+     * Lives here rather than in SoundscapeActionExecutor because the pieces it needs - the journey
+     * recorder, the tile grid it has to be read on, and the geocoder that names the destination -
+     * all hang off the geo engine, which is the service's. Defaults to "nothing to save" so an
+     * implementation without a geo engine doesn't have to provide it.
+     */
+    suspend fun saveLastJourney(): JourneySaveResult = JourneySaveResult.NoJourney
+
     suspend fun searchResult(query: String): List<LocationDescription>?
     fun isAudioEngineBusy(): Boolean
     fun speakCallout(callout: TrackedCallout?, addModeEarcon: Boolean): Long

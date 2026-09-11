@@ -17,7 +17,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.audio.AudioTour
+import org.scottishtecharmy.soundscape.audio.AudioType
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.i18n.PluralKey
+import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.services.ServiceConnection
 
@@ -155,6 +160,39 @@ open class HomeViewModel(
 
     fun nearbyMarkers() {
         viewModelScope.launch(Dispatchers.Default) { connection.service?.nearbyMarkers() }
+    }
+
+    /**
+     * Turn the journey just travelled into a saved Route, and say what happened.
+     *
+     * Spoken rather than shown, and spoken either way: someone who has just arrived somewhere and
+     * asked for this needs to hear what was saved, or why nothing was, without opening a screen.
+     * [onSaved] is called with the new route's id so the caller can offer to open it.
+     */
+    fun saveLastJourney(onSaved: (Long) -> Unit = {}) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val service = connection.service ?: return@launch
+            val strings = ComposeLocalizedStrings()
+            when (val result = service.saveLastJourney()) {
+                is JourneySaveResult.Saved -> {
+                    service.speakText(
+                        strings.getPlural(
+                            PluralKey.JourneySaved,
+                            result.waypointCount,
+                            result.name,
+                            result.waypointCount.toString(),
+                        ),
+                        AudioType.STANDARD,
+                    )
+                    onSaved(result.routeId)
+                }
+
+                JourneySaveResult.NoJourney -> service.speakText(
+                    strings.get(StringKey.JourneyNothingToSave),
+                    AudioType.STANDARD,
+                )
+            }
+        }
     }
 
     fun streetPreviewGo() {

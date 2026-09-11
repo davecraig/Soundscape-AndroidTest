@@ -86,6 +86,8 @@ import org.scottishtecharmy.soundscape.resources.settings_section_units
 import org.scottishtecharmy.soundscape.resources.settings_section_units_description
 import org.scottishtecharmy.soundscape.resources.settings_show_map
 import org.scottishtecharmy.soundscape.resources.settings_theme_auto
+import org.scottishtecharmy.soundscape.resources.settings_remember_journeys
+import org.scottishtecharmy.soundscape.resources.settings_remember_journeys_description
 import org.scottishtecharmy.soundscape.resources.settings_travel_recording
 import org.scottishtecharmy.soundscape.resources.settings_units_imperial
 import org.scottishtecharmy.soundscape.resources.settings_units_metric
@@ -689,6 +691,24 @@ fun SharedSettingsScreen(
                     title = {
                         Text(
                             text = stringResource(Res.string.settings_travel_recording),
+                            color = textColor
+                        )
+                    },
+                )
+
+                switchPreference(
+                    key = PreferenceKeys.REMEMBER_JOURNEYS,
+                    defaultValue = PreferenceDefaults.REMEMBER_JOURNEYS,
+                    modifier = expandedSectionModifier,
+                    title = {
+                        Text(
+                            text = stringResource(Res.string.settings_remember_journeys),
+                            color = textColor
+                        )
+                    },
+                    summary = {
+                        Text(
+                            text = stringResource(Res.string.settings_remember_journeys_description),
                             color = textColor
                         )
                     },

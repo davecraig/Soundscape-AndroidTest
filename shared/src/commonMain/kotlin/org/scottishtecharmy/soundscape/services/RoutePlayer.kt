@@ -20,6 +20,7 @@ import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.behavior_scavenger_hunt_callout_next_flag
 import org.scottishtecharmy.soundscape.resources.behavior_scavenger_hunt_callout_next_flag_short_route
+import org.scottishtecharmy.soundscape.resources.journey_waypoint_with_direction
 import org.scottishtecharmy.soundscape.resources.route_end_completed_accessibility
 import org.scottishtecharmy.soundscape.resources.route_reverse_name
 import org.scottishtecharmy.soundscape.services.mediacontrol.MediaControllableService
@@ -30,12 +31,32 @@ class RoutePlayer(
 ) {
     private var currentRouteData: RouteWithMarkers? = null
     private var currentMarker = -1
+    private var reversePlayback = false
     private val coroutineScope = CoroutineScope(Job())
     private var locationMonitoringJob: Job? = null
 
     // Flow to return current route data
     private val _currentRouteFlow = MutableStateFlow(RoutePlayerState())
     var currentRouteFlow: StateFlow<RoutePlayerState> = _currentRouteFlow
+
+    /**
+     * What to say for a waypoint: its name, and the instruction for it where there is one.
+     *
+     * A waypoint recorded at a turn is named after the junction - "Milngavie Road and Roselea
+     * Drive" - which reads the same whichever way the route is walked. What flips is the
+     * instruction, and both wordings were settled when the journey was recorded, so playback only
+     * has to pick. A marker the user saved by hand has no instruction and reads as it always has.
+     */
+    private fun MarkerEntity.spokenName(): String {
+        val direction = instructionFor(reversePlayback)
+        return if (direction == null) {
+            name
+        } else {
+            kotlinx.coroutines.runBlocking {
+                getString(Res.string.journey_waypoint_with_direction, name, direction)
+            }
+        }
+    }
 
     /**
      * startBeacon creates a temporary route with a single waypoint and starts playing it. This
@@ -45,6 +66,7 @@ class RoutePlayer(
      */
     fun startBeacon(beaconLocation: LngLatAlt, beaconName: String) {
         currentMarker = 0
+        reversePlayback = false
 
         // If the beacon start point is more than 30m away, then we can have it as a destination
         // and track our distance to it. Note that this is separate from RoutePlayerState.beaconOnly
@@ -107,6 +129,7 @@ class RoutePlayer(
                 route
             }
             currentRouteData = routeData
+            reversePlayback = reverse
             currentMarker = startWaypoint.coerceIn(0, routeData.markers.size - 1)
             _currentRouteFlow.update {
                 it.copy(
@@ -183,7 +206,7 @@ class RoutePlayer(
                             kotlinx.coroutines.runBlocking {
                                 getString(
                                     Res.string.behavior_scavenger_hunt_callout_next_flag,
-                                    route.markers[index].name,
+                                    route.markers[index].spokenName(),
                                     formatDistanceAndDirection(
                                         distance,
                                         null,
@@ -197,7 +220,7 @@ class RoutePlayer(
                             kotlinx.coroutines.runBlocking {
                                 getString(
                                     Res.string.behavior_scavenger_hunt_callout_next_flag_short_route,
-                                    route.markers[index].name,
+                                    route.markers[index].spokenName(),
                                     formatDistanceAndDirection(
                                         distance,
                                         null,

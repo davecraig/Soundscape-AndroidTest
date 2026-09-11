@@ -278,6 +278,7 @@ fun MainViewController() = ComposeUIViewController {
                 val fileUrl = service.writeRecordingFile()
                 if (fileUrl != null) presentShareSheet(fileUrl)
             },
+            onSaveLastJourney = { homeViewModel.saveLastJourney() },
             onShareRoute = { routeId ->
                 val fileUrl = service.writeRouteFile(routeId)
                 if (fileUrl != null) presentShareSheet(fileUrl)

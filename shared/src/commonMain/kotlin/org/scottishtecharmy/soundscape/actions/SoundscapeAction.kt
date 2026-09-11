@@ -39,6 +39,16 @@ sealed class SoundscapeAction {
     data class BeaconOnMarkerNamed(val name: String) : SoundscapeAction()
     data object StopBeacon : SoundscapeAction()
 
+    // ── Journeys ─────────────────────────────────────────────────────────────
+    /**
+     * Turn the journey the user has just travelled into a saved Route.
+     *
+     * Headless on purpose, and the surface that matters most for this feature: someone
+     * who has just arrived somewhere - possibly still on the bus - wants to say this,
+     * not find a menu item.
+     */
+    data object SaveLastJourney : SoundscapeAction()
+
     // ── Enumeration ──────────────────────────────────────────────────────────
     /**
      * Read back what the user has saved. No AudioMenu equivalent: the menu *is* the

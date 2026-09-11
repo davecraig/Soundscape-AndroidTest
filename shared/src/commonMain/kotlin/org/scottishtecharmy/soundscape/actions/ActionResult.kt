@@ -57,5 +57,10 @@ sealed class ActionResult {
         NO_OTHER_WAYPOINTS,
         NO_ROUTES_SAVED,
         NO_MARKERS_SAVED,
+        /**
+         * Nothing has been travelled since the user last stopped for a while, or since the
+         * service started - the record is held in memory and goes with it.
+         */
+        NO_JOURNEY_TO_SAVE,
     }
 }

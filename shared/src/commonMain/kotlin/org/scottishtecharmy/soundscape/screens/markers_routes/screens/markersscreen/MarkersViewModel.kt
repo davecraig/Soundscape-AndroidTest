@@ -37,7 +37,7 @@ open class MarkersViewModel(
         )
 
         viewModelScope.launch {
-            routeDao.getAllMarkersFlow().collect { markers ->
+            routeDao.getUserMarkersFlow().collect { markers ->
                 val locations = markers.map {
                     LocationDescription(
                         name = it.name,

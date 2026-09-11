@@ -10,7 +10,11 @@ import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.EARCON_MODE_ENTER
 import org.scottishtecharmy.soundscape.audio.EARCON_MODE_EXIT
 import org.scottishtecharmy.soundscape.database.local.dao.RouteDao
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
+import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.i18n.PluralKey
+import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.beacon_action_mute_beacon
 import org.scottishtecharmy.soundscape.resources.callouts_nearby_markers
@@ -22,6 +26,7 @@ import org.scottishtecharmy.soundscape.resources.location_detail_action_beacon
 import org.scottishtecharmy.soundscape.resources.menu_main_menu
 import org.scottishtecharmy.soundscape.resources.menu_no_routes
 import org.scottishtecharmy.soundscape.resources.menu_route
+import org.scottishtecharmy.soundscape.resources.menu_save_last_journey
 import org.scottishtecharmy.soundscape.resources.menu_route_next_waypoint
 import org.scottishtecharmy.soundscape.resources.menu_route_previous_waypoint
 import org.scottishtecharmy.soundscape.resources.route_detail_action_start_route
@@ -203,7 +208,32 @@ class AudioMenu(
             label = kotlinx.coroutines.runBlocking { getString(Res.string.location_detail_action_beacon) },
             childrenProvider = { loadMarkerMenuItems() }
         ),
+
+        // The screen-free way to save a journey, which is how most people will want to: at the end
+        // of one, headphones on, phone in a pocket. Matches SoundscapeAction.SaveLastJourney.
+        MenuItem.Action(kotlinx.coroutines.runBlocking { getString(Res.string.menu_save_last_journey) }) {
+            scope.launch { saveLastJourney() }
+        },
     )
+
+    /**
+     * Saves the journey and says what happened. Spoken through the menu's own 2D voice rather than
+     * the geo engine, so it comes out where the user is already listening.
+     */
+    private suspend fun saveLastJourney() {
+        val strings = ComposeLocalizedStrings()
+        val text = when (val result = service.saveLastJourney()) {
+            is JourneySaveResult.Saved -> strings.getPlural(
+                PluralKey.JourneySaved,
+                result.waypointCount,
+                result.name,
+                result.waypointCount.toString(),
+            )
+
+            JourneySaveResult.NoJourney -> strings.get(StringKey.JourneyNothingToSave)
+        }
+        service.speak2dText(text, true)
+    }
 
     // ── Feature implementations ───────────────────────────────────────────────
 
@@ -216,7 +246,7 @@ class AudioMenu(
 
     private suspend fun loadMarkerMenuItems(): List<MenuItem> =
         withContext(Dispatchers.Default) {
-            routeDao.getAllMarkers().map { marker ->
+            routeDao.getUserMarkers().map { marker ->
                 MenuItem.Action(marker.name) {
                     val location = LngLatAlt(marker.longitude, marker.latitude)
                     service.startBeacon(location, marker.name)

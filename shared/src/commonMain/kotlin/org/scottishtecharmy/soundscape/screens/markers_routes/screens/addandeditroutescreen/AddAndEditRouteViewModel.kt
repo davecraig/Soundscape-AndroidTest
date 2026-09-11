@@ -45,7 +45,7 @@ open class AddAndEditRouteViewModel(
 
     fun loadMarkers() {
         viewModelScope.launch {
-            routeDao.getAllMarkersFlow().collect { markers ->
+            routeDao.getUserMarkersFlow().collect { markers ->
                 val markerVMs = markers.map {
                     LocationDescription(
                         name = it.name,

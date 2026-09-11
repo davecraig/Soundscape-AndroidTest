@@ -61,8 +61,10 @@ private class FakeRouteDao : RouteDao {
 
     override suspend fun insertMarker(marker: MarkerEntity): Long {
         val id = if (marker.markerId != 0L) marker.markerId else nextMarkerId++
-        val stored =
-            MarkerEntity(id, marker.name, marker.longitude, marker.latitude, marker.fullAddress)
+        val stored = MarkerEntity(
+            id, marker.name, marker.longitude, marker.latitude, marker.fullAddress,
+            marker.source, marker.reverseDirection,
+        )
         markersFlow.value = markersFlow.value.filterNot { it.markerId == id } + stored
         return id
     }
@@ -76,6 +78,8 @@ private class FakeRouteDao : RouteDao {
 
     override suspend fun getAllMarkers(): List<MarkerEntity> = markersFlow.value
     override fun getAllMarkersFlow() = markersFlow
+    override suspend fun getUserMarkers(): List<MarkerEntity> = markersFlow.value
+    override fun getUserMarkersFlow() = markersFlow
 
     override suspend fun insertRoute(route: RouteEntity): Long {
         val id = if (route.routeId != 0L) route.routeId else nextRouteId++

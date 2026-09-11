@@ -32,6 +32,7 @@ object MarkersAndRoutesDatabaseProvider {
         try {
             INSTANCE?.let { return it }
             return getDatabaseBuilder()
+                .addMigrations(MIGRATION_1_2)
                 .setDriver(BundledSQLiteDriver())
                 .setQueryCoroutineContext(Dispatchers.Default)
                 .build()

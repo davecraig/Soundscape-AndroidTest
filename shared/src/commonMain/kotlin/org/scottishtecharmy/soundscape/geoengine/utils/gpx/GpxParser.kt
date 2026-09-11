@@ -181,6 +181,7 @@ private fun readWaypoint(
     var desc = ""
     var ele: Double? = null
     var time: String? = null
+    var type: String? = null
 
     while (reader.hasNext()) {
         when (val t = reader.next()) {
@@ -189,6 +190,7 @@ private fun readWaypoint(
                 "desc" -> desc = reader.readTextContent("desc")
                 "ele" -> ele = reader.readTextContent("ele").toDoubleOrNull()
                 "time" -> time = reader.readTextContent("time")
+                "type" -> type = reader.readTextContent("type")
                 else -> reader.skipToEndTag(t.localName)
             }
 
@@ -196,7 +198,7 @@ private fun readWaypoint(
             is XmlToken.Text -> {}
         }
     }
-    return GpxWaypoint(lat, lon, name, desc, ele, time)
+    return GpxWaypoint(lat, lon, name, desc, ele, time, type)
 }
 
 private fun readRoute(reader: TokenReader): GpxRoute {

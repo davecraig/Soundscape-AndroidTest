@@ -63,6 +63,8 @@ private class FakeRouteDao : RouteDao {
     override suspend fun getAllMarkers(): List<MarkerEntity> = markersFlow.value
 
     override fun getAllMarkersFlow(): Flow<List<MarkerEntity>> = markersFlow
+    override suspend fun getUserMarkers(): List<MarkerEntity> = markersFlow.value
+    override fun getUserMarkersFlow(): Flow<List<MarkerEntity>> = markersFlow
 
     override suspend fun insertRoute(route: RouteEntity): Long {
         val id = if (route.routeId != 0L) route.routeId else nextRouteId++

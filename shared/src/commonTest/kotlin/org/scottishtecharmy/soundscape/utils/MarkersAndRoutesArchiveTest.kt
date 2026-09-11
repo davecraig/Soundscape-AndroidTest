@@ -1,6 +1,7 @@
 package org.scottishtecharmy.soundscape.utils
 
 import kotlinx.coroutines.test.runTest
+import org.scottishtecharmy.soundscape.database.local.model.MARKER_SOURCE_JOURNEY
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteMarkerCrossRef
@@ -39,6 +40,98 @@ class MarkersAndRoutesArchiveTest {
         assertEquals("scenic", route.route.description)
         assertEquals(listOf("Stop 1"), route.markers.map { it.name })
         assertEquals("A road", restored.getAllMarkers().first { it.name == "Stop 1" }.fullAddress)
+    }
+
+    /**
+     * A recorded journey's waypoints are route furniture, not the user's places: they are kept out
+     * of the Markers list and out of the callouts. Exporting and re-importing must not quietly
+     * promote them, or a user who backs up and restores gets thirty junctions announcing themselves
+     * for ever after.
+     */
+    @Test
+    fun recordedJourneyWaypointsStayOutOfTheUsersMarkersAcrossTheRoundTrip() = runTest {
+        val source = FakeRouteDao()
+        source.insertMarker(MarkerEntity(name = "Home", longitude = 3.0, latitude = 4.0))
+        source.insertRouteWithJourneyMarkers(
+            RouteEntity(name = "Journey to Milngavie", description = "journey:1757600000000"),
+            listOf(
+                MarkerEntity(
+                    name = "Turn left onto Roselea Drive",
+                    longitude = 1.0,
+                    latitude = 2.0,
+                    source = MARKER_SOURCE_JOURNEY,
+                    reverseDirection = "Turn right onto Beech Avenue",
+                ),
+                MarkerEntity(
+                    name = "Destination",
+                    longitude = 1.1,
+                    latitude = 2.1,
+                    source = MARKER_SOURCE_JOURNEY,
+                ),
+            ),
+        )
+
+        val restored = FakeRouteDao()
+        restoreMarkersAndRoutesArchive(buildMarkersAndRoutesArchive(source), restored)
+
+        assertEquals(listOf("Home"), restored.getUserMarkers().map { it.name })
+
+        val route = restored.getAllRoutesWithMarkers().single()
+        assertEquals(
+            listOf("Turn left onto Roselea Drive", "Destination"),
+            route.markers.map { it.name },
+        )
+        assertTrue(route.markers.all { it.source == MARKER_SOURCE_JOURNEY })
+    }
+
+    @Test
+    fun aRecordedRouteKeepsItsReverseInstructionsAcrossTheRoundTrip() = runTest {
+        val source = FakeRouteDao()
+        source.insertRouteWithJourneyMarkers(
+            RouteEntity(name = "Journey to Milngavie", description = "journey:1757600000000"),
+            listOf(
+                MarkerEntity(
+                    name = "Station Road and Strathblane Road",
+                    longitude = 1.0,
+                    latitude = 2.0,
+                    fullAddress = "Turn left",
+                    source = MARKER_SOURCE_JOURNEY,
+                    reverseDirection = "Turn right",
+                ),
+            ),
+        )
+
+        val restored = FakeRouteDao()
+        restoreMarkersAndRoutesArchive(buildMarkersAndRoutesArchive(source), restored)
+
+        val waypoint = restored.getAllRoutesWithMarkers().single().markers.single()
+        assertEquals("Station Road and Strathblane Road", waypoint.name)
+        assertEquals("Turn left", waypoint.fullAddress)
+        // Without this the route keeps its turns going out and loses every one coming back.
+        assertEquals("Turn right", waypoint.reverseDirection)
+    }
+
+    @Test
+    fun aWaypointFileFromAnotherToolStaysTheUsersOwnMarker() = runTest {
+        // <type> is a standard GPX element; other tools put their own values in it. Treating any
+        // of them as our source flag would hide the import from the Markers screen entirely.
+        val foreign = """<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="OsmAnd">
+  <metadata><name>Caches</name><desc></desc></metadata>
+  <wpt lat="2.0" lon="1.0">
+    <name>Old Oak</name>
+    <desc>by the gate</desc>
+    <type>Geocache|Traditional Cache</type>
+  </wpt>
+</gpx>"""
+
+        val dao = FakeRouteDao()
+        restoreMarkersAndRoutesArchive(listOf(NamedGpx("Caches.gpx", foreign)), dao)
+
+        val marker = dao.getUserMarkers().single()
+        assertEquals("Old Oak", marker.name)
+        assertNull(marker.source)
+        assertNull(marker.reverseDirection)
     }
 
     @Test

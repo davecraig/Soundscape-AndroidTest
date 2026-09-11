@@ -19,6 +19,7 @@ object MarkersAndRoutesDatabaseProvider {
     fun getInstance(context: Context): MarkersAndRoutesDatabase {
         return INSTANCE ?: synchronized(this) {
             INSTANCE ?: getDatabaseBuilder(context)
+                .addMigrations(MIGRATION_1_2)
                 .allowMainThreadQueries()
                 .build()
                 .also { INSTANCE = it }

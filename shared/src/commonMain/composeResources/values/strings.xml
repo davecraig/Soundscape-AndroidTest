@@ -384,6 +384,40 @@
     <string name="directions_name_goes_right">%1$s, goes right</string>
     <!-- Notification, %s street name, "<Pike Street>, continues ahead -->
     <string name="directions_name_continues_ahead">%1$s, continues ahead</string>
+    <!-- The instruction given at a waypoint recorded where a journey turned left. Spoken after the name of the junction, which is the waypoint's name, e.g. "Beacon set on Milngavie Road and Roselea Drive, turn left, 150 metres away" -->
+    <string name="journey_turn_left">Turn left</string>
+    <!-- As journey_turn_left, turning right -->
+    <string name="journey_turn_right">Turn right</string>
+    <!-- As journey_turn_left, for a gentler turn of 30-60 degrees -->
+    <string name="journey_bear_left">Bear left</string>
+    <!-- As journey_turn_left, for a gentler turn of 30-60 degrees -->
+    <string name="journey_bear_right">Bear right</string>
+    <!-- As journey_turn_left, for a turn of more than 120 degrees -->
+    <string name="journey_sharp_left">Sharp left</string>
+    <!-- As journey_turn_left, for a turn of more than 120 degrees -->
+    <string name="journey_sharp_right">Sharp right</string>
+    <!-- Spoken when the user asks to save their last journey but nothing has been travelled since they last stopped for a while, or since the app started -->
+    <string name="journey_nothing_to_save">There isn't a journey to save yet</string>
+    <!-- Drawer menu item which turns the journey the user has just travelled into a saved route -->
+    <string name="menu_save_last_journey">Save my last journey</string>
+    <!-- Settings switch which lets the app remember the journey being travelled so it can be saved as a route afterwards -->
+    <string name="settings_remember_journeys">Remember my journeys</string>
+    <!-- Description under settings_remember_journeys -->
+    <string name="settings_remember_journeys_description">Lets you turn a journey you have just made into a route. What you travelled is held only on this phone, and only until the app stops, unless you save it.</string>
+    <!-- Names a waypoint recorded at a junction, after the two roads that meet there. %1$s is the road being left and %2$s the road being joined, example: "Milngavie Road and Roselea Drive" -->
+    <string name="journey_junction_of">%1$s and %2$s</string>
+    <!-- Names a waypoint recorded at a junction where neither road has a name worth saying -->
+    <string name="journey_junction">Junction</string>
+    <!-- Names a waypoint recorded where a journey crossed a railway that has no name of its own -->
+    <string name="journey_railway_crossing">Railway crossing</string>
+    <!-- A route waypoint followed by the instruction for it, as RoutePlayer announces it. %1$s is the waypoint name and %2$s the instruction, example: "Milngavie Road and Roselea Drive, turn left" -->
+    <string name="journey_waypoint_with_direction">%1$s, %2$s</string>
+    <!-- The name given to the first waypoint of a route made from a recorded journey, when the place it started from could not be named -->
+    <string name="journey_start">Journey start</string>
+    <!-- The name given to the last waypoint of a route made from a recorded journey, when the destination could not be named -->
+    <string name="journey_end">Destination</string>
+    <!-- The name given to a route made from a recorded journey. %1$s is the place the journey ended, example: "Journey to Milngavie" -->
+    <string name="journey_route_name">Journey to %1$s</string>
     <!-- Notification orientation, ahead. Used as the direction name in sentences such as "<Pike Street>, <ahead>". -->
     <string name="directions_direction_ahead">ahead</string>
     <!-- Notification announced to the user that they are near a location that is near a settlement. The settlement is the nearest by distance, but isn't necessarily the one that the road is actually in. %1$@ is a road name and %2$@ is a settlement name, example: "Near Glasgow Road and close to Milngavie" -->
@@ -574,6 +608,11 @@
     <string name="directions_cardinal_north_west_bound">Northwestbound</string>
     <!-- Standing still with no direction. %s is a road name -->
     <string name="stationary_on_way">Not moving on %1$s</string>
+    <!-- Spoken after saving a route recorded from a journey. %1$s is the route name and %2$s the number of waypoints, example: "Saved Journey to Milngavie, 12 waypoints" -->
+    <plurals name="journey_saved">
+        <item quantity="one">Saved %1$s, %2$s waypoint</item>
+        <item quantity="other">Saved %1$s, %2$s waypoints</item>
+    </plurals>
     <!-- Preserve meters unit - Do not convert but can translate. Distance string. %s is a number, "15 meters". The singular form is only ever used for exactly 1. -->
     <plurals name="distance_format_meters">
         <item quantity="one">%1$s meter</item>

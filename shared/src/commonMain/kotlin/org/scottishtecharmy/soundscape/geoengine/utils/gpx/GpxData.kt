@@ -19,6 +19,13 @@ data class GpxWaypoint(
     val desc: String = "",
     val ele: Double? = null,
     val time: String? = null,
+    /**
+     * GPX's own <type> element, which Soundscape uses to carry MarkerEntity.source through an
+     * export and back - without it, exporting and re-importing a recorded journey would turn every
+     * silent waypoint into a marker that announces itself. Other GPX tools ignore a value they
+     * don't recognise, and a file from anywhere else simply has no <type>.
+     */
+    val type: String? = null,
 )
 
 data class GpxRoute(

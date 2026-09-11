@@ -224,6 +224,7 @@ fun SharedNavHost(
                     rateSoundscape = callbacks.onRateApp,
                     contactSupport = callbacks.onContactSupport,
                     shareRecording = callbacks.onShareRecording,
+                    saveLastJourney = callbacks.onSaveLastJourney,
                     exitApp = callbacks.onExitApp,
                     toggleTutorial = callbacks.onToggleAudioTour,
                     tutorialRunning = audioTourRunning,

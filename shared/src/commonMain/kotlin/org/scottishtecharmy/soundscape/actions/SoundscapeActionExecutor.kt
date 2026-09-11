@@ -7,7 +7,9 @@ import org.scottishtecharmy.soundscape.database.local.dao.RouteDao
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
 import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
+import org.scottishtecharmy.soundscape.i18n.PluralKey
 import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.intents.bestMarkerMatch
 import org.scottishtecharmy.soundscape.intents.bestRouteMatch
@@ -102,6 +104,22 @@ class SoundscapeActionExecutor(
             ActionResult.Ok(strings.get(StringKey.ActionRouteStopped))
         }
 
+        SoundscapeAction.SaveLastJourney -> when (val saved = service.saveLastJourney()) {
+            is JourneySaveResult.Saved -> ActionResult.Ok(
+                strings.getPlural(
+                    PluralKey.JourneySaved,
+                    saved.waypointCount,
+                    saved.name,
+                    saved.waypointCount.toString(),
+                )
+            )
+
+            JourneySaveResult.NoJourney -> notReady(
+                ActionResult.Reason.NO_JOURNEY_TO_SAVE,
+                StringKey.JourneyNothingToSave,
+            )
+        }
+
         SoundscapeAction.NextWaypoint ->
             if (service.routeSkipNext()) ActionResult.Ok()
             else skipRefused(service, ActionResult.Reason.AT_ROUTE_END, StringKey.ActionAtRouteEnd)
@@ -126,7 +144,7 @@ class SoundscapeActionExecutor(
                 ?: itemNotFound()
 
         is SoundscapeAction.BeaconOnMarkerNamed -> {
-            val markers = routeDao.getAllMarkers()
+            val markers = routeDao.getUserMarkers()
             if (markers.isEmpty()) {
                 notReady(ActionResult.Reason.NO_MARKERS_SAVED, StringKey.ActionNoMarkersSaved)
             } else {
@@ -153,7 +171,7 @@ class SoundscapeActionExecutor(
     }
 
     private suspend fun listMarkers(): ActionResult {
-        val markers = routeDao.getAllMarkers()
+        val markers = routeDao.getUserMarkers()
         return if (markers.isEmpty()) {
             notReady(ActionResult.Reason.NO_MARKERS_SAVED, StringKey.ActionNoMarkersSaved)
         } else {

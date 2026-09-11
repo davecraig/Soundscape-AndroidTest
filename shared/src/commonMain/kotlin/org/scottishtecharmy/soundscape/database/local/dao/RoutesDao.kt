@@ -30,11 +30,35 @@ interface RouteDao {
     @Query("SELECT * FROM markers WHERE latitude = :latitude AND longitude = :longitude")
     suspend fun getMarkerByLocation(longitude: Double, latitude: Double): MarkerEntity?
 
+    /**
+     * Every marker, including the waypoints derived from recorded journeys.
+     *
+     * Almost nothing wants this - see [getUserMarkers]. It is here for wiping the database and for
+     * asking whether there is anything in it at all.
+     */
     @Query("SELECT * FROM markers")
     suspend fun getAllMarkers(): List<MarkerEntity>
 
+    /** As [getAllMarkers]; see [getUserMarkersFlow] for what almost everything should use instead. */
     @Query("SELECT * FROM markers")
     fun getAllMarkersFlow(): Flow<List<MarkerEntity>>
+
+    /**
+     * The markers the user saved themselves, which is what "my markers" means everywhere it is
+     * shown or spoken.
+     *
+     * A route recorded from a journey leaves a waypoint at every turn along it. Those are route
+     * furniture: they are not places the user chose, and they must not be announced when walking
+     * past them off-route, nor listed among the handful of places they did choose. So the marker
+     * tree, the Markers screen and the waypoint picker all read markers through here, and only
+     * a marker with no [MarkerEntity.source] counts.
+     */
+    @Query("SELECT * FROM markers WHERE source IS NULL")
+    suspend fun getUserMarkers(): List<MarkerEntity>
+
+    /** The flow behind [getUserMarkers]. */
+    @Query("SELECT * FROM markers WHERE source IS NULL")
+    fun getUserMarkersFlow(): Flow<List<MarkerEntity>>
 
     // --- Route Operations ---
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -152,6 +176,11 @@ interface RouteDao {
             val routeId = insertRoute(route)
             markers.forEachIndexed { index, marker ->
                 val existingMarker = getMarkerByLocation(marker.longitude, marker.latitude)
+                    // A waypoint recorded from a journey is never merged with one of the user's
+                    // own places, in either direction. It would inherit the wrong name - losing
+                    // its turn instruction, or gaining one - and a silent waypoint merged into a
+                    // saved marker would start announcing itself. See MarkerEntity.source.
+                    ?.takeIf { it.source == marker.source }
                 val markerId = existingMarker?.markerId ?: insertMarker(marker)
                 addMarkerToRoute(RouteMarkerCrossRef(routeId, markerId, index))
             }
@@ -159,5 +188,26 @@ interface RouteDao {
         } else {
             return duplicateId
         }
+    }
+
+    /**
+     * Insert a route recorded from a journey, always creating its own markers.
+     *
+     * Deliberately not [insertRouteWithNewMarkers]: that reuses any marker already at exactly the
+     * same coordinates, which is right for hand-built routes sharing the user's saved places and
+     * wrong here twice over. A journey waypoint would inherit the name of whatever the user had
+     * saved at that junction, losing its turn instruction; and two journeys turning *different*
+     * ways at one junction would share a marker, so one of them would recite the other's turn.
+     */
+    @Transaction
+    suspend fun insertRouteWithJourneyMarkers(
+        route: RouteEntity,
+        markers: List<MarkerEntity>
+    ): Long {
+        val routeId = insertRoute(route)
+        markers.forEachIndexed { index, marker ->
+            addMarkerToRoute(RouteMarkerCrossRef(routeId, insertMarker(marker), index))
+        }
+        return routeId
     }
 }

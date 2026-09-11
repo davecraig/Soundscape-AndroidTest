@@ -48,5 +48,5 @@ suspend fun resolveRouteByName(routeDao: RouteDao, name: String): Long? {
  */
 suspend fun resolveMarkerByName(routeDao: RouteDao, name: String): MarkerEntity? {
     if (name.isBlank()) return null
-    return routeDao.getAllMarkers().bestMarkerMatch(name)
+    return routeDao.getUserMarkers().bestMarkerMatch(name)
 }

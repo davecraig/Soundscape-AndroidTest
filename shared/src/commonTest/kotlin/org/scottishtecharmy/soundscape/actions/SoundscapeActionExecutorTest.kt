@@ -12,6 +12,7 @@ import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteMarkerCrossRef
 import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
 import org.scottishtecharmy.soundscape.geoengine.GridState
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
@@ -40,8 +41,10 @@ private class FakeLocalizedStrings : LocalizedStrings {
 
     override fun getOrNull(key: StringKey, vararg args: Any?): String? = get(key, *args)
 
+    // Echoes the arguments as well as the quantity, so a test can tell that the right things were
+    // passed and not just the right key.
     override fun getPlural(key: PluralKey, quantity: Int, vararg args: Any?): String =
-        "$key($quantity)"
+        "$key(q=$quantity, ${args.joinToString(", ")})"
 
     override fun resolveFeatureClass(key: String): String? = null
 }
@@ -67,6 +70,8 @@ private class FakeRouteDao(
         unused()
 
     override fun getAllMarkersFlow(): Flow<List<MarkerEntity>> = unused()
+    override suspend fun getUserMarkers(): List<MarkerEntity> = markers
+    override fun getUserMarkersFlow(): Flow<List<MarkerEntity>> = unused()
     override suspend fun insertRoute(route: RouteEntity): Long = unused()
     override suspend fun addMarkerToRoute(crossRef: RouteMarkerCrossRef): Unit = unused()
     override suspend fun removeMarkerFromRoute(routeId: Long, markerId: Long): Unit = unused()
@@ -88,6 +93,14 @@ private class FakeRouteDao(
  */
 private class FakeService : MediaControllableService {
     val calls = mutableListOf<String>()
+
+    /** What saveLastJourney reports back. Defaults to there being nothing to save. */
+    var journeySaveResult: JourneySaveResult = JourneySaveResult.NoJourney
+
+    override suspend fun saveLastJourney(): JourneySaveResult {
+        calls += "saveLastJourney"
+        return journeySaveResult
+    }
 
     val locationFlowState = MutableStateFlow<SoundscapeLocation?>(SoundscapeLocation())
     override val locationFlow: StateFlow<SoundscapeLocation?> = locationFlowState
@@ -347,6 +360,33 @@ class SoundscapeActionExecutorTest {
         assertIs<ActionResult.NotFound>(result)
         assertEquals("ActionItemNotFound()", result.speech)
         assertTrue(service.routeStartCalls.isEmpty())
+    }
+
+    @Test
+    fun saveLastJourney_confirmsWithTheRouteNameAndHowManyWaypoints() = runTest {
+        val service = FakeService()
+        service.journeySaveResult = JourneySaveResult.Saved(
+            routeId = 7,
+            name = "Journey to Milngavie",
+            waypointCount = 12,
+            distanceMetres = 1800.0,
+            destination = "Milngavie Station",
+        )
+
+        val result = executor(service).execute(SoundscapeAction.SaveLastJourney)
+
+        assertIs<ActionResult.Ok>(result)
+        assertEquals("JourneySaved(q=12, Journey to Milngavie, 12)", result.speech)
+        assertContentEquals(listOf("saveLastJourney"), service.calls)
+    }
+
+    @Test
+    fun saveLastJourney_saysSoWhenThereIsNothingToSave() = runTest {
+        val service = FakeService()
+        val result = executor(service).execute(SoundscapeAction.SaveLastJourney)
+
+        val notReady = assertIs<ActionResult.NotReady>(result)
+        assertEquals(ActionResult.Reason.NO_JOURNEY_TO_SAVE, notReady.reason)
     }
 
     @Test

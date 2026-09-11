@@ -303,6 +303,8 @@ private class FakeRouteDao(private val failInsert: Boolean = false) : RouteDao {
 
     override suspend fun getAllMarkers(): List<MarkerEntity> = markersById.values.toList()
     override fun getAllMarkersFlow(): Flow<List<MarkerEntity>> = flowOf(emptyList())
+    override suspend fun getUserMarkers(): List<MarkerEntity> = markersById.values.toList()
+    override fun getUserMarkersFlow(): Flow<List<MarkerEntity>> = flowOf(emptyList())
     override suspend fun insertRoute(route: RouteEntity): Long = nope()
     override suspend fun addMarkerToRoute(crossRef: RouteMarkerCrossRef) = nope()
     override suspend fun removeMarkerFromRoute(routeId: Long, markerId: Long) = nope()

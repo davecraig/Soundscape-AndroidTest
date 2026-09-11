@@ -39,6 +39,7 @@ enum class PluralKey {
     DistanceKm,
     DistanceMiles,
     DistanceKmA11y,
+    JourneySaved,
 }
 
 enum class StringKey {
@@ -58,6 +59,20 @@ enum class StringKey {
     DirectionsNameGoesLeft,
     DirectionsNameGoesRight,
     DirectionsNameContinuesAhead,
+    JourneyTurnLeft,
+    JourneyTurnRight,
+    JourneyBearLeft,
+    JourneyBearRight,
+    JourneySharpLeft,
+    JourneySharpRight,
+    JourneyJunctionOf,
+    JourneyJunction,
+    JourneyRailwayCrossing,
+    JourneyWaypointWithDirection,
+    JourneyStart,
+    JourneyEnd,
+    JourneyRouteName,
+    JourneyNothingToSave,
     BytesFormatB,
     BytesFormatBA11y,
     BytesFormatKb,

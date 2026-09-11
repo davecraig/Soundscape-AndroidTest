@@ -19,6 +19,9 @@ import org.scottishtecharmy.soundscape.geoengine.callouts.buildWhatsAroundMeCall
 import org.scottishtecharmy.soundscape.geoengine.filters.MapMatchFilter
 import org.scottishtecharmy.soundscape.geoengine.filters.RailMatchArbiter
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneyRecorder
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaveResult
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneySaver
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.nameKeysForLanguage
@@ -147,6 +150,14 @@ class GeoEngine {
     }
 
     private val streetPreview = StreetPreview()
+
+    /**
+     * The rolling account of the journey the user is on, which they can afterwards turn into a
+     * Route. Owned here rather than injected by the platform (as locationRecorder is) because it
+     * needs nothing platform-specific, and because the grid and the localized strings it records
+     * with are both already here.
+     */
+    val journeyRecorder = JourneyRecorder()
 
     var phoneHeldFlat = false
     var lastPhoneHeading: Double? = null
@@ -298,6 +309,10 @@ class GeoEngine {
             PreferenceKeys.RECORD_TRAVEL,
             PreferenceDefaults.RECORD_TRAVEL
         )
+        journeyRecorder.enabled = preferencesProvider.getBoolean(
+            PreferenceKeys.REMEMBER_JOURNEYS,
+            PreferenceDefaults.REMEMBER_JOURNEYS
+        )
         updateMeasurementUnits(preferencesProvider)
 
         preferencesListener = PreferencesListener { key ->
@@ -306,6 +321,12 @@ class GeoEngine {
                 recordTravel = preferencesProvider.getBoolean(
                     PreferenceKeys.RECORD_TRAVEL,
                     PreferenceDefaults.RECORD_TRAVEL
+                )
+            } else if (key == PreferenceKeys.REMEMBER_JOURNEYS) {
+                // Turning it off drops whatever is held, which is the point of the switch.
+                journeyRecorder.enabled = preferencesProvider.getBoolean(
+                    PreferenceKeys.REMEMBER_JOURNEYS,
+                    PreferenceDefaults.REMEMBER_JOURNEYS
                 )
             } else if (key == PreferenceKeys.MEASUREMENT_UNITS) {
                 updateMeasurementUnits(preferencesProvider)
@@ -334,6 +355,7 @@ class GeoEngine {
         tileSearch = TileSearch(offlineExtractPath, gridState, settlementGrid)
 
         autoCallout = AutoCallout(localizedStrings, preferencesProvider)
+        autoCallout.journeyRecorder = journeyRecorder
 
         val photonGeocoder = PhotonGeocoder(
             photonSearch = photonSearch,
@@ -378,7 +400,7 @@ class GeoEngine {
 
         markerMonitoringJob?.cancel()
         markerMonitoringJob = coroutineScope.launch {
-            routeDao.getAllMarkersFlow().collect { markers ->
+            routeDao.getUserMarkersFlow().collect { markers ->
                 val featureCollection = FeatureCollection()
                 for (marker in markers) {
                     val geoFeature = MvtFeature()
@@ -533,6 +555,20 @@ class GeoEngine {
                                 // to be got off at.
                                 arbitratedRailway = railMatchArbiter.update(
                                     mapMatchFilter, railMapMatchFilter, unfilteredSpeed
+                                )
+
+                                // Recording the journey happens here, and not down beside the
+                                // auto callout below, for three reasons: it's after the accuracy
+                                // gate, so fixes too poor to place never produce phantom turns;
+                                // it's outside the isAudioEngineBusy/menuActive guard, so a turn
+                                // taken while a callout is playing or the audio menu is open is
+                                // still recorded; and the map matchers have just run, so the
+                                // geometry carries this fix's matched Way. It also needs the tree
+                                // context it's already inside - see JourneyRecorder.onLocation.
+                                journeyRecorder.onLocation(
+                                    getCurrentUserGeometry(UserGeometry.HeadingMode.CourseAuto),
+                                    gridState,
+                                    localizedStrings
                                 )
                             }
                         }
@@ -764,6 +800,30 @@ class GeoEngine {
                 ignoreHouseNumbers = false
             )
         }
+    }
+
+    /**
+     * Turn the journey the user has just travelled into a saved Route.
+     *
+     * The snapshot has to be taken on the tree context, which is where the recorder is written
+     * from. Naming the two ends is the only work left: everything along the way was named as the
+     * journey happened, because the Ways those names came from are long out of the grid by now.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    suspend fun saveLastJourney(routeDao: RouteDao, dateStamp: String): JourneySaveResult {
+        val events = withContext(gridState.treeContext) { journeyRecorder.snapshot() }
+        val result = JourneySaver(routeDao, localizedStrings).save(
+            events,
+            nameFor = { point -> getOfflineAddress(point)?.name?.takeIf { it.isNotBlank() } },
+            dateStamp = dateStamp,
+        )
+        if (result is JourneySaveResult.Saved) {
+            // The journey has been saved, so it is no longer the one to save. Someone who missed
+            // the spoken confirmation - headphones out, speech interrupted - would otherwise ask
+            // again and get a second identical route, and a second full set of markers with it.
+            withContext(gridState.treeContext) { journeyRecorder.clear() }
+        }
+        return result
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

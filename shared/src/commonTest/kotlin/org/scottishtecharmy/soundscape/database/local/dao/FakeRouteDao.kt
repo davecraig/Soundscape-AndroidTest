@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape.database.local.dao
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteMarkerCrossRef
@@ -20,7 +21,10 @@ internal class FakeRouteDao : RouteDao {
 
     override suspend fun insertMarker(marker: MarkerEntity): Long {
         val id = if (marker.markerId != 0L) marker.markerId else nextMarkerId++
-        val stored = MarkerEntity(id, marker.name, marker.longitude, marker.latitude, marker.fullAddress)
+        val stored = MarkerEntity(
+            id, marker.name, marker.longitude, marker.latitude, marker.fullAddress,
+            marker.source, marker.reverseDirection,
+        )
         markersFlow.value = markersFlow.value.filterNot { it.markerId == id } + stored
         return id
     }
@@ -38,6 +42,12 @@ internal class FakeRouteDao : RouteDao {
     override suspend fun getAllMarkers(): List<MarkerEntity> = markersFlow.value
 
     override fun getAllMarkersFlow(): Flow<List<MarkerEntity>> = markersFlow
+
+    override suspend fun getUserMarkers(): List<MarkerEntity> =
+        markersFlow.value.filter { it.source == null }
+
+    override fun getUserMarkersFlow(): Flow<List<MarkerEntity>> =
+        markersFlow.map { markers -> markers.filter { it.source == null } }
 
     override suspend fun insertRoute(route: RouteEntity): Long {
         val id = if (route.routeId != 0L) route.routeId else nextRouteId++

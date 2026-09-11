@@ -7,8 +7,10 @@ import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.Earcons
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.PositionedString
+import org.scottishtecharmy.soundscape.geoengine.TextForFeature
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
+import org.scottishtecharmy.soundscape.geoengine.journey.JourneyRecorder
 import org.scottishtecharmy.soundscape.geoengine.LastStationTracker
 import org.scottishtecharmy.soundscape.geoengine.NotableVehicleEventTracker
 import org.scottishtecharmy.soundscape.geoengine.describeReverseGeocode
@@ -59,6 +61,18 @@ class AutoCallout(
         )
     }
 ) {
+    /**
+     * Told about each named place as it is announced, so that a journey can afterwards be turned
+     * into a route with the places passed along it as waypoints.
+     *
+     * Reported from the individual builders rather than from [updateLocation]'s return value
+     * because that merges several callouts into one object's positionedStrings and throws the
+     * others away - a landmark that fires alongside a road-sense callout would never be seen.
+     * Only the builders that name a *place* report: a road description, a crossing, an
+     * intersection or a tunnel is not somewhere a beacon can be put.
+     */
+    var journeyRecorder: JourneyRecorder? = null
+
     private val destinationFilter = LocationUpdateFilter(60000, 10.0)
     private val locationFilter = LocationUpdateFilter(10000, 50.0)
     private val poiFilter = LocationUpdateFilter(5000, 5.0)
@@ -360,6 +374,7 @@ class AutoCallout(
         // positionedStrings when both fire on the same update - see updateLocation.
         vehicleLandmarkCalloutHistory.add(callout)
         notableVehicleEventTracker.recordEvent(userGeometry.timestampMilliseconds)
+        recordJourneyLandmark(name.text, userGeometry)
         return callout
     }
 
@@ -373,6 +388,14 @@ class AutoCallout(
     // is passed rarely enough that nobody needs it switched off, whereas these two are what make
     // an urban street or a bus route noisy.
     private val busAndTramStopValues = setOf("bus_stop", "tram_stop")
+
+    /**
+     * The transit kinds that make a waypoint worth recording on a journey. The same list
+     * MvtFeature.getText treats as named transit, so a stop that reads as one in a callout is one
+     * here too.
+     */
+    private val transitStopValues =
+        setOf("bus_stop", "tram_stop", "station", "subway", "ferry_terminal")
 
     /**
      * The "Mobility" callout setting.
@@ -491,7 +514,54 @@ class AutoCallout(
         if (alongWayCalloutHistory.find(callout)) return null
         alongWayCalloutHistory.add(callout)
         notableVehicleEventTracker.recordEvent(userGeometry.timestampMilliseconds)
+        recordJourneyLandmark(calloutText, userGeometry)
         return callout
+    }
+
+    /**
+     * A place worth remembering as a waypoint has just been announced.
+     *
+     * The *user's* position is recorded, not the feature's. A transit stop is announced 100m ahead
+     * and a vehicle landmark up to 150m away, so the feature's own position would put a replaying
+     * user's beacon off the road, aimed at something they only went past. "You passed X here" is
+     * what a route wants.
+     */
+    private fun recordJourneyLandmark(name: String, userGeometry: UserGeometry) {
+        val recorder = journeyRecorder ?: return
+        val where = userGeometry.mapMatchedLocation?.point ?: userGeometry.location
+        recorder.onLandmark(name, where, userGeometry.timestampMilliseconds)
+    }
+
+    /**
+     * As [recordJourneyLandmark], but for a callout whose text may be a generic description of a
+     * kind of thing ("Crossing", "Bicycle repair station") rather than the name of a place. Those
+     * are worth saying as you pass them and useless as route waypoints - a route reading "Crossing,
+     * Crossing, Bicycle repair station" tells you nothing about where you are.
+     */
+    private fun recordJourneyLandmark(
+        name: TextForFeature,
+        userGeometry: UserGeometry,
+    ) {
+        if (name.generic) return
+        recordJourneyLandmark(name.text, userGeometry)
+    }
+
+    /**
+     * Whether a POI announced in passing is worth keeping as a route waypoint.
+     *
+     * Almost everything called out while walking is worth hearing and not worth navigating by. A
+     * route that reads "Vape City, Black Sheep Coffee, WHSmith, Pret A Manger" - which is what a
+     * walk up Buchanan Street produced - says nothing about where anyone is. What does is the
+     * things you could find again without seeing them: the park, the church, the station, the
+     * supermarket ([SuperCategoryId.LANDMARK]), and the stops.
+     *
+     * Markers are excluded because they are already the user's own saved places; recording one
+     * would put a second copy of it in the database.
+     */
+    private fun worthRememberingAsAWaypoint(feature: MvtFeature): Boolean = when {
+        feature.superCategory == SuperCategoryId.MARKER -> false
+        feature.superCategory == SuperCategoryId.LANDMARK -> true
+        else -> feature.featureValue in transitStopValues
     }
 
     /**
@@ -749,9 +819,36 @@ class AutoCallout(
             val callout = crossingCallout(userGeometry, crossing)
             if (alongWayCalloutHistory.find(callout)) continue
             alongWayCalloutHistory.add(callout)
+            recordJourneyCrossing(crossing, userGeometry)
             return callout
         }
         return null
+    }
+
+    /**
+     * A river or a railway crossed on the way is a waypoint worth having: it is a landmark you
+     * can't miss and can't mistake for another, which is exactly what makes it useful to navigate
+     * by without seeing it.
+     *
+     * Road crossings are left out. They are frequent, they are unremarkable, and a route made of
+     * them would be a list of kerbs rather than of places.
+     *
+     * The crossing's own name is recorded rather than the callout's wording - "Allander Water", not
+     * "Passing over Allander Water", which reads oddly as the name of somewhere to walk to.
+     */
+    private fun recordJourneyCrossing(crossing: WayCrossingInfo, userGeometry: UserGeometry) {
+        val recorder = journeyRecorder ?: return
+        val name = when (crossing.kind) {
+            AlongWayKind.WATERWAY_CROSSING -> crossing.name ?: return
+            AlongWayKind.RAILWAY_CROSSING -> crossing.name
+                ?: localized?.get(StringKey.JourneyRailwayCrossing)
+                ?: "Railway crossing"
+
+            else -> return
+        }
+        // The crossing's own position, not the user's: unlike a shop announced in passing, this is
+        // a point on the path itself, and it is where the route wants its beacon.
+        recorder.onLandmark(name, crossing.point, userGeometry.timestampMilliseconds)
     }
 
     /**
@@ -1255,6 +1352,9 @@ class AutoCallout(
                                 }
                             }
                             poiCalloutHistory.add(callout)
+                            if (worthRememberingAsAWaypoint(feature)) {
+                                recordJourneyLandmark(name, userGeometry)
+                            }
                             return callout
                         } else {
                             true

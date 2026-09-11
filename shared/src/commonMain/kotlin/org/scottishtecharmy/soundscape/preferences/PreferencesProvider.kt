@@ -52,6 +52,7 @@ object PreferenceKeys {
     const val SELECTED_TTS_VOICE_ID = "SelectedTtsVoiceId"
 
     const val RECORD_TRAVEL = "RecordTravel"
+    const val REMEMBER_JOURNEYS = "RememberJourneys"
     const val MEASUREMENT_UNITS = "MeasurementUnits"
     const val SEARCH_LANGUAGE = "SearchLanguage"
     const val SELECTED_STORAGE = "SelectedStorage"
@@ -87,6 +88,7 @@ object PreferenceDefaults {
     const val SELECTED_TTS_VOICE_ID = ""
 
     const val RECORD_TRAVEL = false
+    const val REMEMBER_JOURNEYS = true
     const val MEASUREMENT_UNITS = "Auto"
     const val SEARCH_LANGUAGE = "auto"
     const val SELECTED_STORAGE = ""
