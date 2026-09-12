@@ -40,20 +40,28 @@ class JourneySaver(
     /**
      * @param events everything the recorder holds, from JourneyRecorder.snapshot()
      * @param nameFor names a point - the platform's reverse geocoder - or returns null
+     * @param endedAt where the user is now, or null to fall back to the last point recorded
      * @param dateStamp a human-readable date for the fallback route name
      */
     suspend fun save(
         events: List<JourneyEvent>,
         nameFor: suspend (LngLatAlt) -> String?,
+        endedAt: LngLatAlt? = null,
         dateStamp: String,
     ): JourneySaveResult {
         val journey = JourneySegmenter.lastJourney(events) ?: return JourneySaveResult.NoJourney
 
         val anchors = journey.filterIsInstance<JourneyEvent.Anchor>()
         val startName = nameFor(anchors.first().location)
-        val endName = nameFor(anchors.last().location)
 
-        val waypoints = JourneyToRoute.waypoints(journey, strings, startName, endName)
+        // Where they are standing, not the last anchor: those are laid down every hundred metres,
+        // so the journey's real end is usually past the last of them - and it is the arriving that
+        // the user wants a beacon on next time.
+        val endLocation = endedAt ?: anchors.last().location
+        val endName = nameFor(endLocation)
+
+        val waypoints =
+            JourneyToRoute.waypoints(journey, strings, startName, endName, endLocation)
         if (waypoints.size < 2) return JourneySaveResult.NoJourney
 
         val routeName = routeName(endName, journey, dateStamp)

@@ -124,11 +124,12 @@ class JourneySaverTest {
         // Identical in every way a route is compared by - RouteEntity.equals is name and
         // description only - except when they happened.
         val first = assertIs<JourneySaveResult.Saved>(saver(dao).saveNamed(aJourney()))
-        val later = aJourney().map {
+        val later: List<JourneyEvent> = aJourney().map {
             when (it) {
                 is JourneyEvent.Anchor -> it.copy(timestampMillis = it.timestampMillis + 3_600_000L)
                 is JourneyEvent.Turn -> it.copy(timestampMillis = it.timestampMillis + 3_600_000L)
                 is JourneyEvent.Landmark -> it.copy(timestampMillis = it.timestampMillis + 3_600_000L)
+                is JourneyEvent.Alighting -> it.copy(timestampMillis = it.timestampMillis + 3_600_000L)
             }
         }
         val second = assertIs<JourneySaveResult.Saved>(saver(dao).saveNamed(later))

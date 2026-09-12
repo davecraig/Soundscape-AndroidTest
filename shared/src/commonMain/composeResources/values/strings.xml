@@ -412,6 +412,8 @@
     <string name="journey_railway_crossing">Railway crossing</string>
     <!-- A route waypoint followed by the instruction for it, as RoutePlayer announces it. %1$s is the waypoint name and %2$s the instruction, example: "Milngavie Road and Roselea Drive, turn left" -->
     <string name="journey_waypoint_with_direction">%1$s, %2$s</string>
+    <!-- Names the single waypoint a bus, train or car leg of a recorded journey leaves behind - where the user got off and carried on walking - when the stop itself could not be named -->
+    <string name="journey_end_of_ride">Where you continued on foot</string>
     <!-- The name given to the first waypoint of a route made from a recorded journey, when the place it started from could not be named -->
     <string name="journey_start">Journey start</string>
     <!-- The name given to the last waypoint of a route made from a recorded journey, when the destination could not be named -->

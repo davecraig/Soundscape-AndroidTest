@@ -19,6 +19,7 @@ import org.scottishtecharmy.soundscape.geoengine.ProtomapsGridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.callouts.AutoCallout
+import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.geoengine.journey.JourneyEvent
 import org.scottishtecharmy.soundscape.geoengine.journey.JourneyRecorder
 import org.scottishtecharmy.soundscape.geoengine.journey.JourneySegmenter
@@ -4082,7 +4083,8 @@ class MvtTileTest {
         gpxFilename: String,
         calloutFilename: String,
         geojsonFilename: String,
-        journeyFilename: String? = null,
+        /** Root for the journey's own two outputs: "<root>.txt" to read and "<root>.geojson" to look at. */
+        journeyFileRoot: String? = null,
     ) {
 
         val gridState = FileGridState()
@@ -4110,6 +4112,10 @@ class MvtTileTest {
         val enabledCategories = mutableSetOf<String>()
         enabledCategories.add(PLACES_AND_LANDMARKS_KEY)
         enabledCategories.add(MOBILITY_KEY)
+
+        // The fixes the recorder was given, in order - the track the waypoints below came out of.
+        // Only the ones that got past the accuracy gate, since those are the ones it saw.
+        val journeyTrack = arrayListOf<LngLatAlt>()
 
         val markers = FeatureCollection()
         val marker = MvtFeature()
@@ -4231,6 +4237,7 @@ class MvtTileTest {
                 // Add raw GPS too
                 position.properties?.set("index", index + startIndex)
                 collection.addFeature(position)
+                journeyTrack.add(LngLatAlt(location.longitude, location.latitude))
 
                 val timestamp = (position.properties?.get("time") as? Double?)?.toLong()
                     ?: fallbackTime
@@ -4289,7 +4296,7 @@ class MvtTileTest {
         }
         callOutText.close()
 
-        journeyFilename?.let { writeJourneyReport(it, journeyRecorder, collection) }
+        journeyFileRoot?.let { writeJourneyReport(it, journeyRecorder, journeyTrack) }
 
         val adapter = GeoJsonObjectMoshiAdapter()
         val mapMatchingOutput = FileOutputStream(geojsonFilename)
@@ -4298,18 +4305,20 @@ class MvtTileTest {
     }
 
     /**
-     * Writes what the journey recorder made of a replayed GPX, and adds the resulting waypoints to
-     * the emitted geojson so they can be eyeballed against the track on geojson.io.
+     * Writes what the journey recorder made of a replayed GPX: "<root>.txt" to read, and
+     * "<root>.geojson" to open on geojson.io - the track that was travelled, with a large labelled
+     * marker on each waypoint the route ended up with.
      *
      * This is the tuning harness for every threshold in the journey package. The numbers in
      * TurnDetector and JourneyToRoute are guesses until they have been read against real journeys,
      * so the report is written to be read by a person rather than asserted on: what matters is
-     * whether the list of instructions is one you could actually follow.
+     * whether the list of instructions is one you could actually follow, and whether the markers
+     * land where you would want a beacon.
      */
     private fun writeJourneyReport(
-        filename: String,
+        fileRoot: String,
         recorder: JourneyRecorder,
-        collection: FeatureCollection,
+        track: ArrayList<LngLatAlt>,
     ) {
         val events = recorder.snapshot()
         val journey = JourneySegmenter.lastJourney(events)
@@ -4322,9 +4331,12 @@ class MvtTileTest {
         report.append("${landmarks.size} landmarks\n")
         report.append("Travelled: ${JourneySegmenter.travelledMetres(events).toInt()}m\n")
 
+        val map = FeatureCollection()
+        addTrack(map, track)
+
         if (journey == null) {
             report.append("\nNo journey worth saving.\n")
-            FileOutputStream(filename).use { it.write(report.toString().toByteArray()) }
+            writeJourneyFiles(fileRoot, report, map)
             return
         }
 
@@ -4346,23 +4358,97 @@ class MvtTileTest {
             val here = waypoint.getLngLatAlt()
             val gap = previous?.let { ruler?.distance(it, here)?.toInt() }
             previous = here
+
             report.append("\t${index + 1}. ${waypoint.name}")
             if (waypoint.fullAddress.isNotBlank()) report.append(" - ${waypoint.fullAddress}")
             if (gap != null) report.append("   (+${gap}m)")
             waypoint.reverseDirection?.let { report.append("   [reverse: $it]") }
             report.append("\n")
 
-            val feature = Feature()
-            feature.geometry = Point(here)
-            feature.properties = HashMap<String, Any?>().apply {
-                set("waypoint", index + 1)
-                set("name", waypoint.name)
-                set("marker-color", if (waypoint.reverseDirection != null) "#ff0000" else "#0000ff")
-            }
-            collection.addFeature(feature)
+            addWaypoint(map, waypoint, index, waypoints.size, gap)
         }
 
-        FileOutputStream(filename).use { it.write(report.toString().toByteArray()) }
+        writeJourneyFiles(fileRoot, report, map)
+    }
+
+    /**
+     * The fixes the recorder saw, as one line, so the waypoints can be read against the path.
+     *
+     * The whole replay, while the markers are only the last journey - so where the line runs on
+     * past the first marker, that is the segmenter deciding an earlier journey ended there, which
+     * is worth being able to see.
+     */
+    private fun addTrack(map: FeatureCollection, track: ArrayList<LngLatAlt>) {
+        if (track.size < 2) return
+        val line = Feature()
+        line.geometry = LineString(track)
+        line.properties = HashMap<String, Any?>().apply {
+            set("title", "Travelled")
+            set("stroke", "#555555")
+            set("stroke-width", 3)
+            set("stroke-opacity", 0.7)
+        }
+        map.addFeature(line)
+    }
+
+    /**
+     * One waypoint as a large labelled marker, carrying the text RoutePlayer would speak.
+     *
+     * simplestyle-spec properties, which is what geojson.io renders: marker-size/marker-color put
+     * a big coloured pin on the map, and title/description fill the popup. Coloured by what the
+     * waypoint is, so a route's shape - where the turns are, how far apart the landmarks fall -
+     * reads off the map without opening anything.
+     */
+    private fun addWaypoint(
+        map: FeatureCollection,
+        waypoint: MarkerEntity,
+        index: Int,
+        total: Int,
+        gapFromPreviousMetres: Int?,
+    ) {
+        val number = index + 1
+        val spoken =
+            if (waypoint.fullAddress.isBlank()) waypoint.name
+            else "${waypoint.name}, ${waypoint.fullAddress}"
+
+        val colour = when {
+            index == 0 -> "#2e7d32"                          // start
+            index == total - 1 -> "#c62828"                  // destination
+            waypoint.reverseDirection != null -> "#ef6c00"   // a turn
+            else -> "#1565c0"                                // a landmark passed
+        }
+
+        val detail = StringBuilder("$number of $total")
+        gapFromPreviousMetres?.let { detail.append("  ·  +${it}m") }
+        waypoint.reverseDirection?.let { detail.append("  ·  reversed: $it") }
+
+        val feature = Feature()
+        feature.geometry = Point(waypoint.getLngLatAlt())
+        feature.properties = HashMap<String, Any?>().apply {
+            set("title", "$number. $spoken")
+            set("description", detail.toString())
+            set("marker-size", "large")
+            set("marker-color", colour)
+            // geojson.io only draws a symbol for a single digit, so the rest go unmarked rather
+            // than mislabelled.
+            if (number <= 9) set("marker-symbol", number.toString())
+            set("waypoint", number)
+            set("name", waypoint.name)
+            set("direction", waypoint.fullAddress)
+        }
+        map.addFeature(feature)
+    }
+
+    private fun writeJourneyFiles(
+        fileRoot: String,
+        report: StringBuilder,
+        map: FeatureCollection,
+    ) {
+        FileOutputStream("$fileRoot.txt").use { it.write(report.toString().toByteArray()) }
+        val adapter = GeoJsonObjectMoshiAdapter()
+        FileOutputStream("$fileRoot.geojson").use {
+            it.write(adapter.toJson(map).toByteArray())
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -4392,7 +4478,7 @@ class MvtTileTest {
             "src/test/res/org/scottishtecharmy/soundscape/gpxFiles/$testFile.gpx",
             "gpxFiles/$testFile.txt",
             "gpxFiles/$testFile.geojson",
-            "gpxFiles/$testFile.journey.txt",
+            "gpxFiles/$testFile.journey",
         )
     }
 
@@ -4423,7 +4509,7 @@ class MvtTileTest {
                 "src/test/res/org/scottishtecharmy/soundscape/gpxFiles/$name.gpx",
                 "gpxFiles/$name.txt",
                 "gpxFiles/$name.geojson",
-                "gpxFiles/$name.journey.txt",
+                "gpxFiles/$name.journey",
             )
         }
     }

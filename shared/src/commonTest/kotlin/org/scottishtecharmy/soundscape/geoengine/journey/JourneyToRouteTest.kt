@@ -123,6 +123,77 @@ class JourneyToRouteTest {
         assertNull(waypoint.reverseDirection)
     }
 
+    // --- legs travelled at speed ----------------------------------------------------------
+
+    private fun alighting(northMetres: Double, atMillis: Long, stop: String?) =
+        JourneyEvent.Alighting(at(northMetres), atMillis, stop)
+
+    @Test
+    fun aLegTravelledAtSpeedLeavesOnlyTheStopItEndedAt() {
+        // You can't walk to a landmark you were driven past, and the turns the bus took aren't
+        // yours to take. What you need is the stop you got off at.
+        val journey = spine(metres = 3000) +
+            turn(1000.0, 10_000L, 90.0, "Renfield Street", "Bath Street").copy(inVehicle = true) +
+            landmark(1500.0, 15_000L, "Theatre Royal").copy(inVehicle = true) +
+            alighting(2000.0, 20_000L, "Milngavie Station") +
+            landmark(2600.0, 26_000L, "Tesco")
+
+        val names = JourneyToRoute.waypoints(journey, strings = null).map { it.name }
+
+        assertTrue(names.none { it.contains("Bath Street") }, "got $names")
+        assertTrue(names.none { it == "Theatre Royal" }, "got $names")
+        assertTrue(names.any { it == "Milngavie Station" }, "got $names")
+        assertTrue(names.any { it == "Tesco" }, "got $names")
+    }
+
+    @Test
+    fun theEndOfARideIsMarkedEvenRightAfterAnotherWaypoint() {
+        // The walk to the stop can end within the straight-line spacing of the stop itself, and
+        // the beacon still has to be there - it is where the walk on from it starts.
+        val journey = spine(metres = 3000) +
+            landmark(1900.0, 19_000L, "Tesco") +
+            alighting(1950.0, 20_000L, "Milngavie Station")
+
+        val names = JourneyToRoute.waypoints(journey, strings = null).map { it.name }
+        assertTrue(names.any { it == "Milngavie Station" }, "got $names")
+    }
+
+    @Test
+    fun anUnnamedStopBorrowsTheNameOfTheStationBesideIt() {
+        // On a train nothing names the stop during the ride - the station is announced a moment
+        // later, once the user is walking off the platform.
+        val journey = spine(metres = 3000) +
+            alighting(2000.0, 20_000L, null) +
+            landmark(2050.0, 21_000L, "Milngavie Station")
+
+        val names = JourneyToRoute.waypoints(journey, strings = null).map { it.name }
+        assertTrue(names.any { it == "Milngavie Station" }, "got $names")
+        assertTrue(names.none { it == "Where you continued on foot" }, "got $names")
+        // Borrowed, not duplicated.
+        assertEquals(1, names.count { it == "Milngavie Station" }, "got $names")
+    }
+
+    @Test
+    fun aStopFarFromAnythingKeepsTheGenericName() {
+        val journey = spine(metres = 3000) +
+            alighting(2000.0, 20_000L, null) +
+            landmark(2600.0, 26_000L, "Tesco")
+
+        val names = JourneyToRoute.waypoints(journey, strings = null).map { it.name }
+        assertTrue(names.any { it == "Where you continued on foot" }, "got $names")
+        assertTrue(names.any { it == "Tesco" }, "got $names")
+    }
+
+    @Test
+    fun anUnnamedStopStillGetsAWaypoint() {
+        // A car, or a bus whose stop was never announced. Nameless, but the place the walking
+        // starts again is still the one thing that leg is worth marking.
+        val journey = spine(metres = 3000) + alighting(2000.0, 20_000L, null)
+
+        val names = JourneyToRoute.waypoints(journey, strings = null).map { it.name }
+        assertTrue(names.any { it == "Where you continued on foot" }, "got $names")
+    }
+
     // --- culling -----------------------------------------------------------------------------
 
     @Test

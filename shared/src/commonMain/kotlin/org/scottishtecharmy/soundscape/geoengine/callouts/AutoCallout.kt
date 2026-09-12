@@ -514,7 +514,7 @@ class AutoCallout(
         if (alongWayCalloutHistory.find(callout)) return null
         alongWayCalloutHistory.add(callout)
         notableVehicleEventTracker.recordEvent(userGeometry.timestampMilliseconds)
-        recordJourneyLandmark(calloutText, userGeometry)
+        recordJourneyLandmark(calloutText, userGeometry, isTransitStop = true)
         return callout
     }
 
@@ -526,10 +526,14 @@ class AutoCallout(
      * user's beacon off the road, aimed at something they only went past. "You passed X here" is
      * what a route wants.
      */
-    private fun recordJourneyLandmark(name: String, userGeometry: UserGeometry) {
+    private fun recordJourneyLandmark(
+        name: String,
+        userGeometry: UserGeometry,
+        isTransitStop: Boolean = false,
+    ) {
         val recorder = journeyRecorder ?: return
         val where = userGeometry.mapMatchedLocation?.point ?: userGeometry.location
-        recorder.onLandmark(name, where, userGeometry.timestampMilliseconds)
+        recorder.onLandmark(name, where, userGeometry.timestampMilliseconds, isTransitStop)
     }
 
     /**
@@ -541,9 +545,10 @@ class AutoCallout(
     private fun recordJourneyLandmark(
         name: TextForFeature,
         userGeometry: UserGeometry,
+        isTransitStop: Boolean = false,
     ) {
         if (name.generic) return
-        recordJourneyLandmark(name.text, userGeometry)
+        recordJourneyLandmark(name.text, userGeometry, isTransitStop)
     }
 
     /**
@@ -1353,7 +1358,11 @@ class AutoCallout(
                             }
                             poiCalloutHistory.add(callout)
                             if (worthRememberingAsAWaypoint(feature)) {
-                                recordJourneyLandmark(name, userGeometry)
+                                recordJourneyLandmark(
+                                    name,
+                                    userGeometry,
+                                    isTransitStop = feature.featureValue in transitStopValues,
+                                )
                             }
                             return callout
                         } else {

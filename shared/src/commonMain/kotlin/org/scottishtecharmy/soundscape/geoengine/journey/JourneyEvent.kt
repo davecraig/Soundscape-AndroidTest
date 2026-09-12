@@ -46,6 +46,8 @@ sealed class JourneyEvent {
         /** The road being joined, named in the direction it is about to be travelled. */
         val toRoad: String,
         val signedAngleDegrees: Double,
+        /** Whether this was taken by bus, train or car rather than on foot - see [Alighting]. */
+        val inVehicle: Boolean = false,
     ) : JourneyEvent()
 
     /**
@@ -60,5 +62,22 @@ sealed class JourneyEvent {
         override val location: LngLatAlt,
         override val timestampMillis: Long,
         val name: String,
+        /** Whether this went past at vehicle speed rather than walking pace - see [Alighting]. */
+        val inVehicle: Boolean = false,
+    ) : JourneyEvent()
+
+    /**
+     * Where the user left the bus, train or car and carried on walking.
+     *
+     * A leg travelled at speed gets no waypoints of its own. You can't walk to a landmark you were
+     * driven past, and turns the bus took aren't yours to take - what you need is one beacon on the
+     * stop you got off at, with the walk either side of it marked as walks are. So the route reads:
+     * the way to the stop, one waypoint where the ride ended, then the way on from there.
+     */
+    data class Alighting(
+        override val location: LngLatAlt,
+        override val timestampMillis: Long,
+        /** The stop, where one was announced during the ride, or null to name it generically. */
+        val stopName: String?,
     ) : JourneyEvent()
 }

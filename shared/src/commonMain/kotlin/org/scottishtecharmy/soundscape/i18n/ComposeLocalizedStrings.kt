@@ -128,6 +128,7 @@ import org.scottishtecharmy.soundscape.resources.journey_sharp_right
 import org.scottishtecharmy.soundscape.resources.journey_junction
 import org.scottishtecharmy.soundscape.resources.journey_junction_of
 import org.scottishtecharmy.soundscape.resources.journey_railway_crossing
+import org.scottishtecharmy.soundscape.resources.journey_end_of_ride
 import org.scottishtecharmy.soundscape.resources.journey_start
 import org.scottishtecharmy.soundscape.resources.journey_waypoint_with_direction
 import org.scottishtecharmy.soundscape.resources.journey_end
@@ -274,6 +275,7 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.JourneyJunction -> Res.string.journey_junction
         StringKey.JourneyRailwayCrossing -> Res.string.journey_railway_crossing
         StringKey.JourneyWaypointWithDirection -> Res.string.journey_waypoint_with_direction
+        StringKey.JourneyEndOfRide -> Res.string.journey_end_of_ride
         StringKey.JourneyStart -> Res.string.journey_start
         StringKey.JourneyEnd -> Res.string.journey_end
         StringKey.JourneyRouteName -> Res.string.journey_route_name

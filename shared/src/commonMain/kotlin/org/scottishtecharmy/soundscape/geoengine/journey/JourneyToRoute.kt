@@ -29,6 +29,16 @@ const val MIN_STRAIGHT_SPACING_METRES = 200.0
 const val LANDMARK_TURN_CLEARANCE_METRES = 30.0
 
 /**
+ * How far from where a ride ended to look for something to call that place.
+ *
+ * On a train nothing names the stop during the ride itself - the station callouts come off the line
+ * being ridden rather than from the transit-stop builder - but the station gets announced as an
+ * ordinary landmark a moment later, once the user is walking off the platform. Borrowing that name
+ * beats "where you continued on foot".
+ */
+const val ALIGHTING_NAME_SEARCH_METRES = 200.0
+
+/**
  * RoutePlayer says "N of M" at every waypoint. A route with two hundred of them is not guidance,
  * it is a recital - and the user is handed this without having reviewed it first.
  */
@@ -47,8 +57,17 @@ const val SHARP_TURN_DEGREES = 120.0
  */
 object JourneyToRoute {
 
-    /** A candidate waypoint, still paired with what it came from so culling can tell them apart. */
-    private class Candidate(val marker: MarkerEntity, val isTurn: Boolean) {
+    /**
+     * A candidate waypoint, still paired with what it came from so culling can tell them apart.
+     *
+     * [essential] survives the spacing rule: a turn has to be marked where it is, and so does the
+     * stop a ride ended at, however soon after the last waypoint either falls.
+     */
+    private class Candidate(
+        val marker: MarkerEntity,
+        val isTurn: Boolean,
+        val essential: Boolean = isTurn,
+    ) {
         val location: LngLatAlt get() = marker.getLngLatAlt()
     }
 
@@ -56,12 +75,15 @@ object JourneyToRoute {
      * @param journey the events of one journey, oldest first, from [JourneySegmenter.lastJourney]
      * @param startName what to call the place the journey set off from, or null for a plain default
      * @param endName what to call where it finished, or null for a plain default
+     * @param endLocation where the user actually is, which is where the last beacon belongs -
+     * anchors are only laid down every hundred metres, so the last one can be a street behind them
      */
     fun waypoints(
         journey: List<JourneyEvent>,
         strings: LocalizedStrings?,
         startName: String? = null,
         endName: String? = null,
+        endLocation: LngLatAlt? = null,
     ): List<MarkerEntity> {
         val anchors = journey.filterIsInstance<JourneyEvent.Anchor>()
         if (anchors.size < 2) return emptyList()
@@ -70,11 +92,20 @@ object JourneyToRoute {
         val turnLocations = journey.filterIsInstance<JourneyEvent.Turn>().map { it.location }
         val namesUsed = mutableSetOf<String>()
 
+        // Named before the walk is walked, so the landmark whose name an alighting borrows is
+        // already spoken for by the time the landmarks themselves are considered.
+        val alightingNames = journey.filterIsInstance<JourneyEvent.Alighting>().associateWith {
+            it.stopName ?: nameFromNearbyLandmark(it, journey, ruler)?.also(namesUsed::add)
+        }
+
         val middle = journey.mapNotNull { event ->
             when (event) {
                 is JourneyEvent.Anchor -> null
 
-                is JourneyEvent.Turn -> Candidate(
+                // A leg travelled at speed earns no waypoints of its own: you can't walk to a
+                // landmark you were driven past, and the turns the bus took aren't yours to take.
+                // All that leg leaves behind is the Alighting below.
+                is JourneyEvent.Turn -> if (event.inVehicle) null else Candidate(
                     marker(
                         // The junction, not the instruction: a place reads the same whichever way
                         // the route is walked, and it says where you are rather than only what to
@@ -89,7 +120,19 @@ object JourneyToRoute {
                     isTurn = true,
                 )
 
-                is JourneyEvent.Landmark -> {
+                is JourneyEvent.Alighting -> Candidate(
+                    marker(
+                        name = alightingNames[event]
+                            ?: strings.orFallback(StringKey.JourneyEndOfRide, "Where you continued on foot"),
+                        at = event.location,
+                    ),
+                    isTurn = false,
+                    // The one beacon a bus or train ride leaves behind, and the point the walk on
+                    // from it starts at - never spaced away.
+                    essential = true,
+                )
+
+                is JourneyEvent.Landmark -> if (event.inVehicle) null else {
                     // A turn already says everything about where it is. A shop announced on the
                     // way into it is just another thing said in the same few metres.
                     val crowdsATurn = turnLocations.any {
@@ -114,13 +157,32 @@ object JourneyToRoute {
             isTurn = false,
         )
         val end = Candidate(
-            marker(endName ?: strings.orFallback(StringKey.JourneyEnd, "Destination"),
-                anchors.last().location),
+            marker(
+                endName ?: strings.orFallback(StringKey.JourneyEnd, "Destination"),
+                endLocation ?: anchors.last().location,
+            ),
             isTurn = false,
         )
 
         return cap(spaceOut(listOf(start) + middle + listOf(end), ruler)).map { it.marker }
     }
+
+    /**
+     * Something to call the place a ride ended, borrowed from a landmark announced near it.
+     *
+     * The station or stop is usually named a moment after stepping off, not during the ride - see
+     * [ALIGHTING_NAME_SEARCH_METRES]. The nearest one wins, so a route through a busy area doesn't
+     * take the name of whatever happened to be announced first.
+     */
+    private fun nameFromNearbyLandmark(
+        alighting: JourneyEvent.Alighting,
+        journey: List<JourneyEvent>,
+        ruler: Ruler,
+    ): String? = journey.filterIsInstance<JourneyEvent.Landmark>()
+        .map { it to ruler.distance(alighting.location, it.location) }
+        .filter { (_, distance) -> distance <= ALIGHTING_NAME_SEARCH_METRES }
+        .minByOrNull { (_, distance) -> distance }
+        ?.first?.name
 
     /**
      * Drop anything too close to the waypoint kept before it. The first and last survive whatever
@@ -135,7 +197,7 @@ object JourneyToRoute {
             // A turn has to be marked wherever it falls; anything else is only worth a beacon once
             // the user has walked far enough to want the next one.
             val required =
-                if (candidate.isTurn) MIN_WAYPOINT_SPACING_METRES else MIN_STRAIGHT_SPACING_METRES
+                if (candidate.essential) MIN_WAYPOINT_SPACING_METRES else MIN_STRAIGHT_SPACING_METRES
             if (ruler.distance(kept.last().location, candidate.location) >= required) {
                 kept.add(candidate)
             }
@@ -163,13 +225,11 @@ object JourneyToRoute {
 
         val middleIndices = waypoints.indices.drop(1).dropLast(1)
         val byUsefulness = middleIndices.sortedWith(
-            compareBy({ it.isTurnAt(waypoints) }, { abs(it - waypoints.size / 2) })
+            compareBy({ waypoints[it].essential }, { abs(it - waypoints.size / 2) })
         )
         val dropping = byUsefulness.take(waypoints.size - MAX_WAYPOINTS).toSet()
         return waypoints.filterIndexed { index, _ -> index !in dropping }
     }
-
-    private fun Int.isTurnAt(waypoints: List<Candidate>) = waypoints[this].isTurn
 
     private fun marker(
         name: String,

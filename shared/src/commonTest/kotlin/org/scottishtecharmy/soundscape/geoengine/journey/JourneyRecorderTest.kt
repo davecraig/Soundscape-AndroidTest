@@ -156,6 +156,133 @@ class JourneyRecorderTest {
         assertTrue(recorder.snapshot().isEmpty())
     }
 
+    // --- rides -----------------------------------------------------------------------------
+
+    /**
+     * Being carried along at [metresPerSecond] for [seconds], one fix a second, starting
+     * [fromMetres] along the road. Returns where it finished.
+     *
+     * The positions have to move at the speed claimed: what decides whether the user is in a
+     * vehicle is the ground covered over the last minute, not what any one fix says its speed was.
+     */
+    private fun JourneyRecorder.ride(
+        way: Way,
+        fromMetres: Double,
+        fromMillis: Long,
+        seconds: Int,
+        metresPerSecond: Double,
+    ): Double {
+        var where = fromMetres
+        for (i in 0 until seconds) {
+            where = fromMetres + i * metresPerSecond
+            onLocation(geometry(way, where, fromMillis + i * 1000L, metresPerSecond), null, null)
+        }
+        return where
+    }
+
+    @Test
+    fun marksWhereARideEndedAndNamesItAfterTheLastStopAnnounced() {
+        val recorder = JourneyRecorder()
+        val way = road(intersection(), 0.0, "Maryhill Road", lengthMetres = 20000.0)
+
+        // On the bus for five minutes, with the stops announced as they go by.
+        var end = 0.0
+        for (leg in 0 until 5) {
+            end = recorder.ride(way, leg * 600.0, leg * 60_000L, seconds = 60, metresPerSecond = 10.0)
+            recorder.onLandmark(
+                "Stop $leg", LngLatAlt(0.0, metres(end)), leg * 60_000L + 59_000L,
+                isTransitStop = true,
+            )
+        }
+
+        // Off, and walking - long enough for the ride to be reckoned over.
+        recorder.ride(way, end, 300_000L, seconds = 240, metresPerSecond = 1.4)
+
+        val alighting = recorder.snapshot().filterIsInstance<JourneyEvent.Alighting>().single()
+        // Named after the last stop called out on the ride...
+        assertEquals("Stop 4", alighting.stopName)
+        // ...and left where the bus last certainly was, not where the user had got to by the time
+        // it became clear they were walking.
+        assertTrue(
+            alighting.location.latitude <= metres(end) + 1e-9,
+            "left ahead of where the bus got to",
+        )
+        assertTrue(alighting.location.latitude > metres(end - 200.0), "left far short of the stop")
+    }
+
+    @Test
+    fun whatHappenedOnTheRideIsMarkedAsSuch() {
+        val recorder = JourneyRecorder()
+        val way = road(intersection(), 0.0, "Maryhill Road", lengthMetres = 20000.0)
+
+        val end = recorder.ride(way, 0.0, 0L, seconds = 90, metresPerSecond = 10.0)
+        recorder.onLandmark("Theatre Royal", LngLatAlt(0.0, metres(end)), 89_000L)
+
+        val landmark = recorder.snapshot().filterIsInstance<JourneyEvent.Landmark>().single()
+        assertTrue(landmark.inVehicle, "a landmark passed at 10 m/s is not on foot")
+    }
+
+    @Test
+    fun aBusCrawlingInTrafficIsStillARide() {
+        val recorder = JourneyRecorder()
+        val way = road(intersection(), 0.0, "Maryhill Road", lengthMetres = 20000.0)
+
+        val end = recorder.ride(way, 0.0, 0L, seconds = 90, metresPerSecond = 10.0)
+        // Crawling, well under walking pace, but nowhere near long enough to end the ride.
+        recorder.ride(way, end, 90_000L, seconds = 30, metresPerSecond = 0.5)
+        recorder.onLandmark("Theatre Royal", LngLatAlt(0.0, metres(end)), 119_000L)
+
+        assertTrue(recorder.snapshot().filterIsInstance<JourneyEvent.Alighting>().isEmpty())
+        val landmark = recorder.snapshot().filterIsInstance<JourneyEvent.Landmark>().single()
+        assertTrue(landmark.inVehicle, "still on the bus, just crawling")
+    }
+
+    @Test
+    fun theWalkHomeAfterGettingOffIsNotThrownAway() {
+        // The ordinary case for the whole feature: off the bus, walk home, ask to save. The ride is
+        // still open when the asking happens, so snapshot has to settle it - otherwise the walk is
+        // still marked as ridden and dropped, and there is no waypoint on the stop either.
+        val recorder = JourneyRecorder()
+        val way = road(intersection(), 0.0, "Maryhill Road", lengthMetres = 20000.0)
+
+        val end = recorder.ride(way, 0.0, 0L, seconds = 120, metresPerSecond = 10.0)
+        val home = recorder.ride(way, end, 120_000L, seconds = 120, metresPerSecond = 1.4)
+        recorder.onLandmark("Tesco", LngLatAlt(0.0, metres(home)), 239_000L)
+
+        val events = recorder.snapshot()
+        assertEquals(1, events.filterIsInstance<JourneyEvent.Alighting>().size)
+        val tesco = events.filterIsInstance<JourneyEvent.Landmark>().single()
+        assertTrue(!tesco.inVehicle, "walked past after getting off, not ridden past")
+    }
+
+    @Test
+    fun aWalkWithNoisySpeedIsNotMistakenForARide() {
+        // Recordings made on foot are full of fixes claiming vehicle speed - a walk to Tesco has
+        // 209 of its 710 above 5 m/s. What the user has actually covered says otherwise.
+        val recorder = JourneyRecorder()
+        val way = road(intersection(), 0.0, "Beech Avenue", lengthMetres = 2000.0)
+
+        for (i in 0 until 300) {
+            val claimed = if (i % 3 == 0) 13.0 else 1.0
+            recorder.onLocation(geometry(way, i * 1.4, i * 1000L, claimed), null, null)
+        }
+        recorder.onLandmark("Tesco", LngLatAlt(0.0, metres(300.0)), 299_000L)
+
+        val events = recorder.snapshot()
+        assertTrue(events.filterIsInstance<JourneyEvent.Alighting>().isEmpty(), "not a ride")
+        assertTrue(!events.filterIsInstance<JourneyEvent.Landmark>().single().inVehicle)
+    }
+
+    @Test
+    fun aWalkAloneLeavesNoRideBehind() {
+        val recorder = JourneyRecorder()
+        val way = road(intersection(), 0.0, "Beech Avenue", lengthMetres = 500.0)
+        for (i in 0 until 10) {
+            recorder.onLocation(geometry(way, i * 20.0, i * 10_000L), null, null)
+        }
+        assertTrue(recorder.snapshot().filterIsInstance<JourneyEvent.Alighting>().isEmpty())
+    }
+
     // --- folding a gyratory into one instruction ------------------------------------------
 
     /**

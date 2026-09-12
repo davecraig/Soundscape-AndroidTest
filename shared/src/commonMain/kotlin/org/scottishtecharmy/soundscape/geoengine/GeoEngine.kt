@@ -812,9 +812,12 @@ class GeoEngine {
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun saveLastJourney(routeDao: RouteDao, dateStamp: String): JourneySaveResult {
         val events = withContext(gridState.treeContext) { journeyRecorder.snapshot() }
+        val here = locationProvider.filteredLocationFlow.value
+            ?.let { LngLatAlt(it.longitude, it.latitude) }
         val result = JourneySaver(routeDao, localizedStrings).save(
             events,
-            nameFor = { point -> getOfflineAddress(point)?.name?.takeIf { it.isNotBlank() } },
+            nameFor = { point -> geocodedName(point) },
+            endedAt = here,
             dateStamp = dateStamp,
         )
         if (result is JourneySaveResult.Saved) {
@@ -824,6 +827,23 @@ class GeoEngine {
             withContext(gridState.treeContext) { journeyRecorder.clear() }
         }
         return result
+    }
+
+    /**
+     * What the geocoder calls a point - "Postbox on Campsie Road" - or null when it can't place it.
+     *
+     * The same answer the "Use current location" button gets, which is what a waypoint the user is
+     * standing on should be called. Null rather than a guess when the nearest thing the grid knows
+     * about is too far off to be describing this spot, or when the point is outside the loaded grid
+     * altogether - which is the usual case for somewhere a journey started miles back.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    suspend fun geocodedName(location: LngLatAlt): String? {
+        val geocode = withContext(gridState.treeContext) {
+            geocoder.getAddressFromLngLat(UserGeometry(location), localizedStrings, false)
+        } ?: return null
+        if (ruler.distance(geocode.location, location) >= 50.0) return null
+        return geocode.name.takeIf { it.isNotBlank() }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

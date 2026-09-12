@@ -69,6 +69,7 @@ enum class StringKey {
     JourneyJunction,
     JourneyRailwayCrossing,
     JourneyWaypointWithDirection,
+    JourneyEndOfRide,
     JourneyStart,
     JourneyEnd,
     JourneyRouteName,
