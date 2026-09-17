@@ -771,6 +771,58 @@ class MvtTileTest {
         assertEquals("On M8 and close to Glasgow", motorwayResult!!.text)
     }
 
+    // On the A81 in open country between Balfron Station and Gartmore, taken from the point in the
+    // ToCallander.gpx replay where the old code had nothing at all to say. Gartmore is ~4.8 km
+    // north; the nearest settlement of any size is too far for even the hamlet search to reach.
+    private val a81GartmoreLocation = LngLatAlt(-4.3583403, 56.1039889)
+
+    /**
+     * nearestSettlement is sized for "which settlement am I in" - a village counts only within
+     * 2 km - so on an empty stretch of rural road it has nothing to offer and the callout used to
+     * be a bare "Traveling north along A81". Looking ahead along the direction of travel finds the
+     * village the road is actually heading for, which is the useful landmark even though it's far
+     * outside the near-field radius.
+     */
+    @Test
+    fun testTravelCalloutForSettlementAhead() {
+        val settlementGrid = getGridStateForLocation(a81GartmoreLocation, 12, 3)
+        val gridState = getGridStateForLocation(a81GartmoreLocation, MAX_ZOOM_LEVEL, 3)
+
+        // Nothing at all within the near-field proximities, so anything named here can only have
+        // come from the lookahead.
+        assertNull(nearestSettlement(settlementGrid, a81GartmoreLocation).name)
+
+        val userGeometry =
+            UserGeometry(location = a81GartmoreLocation, speed = 25.0, travelHeading = 0.0)
+        val result =
+            describeReverseGeocode(userGeometry, gridState, settlementGrid, FakeLocalizedStrings())
+
+        assertNotNull(result)
+        assertEquals(
+            "DirectionsAlongTravelingN(A81) DirectionsTowardsSettlement(Gartmore, DistanceKm(4.8))",
+            result!!.text
+        )
+    }
+
+    /**
+     * Same point as [testTravelCalloutForSettlementAhead] but driving the other way. Gartmore is
+     * then behind, so it must not be named - the search is a wedge along the direction of travel,
+     * not a plain radius, and this is what proves it.
+     */
+    @Test
+    fun testTravelCalloutIgnoresSettlementBehind() {
+        val settlementGrid = getGridStateForLocation(a81GartmoreLocation, 12, 3)
+        val gridState = getGridStateForLocation(a81GartmoreLocation, MAX_ZOOM_LEVEL, 3)
+
+        val userGeometry =
+            UserGeometry(location = a81GartmoreLocation, speed = 25.0, travelHeading = 180.0)
+        val result =
+            describeReverseGeocode(userGeometry, gridState, settlementGrid, FakeLocalizedStrings())
+
+        assertNotNull(result)
+        assertFalse(result!!.text.contains("Gartmore"))
+    }
+
     /**
      * Junction (exit/interchange) nodes are carried as `subclass=junction` POINT features in
      * `transportation_name`, on motorways (numbered, e.g. "Robroyston" M8 Junction 2) as well as

@@ -9,31 +9,39 @@ import org.scottishtecharmy.soundscape.geoengine.utils.WayContinuation
 import org.scottishtecharmy.soundscape.geoengine.utils.AlongWayFeatureAhead
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
+import org.scottishtecharmy.soundscape.geoengine.utils.Triangle
 import org.scottishtecharmy.soundscape.geoengine.utils.calculateHeadingOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
 import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabelFacingDirectionAlong
+import org.scottishtecharmy.soundscape.geoengine.utils.getDestinationCoordinate
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeClockTime
 import org.scottishtecharmy.soundscape.geoengine.utils.getRelativeLeftRightLabel
 import org.scottishtecharmy.soundscape.geoengine.utils.normalizeHeading
+import org.scottishtecharmy.soundscape.geoengine.utils.toRadians
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
 import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
 import org.scottishtecharmy.soundscape.i18n.PluralKey
 import org.scottishtecharmy.soundscape.i18n.StringKey
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.roundToInt
+import kotlin.math.sin
 
 /**
- * The nearest settlement to a location, and whether it's a city.
+ * The nearest settlement to a location, and which size tier it was found in.
  *
- * Cities are called out because they're large, often-merged conurbations: you can't sensibly be
- * "towards Glasgow" while already inside its urban area, so callers phrase those differently from
- * the discrete hamlet/village/town points a road passes near.
+ * The tier matters to callers for two reasons. Cities are phrased differently, because they're
+ * large, often-merged conurbations: you can't sensibly be "towards Glasgow" while already inside
+ * its urban area, unlike the discrete hamlet/village/town points a road passes near. And it's what
+ * a settlement found ahead is weighed against, so that a village up the road can displace a farm
+ * to hand but not the village being driven through - see [settlementAhead].
  */
-data class NearestSettlement(val feature: MvtFeature?, val isCity: Boolean) {
+data class NearestSettlement(val feature: MvtFeature?, val tier: SettlementTier?) {
     val name: String? get() = feature?.name
     val displayName: String? get() = feature?.displayName
+    val isCity: Boolean get() = tier == SettlementTier.CITY
 }
 
 /**
@@ -89,10 +97,119 @@ fun nearestSettlement(
         val settlement = settlementGrid.getFeatureTree(search.treeId)
             .getNearestFeature(location, ruler, search.proximity) as MvtFeature?
         if (settlement?.name != null) {
-            return NearestSettlement(settlement, search.tier == SettlementTier.CITY)
+            return NearestSettlement(settlement, search.tier)
         }
     }
-    return NearestSettlement(null, false)
+    return NearestSettlement(null, null)
+}
+
+/**
+ * A settlement the direction of travel is heading towards - see [settlementAhead].
+ *
+ * [distance] is the straight-line distance, which is what gets spoken; [alongTrack] is its
+ * component along the direction of travel, which is what candidates are ranked by.
+ */
+data class SettlementAhead(
+    val feature: MvtFeature,
+    val tier: SettlementTier,
+    val distance: Double,
+    val alongTrack: Double
+)
+
+/**
+ * How far ahead [settlementAhead] looks. The settlement grid is 3x3 tiles at zoom 12, which at UK
+ * latitudes guarantees only about 4 km around the user (up to about 8 km depending on where in the
+ * grid they are), so this cap is rarely the binding limit - a settlement beyond the loaded grid
+ * simply isn't in the tree, and the search quietly finds nothing rather than misbehaving.
+ */
+private const val SETTLEMENT_AHEAD_MAX_DISTANCE = 10000.0
+
+/**
+ * Half the width of the wedge searched ahead. Roads bend, so this has to be wide enough that a
+ * settlement the road curves round to still counts, while staying narrow enough that the answer is
+ * recognisably "up ahead" rather than off to one side.
+ */
+private const val SETTLEMENT_AHEAD_HALF_ANGLE = 30.0
+
+/**
+ * How far to the side of the direction of travel a settlement may sit. A fixed angle alone is the
+ * wrong shape: 30 degrees is a sensible spread a kilometre out but four kilometres of it at eight,
+ * which is wide enough to pick up a village in the next valley that this road never reaches. Adding
+ * a corridor width turns the search area into a wedge that stops widening - in practice the angle
+ * governs what is close and this governs what is far.
+ */
+private const val SETTLEMENT_AHEAD_MAX_CROSS_TRACK = 2000.0
+
+/**
+ * Finds the settlement the user is travelling towards, as opposed to the one they are currently at.
+ *
+ * [nearestSettlement] answers "which settlement am I in", which is what an address wants, and its
+ * proximities are sized accordingly - a village counts only within 2 km. Someone travelling wants
+ * the opposite: the village the road is heading for, which may be well beyond that and is the more
+ * useful landmark even when something smaller is closer to hand.
+ *
+ * Only villages and towns are searched. Hamlets are excluded because an isolated dwelling or farm
+ * several kilometres off is not something anyone navigates by. Cities are excluded because their
+ * near-field proximity is already 15 km, so a city ahead is found by [nearestSettlement] anyway -
+ * including it here would change nothing but the wording.
+ *
+ * Candidates must also lie *beyond* their own tier's near-field proximity, so this only ever
+ * extends the reach of the search; whatever [nearestSettlement]'s smallest-first cascade could
+ * already see is left for it to decide. Of what remains, the nearest wins - that's the one the
+ * user will actually reach first.
+ *
+ * Must be called from within [settlementGrid]'s treeContext.
+ *
+ * @param smallestTier the smallest kind of settlement worth naming, raised to at least
+ * [SettlementTier.VILLAGE] by the caller's road class - see roadClassSmallestSettlement.
+ */
+fun settlementAhead(
+    settlementGrid: GridState,
+    location: LngLatAlt,
+    headingDegrees: Double,
+    smallestTier: SettlementTier = SettlementTier.VILLAGE,
+    maxDistance: Double = SETTLEMENT_AHEAD_MAX_DISTANCE
+): SettlementAhead? {
+    val ruler = settlementGrid.ruler
+    // Left edge then right edge, as getFovTriangle orders them. The bearings aren't normalized
+    // because getDestinationCoordinate works in radians through sin/cos, which are periodic.
+    val triangle = Triangle(
+        location,
+        getDestinationCoordinate(
+            location, headingDegrees - SETTLEMENT_AHEAD_HALF_ANGLE, maxDistance
+        ),
+        getDestinationCoordinate(
+            location, headingDegrees + SETTLEMENT_AHEAD_HALF_ANGLE, maxDistance
+        )
+    )
+
+    var nearest: SettlementAhead? = null
+    for (search in settlementSearches) {
+        if (search.tier < smallestTier) continue
+        if (search.tier > SettlementTier.TOWN) continue
+        for (feature in settlementGrid.getFeatureTree(search.treeId)
+            .getAllWithinTriangle(triangle).features) {
+            val settlement = feature as? MvtFeature ?: continue
+            if (settlement.name == null) continue
+            val point = (settlement.geometry as? Point)?.coordinates ?: continue
+            val distance = ruler.distance(location, point)
+            // Anything this close is already the near-field search's business.
+            if (distance <= search.proximity) continue
+
+            val offset = toRadians(
+                calculateHeadingOffset(headingDegrees, ruler.bearing(location, point))
+            )
+            if ((distance * sin(offset)) > SETTLEMENT_AHEAD_MAX_CROSS_TRACK) continue
+            // Ranked by how far along the direction of travel it is rather than by straight-line
+            // distance, so that of two settlements the same distance away the one more nearly
+            // straight ahead is the one named.
+            val alongTrack = distance * cos(offset)
+            if ((nearest == null) || (alongTrack < nearest.alongTrack)) {
+                nearest = SettlementAhead(settlement, search.tier, distance, alongTrack)
+            }
+        }
+    }
+    return nearest
 }
 
 /**
@@ -588,13 +705,32 @@ private fun travellingReverseGeocodeName(
     // Glasgow" while already inside its urban area - so it keeps the vaguer "close to" instead.
     // The road's own class sets a floor on how small a settlement can be and still be worth
     // naming - see roadClassSmallestSettlement.
-    val settlement = nearestSettlement(
-        settlementGrid, location,
+    val roadSettlementFloor =
         roadClassSmallestSettlement[nearestRoad?.featureValue] ?: SettlementTier.HAMLET
-    )
-    val nearestSettlementFeature = settlement.feature
-    val nearestSettlementName = settlement.displayName
-    val nearestSettlementIsCity = settlement.isCity
+    val nearby = nearestSettlement(settlementGrid, location, roadSettlementFloor)
+
+    // On an open road the settlement being travelled towards is the more useful landmark: a farm
+    // 400m away says nothing about where this road goes, while the village 6km up it does. So a
+    // larger settlement ahead displaces a smaller one to hand. It has to be *larger* - a village
+    // being passed through beats one further up the road - and, because settlementAhead only looks
+    // beyond the near-field proximities, this can never re-rank two settlements the cascade in
+    // nearestSettlement already weighed against each other.
+    val ahead = travelHeadingDegrees?.let {
+        settlementAhead(
+            settlementGrid, location, it.toDouble(),
+            maxOf(SettlementTier.VILLAGE, roadSettlementFloor)
+        )
+    }
+    val settlement = if ((ahead != null) &&
+        ((nearby.tier == null) || (ahead.tier > nearby.tier))
+    ) {
+        NearestSettlement(ahead.feature, ahead.tier)
+    } else {
+        nearby
+    }
+    val settlementFeature = settlement.feature
+    val settlementName = settlement.displayName
+    val settlementIsCity = settlement.isCity
 
     if (spokenRoadName != null) {
         val phrase = roadPhrase(spokenRoadName)
@@ -605,7 +741,7 @@ private fun travellingReverseGeocodeName(
         // frequent on its own (see real train-1/train-2.gpx replays).
         val sinceStationName = lastStationTracker?.name
         val sinceStationLocation = lastStationTracker?.location
-        if (probablyOnTrain && (nearestSettlementName != null) &&
+        if (probablyOnTrain && (settlementName != null) &&
             (sinceStationName != null) && (sinceStationLocation != null)
         ) {
             // The distance climbs on every call, so it's never suppressed as a duplicate if it
@@ -618,8 +754,8 @@ private fun travellingReverseGeocodeName(
             return ReverseGeocodeText(
                 text = localized?.get(
                     StringKey.DirectionsOnRoadAndSettlementSince,
-                    spokenRoadName, nearestSettlementName, distanceText, sinceStationName
-                ) ?: "On $spokenRoadName and close to $nearestSettlementName, $distanceText since $sinceStationName",
+                    spokenRoadName, settlementName, distanceText, sinceStationName
+                ) ?: "On $spokenRoadName and close to $settlementName, $distanceText since $sinceStationName",
                 // The station this is measured from is the whole key. The settlement is left out
                 // for the same reason a numbered road's street name is (see roadDedup): at line
                 // speed the nearest one changes almost every location update, so keying on it
@@ -639,10 +775,10 @@ private fun travellingReverseGeocodeName(
         // settlement mention.
         if (probablyOnTrain) {
             return ReverseGeocodeText(
-                text = if (nearestSettlementName != null) {
+                text = if (settlementName != null) {
                     localized?.get(
-                        StringKey.DirectionsOnRoadAndSettlement, spokenRoadName, nearestSettlementName
-                    ) ?: "On $spokenRoadName and close to $nearestSettlementName"
+                        StringKey.DirectionsOnRoadAndSettlement, spokenRoadName, settlementName
+                    ) ?: "On $spokenRoadName and close to $settlementName"
                 } else {
                     phrase
                 },
@@ -658,20 +794,20 @@ private fun travellingReverseGeocodeName(
 
         // A discrete settlement (hamlet/village/town) the road runs towards, away from, or past
         // gets phrased relative to the direction of travel; a city keeps the vaguer "close to"
-        // (see nearestSettlementIsCity above). Both need a heading to work out the relative
+        // (see settlementIsCity above). Both need a heading to work out the relative
         // bearing, so without one this falls through to the plain road/settlement mention below.
-        val settlementLocation = (nearestSettlementFeature?.geometry as? Point)?.coordinates
-        if ((nearestSettlementName != null) && (travelHeadingDegrees != null) &&
+        val settlementLocation = (settlementFeature?.geometry as? Point)?.coordinates
+        if ((settlementName != null) && (travelHeadingDegrees != null) &&
             (settlementLocation != null)
         ) {
-            if (nearestSettlementIsCity) {
+            if (settlementIsCity) {
                 return ReverseGeocodeText(
                     text = "$phrase " + (
-                        localized?.get(StringKey.DirectionsCloseToSettlementInline, nearestSettlementName)
-                            ?: "close to $nearestSettlementName"
+                        localized?.get(StringKey.DirectionsCloseToSettlementInline, settlementName)
+                            ?: "close to $settlementName"
                         ),
                     // Excludes the direction of travel - see the dedupText comment further below.
-                    dedupText = roadDedup("On $roadName close to $nearestSettlementName")
+                    dedupText = roadDedup("On $roadName close to $settlementName")
                 )
             }
 
@@ -686,9 +822,9 @@ private fun travellingReverseGeocodeName(
                     )
                     Pair(
                         localized?.get(
-                            StringKey.DirectionsTowardsSettlement, nearestSettlementName, distanceText
-                        ) ?: "towards $nearestSettlementName, $distanceText away",
-                        "towards $nearestSettlementName"
+                            StringKey.DirectionsTowardsSettlement, settlementName, distanceText
+                        ) ?: "towards $settlementName, $distanceText away",
+                        "towards $settlementName"
                     )
                 }
                 headingOffset >= 135.0 -> {
@@ -698,15 +834,15 @@ private fun travellingReverseGeocodeName(
                     )
                     Pair(
                         localized?.get(
-                            StringKey.DirectionsAwayFromSettlement, nearestSettlementName, distanceText
-                        ) ?: "away from $nearestSettlementName, $distanceText away",
-                        "away from $nearestSettlementName"
+                            StringKey.DirectionsAwayFromSettlement, settlementName, distanceText
+                        ) ?: "away from $settlementName, $distanceText away",
+                        "away from $settlementName"
                     )
                 }
                 else -> Pair(
-                    localized?.get(StringKey.DirectionsNearSettlementInline, nearestSettlementName)
-                        ?: "near $nearestSettlementName",
-                    "near $nearestSettlementName"
+                    localized?.get(StringKey.DirectionsNearSettlementInline, settlementName)
+                        ?: "near $settlementName",
+                    "near $settlementName"
                 )
             }
             return ReverseGeocodeText(
@@ -720,18 +856,18 @@ private fun travellingReverseGeocodeName(
         }
 
         return ReverseGeocodeText(
-            text = if (nearestSettlementName != null) {
+            text = if (settlementName != null) {
                 localized?.get(
-                    StringKey.DirectionsOnRoadAndSettlement, spokenRoadName, nearestSettlementName
-                ) ?: "On $spokenRoadName and close to $nearestSettlementName"
+                    StringKey.DirectionsOnRoadAndSettlement, spokenRoadName, settlementName
+                ) ?: "On $spokenRoadName and close to $settlementName"
             } else {
                 phrase
             },
             // Excludes the direction of travel (see the equivalent dedupText comments above) - on
             // a winding road, phrase's compass direction can shift tick to tick purely from the
             // road's own bends, well before the road or settlement actually changes.
-            dedupText = if (nearestSettlementName != null) {
-                roadDedup("On $roadName and close to $nearestSettlementName")
+            dedupText = if (settlementName != null) {
+                roadDedup("On $roadName and close to $settlementName")
             } else {
                 // Equivalent to roadIdentity, but expressed through roadDedup so the compiler
                 // can see it's non-null in this branch (spokenRoadName already is).
@@ -740,10 +876,13 @@ private fun travellingReverseGeocodeName(
         )
     }
 
-    if (nearestSettlementName != null) {
+    // With no road to hang it on there's nothing to be travelling *along*, so this says where the
+    // user is rather than where they're going - and it has to use the near-field settlement, since
+    // "Near Croftamie" about somewhere 5 km up the road would be a plain lie.
+    val nearbyName = nearby.displayName
+    if (nearbyName != null) {
         return ReverseGeocodeText(
-            localized?.get(StringKey.DirectionsNearName, nearestSettlementName)
-                ?: "Near $nearestSettlementName"
+            localized?.get(StringKey.DirectionsNearName, nearbyName) ?: "Near $nearbyName"
         )
     }
 
