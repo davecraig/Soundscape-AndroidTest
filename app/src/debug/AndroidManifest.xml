@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Debug-only additions. Everything here is merged into the main manifest for debug builds and is
+    absent from release builds, so none of it reaches the Play Store.
+
+    REPLAY_GPX drives the app over a recorded GPX track instead of the phone's own location - used
+    for manual testing over a known route, and to produce reproducible recordings of the app's
+    audio for the tutorial guides. See SoundscapeIntents.replayGpx.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.scottishtecharmy.soundscape.REPLAY_GPX" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

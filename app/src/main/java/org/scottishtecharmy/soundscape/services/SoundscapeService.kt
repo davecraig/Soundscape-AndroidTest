@@ -158,6 +158,11 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     override val filteredLocationFlow: StateFlow<SoundscapeLocation?>
         get() = locationProvider.filteredLocationFlow
 
+    // Bumped by startProviders() so collectors of locationFlow/orientationFlow know to
+    // re-subscribe - see MediaControllableService.providerGeneration.
+    private val _providerGeneration = MutableStateFlow(0)
+    override val providerGeneration: StateFlow<Int> = _providerGeneration
+
     override val locationFlow: StateFlow<SoundscapeLocation?>
         get() = locationProvider.locationFlow
 
@@ -243,6 +248,9 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     private var geoEngine = GeoEngine()
     lateinit var localizedContext: Context
     private var gpxRecorder: GpxRecorder? = null
+
+    /** Non-null only while a debug GPX replay is driving the providers - see setGpxPlaybackMode. */
+    private var gpxProvider: GpxDrivenProvider? = null
     private lateinit var networkUtils: NetworkUtils
 
     private fun startGeoEngine(streetPreviewEnabled: Boolean) {
@@ -364,6 +372,10 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
     }
 
     override fun setStreetPreviewMode(on: Boolean, location: LngLatAlt?) {
+        // Street preview and a GPX replay both want to own the location provider, so entering one
+        // ends the other.
+        gpxProvider?.stop()
+        gpxProvider = null
         directionProvider.destroy()
         locationProvider.destroy()
         geoEngine.stop()
@@ -396,6 +408,65 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
         startGeoEngine(on)
     }
 
+    /**
+     * Replaces the phone's location and direction providers with a replay of [gpxFile], so that
+     * the app can be driven over a known route from the desk - see [GpxDrivenProvider]. Passing a
+     * null file switches back to the phone's own providers.
+     *
+     * Returns false if the file couldn't be read or didn't contain a replayable track, in which
+     * case the current providers are left alone.
+     *
+     * Debug builds only; the intent that reaches this is declared in app/src/debug's manifest.
+     */
+    fun setGpxPlaybackMode(
+        gpxFile: File?,
+        speedMetresPerSecond: Double = GpxDrivenProvider.DEFAULT_SPEED_MPS,
+        loop: Boolean = false,
+    ): Boolean {
+        if (!BuildConfig.DEBUG) {
+            Log.w(TAG, "setGpxPlaybackMode ignored in a non-debug build")
+            return false
+        }
+
+        val newGpxProvider = if (gpxFile == null) null else {
+            val provider = GpxDrivenProvider()
+            val started = try {
+                gpxFile.inputStream().use { provider.start(it, speedMetresPerSecond, loop) }
+            } catch (e: Exception) {
+                Log.e(TAG, "Couldn't read GPX file ${gpxFile.path}: ${e.message}")
+                false
+            }
+            if (!started) return false
+            provider
+        }
+
+        gpxProvider?.stop()
+        gpxProvider = newGpxProvider
+
+        directionProvider.destroy()
+        locationProvider.destroy()
+        geoEngine.stop()
+
+        if (newGpxProvider != null) {
+            locationProvider = newGpxProvider.locationProvider
+            directionProvider = newGpxProvider.directionProvider
+        } else if (hasPlayServices(this)) {
+            locationProvider = GooglePlayLocationProvider(this)
+            directionProvider = GooglePlayDirectionProvider(this)
+        } else {
+            locationProvider = AndroidLocationProvider(this)
+            directionProvider = AndroidDirectionProvider(this)
+        }
+
+        // A replay is not street preview, so make sure that mode is off - otherwise the geoengine
+        // would be waiting on streetPreviewGo() rather than following the track.
+        _streetPreviewFlow.value = StreetPreviewState(StreetPreviewEnabled.OFF)
+
+        startProviders()
+        startGeoEngine(false)
+        return true
+    }
+
     private fun startProviders() {
         when (val lp = locationProvider) {
             is GooglePlayLocationProvider -> lp.start()
@@ -406,6 +477,9 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
             is GooglePlayDirectionProvider -> dp.start()
             is AndroidDirectionProvider -> dp.start()
         }
+        // Every provider swap comes through here, so this is the one place that has to announce
+        // that locationFlow/orientationFlow now point at different objects.
+        _providerGeneration.value += 1
     }
 
     override fun tileGridUpdated() {
@@ -498,22 +572,14 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
                 MarkersAndRoutesDatabaseProvider.getInstance(applicationContext).routeDao()
             )
 
-            if (true) {
-                // Normal app behaviour using the phone location and direction providers
-                if (hasPlayServices(this)) {
-                    locationProvider = GooglePlayLocationProvider(this)
-                    directionProvider = GooglePlayDirectionProvider(this)
-                } else {
-                    locationProvider = AndroidLocationProvider(this)
-                    directionProvider = AndroidDirectionProvider(this)
-                }
+            // Normal app behaviour using the phone location and direction providers. A GPX
+            // replay can be substituted for these later via setGpxPlaybackMode().
+            if (hasPlayServices(this)) {
+                locationProvider = GooglePlayLocationProvider(this)
+                directionProvider = GooglePlayDirectionProvider(this)
             } else {
-                // This is used to replay a recorded GPX file to see how the complete app behaves.
-                // Enabled by developers only and currently hard coded to a specific asset.
-                val gpxProvider = GpxDrivenProvider()
-                gpxProvider.start(this)
-                locationProvider = gpxProvider.locationProvider
-                directionProvider = gpxProvider.directionProvider
+                locationProvider = AndroidLocationProvider(this)
+                directionProvider = AndroidDirectionProvider(this)
             }
             // create new RealmDB or open existing
             startRealms(applicationContext)
@@ -582,6 +648,8 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
         if (::sharedPreferences.isInitialized) {
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(headTrackingPrefListener)
         }
+        gpxProvider?.stop()
+        gpxProvider = null
         locationProvider.destroy()
         directionProvider.destroy()
         started = false

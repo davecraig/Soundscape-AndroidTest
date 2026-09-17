@@ -65,6 +65,7 @@ If you would like access to the main Soundscape tile provider for development, g
 * [Branch strategy]({% link developers/branch-strategy.md %}) — which branches are active, where to send PRs, and the upcoming KMP cutover that will replace `main`.
 * [Build types and analytics]({% link developers/build-types.md %}) — `debug` / `release` / `releaseTest`, the variant-specific source sets that swap in real or no-op analytics, and the `BuildConfig` values read from `local.properties`.
 * [GitHub actions]({% link developers/actions.md %}) — the CI workflows and the secrets they consume.
+* [GPX replay]({% link developers/gpx-replay.md %}) — drive a debug build over a recorded track instead of the phone's GPS, for testing over a known route and for reproducible audio recordings.
 * [Unit test example]({% link developers/unit-test-example.md %}) — using host-side unit tests with real map data to prototype and debug geo features.
 
 ## Reference

@@ -23,6 +23,8 @@ private val DEFAULT_STREET_PREVIEW_FLOW: StateFlow<StreetPreviewState> =
 private val DEFAULT_HEAD_HEADING_FLOW: StateFlow<HeadHeading?> =
     MutableStateFlow<HeadHeading?>(null).asStateFlow()
 
+private val DEFAULT_PROVIDER_GENERATION: StateFlow<Int> = MutableStateFlow(0).asStateFlow()
+
 private val DEFAULT_HEADSET_BATTERY_FLOW: StateFlow<Int?> =
     MutableStateFlow<Int?>(null).asStateFlow()
 
@@ -71,8 +73,23 @@ interface MediaControllableService {
 
     // Flow surface used by shared state-holders. Each implementation forwards to its
     // location/direction provider, route player, beacon state, etc.
+    //
+    // [locationFlow] and [orientationFlow] forward to whichever provider is current, so swapping
+    // the providers (street preview, GPX replay) hands out a *different* StateFlow object and
+    // leaves anything already collecting attached to the old, now dead, one. [providerGeneration]
+    // is how a collector learns it has to re-subscribe.
     val locationFlow: StateFlow<SoundscapeLocation?>
     val orientationFlow: StateFlow<DeviceDirection?>
+
+    /**
+     * Incremented every time the location or direction provider is replaced. Collectors of
+     * [locationFlow] and [orientationFlow] must re-subscribe when this changes, or they carry on
+     * reading the provider that was swapped out.
+     *
+     * Defaults to a constant for implementations that never swap providers.
+     */
+    val providerGeneration: StateFlow<Int>
+        get() = DEFAULT_PROVIDER_GENERATION
     /** Calibrated head heading from an external head tracker, or null when no
      *  external head tracker is active. The home screen uses this in
      *  preference to [orientationFlow] when present. */

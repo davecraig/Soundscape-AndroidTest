@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -117,14 +118,21 @@ open class HomeViewModel(
 
         scope.launch {
             service.streetPreviewFlow.collect { value ->
-                val previouslyEnabled = _state.value.streetPreviewState.enabled
                 _state.update { it.copy(streetPreviewState = value) }
+            }
+        }
 
-                if (previouslyEnabled != value.enabled) {
-                    // Provider changed under us — restart the location-side jobs.
-                    stopMonitoringLocation()
-                    startMonitoringLocation()
-                }
+        // The providers are swapped out from under us by street preview and by GPX replay, and
+        // locationFlow/orientationFlow forward to whichever pair is current - so a collector that
+        // subscribed before the swap is left reading the old provider. Re-subscribe whenever the
+        // service says the providers changed. Entering street preview used to be the only way this
+        // could happen, and was handled by watching streetPreviewFlow for a change of enabled
+        // state; providerGeneration covers every swap, including one that leaves street preview
+        // off and so wouldn't have been noticed.
+        scope.launch {
+            service.providerGeneration.drop(1).collect {
+                stopMonitoringLocation()
+                startMonitoringLocation()
             }
         }
     }

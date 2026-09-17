@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import java.io.File
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -58,6 +59,12 @@ class SoundscapeServiceConnection : ServiceConnection {
     fun setStreetPreviewMode(on: Boolean, location: LngLatAlt? = null) {
         Log.d(TAG, "setStreetPreviewMode $on")
         soundscapeService?.setStreetPreviewMode(on, location)
+    }
+
+    /** Debug GPX replay - see SoundscapeService.setGpxPlaybackMode. */
+    fun setGpxPlaybackMode(gpxFile: File?, speedMetresPerSecond: Double, loop: Boolean): Boolean {
+        Log.d(TAG, "setGpxPlaybackMode ${gpxFile?.path}")
+        return soundscapeService?.setGpxPlaybackMode(gpxFile, speedMetresPerSecond, loop) ?: false
     }
 
     fun routeStart(routeId: Long) {

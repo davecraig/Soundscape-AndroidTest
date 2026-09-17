@@ -1,149 +1,199 @@
 package org.scottishtecharmy.soundscape.locationprovider
 
-import android.content.Context
 import android.util.Log
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import org.scottishtecharmy.soundscape.audio.NativeAudioEngine
 import org.scottishtecharmy.soundscape.geoengine.utils.bearingFromTwoPoints
-import org.scottishtecharmy.soundscape.geoengine.utils.gpx.GpxData
 import org.scottishtecharmy.soundscape.geoengine.utils.gpx.parseGpx
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.GeodesicRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import java.io.InputStream
 
-class GpxDrivenProvider {
+/**
+ * Replays a recorded GPX track as if the user were walking it, so that the whole app - geoengine,
+ * callouts, beacons - can be driven over a known route without leaving the desk.
+ *
+ * It synthesizes nothing but position and heading: the flows it feeds are the same ones a real
+ * location provider fills, so everything downstream (including the audio engine geometry, which
+ * GeoEngine derives from these flows) behaves exactly as it would on a real walk.
+ *
+ * The track is walked at the constant speed given to [start] rather than at the pace it was
+ * recorded at. That's deliberate: a replay used to produce a tutorial recording needs to be
+ * reproducible and needs to be able to cover dull stretches quickly, neither of which a recorded
+ * pace gives you. Recorded timestamps are ignored entirely.
+ *
+ * Debug builds only - see SoundscapeIntents' REPLAY_GPX handling.
+ */
+class GpxDrivenProvider(
+    /** Overridden by tests so the replay can be stepped through virtual time. */
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
+) {
 
+    /**
+     * Only valid once [start] has returned true; it is rebuilt there so that it can be seeded with
+     * the first point of the track rather than publishing a (0, 0) fix before the replay begins.
+     */
     var locationProvider = StaticLocationProvider(LngLatAlt())
-    var directionProvider = DirectionProvider()
-    var audioEngine: NativeAudioEngine? = null
+        private set
 
-    private var parsedGpx: GpxData? = null
-    private val coroutineScope = CoroutineScope(Job())
-    private var trackPointIndex = 0
+    val directionProvider = DirectionProvider()
 
-    private var stepsInPoint = 0
-    private var currentStep = 0
-    private var latStep = 0.0
-    private var lngStep = 0.0
+    private var scope: CoroutineScope? = null
 
-    private val msWait = 1000.0
-    private val walkingSpeed = 1.0
+    /**
+     * Parses [input] and begins replaying it. Returns false, having done nothing, unless the
+     * stream is a GPX holding a track with at least two points and some length between them.
+     */
+    fun start(
+        input: InputStream,
+        speedMetresPerSecond: Double = DEFAULT_SPEED_MPS,
+        loop: Boolean = false,
+    ): Boolean {
+        val points = parseTrackPoints(input)
+        if (points.size < 2) {
+            Log.e(TAG, "GPX has ${points.size} track point(s), need at least 2 to replay")
+            return false
+        }
+        // A track recorded while stationary has plenty of points but no length, and there would be
+        // nothing to walk along - the replay would never advance off the first point.
+        val ruler = GeodesicRuler()
+        val trackLength = points.zipWithNext().sumOf { (a, b) -> ruler.distance(a, b) }
+        if (trackLength <= 0.0) {
+            Log.e(TAG, "GPX track has no length, nothing to replay")
+            return false
+        }
+        Log.d(
+            TAG,
+            "Replaying ${points.size} track points over ${trackLength.toInt()}m " +
+                    "at $speedMetresPerSecond m/s (loop=$loop)"
+        )
 
-    fun start(context: Context) {
-        // Place the file to be replayed in the assets/gpx folder and open it here
-        val input = context.assets.open("")
-        parseGpxStream(input)
+        locationProvider = StaticLocationProvider(points.first())
 
-        coroutineScope.launch {
-            val ruler = GeodesicRuler()
-            while (true) {
-                val point =
-                    parsedGpx?.tracks?.getOrNull(0)?.trackSegments?.getOrNull(0)?.trackPoints?.getOrNull(
-                        trackPointIndex
-                    )
+        val newScope = CoroutineScope(SupervisorJob() + dispatcher)
+        scope = newScope
+        newScope.launch {
+            replay(points, speedMetresPerSecond, loop)
+            Log.d(TAG, "Replay finished")
+        }
+        return true
+    }
 
-                var heading = 0.0
-                point?.let {
-                    if (stepsInPoint == 0) {
-                        val pointLngLatAlt = LngLatAlt(it.longitude, it.latitude)
-                        val nextPoint =
-                            parsedGpx?.tracks?.getOrNull(0)?.trackSegments?.getOrNull(0)?.trackPoints?.getOrNull(
-                                trackPointIndex + 1
-                            )
-                        nextPoint?.let { itNext ->
-                            val nextPointLngLatAlt = LngLatAlt(itNext.longitude, itNext.latitude)
-                            val distance = ruler.distance(pointLngLatAlt, nextPointLngLatAlt)
-                            stepsInPoint = (distance / (walkingSpeed * (msWait / 1000.0))).toInt()
-                            if (stepsInPoint == 0) stepsInPoint = 1
-                            currentStep = 0
-                            latStep = (nextPoint.latitude - point.latitude) / stepsInPoint
-                            lngStep = (nextPoint.longitude - point.longitude) / stepsInPoint
+    fun stop() {
+        scope?.cancel()
+        scope = null
+    }
 
-                            heading = bearingFromTwoPoints(
-                                LngLatAlt(point.longitude, point.latitude),
-                                LngLatAlt(nextPoint.longitude, nextPoint.latitude)
-                            )
+    /**
+     * Walks the polyline at a constant speed, emitting a fix every [TICK_MILLIS] at whatever point
+     * along it has been reached. Heading is the bearing of the segment currently being walked, so
+     * it stays correct between track points rather than only at them.
+     */
+    private suspend fun replay(points: List<LngLatAlt>, speed: Double, loop: Boolean) {
+        // start() has already established that the track has some length, so the advance below
+        // always makes progress.
+        val ruler = GeodesicRuler()
+        val metresPerTick = speed * (TICK_MILLIS / 1000.0)
 
-                            val orientation = DeviceDirection(
-                                attitude = FloatArray(4),
-                                headingDegrees = heading.toFloat(),
-                                headingAccuracyDegrees = 0.0F,
-                                elapsedRealtimeNanos = 1000000
-                            )
-                            directionProvider.mutableOrientationFlow.value = orientation
-                        }
-                    }
-                    // Interpolate next point location
-                    val interpolatedPoint = LngLatAlt(
-                        point.longitude + (lngStep * currentStep),
-                        point.latitude + (latStep * currentStep)
-                    )
-                    locationProvider.updateLocation(
-                        SoundscapeLocation(
-                            latitude = interpolatedPoint.latitude,
-                            longitude = interpolatedPoint.longitude,
-                            bearing = heading.toFloat(),
-                            speed = walkingSpeed.toFloat(),
-                            hasAccuracy = true,
-                            accuracy = 0.0f,
-                        )
-                    )
-                    audioEngine?.updateGeometry(
-                        interpolatedPoint.latitude,
-                        interpolatedPoint.longitude,
-                        heading,
-                        focusGained = true,
-                        duckingAllowed = false,
-                        15.0
-                    )
+        // Position along the track: the segment points[index] -> points[index + 1], and how far
+        // into that segment we are.
+        var index = 0
+        var metresIntoSegment = 0.0
 
-                    currentStep++
-                    if (currentStep == stepsInPoint) {
-                        trackPointIndex++
-                        if (trackPointIndex >= (parsedGpx?.tracks?.getOrNull(0)?.trackSegments?.getOrNull(
-                                0
-                            )?.trackPoints?.size
-                                ?: 0)
-                        ) {
-                            trackPointIndex = 0
-                        }
-                        stepsInPoint = 0
+        while (currentScopeIsActive()) {
+            val from = points[index]
+            val to = points[index + 1]
+            val segmentLength = ruler.distance(from, to)
+            val fraction =
+                if (segmentLength > 0.0) (metresIntoSegment / segmentLength).coerceIn(0.0, 1.0)
+                else 0.0
+
+            emit(
+                point = LngLatAlt(
+                    from.longitude + ((to.longitude - from.longitude) * fraction),
+                    from.latitude + ((to.latitude - from.latitude) * fraction),
+                ),
+                heading = bearingFromTwoPoints(from, to),
+                speed = speed,
+            )
+
+            delay(TICK_MILLIS)
+
+            // Advance by one tick's worth of travel, crossing as many track points as that takes -
+            // a recording made while stationary can have several within a single step.
+            var remaining = metresPerTick
+            while (remaining > 0.0) {
+                val segment = ruler.distance(points[index], points[index + 1])
+                val leftInSegment = segment - metresIntoSegment
+                if (remaining < leftInSegment) {
+                    metresIntoSegment += remaining
+                    remaining = 0.0
+                } else {
+                    remaining -= leftInSegment
+                    metresIntoSegment = 0.0
+                    index++
+                    if (index >= points.size - 1) {
+                        if (!loop) return
+                        index = 0
                     }
                 }
-                delay(msWait.toLong())
             }
         }
     }
 
-    fun parseGpxStream(input: InputStream) {
-        Log.d(TAG, "Parsing GPX file")
+    private fun emit(point: LngLatAlt, heading: Double, speed: Double) {
+        directionProvider.mutableOrientationFlow.value = DeviceDirection(
+            attitude = FloatArray(4),
+            headingDegrees = heading.toFloat(),
+            headingAccuracyDegrees = 0.0f,
+            elapsedRealtimeNanos = System.nanoTime(),
+        )
+        locationProvider.updateLocation(
+            SoundscapeLocation(
+                latitude = point.latitude,
+                longitude = point.longitude,
+                bearing = heading.toFloat(),
+                hasBearing = true,
+                speed = speed.toFloat(),
+                hasSpeed = true,
+                // No accuracy at all, rather than a perfect 0.0m one: isAccuracyUsable() treats a
+                // fix with no accuracy as a synthesized one and lets it through, which is what a
+                // replay wants.
+                hasAccuracy = false,
+                timestampMilliseconds = System.currentTimeMillis(),
+            )
+        )
+    }
 
-        try {
-            parsedGpx = parseGpx(input.bufferedReader().readText())
-            parsedGpx?.let { gpx ->
-                gpx.tracks.forEach { track ->
-                    track.trackSegments.forEach { segment ->
-                        segment.trackPoints.forEach { trackPoint ->
-                            Log.d(
-                                "gpx",
-                                "TrackPoint: ${trackPoint.time} ${trackPoint.latitude} ${trackPoint.longitude}"
-                            )
-                        }
-                    }
-                }
-            } ?: {
-                Log.e(TAG, "Error parsing GPX file")
-            }
+    private fun currentScopeIsActive() = scope?.isActive == true
+
+    /** Flattens every segment of every track in the file into one list of points to walk. */
+    private fun parseTrackPoints(input: InputStream): List<LngLatAlt> {
+        return try {
+            parseGpx(input.bufferedReader().readText())
+                .tracks
+                .flatMap { it.trackSegments }
+                .flatMap { it.trackPoints }
+                .map { LngLatAlt(it.longitude, it.latitude) }
         } catch (e: Exception) {
             Log.e(TAG, "Exception whilst parsing GPX file: ${e.message}")
-            e.printStackTrace()
+            emptyList()
         }
     }
 
     companion object {
         private const val TAG = "GpxDrivenProvider"
+
+        /** Brisk walking pace, and the default if the intent doesn't ask for another. */
+        const val DEFAULT_SPEED_MPS = 1.4
+
+        /** One fix a second, which is what a phone's GPS typically manages. */
+        private const val TICK_MILLIS = 1000L
     }
 }
