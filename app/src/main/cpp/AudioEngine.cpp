@@ -425,6 +425,27 @@ namespace soundscape {
         m_Beacons.erase(beacon);
     }
 
+    void AudioEngine::RegisterBeaconWrapper(BeaconWithProximity *wrapper) {
+        std::lock_guard<std::recursive_mutex> guard(m_BeaconsMutex);
+        m_BeaconWrappers.insert(wrapper);
+    }
+
+    void AudioEngine::UnregisterBeaconWrapper(BeaconWithProximity *wrapper) {
+        std::lock_guard<std::recursive_mutex> guard(m_BeaconsMutex);
+        m_BeaconWrappers.erase(wrapper);
+    }
+
+    void AudioEngine::UpdateBeaconLocation(BeaconWithProximity *wrapper,
+                                           double latitude,
+                                           double longitude) {
+        std::lock_guard<std::recursive_mutex> guard(m_BeaconsMutex);
+        // The lookup is the whole point: a dynamic beacon is moved from the geo engine's coroutine
+        // every second, and the beacon can be destroyed from another thread in between.
+        if (m_BeaconWrappers.find(wrapper) == m_BeaconWrappers.end())
+            return;
+        wrapper->SetLocation(latitude, longitude);
+    }
+
     bool AudioEngine::ToggleBeaconMute() {
         m_BeaconMute ^= true;
 
@@ -574,8 +595,11 @@ Java_org_scottishtecharmy_soundscape_audio_NativeAudioEngine_createNativeBeacon(
         if (not beacon) {
             TRACE("Failed to create audio beacon");
             beacon.reset(nullptr);
+            return 0L;
         }
-        return reinterpret_cast<jlong>(beacon.release());
+        auto *released = beacon.release();
+        ae->RegisterBeaconWrapper(released);
+        return reinterpret_cast<jlong>(released);
     }
     return 0L;
 }
@@ -609,12 +633,36 @@ Java_org_scottishtecharmy_soundscape_audio_NativeAudioEngine_isHandleActive(
 
 extern "C"
 JNIEXPORT void JNICALL
+Java_org_scottishtecharmy_soundscape_audio_NativeAudioEngine_updateNativeBeaconLocation(
+        JNIEnv *env MAYBE_UNUSED,
+        jobject thiz MAYBE_UNUSED,
+        jlong engine_handle,
+        jlong beacon_handle,
+        jdouble latitude,
+        jdouble longitude) {
+    auto *ae = reinterpret_cast<soundscape::AudioEngine *>(engine_handle);
+    if (ae) {
+        ae->UpdateBeaconLocation(
+                reinterpret_cast<soundscape::BeaconWithProximity *>(beacon_handle),
+                latitude,
+                longitude);
+    }
+}
+
+extern "C"
+JNIEXPORT void JNICALL
 Java_org_scottishtecharmy_soundscape_audio_NativeAudioEngine_destroyNativeBeacon(
         JNIEnv *env MAYBE_UNUSED,
         jobject thiz MAYBE_UNUSED,
         jlong beacon_handle) {
     auto beacon = reinterpret_cast<soundscape::BeaconWithProximity *>(beacon_handle);
     auto ae = beacon->m_HeadingBeacon.m_pEngine;
+    if (ae) {
+        // Unregister before the delete, so that an UpdateBeaconLocation racing this from the geo
+        // engine's thread either finds the wrapper and completes under the mutex, or doesn't find
+        // it at all.
+        ae->UnregisterBeaconWrapper(beacon);
+    }
     delete beacon;
     if (ae) {
         ae->BeaconDestroyed();

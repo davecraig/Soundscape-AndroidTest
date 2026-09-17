@@ -47,6 +47,7 @@ private class FakeAudioEngine : AudioEngine {
 
     override fun createBeacon(location: LngLatAlt, headingOnly: Boolean): Long = 0L
     override fun destroyBeacon(beaconHandle: Long) {}
+    override fun updateBeaconLocation(beaconHandle: Long, location: LngLatAlt) {}
     override fun toggleBeaconMute(): Boolean = false
 
     override fun createTextToSpeech(

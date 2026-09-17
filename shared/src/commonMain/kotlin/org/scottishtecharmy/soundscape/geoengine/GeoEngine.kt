@@ -24,6 +24,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.nameKeysForLanguage
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
+import org.scottishtecharmy.soundscape.geoengine.utils.JunctionArms
 import org.scottishtecharmy.soundscape.geoengine.utils.PoiRankStrategy
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.utils.extrapolatePositionForward
@@ -160,6 +161,39 @@ class GeoEngine {
     fun updateBeaconLocation(location: LngLatAlt?) {
         beaconLocation = location
     }
+
+    /**
+     * The beacon that runs ahead of the user along the road, when the debug setting arms it.
+     *
+     * Its target is deliberately *not* fed to [updateBeaconLocation]: see
+     * GeoEngineListener.moveDynamicBeacon.
+     */
+    private val dynamicBeacon = DynamicBeacon(
+        mode = {
+            DynamicBeaconMode.fromPreference(
+                preference(
+                    PreferenceKeys.DYNAMIC_BEACON_MODE,
+                    PreferenceDefaults.DYNAMIC_BEACON_MODE
+                )
+            )
+        },
+        junctionArms = {
+            JunctionArms.fromPreference(
+                preference(
+                    PreferenceKeys.DYNAMIC_BEACON_JUNCTION_ARMS,
+                    PreferenceDefaults.DYNAMIC_BEACON_JUNCTION_ARMS
+                )
+            )
+        },
+    )
+
+    /** [preferencesProvider] is lateinit, so this reads through it only once start() has run. */
+    private fun preference(key: String, default: String): String =
+        if (::preferencesProvider.isInitialized) {
+            preferencesProvider.getString(key, default)
+        } else {
+            default
+        }
 
     var ruler = CheapRuler(0.0)
 
@@ -319,6 +353,19 @@ class GeoEngine {
                 )
             } else if (key == PreferenceKeys.MEASUREMENT_UNITS) {
                 updateMeasurementUnits(preferencesProvider)
+            } else if (key == PreferenceKeys.DYNAMIC_BEACON_MODE) {
+                // Switching the mode off has to silence the beacon now rather than at the next
+                // location update, which may be a while coming if the user is standing still.
+                if (DynamicBeaconMode.fromPreference(
+                        preferencesProvider.getString(
+                            PreferenceKeys.DYNAMIC_BEACON_MODE,
+                            PreferenceDefaults.DYNAMIC_BEACON_MODE
+                        )
+                    ) == DynamicBeaconMode.Off
+                ) {
+                    dynamicBeacon.clear()
+                    listener.stopDynamicBeacon()
+                }
             }
         }
         preferencesProvider.addListener(preferencesListener)
@@ -587,10 +634,20 @@ class GeoEngine {
                         listener.tileGridUpdated()
                     }
 
+                    val userGeometry = getCurrentUserGeometry(UserGeometry.HeadingMode.CourseAuto)
+
+                    // Outside the audio-engine-busy guard below on purpose: the beacon has to keep
+                    // moving while a callout is being spoken, or it lurches when the speech ends.
+                    // The 1Hz fix rate is enough - at walking pace a beacon 25m away moves about
+                    // 3 degrees of azimuth per fix, so there is nothing to interpolate.
+                    if (dynamicBeacon.update(userGeometry)) {
+                        dynamicBeacon.target?.let { listener.moveDynamicBeacon(it) }
+                    }
+
                     if ((!listener.isAudioEngineBusy() || streetPreview.running) && !autoCalloutDisabled && !listener.menuActive) {
                         val callout =
                             autoCallout.updateLocation(
-                                getCurrentUserGeometry(UserGeometry.HeadingMode.CourseAuto),
+                                userGeometry,
                                 gridState,
                                 settlementGrid
                             )

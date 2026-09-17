@@ -51,6 +51,13 @@ class NativeAudioEngine(val service: SoundscapeService? = null) : AudioEngine {
         heading: Double
     ): Long
 
+    private external fun updateNativeBeaconLocation(
+        engineHandle: Long,
+        beaconHandle: Long,
+        latitude: Double,
+        longitude: Double
+    )
+
     private external fun destroyNativeBeacon(beaconHandle: Long)
     private external fun toggleNativeBeaconMute(engineHandle: Long): Boolean
     external fun createNativeTextToSpeech(
@@ -276,6 +283,20 @@ class NativeAudioEngine(val service: SoundscapeService? = null) : AudioEngine {
             }
 
             return 0
+        }
+    }
+
+    override fun updateBeaconLocation(beaconHandle: Long, location: LngLatAlt) {
+        synchronized(engineMutex) {
+            if ((engineHandle != 0L) && (beaconHandle != 0L)) {
+                // Deliberately not logged: this is called on every location update.
+                updateNativeBeaconLocation(
+                    engineHandle,
+                    beaconHandle,
+                    location.latitude,
+                    location.longitude
+                )
+            }
         }
     }
 

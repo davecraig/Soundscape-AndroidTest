@@ -621,6 +621,13 @@ class IosAudioEngine : AudioEngine {
         return player
     }
 
+    override fun updateBeaconLocation(beaconHandle: Long, location: LngLatAlt) {
+        val entry = withActivePlayersLock { activePlayers[beaconHandle] }
+        if (entry is PlayerEntry.Beacon) {
+            entry.players.forEach { it.moveTo(location.latitude, location.longitude) }
+        }
+    }
+
     override fun destroyBeacon(beaconHandle: Long) {
         val entry = withActivePlayersLock { activePlayers.remove(beaconHandle) }
         if (entry is PlayerEntry.Beacon) {

@@ -35,6 +35,7 @@ private class PreviewFakeAudioEngine : AudioEngine {
 
     val createBeaconCalls = mutableListOf<CreateBeaconCall>()
     val destroyBeaconCalls = mutableListOf<Long>()
+    val updateBeaconLocationCalls = mutableListOf<Pair<Long, LngLatAlt>>()
     val setBeaconTypeCalls = mutableListOf<String>()
     var nextHandle = 1L
 
@@ -45,6 +46,10 @@ private class PreviewFakeAudioEngine : AudioEngine {
 
     override fun destroyBeacon(beaconHandle: Long) {
         destroyBeaconCalls.add(beaconHandle)
+    }
+
+    override fun updateBeaconLocation(beaconHandle: Long, location: LngLatAlt) {
+        updateBeaconLocationCalls.add(beaconHandle to location)
     }
 
     override fun toggleBeaconMute(): Boolean = false

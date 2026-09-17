@@ -71,6 +71,15 @@ object PreferenceKeys {
      * throwing, and so that it round-trips through the plain string preference store.
      */
     const val POI_RANK_STRATEGY = "PoiRankStrategy"
+
+    /**
+     * Which dynamic-beacon prototype to run - see DynamicBeaconMode. A string for the same reasons
+     * as POI_RANK_STRATEGY above.
+     */
+    const val DYNAMIC_BEACON_MODE = "DynamicBeaconMode"
+
+    /** Which arms of an intersection the dynamic beacon stops at - see JunctionArms. */
+    const val DYNAMIC_BEACON_JUNCTION_ARMS = "DynamicBeaconJunctionArms"
 }
 
 object PreferenceDefaults {
@@ -101,4 +110,9 @@ object PreferenceDefaults {
     const val MARKERS_SORT_ASCENDING = true
     const val HEAD_TRACKING_ENABLED = false
     const val POI_RANK_STRATEGY = "off"
+    const val DYNAMIC_BEACON_MODE = "off"
+
+    // Named roads by default: a beacon that stops at every driveway and footpath stub makes its
+    // stopping mean nothing. The "any" setting is there to compare against.
+    const val DYNAMIC_BEACON_JUNCTION_ARMS = "named"
 }

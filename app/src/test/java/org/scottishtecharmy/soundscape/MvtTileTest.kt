@@ -12,6 +12,8 @@ import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.scottishtecharmy.soundscape.MainActivity.Companion.MOBILITY_KEY
 import org.scottishtecharmy.soundscape.MainActivity.Companion.PLACES_AND_LANDMARKS_KEY
+import org.scottishtecharmy.soundscape.geoengine.DynamicBeacon
+import org.scottishtecharmy.soundscape.geoengine.DynamicBeaconMode
 import org.scottishtecharmy.soundscape.geoengine.GRID_SIZE
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
@@ -47,6 +49,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.CountryBoundaries
 import org.scottishtecharmy.soundscape.geoengine.utils.DrivingSide
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
+import org.scottishtecharmy.soundscape.geoengine.utils.JunctionArms
 import org.scottishtecharmy.soundscape.geoengine.utils.Side
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
 import org.scottishtecharmy.soundscape.geoengine.utils.confectNamesForRoad
@@ -4184,7 +4187,20 @@ class MvtTileTest {
         }
     }
 
-    fun testMovingGrid(gpxFilename: String, calloutFilename: String, geojsonFilename: String) {
+    fun testMovingGrid(
+        gpxFilename: String,
+        calloutFilename: String,
+        geojsonFilename: String,
+        /**
+         * Which dynamic-beacon prototype to track alongside the callouts, if any.
+         *
+         * Defaulted to Off so that the callout-fixture runs are untouched by this - and so that
+         * running the same GPX with Off and with Lead and diffing the two transcripts is a real
+         * test that the dynamic beacon doesn't disturb the callouts. See testDynamicBeacon.
+         */
+        dynamicBeaconMode: DynamicBeaconMode = DynamicBeaconMode.Off,
+        junctionArms: JunctionArms = JunctionArms.default,
+    ) {
 
         val gridState = FileGridState()
         gridState.start(offlineExtractPath)
@@ -4202,6 +4218,12 @@ class MvtTileTest {
         val startIndex = 0
         val endIndex = gps.features.size
         val autoCallout = AutoCallout(null, null)
+        val dynamicBeacon = DynamicBeacon({ dynamicBeaconMode }, { junctionArms })
+        // The beacon's whole track, so that a bend followed round a corner is visible as a line on
+        // geojson.io rather than having to be inferred from a scatter of points.
+        val beaconTrack = mutableListOf<LngLatAlt>()
+        var lastBeaconTarget: LngLatAlt? = null
+        var lastBeaconAtJunction: Boolean? = null
         val callOutText = FileOutputStream(calloutFilename)
 
         val enabledCategories = mutableSetOf<String>()
@@ -4410,6 +4432,50 @@ class MvtTileTest {
                 }
                 lastOnTrain = onTrain
 
+                // Before the callout, as GeoEngine does, and outside any audio-busy gate.
+                if (dynamicBeaconMode != DynamicBeaconMode.Off) {
+                    dynamicBeacon.update(userGeometry)
+                    val target = dynamicBeacon.target
+                    if (target != null) {
+                        beaconTrack.add(target)
+                        val beaconPoint = Feature()
+                        beaconPoint.geometry = Point(target.longitude, target.latitude)
+                        beaconPoint.properties = hashMapOf(
+                            "index" to (index + startIndex),
+                            "beacon" to dynamicBeaconMode.key,
+                            "marker-color" to "#ff00ff",
+                        )
+                        collection.addFeature(beaconPoint)
+
+                        // The behaviour being judged, reported the same way Stationary and Train
+                        // are. Deliberately driven by whether the walk actually stopped at a
+                        // junction rather than by whether the target moved since the last fix -
+                        // the 2m jitter floor means the target holds still for a fix or two all
+                        // the time, which says nothing about junctions.
+                        val distance = userGeometry.ruler.distance(userGeometry.location, target)
+                        if (dynamicBeacon.targetAtJunction != lastBeaconAtJunction) {
+                            callOutText.write(
+                                if (dynamicBeacon.targetAtJunction) {
+                                    "\nBeacon waiting at junction (${distance.roundToInt()}m ahead)\n"
+                                } else {
+                                    "\nBeacon running ahead\n"
+                                }.toByteArray()
+                            )
+                            lastBeaconAtJunction = dynamicBeacon.targetAtJunction
+                        } else if (dynamicBeacon.targetAtJunction && (lastBeaconTarget != null) &&
+                            (userGeometry.ruler.distance(lastBeaconTarget!!, target) > 20.0)
+                        ) {
+                            // Junction mode never leaves a junction, so its hops would otherwise
+                            // go unreported.
+                            callOutText.write(
+                                "\nBeacon moved to next junction (${distance.roundToInt()}m ahead)\n"
+                                    .toByteArray()
+                            )
+                        }
+                        lastBeaconTarget = target
+                    }
+                }
+
                 val callout = autoCallout.updateLocation(
                     userGeometry,
                     gridState,
@@ -4437,6 +4503,17 @@ class MvtTileTest {
         }
         callOutText.close()
 
+        if (beaconTrack.size > 1) {
+            val track = Feature()
+            track.geometry = LineString(ArrayList(beaconTrack))
+            track.properties = hashMapOf(
+                "beacon" to dynamicBeaconMode.key,
+                "junctionArms" to junctionArms.key,
+                "stroke" to "#ff00ff",
+            )
+            collection.addFeature(track)
+        }
+
         val adapter = GeoJsonObjectMoshiAdapter()
         val mapMatchingOutput = FileOutputStream(geojsonFilename)
         mapMatchingOutput.write(adapter.toJson(collection).toByteArray())
@@ -4454,6 +4531,55 @@ class MvtTileTest {
             "gpxFiles/$testFile.txt",
             "gpxFiles/$testFile.geojson"
         )
+    }
+
+    /**
+     * Replays a walk with the dynamic beacon armed, writing the beacon's track into the GeoJSON
+     * beside the GPS and map-matched tracks so it can be looked at on geojson.io.
+     *
+     * The assertion is the narrow, checkable half of it: the beacon must not disturb the callouts.
+     * It doesn't go through the destination-beacon path, so UserGeometry.currentBeacon stays null
+     * and AutoCallout.buildCalloutForDestination keeps returning on its first line - which means
+     * the transcript has to come out identical to the one with the beacon off, bar the beacon's
+     * own moving/waiting lines. Whether the beacon itself is any *good* is a judgement to make by
+     * walking around with it; this only pins that it costs nothing.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun testDynamicBeacon() {
+        val resultsStorageDir = File("gpxFiles/")
+        if (!resultsStorageDir.exists()) resultsStorageDir.mkdirs()
+        val testFile = "BearsWay"
+        val gpx = "src/test/res/org/scottishtecharmy/soundscape/gpxFiles/$testFile.gpx"
+
+        testMovingGrid(gpx, "gpxFiles/$testFile-beacon-off.txt", "gpxFiles/$testFile-beacon-off.geojson")
+
+        for (mode in listOf(DynamicBeaconMode.Lead, DynamicBeaconMode.Junction)) {
+            for (arms in JunctionArms.entries) {
+                val tag = "$testFile-beacon-${mode.key}-${arms.key}"
+                testMovingGrid(
+                    gpx,
+                    "gpxFiles/$tag.txt",
+                    "gpxFiles/$tag.geojson",
+                    dynamicBeaconMode = mode,
+                    junctionArms = arms,
+                )
+
+                // Every callout line, in order, has to match the beacon-off run. The beacon's own
+                // state lines are dropped, and so are blank lines - those only differ because each
+                // beacon line is written surrounded by them, the way the Stationary and Train
+                // reports are.
+                val beaconLine = Regex("^Beacon (running ahead|waiting at junction.*|moved to next junction.*)$")
+                fun calloutLines(path: String) = File(path).readLines()
+                    .filterNot { it.isBlank() || beaconLine.matches(it) }
+
+                assertEquals(
+                    "dynamic beacon changed the callouts ($tag)",
+                    calloutLines("gpxFiles/$testFile-beacon-off.txt"),
+                    calloutLines("gpxFiles/$tag.txt"),
+                )
+            }
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

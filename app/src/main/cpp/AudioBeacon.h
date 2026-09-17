@@ -53,6 +53,20 @@ namespace soundscape {
 
         void UpdateAudioConfig(int sample_rate, int audio_format, int channel_count);
 
+        /**
+         * Moves the beacon, without disturbing the audio source playing it.
+         *
+         * Only ever called with m_BeaconsMutex held - see AudioEngine::UpdateBeaconLocation. The
+         * coordinates are read by UpdateAzimuth/GetHeadingOffset, which run from
+         * AudioEngine::UpdateGeometry under that same mutex, so no extra locking is needed here.
+         * The azimuth deliberately isn't recomputed: the next UpdateGeometry is along within
+         * 100ms, and the render thread is reading an atomic that only it and UpdateAzimuth touch.
+         */
+        void SetLocation(double latitude, double longitude) {
+            m_Mode.m_Latitude = latitude;
+            m_Mode.m_Longitude = longitude;
+        }
+
         AudioEngine *m_pEngine;
         std::string m_UtteranceId;
         uint64_t m_Handle;
@@ -103,6 +117,17 @@ namespace soundscape {
                 mode.m_AudioType = PositioningMode::STANDARD;
                 m_pProximityBeacon = std::make_unique<soundscape::Beacon>(engine, mode);
             }
+        }
+
+        /**
+         * Moves both beacons. The proximity beacon is a separate Beacon with its own copy of the
+         * PositioningMode, so missing it would leave the distance earcon measuring to the spot the
+         * beacon was created at.
+         */
+        void SetLocation(double latitude, double longitude) {
+            m_HeadingBeacon.SetLocation(latitude, longitude);
+            if (m_pProximityBeacon)
+                m_pProximityBeacon->SetLocation(latitude, longitude);
         }
 
         Beacon m_HeadingBeacon;

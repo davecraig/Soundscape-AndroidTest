@@ -8,6 +8,16 @@ const val EARCON_MODE_EXIT = "file:///android_asset/Sounds/mode_exit.wav"
 interface AudioEngine {
     fun createBeacon(location: LngLatAlt, headingOnly: Boolean): Long
     fun destroyBeacon(beaconHandle: Long)
+
+    /**
+     * Moves a beacon to a new coordinate, leaving its audio playing.
+     *
+     * Creating a beacon bakes the coordinate into the native positioning mode, so moving a beacon
+     * used to mean destroy-and-recreate: the buffers are re-decoded and playback restarts from the
+     * top, which is audible. A beacon that runs ahead of the user along the road moves every
+     * second, so it needs this instead.
+     */
+    fun updateBeaconLocation(beaconHandle: Long, location: LngLatAlt)
     fun toggleBeaconMute(): Boolean
     fun createTextToSpeech(
         text: String,

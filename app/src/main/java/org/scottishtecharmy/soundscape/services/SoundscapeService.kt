@@ -824,6 +824,29 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
         geoEngine.updateBeaconLocation(null)
     }
 
+    override fun moveDynamicBeacon(location: LngLatAlt) {
+        if (audioBeacon == 0L) {
+            requestAudioFocus()
+            // audioEngine directly rather than createBeacon(), which would tell the geo engine
+            // this is a destination - see GeoEngineListener.moveDynamicBeacon. headingOnly leaves
+            // out the proximity beacon: a target held at a constant 25m would sit permanently in
+            // its FAR_MODE drone, and announce arrival then instantly un-announce it every time
+            // the beacon parked at a junction.
+            audioBeacon = audioEngine.createBeacon(location, headingOnly = true)
+        } else {
+            audioEngine.updateBeaconLocation(audioBeacon, location)
+        }
+        _beaconFlow.value = _beaconFlow.value.copy(location = location)
+    }
+
+    override fun stopDynamicBeacon() {
+        if (audioBeacon != 0L) {
+            audioEngine.destroyBeacon(audioBeacon)
+            audioBeacon = 0L
+        }
+        _beaconFlow.value = _beaconFlow.value.copy(location = null)
+    }
+
     // Beacon style preview — implementation lives in shared
     // BeaconPreviewController so iOS and Android stay in lockstep.
     private val beaconPreviewController by lazy {

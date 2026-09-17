@@ -31,6 +31,8 @@ import me.zhanghai.compose.preference.rememberPreferenceState
 import me.zhanghai.compose.preference.sliderPreference
 import me.zhanghai.compose.preference.switchPreference
 import org.jetbrains.compose.resources.stringResource
+import org.scottishtecharmy.soundscape.geoengine.DynamicBeaconMode
+import org.scottishtecharmy.soundscape.geoengine.utils.JunctionArms
 import org.scottishtecharmy.soundscape.geoengine.utils.PoiRankStrategy
 import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
@@ -211,6 +213,19 @@ fun SharedSettingsScreen(
         "Drop street furniture",
         "Rank-weighted distance",
         "Rank first",
+    )
+
+    // Debug-only for the same reason. Same order as DynamicBeaconMode.entries.
+    val dynamicBeaconDescriptions = listOf(
+        "Off",
+        "25m ahead, waiting at junctions",
+        "Next junction",
+    )
+
+    // Same order as JunctionArms.entries.
+    val junctionArmsDescriptions = listOf(
+        "Any way, including paths and service roads",
+        "Named roads only",
     )
 
     ProvidePreferenceLocals(flow = rememberSoundscapePreferenceFlow()) {
@@ -677,6 +692,58 @@ fun SharedSettingsScreen(
                     summary = {
                         ClickableOption(
                             poiRankDescriptions[PoiRankStrategy.keys.indexOf(it)],
+                            textColor
+                        )
+                    },
+                )
+
+                listPreference(
+                    key = PreferenceKeys.DYNAMIC_BEACON_MODE,
+                    defaultValue = PreferenceDefaults.DYNAMIC_BEACON_MODE,
+                    values = DynamicBeaconMode.keys,
+                    modifier = expandedSectionModifier,
+                    title = {
+                        Text(text = "Dynamic beacon", color = textColor)
+                    },
+                    item = { value, currentValue, onClick ->
+                        ListPreferenceItem(
+                            dynamicBeaconDescriptions[DynamicBeaconMode.keys.indexOf(value)],
+                            value,
+                            currentValue,
+                            onClick,
+                            DynamicBeaconMode.keys.indexOf(value),
+                            DynamicBeaconMode.keys.size
+                        )
+                    },
+                    summary = {
+                        ClickableOption(
+                            dynamicBeaconDescriptions[DynamicBeaconMode.keys.indexOf(it)],
+                            textColor
+                        )
+                    },
+                )
+
+                listPreference(
+                    key = PreferenceKeys.DYNAMIC_BEACON_JUNCTION_ARMS,
+                    defaultValue = PreferenceDefaults.DYNAMIC_BEACON_JUNCTION_ARMS,
+                    values = JunctionArms.keys,
+                    modifier = expandedSectionModifier,
+                    title = {
+                        Text(text = "Dynamic beacon stops at", color = textColor)
+                    },
+                    item = { value, currentValue, onClick ->
+                        ListPreferenceItem(
+                            junctionArmsDescriptions[JunctionArms.keys.indexOf(value)],
+                            value,
+                            currentValue,
+                            onClick,
+                            JunctionArms.keys.indexOf(value),
+                            JunctionArms.keys.size
+                        )
+                    },
+                    summary = {
+                        ClickableOption(
+                            junctionArmsDescriptions[JunctionArms.keys.indexOf(it)],
                             textColor
                         )
                     },

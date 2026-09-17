@@ -19,8 +19,8 @@ import platform.Foundation.NSURL
 @OptIn(ExperimentalForeignApi::class)
 class BeaconPlayer(
     private val beaconType: BeaconType,
-    val beaconLatitude: Double,
-    val beaconLongitude: Double,
+    private var beaconLatitude: Double,
+    private var beaconLongitude: Double,
     /**
      * Whether the beacon is positioned in the 3D environment. False for the proximity
      * beacon, which conveys distance rather than direction and so plays flat, matching
@@ -79,6 +79,18 @@ class BeaconPlayer(
         layer.play()
         isPlaying = true
         scheduleAsset(currentAssetName)
+    }
+
+    /**
+     * Moves the beacon without disturbing playback.
+     *
+     * The coordinates are only read by [updateForGeometry], which runs on the geometry update, so
+     * a beacon that moves every second just picks the new position up on the next one - no asset
+     * reload, no restart.
+     */
+    fun moveTo(latitude: Double, longitude: Double) {
+        beaconLatitude = latitude
+        beaconLongitude = longitude
     }
 
     fun updateForGeometry(

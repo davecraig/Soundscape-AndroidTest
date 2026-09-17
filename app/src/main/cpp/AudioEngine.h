@@ -55,6 +55,8 @@ namespace soundscape {
 
     class PositionedAudio;
 
+    class BeaconWithProximity;
+
     class AudioEngine {
     public:
         explicit AudioEngine(AAssetManager *assetManager) noexcept;
@@ -78,6 +80,23 @@ namespace soundscape {
         uint64_t AddBeacon(PositionedAudio *beacon, bool queued = false);
 
         void RemoveBeacon(PositionedAudio *beacon);
+
+        /**
+         * The BeaconWithProximity wrappers Kotlin holds handles to.
+         *
+         * m_Beacons holds the PositionedAudio *inside* each wrapper - &m_HeadingBeacon and
+         * m_pProximityBeacon.get() - never the wrapper itself, so it can't be used to tell whether
+         * a handle Kotlin passed back is still alive. That didn't matter while the handle was only
+         * ever used once, to delete the beacon; a moving beacon is updated every second from a
+         * different thread to the one that can destroy it, so the handle has to be checked before
+         * it is dereferenced.
+         */
+        void RegisterBeaconWrapper(BeaconWithProximity *wrapper);
+
+        void UnregisterBeaconWrapper(BeaconWithProximity *wrapper);
+
+        /** Moves a beacon to a new coordinate without restarting its audio. */
+        void UpdateBeaconLocation(BeaconWithProximity *wrapper, double latitude, double longitude);
 
         bool ToggleBeaconMute();
 
@@ -129,6 +148,7 @@ namespace soundscape {
 
         std::recursive_mutex m_BeaconsMutex;
         std::set<PositionedAudio *> m_Beacons;
+        std::set<BeaconWithProximity *> m_BeaconWrappers;
         std::list<PositionedAudio *> m_QueuedBeacons;
         bool m_QueuedBeaconPlaying = false;
 
