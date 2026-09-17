@@ -1,0 +1,22 @@
+# Respellings fed to the narrator's text-to-speech, so that place names come out right.
+#
+# These are applied ONLY to the text sent to the TTS. The narration script and the generated
+# transcript keep the real spelling, which matters because the transcript is a deliverable in its
+# own right - nobody wants to read a guide that says "Mulguy".
+#
+# Match is whole-word and case-insensitive. Keep the key spelled the way a human would write it.
+#
+# Scottish place names are the main reason this file exists: they are systematically unguessable
+# from their spelling, and a guide that mispronounces the town it is walking through loses the
+# listener's trust immediately.
+
+Milngavie: Mull guy          # "mul-GUY", not "miln-GAY-vee"
+Kirkintilloch: Kirkintilloch
+Strathblane: Strath blane
+Bearsden: Bearsden
+Auchenshuggle: Awken shuggle
+Garscadden: Gar scadden
+Milngavie's: Mull guy's
+
+# Not a place name, but the app says it constantly and the TTS tends to spell it out.
+Soundscape: Soundscape

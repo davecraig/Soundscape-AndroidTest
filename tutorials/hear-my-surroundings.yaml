@@ -1,0 +1,52 @@
+# An audio guide, built by scripts/build-tutorial.py. See docs/developers/audio-tutorials.md.
+#
+# Each beat is narration, optionally followed by a button press and a window of the app's own
+# audio. The narration and the app never talk over each other: the guide is assembled by
+# concatenating what was said with what the app then did.
+
+name: hear-my-surroundings
+title: Hearing your surroundings with Soundscape
+
+# The walk the app is driven over while the guide is recorded. Replaying a fixed track is what
+# makes the callouts reproducible - re-record after a change and the same places are announced.
+gpx: app/src/test/resources/gpx/milngavie-centre.gpx
+speed: 1.4
+
+beats:
+  - say: >-
+      Welcome to Soundscape. This short guide introduces the four buttons along the bottom of the
+      home screen, the ones under Hear My Surroundings. Put your headphones on before you start,
+      because everything Soundscape tells you is placed in the direction it is coming from.
+
+  - say: >-
+      In this recording, Soundscape is walking through Milngavie, just north of Glasgow. Listen for
+      where each place is announced from. A shop on your right is spoken from your right.
+
+  - say: >-
+      The first button is My Location. Press it at any time and Soundscape tells you where you are,
+      which way you are facing, and the nearest junction ahead. Here is what that sounds like.
+    tap: homeMyLocation
+    listen: 12
+
+  - say: >-
+      The second button is Around Me. This one gives you the four things closest to you, one from
+      each direction, so you get a sense of what surrounds you.
+    tap: homeAroundMe
+    listen: 28
+
+  - say: >-
+      The third button is Ahead of Me. Rather than looking all around, this tells you what is
+      coming up in front of you, which is the one you will reach for most while walking.
+    tap: homeAheadOfMe
+    listen: 28
+
+  - say: >-
+      The fourth button is Nearby Markers. It calls out any places you have saved as markers,
+      so you can hear when something you care about is close.
+    tap: homeNearbyMarkers
+    listen: 12
+
+  - say: >-
+      That is the whole of Hear My Surroundings. My Location for where you are, Around Me for what
+      surrounds you, Ahead of Me for what is coming, and Nearby Markers for the places you saved.
+      You can press any of them at any time, and press again to stop the callout.
