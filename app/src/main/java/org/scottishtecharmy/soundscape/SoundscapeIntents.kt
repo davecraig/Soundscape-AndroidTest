@@ -267,16 +267,23 @@ class SoundscapeIntents(
 
         // `am start --ef speed 1.4` gives a float, `-e speed 1.4` a string; accept either so the
         // command line doesn't have to be remembered exactly.
+        // Branch on the extra's actual type rather than probing with getFloatExtra: `--ef speed`
+        // gives a float and `-e speed` a string, and a default-valued probe cannot tell "absent"
+        // from a genuine zero - which matters, because zero means stand still.
+        //
         // Rounded because widening the float to a double otherwise turns 1.4 into
         // 1.399999976158142, which then appears in every log line about the replay.
-        val speed = when {
-            intent.hasExtra("speed") -> intent.getFloatExtra("speed", 0.0f)
-                .takeIf { it > 0.0f }
-                ?.let { round(it * 100.0) / 100.0 }
-                ?: intent.getStringExtra("speed")?.toDoubleOrNull()
-                ?: GpxDrivenProvider.DEFAULT_SPEED_MPS
-
-            else -> GpxDrivenProvider.DEFAULT_SPEED_MPS
+        val speed = if (!intent.hasExtra("speed")) {
+            GpxDrivenProvider.DEFAULT_SPEED_MPS
+        } else {
+            // getStringExtra returns null when the extra isn't a string, so this tries `-e` first
+            // and falls through to `--ef`; a float extra reads back exactly, zero included.
+            intent.getStringExtra("speed")?.toDoubleOrNull()
+                ?: round(
+                    intent.getFloatExtra(
+                        "speed", GpxDrivenProvider.DEFAULT_SPEED_MPS.toFloat()
+                    ).toDouble() * 100.0
+                ) / 100.0
         }
         val loop = intent.getBooleanExtra("loop", false) ||
                 intent.getStringExtra("loop")?.toBoolean() == true

@@ -48,7 +48,15 @@ class GpxDrivenProvider(
 
     /**
      * Parses [input] and begins replaying it. Returns false, having done nothing, unless the
-     * stream is a GPX holding a track with at least two points and some length between them.
+     * stream is a GPX holding a track that can actually be replayed.
+     *
+     * A [speedMetresPerSecond] of zero means **stand still** at the first track point, facing along
+     * the track, rather than walking it. That is what the audio tutorial guides record against: a
+     * user who is moving gets automatic callouts the whole time, so the audio from pressing a
+     * button is never surrounded by silence and cannot be cut out cleanly. Standing still also
+     * makes the geoengine's StationaryDetector agree, after its thirty second window has filled.
+     *
+     * Only one point is needed to stand at one; walking needs two with some distance between them.
      */
     fun start(
         input: InputStream,
@@ -56,33 +64,57 @@ class GpxDrivenProvider(
         loop: Boolean = false,
     ): Boolean {
         val points = parseTrackPoints(input)
-        if (points.size < 2) {
-            Log.e(TAG, "GPX has ${points.size} track point(s), need at least 2 to replay")
+        val standingStill = speedMetresPerSecond <= 0.0
+
+        if (points.isEmpty()) {
+            Log.e(TAG, "GPX has no track points")
             return false
         }
-        // A track recorded while stationary has plenty of points but no length, and there would be
-        // nothing to walk along - the replay would never advance off the first point.
-        val ruler = GeodesicRuler()
-        val trackLength = points.zipWithNext().sumOf { (a, b) -> ruler.distance(a, b) }
-        if (trackLength <= 0.0) {
-            Log.e(TAG, "GPX track has no length, nothing to replay")
-            return false
+        if (!standingStill) {
+            if (points.size < 2) {
+                Log.e(TAG, "GPX has ${points.size} track point(s), need at least 2 to walk")
+                return false
+            }
+            // A track recorded while stationary has plenty of points but no length, and there
+            // would be nothing to walk along - the replay would never advance off the first point.
+            val ruler = GeodesicRuler()
+            val trackLength = points.zipWithNext().sumOf { (a, b) -> ruler.distance(a, b) }
+            if (trackLength <= 0.0) {
+                Log.e(TAG, "GPX track has no length, nothing to walk")
+                return false
+            }
+            Log.d(
+                TAG,
+                "Replaying ${points.size} track points over ${trackLength.toInt()}m " +
+                        "at $speedMetresPerSecond m/s (loop=$loop)"
+            )
+        } else {
+            Log.d(TAG, "Standing still at ${points.first()}")
         }
-        Log.d(
-            TAG,
-            "Replaying ${points.size} track points over ${trackLength.toInt()}m " +
-                    "at $speedMetresPerSecond m/s (loop=$loop)"
-        )
 
         locationProvider = StaticLocationProvider(points.first())
 
         val newScope = CoroutineScope(SupervisorJob() + dispatcher)
         scope = newScope
         newScope.launch {
-            replay(points, speedMetresPerSecond, loop)
+            if (standingStill) standStill(points) else replay(points, speedMetresPerSecond, loop)
             Log.d(TAG, "Replay finished")
         }
         return true
+    }
+
+    /**
+     * Keeps publishing the first track point. The fixes have to keep coming rather than stopping
+     * after one: the geoengine's StationaryDetector decides from a window of fixes, and with no
+     * fixes at all it would never reach a verdict.
+     */
+    private suspend fun standStill(points: List<LngLatAlt>) {
+        val heading =
+            if (points.size >= 2) bearingFromTwoPoints(points[0], points[1]) else 0.0
+        while (currentScopeIsActive()) {
+            emit(points.first(), heading, speed = 0.0)
+            delay(TICK_MILLIS)
+        }
     }
 
     fun stop() {

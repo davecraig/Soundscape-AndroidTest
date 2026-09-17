@@ -119,6 +119,60 @@ class GpxDrivenProviderTest {
         Assert.assertFalse(GpxDrivenProvider().start("not a gpx file".byteInputStream()))
     }
 
+    /**
+     * Standing still is what the audio tutorial guides record against: a user who is moving gets
+     * automatic callouts continuously, so the audio from a button press is never surrounded by the
+     * silence needed to cut it out cleanly.
+     */
+    @Test
+    fun speedZeroStandsStillAndKeepsPublishingFixes() = runTest {
+        val provider = GpxDrivenProvider(StandardTestDispatcher(testScheduler))
+        Assert.assertTrue(
+            provider.start(lShapedTrack().byteInputStream(), speedMetresPerSecond = 0.0)
+        )
+        testScheduler.runCurrent()
+
+        val seen = mutableListOf<SoundscapeLocation>()
+        repeat(120) {
+            provider.locationProvider.locationFlow.value?.let { seen.add(it) }
+            testScheduler.advanceTimeBy(1000)
+            testScheduler.runCurrent()
+        }
+        provider.stop()
+
+        // Fixes have to keep arriving rather than stopping after one: StationaryDetector decides
+        // from a 30s window of them and would never reach a verdict otherwise.
+        Assert.assertTrue("Expected a continuing stream of fixes", seen.size >= 100)
+
+        seen.forEach { fix ->
+            Assert.assertEquals(startLatitude, fix.latitude, 1e-9)
+            Assert.assertEquals(startLongitude, fix.longitude, 1e-9)
+            Assert.assertEquals(0.0f, fix.speed, 1e-6f)
+        }
+        // Facing along the track - the first leg runs due east.
+        Assert.assertEquals(90.0, seen.first().bearing.toDouble(), 1.0)
+
+        // A bearing accuracy would make GeoEngine rate the course trustworthy, which is
+        // StationaryDetector's fast escape out of the stationary state - so a standing replay
+        // would be read as walking. See GeoEngine's stationaryDetector.update call.
+        Assert.assertFalse("A replay must not claim bearing accuracy", seen.first().hasBearingAccuracy)
+    }
+
+    /** One point is enough to stand at, even though it is too few to walk along. */
+    @Test
+    fun aSinglePointTrackIsEnoughToStandAt() {
+        val single = """<?xml version="1.0" encoding="UTF-8"?>
+            <gpx version="1.1" creator="test">
+              <trk><trkseg>
+                <trkpt lat="$startLatitude" lon="$startLongitude"></trkpt>
+              </trkseg></trk>
+            </gpx>""".trimIndent()
+
+        val provider = GpxDrivenProvider()
+        Assert.assertTrue(provider.start(single.byteInputStream(), speedMetresPerSecond = 0.0))
+        provider.stop()
+    }
+
     /** A recording made without moving has points but no length, and nothing to walk along. */
     @Test
     fun aTrackWithNoLengthIsRejected() {

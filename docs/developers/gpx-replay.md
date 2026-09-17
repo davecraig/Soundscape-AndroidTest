@@ -61,7 +61,7 @@ it, but you may need to send the intent a second time once it has settled.
 | Extra   | Default | Meaning |
 | ------- | ------- | ------- |
 | `gpx`   | —       | File name under the `gpx` directory above, or an absolute path to somewhere already readable. Omit it entirely to stop a replay and hand the providers back to the phone. |
-| `speed` | `1.4`   | Metres per second. |
+| `speed` | `1.4`   | Metres per second. **Zero means stand still** at the first track point — see below. |
 | `loop`  | `false` | Restart from the first track point at the end rather than stopping. |
 
 ### Speed
@@ -72,6 +72,21 @@ able to cover dull stretches quickly. 1.4 m/s is a brisk walk; 0.7 m/s is a slow
 above about 3 m/s starts to outrun tile loading on a cold cache.
 
 A fix is published once a second whatever the speed, matching the rate a phone's GPS manages.
+
+### Standing still
+
+`--ef speed 0` stands at the first track point, facing along the track, instead of walking. A
+single-point GPX is enough for this; walking needs two points with some distance between them.
+
+This is what the [audio tutorial guides]({% link developers/audio-tutorials.md %}) record against.
+Measured on a stationary replay, the app falls completely silent after the arrival callouts — zero
+utterances over the following 40 seconds — which is what lets each button press be cut out of a
+recording cleanly. A moving replay talks continuously and gives no such silence.
+
+Fixes keep being published once a second rather than stopping after one, because the geoengine's
+`StationaryDetector` decides from a *window* of fixes; with no fixes arriving it would never reach
+a verdict. It needs 30 seconds of them, so allow for that before expecting the app to consider
+itself stationary.
 
 ## Stopping
 

@@ -1,0 +1,34 @@
+# Saves a marker at wherever the app currently is, so that a guide demonstrating Nearby Markers
+# has something to announce. Run by build-tutorial.py from a script's `setup:` list, after the GPX
+# replay has put the app in place and before recording starts.
+#
+# Deliberately self-contained rather than reusing maestro/SwipeAndTap.yaml and friends: `runFlow`
+# resolves relative to the flow's own directory, and reaching back into maestro/ from here would
+# couple the tutorials to that suite's layout for the sake of two taps.
+appId: org.scottishtecharmy.soundscape
+---
+- launchApp:
+    clearState: false
+
+# The button is below the fold on small screens, so scroll to it rather than assuming it is on
+# screen - a guide should be buildable from any device the Maestro suite runs on.
+- scrollUntilVisible:
+    element:
+      id: homeCurrentLocation
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: homeCurrentLocation
+
+- tapOn:
+    id: locationDetailsSaveAsMarker
+# The name field is prefilled with the address, which would make the callout a mouthful and would
+# differ from place to place. A short name keeps the recording clean and reproducible.
+- tapOn:
+    id: name-clearTextField
+    optional: true
+- tapOn:
+    id: markerName
+- inputText: "Library"
+- tapOn:
+    id: flexibleAppBarRight

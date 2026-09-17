@@ -53,12 +53,68 @@ A beat is narration, optionally followed by a button press and a window of the a
 | --- | --- |
 | `say` | Narration text. Rendered to speech; also goes into the transcript. |
 | `tap` | A `testTag` to tap, resolved by Maestro — the same tags the Maestro suite uses. |
-| `listen` | Seconds of the app's audio to keep after the tap. |
-| `gpx` / `speed` | The walk to drive the app over while recording — see [GPX replay]({% link developers/gpx-replay.md %}). |
+| `listen` | Seconds to wait after the tap. Only has to be **long enough** — see below. |
+| `gpx` | Where the app stands, or the track it walks — see [GPX replay]({% link developers/gpx-replay.md %}). |
+| `speed` | Metres per second. **`0`, the default, means stand still** — see below. |
+| `settle` | Seconds to wait for the arrival callouts before the first beat. |
+| `setup` | Maestro flows to run before recording — see below. |
 | `voice` | Piper model filename. Defaults to `alba.onnx`. |
 
-Replaying a fixed track is what makes a guide reproducible: the same walk announces the same
+### Setting the scene
+
+Some beats need something to exist before they can demonstrate anything. Nearby Markers says
+nothing at all on a device with no markers saved, so a guide that introduces it would play two
+earcons and move on.
+
+```yaml
+setup:
+  - flow: tutorials/setup/save-marker.yaml
+```
+
+Setup flows run **after** the GPX replay is in place, so anything location-dependent is created
+where the app is actually standing. They are ordinary Maestro flows.
+
+Replaying a fixed position is what makes a guide reproducible: the same spot announces the same
 places, so rebuilding after a change produces a comparable guide rather than a different one.
+
+### Stand still
+
+`speed: 0` is the default, and these recordings depend on it. **A user who is walking gets
+automatic callouts continuously**, so the audio from pressing a button is never surrounded by
+silence and cannot be cut out cleanly — you end up splicing mid-sentence through some unrelated
+announcement about a shop.
+
+Standing still gives each button press a clean run of silence either side, which is what makes a
+precise cut possible. It is also what a listener is doing while following a guide.
+
+Arriving somewhere new sets off a burst of callouts about the surroundings, and none of that
+belongs in the guide, so the script waits it out before the first beat. When standing still it
+waits at least long enough for the geoengine's `StationaryDetector` to reach a verdict — that
+detector works on net displacement over a **30 second** window, so nothing shorter will do.
+
+### Waiting for the callout to end
+
+`listen` is simply how long to wait after the tap, and it only has to be **long enough**. Where the
+callout actually starts and stops is decided afterwards, from the recording, by trimming the
+silence either side of it — which is only possible because the recording is stationary.
+
+It is tempting to end the window by watching `TtsEngine`'s log for utterances completing, and that
+does not work: those lines mark *synthesis* finishing, not playback. Synthesis is fast, so all four
+parts of Ahead of Me complete within a couple of seconds while the audio then plays for another
+twenty-five. The app knows when a callout is really over — `CalloutController`'s
+`activeCalloutFlow` clears at exactly that moment — but does not expose it over adb.
+
+So the wait is a bound rather than an answer, and the build checks the recording to see whether the
+bound held:
+
+* **`'X' was still making sound when its window closed`** — the callout outran its `listen`, and
+  will bleed into the next beat's segment. Raise `listen` for that beat.
+* **`'X' recorded no audible callout`** — the beat captured nothing. Either the button genuinely
+  says nothing here (Nearby Markers with no markers saved), or something is wrong.
+
+Both look at the audio rather than at the app's logs, deliberately. Every log-derived signal tried
+here — the tag, a buffer count that turned out not to be cumulative, a baseline sampled too late —
+produced false alarms while the audio was fine. Check the artefact.
 
 ## How it stays in sync
 

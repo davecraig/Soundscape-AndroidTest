@@ -49,16 +49,67 @@ PAD_AFTER_S = 2.0
 NARRATION_LUFS = -16.0
 APP_AUDIO_LUFS = -18.0
 
-
 def run(cmd, **kwargs):
     """Run a command, raising with its output if it fails."""
     return subprocess.run(cmd, check=True, capture_output=True, text=True, **kwargs)
 
 
 def ffprobe_duration(path):
+    """Seconds of audio, or 0.0 if there are none.
+
+    A segment that silence-trimmed down to nothing has no duration field at all, which is a thing
+    to skip over rather than crash on - the warning about hearing nothing has already been printed
+    by then, and it is more useful to finish the guide and let its gaps be heard.
+    """
     out = run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                "-of", "json", str(path)]).stdout
-    return float(json.loads(out)["format"]["duration"])
+    return float(json.loads(out)["format"].get("duration") or 0.0)
+
+
+def check_window_ended_quietly(capture, window_end_s, capture_len, label):
+    """Warn if the app was still talking when a window closed.
+
+A window is a fixed wait, so a callout longer than its `listen:` is still going when the window
+    closes - and that audio then bleeds into the next beat's segment, where it sounds like the
+    narrator interrupting the app. There is no signal over adb for playback finishing (the app
+    knows, via CalloutController's activeCalloutFlow, but does not expose it), so rather than
+    trusting the wait to be long enough, check the tail of the window and say so when it wasn't.
+    """
+    start = max(0.0, min(window_end_s, capture_len) - 1.0)
+    if start >= capture_len:
+        return
+    proc = subprocess.run(
+        ["ffmpeg", "-nostdin", "-hide_banner", "-ss", f"{start:.3f}", "-t", "1.0",
+         "-i", str(capture), "-af", "astats=metadata=1:reset=0", "-f", "null", "-"],
+        capture_output=True, text=True,
+    )
+    levels = re.findall(r"RMS level dB:\s+(-?\d+\.\d+|-inf)", proc.stderr)
+    if not levels:
+        return
+    loudest = max((float(x) for x in levels if x != "-inf"), default=float("-inf"))
+    if loudest > -50.0:
+        print(f"      WARNING: '{label}' was still making sound when its window closed "
+              f"({loudest:.0f} dB in the last second) - it will bleed into the next segment. "
+              f"Raise `listen:` for this beat.")
+
+
+def segment_is_silent(path):
+    """Whether an extracted segment holds no audible callout.
+
+    Checked against the audio rather than the app's logs, because the logs describe synthesis and
+    what matters here is what was actually recorded. A beat can be genuinely silent - Nearby
+    Markers on a device with no markers saved says nothing at all - and that is worth being told
+    about loudly, since the guide will introduce a feature and then play nothing.
+    """
+    if ffprobe_duration(path) < 0.15:
+        return True
+    proc = subprocess.run(
+        ["ffmpeg", "-nostdin", "-hide_banner", "-i", str(path),
+         "-af", "astats=metadata=1:reset=0", "-f", "null", "-"],
+        capture_output=True, text=True,
+    )
+    levels = [float(x) for x in re.findall(r"RMS level dB:\s+(-?\d+\.\d+)", proc.stderr)]
+    return (not levels) or (max(levels) < -50.0)
 
 
 def measure_loudness(path):
@@ -103,6 +154,13 @@ def synthesize(text, out_path, voice):
         [str(PIPER_DIR / "piper"), "-m", str(model), "-f", str(out_path)],
         input=text, text=True, capture_output=True, env=env, check=True,
     )
+
+
+def maestro_run(flow_path):
+    """Run a whole Maestro flow, used for a script's `setup:` steps."""
+    proc = subprocess.run(["maestro", "test", str(flow_path)], capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise RuntimeError(f"setup flow '{flow_path}' failed:\n{proc.stdout[-2000:]}")
 
 
 def maestro_tap(test_tag, work_dir):
@@ -164,11 +222,32 @@ def main():
             beat["_narration_s"] = ffprobe_duration(path)
             print(f"  beat {i}: {beat['_narration_s']:5.1f}s  {beat['say'][:58]}...")
 
-    # 2. Drive the app over a known walk so the callouts are reproducible.
+    # 2. Put the app at a known place so the callouts are reproducible. Standing still (speed 0)
+    #    is the default and what these recordings want: a user who is walking gets automatic
+    #    callouts continuously, so the audio from a button press is never surrounded by silence
+    #    and can't be cut out cleanly.
+    speed = spec.get("speed", 0.0)
     if spec.get("gpx"):
-        print(f"Starting GPX replay: {spec['gpx']}")
-        start_replay(spec["gpx"], spec.get("speed", 1.4))
-        time.sleep(5)
+        where = "Standing still at" if speed <= 0 else f"Walking at {speed} m/s along"
+        print(f"{where} {spec['gpx']}")
+        start_replay(spec["gpx"], speed)
+
+    # 2b. Anything the guide needs to exist before it is recorded - saving a marker, say, so that
+    #     a beat demonstrating Nearby Markers has something to announce. Runs after the replay so
+    #     that anything location-dependent is created where the app is actually standing.
+    for step in spec.get("setup") or []:
+        flow = step["flow"] if isinstance(step, dict) else step
+        print(f"Setup: {flow}")
+        maestro_run(flow)
+
+    if spec.get("gpx"):
+        # Arriving somewhere new sets off a burst of callouts about the surroundings, and the
+        # setup flow above adds its own. None of that belongs in the guide, so wait it out before
+        # the first beat - and when standing still, wait at least as long as StationaryDetector's
+        # 30s window needs to reach a verdict.
+        settle = spec.get("settle", 35 if speed <= 0 else 5)
+        print(f"Letting the arrival callouts finish ({settle}s cap) ...")
+        time.sleep(settle)
 
     # 3. Capture continuously. Windows get cut out of this afterwards.
     capture = work / "capture.opus"
@@ -191,10 +270,18 @@ def main():
         for i, beat in enumerate(beats):
             if not beat.get("tap"):
                 continue
-            print(f"  beat {i}: tap {beat['tap']}, listen {beat.get('listen', 10)}s")
-            maestro_tap(beat["tap"], work)
+            cap = beat.get("listen", 45)
+            print(f"  beat {i}: tap {beat['tap']}, listening {cap}s")
+            # The window opens *before* Maestro runs, because the callout starts the moment the
+            # button is tapped and Maestro takes a moment to tear down afterwards - opening it on
+            # return would clip the start. Maestro itself makes no sound, so the extra seconds are
+            # silence, and silence is trimmed off the segment anyway.
             beat["_win_start"] = time.time()
-            time.sleep(beat.get("listen", 10))
+            maestro_tap(beat["tap"], work)
+            # Just wait. The window only has to be *long enough* - where the callout actually
+            # starts and stops is decided afterwards, from the recording, by trimming the silence
+            # either side of it. Standing still is what makes that silence exist.
+            time.sleep(cap)
             beat["_win_end"] = time.time()
     finally:
         capture_stopped_at = time.time()
@@ -210,6 +297,12 @@ def main():
     capture_len = ffprobe_duration(capture)
     capture_started_at = capture_stopped_at - capture_len
     print(f"Captured {capture_len:.1f}s")
+
+    for beat in beats:
+        if beat.get("_win_end"):
+            check_window_ended_quietly(
+                capture, beat["_win_end"] - capture_started_at, capture_len, beat["tap"]
+            )
 
     app_gain_db = APP_AUDIO_LUFS - measure_loudness(capture)
     print(f"App audio gain: {app_gain_db:+.1f} dB (single static gain, dynamics preserved)")
@@ -250,6 +343,9 @@ def main():
                         "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.2,"
                         "areverse",
                  "-ac", "2", "-ar", "48000", str(out)])
+            if segment_is_silent(out):
+                print(f"      WARNING: '{beat['tap']}' recorded no audible callout - the guide "
+                      f"will introduce it and then play nothing.")
             add(out, f"app ({beat['tap']})")
 
     if not segments:

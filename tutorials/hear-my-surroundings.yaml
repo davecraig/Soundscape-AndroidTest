@@ -7,10 +7,20 @@
 name: hear-my-surroundings
 title: Hearing your surroundings with Soundscape
 
-# The walk the app is driven over while the guide is recorded. Replaying a fixed track is what
-# makes the callouts reproducible - re-record after a change and the same places are announced.
+# Where the app stands while the guide is recorded - the first point of this track. Replaying a
+# fixed position is what makes the callouts reproducible: re-record after a change and the same
+# places are announced.
+#
+# speed 0 means stand still rather than walk, and these recordings depend on it. A user who is
+# moving gets automatic callouts the whole time, so the audio from pressing a button would never be
+# surrounded by silence and could not be cut out cleanly.
 gpx: app/src/test/resources/gpx/milngavie-centre.gpx
-speed: 1.4
+speed: 0
+
+# Nearby Markers has nothing to announce on a device with no markers saved, so the guide creates
+# one first. Runs after the replay is in place, so the marker lands where the app is standing.
+setup:
+  - flow: tutorials/setup/save-marker.yaml
 
 beats:
   - say: >-
@@ -19,32 +29,33 @@ beats:
       because everything Soundscape tells you is placed in the direction it is coming from.
 
   - say: >-
-      In this recording, Soundscape is walking through Milngavie, just north of Glasgow. Listen for
-      where each place is announced from. A shop on your right is spoken from your right.
+      In this recording we are standing on a street in Milngavie, just north of Glasgow, pressing
+      each button in turn. Listen for where each place is announced from. A shop on your right is
+      spoken from your right.
 
   - say: >-
       The first button is My Location. Press it at any time and Soundscape tells you where you are,
       which way you are facing, and the nearest junction ahead. Here is what that sounds like.
     tap: homeMyLocation
-    listen: 12
+    listen: 45
 
   - say: >-
       The second button is Around Me. This one gives you the four things closest to you, one from
       each direction, so you get a sense of what surrounds you.
     tap: homeAroundMe
-    listen: 28
+    listen: 60
 
   - say: >-
-      The third button is Ahead of Me. Rather than looking all around, this tells you what is
-      coming up in front of you, which is the one you will reach for most while walking.
+      The third button is Ahead of Me. Rather than looking all around, this tells you what lies in
+      the direction you are facing, which is the one you will reach for most while walking.
     tap: homeAheadOfMe
-    listen: 28
+    listen: 60
 
   - say: >-
       The fourth button is Nearby Markers. It calls out any places you have saved as markers,
       so you can hear when something you care about is close.
     tap: homeNearbyMarkers
-    listen: 12
+    listen: 45
 
   - say: >-
       That is the whole of Hear My Surroundings. My Location for where you are, Around Me for what
