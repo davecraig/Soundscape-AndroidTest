@@ -34,6 +34,8 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.IntersectionType
 import org.scottishtecharmy.soundscape.components.LocationSource
 import org.scottishtecharmy.soundscape.geoengine.nearestSettlement
+import org.scottishtecharmy.soundscape.geoengine.settlementAhead
+import org.scottishtecharmy.soundscape.geoengine.SettlementAheadTracker
 import org.scottishtecharmy.soundscape.geoengine.roadNameWithRef
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
@@ -830,6 +832,50 @@ class MvtTileTest {
 
         assertNotNull(result)
         assertFalse(result!!.text.contains("Gartmore"))
+    }
+
+
+    /**
+     * The wedge searched ahead turns with the road, so a bend can push the village being headed
+     * for outside it and let a different one rank first; the next bend brings it back. Driving
+     * south on the A81 that produced "towards Blanefield", "towards Milngavie", "towards
+     * Blanefield" in three consecutive callouts, each true when said and the sequence meaningless.
+     * So the settlement already being headed for is held to looser limits than a newcomer has to
+     * meet - see SettlementAheadTracker.
+     */
+    @Test
+    fun testSettlementAheadHoldsDestinationThroughABend() {
+        val lookaheadGrid = getGridStateForLocation(a81GartmoreLocation, 10, 3)
+
+        val straightOn = settlementAhead(lookaheadGrid, a81GartmoreLocation, 0.0)
+        assertNotNull(straightOn)
+        assertEquals("Gartmore", straightOn!!.feature.name)
+
+        // Gartmore bears about 16 degrees west of north from here, so a heading of 19 leaves it
+        // some 35 degrees off - outside the wedge a settlement has to be within to be chosen in
+        // the first place, but inside the looser limits an incumbent is held to.
+        val bentHeading = 19.0
+        assertNotEquals(
+            "Gartmore",
+            settlementAhead(lookaheadGrid, a81GartmoreLocation, bentHeading)?.feature?.name
+        )
+
+        // Having already been named, though, it holds its place rather than being swapped out.
+        val tracker = SettlementAheadTracker().apply { remember(straightOn.feature) }
+        val held = settlementAhead(
+            lookaheadGrid, a81GartmoreLocation, bentHeading, tracker = tracker
+        )
+        assertNotNull(held)
+        assertEquals("Gartmore", held!!.feature.name)
+
+        // The hold is not unconditional: turned right round, it is behind rather than ahead and is
+        // let go of, otherwise the tracker would keep announcing a village being driven away from.
+        assertNotEquals(
+            "Gartmore",
+            settlementAhead(
+                lookaheadGrid, a81GartmoreLocation, 180.0, tracker = tracker
+            )?.feature?.name
+        )
     }
 
     /**

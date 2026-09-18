@@ -12,6 +12,7 @@ import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.LastStationTracker
 import org.scottishtecharmy.soundscape.geoengine.roadNameWithRef
 import org.scottishtecharmy.soundscape.geoengine.NotableVehicleEventTracker
+import org.scottishtecharmy.soundscape.geoengine.SettlementAheadTracker
 import org.scottishtecharmy.soundscape.geoengine.describeReverseGeocode
 import org.scottishtecharmy.soundscape.geoengine.filters.CalloutHistory
 import org.scottishtecharmy.soundscape.geoengine.filters.LocationUpdateFilter
@@ -104,6 +105,7 @@ class AutoCallout(
     private var sweepBehindMetres = 0.0
     private val lastStationTracker = LastStationTracker()
     private val notableVehicleEventTracker = NotableVehicleEventTracker()
+    private val settlementAheadTracker = SettlementAheadTracker()
     private var lastTrainTimestampMs: Long? = null
     private var lastVehicleTimestampMs: Long? = null
 
@@ -302,6 +304,14 @@ class AutoCallout(
             lastStationTracker.clear()
         }
 
+        // Where the road was heading is a statement about one journey in the same way, so it goes
+        // when the journey does. recentlyInVehicle rather than the instantaneous test, so that the
+        // destination survives a red light or a queue rather than being dropped and re-chosen every
+        // time the car stops moving.
+        if (!userGeometry.inVehicle() && !recentlyInVehicle(userGeometry)) {
+            settlementAheadTracker.clear()
+        }
+
         // Deliberately below the bookkeeping above and not at the top of the function: the sticky
         // vehicle/train windows are read by callouts this setting has nothing to do with, so they
         // have to keep being updated whether or not this one is allowed to speak.
@@ -326,7 +336,7 @@ class AutoCallout(
         // Reverse geocode the current location (this is the iOS name for the function)
         val result = describeReverseGeocode(
             userGeometry, gridState, settlementState, localized, lastStationTracker,
-            notableVehicleEventTracker, lookaheadState
+            notableVehicleEventTracker, lookaheadState, settlementAheadTracker
         )
         if (result != null) {
             val callout = TrackedCallout(

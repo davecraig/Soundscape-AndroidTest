@@ -142,6 +142,19 @@ private const val SETTLEMENT_AHEAD_HALF_ANGLE = 30.0
 private const val SETTLEMENT_AHEAD_MAX_CROSS_TRACK = 2000.0
 
 /**
+ * The same two limits, relaxed, for the settlement already being headed for - see
+ * [SettlementAheadTracker]. It is harder to become the destination than to remain it, because the
+ * two jobs are different: choosing needs to be sure the place is really up ahead, while holding
+ * only needs it to still be roughly where it was. Without the gap, one bend putting a village a few
+ * degrees outside the wedge was enough to drop it and pick another, and the next bend brought it
+ * back - the A81 south through Strathblane gave Blanefield, Milngavie, Blanefield in three
+ * consecutive callouts. The wedge searched is widened to the hold angle so an incumbent that has
+ * drifted is still found; newcomers are then held to the stricter limits above.
+ */
+private const val SETTLEMENT_AHEAD_HOLD_HALF_ANGLE = 60.0
+private const val SETTLEMENT_AHEAD_HOLD_MAX_CROSS_TRACK = 3000.0
+
+/**
  * Finds the settlement the user is travelling towards, as opposed to the one they are currently at.
  *
  * [nearestSettlement] answers "which settlement am I in", which is what an address wants, and its
@@ -157,7 +170,8 @@ private const val SETTLEMENT_AHEAD_MAX_CROSS_TRACK = 2000.0
  * Candidates must also lie *beyond* their own tier's near-field proximity, so this only ever
  * extends the reach of the search; whatever [nearestSettlement]'s smallest-first cascade could
  * already see is left for it to decide. Of what remains, the nearest wins - that's the one the
- * user will actually reach first.
+ * user will actually reach first - except that a settlement already being headed for holds its
+ * place for as long as it still qualifies, see [tracker].
  *
  * Must be called from within [lookaheadGrid]'s treeContext.
  *
@@ -167,13 +181,17 @@ private const val SETTLEMENT_AHEAD_MAX_CROSS_TRACK = 2000.0
  * survive down to zoom 10 intact even though hamlets and suburbs do not.
  * @param smallestTier the smallest kind of settlement worth naming, raised to at least
  * [SettlementTier.VILLAGE] by the caller's road class - see roadClassSmallestSettlement.
+ * @param tracker what was named last time, if anything. It wins over a better-ranked newcomer, but
+ * only while it still passes every test below - so it is held through the bends that would
+ * otherwise unseat it, and dropped the moment it stops being somewhere this road is heading.
  */
 fun settlementAhead(
     lookaheadGrid: GridState,
     location: LngLatAlt,
     headingDegrees: Double,
     smallestTier: SettlementTier = SettlementTier.VILLAGE,
-    maxDistance: Double = SETTLEMENT_AHEAD_MAX_DISTANCE
+    maxDistance: Double = SETTLEMENT_AHEAD_MAX_DISTANCE,
+    tracker: SettlementAheadTracker? = null
 ): SettlementAhead? {
     val ruler = lookaheadGrid.ruler
     // Left edge then right edge, as getFovTriangle orders them. The bearings aren't normalized
@@ -181,14 +199,15 @@ fun settlementAhead(
     val triangle = Triangle(
         location,
         getDestinationCoordinate(
-            location, headingDegrees - SETTLEMENT_AHEAD_HALF_ANGLE, maxDistance
+            location, headingDegrees - SETTLEMENT_AHEAD_HOLD_HALF_ANGLE, maxDistance
         ),
         getDestinationCoordinate(
-            location, headingDegrees + SETTLEMENT_AHEAD_HALF_ANGLE, maxDistance
+            location, headingDegrees + SETTLEMENT_AHEAD_HOLD_HALF_ANGLE, maxDistance
         )
     )
 
     var nearest: SettlementAhead? = null
+    var remembered: SettlementAhead? = null
     for (search in settlementSearches) {
         if (search.tier < smallestTier) continue
         if (search.tier > SettlementTier.TOWN) continue
@@ -201,20 +220,38 @@ fun settlementAhead(
             // Anything this close is already the near-field search's business.
             if (distance <= search.proximity) continue
 
-            val offset = toRadians(
-                calculateHeadingOffset(headingDegrees, ruler.bearing(location, point))
+            val offsetDegrees = calculateHeadingOffset(
+                headingDegrees, ruler.bearing(location, point)
             )
-            if ((distance * sin(offset)) > SETTLEMENT_AHEAD_MAX_CROSS_TRACK) continue
+            val offset = toRadians(offsetDegrees)
+            val crossTrack = distance * sin(offset)
             // Ranked by how far along the direction of travel it is rather than by straight-line
             // distance, so that of two settlements the same distance away the one more nearly
             // straight ahead is the one named.
             val alongTrack = distance * cos(offset)
+            val candidate = SettlementAhead(settlement, search.tier, distance, alongTrack)
+
+            if (tracker?.matches(settlement) == true) {
+                if ((offsetDegrees <= SETTLEMENT_AHEAD_HOLD_HALF_ANGLE) &&
+                    (crossTrack <= SETTLEMENT_AHEAD_HOLD_MAX_CROSS_TRACK)
+                ) {
+                    remembered = candidate
+                }
+                continue
+            }
+
+            if (offsetDegrees > SETTLEMENT_AHEAD_HALF_ANGLE) continue
+            if (crossTrack > SETTLEMENT_AHEAD_MAX_CROSS_TRACK) continue
             if ((nearest == null) || (alongTrack < nearest.alongTrack)) {
-                nearest = SettlementAhead(settlement, search.tier, distance, alongTrack)
+                nearest = candidate
             }
         }
     }
-    return nearest
+    // Reaching here at all means the remembered settlement passed every filter a new candidate has
+    // to, so it's still genuinely ahead and still worth naming - just possibly no longer the
+    // best-ranked. Continuity is worth more than that ranking: being told the road leads to the
+    // same place it led to a minute ago is the whole point of saying it.
+    return remembered ?: nearest
 }
 
 /**
@@ -440,6 +477,43 @@ class LastStationTracker {
 }
 
 /**
+ * Tracks which settlement was last named as the one being travelled towards, so that it keeps being
+ * named for as long as it remains a sensible answer.
+ *
+ * Without this the destination flips about. [settlementAhead] re-ranks candidates from scratch on
+ * every call, and the wedge it searches turns with the road, so a bend is enough to bring a
+ * different village to the front: driving south on the A81 gave "towards Blanefield", then "towards
+ * Milngavie", then "towards Blanefield" again, each true at the moment it was said and the sequence
+ * as a whole meaningless. Worse, each change is a fresh dedup key, so a flip is a callout.
+ *
+ * Identity is the OSM id rather than the feature itself: the grids are rebuilt as the user moves,
+ * and holding a feature across a rebuild would pin an object belonging to a discarded tile and
+ * describe it with coordinates that are no longer the ones being searched.
+ *
+ * A single reverse-geocode call has no memory of previous ones, so this is held by the caller
+ * (AutoCallout) and passed in each time.
+ */
+class SettlementAheadTracker {
+    private var osmId: Long? = null
+
+    fun remember(feature: MvtFeature) {
+        osmId = feature.osmId
+    }
+
+    fun matches(feature: MvtFeature): Boolean = (osmId != null) && (feature.osmId == osmId)
+
+    /**
+     * Called when the settlement being headed for stops being the answer - either the journey it
+     * belonged to has ended, or the near-field search has taken over because the user is now
+     * somewhere rather than going somewhere. Holding it past that point would resurrect a stale
+     * destination the next time an open road came along.
+     */
+    fun clear() {
+        osmId = null
+    }
+}
+
+/**
  * Tracks how recently something notable (a major road junction, or a passed large POI) was last
  * announced while travelling by car/bus, so a quiet stretch with nothing major nearby can still
  * fall back to mentioning a minor road junction instead of staying silent indefinitely. A single
@@ -515,6 +589,7 @@ private fun travellingReverseGeocodeName(
     lastStationTracker: LastStationTracker? = null,
     notableEventTracker: NotableVehicleEventTracker? = null,
     lookaheadGrid: GridState = settlementGrid,
+    settlementAheadTracker: SettlementAheadTracker? = null,
 ): ReverseGeocodeText? {
     val location = userGeometry.location
     if (!gridState.isLocationWithinGrid(location)) return null
@@ -724,13 +799,22 @@ private fun travellingReverseGeocodeName(
     val ahead = travelHeadingDegrees?.let {
         settlementAhead(
             lookaheadGrid, location, it.toDouble(),
-            maxOf(SettlementTier.VILLAGE, roadSettlementFloor)
+            maxOf(SettlementTier.VILLAGE, roadSettlementFloor),
+            tracker = settlementAheadTracker
         )
     }
-    val settlement = if ((ahead != null) &&
-        ((nearby.tier == null) || (ahead.tier > nearby.tier))
-    ) {
-        NearestSettlement(ahead.feature, ahead.tier)
+    val useAhead = (ahead != null) && ((nearby.tier == null) || (ahead.tier > nearby.tier))
+    // Only remember what actually gets said. Recording the search's result regardless would let a
+    // destination that lost to the near-field settlement come back later as the sticky answer,
+    // which is the opposite of what the tracker is for; and letting go here means arriving
+    // somewhere hands the thread back to the near-field search cleanly.
+    if (useAhead) {
+        settlementAheadTracker?.remember(ahead!!.feature)
+    } else {
+        settlementAheadTracker?.clear()
+    }
+    val settlement = if (useAhead) {
+        NearestSettlement(ahead!!.feature, ahead.tier)
     } else {
         nearby
     }
@@ -916,11 +1000,13 @@ fun describeReverseGeocode(
      * villages and towns the search looks for.
      */
     lookaheadGrid: GridState = settlementGrid,
+    /** Keeps the settlement being headed for stable across calls - see [SettlementAheadTracker]. */
+    settlementAheadTracker: SettlementAheadTracker? = null,
 ): PositionedString? {
     val description =
         travellingReverseGeocodeName(
             userGeometry, gridState, settlementGrid, localized, lastStationTracker,
-            notableEventTracker, lookaheadGrid
+            notableEventTracker, lookaheadGrid, settlementAheadTracker
         ) ?: return null
     return PositionedString(
         text = description.text,
