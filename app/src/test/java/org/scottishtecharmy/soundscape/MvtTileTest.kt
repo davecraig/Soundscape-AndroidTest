@@ -786,6 +786,7 @@ class MvtTileTest {
     @Test
     fun testTravelCalloutForSettlementAhead() {
         val settlementGrid = getGridStateForLocation(a81GartmoreLocation, 12, 3)
+        val lookaheadGrid = getGridStateForLocation(a81GartmoreLocation, 10, 3)
         val gridState = getGridStateForLocation(a81GartmoreLocation, MAX_ZOOM_LEVEL, 3)
 
         // Nothing at all within the near-field proximities, so anything named here can only have
@@ -794,12 +795,17 @@ class MvtTileTest {
 
         val userGeometry =
             UserGeometry(location = a81GartmoreLocation, speed = 25.0, travelHeading = 0.0)
-        val result =
-            describeReverseGeocode(userGeometry, gridState, settlementGrid, FakeLocalizedStrings())
+        val result = describeReverseGeocode(
+            userGeometry, gridState, settlementGrid, FakeLocalizedStrings(),
+            lookaheadGrid = lookaheadGrid
+        )
 
         assertNotNull(result)
+        // 4.7km rather than the 4.8km the z12 grid gives for the same village: the lookahead reads
+        // Gartmore's position out of a zoom 10 tile, where point coordinates are quantized more
+        // coarsely. Immaterial once spoken, but it's why this number moves if the grid zoom does.
         assertEquals(
-            "DirectionsAlongTravelingN(A81) DirectionsTowardsSettlement(Gartmore, DistanceKm(4.8))",
+            "DirectionsAlongTravelingN(A81) DirectionsTowardsSettlement(Gartmore, DistanceKm(4.7))",
             result!!.text
         )
     }
@@ -812,12 +818,15 @@ class MvtTileTest {
     @Test
     fun testTravelCalloutIgnoresSettlementBehind() {
         val settlementGrid = getGridStateForLocation(a81GartmoreLocation, 12, 3)
+        val lookaheadGrid = getGridStateForLocation(a81GartmoreLocation, 10, 3)
         val gridState = getGridStateForLocation(a81GartmoreLocation, MAX_ZOOM_LEVEL, 3)
 
         val userGeometry =
             UserGeometry(location = a81GartmoreLocation, speed = 25.0, travelHeading = 180.0)
-        val result =
-            describeReverseGeocode(userGeometry, gridState, settlementGrid, FakeLocalizedStrings())
+        val result = describeReverseGeocode(
+            userGeometry, gridState, settlementGrid, FakeLocalizedStrings(),
+            lookaheadGrid = lookaheadGrid
+        )
 
         assertNotNull(result)
         assertFalse(result!!.text.contains("Gartmore"))
@@ -4242,6 +4251,10 @@ class MvtTileTest {
         gridState.start(offlineExtractPath)
         val settlementGrid = FileGridState(12, 3)
         settlementGrid.start(offlineExtractPath)
+        // Mirror GeoEngine's third grid, so the replay exercises the same lookahead reach
+        // production has rather than the much shorter one the z12 grid would give.
+        val lookaheadGrid = FileGridState(10, 3)
+        lookaheadGrid.start(offlineExtractPath)
         val mapMatchFilter = MapMatchFilter()
         val railMapMatchFilter = MapMatchFilter(networkTree = TreeId.TRANSIT)
         // Mirror GeoEngine exactly - the whole point of this harness is that it behaves like
@@ -4328,6 +4341,11 @@ class MvtTileTest {
                     null
                 )
                 settlementGrid.locationUpdate(
+                    LngLatAlt(location.longitude, location.latitude),
+                    emptySet(),
+                    null
+                )
+                lookaheadGrid.locationUpdate(
                     LngLatAlt(location.longitude, location.latitude),
                     emptySet(),
                     null
@@ -4465,7 +4483,8 @@ class MvtTileTest {
                 val callout = autoCallout.updateLocation(
                     userGeometry,
                     gridState,
-                    settlementGrid
+                    settlementGrid,
+                    lookaheadGrid
                 )
                 if (callout != null) {
                     // We've got a new callout, so add it to our geoJSON as a triangle for the

@@ -117,10 +117,11 @@ data class SettlementAhead(
 )
 
 /**
- * How far ahead [settlementAhead] looks. The settlement grid is 3x3 tiles at zoom 12, which at UK
- * latitudes guarantees only about 4 km around the user (up to about 8 km depending on where in the
- * grid they are), so this cap is rarely the binding limit - a settlement beyond the loaded grid
- * simply isn't in the tree, and the search quietly finds nothing rather than misbehaving.
+ * How far ahead [settlementAhead] looks. GeoEngine.lookaheadGrid is 3x3 tiles at zoom 10, about
+ * 66 km across at UK latitudes and so comfortably wider than this - meaning this is the limit that
+ * actually binds, which is the point of that grid existing. A caller passing a higher-zoom grid
+ * instead gets whatever that one happens to cover; a settlement outside it simply isn't in the
+ * tree, and the search quietly finds nothing rather than misbehaving.
  */
 private const val SETTLEMENT_AHEAD_MAX_DISTANCE = 10000.0
 
@@ -158,19 +159,23 @@ private const val SETTLEMENT_AHEAD_MAX_CROSS_TRACK = 2000.0
  * already see is left for it to decide. Of what remains, the nearest wins - that's the one the
  * user will actually reach first.
  *
- * Must be called from within [settlementGrid]'s treeContext.
+ * Must be called from within [lookaheadGrid]'s treeContext.
  *
+ * @param lookaheadGrid the low-zoom grid to search - GeoEngine.lookaheadGrid in production. It has
+ * to be a grid wide enough to hold somewhere several kilometres off, which is why it isn't the
+ * settlement grid the near-field search uses. Only villages and towns are read from it, and those
+ * survive down to zoom 10 intact even though hamlets and suburbs do not.
  * @param smallestTier the smallest kind of settlement worth naming, raised to at least
  * [SettlementTier.VILLAGE] by the caller's road class - see roadClassSmallestSettlement.
  */
 fun settlementAhead(
-    settlementGrid: GridState,
+    lookaheadGrid: GridState,
     location: LngLatAlt,
     headingDegrees: Double,
     smallestTier: SettlementTier = SettlementTier.VILLAGE,
     maxDistance: Double = SETTLEMENT_AHEAD_MAX_DISTANCE
 ): SettlementAhead? {
-    val ruler = settlementGrid.ruler
+    val ruler = lookaheadGrid.ruler
     // Left edge then right edge, as getFovTriangle orders them. The bearings aren't normalized
     // because getDestinationCoordinate works in radians through sin/cos, which are periodic.
     val triangle = Triangle(
@@ -187,7 +192,7 @@ fun settlementAhead(
     for (search in settlementSearches) {
         if (search.tier < smallestTier) continue
         if (search.tier > SettlementTier.TOWN) continue
-        for (feature in settlementGrid.getFeatureTree(search.treeId)
+        for (feature in lookaheadGrid.getFeatureTree(search.treeId)
             .getAllWithinTriangle(triangle).features) {
             val settlement = feature as? MvtFeature ?: continue
             if (settlement.name == null) continue
@@ -509,6 +514,7 @@ private fun travellingReverseGeocodeName(
     localized: LocalizedStrings?,
     lastStationTracker: LastStationTracker? = null,
     notableEventTracker: NotableVehicleEventTracker? = null,
+    lookaheadGrid: GridState = settlementGrid,
 ): ReverseGeocodeText? {
     val location = userGeometry.location
     if (!gridState.isLocationWithinGrid(location)) return null
@@ -717,7 +723,7 @@ private fun travellingReverseGeocodeName(
     // nearestSettlement already weighed against each other.
     val ahead = travelHeadingDegrees?.let {
         settlementAhead(
-            settlementGrid, location, it.toDouble(),
+            lookaheadGrid, location, it.toDouble(),
             maxOf(SettlementTier.VILLAGE, roadSettlementFloor)
         )
     }
@@ -902,11 +908,19 @@ fun describeReverseGeocode(
     localized: LocalizedStrings?,
     lastStationTracker: LastStationTracker? = null,
     notableEventTracker: NotableVehicleEventTracker? = null,
+    /**
+     * The even lower-zoom grid the "heading towards" search runs against - see [settlementAhead]
+     * and GeoEngine.lookaheadGrid. It trails the trackers so that the many existing positional
+     * callers don't have to move, and defaults to [settlementGrid] for callers that have no
+     * separate one; that costs them only reach, since the z12 grid holds a superset of the
+     * villages and towns the search looks for.
+     */
+    lookaheadGrid: GridState = settlementGrid,
 ): PositionedString? {
     val description =
         travellingReverseGeocodeName(
             userGeometry, gridState, settlementGrid, localized, lastStationTracker,
-            notableEventTracker
+            notableEventTracker, lookaheadGrid
         ) ?: return null
     return PositionedString(
         text = description.text,

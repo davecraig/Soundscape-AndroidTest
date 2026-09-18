@@ -110,6 +110,16 @@ class GeoEngine {
     val gridState = ProtomapsGridState()
     val settlementGrid = ProtomapsGridState(zoomLevel = 12, gridSize = 3, gridState.treeContext)
 
+    // A third, even lower-zoom grid, used only to find the settlement a road is heading towards
+    // (see settlementAhead). It can't share settlementGrid because the two want opposite things
+    // from the place layer, and the layer thins out as zoom drops: measured against glasgow-gb,
+    // z11 drops about half of place=suburb (Cowcaddens, Dennistoun, Shawlands...) and z10 drops
+    // hamlets entirely. Those are exactly what the near-field naming and the POI address pass
+    // depend on, so settlementGrid has to stay at z12. The lookahead wants only villages and
+    // towns, which survive all the way down to z10 - and at z10 a 3x3 grid is ~66 km across,
+    // which finally makes the lookahead's own 10 km limit the binding one rather than the tiles.
+    val lookaheadGrid = ProtomapsGridState(zoomLevel = 10, gridSize = 3, gridState.treeContext)
+
     internal lateinit var locationProvider: LocationProvider
     private lateinit var directionProvider: DirectionProvider
     private var headTrackingProvider: HeadTrackingProvider? = null
@@ -328,13 +338,17 @@ class GeoEngine {
         }
         gridState.tileClient = tileClient
         settlementGrid.tileClient = tileClient
+        lookaheadGrid.tileClient = tileClient
         gridState.analytics = analyticsAdapter
         settlementGrid.analytics = analyticsAdapter
+        lookaheadGrid.analytics = analyticsAdapter
         val nameKeys = getNameTranslationKeys()
         gridState.nameKeys = nameKeys
         settlementGrid.nameKeys = nameKeys
+        lookaheadGrid.nameKeys = nameKeys
         gridState.start(offlineExtractPath)
         settlementGrid.start(offlineExtractPath)
+        lookaheadGrid.start(offlineExtractPath)
         // The high-zoom tiles gridState is built from don't carry the "place" layer, so it can't
         // see settlements at all - give it a way to ask the low-zoom grid, which it has no other
         // reference to. Used when associating POIs with an address at tile load time.
@@ -418,6 +432,7 @@ class GeoEngine {
         audioEngineUpdateJob?.cancel()
         markerMonitoringJob?.cancel()
 
+        lookaheadGrid.stop()
         settlementGrid.stop()
         gridState.stop()
         locationProvider.destroy()
@@ -433,6 +448,7 @@ class GeoEngine {
     fun refreshOfflineMaps() {
         gridState.refreshOfflineMaps()
         settlementGrid.refreshOfflineMaps()
+        lookaheadGrid.refreshOfflineMaps()
         tileSearch.refreshOfflineMaps()
     }
 
@@ -494,8 +510,15 @@ class GeoEngine {
 
                     // The settlement grid goes first: gridState's load-time POI address pass
                     // asks it which settlement each POI is in, so it has to already hold the
-                    // settlements covering this location by the time gridState rebuilds.
+                    // settlements covering this location by the time gridState rebuilds. The
+                    // lookahead grid has no such ordering constraint - nothing is built from it -
+                    // but it's kept alongside so all three are recentred from the same fix.
                     settlementGrid.locationUpdate(
+                        LngLatAlt(location.longitude, location.latitude),
+                        createSuperCategoriesSet(),
+                        localizedStrings
+                    )
+                    lookaheadGrid.locationUpdate(
                         LngLatAlt(location.longitude, location.latitude),
                         createSuperCategoriesSet(),
                         localizedStrings
@@ -592,7 +615,8 @@ class GeoEngine {
                             autoCallout.updateLocation(
                                 getCurrentUserGeometry(UserGeometry.HeadingMode.CourseAuto),
                                 gridState,
-                                settlementGrid
+                                settlementGrid,
+                                lookaheadGrid
                             )
                         if (callout != null) {
                             listener.speakCallout(callout, false)

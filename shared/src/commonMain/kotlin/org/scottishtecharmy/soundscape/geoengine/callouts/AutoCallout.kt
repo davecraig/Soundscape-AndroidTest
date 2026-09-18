@@ -257,7 +257,8 @@ class AutoCallout(
     private fun buildCalloutForRoadSense(
         userGeometry: UserGeometry,
         gridState: GridState,
-        settlementState: GridState
+        settlementState: GridState,
+        lookaheadState: GridState = settlementState
     ): TrackedCallout? {
 
         // Recorded on every call (ahead of the throttled checks below) so the sticky windows
@@ -325,7 +326,7 @@ class AutoCallout(
         // Reverse geocode the current location (this is the iOS name for the function)
         val result = describeReverseGeocode(
             userGeometry, gridState, settlementState, localized, lastStationTracker,
-            notableVehicleEventTracker
+            notableVehicleEventTracker, lookaheadState
         )
         if (result != null) {
             val callout = TrackedCallout(
@@ -1362,7 +1363,8 @@ class AutoCallout(
     fun updateLocation(
         userGeometry: UserGeometry,
         gridState: GridState,
-        settlementGrid: GridState
+        settlementGrid: GridState,
+        lookaheadGrid: GridState = settlementGrid
     ): TrackedCallout? {
 
         // Run the code within the treeContext to protect it from changes to the trees whilst it's
@@ -1391,7 +1393,9 @@ class AutoCallout(
                     // buildCalloutForRoadSense builds a callout for travel that's faster than
                     // walking
                     val roadSenseCallout =
-                        buildCalloutForRoadSense(userGeometry, gridState, settlementGrid)
+                        buildCalloutForRoadSense(
+                            userGeometry, gridState, settlementGrid, lookaheadGrid
+                        )
                     // Large POIs and transit stops passed while driving/riding are announced
                     // independently of, and potentially alongside, the road/settlement
                     // description above.
