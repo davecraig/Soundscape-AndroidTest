@@ -35,6 +35,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.IntersectionType
 import org.scottishtecharmy.soundscape.components.LocationSource
 import org.scottishtecharmy.soundscape.geoengine.nearestSettlement
 import org.scottishtecharmy.soundscape.geoengine.settlementAhead
+import org.scottishtecharmy.soundscape.geoengine.utils.pointAheadAlongWay
 import org.scottishtecharmy.soundscape.geoengine.SettlementAheadTracker
 import org.scottishtecharmy.soundscape.geoengine.roadNameWithRef
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
@@ -876,6 +877,46 @@ class MvtTileTest {
                 lookaheadGrid, a81GartmoreLocation, 180.0, tracker = tracker
             )?.feature?.name
         )
+    }
+
+
+    // On the A81 (Strathblane Road) north of Milngavie, from the point in the ToCallander.gpx
+    // replay where the road's direction and the vehicle's parted company: the tangent here points
+    // northeast, up the glen towards Clachan of Campsie, while the A81 itself turns northwest for
+    // Strathblane.
+    private val a81BendLocation = LngLatAlt(-4.286332518551758, 55.957744178613346)
+
+    /**
+     * Walking the road ahead has to give the direction the road goes, not the one the vehicle
+     * happens to be pointing - that is the whole reason settlementAhead is aimed by a chord rather
+     * than by the instantaneous heading.
+     */
+    @Test
+    fun testPointAheadAlongWayFollowsTheRoadRoundABend() {
+        val gridState = getGridStateForLocation(a81BendLocation, MAX_ZOOM_LEVEL, 3)
+        val road = gridState.getNearestFeature(
+            TreeId.ROADS, gridState.ruler, a81BendLocation, 100.0
+        ) as Way
+        assertEquals("A81", road.ref)
+
+        // Northeast, as the replay's snapped heading was here.
+        val cursor = UserGeometry(location = a81BendLocation, speed = 25.0, travelHeading = 45.0)
+            .cursorOn(road, 45.0)
+        assertNotNull(cursor)
+
+        val ahead = pointAheadAlongWay(cursor!!, 1000.0, gridState.ruler)
+        assertNotNull(ahead)
+        assertEquals(1000.0, ahead!!.distance, 0.001)
+
+        // The road bends, so a kilometre along it lands well short of a kilometre away.
+        val asTheCrowFlies = gridState.ruler.distance(a81BendLocation, ahead.point)
+        assertTrue(asTheCrowFlies < 1000.0)
+        assertTrue(asTheCrowFlies > 500.0)
+
+        // And it lands northwest, not northeast - which is the correction being made.
+        val bearing = (gridState.ruler.bearing(a81BendLocation, ahead.point) + 360.0) % 360.0
+        assertTrue("bearing was $bearing", bearing > 290.0)
+        assertTrue("bearing was $bearing", bearing < 360.0)
     }
 
     /**

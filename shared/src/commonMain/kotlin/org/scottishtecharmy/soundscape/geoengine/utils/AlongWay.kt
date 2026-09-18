@@ -7,6 +7,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayType
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
+import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 
 /**
  * Converts the result of [Ruler.distanceToLineString] into a distance in metres from the start of
@@ -244,42 +245,63 @@ private fun walkOneDirection(
         travelled += if (stepForwards) way.length - entry else entry
         if (travelled > maxDistance) return
 
-        // Walked here rather than by calling Way.followWays because that seeds from the
-        // intersection *behind* the first Way, which a Way at the end of the mapped network
-        // doesn't have.
-        val exit = if (stepForwards) {
+        val step = stepAlong(way, stepForwards, continuation, roadName, roadRef) ?: return
+        stepForwards = step.forwards
+        entry = if (step.forwards) 0.0 else step.way.length
+        entryIsBoundary = true
+        way = step.way
+    }
+}
+
+/** One step of a walk: the Way stepped onto, and which way round it is being travelled. */
+private data class WayStep(val way: Way, val forwards: Boolean)
+
+/**
+ * The Way continuing the road past the end of [way] the walk is leaving by, or null where the walk
+ * has to stop - the end of the mapped network, a junction [continuation] won't cross, or a junction
+ * with no single answer.
+ *
+ * Walked here rather than by calling Way.followWays because that seeds from the intersection
+ * *behind* the first Way, which a Way at the end of the mapped network doesn't have.
+ */
+private fun stepAlong(
+    way: Way,
+    stepForwards: Boolean,
+    continuation: WayContinuation,
+    roadName: String?,
+    roadRef: String?
+): WayStep? {
+    val exit = (
+        if (stepForwards) {
             way.intersections[WayEnd.END.id]
         } else {
             way.intersections[WayEnd.START.id]
-        } ?: return
-
-        val candidates = exit.members.filter { it !== way }
-        val next = when {
-            // A pass-through node: one road in, one road out, nothing to choose between.
-            candidates.size == 1 -> candidates.first()
-            continuation == WayContinuation.STRAIGHT_ON -> return
-            // A real junction, and we're following the road rather than stopping at it. Exactly
-            // one continuation has to identify itself as the same road, otherwise there's no
-            // single answer and guessing would be worse than stopping - which is what a staggered
-            // junction of two same-named arms looks like from here.
-            else -> {
-                val sameRoad = candidates.filter { sameRoad(it, roadName, roadRef) }
-                sameRoad.singleOrNull()
-                // A JOINER carries no name to match on - it's the synthetic zero-length link
-                // across a tile boundary (see GridState.joinTileEdgeIntersections) - so it's the
-                // fallback when nothing else here continues the road, not a rival to something
-                // that does.
-                    ?: candidates.filter { it.wayType == WayType.JOINER }
-                        .takeIf { sameRoad.isEmpty() }?.singleOrNull()
-                    ?: return
-            }
         }
+        ) ?: return null
 
-        stepForwards = (next.intersections[WayEnd.START.id] === exit)
-        entry = if (stepForwards) 0.0 else next.length
-        entryIsBoundary = true
-        way = next
+    val candidates = exit.members.filter { it !== way }
+    val next = when {
+        // A pass-through node: one road in, one road out, nothing to choose between.
+        candidates.size == 1 -> candidates.first()
+        continuation == WayContinuation.STRAIGHT_ON -> return null
+        // A real junction, and we're following the road rather than stopping at it. Exactly
+        // one continuation has to identify itself as the same road, otherwise there's no
+        // single answer and guessing would be worse than stopping - which is what a staggered
+        // junction of two same-named arms looks like from here.
+        else -> {
+            val sameRoad = candidates.filter { sameRoad(it, roadName, roadRef) }
+            sameRoad.singleOrNull()
+            // A JOINER carries no name to match on - it's the synthetic zero-length link
+            // across a tile boundary (see GridState.joinTileEdgeIntersections) - so it's the
+            // fallback when nothing else here continues the road, not a rival to something
+            // that does.
+                ?: candidates.filter { it.wayType == WayType.JOINER }
+                    .takeIf { sameRoad.isEmpty() }?.singleOrNull()
+                ?: return null
+        }
     }
+
+    return WayStep(next, next.intersections[WayEnd.START.id] === exit)
 }
 
 /** Whether a Way continues the road the walk started on, by name or by route number. */
@@ -312,4 +334,96 @@ fun nextAlongWayFeature(
         }
     }
     return found
+}
+
+/** A point reached by walking the road ahead - see [pointAheadAlongWay]. */
+data class PointAheadAlongWay(val point: LngLatAlt, val distance: Double)
+
+/**
+ * The coordinate [target] metres along [way] from its START end, or null if it has no usable
+ * geometry. Clamped to the ends rather than extrapolating past them.
+ */
+private fun coordinateAlongWay(way: Way, target: Double, ruler: Ruler): LngLatAlt? {
+    val coordinates = (way.geometry as? LineString)?.coordinates ?: return null
+    if (coordinates.size < 2) return coordinates.firstOrNull()
+    if (target <= 0.0) return coordinates.first()
+
+    var travelled = 0.0
+    for (i in 0 until coordinates.size - 1) {
+        val segment = ruler.distance(coordinates[i], coordinates[i + 1])
+        if ((travelled + segment) >= target) {
+            // A zero-length segment can't be interpolated along, and its two ends are the same
+            // point anyway, so either end is the right answer.
+            val fraction = if (segment > 0.0) (target - travelled) / segment else 0.0
+            val from = coordinates[i]
+            val to = coordinates[i + 1]
+            return LngLatAlt(
+                from.longitude + ((to.longitude - from.longitude) * fraction),
+                from.latitude + ((to.latitude - from.latitude) * fraction)
+            )
+        }
+        travelled += segment
+    }
+    return coordinates.last()
+}
+
+/**
+ * Walks the road ahead of [cursor] and returns the point [maxDistance] metres along it.
+ *
+ * This is how "which way is this road going?" is answered, as opposed to "which way am I pointing
+ * right now?" - the bearing to the point this returns is the chord of the road ahead, and on a
+ * bend the two are very different things. Travelling north out of Milngavie the instantaneous
+ * tangent pointed northeast, up the glen towards Clachan of Campsie, while the A81 itself turns
+ * northwest towards Strathblane; a settlement search aimed by the tangent picked the wrong village
+ * (see settlementAhead).
+ *
+ * Where the walk can't get the full distance - the road ends, a junction has no single
+ * continuation, or the grid runs out - the furthest point it did reach is returned, with the
+ * distance actually walked, so the caller can decide whether that was far enough to be worth
+ * using. The road grid is only a couple of kilometres across, so falling short is the normal case
+ * rather than the exception. Returns null if the walk couldn't move at all, including when the
+ * cursor has no direction to walk in.
+ *
+ * [continuation] defaults to SAME_ROAD: the question is where this road goes, so it should be
+ * followed across the junctions it passes through rather than stopping at the first one.
+ */
+fun pointAheadAlongWay(
+    cursor: WayCursor,
+    maxDistance: Double,
+    ruler: Ruler,
+    continuation: WayContinuation = WayContinuation.SAME_ROAD
+): PointAheadAlongWay? {
+    val roadName = cursor.way.name
+    val roadRef = cursor.way.ref
+    var way = cursor.way
+    var stepForwards = cursor.forwards ?: return null
+    var entry = cursor.distanceFromStart
+    var travelled = 0.0
+    var furthest: PointAheadAlongWay? = null
+    val visited = mutableSetOf<Way>()
+
+    while (true) {
+        if (!visited.add(way)) break
+        if (visited.size > MAX_WAYS_WALKED) break
+
+        val available = if (stepForwards) way.length - entry else entry
+        val remaining = maxDistance - travelled
+        if (available >= remaining) {
+            val target = if (stepForwards) entry + remaining else entry - remaining
+            val point = coordinateAlongWay(way, target, ruler) ?: break
+            return PointAheadAlongWay(point, maxDistance)
+        }
+
+        travelled += available
+        coordinateAlongWay(way, if (stepForwards) way.length else 0.0, ruler)?.let {
+            furthest = PointAheadAlongWay(it, travelled)
+        }
+
+        val step = stepAlong(way, stepForwards, continuation, roadName, roadRef) ?: break
+        way = step.way
+        stepForwards = step.forwards
+        entry = if (stepForwards) 0.0 else way.length
+    }
+
+    return furthest
 }

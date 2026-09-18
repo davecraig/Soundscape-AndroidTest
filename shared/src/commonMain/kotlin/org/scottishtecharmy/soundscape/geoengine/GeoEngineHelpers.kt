@@ -4,6 +4,7 @@ import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.AlongWayKind
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.utils.nextAlongWayFeature
+import org.scottishtecharmy.soundscape.geoengine.utils.pointAheadAlongWay
 import org.scottishtecharmy.soundscape.geoengine.utils.WayCursor
 import org.scottishtecharmy.soundscape.geoengine.utils.WayContinuation
 import org.scottishtecharmy.soundscape.geoengine.utils.AlongWayFeatureAhead
@@ -153,6 +154,26 @@ private const val SETTLEMENT_AHEAD_MAX_CROSS_TRACK = 2000.0
  */
 private const val SETTLEMENT_AHEAD_HOLD_HALF_ANGLE = 60.0
 private const val SETTLEMENT_AHEAD_HOLD_MAX_CROSS_TRACK = 3000.0
+
+/**
+ * How far along the road the chord that aims the search is measured over.
+ *
+ * Measured on the Callander tracks, sampling at the rate road callouts actually fire: using the
+ * instantaneous tangent, 20% of successive samples swung by more than 30 degrees - about what it
+ * takes to throw a settlement out of the wedge - against 8.9% at a kilometre and none at two. Two
+ * would be better and isn't available: the road grid is zoom 14, 2x2, which guarantees only about
+ * half a kilometre of road ahead and runs out entirely within a couple. A kilometre is the most
+ * that can usually be walked, and it is already enough to fix which village gets chosen, which was
+ * the point - the residual jitter is what SettlementAheadTracker is for.
+ */
+private const val ROAD_AHEAD_CHORD_DISTANCE = 1000.0
+
+/**
+ * Below this the chord says nothing the instantaneous heading doesn't - over a short enough stretch
+ * the two converge - and it is measured over few enough vertices to be the noisier of the two, so
+ * the heading is used instead.
+ */
+private const val ROAD_AHEAD_MINIMUM_USEFUL = 300.0
 
 /**
  * Finds the settlement the user is travelling towards, as opposed to the one they are currently at.
@@ -796,9 +817,31 @@ private fun travellingReverseGeocodeName(
     // being passed through beats one further up the road - and, because settlementAhead only looks
     // beyond the near-field proximities, this can never re-rank two settlements the cascade in
     // nearestSettlement already weighed against each other.
-    val ahead = travelHeadingDegrees?.let {
+    // Which way the road goes, rather than which way the vehicle is pointing at this instant. On a
+    // bend those are different questions with different answers: heading north out of Milngavie
+    // the tangent pointed northeast, up the glen towards Clachan of Campsie, while the A81 itself
+    // turns northwest for Strathblane - and the search aimed by the tangent duly picked the wrong
+    // village. Measured as the chord to a point along the road rather than as an average of its
+    // tangents, because the chord is literally "where does this road take me", which is the
+    // question being asked. Falls back to the instantaneous heading when the road can't be walked
+    // far enough to say anything the tangent doesn't - which the road grid's size makes common.
+    // Only from a map-matched way, never from the radius fallback nearestRoad can also come from.
+    // Walking a road the user has merely been found near says where *it* goes, which is worth
+    // nothing if they are not on it, and the direction the walk sets off in is decided by comparing
+    // the travel heading to the road's tangent - a comparison that becomes a coin toss as the two
+    // approach a right angle. Being matched to the road is what rules that out.
+    val aheadHeading = travelHeadingDegrees?.let { heading ->
+        val chord = userGeometry.mapMatchedWay
+            ?.takeIf { !probablyOnTrain }
+            ?.let { userGeometry.cursorOn(it, heading.toDouble()) }
+            ?.let { pointAheadAlongWay(it, ROAD_AHEAD_CHORD_DISTANCE, gridState.ruler) }
+            ?.takeIf { it.distance >= ROAD_AHEAD_MINIMUM_USEFUL }
+        chord?.let { gridState.ruler.bearing(location, it.point) } ?: heading.toDouble()
+    }
+
+    val ahead = aheadHeading?.let {
         settlementAhead(
-            lookaheadGrid, location, it.toDouble(),
+            lookaheadGrid, location, it,
             maxOf(SettlementTier.VILLAGE, roadSettlementFloor),
             tracker = settlementAheadTracker
         )
