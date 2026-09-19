@@ -78,13 +78,17 @@ class CalloutController(
      * the press just cancels it — pressing the same button twice silences
      * the app.
      */
-    private fun startCallout(source: TourButton, body: suspend CoroutineScope.() -> Unit) {
+    private fun startCallout(
+        source: TourButton,
+        interrupt: Boolean = true,
+        body: suspend CoroutineScope.() -> Unit
+    ) {
         val previousJob = calloutJob
         calloutJob = scope.launch {
-            val wasActive = previousJob?.isActive == true
+            val wasActive = interrupt && previousJob?.isActive == true
             if (wasActive) previousJob.cancel()
 
-            audioEngine.clearTextToSpeechQueue()
+            if (interrupt) audioEngine.clearTextToSpeechQueue()
 
             if (wasActive) {
                 // Toggle-off: previous callout was in flight, this press just
@@ -132,8 +136,37 @@ class CalloutController(
         _activeCalloutFlow.value = null
     }
 
-    fun myLocation() {
-        startCallout(TourButton.MY_LOCATION) {
+    private var startupCalloutDone = false
+
+    /**
+     * Tells the user where they are without being asked, the first time the app has
+     * what it takes to say so. Called from the platform's GeoEngineListener.tileGridUpdated
+     * override: the first grid is the last thing to arrive, since it can't be fetched
+     * until there's a fix to fetch it for.
+     *
+     * Once per controller, which is once per service: the geo engine is stopped and
+     * restarted underneath a running app (toggling street preview, a change of offline
+     * maps) and each restart delivers a fresh first grid.
+     *
+     * Nobody pressed anything, so unlike a button this neither interrupts nor toggles.
+     * A callout that's already running is left alone - someone who got to a button
+     * before the grid arrived has just been told more than this would say, and an
+     * assistant's launch command has its own answer on the way. Speech already queued
+     * stays queued, because GeoEngine follows tileGridUpdated with the first auto
+     * callout, and AutoCallout has already marked whatever that announces as heard -
+     * clearing it here would drop it for good.
+     */
+    fun startupMyLocation() {
+        if (startupCalloutDone) return
+        startupCalloutDone = true
+        if (calloutJob?.isActive == true) return
+        myLocation(interrupt = false)
+    }
+
+    fun myLocation() = myLocation(interrupt = true)
+
+    private fun myLocation(interrupt: Boolean) {
+        startCallout(TourButton.MY_LOCATION, interrupt) {
             if (service.requestAudioFocus()) {
                 // myLocation can take a second or so if it does network reverse
                 // geocoding — play the enter earcon immediately so the user hears

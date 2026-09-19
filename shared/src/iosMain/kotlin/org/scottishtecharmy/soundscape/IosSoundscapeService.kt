@@ -396,7 +396,32 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         cloudBackup.start()
     }
 
+    // Sticky: whether this process has ever had its UI in front of the user. A Siri or
+    // Shortcuts command launches the app with no scene at all, so it never goes active,
+    // and nobody asked that process where they are - see startupMyLocationIfUiSeen.
+    private var uiHasBeenActive = false
+
+    /**
+     * The startup My Location callout, held back until the app has actually been opened.
+     * Called from both of the things it waits on - the first grid and the app going
+     * active - in whichever order they arrive, so an app opened some time after a voice
+     * command launched it headlessly still gets its callout, on that first open.
+     * CalloutController keeps it to once.
+     */
+    private fun startupMyLocationIfUiSeen() {
+        if (uiHasBeenActive && _gridStateFlow.value != null)
+            calloutController.startupMyLocation()
+    }
+
     private fun observeAppLifecycle() {
+        // The service can be constructed after the app has already gone active, in which
+        // case the notification below has been and gone. applicationState is main-thread
+        // only, and an App Intent can construct the service off it - but that's the
+        // headless launch, where the answer is no anyway and a later open still posts.
+        uiHasBeenActive = platform.Foundation.NSThread.isMainThread &&
+            platform.UIKit.UIApplication.sharedApplication.applicationState ==
+            platform.UIKit.UIApplicationState.UIApplicationStateActive
+
         val center = platform.Foundation.NSNotificationCenter.defaultCenter
         center.addObserverForName(
             platform.UIKit.UIApplicationDidBecomeActiveNotification,
@@ -405,6 +430,8 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         ) { _ ->
             println("App in FOREGROUND")
             geoEngine.appInForeground = true
+            uiHasBeenActive = true
+            startupMyLocationIfUiSeen()
         }
         center.addObserverForName(
             platform.UIKit.UIApplicationWillResignActiveNotification,
@@ -489,6 +516,7 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
             geoEngine.recomputeStreetPreviewBestChoice()
         }
         _gridStateFlow.value = geoEngine.gridState
+        startupMyLocationIfUiSeen()
     }
 
     override fun setStreetPreviewMode(on: Boolean, location: LngLatAlt?) {

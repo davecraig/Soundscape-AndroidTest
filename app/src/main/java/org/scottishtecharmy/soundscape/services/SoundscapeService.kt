@@ -418,6 +418,7 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
             geoEngine.recomputeStreetPreviewBestChoice()
         }
         _gridStateFlow.value = geoEngine.gridState
+        calloutController.startupMyLocation()
     }
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? =
