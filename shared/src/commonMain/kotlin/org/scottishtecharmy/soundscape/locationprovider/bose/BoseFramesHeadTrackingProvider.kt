@@ -4,11 +4,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.scottishtecharmy.soundscape.geoengine.headtracking.HeadphoneCalibrationManager
 import org.scottishtecharmy.soundscape.locationprovider.DirectionProvider
 import org.scottishtecharmy.soundscape.locationprovider.HeadHeading
+import org.scottishtecharmy.soundscape.locationprovider.HeadTrackingDataTimeoutException
 import org.scottishtecharmy.soundscape.locationprovider.HeadTrackingProvider
 import org.scottishtecharmy.soundscape.locationprovider.HeadTrackingStatus
 import org.scottishtecharmy.soundscape.locationprovider.LocationProvider
@@ -93,6 +95,9 @@ class BoseFramesHeadTrackingProvider(
         }
     }
 
+    @Volatile
+    private var lastDataMillis: Long = 0L
+
     private suspend fun runBleLoop() {
         while (true) {
             try {
@@ -103,29 +108,65 @@ class BoseFramesHeadTrackingProvider(
                 // "App NOT in FOREGROUND" lines from IosSoundscapeService to see whether
                 // discovery still works once the app is backgrounded.
                 println("Bose: scanning")
-                client.runSession(
-                    onConnected = {
-                        println("Bose: connected")
-                        mutableStatusFlow.value = HeadTrackingStatus.Connected
-                        // Restart calibration so the offset is re-learned for
-                        // this session — the glasses orient yaw=0 wherever they
-                        // happen to be when powered on.
-                        calibrationManager.stop()
-                        calibrationManager.start()
-                    },
-                    onBytes = { bytes -> onBytes(bytes) },
-                )
+                runSessionWatchingForData()
             } catch (ce: kotlin.coroutines.cancellation.CancellationException) {
                 throw ce
             } catch (t: Throwable) {
                 // Scan failed / connection dropped / GATT error — wait and retry.
                 // The throwable was previously discarded, which hid why a session ended.
                 println("Bose: session ended: ${t::class.simpleName}: ${t.message}")
+                lastDataMillis = 0L
                 mutableHeadHeadingFlow.value = null
                 mutableStatusFlow.value = HeadTrackingStatus.Disconnected
                 delay(RECONNECT_DELAY_MILLIS)
             }
         }
+    }
+
+    /**
+     * Runs one session and fails it if the sensor goes quiet for
+     * [DATA_TIMEOUT_MILLIS], so that [runBleLoop]'s catch can rescan and reconnect.
+     *
+     * See [HeadTrackingDataTimeoutException] for why a silent session would otherwise
+     * never recover.
+     */
+    private suspend fun runSessionWatchingForData() = coroutineScope {
+        val session = launch {
+            client.runSession(
+                onConnected = {
+                    println("Bose: connected")
+                    // Arms the watchdog. Left at 0 until now so that the scan - which
+                    // suspends indefinitely waiting for an advertisement, and is not a
+                    // fault - can't trip it.
+                    lastDataMillis = currentTimeMillis()
+                    mutableStatusFlow.value = HeadTrackingStatus.Connected
+                    // Restart calibration so the offset is re-learned for this
+                    // session — the glasses orient yaw=0 wherever they happen to
+                    // be when powered on.
+                    calibrationManager.stop()
+                    calibrationManager.start()
+                },
+                onBytes = { bytes ->
+                    lastDataMillis = currentTimeMillis()
+                    onBytes(bytes)
+                },
+            )
+        }
+
+        val watchdog = launch {
+            while (true) {
+                delay(DATA_WATCHDOG_POLL_MILLIS)
+                val last = lastDataMillis
+                if (last != 0L && currentTimeMillis() - last > DATA_TIMEOUT_MILLIS) {
+                    // Cancels the session too, via coroutineScope, and propagates to
+                    // runBleLoop's catch.
+                    throw HeadTrackingDataTimeoutException(DATA_TIMEOUT_MILLIS)
+                }
+            }
+        }
+
+        session.join()
+        watchdog.cancel()
     }
 
     private fun onBytes(bytes: ByteArray) {
@@ -168,5 +209,12 @@ class BoseFramesHeadTrackingProvider(
 
         private const val REPORTED_ACCURACY_DEGREES = 10.0
         private const val RECONNECT_DELAY_MILLIS = 2_000L
+
+        // The sensors stream at ~25Hz, so a multi-second gap is already abnormal. Long
+        // enough to ride out a stutter, short enough that a user doesn't walk far with
+        // dead head tracking. Legitimately idle hardware trips it too, which is correct:
+        // the reconnect is how it comes back when it starts reporting again.
+        private const val DATA_TIMEOUT_MILLIS = 5_000L
+        private const val DATA_WATCHDOG_POLL_MILLIS = 1_000L
     }
 }
