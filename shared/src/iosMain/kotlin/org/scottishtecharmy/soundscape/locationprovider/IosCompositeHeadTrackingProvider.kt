@@ -52,9 +52,15 @@ class IosCompositeHeadTrackingProvider(
                     airpodsStatus == HeadTrackingStatus.Calibrated
                 if (airpodsActive) {
                     if (externalBle.statusFlow.value != HeadTrackingStatus.Inactive) {
+                        // Logged because it is the usual reason a WT/Bose test sees no
+                        // scanning at all: connected AirPods switch the external sensors
+                        // off entirely, and from the outside that looks identical to a
+                        // scan that is running but finding nothing.
+                        println("HeadTracking: AirPods active - stopping external BLE")
                         externalBle.stop()
                     }
                 } else if (externalBle.statusFlow.value == HeadTrackingStatus.Inactive) {
+                    println("HeadTracking: AirPods inactive - starting external BLE")
                     externalBle.start()
                 }
             }

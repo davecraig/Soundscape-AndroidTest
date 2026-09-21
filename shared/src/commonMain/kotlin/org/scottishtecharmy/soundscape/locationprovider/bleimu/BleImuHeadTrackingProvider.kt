@@ -114,8 +114,16 @@ class BleImuHeadTrackingProvider(
     private suspend fun runBleLoop() {
         while (true) {
             try {
+                // Logged because a scan that finds nothing does not fail: runSession
+                // suspends in Scanner.advertisements.first() until an advertisement
+                // arrives, so a blocked scan shows up as this line with nothing after it
+                // rather than as a retry loop. Pair it with the "App in FOREGROUND" /
+                // "App NOT in FOREGROUND" lines from IosSoundscapeService to see whether
+                // discovery still works once the app is backgrounded.
+                println("WT: scanning")
                 client.runSession(
                     onConnected = {
+                        println("WT: connected")
                         mutableStatusFlow.value = HeadTrackingStatus.Connected
                         // Restart calibration so the offset doesn't carry over
                         // from a previous session with a different mounting.
@@ -128,8 +136,10 @@ class BleImuHeadTrackingProvider(
                 )
             } catch (ce: kotlin.coroutines.cancellation.CancellationException) {
                 throw ce
-            } catch (_: Throwable) {
+            } catch (t: Throwable) {
                 // Scan failed / connection dropped / GATT error — wait and retry.
+                // The throwable was previously discarded, which hid why a session ended.
+                println("WT: session ended: ${t::class.simpleName}: ${t.message}")
                 mutableHeadHeadingFlow.value = null
                 mutableStatusFlow.value = HeadTrackingStatus.Disconnected
                 delay(RECONNECT_DELAY_MILLIS)
