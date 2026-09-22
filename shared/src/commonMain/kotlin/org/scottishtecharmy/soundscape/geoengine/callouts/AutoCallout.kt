@@ -1195,8 +1195,24 @@ class AutoCallout(
      * How close counts as having arrived at the junction. Deliberately not zero: the kerb setback
      * is an estimate, and GPS at the mouth of a junction is not good enough to tell three metres
      * from nothing.
+     *
+     * Six rather than the four it started at, because four could not be reached. A junction stops
+     * being described once its node is within five metres (see getRoadsDescriptionFromFov's
+     * trimming), so the closest it is ever seen at is about five metres less its kerb setback -
+     * and where that setback is small, which it is wherever a junction's other arms are all
+     * pavements and crossings, the window between the two is empty and no arrival could ever
+     * fire.
+     *
+     * Taking the closest each announced junction was ever seen at, over two walks, those
+     * distances pile up just above four metres and then leave a clear gap between six and eight.
+     * Six takes that cluster and stops before the next one. Replaying travel-2 end to end, it
+     * takes the junctions that get an arrival from 21 of 69 to 36 - and six metres is still four
+     * or five paces, which is inside the error on the setback estimate and the GPS fix anyway.
+     *
+     * The rest are junctions that stop being the described one before getting close at all,
+     * usually because a nearer one takes over. Those need the selection to change, not the band.
      */
-    private val intersectionKerbBandMetres = 4.0
+    private val intersectionKerbBandMetres = 6.0
 
     fun buildCalloutForIntersections(
         userGeometry: UserGeometry,

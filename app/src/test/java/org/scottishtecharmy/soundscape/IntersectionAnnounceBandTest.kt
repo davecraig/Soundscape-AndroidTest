@@ -8,6 +8,7 @@ import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.callouts.getRoadsDescriptionFromFov
 import org.scottishtecharmy.soundscape.geoengine.callouts.kerbDistance
 import org.scottishtecharmy.soundscape.geoengine.filters.MapMatchFilter
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Point
@@ -36,6 +37,38 @@ class IntersectionAnnounceBandTest {
      * warning about.
      */
     private val isolatedJunctionGapMetres = 50.0
+
+    /** Must match AutoCallout.intersectionKerbBandMetres. */
+    private val kerbBandMetres = 6.0
+
+    /**
+     * The arrival cue has to be reachable to fire at all, and it very nearly wasn't.
+     *
+     * A junction stops being described once its node is within five metres, so the closest it is
+     * ever seen at is about five metres less its kerb setback. With the band at four metres that
+     * left a sliver of a window, and none at all wherever the setback was small - which it is
+     * whenever a junction's other arms are all pavements and crossings. Junctions piled up just
+     * above four metres having never got close enough to arrive at.
+     *
+     * Asserted as a proportion of announced junctions rather than all of them: some stop being
+     * the described junction long before the user reaches them, usually because a nearer one
+     * takes over, and no band can catch those.
+     */
+    @Test
+    fun theArrivalCueIsReachableForMostAnnouncedJunctions() {
+        for (trace in listOf("travel-2", "CentralToBuchananStreet")) {
+            val closest = replayClosest(trace)
+            Assert.assertTrue("$trace: too few junctions", closest.size >= 10)
+
+            val reached = closest.values.count { it <= kerbBandMetres }
+            Assert.assertTrue(
+                "$trace: only $reached of ${closest.size} announced junctions were ever seen " +
+                    "within the $kerbBandMetres m arrival band: " +
+                    closest.values.sorted().map { "%.1f".format(it) },
+                reached >= closest.size / 2
+            )
+        }
+    }
 
     /** A wander around Milngavie, and a walk through the middle of Glasgow. */
     @Test
@@ -81,11 +114,40 @@ class IntersectionAnnounceBandTest {
     private lateinit var ruler: org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 
     /**
+     * Walks [trace], returning the closest each announced junction was ever seen at - which is
+     * what decides whether an arrival could fire for it.
+     */
+    private fun replayClosest(trace: String): Map<Pair<String?, LngLatAlt>, Double> {
+        val closest = mutableMapOf<Pair<String?, LngLatAlt>, Double>()
+        walk(trace) { junction, distance ->
+            if (distance <= announceBandMetres) {
+                val key = junction.name to junction.location
+                closest[key] = minOf(closest[key] ?: Double.MAX_VALUE, distance)
+            }
+        }
+        return closest
+    }
+
+    /**
      * Walks [trace], returning the distance at the first fix where each junction would have been
      * announced. Keyed on the junction so the repeated fixes of one approach collapse to the
      * first, which is what the callout history does in production.
      */
     private fun replay(trace: String): Map<Pair<String?, LngLatAlt>, Double> {
+        val announcedAt = linkedMapOf<Pair<String?, LngLatAlt>, Double>()
+        walk(trace) { junction, distance ->
+            if (distance <= announceBandMetres) {
+                announcedAt.getOrPut(junction.name to junction.location) { distance }
+            }
+        }
+        return announcedAt
+    }
+
+    /** Replays [trace], handing [onJunction] the kerb distance at every fix that has one. */
+    private fun walk(
+        trace: String,
+        onJunction: (Intersection, Double) -> Unit,
+    ) {
         val track = parseGpxTrack("$offlineExtractPath/gpxFiles/$trace.gpx")
         Assert.assertTrue("$trace: no track points", track.size > 50)
 
@@ -94,7 +156,6 @@ class IntersectionAnnounceBandTest {
         ruler = gridState.ruler
         val mapMatchFilter = MapMatchFilter()
         val categories = setOf(PLACES_AND_LANDMARKS_KEY, MOBILITY_KEY)
-        val announcedAt = linkedMapOf<Pair<String?, LngLatAlt>, Double>()
         var measured = 0
 
         for ((location, recordedHeading) in track) {
@@ -117,12 +178,9 @@ class IntersectionAnnounceBandTest {
             val junction = description.intersection ?: continue
             val distance = description.kerbDistance(gridState, null) ?: continue
             measured++
-
-            if (distance > announceBandMetres) continue
-            announcedAt.getOrPut(junction.name to junction.location) { distance }
+            onJunction(junction, distance)
         }
         Assert.assertTrue("$trace: no distances measured along the walk", measured > 50)
-        return announcedAt
     }
 }
 
