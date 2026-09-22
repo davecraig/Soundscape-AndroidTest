@@ -1191,6 +1191,13 @@ class AutoCallout(
      */
     private val intersectionAnnounceBandMetres = 30.0
 
+    /**
+     * How close counts as having arrived at the junction. Deliberately not zero: the kerb setback
+     * is an estimate, and GPS at the mouth of a junction is not good enough to tell three metres
+     * from nothing.
+     */
+    private val intersectionKerbBandMetres = 4.0
+
     fun buildCalloutForIntersections(
         userGeometry: UserGeometry,
         gridState: GridState
@@ -1227,15 +1234,24 @@ class AutoCallout(
             localized
         )
 
-        // Hold off until the junction is within the announce band. The callout history is keyed
-        // on the junction, so this gates rather than edge-triggers: if the user is already inside
-        // the band, or the chosen junction changes between fixes, it still gets announced once.
+        // Which of the two things there is to say about this junction - that it is coming up, or
+        // that we have reached it. Beyond the announce band there is nothing to say yet.
+        //
+        // The callout history is keyed on the junction and the band, so this gates rather than
+        // edge-triggers: if the user is already inside the band, or the chosen junction changes
+        // between fixes, it still gets announced once.
+        //
         // In StreetPreview there is no real position to measure from, so there is nothing to wait
-        // for.
+        // for and nothing to arrive at.
+        var band = IntersectionBand.APPROACH
         if (!userGeometry.inStreetPreview) {
             val kerbDistance = roadsDescription.kerbDistance(gridState, localized)
-            if ((kerbDistance != null) && (kerbDistance > intersectionAnnounceBandMetres)) {
-                return null
+            if (kerbDistance != null) {
+                band = when {
+                    kerbDistance > intersectionAnnounceBandMetres -> return null
+                    kerbDistance <= intersectionKerbBandMetres -> IntersectionBand.AT_KERB
+                    else -> IntersectionBand.APPROACH
+                }
             }
         }
 
@@ -1245,7 +1261,8 @@ class AutoCallout(
             localized,
             intersectionCalloutHistory,
             gridState,
-            speakDistance = intersectionDistanceEnabled()
+            speakDistance = intersectionDistanceEnabled(),
+            band = band
         )
     }
 

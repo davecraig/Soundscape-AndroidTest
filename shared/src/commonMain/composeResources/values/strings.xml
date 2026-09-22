@@ -376,6 +376,8 @@
     <string name="intersection_approaching_intersection">Approaching intersection</string>
     <!-- Callout that a road junction is getting near, %1$s is an already-formatted distance such as "30 metres" - see the distance_meters and distance_feet plurals. The distance is to the kerb the user will reach, not to the middle of the junction. -->
     <string name="intersection_approaching_intersection_distance">Intersection in %1$s</string>
+    <!-- Callout on arriving at the junction that was announced on approach -->
+    <string name="intersection_at_intersection">At the intersection</string>
     <!-- Notification, %s is a point of interest, "At Starbucks" -->
     <string name="directions_at_poi">At %1$s</string>
     <!-- Text for button on home page that callous the current user location -->

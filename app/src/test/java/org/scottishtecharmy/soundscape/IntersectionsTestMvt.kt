@@ -6,8 +6,10 @@ import org.scottishtecharmy.soundscape.geoengine.GRID_SIZE
 import org.scottishtecharmy.soundscape.geoengine.MAX_ZOOM_LEVEL
 import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.callouts.IntersectionDescription
+import org.scottishtecharmy.soundscape.geoengine.callouts.IntersectionBand
 import org.scottishtecharmy.soundscape.geoengine.callouts.addIntersectionCalloutFromDescription
 import org.scottishtecharmy.soundscape.geoengine.callouts.getRoadsDescriptionFromFov
+import org.scottishtecharmy.soundscape.geoengine.filters.CalloutHistory
 import org.scottishtecharmy.soundscape.geoengine.filters.MapMatchFilter
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
@@ -134,6 +136,77 @@ class IntersectionsTestMvt {
         val description = getRoadsDescriptionFromFov(gridState, userGeometry, strings)
         return description to addIntersectionCalloutFromDescription(
             description, strings, null, gridState, speakDistance
+        )
+    }
+
+    /**
+     * Arriving is only confirmed for a junction that was announced as coming up. Otherwise a road
+     * whose side turnings come every ten metres - and which is therefore never announced far
+     * enough ahead to be gated - would become a stream of arrivals.
+     */
+    @Test
+    fun arrivalIsOnlyCalledOutForAJunctionWeAnnounced() {
+        val location = LngLatAlt(-2.637514213827643, 51.472589063821175)
+        val heading = 225.0
+        val gridState = getGridStateForLocation(location, MAX_ZOOM_LEVEL, GRID_SIZE)
+        val mapMatchFilter = MapMatchFilter()
+        var offset = 30.0
+        while (offset >= 0.0) {
+            mapMatchFilter.filter(
+                getDestinationCoordinate(location, (heading + 180.0) % 360.0, offset),
+                gridState, FeatureCollection(), false, null
+            )
+            offset -= 3.0
+        }
+        val userGeometry = UserGeometry(
+            location = location,
+            phoneHeading = heading,
+            fovDistance = 50.0,
+            mapMatchedWay = mapMatchFilter.matchedWay,
+            mapMatchedLocation = mapMatchFilter.matchedLocation
+        )
+        val strings = FakeLocalizedStrings()
+        val description = getRoadsDescriptionFromFov(gridState, userGeometry, strings)
+        val history = CalloutHistory(30000)
+
+        // Nothing announced yet, so there is nothing to have arrived at.
+        Assert.assertNull(
+            addIntersectionCalloutFromDescription(
+                description, strings, history, gridState, true, IntersectionBand.AT_KERB
+            )
+        )
+
+        // Announce it, and record it as production does when the callout is spoken.
+        val approach = addIntersectionCalloutFromDescription(
+            description, strings, history, gridState, true, IntersectionBand.APPROACH
+        )
+        Assert.assertNotNull(approach)
+        history.add(approach!!)
+
+        // The approach does not repeat...
+        Assert.assertNull(
+            addIntersectionCalloutFromDescription(
+                description, strings, history, gridState, true, IntersectionBand.APPROACH
+            )
+        )
+        // ...but arriving is now worth saying, and says something different.
+        val arrival = addIntersectionCalloutFromDescription(
+            description, strings, history, gridState, true, IntersectionBand.AT_KERB
+        )
+        Assert.assertNotNull(arrival)
+        Assert.assertEquals(
+            "IntersectionAtIntersection()",
+            arrival!!.positionedStrings.first().text
+        )
+        // The arrival is a confirmation, not a repeat of the whole junction description.
+        Assert.assertEquals(1, arrival.positionedStrings.size)
+
+        // And it only happens once.
+        history.add(arrival)
+        Assert.assertNull(
+            addIntersectionCalloutFromDescription(
+                description, strings, history, gridState, true, IntersectionBand.AT_KERB
+            )
         )
     }
 

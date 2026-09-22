@@ -37,6 +37,13 @@ import kotlin.math.abs
  */
 private const val minimumSpokenDistanceMetres = 5.0
 
+/**
+ * The key an intersection callout dedups on. The band is part of it so that the arrival does not
+ * match the approach; the name alone would make each suppress the other.
+ */
+private fun dedupTextFor(intersectionName: String?, band: IntersectionBand) =
+    "${intersectionName ?: ""}|${band.name}"
+
 data class IntersectionDescription(
     var nearestRoad: Way? = null,
     val userGeometry: UserGeometry = UserGeometry(),
@@ -57,6 +64,15 @@ data class IntersectionDescription(
      */
     val centreLineDistance: Double? = null,
 )
+
+/**
+ * Which of the two things an intersection callout can be.
+ *
+ * They are separate callouts rather than one, because they say different things: the approach
+ * describes a junction that is still ahead, and the arrival confirms you have reached it. They
+ * dedup separately (see TrackedCallout.dedupText) so that one does not suppress the other.
+ */
+enum class IntersectionBand { APPROACH, AT_KERB }
 
 /**
  * How far the user still has to walk to reach the edge of [IntersectionDescription.intersection] -
@@ -398,6 +414,7 @@ fun addIntersectionCalloutFromDescription(
     calloutHistory: CalloutHistory? = null,
     gridState: GridState,
     speakDistance: Boolean = true,
+    band: IntersectionBand = IntersectionBand.APPROACH,
 ): TrackedCallout? {
 
     // Report nearby road
@@ -491,6 +508,44 @@ fun addIntersectionCalloutFromDescription(
     // Note this formats the distance here rather than letting SpeakCallout's addDistanceAndHeading
     // do it: that path is only reached for a PositionedString with a location, and it would
     // measure the straight line to the centre-line node, which is the number being replaced.
+    // Arriving is only worth confirming for a junction we said was coming: without this, walking
+    // a road whose side turnings come every ten metres would be a stream of arrivals at junctions
+    // that were never announced. The approach callout is looked up rather than remembered, so a
+    // junction that was announced and then expired out of the history does not get an arrival
+    // either.
+    if (band == IntersectionBand.AT_KERB) {
+        val approach = TrackedCallout(
+            description.userGeometry,
+            intersectionName ?: "",
+            intersectionLocation,
+            isPoint = true,
+            dedupText = dedupTextFor(intersectionName, IntersectionBand.APPROACH),
+        )
+        if (calloutHistory?.find(approach) != true) return null
+
+        val arrival = TrackedCallout(
+            description.userGeometry,
+            intersectionName ?: "",
+            intersectionLocation,
+            positionedStrings = List(1) {
+                PositionedString(
+                    text = localized?.get(StringKey.IntersectionAtIntersection)
+                        ?: "At the intersection",
+                    earcon = Earcons.SENSE_POI,
+                    type = AudioType.STANDARD
+                )
+            },
+            isPoint = true,
+            isGeneric = false,
+            calloutHistory = calloutHistory,
+            dedupText = dedupTextFor(intersectionName, IntersectionBand.AT_KERB),
+            // Having arrived, there is nothing left to approach - so an approach callout for this
+            // junction arriving late is suppressed, while this one was not suppressed by it.
+            extraDedupText = dedupTextFor(intersectionName, IntersectionBand.APPROACH),
+        )
+        return if (calloutHistory?.find(arrival) == true) null else arrival
+    }
+
     val kerbDistance = description.kerbDistance(gridState, localized)
     val approachText = if (speakDistance &&
         (kerbDistance != null) &&
@@ -523,7 +578,8 @@ fun addIntersectionCalloutFromDescription(
         },
         isPoint = true,
         isGeneric = false,
-        calloutHistory = calloutHistory
+        calloutHistory = calloutHistory,
+        dedupText = dedupTextFor(intersectionName, IntersectionBand.APPROACH),
     )
     if (calloutHistory?.find(trackedCallout) == true) {
         return null
