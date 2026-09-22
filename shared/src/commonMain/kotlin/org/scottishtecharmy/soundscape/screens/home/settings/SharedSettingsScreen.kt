@@ -45,6 +45,8 @@ import org.scottishtecharmy.soundscape.resources.callouts_allow_callouts
 import org.scottishtecharmy.soundscape.resources.callouts_allow_callouts_description
 import org.scottishtecharmy.soundscape.resources.callouts_audio_beacon
 import org.scottishtecharmy.soundscape.resources.callouts_audio_beacon_description
+import org.scottishtecharmy.soundscape.resources.callouts_intersection_distance
+import org.scottishtecharmy.soundscape.resources.callouts_intersection_distance_description
 import org.scottishtecharmy.soundscape.resources.callouts_bus_and_tram_stops
 import org.scottishtecharmy.soundscape.resources.callouts_bus_and_tram_stops_description
 import org.scottishtecharmy.soundscape.resources.callouts_mobility
@@ -312,6 +314,19 @@ fun SharedSettingsScreen(
                         SettingDetails(
                             Res.string.callouts_audio_beacon,
                             Res.string.callouts_audio_beacon_description,
+                            textColor
+                        )
+                    },
+                    enabled = { allowCallouts },
+                )
+                switchPreference(
+                    key = PreferenceKeys.DISTANCE_TO_INTERSECTION,
+                    defaultValue = PreferenceDefaults.DISTANCE_TO_INTERSECTION,
+                    modifier = expandedSectionModifier,
+                    title = {
+                        SettingDetails(
+                            Res.string.callouts_intersection_distance,
+                            Res.string.callouts_intersection_distance_description,
                             textColor
                         )
                     },

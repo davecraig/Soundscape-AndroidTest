@@ -44,6 +44,13 @@ object PreferenceKeys {
      */
     const val BUS_AND_TRAM_STOPS = "BusAndTramStops"
     const val DISTANCE_TO_BEACON = "DistanceToBeacon"
+
+    /**
+     * Whether an intersection callout says how far away the junction is, as well as that there is
+     * one. Part of Mobility, but separable: the distance is the whole point for somebody
+     * navigating an unfamiliar street, and just more words for somebody who knows the route.
+     */
+    const val DISTANCE_TO_INTERSECTION = "DistanceToIntersection"
     const val POSITION_INCLUDES_HEADING_AND_DISTANCE = "PositionTextDescription"
     const val RELATIVE_DIRECTION = "RelativeDirectionMode"
 
@@ -81,6 +88,7 @@ object PreferenceDefaults {
     const val MOBILITY = true
     const val BUS_AND_TRAM_STOPS = true
     const val DISTANCE_TO_BEACON = true
+    const val DISTANCE_TO_INTERSECTION = true
     const val POSITION_INCLUDES_HEADING_AND_DISTANCE = false
     const val RELATIVE_DIRECTION = "ClockFace"
 

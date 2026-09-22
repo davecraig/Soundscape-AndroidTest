@@ -454,6 +454,17 @@ class AutoCallout(
             ?: PreferenceDefaults.MOBILITY
 
     /**
+     * The "Distance to Intersections" callout setting - whether an intersection callout says how
+     * far away the junction is as well as that there is one. Read here rather than at grid load
+     * time so that it takes effect on the next callout rather than the next grid.
+     */
+    private fun intersectionDistanceEnabled(): Boolean =
+        preferences?.getBoolean(
+            PreferenceKeys.DISTANCE_TO_INTERSECTION,
+            PreferenceDefaults.DISTANCE_TO_INTERSECTION
+        ) ?: PreferenceDefaults.DISTANCE_TO_INTERSECTION
+
+    /**
      * The "Places and Landmarks" callout setting.
      *
      * Walking callouts get this for free - the setting chooses what goes into
@@ -1205,7 +1216,8 @@ class AutoCallout(
             roadsDescription,
             localized,
             intersectionCalloutHistory,
-            gridState
+            gridState,
+            speakDistance = intersectionDistanceEnabled()
         )
     }
 
