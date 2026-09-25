@@ -44,8 +44,14 @@ class TtsRenderer {
 
     fun render(text: String, completion: (List<AVAudioPCMBuffer>) -> Unit) {
         val utterance = AVSpeechUtterance.speechUtteranceWithString(text)
+        // Resolved per utterance, never cached: "Auto" has to follow the voice the
+        // user picks in iOS Settings > Accessibility > Spoken Content > Voices, and
+        // the identifier we stored can have been deleted since it was chosen.
+        // Leaving utterance.voice nil is not the same thing — AVFoundation then
+        // picks its own locale default and ignores the Spoken Content choice
+        // entirely, which is what made "Auto" look stuck (Soundscape-Android#1100).
         val selectedVoice = voiceId?.let { AVSpeechSynthesisVoice.voiceWithIdentifier(it) }
-            ?: language?.let { AVSpeechSynthesisVoice.voiceWithLanguage(it) }
+            ?: defaultTtsVoice(language ?: currentTtsLanguageCode())
         if (selectedVoice != null) {
             utterance.voice = selectedVoice
         }

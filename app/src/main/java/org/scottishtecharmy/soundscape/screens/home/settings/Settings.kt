@@ -20,6 +20,7 @@ import org.scottishtecharmy.soundscape.screens.onboarding.offlinestorage.Storage
 import org.scottishtecharmy.soundscape.ui.theme.smallPadding
 import org.scottishtecharmy.soundscape.ui.theme.spacing
 import org.scottishtecharmy.soundscape.utils.StorageUtils
+import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 import org.scottishtecharmy.soundscape.viewmodels.SettingsViewModel
 
 @Composable
@@ -171,24 +172,23 @@ fun Settings(
                 },
                 summary = { ClickableOption(it.substringBefore(":::"), textColor) },
             )
-            listPreference(
-                key = MainActivity.VOICE_TYPE_KEY,
-                defaultValue = MainActivity.VOICE_TYPE_DEFAULT,
-                values = uiState.voiceTypes,
-                modifier = expandedSectionModifier,
-                title = { Text(text = stringResource(Res.string.voice_voices), color = textColor) },
-                item = { value, currentValue, onClick ->
-                    ListPreferenceItem(
-                        value,
-                        value,
-                        currentValue,
-                        onClick,
-                        uiState.voiceTypes.indexOf(value),
-                        uiState.voiceTypes.size
-                    )
-                },
-                summary = { ClickableOption(it, textColor) },
-            )
+            item(key = "voices") {
+                VoicePreference(
+                    voices = uiState.voiceDescriptors,
+                    appLanguageTag = getCurrentLocale().toLanguageTag(),
+                    preferenceKey = MainActivity.VOICE_TYPE_KEY,
+                    systemDefaultValue = MainActivity.VOICE_TYPE_DEFAULT,
+                    // "Default" is the stored sentinel for "leave the engine on
+                    // whichever voice it chose". The old flat list never offered
+                    // it as a row, so picking any voice was a one-way door.
+                    // Android can't name the voice behind it the way iOS does:
+                    // TextToSpeech has no "which voice would you use" query.
+                    systemDefaultLabel = stringResource(Res.string.voice_system_default_unnamed),
+                    preferencesProvider = preferencesProvider,
+                    modifier = expandedSectionModifier,
+                    textColor = textColor,
+                )
+            }
         },
     )
 }

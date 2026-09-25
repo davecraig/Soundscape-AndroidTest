@@ -8,12 +8,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.coroutines.flow.MutableStateFlow
-import me.zhanghai.compose.preference.listPreference
 import me.zhanghai.compose.preference.switchPreference
 import org.jetbrains.compose.resources.stringResource
 import org.scottishtecharmy.soundscape.actions.SoundscapeAction
 import org.scottishtecharmy.soundscape.audio.TourButton
-import org.scottishtecharmy.soundscape.audio.availableTtsVoicesForCurrentLanguage
+import org.scottishtecharmy.soundscape.audio.currentAppLanguageTag
+import org.scottishtecharmy.soundscape.audio.defaultTtsVoice
+import org.scottishtecharmy.soundscape.audio.languageCodeOf
+import org.scottishtecharmy.soundscape.audio.rememberAvailableTtsVoices
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.migration.hasPendingLegacyMigration
 import org.scottishtecharmy.soundscape.migration.runPendingLegacyMigration
@@ -27,13 +29,12 @@ import org.scottishtecharmy.soundscape.resources.settings_head_tracking
 import org.scottishtecharmy.soundscape.resources.settings_head_tracking_description
 import org.scottishtecharmy.soundscape.resources.settings_mix_audio
 import org.scottishtecharmy.soundscape.resources.settings_mix_audio_description
-import org.scottishtecharmy.soundscape.resources.settings_theme_auto
-import org.scottishtecharmy.soundscape.resources.voice_voices
+import org.scottishtecharmy.soundscape.resources.voice_system_default
+import org.scottishtecharmy.soundscape.resources.voice_system_default_unnamed
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.AdvancedMarkersAndRoutesSettingsViewModel
 import org.scottishtecharmy.soundscape.screens.home.placesnearby.PlacesNearbyViewModel
-import org.scottishtecharmy.soundscape.screens.home.settings.ClickableOption
-import org.scottishtecharmy.soundscape.screens.home.settings.ListPreferenceItem
+import org.scottishtecharmy.soundscape.screens.home.settings.VoicePreference
 import org.scottishtecharmy.soundscape.screens.home.settings.SettingDetails
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.addandeditroutescreen.AddAndEditRouteViewModel
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.markersscreen.MarkersViewModel
@@ -108,43 +109,35 @@ fun MainViewController() = ComposeUIViewController {
     val permissionsRequired = remember { MutableStateFlow(false) }
 
     // TTS voice picker contents for the Audio section of the iOS settings
-    // screen. Voices are enumerated once per launch — adding/removing voices
-    // requires re-launching the app, which matches the legacy iOS behaviour.
-    val ttsVoices = remember { availableTtsVoicesForCurrentLanguage() }
-    val systemDefaultLabel = stringResource(Res.string.settings_theme_auto)
-    val ttsVoiceValues = remember(ttsVoices) {
-        listOf("") + ttsVoices.map { it.identifier }
+    // screen. Re-enumerated whenever the app returns to the foreground, so a
+    // voice downloaded from the iOS Settings app shows up on the way back.
+    val ttsVoices = rememberAvailableTtsVoices()
+    val appLanguageTag = remember { currentAppLanguageTag() }
+    // Name the voice "Auto" is currently following, the way the legacy app did,
+    // rather than leaving the user to guess which one they would get. Resolved
+    // alongside the voice list so a change made in the iOS Settings app is
+    // picked up on the way back in.
+    val systemDefaultVoiceName = remember(ttsVoices) {
+        defaultTtsVoice(languageCodeOf(appLanguageTag))?.name
     }
-    val ttsVoiceDescriptions = remember(ttsVoices, systemDefaultLabel) {
-        listOf(systemDefaultLabel) + ttsVoices.map { it.displayName }
+    val systemDefaultLabel = if (systemDefaultVoiceName != null) {
+        stringResource(Res.string.voice_system_default, systemDefaultVoiceName)
+    } else {
+        stringResource(Res.string.voice_system_default_unnamed)
     }
-    val voiceSettingTitle = stringResource(Res.string.voice_voices)
     val settingsPlatformAudioContent: androidx.compose.foundation.lazy.LazyListScope.() -> Unit = {
-        listPreference(
-            key = PreferenceKeys.SELECTED_TTS_VOICE_ID,
-            defaultValue = PreferenceDefaults.SELECTED_TTS_VOICE_ID,
-            values = ttsVoiceValues,
-            modifier = expandedSectionModifier,
-            title = { Text(text = voiceSettingTitle, color = textColor) },
-            item = { value, currentValue, onClick ->
-                val idx = ttsVoiceValues.indexOf(value).coerceAtLeast(0)
-                ListPreferenceItem(
-                    description = ttsVoiceDescriptions[idx],
-                    value = value,
-                    currentValue = currentValue,
-                    onClick = onClick,
-                    index = idx,
-                    listSize = ttsVoiceValues.size,
-                )
-            },
-            summary = {
-                val idx = ttsVoiceValues.indexOf(it).coerceAtLeast(0)
-                ClickableOption(
-                    text = ttsVoiceDescriptions[idx],
-                    textColor = textColor,
-                )
-            },
-        )
+        item(key = "voices") {
+            VoicePreference(
+                voices = ttsVoices,
+                appLanguageTag = appLanguageTag,
+                preferenceKey = PreferenceKeys.SELECTED_TTS_VOICE_ID,
+                systemDefaultValue = PreferenceDefaults.SELECTED_TTS_VOICE_ID,
+                systemDefaultLabel = systemDefaultLabel,
+                preferencesProvider = prefs,
+                modifier = expandedSectionModifier,
+                textColor = textColor,
+            )
+        }
         switchPreference(
             key = PreferenceKeys.MIX_AUDIO,
             defaultValue = PreferenceDefaults.MIX_AUDIO,

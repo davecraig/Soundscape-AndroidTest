@@ -78,6 +78,20 @@
     <string name="voice_engine">Text-to-Speech Engine</string>
     <!-- Title for option to select the text-to-speech voice to use. -->
     <string name="voice_voices">Voices</string>
+    <!-- Heading for the collapsed group holding joke/sound-effect voices, e.g. "Bubbles", "Bad News". These are voices the operating system provides for fun rather than for reading text. -->
+    <string name="voice_group_novelty">Novelty</string>
+    <!-- Heading for the collapsed group holding voices from text-to-speech providers other than the ones named separately. -->
+    <string name="voice_group_other">Other Voices</string>
+    <!-- Shown next to a voice's name when the same speaker is listed more than once, to tell the basic version apart from a higher quality download. -->
+    <string name="voice_quality_default">Standard</string>
+    <!-- Shown next to a voice's name to mark the higher quality downloaded version of that speaker. -->
+    <string name="voice_quality_enhanced">Enhanced</string>
+    <!-- Shown next to a voice's name to mark the highest quality downloaded version of that speaker. -->
+    <string name="voice_quality_premium">Premium</string>
+    <!-- Label for the voice option that follows the voice chosen in the phone's own settings, rather than one picked in Soundscape. %1$s is the name of the voice that is currently being followed, e.g. "Stephanie (Default Voice)". -->
+    <string name="voice_system_default">%1$s (Default Voice)</string>
+    <!-- Label for the voice option that follows the voice chosen in the phone's own settings, used where the name of that voice isn't known. -->
+    <string name="voice_system_default_unnamed">Default Voice</string>
     <!-- Title of a section in the beacon settings page where the user can select which style of beacon that they want. -->
     <string name="beacon_settings_style">Audio beacon styles</string>
     <!-- Description of the choice of beacon settings. -->

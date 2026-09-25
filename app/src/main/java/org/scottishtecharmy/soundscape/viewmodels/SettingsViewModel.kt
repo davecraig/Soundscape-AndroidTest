@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.MainActivity
 import org.scottishtecharmy.soundscape.SoundscapeServiceConnection
 import org.scottishtecharmy.soundscape.screens.onboarding.audiobeacons.getBeaconResourceId
+import org.scottishtecharmy.soundscape.audio.VoiceDescriptor
 import org.scottishtecharmy.soundscape.utils.StorageUtils
 import org.scottishtecharmy.soundscape.utils.getCurrentLocale
 import org.scottishtecharmy.soundscape.utils.getOfflineMapStorage
@@ -30,7 +31,7 @@ class SettingsViewModel(
         var beaconDescriptions: List<org.jetbrains.compose.resources.StringResource> = emptyList(),
         var beaconValues: List<String> = emptyList(),
         var engineTypes: List<String> = emptyList(),
-        var voiceTypes: List<String> = emptyList(),
+        var voiceDescriptors: List<VoiceDescriptor> = emptyList(),
         var storages: List<StorageUtils.StorageSpace> = emptyList(),
         var currentStoragePath: String = "",
         var selectedStorageIndex: Int = -1,
@@ -90,31 +91,27 @@ class SettingsViewModel(
                                         audioEngine.getAvailableSpeechVoices()
                                     )
                                 }
-                                val voiceTypes = mutableListOf<String>()
-
-                                // The list of voices will start of with those in the current locale
-                                val locale = getCurrentLocale()
-                                for (type in audioEngineVoiceTypes) {
-                                    if (!type.isNetworkConnectionRequired &&
-                                        !type.features.contains("notInstalled") &&
-                                        type.locale.language == locale.language
-                                    ) {
-                                        // The Voice don't contain any description, just a text string
-                                        voiceTypes.add(type.name)
+                                // Ordering and grouping are buildVoiceCatalogue's job, shared
+                                // with iOS, so all this does is drop the voices that aren't
+                                // usable: ones needing the network, and ones the engine lists
+                                // but hasn't downloaded. Quality is left at the default because
+                                // Android's Voice.getQuality() doesn't distinguish tiers of the
+                                // same speaker, and provider is left null because a voice list
+                                // here already belongs to the engine picked one setting up.
+                                val voiceDescriptors = audioEngineVoiceTypes
+                                    .filter {
+                                        !it.isNetworkConnectionRequired &&
+                                            !it.features.contains("notInstalled")
                                     }
-                                }
-                                // And then we add all the others. Because we don't support all
-                                // languages it's useful to be able to select a voice from a different
-                                // locale than the one that the app is currently using.
-                                for (type in audioEngineVoiceTypes) {
-                                    if (!type.isNetworkConnectionRequired &&
-                                        !type.features.contains("notInstalled") &&
-                                        type.locale.language != locale.language
-                                    ) {
-                                        // The Voice don't contain any description, just a text string
-                                        voiceTypes.add(type.name)
+                                    .map { voice ->
+                                        VoiceDescriptor(
+                                            identifier = voice.name,
+                                            // Android voices have no display name of their own,
+                                            // only the identifier, so that is what is shown.
+                                            displayName = voice.name,
+                                            languageTag = voice.locale.toLanguageTag(),
+                                        )
                                     }
-                                }
 
                                 val audioEngineBeaconTypes = audioEngine.getListOfBeaconTypes()
                                 val beaconTypes =
@@ -127,7 +124,7 @@ class SettingsViewModel(
                                 _state.value = _state.value.copy(
                                     beaconDescriptions = beaconTypes,
                                     beaconValues = beaconValues,
-                                    voiceTypes = voiceTypes,
+                                    voiceDescriptors = voiceDescriptors,
                                     engineTypes = audioEngineTypes.map { engine -> "${engine.label}:::${engine.name}" },
                                 )
                             } else {
