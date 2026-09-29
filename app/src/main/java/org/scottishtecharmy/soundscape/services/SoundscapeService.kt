@@ -89,6 +89,7 @@ import org.scottishtecharmy.soundscape.locationprovider.HeadTrackingProvider
 import org.scottishtecharmy.soundscape.locationprovider.StaticLocationProvider
 import org.scottishtecharmy.soundscape.locationprovider.bleimu.BleImuHeadTrackingProvider
 import org.scottishtecharmy.soundscape.locationprovider.bose.BoseFramesHeadTrackingProvider
+import org.scottishtecharmy.soundscape.locationprovider.metaglasses.createMetaGlassesHeadTrackingProvider
 import org.scottishtecharmy.soundscape.network.PhotonSearchProvider
 import org.scottishtecharmy.soundscape.network.UserAgentInterceptor
 import org.scottishtecharmy.soundscape.network.createAndroidVectorTileClient
@@ -300,10 +301,18 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
         headTrackingProvider?.destroy()
         headHeadingForwarderJob?.cancel()
         val provider = CompositeHeadTrackingProvider(
-            listOf(
-                BleImuHeadTrackingProvider(directionProvider, locationProvider),
-                BoseFramesHeadTrackingProvider(directionProvider, locationProvider),
-            ),
+            buildList<HeadTrackingProvider> {
+                // First in the list wins a tie in the composite's arbitration.
+                // Meta glasses are absent from most builds - see
+                // createMetaGlassesHeadTrackingProvider.
+                createMetaGlassesHeadTrackingProvider(
+                    applicationContext,
+                    directionProvider,
+                    locationProvider,
+                )?.let(::add)
+                add(BleImuHeadTrackingProvider(directionProvider, locationProvider))
+                add(BoseFramesHeadTrackingProvider(directionProvider, locationProvider))
+            },
         )
         headTrackingProvider = provider
         geoEngine.setHeadTrackingProvider(provider)

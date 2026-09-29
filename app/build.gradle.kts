@@ -14,6 +14,24 @@ plugins {
     alias(libs.plugins.jaredsburrows.license)
 }
 
+// Meta Wearables Device Access Toolkit credentials, from local.properties (not under version
+// control - see the tile provider keys below for the same arrangement). A project in the Meta
+// Wearables Developer Center issues these against our package name; without them the SDK cannot
+// attest the app and no glasses session can ever start.
+//
+// They are the dev-mode flag for Meta glasses head tracking: when both are set the SDK is pulled
+// in and src/metaGlasses is compiled, otherwise src/noMetaGlasses supplies a factory that returns
+// null and neither the 9MB AAR nor any DAT code reaches the APK. Motion is a beta capability that
+// Meta only serves to its development and beta release channels, so shipping builds leave this off.
+val metaWearablesProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) FileInputStream(file).use { load(it) }
+}
+val metaWearablesAppId: String = metaWearablesProperties.getProperty("metaWearablesAppId").orEmpty()
+val metaWearablesClientToken: String =
+    metaWearablesProperties.getProperty("metaWearablesClientToken").orEmpty()
+val metaGlassesHeadTracking = metaWearablesAppId.isNotBlank() && metaWearablesClientToken.isNotBlank()
+
 android {
     namespace = "org.scottishtecharmy.soundscape"
     compileSdk = 37
@@ -88,6 +106,11 @@ android {
 
         buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
 
+        // Consumed by the mwdat meta-data entries in AndroidManifest.xml. Empty when Meta glasses
+        // head tracking is off, in which case the SDK that reads them isn't on the classpath.
+        manifestPlaceholders["mwdatApplicationId"] = metaWearablesAppId
+        manifestPlaceholders["mwdatClientToken"] = metaWearablesClientToken
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -101,6 +124,16 @@ android {
                     "-DANDROID_STL=c++_shared"
                 )
             }
+        }
+    }
+
+    // Exactly one of these supplies createMetaGlassesHeadTrackingProvider(): the real one backed
+    // by the Meta SDK, or a stub returning null. Everything else about the two builds is identical.
+    sourceSets {
+        getByName("main") {
+            kotlin.srcDir(
+                if (metaGlassesHeadTracking) "src/metaGlasses/java" else "src/noMetaGlasses/java"
+            )
         }
     }
 
@@ -358,6 +391,12 @@ licenseReport {
 dependencies {
 
     implementation(project(":shared"))
+
+    if (metaGlassesHeadTracking) {
+        implementation(libs.mwdat.core)
+        implementation(libs.mwdat.motion)
+    }
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.service)

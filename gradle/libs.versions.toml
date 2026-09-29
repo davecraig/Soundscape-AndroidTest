@@ -80,6 +80,10 @@ lifecycleProcess = "2.11.0"
 uiautomator = "2.4.0"
 jaredsburrows-license = "0.9.9"
 kable = "0.43.0" # 0.43.1+ is built with Kotlin compiler ABI 2.4.0, which our kotlin=2.3.10 can't consume
+# Meta Wearables Device Access Toolkit - head tracking from Meta smart glasses. Only pulled
+# in when metaWearablesAppId/metaWearablesClientToken are set in local.properties, see
+# app/build.gradle.kts - mwdat-core is a ~9MB AAR of native libraries.
+mwdat = "1.0.0"
 
 composeBom = "2026.06.01"
 leakcanary = "1.0.0"
@@ -125,6 +129,8 @@ json = { module = "org.json:json", version.ref = "json" }
 jts-core = { module = "org.locationtech.jts:jts-core", version.ref = "jtsCore" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kable-core = { module = "com.juul.kable:kable-core", version.ref = "kable" }
+mwdat-core = { module = "com.meta.wearable:mwdat-core", version.ref = "mwdat" }
+mwdat-motion = { module = "com.meta.wearable:mwdat-motion", version.ref = "mwdat" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

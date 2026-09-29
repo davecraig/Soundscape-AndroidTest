@@ -1,7 +1,6 @@
 package org.scottishtecharmy.soundscape.locationprovider.bose
 
-import kotlin.math.PI
-import kotlin.math.atan2
+import org.scottishtecharmy.soundscape.locationprovider.quaternionYawDegrees
 
 /**
  * Decoded yaw sample from a Bose Frames sensor-data notification.
@@ -49,7 +48,7 @@ object BoseFramesDataParser {
 
             when (sensorId) {
                 ROTATION_ID, GAME_ROTATION_ID -> {
-                    lastYaw = quaternionYawDegrees(bytes, pos)
+                    lastYaw = readQuaternionYawDegrees(bytes, pos)
                 }
             }
             pos += size
@@ -67,15 +66,13 @@ object BoseFramesDataParser {
         else -> null
     }
 
-    private fun quaternionYawDegrees(bytes: ByteArray, offset: Int): Double {
-        val x = readQuatComponent(bytes, offset)
-        val y = readQuatComponent(bytes, offset + 2)
-        val z = readQuatComponent(bytes, offset + 4)
-        val w = readQuatComponent(bytes, offset + 6)
-        // Standard quaternion → yaw (Z-axis rotation).
-        val yawRadians = atan2(2.0 * (w * z + x * y), 1.0 - 2.0 * (y * y + z * z))
-        return yawRadians * RAD_TO_DEG
-    }
+    private fun readQuaternionYawDegrees(bytes: ByteArray, offset: Int): Double =
+        quaternionYawDegrees(
+            x = readQuatComponent(bytes, offset),
+            y = readQuatComponent(bytes, offset + 2),
+            z = readQuatComponent(bytes, offset + 4),
+            w = readQuatComponent(bytes, offset + 6),
+        )
 
     private fun readQuatComponent(bytes: ByteArray, offset: Int): Double =
         readInt16Be(bytes, offset).toDouble() / QUAT_SCALE
@@ -102,7 +99,6 @@ object BoseFramesDataParser {
 
     // Quaternion components are int16 fixed-point with 14 fractional bits.
     private const val QUAT_SCALE = (1 shl 14).toDouble()
-    private const val RAD_TO_DEG = 180.0 / PI
 }
 
 /**

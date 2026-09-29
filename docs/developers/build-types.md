@@ -78,6 +78,29 @@ EXTRACT_PROVIDER_URL
 
 `local.properties` is not under version control. Each developer fills it in by hand (the format is documented in [Developer information]({% link developers/developers.md %})). On GitHub Actions, the workflow writes `local.properties` from a repo secret before invoking Gradle — see [GitHub actions]({% link developers/actions.md %}). If a value is missing the build still succeeds but those `BuildConfig` strings are empty, and the corresponding feature will fail at runtime.
 
+## Optional source set: Meta glasses head tracking
+
+The same source-set trick gates a whole feature rather than a build type. Head tracking from Meta smart glasses uses the [Meta Wearables Device Access Toolkit](https://wearables.developer.meta.com/docs/develop/dat), whose SDK needs credentials issued by the Meta Wearables Developer Center against our package name:
+
+```
+metaWearablesAppId=XXXXXXXXXXXXXXXX
+metaWearablesClientToken=XXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+Set both in `local.properties` and `app/build.gradle.kts` adds `src/metaGlasses/java` to the main source set and pulls in `mwdat-core` + `mwdat-motion`. Leave either out - which is the case for CI, F-Droid, forks and every shipping build - and `src/noMetaGlasses/java` is compiled instead. Both directories hold one file defining `createMetaGlassesHeadTrackingProvider()`; the real one returns a `MetaGlassesHeadTrackingProvider`, the stub returns null, and `SoundscapeService.rebuildHeadTrackingProvider()` simply drops a null from the list of head trackers it hands to `CompositeHeadTrackingProvider`. Nothing else differs between the two builds.
+
+Keeping it optional rather than always-on matters for more than tidiness:
+
+* `mwdat-core` is a ~9MB AAR of native libraries, dead weight in a build that can never use it.
+* The credentials are compiled into the APK (as `com.meta.wearable.mwdat.*` manifest meta-data, filled from manifest placeholders), and they are registered against one package name - a fork or a suffixed debug `applicationId` would not attest anyway.
+* Motion is a beta capability that Meta serves only to its development and beta release channels, so this cannot ship to users yet in any case.
+
+`MetaGlassesHeadTrackingProvider` itself lives in `app/src/main/`, and takes a `MetaMotionClient` rather than talking to the SDK directly, so the provider and its unit tests compile and run in every build. Only `MwdatMotionClient`, the ~100-line wrapper that turns a `DeviceSession` into orientation samples, is in the optional source set.
+
+Beyond the credentials, getting samples on a device also needs Developer Mode enabled in the Meta AI app, and that Meta account invited as a tester on our beta release channel. For local development Meta's own samples use `0` for both credentials, which is enough to turn the feature on here.
+
+The remaining prerequisite, linking the app to the user's Meta account, is handled by `MetaGlassesRegistration` (same two-source-set trick, all no-ops when the feature is off). `MainActivity` calls it in three places: `observe()` in `onCreate` logs registration state and failures for the life of the activity; `startIfAvailable()` runs when the user switches head tracking on, which opens the Meta AI app but only when it is installed and has not linked us already; and `handleIntent()` in both `onCreate` and `onNewIntent` picks up a registration request coming the other way, from Meta AI. The callback returns on the `soundscape` URI scheme `MainActivity` already declares, so no new intent filter was needed - if the scheme registered in the Developer Center project differs, that filter is what has to change.
+
 ## iOS gating
 
 iOS does not use Android-style build-type source-set splitting — the same `iosApp` target compiles for both Debug and Release. Instead, `iosApp/iosApp/FirebaseAnalyticsBridge.swift` runs a `shouldEnableFirebase()` gate at launch inside `FirebaseBootstrap.configureIfEnabled()`:

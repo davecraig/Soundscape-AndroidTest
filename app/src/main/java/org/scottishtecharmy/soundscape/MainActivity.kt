@@ -57,6 +57,7 @@ import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.geoengine.utils.ResourceMapper
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.AndroidGeocoder
+import org.scottishtecharmy.soundscape.locationprovider.metaglasses.MetaGlassesRegistration
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
@@ -213,7 +214,15 @@ class MainActivity : AppCompatActivity() {
                     PreferenceKeys.HEAD_TRACKING_ENABLED,
                     PreferenceDefaults.HEAD_TRACKING_ENABLED,
                 )
-                if (enabled) requestBluetoothPermissionsIfNeeded()
+                if (enabled) {
+                    requestBluetoothPermissionsIfNeeded()
+                    // Enabling head tracking is the one moment we know the user
+                    // wants it, so it is where the Meta account linking belongs.
+                    // Does nothing unless this build has Meta Wearables
+                    // credentials, the Meta AI app is installed, and we are not
+                    // linked already.
+                    MetaGlassesRegistration.startIfAvailable(this)
+                }
             }
         }
     }
@@ -508,6 +517,13 @@ class MainActivity : AppCompatActivity() {
         // Hook the file picker for the advanced markers/routes import flow into
         // the activity result registry now that super.onCreate has run.
         markersAndRoutesIo.attach(this)
+
+        // Meta glasses head tracking needs this app linked to the user's Meta
+        // account. Both calls are no-ops in a build without Meta Wearables
+        // credentials; handleIntent catches a cold start from a Meta AI
+        // registration request, onNewIntent catches the usual warm one.
+        MetaGlassesRegistration.observe(this)
+        intent?.let { MetaGlassesRegistration.handleIntent(this, it) }
 
         println("${Build.FINGERPRINT}")
         println("${Build.MODEL}")
@@ -962,6 +978,9 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         Log.d(TAG, "onNewIntent")
+        // A Meta AI registration request isn't a Soundscape navigation intent,
+        // so handle it and leave the user where they were.
+        if (MetaGlassesRegistration.handleIntent(this, intent)) return
         // Pop up to home page
         navigator.navigate(SharedRoutes.HOME)
         // And then parse the new intent which may take us to the LocationDetails screen

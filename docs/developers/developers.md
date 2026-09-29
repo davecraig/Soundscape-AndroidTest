@@ -31,6 +31,12 @@ searchProviderApiKey=
 # Map extract provider URL and API key
 extractProviderUrl=https://EXTRACT_SERVER_URL
 extractProviderApiKey=
+
+# Optional: Meta Wearables credentials, which switch on head tracking from Meta
+# smart glasses. Leave these out unless you have them - see "Build types and
+# analytics" for what changes when they are set.
+#metaWearablesAppId=XXXXXXXXXXXXXXXX
+#metaWearablesClientToken=XXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 If you would like access to the main Soundscape tile provider for development, get in touch.
