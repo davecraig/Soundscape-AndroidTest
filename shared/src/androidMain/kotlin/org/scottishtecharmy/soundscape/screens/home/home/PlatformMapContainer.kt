@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameNanos
@@ -105,6 +106,7 @@ actual fun PlatformMapContainer(
     }
 
     RedrawUntilSurfacesCreated()
+    LayoutBeforeDrawWhenMoved(allowScrolling)
 
     MapContainerLibre(
         mapCenter = mapCenter,
@@ -148,6 +150,31 @@ private fun RedrawUntilSurfacesCreated() {
 }
 
 private const val SURFACE_CREATION_FRAMES = 60
+
+/**
+ * Has the window lay itself out before it next draws whenever the map moves between its place in
+ * the page and full screen, which is when [allowScrolling] changes (see FullScreenableMap).
+ *
+ * Moving the map detaches its view and attaches it again, so its SurfaceView makes a new surface.
+ * Left alone that happens just before the draw, while the map is still the size it was where it
+ * came from, and Compose only gives it its new size from inside the draw pass. By then the window
+ * has already picked up the transaction that sets the new surface's crop, to send with that frame.
+ * The resize's transaction is sent on its own and lands first, so the crop for the old size is
+ * applied last and stays. Where the crop is set this way (a Samsung A54 on Android 16; other phones
+ * set it from the render thread) the full screen map was drawn only in its top left corner, at the
+ * size it had been in the page, with black around it.
+ *
+ * Asking for a layout has Compose resize the map in the window's layout pass instead, before the
+ * surface is made, so it is made at the right size and never resized.
+ */
+@Composable
+private fun LayoutBeforeDrawWhenMoved(allowScrolling: Boolean) {
+    val view = LocalView.current
+    DisposableEffect(view, allowScrolling) {
+        view.requestLayout()
+        onDispose { }
+    }
+}
 
 private fun hasShownSurfaceViewWithoutSurface(view: View): Boolean {
     if (view is SurfaceView && view.isShown && view.width > 0 && view.height > 0 &&
