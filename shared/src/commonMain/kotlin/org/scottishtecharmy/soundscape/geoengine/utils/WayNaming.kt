@@ -493,7 +493,7 @@ fun confectNamesForRoad(
 
     // rtree searches take time and so we should avoid them where possible.
 
-    val roadTree = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+    val roadTree = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
     val cycleway = (road.featureType == "highway") && (road.featureValue == "cycleway")
     if ((road.name == null) || cycleway) {
 

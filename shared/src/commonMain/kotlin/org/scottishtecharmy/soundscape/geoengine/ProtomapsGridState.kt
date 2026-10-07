@@ -130,7 +130,8 @@ open class ProtomapsGridState(
                             streetNumberMap = streetNumberMap,
                             tileZoom = zoomLevel,
                             transitIntersectionMap = transitIntersectionMap,
-                            nameKeys = nameKeys
+                            nameKeys = nameKeys,
+                            roadsOnly = tileRoadsOnly
                         )
                     }
                     val addTime = measureTime {

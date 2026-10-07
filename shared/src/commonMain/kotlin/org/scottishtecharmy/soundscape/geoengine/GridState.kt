@@ -56,6 +56,8 @@ enum class TreeId(
     val description: String
 ) {
     ROADS(0, "Roads"),
+    // The ways that map matching and callouts work from. Only roads when GridState.roadsOnly is
+    // set: the paths are left out as the grid is built, so that no junction has one as an arm.
     ROADS_AND_PATHS(1, "Roads and Paths"),
     INTERSECTIONS(2, "Intersections"),
     ENTRANCES(3, "Entrances"),
@@ -80,15 +82,7 @@ enum class TreeId(
     NAMED_WATER_POLYGONS(22, "Named Water Polygons"),
     NAMED_WATERWAYS(23, "Named Waterways"),
     RAILWAY_STOPS(24, "Railway Stops"),
-    MAX_COLLECTION_ID(25, ""),
-    WAYS_SELECTION(id = 25, "Either Roads OR Roads and Paths")
-}
-
-fun treeIdToIndex(id: TreeId): TreeId {
-    return if (id == TreeId.WAYS_SELECTION)
-        TreeId.ROADS_AND_PATHS
-    else
-        id
+    MAX_COLLECTION_ID(25, "")
 }
 
 
@@ -600,6 +594,18 @@ open class GridState(
      * only their local names.
      */
     var nameKeys: List<String> = emptyList()
+
+    /**
+     * Whether paths, platforms, corridors and steps are left out of the grid (see
+     * isExcludedByRoadsOnly), so that map matching and callouts deal only in roads -
+     * PreferenceKeys.ROADS_ONLY. It decides what the
+     * tiles are turned into, so changing it rebuilds the grid on the next locationUpdate().
+     */
+    @Volatile
+    var roadsOnly: Boolean = false
+
+    // What the grid was last built with, or is being built with - see roadsOnly.
+    protected var tileRoadsOnly: Boolean = false
 
     /**
      * How far [feature] reaches from [probe] - zero for a point. Added to the candidate search
@@ -1166,6 +1172,14 @@ open class GridState(
         selection: CalloutPoiSelection,
         strings: LocalizedStrings?,
     ): Boolean {
+        val wantRoadsOnly = roadsOnly
+        if (wantRoadsOnly != tileRoadsOnly) {
+            // Dropping the central area rather than building here means a build that fails is
+            // tried again on the next update, as it is for any other grid.
+            tileRoadsOnly = wantRoadsOnly
+            centralBoundingBox = BoundingBox()
+        }
+
         // Check if we're still within the central area of our grid
         if (!pointIsWithinBoundingBox(location, centralBoundingBox)) {
             //println("Update central grid area")
@@ -1442,7 +1456,7 @@ open class GridState(
     fun getFeatureTree(id: TreeId): FeatureTree {
         checkContext()
 
-        return featureTrees[treeIdToIndex(id).id]
+        return featureTrees[id.id]
     }
 
     fun getFeatureCollection(
@@ -1452,7 +1466,7 @@ open class GridState(
         maxCount: Int = 0
     ): FeatureCollection {
         checkContext()
-        val id = treeIdToIndex(id).id
+        val id = id.id
         val result = if (distance == Double.POSITIVE_INFINITY) {
             featureTrees[id].getAllCollection()
         } else {
@@ -1473,7 +1487,7 @@ open class GridState(
         distance: Double = Double.POSITIVE_INFINITY
     ): Feature? {
         checkContext()
-        return featureTrees[treeIdToIndex(id).id].getNearestFeature(location, ruler, distance)
+        return featureTrees[id.id].getNearestFeature(location, ruler, distance)
     }
 
     companion object {

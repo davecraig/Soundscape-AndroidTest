@@ -178,7 +178,7 @@ class MvtPerformanceTest {
             )
         }
 
-        val roadTree = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+        val roadTree = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
         val startLocation = LngLatAlt(-4.317351, 55.939856)
         val endLocation = LngLatAlt(-4.316699, 55.939225)
 

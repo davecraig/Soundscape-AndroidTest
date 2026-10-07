@@ -516,7 +516,7 @@ class StreetDescription(
                         // closer to a neighbouring street (e.g. across a shared junction) apart
                         // from one that's genuinely on this street.
                         val globalNearestWay =
-                            gridState.getNearestFeature(TreeId.WAYS_SELECTION, gridState.ruler, location, 25.0) as Way?
+                            gridState.getNearestFeature(TreeId.ROADS_AND_PATHS, gridState.ruler, location, 25.0) as Way?
                         if ((globalNearestWay != null) &&
                             (globalNearestWay.name != null) &&
                             (globalNearestWay.name != name)

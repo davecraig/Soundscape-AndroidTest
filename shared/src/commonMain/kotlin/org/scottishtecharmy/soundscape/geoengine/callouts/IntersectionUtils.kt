@@ -163,7 +163,7 @@ fun getRoadsDescriptionFromFov(
         userGeometry = userGeometry
     )
 
-    val roadTree = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+    val roadTree = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
     val intersectionTree = gridState.getFeatureTree(TreeId.INTERSECTIONS)
 
     // Find roads within FOV

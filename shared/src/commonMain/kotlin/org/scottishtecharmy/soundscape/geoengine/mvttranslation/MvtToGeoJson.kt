@@ -737,7 +737,11 @@ fun vectorTileToGeoJson(
     transitIntersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf(),
     // The keys of the name translation to keep, from nameKeysForLanguage. Every other translation
     // of a name is dropped here - see MvtFeature.translatedName.
-    nameKeys: List<String> = emptyList()
+    nameKeys: List<String> = emptyList(),
+    // Leave paths, platforms, corridors and steps out of the Way network - see
+    // GridState.roadsOnly and isExcludedByRoadsOnly. Dropped here, before any Way or Intersection is made from them, so
+    // that a junction has only roads for arms and nothing downstream has to tell the two apart.
+    roadsOnly: Boolean = false
 ): Array<FeatureCollection> {
 
     val collection = FeatureCollection()
@@ -1013,7 +1017,7 @@ fun vectorTileToGeoJson(
                                 // tunnel Ways into the connected network MapMatchFilter needs to
                                 // follow a train underground.
                                 transitGenerator.addLine(line)
-                            } else {
+                            } else if (!(roadsOnly && isExcludedByRoadsOnly(featureClass, featureSubClass))) {
                                 wayGenerator.addLine(line)
                             }
                             val interpolatedNodes: MutableList<LngLatAlt> = mutableListOf()
@@ -1122,7 +1126,7 @@ fun vectorTileToGeoJson(
                             } else {
                                 if ((featureClass == "transit") || (featureClass == "rail")) {
                                     transitGenerator.addFeature(geoFeature)
-                                } else {
+                                } else if (!(roadsOnly && isExcludedByRoadsOnly(featureClass, featureSubClass))) {
                                     wayGenerator.addFeature(geoFeature)
                                 }
 

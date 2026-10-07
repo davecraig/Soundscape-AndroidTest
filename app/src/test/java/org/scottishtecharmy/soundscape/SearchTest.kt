@@ -34,7 +34,7 @@ class SearchTest {
         heading: Double,
         expectedName: String,
         ignoreHouseNumbers: Boolean = true,
-        // Real GPS map-matching (MapMatchFilter) snaps onto the nearest way in TreeId.WAYS_SELECTION
+        // Real GPS map-matching (MapMatchFilter) snaps onto the nearest way in TreeId.ROADS_AND_PATHS
         // regardless of whether it's named, unlike OfflineGeocoder's own unmatched fallback search
         // which only considers named roads. Set this to reproduce being map-matched onto whatever
         // way (named or not) is actually nearest `location`.
@@ -50,7 +50,7 @@ class SearchTest {
             processor = { it.process() })
 
         val mapMatchedWay = if (mapMatch) {
-            gridState.getNearestFeature(TreeId.WAYS_SELECTION, gridState.ruler, location, 30.0) as Way?
+            gridState.getNearestFeature(TreeId.ROADS_AND_PATHS, gridState.ruler, location, 30.0) as Way?
         } else null
 
         val result = offlineGeocoder.getAddressFromLngLat(
@@ -400,7 +400,7 @@ class SearchTest {
         describeLocations: List<LngLatAlt>
     ) {
         val gridState = getGridStateForLocation(location, MAX_ZOOM_LEVEL, GRID_SIZE)
-        val nearbyWays = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+        val nearbyWays = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
             .getNearestCollection(
                 location,
                 100.0,
@@ -525,7 +525,7 @@ class SearchTest {
         // address in the OSM data.
         val gridState = getGridStateForLocation(location, MAX_ZOOM_LEVEL, GRID_SIZE)
 
-        val nearbyWays = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+        val nearbyWays = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
             .getNearestCollection(
                 location,
                 100.0,

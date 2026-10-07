@@ -701,7 +701,7 @@ class MapMatchFilter(private val networkTree: TreeId? = null) {
     //
 
     private fun matchTree(vehicleMode: Boolean): TreeId {
-        return networkTree ?: if (vehicleMode) TreeId.ROADS else TreeId.WAYS_SELECTION
+        return networkTree ?: if (vehicleMode) TreeId.ROADS else TreeId.ROADS_AND_PATHS
     }
 
     /**
@@ -957,7 +957,7 @@ class MapMatchFilter(private val networkTree: TreeId? = null) {
             if (vehicleMode && way.isPath()) {
                 // A car/bus can't be on a footway/cycleway - don't let a follower that's drifted
                 // onto one (e.g. during a momentary low-speed reading near a junction, which
-                // briefly widens the search to TreeId.WAYS_SELECTION - see matchTree) be selected
+                // briefly widens the search to TreeId.ROADS_AND_PATHS - see matchTree) be selected
                 // as the match, even though it's still tracked here in the follower list.
                 continue
             }

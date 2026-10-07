@@ -412,6 +412,10 @@
     <string name="callouts_streets_and_junctions">Streets and Junctions</string>
     <!-- A description for the streets and junctions callout setting. -->
     <string name="callouts_streets_and_junctions_description">Intersections ahead and the road you are on</string>
+    <!-- Settings switch under Manage Callouts. When on, the app ignores footpaths, cycle paths, bridleways, steps and station platforms and works only from roads. -->
+    <string name="callouts_roads_only">Roads Only</string>
+    <!-- A description for the roads only setting. -->
+    <string name="callouts_roads_only_description">Ignore footpaths and cycle paths, so that only roads are followed and called out</string>
     <!-- Settings option under Manage Callouts which chooses which places (shops, landmarks, bus stops and so on) are called out. Most of the options are the same as the Places Nearby filters, e.g. "Food and Drink". -->
     <string name="callouts_places_to_call_out">Places to Call Out</string>
     <!-- A description for the places to call out setting, which is a list of kinds of place to tick. UI names: *Everything* is `callouts_places_everything`; *No Places* is `callouts_places_nothing`. -->

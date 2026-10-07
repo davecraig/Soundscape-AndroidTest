@@ -499,7 +499,7 @@ class WayNamingTest {
 
     @Test
     fun confectNamesForRoad_alreadyNamedNonCycleway_leavesRoadUntouched() {
-        // Note: confectNamesForRoad unconditionally fetches gridState.getFeatureTree(WAYS_SELECTION)
+        // Note: confectNamesForRoad unconditionally fetches gridState.getFeatureTree(ROADS_AND_PATHS)
         // *before* checking the "name == null || cycleway" guard (see WayNaming.kt line 244, ahead
         // of the guard on line 246) - despite the comment above it about avoiding rtree searches
         // where possible. So, unlike addPoiDestinations's early-return, this path still needs

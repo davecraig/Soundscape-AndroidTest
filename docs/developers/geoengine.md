@@ -143,7 +143,7 @@ The classes in `geoengine/filters/` sit between raw sensor readings and the rest
 flowchart TB
     Fix("Unfiltered location fix")
     SD("<b>StationaryDetector</b><br/>has the user gone anywhere?")
-    RoadMM("<b>MapMatchFilter</b><br/>ROADS or WAYS_SELECTION")
+    RoadMM("<b>MapMatchFilter</b><br/>ROADS or ROADS_AND_PATHS")
     RailMM("<b>MapMatchFilter</b>(TRANSIT)<br/>the railway network")
     Arb("<b>RailMatchArbiter</b><br/>is this really a train?")
     UG("<b>UserGeometry</b><br/>mapMatchedWay, mapMatchedRailway,<br/>stationary, stationaryMillis")
@@ -201,7 +201,7 @@ On every new location:
 2. Each follower's `update()` computes the average Fréchet distance over a sliding window (`FRECHET_QUEUE_SIZE = 12`) between the user's recent track and the follower's line. Followers that are too far away, point the wrong way, or whose direction has just flipped are marked `DISTANT` / `ANGLED_AWAY` / `DIRECTION_CHANGED`. The remainder are candidates.
 3. The follower with the lowest Fréchet average becomes the `matchedFollower` and the closest point on its line becomes `matchedLocation`. The corresponding `Way` is reported as `matchedWay` — that is the road that callouts will describe as the "current" road, and the basis on which intersection approach directions are computed.
 
-Which tree is searched depends on the instance and on speed. `matchTree()` returns the `networkTree` the filter was constructed with if there is one, and otherwise picks `ROADS` at vehicle speed or `WAYS_SELECTION` (roads *and* paths) below it — a driver is never on a footpath. Some follower-selection heuristics (letting a follower with partial history compete, plus switch hysteresis and a raw-distance override) are gated to vehicle speed as well: they were diagnosed from driving replays, where the search radius grows large enough to span a nearby parallel or service road, and left unconditional they also changed walking-speed callouts.
+Which tree is searched depends on the instance and on speed. `matchTree()` returns the `networkTree` the filter was constructed with if there is one, and otherwise picks `ROADS` at vehicle speed or `ROADS_AND_PATHS` below it — a driver is never on a footpath. With the *Roads Only* setting on, paths are left out of the grid as it is built, so both trees hold the same roads. Some follower-selection heuristics (letting a follower with partial history compete, plus switch hysteresis and a raw-distance override) are gated to vehicle speed as well: they were diagnosed from driving replays, where the search radius grows large enough to span a nearby parallel or service road, and left unconditional they also changed walking-speed callouts.
 
 `isMatchConfident` is tracked separately from having a match at all, with `GRACE_TICKS_AFTER_LOSING_CONFIDENCE` of tolerance, so that a brief wobble doesn't look like the user leaving the road.
 

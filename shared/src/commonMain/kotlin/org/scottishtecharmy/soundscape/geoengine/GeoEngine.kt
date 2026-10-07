@@ -354,6 +354,11 @@ class GeoEngine {
                 )
             } else if (key == PreferenceKeys.MEASUREMENT_UNITS) {
                 updateMeasurementUnits(preferencesProvider)
+            } else if (key == PreferenceKeys.ROADS_ONLY) {
+                gridState.roadsOnly = preferencesProvider.getBoolean(
+                    PreferenceKeys.ROADS_ONLY,
+                    PreferenceDefaults.ROADS_ONLY
+                )
             } else if ((key == PreferenceKeys.CALLOUT_VERBOSITY) ||
                 (key == PreferenceKeys.PLACES_TO_CALL_OUT)
             ) {
@@ -375,6 +380,10 @@ class GeoEngine {
         val nameKeys = getNameTranslationKeys()
         gridState.nameKeys = nameKeys
         settlementGrid.nameKeys = nameKeys
+        gridState.roadsOnly = preferencesProvider.getBoolean(
+            PreferenceKeys.ROADS_ONLY,
+            PreferenceDefaults.ROADS_ONLY
+        )
         gridState.start(offlineExtractPath)
         settlementGrid.start(offlineExtractPath)
         // The high-zoom tiles gridState is built from don't carry the "place" layer, so it can't

@@ -249,7 +249,7 @@ class SearchTest {
             gridState.locationUpdate(location, CalloutPoiSelection.EVERYTHING, ComposeLocalizedStrings())
         }
 
-        val nearbyWays = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+        val nearbyWays = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
             .getNearbyCollection(
                 location,
                 100.0,

@@ -61,7 +61,7 @@ class StreetPreview {
 
             PreviewState.INITIAL -> {
                 val road: Way = gridState.getNearestFeature(
-                    TreeId.WAYS_SELECTION,
+                    TreeId.ROADS_AND_PATHS,
                     userGeometry.ruler,
                     userGeometry.location,
                     Double.POSITIVE_INFINITY

@@ -424,7 +424,7 @@ class OfflineGeocoder(
 
         // Check if the location is alongside a road/path
         val nearestRoad = gridState.getNearestFeature(
-            TreeId.WAYS_SELECTION,
+            TreeId.ROADS_AND_PATHS,
             gridState.ruler,
             location,
             100.0
@@ -518,7 +518,7 @@ class OfflineGeocoder(
     private fun roadBetween(from: LngLatAlt, to: LngLatAlt): Boolean {
         val between = LineString(from, to)
         // Paths aren't block boundaries - an alley or a walkway through a block would rule out
-        // every building beyond it - so this is the roads on their own, whatever WAYS_SELECTION is
+        // every building beyond it - so this is the roads on their own, whether or not paths are in the grid
         return gridState.getFeatureTree(TreeId.ROADS)
             .getNearbyLine(between, 1.0, gridState.ruler)
             .features.any { road ->

@@ -65,6 +65,8 @@ import org.scottishtecharmy.soundscape.resources.callouts_places_landmarks
 import org.scottishtecharmy.soundscape.resources.callouts_places_nothing
 import org.scottishtecharmy.soundscape.resources.callouts_places_to_call_out
 import org.scottishtecharmy.soundscape.resources.callouts_places_to_call_out_description
+import org.scottishtecharmy.soundscape.resources.callouts_roads_only
+import org.scottishtecharmy.soundscape.resources.callouts_roads_only_description
 import org.scottishtecharmy.soundscape.resources.callouts_streets_and_junctions
 import org.scottishtecharmy.soundscape.resources.callouts_streets_and_junctions_description
 import org.scottishtecharmy.soundscape.resources.callouts_verbosity
@@ -323,6 +325,20 @@ fun SharedSettingsScreen(
                         )
                     },
                     enabled = { allowCallouts },
+                )
+                switchPreference(
+                    key = PreferenceKeys.ROADS_ONLY,
+                    defaultValue = PreferenceDefaults.ROADS_ONLY,
+                    modifier = expandedSectionModifier,
+                    // Not gated on the callout level: it also decides which way the user is
+                    // taken to be on, which My Location and the like report at Silent too.
+                    title = {
+                        SettingDetails(
+                            Res.string.callouts_roads_only,
+                            Res.string.callouts_roads_only_description,
+                            textColor
+                        )
+                    },
                 )
                 item(key = PreferenceKeys.PLACES_TO_CALL_OUT) {
                     PlacesToCallOutPreference(

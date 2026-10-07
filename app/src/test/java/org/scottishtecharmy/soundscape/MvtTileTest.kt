@@ -84,6 +84,7 @@ import org.scottishtecharmy.soundscape.i18n.PluralKey
 import org.scottishtecharmy.soundscape.i18n.StringKey
 import org.scottishtecharmy.soundscape.locationprovider.MAXIMUM_TRUSTED_COURSE_ACCURACY_DEGREES
 import org.scottishtecharmy.soundscape.locationprovider.MAXIMUM_USABLE_ACCURACY_METRES
+import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
 import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
 import org.scottishtecharmy.soundscape.preferences.PreferencesListener
 import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
@@ -4044,7 +4045,7 @@ class MvtTileTest {
         val fc3 = tree.getContainingPolygons(LngLatAlt(-4.316641241312027, 55.94160200415631))
         assertEquals(1, fc3.features.size)
 
-        val outputCollection = gridState.getFeatureTree(TreeId.WAYS_SELECTION).getAllCollection()
+        val outputCollection = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS).getAllCollection()
         outputCollection += gridState.getFeatureTree(TreeId.POIS).getAllCollection()
         for (intersection in gridState.gridIntersections) {
             intersection.value.toFeature()
@@ -4073,19 +4074,9 @@ class MvtTileTest {
             val featureCollection14 = gridState14.getFeatureTree(treeId).getAllCollection()
             val featureCollection15 = gridState15.getFeatureTree(treeId).getAllCollection()
 
-            if (treeId == TreeId.WAYS_SELECTION) {
-                val adapter = GeoJsonObjectMoshiAdapter()
-                val outputFile14 = FileOutputStream("2x2-14.geojson")
-                outputFile14.write(adapter.toJson(featureCollection14).toByteArray())
-                outputFile14.close()
-                val outputFile15 = FileOutputStream("2x2-15.geojson")
-                outputFile15.write(adapter.toJson(featureCollection15).toByteArray())
-                outputFile15.close()
-            }
-
             if ((featureCollection14.features.size) != featureCollection15.features.size) {
                 println("$treeId - ${featureCollection14.features.size} ${featureCollection15.features.size}")
-                if ((treeId != TreeId.INTERPOLATIONS) && (treeId != TreeId.ROADS) && (treeId != TreeId.WAYS_SELECTION))
+                if ((treeId != TreeId.INTERPOLATIONS) && (treeId != TreeId.ROADS))
                     assert(false)
             }
         }
@@ -4115,7 +4106,7 @@ class MvtTileTest {
             traverseIntersectionsConfectingNames(gridState.gridIntersections)
         }
 
-        var roads = gridState.getFeatureCollection(TreeId.WAYS_SELECTION)
+        var roads = gridState.getFeatureCollection(TreeId.ROADS_AND_PATHS)
         val confectionTime2 = measureTimeMillis {
             for (road in roads) {
                 confectNamesForRoad(road as Way, gridState, null)
@@ -4124,7 +4115,7 @@ class MvtTileTest {
         println("Confection time: $confectionTime ms")
         println("Confection time2: $confectionTime2 ms")
 
-        roads = gridState.getFeatureCollection(TreeId.WAYS_SELECTION)
+        roads = gridState.getFeatureCollection(TreeId.ROADS_AND_PATHS)
         val adapter = GeoJsonObjectMoshiAdapter()
         val outputFile = FileOutputStream("confected-names.geojson")
         outputFile.write(adapter.toJson(roads).toByteArray())
@@ -4255,7 +4246,7 @@ class MvtTileTest {
         val userGeometry = UserGeometry(LngLatAlt(-4.313, 55.945245))
         val gridState = getGridStateForLocation(userGeometry.location, MAX_ZOOM_LEVEL, 2)
 
-        val collection = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+        val collection = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
             .getNearestCollection(userGeometry.location, 2000.0, 10, gridState.ruler)
 
         println("collection size ${collection.features.size}")
@@ -4275,7 +4266,7 @@ class MvtTileTest {
         val triangle = getFovTriangle(userGeometry, true)!!
 
         val duration = measureTime {
-            val collection = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+            val collection = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
                 .getNearestCollectionWithinTriangle(triangle, 10, gridState.ruler)
 
             println("collection size ${collection.features.size}")
@@ -4308,7 +4299,7 @@ class MvtTileTest {
             while (longitude < -4.31029) {
 
                 val location = LngLatAlt(longitude, latitude)
-                val sensedNearestRoads = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+                val sensedNearestRoads = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
                     .getNearestCollection(location, 20.0, 10, gridState.ruler)
 
                 var bestIndex = -1
@@ -4421,6 +4412,10 @@ class MvtTileTest {
     ): Int {
 
         val gridState = FileGridState()
+        gridState.roadsOnly = preferences?.getBoolean(
+            PreferenceKeys.ROADS_ONLY,
+            PreferenceDefaults.ROADS_ONLY
+        ) ?: PreferenceDefaults.ROADS_ONLY
         gridState.start(offlineExtractPath)
         val settlementGrid = FileGridState(12, 3)
         settlementGrid.start(offlineExtractPath)
@@ -4539,7 +4534,7 @@ class MvtTileTest {
                     // byte-identical callouts. One real grid is plenty to exercise the sweep over
                     // live data; the per-way behaviour is covered by WayNamingTest.
                     namesConfected = true
-                    val roads = gridState.getFeatureCollection(TreeId.WAYS_SELECTION)
+                    val roads = gridState.getFeatureCollection(TreeId.ROADS_AND_PATHS)
                     for (road in roads) {
                         confectNamesForRoad(road as Way, gridState, null)
                     }
@@ -4585,6 +4580,12 @@ class MvtTileTest {
                         set("marker-color", mapMatchedResult.third)
                         set("color", mapMatchedResult.third)
                         set("index", index + startIndex)
+                        // Which way this fix was matched to, for telling a road from a path
+                        mapMatchFilter.matchedWay?.let { way ->
+                            set("way", way.name ?: "")
+                            set("class", way.featureClass)
+                            set("subclass", way.featureSubClass)
+                        }
                     }
                     collection.addFeature(newFeature)
                 }
@@ -4854,6 +4855,31 @@ class MvtTileTest {
         }
     }
 
+    /**
+     * The walk through the middle of Glasgow with and without paths, written out side by side to
+     * gpxFiles/<walk>-withPaths.txt and gpxFiles/<walk>-roadsOnly.txt for comparison - see
+     * GridState.roadsOnly.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Category(NightlyOnlyTest::class)
+    @Test
+    fun testRoadsOnlyReplay() {
+        val resultsStorageDir = File("gpxFiles/")
+        if (!resultsStorageDir.exists()) resultsStorageDir.mkdirs()
+        val walk = "CentralToBuchananStreet"
+        for ((suffix, roadsOnly) in listOf("withPaths" to false, "roadsOnly" to true)) {
+            val preferences = MvtTestPreferences().apply {
+                putBoolean(PreferenceKeys.ROADS_ONLY, roadsOnly)
+            }
+            testMovingGrid(
+                "src/test/res/org/scottishtecharmy/soundscape/gpxFiles/$walk.gpx",
+                "gpxFiles/$walk-$suffix.txt",
+                "gpxFiles/$walk-$suffix.geojson",
+                preferences
+            )
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Category(NightlyOnlyTest::class)
     @Test
@@ -4929,7 +4955,7 @@ class MvtTileTest {
                 if (gridChanged) {
                     // As we're here, test the name confection for the grids. This is relatively
                     // expensive and is only done on individual Ways as needed when running the app.
-                    val roads = gridState.getFeatureCollection(TreeId.WAYS_SELECTION)
+                    val roads = gridState.getFeatureCollection(TreeId.ROADS_AND_PATHS)
                     for (road in roads) {
                         confectNamesForRoad(road as Way, gridState, null)
                     }

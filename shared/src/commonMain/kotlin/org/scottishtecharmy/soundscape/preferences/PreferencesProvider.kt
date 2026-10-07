@@ -71,6 +71,12 @@ object PreferenceKeys {
     const val POSITION_INCLUDES_HEADING_AND_DISTANCE = "PositionTextDescription"
     const val RELATIVE_DIRECTION = "RelativeDirectionMode"
 
+    /**
+     * Whether footpaths and cycleways are ignored, leaving only roads to be matched to and called
+     * out - see GridState.roadsOnly.
+     */
+    const val ROADS_ONLY = "RoadsOnly"
+
     const val BEACON_TYPE = "BeaconType"
     const val SPEECH_RATE = "SpeechRate"
     const val SELECTED_TTS_VOICE_ID = "SelectedTtsVoiceId"
@@ -116,6 +122,7 @@ object PreferenceDefaults {
     // mobility training in some countries but is unfamiliar in others, and in Swahili the hour
     // count itself differs (saa tatu is 9 o'clock).
     const val RELATIVE_DIRECTION = "LeftRight"
+    const val ROADS_ONLY = false
 
     const val BEACON_TYPE = "Classic"
     const val SPEECH_RATE = 1.0f

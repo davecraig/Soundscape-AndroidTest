@@ -383,8 +383,7 @@ class Way : MvtFeature() {
      * because it was extended into during a momentary low-speed reading).
      */
     fun isPath(): Boolean {
-        return (featureType == "highway") &&
-                (featureValue in setOf("footway", "path", "bridleway", "cycleway"))
+        return (featureType == "highway") && (featureValue in pathSubclasses)
     }
 
     fun endsAtTileEdge(): Boolean {
@@ -663,6 +662,21 @@ fun convertBackToTileCoordinates(
     val yInt = (abs(y - truncate(y)) * 4096).toInt()
 
     return Pair(xInt, yInt)
+}
+
+private val pathSubclasses = setOf("footway", "path", "bridleway", "cycleway")
+
+// Also only for somebody on foot, though Way.isPath doesn't count them: a vehicle is kept off
+// them by other means, and they stay in TreeId.ROADS.
+private val roadsOnlyExcludedSubclasses = pathSubclasses + setOf("platform", "corridor", "steps")
+
+/**
+ * Whether a `transportation` line is left out of the grid by GridState.roadsOnly. That's every
+ * subclass of the `path` class that isn't a street: the paths of Way.isPath, and platforms,
+ * corridors and steps as well. A pedestrian street is in the same class and is kept.
+ */
+fun isExcludedByRoadsOnly(featureClass: String?, featureSubClass: String?): Boolean {
+    return (featureClass == "path") && (featureSubClass in roadsOnlyExcludedSubclasses)
 }
 
 class WayGenerator(val transit: Boolean = false) {

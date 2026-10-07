@@ -73,7 +73,7 @@ class GeocoderTest {
             settlementState.locationUpdate(location, CalloutPoiSelection.EVERYTHING, ComposeLocalizedStrings())
 
             // Find the nearby road so as we can pretend that we are map matched
-            val roadTree = gridState.getFeatureTree(TreeId.WAYS_SELECTION)
+            val roadTree = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
             val roads = roadTree.getNearestCollection(location, 500.0, 10, gridState.ruler)
             var mapMatchedWay: Way? = null
             if (nameForMatchedRoad.isNotEmpty()) {
