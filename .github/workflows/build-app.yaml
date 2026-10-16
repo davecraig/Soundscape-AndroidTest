@@ -168,22 +168,22 @@ jobs:
             adb pull /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Pictures/screenshots/homeScreenWithRoute.png docs/documentationScreens/homeScreenWithRoute.png
             adb pull /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Pictures/screenshots/routeDetails.png docs/documentationScreens/routeDetails.png
             # The getHelp test writes the localized help markdown. Stage it here; the
-            # sync step below copies it into docs/users.
+            # sync step below copies it into app/src/main/assets/help.
             mkdir -p generated-help
             adb pull /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Documents/help/. generated-help/
 
       # The emulator step is continue-on-error, so only sync when it actually got
       # as far as producing the markdown — a flaky emulator run must not wipe the
       # committed pages.
-      - name: Sync generated markdown into docs/users
+      - name: Sync generated markdown into the help assets
         if: steps.documentation-screenshot-tests.outcome == 'success'
         run: |
           # Remove stale localized files (help-<slug>.<lang>.md — two dots) so dropped
           # locales/pages don't linger. The English base files (help-<slug>.md) and any
           # hand-authored pages (e.g. help-beacon-styles.md) are left in place and the
           # English ones are overwritten by the copy below.
-          find docs/users -name 'help-*.*.md' -delete
-          cp generated-help/*.md docs/users/
+          find app/src/main/assets/help -name 'help-*.*.md' -delete
+          cp generated-help/*.md app/src/main/assets/help/
 
       - name: ImageMagick Action to trim off status and navigation bars from screenshots
         uses: jruipinto/ImageMagick-action@v1
@@ -194,7 +194,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "New documentation screenshots and localized help pages"
-          file_pattern: 'docs/documentationScreens/*.png docs/users/help-*.md'
+          file_pattern: 'docs/documentationScreens/*.png app/src/main/assets/help/help-*.md'
 
       # Run Build Project
       - name: Build gradle project

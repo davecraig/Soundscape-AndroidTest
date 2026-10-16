@@ -68,7 +68,7 @@ fun SharedDrawerContent(
     recordingEnabled: Boolean,
     newReleaseDialog: MutableState<Boolean>?,
     preferencesProvider: PreferencesProvider?,
-    exitApp: (() -> Unit)? = null
+    exitApp: (() -> Unit)? = null,
 ) {
     val running = remember(tutorialRunning) { mutableStateOf(tutorialRunning) }
     val useMarkdownHelp =
@@ -179,7 +179,7 @@ fun SharedDrawerContent(
                         onClick = {
                             val route =
                                 if (useMarkdownHelp) "page:${HelpTopic.ABOUT_SOUNDSCAPE_FILENAME}"
-                                else "page${Res.string.menu_help.key}"
+                                else "page${Res.string.settings_about_app.key}"
                             onNavigate(SharedRoutes.HELP + "/${route}")
                         },
                         label = stringResource(Res.string.settings_about_app),

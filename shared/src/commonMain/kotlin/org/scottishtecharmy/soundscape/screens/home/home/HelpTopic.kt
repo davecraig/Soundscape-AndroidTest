@@ -80,15 +80,18 @@ sealed class HelpTopic {
             if (fileName.endsWith(".md")) fileName else "$fileName.md"
 
         protected open fun loadMarkdownAsset(): String? {
-            val fileName = getMarkdownFileName()
+            // Translations sit next to the English page as help-<slug>.<lang>.md, where <lang> is
+            // the full tag for regional variants (pt-BR, fr-CA, zh-CN) and the bare language
+            // otherwise.
+            val baseName = getMarkdownFileName().removeSuffix(".md")
 
             val localeTag = getDefaultLanguageTag()
             val lang = getDefaultLanguage()
 
             val candidatePaths = listOf(
-                "help/$fileName.$localeTag",
-                "help/$fileName.$lang",
-                "help/$fileName",
+                "help/$baseName.$localeTag.md",
+                "help/$baseName.$lang.md",
+                "help/$baseName.md",
             ).distinct()
 
             for (path in candidatePaths) {

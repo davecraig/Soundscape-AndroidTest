@@ -281,7 +281,7 @@ class DocumentationScreens {
     // Localized "Using Soundscape" — the nav parent/section title. Keyed by web language
     // code. just-the-docs matches a child page's `parent:` to the parent page's `title:`
     // within each language, so the value here must exactly match the title of the
-    // corresponding docs/users/user.<lang>.md. English (and en-GB) keep the English label.
+    // corresponding app/src/main/assets/help/user.<lang>.md. English (and en-GB) keep the English label.
     private val parentLabels: Map<String, String> = mapOf(
         "en" to "Using Soundscape",
         "en-GB" to "Using Soundscape",
@@ -354,7 +354,7 @@ class DocumentationScreens {
         sb.append("---\n")
         sb.append("title: $pageTitle\n")
         sb.append("layout: page\n")
-        // Parent must match the title of docs/users/user.<lang>.md in the same language so
+        // Parent must match the title of app/src/main/assets/help/user.<lang>.md in the same language so
         // just-the-docs nests this page under the localized "Using Soundscape" section.
         sb.append("parent: \"$parentLabel\"\n")
         sb.append("has_toc: false\n")
@@ -440,7 +440,7 @@ class DocumentationScreens {
                     // under the language's "Using Soundscape" section instead of orphaning a
                     // fallback page whose English parent wouldn't match.
                     // List the pages in the order of the app's Help index; a page the index
-                    // doesn't link comes after the rest. The hand-written pages in docs/users
+                    // doesn't link comes after the rest. The hand-written pages in app/src/main/assets/help
                     // carry larger numbers of their own, so they follow all of these.
                     val indexPosition = helpPageOrder.indexOf(page.titleId)
                     val navOrder =

@@ -136,15 +136,15 @@ them in sync with each other):
    BCP-47 hyphen form, matching the existing comment style.
 4. `app/src/androidTest/java/org/scottishtecharmy/soundscape/DocumentationScreens.kt`
    — add `"<android qualifier>" to "<web code>"` to `localeMap`, and
-   `"<web code>" to "<title of docs/users/user.<web-code>.md>"` to
+   `"<web code>" to "<title of app/src/main/assets/help/user.<web-code>.md>"` to
    `parentLabels` (the value must exactly match the `title:` you write in
    the next step — `parentLabels` is what nests the generated help pages
    under the right nav section for that language).
 5. `docs/_config.yml` — add the web code to the `languages:` array.
-6. `docs/users/user.<web code>.md` — new file, translating
-   `docs/users/user.md` (title + two short sentences — small enough to
+6. `app/src/main/assets/help/user.<web code>.md` — new file, translating
+   `app/src/main/assets/help/user.md` (title + two short sentences — small enough to
    translate directly, don't skip it). Match the front matter shape of an
-   existing translation like `docs/users/user.de.md` exactly: `title` (in
+   existing translation like `app/src/main/assets/help/user.de.md` exactly: `title` (in
    the target language), `layout: page`, `has_toc: true`, `nav_order: 1`,
    `lang: <web code>`, `permalink: /users/user.html`,
    `machine-translated: true`.
@@ -166,7 +166,7 @@ only changes through `strings_sync.py apply`.
 Don't commit — leave the changes in the working tree for the user to review
 and commit themselves (per the repo's normal git workflow). Report the full
 list of files touched and remind the user that the generated help pages
-(`docs/users/help-*.<web code>.md`) still need a regeneration run — point
+(`app/src/main/assets/help/help-*.<web code>.md`) still need a regeneration run — point
 them at "Regenerating the help pages" in `docs/developers/translations.md`
 rather than trying to run the instrumented test from here.
 

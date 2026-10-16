@@ -71,7 +71,7 @@ This website is built with [Jekyll](https://jekyllrb.com/) and the [just-the-doc
 
 ### Localized help pages come from the app's strings
 
-The user help pages (`docs/users/help-*.md`) are **generated**, not hand-written. They are produced by the `getHelp` test in `app/src/androidTest/.../DocumentationScreens.kt`, which walks the `helpPages` structure in `HelpScreen.kt` and emits markdown using `context.getString(...)`. Because `getString` is locale-aware, the test loops over every supported locale (using a context built with `createConfigurationContext`) and emits one markdown file per page per language:
+The user help pages (`app/src/main/assets/help/help-*.md`) are **generated**, not hand-written. They are checked in as app assets so the in-app Markdown help can read them, and the `jekyll-gh-pages.yml` workflow copies them into `docs/users/` before building the site, so the site URLs are unchanged. They are produced by the `getHelp` test in `app/src/androidTest/.../DocumentationScreens.kt`, which walks the `helpPages` structure in `HelpScreen.kt` and emits markdown using `context.getString(...)`. Because `getString` is locale-aware, the test loops over every supported locale (using a context built with `createConfigurationContext`) and emits one markdown file per page per language:
 
 * English is written with no suffix, e.g. `help-routes.md`.
 * Each other language is written with its web/BCP-47 code as a suffix, e.g. `help-routes.de.md`, and carries a `lang:` entry plus a `permalink:` pinned to the English page's URL (e.g. `permalink: /users/help-routes.html`). polyglot matches translations by URL, so the shared permalink is what makes it serve the German file at `/de/users/help-routes.html` rather than a separate URL.
@@ -92,7 +92,7 @@ To regenerate locally instead:
    ```
 2. Pull the generated files into the repo:
    ```
-   adb pull /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Documents/help/. docs/users/
+   adb pull /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Documents/help/. app/src/main/assets/help/
    ```
 3. Review the diff and commit. (`help-beacon-styles.md` is hand-authored — it is not produced by the test, so leave it in place.)
 

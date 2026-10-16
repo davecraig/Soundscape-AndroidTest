@@ -712,6 +712,14 @@ fun SharedSettingsScreen(
                             )
                         },
                     )
+                    switchPreference(
+                        key = PreferenceKeys.MARKDOWN_HELP,
+                        defaultValue = PreferenceDefaults.MARKDOWN_HELP,
+                        modifier = expandedSectionModifier,
+                        title = {
+                            Text(text = "Enable new Help screens", color = textColor)
+                        },
+                    )
                 }
 
                 switchPreference(

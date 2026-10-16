@@ -39,6 +39,7 @@ import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.i18n.ComposeLocalizedStrings
 import org.scottishtecharmy.soundscape.navigation.SharedRoutes
 import org.scottishtecharmy.soundscape.platform.isIos
+import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
 import org.scottishtecharmy.soundscape.resources.Res
 import org.scottishtecharmy.soundscape.resources.about_soundscape
 import org.scottishtecharmy.soundscape.resources.beacon_audio_beacon
@@ -601,7 +602,7 @@ fun SharedHelpScreen(
     /** Horizontal accuracy of the current position in metres, for the GPS accuracy page. */
     locationAccuracy: Float? = null,
     modifier: Modifier = Modifier,
-    preferencesProvider: org.scottishtecharmy.soundscape.preferences.PreferencesProvider? = null,
+    preferencesProvider: PreferencesProvider? = null,
 ) {
     // Find our page
     var sections = Sections(Res.string.menu_help, emptyList())
@@ -700,7 +701,7 @@ fun SharedHelpScreen(
                                 SectionType.Link, SectionType.Faq -> {
                                     Button(
                                         onClick = {
-                                            // TODO 2016-10-01 HughG: Make a FaqSection subclass so we can't have null faqAnswer.
+                                            // TODO 2026-10-01 HughG: Make a FaqSection subclass so we can't have null faqAnswer.
                                             val routeParam = if (section.type == SectionType.Faq && section.faqAnswer != null) {
                                                 HelpTopic.ResourceFaq(
                                                     section.textId,
