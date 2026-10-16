@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: th
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # การใช้ Soundscape แบบออฟไลน์
@@ -27,4 +28,3 @@ permalink: /users/help-using-soundscape-offline.html
 ## เมื่อไม่มีแผนที่ออฟไลน์
 
 การแจ้งเตือนอาจยังใช้งานได้ในที่ที่คุณเพิ่งไปมา เพราะโทรศัพท์เก็บข้อมูลแผนที่บางส่วนไว้ระยะหนึ่ง การค้นหาจะพบเฉพาะหมุดของคุณ ทุกอย่างจะกลับเป็นปกติเมื่อโทรศัพท์ออนไลน์อีกครั้ง
-

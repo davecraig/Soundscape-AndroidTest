@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: ko
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # 자주 묻는 질문
@@ -82,4 +83,3 @@ Soundscape는 이동하는 동안 적은 양의 지도 데이터를 다운로드
 
 ### OpenStreetMap이 무엇인가요?
 OpenStreetMap은 자원봉사자들이 만드는 자유로운 세계 지도입니다. Soundscape는 도로와 장소 정보에 이 지도를 사용합니다. 누구나 www.openstreetmap.org에서 장소를 추가하거나 고칠 수 있으며, 변경 내용은 이후의 지도 업데이트 때 Soundscape에 반영됩니다.
-

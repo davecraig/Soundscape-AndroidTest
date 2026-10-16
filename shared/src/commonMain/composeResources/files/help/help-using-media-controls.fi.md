@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: fi
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Mediasäädinten käyttö
@@ -43,4 +44,3 @@ Painikkeet voivat toimia kahdella tavalla: *Alkuperäinen tila* tai *Äänivalik
 *Edellinen* muuttaa asetusta *Ilmoitusten tarkkuus* samoin kuin tilassa *Alkuperäinen tila*.
 
 Valikko alkaa neljällä ryhmällä: *Kuuntele ympäristöä*, *Reitin hallinta*, *Aloita reitti* ja *Käynnistä äänimajakka*. Valitse ryhmä, niin kuulet sen toiminnot. *Kuuntele ympäristöä* ja *Reitin hallinta* päättyvät vaihtoehtoon *Päävalikko*, joka vie sinut takaisin neljään ryhmään.
-

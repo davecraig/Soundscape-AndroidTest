@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: ar
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # العلامات
@@ -29,4 +30,3 @@ permalink: /users/help-markers.html
 ## تخصيص العلامات
 
 اختر العلامة في شاشة *العلامات*، ثم اختر *تعديل العلامة*. يمكنك تغيير اسمها وملاحظاتها وموضعها، أو اختيار *حذف العلامة*. حذف العلامة يزيلها أيضًا من مساراتك.
-

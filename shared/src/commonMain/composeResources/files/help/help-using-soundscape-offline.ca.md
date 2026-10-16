@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: ca
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Utilitzar Soundscape fora de línia
@@ -27,4 +28,3 @@ Els mapes poden ocupar molt, així que fes servir Wi-Fi si pots.
 ## Sense un mapa fora de línia
 
 Els avisos de veu poden continuar funcionant als llocs que has visitat fa poc, perquè el telèfon conserva algunes dades del mapa durant un temps. La cerca només troba els teus marcadors. Tot torna a la normalitat quan el telèfon torna a tenir connexió.
-

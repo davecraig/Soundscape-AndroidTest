@@ -7,7 +7,9 @@ nav_order: 200
 lang: en-GB
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # The Technology Behind Soundscape
 The aim of this page is to give a general understanding of how the Soundscape app works under the hood. You don't need to read this to use the app, but there are a few reasons that it's been written:
 
@@ -85,12 +87,12 @@ All of the parsed data is also put into an easy to search format so that the app
   * Villages
   * Hamlets
 
- With this in place, for any location the app can then easily find
+With this in place, for any location the app can then easily find
 
- * "All transit stops within 50m" or
+* "All transit stops within 50m" or
  * "The nearest intersection ahead of me" or
  * "The nearest hamlet, village, town or city"
-  
+
 With this in place, creating the audio callouts is just a question of querying the data based on the current location and direction. As the user moves across a tile grid, it updates it so that it centres around the current location.
 
 ### More data
@@ -108,7 +110,7 @@ The more context that can be added in descriptions the better, so long as it's k
 * **Is it a sidewalk?**
 A lot of areas of OpenStreetMap now have sidewalks mapped separately to roads. These are usually tagged as `sidewalk` but they don't normally say what the road is that they are the sidewalk to.
 
-    When the app comes across an un-named sidewalk, it searches for a road that it thinks is running next to it and uses that to name the sidewalk. This turns out to be very important for our callouts. Instead of announcing every sidewalk intersection, as we move along a sidewalk the callouts are made as if we were moving along the associated road. Instead of *"Travelling West along path"* we have *"Travelling West along Moor Road"*. The user is on the mapped sidewalk, but the description makes more sense.
+When the app comes across an un-named sidewalk, it searches for a road that it thinks is running next to it and uses that to name the sidewalk. This turns out to be very important for our callouts. Instead of announcing every sidewalk intersection, as we move along a sidewalk the callouts are made as if we were moving along the associated road. Instead of *"Travelling West along path"* we have *"Travelling West along Moor Road"*. The user is on the mapped sidewalk, but the description makes more sense.
 
 * **Does it end at a named Way?**
 Very often there are pedestrian paths that join two roads together. By looking at both ends of the path we can easily add that context so that in one direction it might be *"Path to Moor Road"* and approaching from the other end it might be *"Path to Roselea Drive"*. This is only done where the path doesn't split, if it splits in to two un-named paths then we don't try and add this context.
@@ -117,7 +119,7 @@ Very often there are pedestrian paths that join two roads together. By looking a
 If an un-named Way starts or ends near a Marker, that is used to describe it e.g. *"Path to large tree junction"*. The user can add Markers wherever they want, and by adding Markers along path networks they can add context to a whole route.
 
 * **Does it enter or exit a POI?**
-If an un-named Way starts outside a POI and ends inside it (or vice versa) then we can add that context e.g. *"Track to Lennox Park"*. 
+If an un-named Way starts outside a POI and ends inside it (or vice versa) then we can add that context e.g. *"Track to Lennox Park"*.
 
 * **Does it end near an Entrance?**
 If an un-named Way starts or ends nearer an Entrance then we can add that context e.g. *"Service road to Best Buy"*.

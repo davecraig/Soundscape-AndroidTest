@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: en-GB
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # About Soundscape
@@ -27,4 +28,3 @@ Soundscape depends on these excellent third-party libraries and data. Click the 
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) volunteers improved several of the translations, which are made available for use under the [MIT licence](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 All third-party product, company names and logos are trademarks or registered trademarks and remain the property of their respective owners.
-

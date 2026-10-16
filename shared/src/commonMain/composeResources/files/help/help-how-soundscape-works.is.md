@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: is
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Hvernig Soundscape virkar
@@ -35,4 +36,3 @@ Víðóma heyrnartól gefa skýrustu tilfinninguna fyrir átt. Soundscape virkar
 ## Leiðsögunámskeið
 
 Til að prófa helstu eiginleikana skref fyrir skref skaltu opna valmyndina og velja *Leiðsögunámskeið*.
-

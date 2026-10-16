@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: fa
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # مسیرها
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## اشتراک‌گذاری مسیر
 
 مسیر را در صفحه‌ی *مسیرها* انتخاب کنید و سپس *اشتراک‌گذاری* را انتخاب کنید.
-

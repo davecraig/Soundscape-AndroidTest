@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: es
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Cómo funciona Soundscape
@@ -35,4 +36,3 @@ Los auriculares estéreo dan la sensación de dirección más clara. Soundscape 
 ## Tutorial guiado
 
 Para probar las funciones principales paso a paso, abre el menú y selecciona *Tutorial guiado*.
-

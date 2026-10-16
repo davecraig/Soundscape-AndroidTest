@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: nl
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Markeringen
@@ -29,4 +30,3 @@ U kunt ook elke plaats opslaan die u vindt. Open de *Locatiedetails* van de plaa
 ## Markeringen aanpassen
 
 Selecteer de markering op het scherm *Markeringen* en selecteer dan *Markering bewerken*. U kunt de naam, de aantekeningen en de positie wijzigen, of *Markering verwijderen* selecteren. Als u een markering verwijdert, verdwijnt die ook uit uw routes.
-

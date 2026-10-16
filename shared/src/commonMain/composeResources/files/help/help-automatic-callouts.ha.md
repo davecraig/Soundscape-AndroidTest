@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: ha
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Sanarwowi Kai Tsaye
@@ -43,4 +44,3 @@ Ku zaɓi maɓallin *Barci* da ke saman babban allo. Soundscape yana daina amfani
 ## A Cikin Abin Hawa ko Jirgin Ƙasa
 
 Soundscape yana gane lokacin da kuke tafiya da saurin abin hawa. Sai ya daina sanar da mahaɗun hanyoyi da shagunan da ke kusa, domin suna wucewa da sauri sosai. A maimakon haka yana sanar da hanyar da kuke kai, shahararrun wurare, tashoshi, koguna da ramukan ƙarƙashin ƙasa.
-

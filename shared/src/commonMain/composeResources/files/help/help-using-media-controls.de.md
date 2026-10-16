@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: de
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Mediensteuerungen verwenden
@@ -43,4 +44,3 @@ Das Audio-Menü bietet Ihnen mit denselben drei Tasten mehr Aktionen. Soundscape
 *Zurück* ändert den *Detailgrad der Hinweise*, genau wie im *Originalmodus*.
 
 Das Menü beginnt mit vier Gruppen: *Meine Umgebung*, *Routensteuerung*, *Route starten* und *Audiobeacon starten*. Wählen Sie eine Gruppe aus, um ihre Aktionen zu hören. *Meine Umgebung* und *Routensteuerung* enden mit *Hauptmenü*. Damit kommen Sie zurück zu den vier Gruppen.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: mr
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # वारंवार विचारले जाणारे प्रश्न
@@ -82,4 +83,3 @@ Soundscape तुम्ही पुढे जात असताना नक�
 
 ### OpenStreetMap म्हणजे काय?
 OpenStreetMap हा स्वयंसेवकांनी बनवलेला जगाचा मुक्त नकाशा आहे. Soundscape तो रस्ते आणि ठिकाणांसाठी वापरते. कोणीही www.openstreetmap.org वर ठिकाण जोडू किंवा दुरुस्त करू शकते, आणि तो बदल नकाशाच्या नंतरच्या अपडेटमध्ये Soundscape पर्यंत पोहोचतो.
-

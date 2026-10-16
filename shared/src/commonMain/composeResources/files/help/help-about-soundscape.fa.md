@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: fa
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # درباره‌ی ساند‌اسکیپ
@@ -27,4 +28,3 @@ permalink: /users/help-about-soundscape.html
 داوطلبان [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) چندین ترجمه را بهبود داده‌اند که تحت [مجوز MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) برای استفاده در دسترس قرار گرفته‌اند.
 
 تمامی نام‌ها، لوگوها و نشان‌های تجاری محصولات و شرکت‌های شخص ثالث علامت تجاری یا علامت تجاری ثبت‌شده هستند و مالکیت آنها برای دارندگان مربوطه محفوظ است.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: ca
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Marcadors
@@ -29,4 +30,3 @@ També pots desar qualsevol lloc que trobis. Obre els seus *Detalls de la ubicac
 ## Personalitzar marcadors
 
 Selecciona el marcador a la pantalla *Marcadors* i després selecciona *Edita el marcador*. Pots canviar-ne el nom, les notes i la posició, o seleccionar *Suprimeix el marcador*. Suprimir un marcador també el treu de les teves rutes.
-

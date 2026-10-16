@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: fa
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # فرمان‌های صوتی Siri
@@ -43,4 +44,3 @@ permalink: /users/help-siri-voice-commands.html
 ## خوب است بدانید
 
 این فرمان‌ها در برنامه‌ی Shortcuts و همچنین در برنامه‌ی تنظیمات iOS زیر *Siri* هم دیده می‌شوند. آنجا می‌توانید کل فهرست را ببینید و برای هر فرمان عبارت دلخواه خود را اضافه کنید.
-

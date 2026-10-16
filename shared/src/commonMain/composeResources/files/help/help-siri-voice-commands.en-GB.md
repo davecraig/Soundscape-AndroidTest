@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: en-GB
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri Voice Commands
@@ -43,4 +44,3 @@ You can also stop after the group, and Siri asks which choice you want. So each 
 ## Good to Know
 
 The commands also appear in the Shortcuts app, and in the iOS Settings app under *Siri*. There you can see the whole list and add your own wording for any command.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: et
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS-i täpsus
@@ -19,4 +20,3 @@ Täpsus on tavaliselt halvim siseruumides, kõrgete hoonete vahel ja esimesel mi
 {% if app %}
 Praegune täpsus: {{ accuracy }} ({{ quality }})
 {% endif %}
-

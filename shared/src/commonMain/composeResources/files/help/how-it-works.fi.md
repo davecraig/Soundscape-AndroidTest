@@ -7,7 +7,9 @@ nav_order: 200
 lang: fi
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Soundscapen taustalla oleva tekniikka
 Tämän sivun tarkoituksena on antaa yleiskäsitys siitä, kuinka Soundscape-sovellus toimii konepellin alla. Sinun ei tarvitse lukea tätä käyttääksesi sovellusta, mutta sen kirjoittamiselle on muutama syy:
 
@@ -85,12 +87,12 @@ Kaikki jäsennetty data laitetaan myös helposti haettavaan muotoon, jotta sovel
   * Kylät
   * Pikkukylät
 
- Tämän ollessa paikallaan sovellus voi sitten helposti löytää mille tahansa sijainnille
+Tämän ollessa paikallaan sovellus voi sitten helposti löytää mille tahansa sijainnille
 
- * "Kaikki joukkoliikennepysäkit 50 metrin sisällä" tai
+* "Kaikki joukkoliikennepysäkit 50 metrin sisällä" tai
  * "Lähin risteys edessäpäin" tai
  * "Lähin pikkukylä, kylä, kaupunki tai suurkaupunki"
-  
+
 Tämän ollessa paikallaan ääni-ilmoitusten luominen on vain kysymys datan hakemisesta nykyisen sijainnin ja suunnan perusteella. Kun käyttäjä liikkuu ruudukon poikki, se päivittää sen niin, että se keskittyy nykyisen sijainnin ympärille.
 
 ### Lisää dataa
@@ -108,7 +110,7 @@ Mitä enemmän kontekstia kuvauksiin voidaan lisätä, sitä parempi, kunhan se 
 * **Onko se jalkakäytävä?**
 Monilla OpenStreetMapin alueilla on nyt jalkakäytävät kartoitettu erikseen teistä. Nämä on yleensä merkitty `sidewalk`-merkinnällä, mutta ne eivät tavallisesti kerro, mikä on tie, jonka jalkakäytävä ne ovat.
 
-    Kun sovellus kohtaa nimettömän jalkakäytävän, se etsii tien, jonka se ajattelee kulkevan sen vieressä, ja käyttää sitä jalkakäytävän nimeämiseen. Tämä osoittautuu erittäin tärkeäksi ilmoituksillemme. Sen sijaan, että ilmoittaisimme jokaisesta jalkakäytävän risteyksestä, jalkakäytävää pitkin liikkuessamme ilmoitukset tehdään ikään kuin liikkuisimme siihen liittyvää tietä pitkin. Sen sijaan, että sanottaisiin *"Kuljetaan länteen polkua pitkin"*, meillä on *"Kuljetaan länteen tiellä Moor Road"*. Käyttäjä on kartoitetulla jalkakäytävällä, mutta kuvaus on järkevämpi.
+Kun sovellus kohtaa nimettömän jalkakäytävän, se etsii tien, jonka se ajattelee kulkevan sen vieressä, ja käyttää sitä jalkakäytävän nimeämiseen. Tämä osoittautuu erittäin tärkeäksi ilmoituksillemme. Sen sijaan, että ilmoittaisimme jokaisesta jalkakäytävän risteyksestä, jalkakäytävää pitkin liikkuessamme ilmoitukset tehdään ikään kuin liikkuisimme siihen liittyvää tietä pitkin. Sen sijaan, että sanottaisiin *"Kuljetaan länteen polkua pitkin"*, meillä on *"Kuljetaan länteen tiellä Moor Road"*. Käyttäjä on kartoitetulla jalkakäytävällä, mutta kuvaus on järkevämpi.
 
 * **Päättyykö se nimettyyn väylään?**
 Hyvin usein on jalankulkupolkuja, jotka yhdistävät kaksi tietä toisiinsa. Tarkastelemalla polun molempia päitä voimme helposti lisätä tuon kontekstin niin, että yhteen suuntaan se voisi olla *"Polku tielle Moor Road"* ja toisesta päästä lähestyttäessä se voisi olla *"Polku tielle Roselea Drive"*. Tämä tehdään vain silloin, kun polku ei haaraudu; jos se haarautuu kahdeksi nimettömäksi poluksi, emme yritä lisätä tätä kontekstia.
@@ -117,7 +119,7 @@ Hyvin usein on jalankulkupolkuja, jotka yhdistävät kaksi tietä toisiinsa. Tar
 Jos nimetön väylä alkaa tai päättyy lähellä merkintää, sitä käytetään sen kuvaamiseen, esim. *"Polku ison puun risteykseen"*. Käyttäjä voi lisätä merkintöjä minne tahansa haluaa, ja lisäämällä merkintöjä polkuverkostojen varrelle hän voi lisätä kontekstia koko reitille.
 
 * **Meneekö se POI:hin tai poistuuko siitä?**
-Jos nimetön väylä alkaa POI:n ulkopuolelta ja päättyy sen sisälle (tai päinvastoin), voimme lisätä tuon kontekstin, esim. *"Reitti puistoon Lennox Park"*. 
+Jos nimetön väylä alkaa POI:n ulkopuolelta ja päättyy sen sisälle (tai päinvastoin), voimme lisätä tuon kontekstin, esim. *"Reitti puistoon Lennox Park"*.
 
 * **Päättyykö se lähelle sisäänkäyntiä?**
 Jos nimetön väylä alkaa tai päättyy lähemmäs sisäänkäyntiä, voimme lisätä tuon kontekstin, esim. *"Huoltotie kohteeseen Best Buy"*.

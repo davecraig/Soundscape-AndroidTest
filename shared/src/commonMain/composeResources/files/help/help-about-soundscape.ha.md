@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: ha
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Game da Soundscape
@@ -27,4 +28,3 @@ Ana amfani da [Laburaren Oboe na ©The Android Open Source Project](https://gith
 Masu sa kai na [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) sun inganta wasu daga cikin fassarorin, waɗanda aka samar don amfani ƙarƙashin [lasisin MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Duk sunayen kayayyaki, kamfanoni da alamun kasuwanci na wasu kamfanoni alamun kasuwanci ne ko kuma alamun kasuwanci da aka yi rijista, kuma su na mallakar masu su ne.
-

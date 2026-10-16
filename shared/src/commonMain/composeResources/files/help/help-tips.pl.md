@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: pl
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Wskazówki
@@ -19,4 +20,3 @@ Możesz wyciszyć dźwięk naprowadzający i nadal słyszeć, jak daleko jest mi
 Aby poznać miejsce, zanim tam pójdziesz, otwórz jego *Szczegóły lokalizacji* i wybierz *Podgląd lokalizacji*. Soundscape zachowuje się wtedy tak, jakby telefon był w tamtym miejscu.
 
 Aby dostać wskazówki zakręt po zakręcie, otwórz *Szczegóły lokalizacji* miejsca i wybierz *Otwórz w aplikacji z mapami*. Soundscape działa dalej, gdy druga aplikacja podaje wskazówki.
-

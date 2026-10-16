@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: pt-BR
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Perguntas Frequentes
@@ -82,4 +83,3 @@ O Soundscape baixa uma pequena quantidade de dados do mapa conforme você se des
 
 ### O que é o OpenStreetMap?
 O OpenStreetMap é um mapa livre do mundo, criado por voluntários. O Soundscape o usa para ruas e lugares. Qualquer pessoa pode adicionar ou corrigir um lugar em www.openstreetmap.org, e a mudança chega ao Soundscape em uma atualização posterior do mapa.
-

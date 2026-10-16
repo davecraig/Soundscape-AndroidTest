@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: it
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Comandi vocali con Siri
@@ -43,4 +44,3 @@ Puoi anche fermarti dopo il gruppo, e Siri ti chiede quale scelta vuoi. Ogni gru
 ## Buono a sapersi
 
 I comandi compaiono anche nell'app Comandi rapidi e nell'app Impostazioni di iOS, alla voce *Siri*. Lì puoi vedere l'elenco completo e aggiungere formulazioni tue per qualsiasi comando.
-

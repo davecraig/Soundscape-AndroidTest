@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: da
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatiske lydbeskeder
@@ -43,4 +44,3 @@ Vælg knappen *Dvale* øverst på startskærmen. Soundscape holder op med at bru
 ## I et køretøj eller i et tog
 
 Soundscape opdager, når du bevæger dig med et køretøjs fart. Så holder den op med at annoncere vejkryds og butikker i nærheden, fordi de passerer for hurtigt. I stedet annoncerer den vejen, du er på, landemærker, stoppesteder og stationer, floder og tunneler.
-

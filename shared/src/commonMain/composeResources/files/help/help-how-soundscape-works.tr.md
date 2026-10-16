@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: tr
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape Nasıl Çalışır
@@ -35,4 +36,3 @@ Stereo kulaklık yön duygusunu en net şekilde verir. Soundscape telefonunuzun 
 ## Kılavuzlu Eğitim
 
 Ana özellikleri adım adım denemek için menüyü açın ve *Kılavuzlu Eğitim* seçeneğini seçin.
-

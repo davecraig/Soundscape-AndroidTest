@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: sw
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Alama
@@ -29,4 +30,3 @@ Unaweza pia kuhifadhi sehemu yoyote unayoipata. Fungua *Taarifa za Mahali* za se
 ## Kubinafsisha Alama
 
 Chagua alama kwenye skrini ya *Alama*, kisha uchague *Hariri Alama*. Unaweza kubadilisha jina lake, maelezo yake na mahali ilipo, au uchague *Futa Alama*. Kufuta alama pia kunaiondoa kwenye njia zako.
-

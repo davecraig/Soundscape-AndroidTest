@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: mr
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS अचूकता
@@ -19,4 +20,3 @@ permalink: /users/help-gps-accuracy.html
 {% if app %}
 सध्याची अचूकता: {{ accuracy }} ({{ quality }})
 {% endif %}
-

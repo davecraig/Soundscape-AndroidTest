@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: de
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # So funktioniert Soundscape
@@ -35,4 +36,3 @@ Mit Stereokopfhörern hören Sie Richtungen am deutlichsten. Soundscape funktion
 ## Geführtes Tutorial
 
 Um die wichtigsten Funktionen Schritt für Schritt auszuprobieren, öffnen Sie das Menü und wählen Sie *Geführtes Tutorial*.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: ha
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Amfani da Maɓallan Sarrafa Sauti
@@ -43,4 +44,3 @@ Menu na sauti yana ba ku ƙarin ayyuka da waɗannan maɓallai ukun. Soundscape y
 *Na baya* yana canja *Matakin Sanarwa*, kamar yadda yake a *Yanayin Asali*.
 
 Menu ɗin yana farawa da rukunoni huɗu: *Ji Abin da ke Kewaye da Ni*, *Sarrafa Tafarki*, *Fara Tafarki* da *Fara Siginar Sauti*. Ku zaɓi rukuni don jin ayyukansa. *Ji Abin da ke Kewaye da Ni* da *Sarrafa Tafarki* suna ƙarewa da *Babban Menu*, wanda yake mayar da ku zuwa rukunonin huɗu.
-

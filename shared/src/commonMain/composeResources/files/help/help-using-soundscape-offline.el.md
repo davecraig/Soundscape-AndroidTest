@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: el
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Χρήση του Soundscape εκτός σύνδεσης
@@ -27,4 +28,3 @@ permalink: /users/help-using-soundscape-offline.html
 ## Χωρίς χάρτη εκτός σύνδεσης
 
 Οι επεξηγήσεις μπορεί να λειτουργούν ακόμη σε μέρη που επισκεφθήκατε πρόσφατα, επειδή το τηλέφωνό σας κρατά ορισμένα δεδομένα χάρτη για λίγο. Η αναζήτηση βρίσκει μόνο τους δείκτες σας. Όλα επανέρχονται στο κανονικό όταν το τηλέφωνό σας συνδεθεί ξανά.
-

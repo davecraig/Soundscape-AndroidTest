@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: ko
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # 경로
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## 경로 공유하기
 
 *경로* 화면에서 경로를 선택한 다음 *공유*를 선택합니다.
-

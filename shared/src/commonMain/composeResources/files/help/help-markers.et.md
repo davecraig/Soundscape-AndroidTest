@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: et
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Markerid
@@ -29,4 +30,3 @@ Saad salvestada ka mis tahes leitud koha. Ava selle *Asukoha üksikasjad* ja val
 ## Markerite kohandamine
 
 Vali marker kuval *Markerid* ja seejärel vali *Muuda markerit*. Saad muuta selle nime, märkmeid ja asukohta või valida *Kustuta marker*. Markeri kustutamine eemaldab selle ka sinu marsruutidelt.
-

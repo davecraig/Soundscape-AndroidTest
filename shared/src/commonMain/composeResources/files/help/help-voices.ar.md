@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: ar
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # الأصوات
@@ -15,4 +16,3 @@ permalink: /users/help-voices.html
 {% else %}
 يستطيع Soundscape استخدام أي صوت مثبّت على هاتفك. لإضافة أصوات، افتح إعدادات هاتفك وابحث عن *تحويل النص إلى كلام*. لاختيار صوت في Soundscape، افتح القائمة واختر *الإعدادات*، ثم *الصوت*، ثم *الأصوات*.
 {% endif %}
-

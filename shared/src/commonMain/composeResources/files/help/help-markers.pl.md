@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: pl
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Znaczniki
@@ -29,4 +30,3 @@ Możesz też zapisać dowolne miejsce, które znajdziesz. Otwórz jego *Szczegó
 ## Dostosowywanie znaczników
 
 Wybierz znacznik na ekranie *Znaczniki*, a potem wybierz *Edytuj znacznik*. Możesz zmienić jego nazwę, notatki i położenie albo wybrać *Usuń znacznik*. Usunięcie znacznika usuwa go także z twoich tras.
-

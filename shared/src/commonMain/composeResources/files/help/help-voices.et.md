@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: et
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Hääled
@@ -15,4 +16,3 @@ Soundscape saab kasutada mis tahes häält, mis on sinu iPhone’i installitud, 
 {% else %}
 Soundscape saab kasutada mis tahes häält, mis on sinu telefoni installitud. Häälte lisamiseks ava telefoni seaded ja otsi üles *Kõnesünteesi väljund*. Hääle valimiseks Soundscape’is ava menüü ja vali *Seadistused*, seejärel *Heli* ja seejärel *Hääled*.
 {% endif %}
-

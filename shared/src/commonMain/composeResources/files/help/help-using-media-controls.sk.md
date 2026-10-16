@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: sk
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Používanie ovládacích prvkov médií
@@ -43,4 +44,3 @@ Zvukové menu vám dáva viac akcií s rovnakými tromi tlačidlami. Soundscape 
 *Predchádzajúce* zmení *Podrobnosť hlásení*, rovnako ako *Pôvodný režim*.
 
 Menu sa začína štyrmi skupinami: *Počúvať svoje okolie*, *Ovládanie trasy*, *Spustiť trasu* a *Spustiť zvukový maják*. Vyberte skupinu a začujete jej akcie. *Počúvať svoje okolie* a *Ovládanie trasy* sa končia položkou *Hlavné menu*, ktorá vás vráti k štyrom skupinám.
-

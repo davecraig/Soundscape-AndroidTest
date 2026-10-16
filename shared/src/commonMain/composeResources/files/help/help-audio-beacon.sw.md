@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: sw
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Beacon ya Sauti
@@ -39,4 +40,3 @@ Chagua *Simamisha Njia* kwenye skrini ya mwanzo. Kitufe kina jina hili hata waka
 Unapokuwa umbali wa takriban mita 12 kutoka kwenye sehemu hiyo, Soundscape inakuambia na kuiondoa beacon. Simu yako haiwezi kupata mahali ulipo kwa usahihi zaidi ya hapo. Ili kuisikia beacon tena, iweke tena.
 
 Beacon iliyowekwa kwenye sehemu iliyo umbali wa chini ya mita 30 inabaki ikiwa imewashwa hadi uiondoe.
-

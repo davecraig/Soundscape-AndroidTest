@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: es
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Sugerencias
@@ -19,4 +20,3 @@ Puedes silenciar la señal y seguir oyendo a qué distancia está el lugar. Soun
 Para explorar un lugar antes de ir, abre sus *Detalles de la ubicación* y selecciona *Simular ubicación*. Soundscape se comporta entonces como si estuvieras allí.
 
 Para obtener indicaciones paso a paso, abre los *Detalles de la ubicación* de un lugar y selecciona *Abrir en aplicación de mapas*. Soundscape sigue funcionando mientras la otra aplicación da las indicaciones.
-

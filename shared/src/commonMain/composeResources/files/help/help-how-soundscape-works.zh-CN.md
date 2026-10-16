@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: zh-CN
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape 的工作原理
@@ -35,4 +36,3 @@ Soundscape 用声音描述您周围的世界。每个地点的声音都从它所
 ## 引导教程
 
 要一步一步试用主要功能，请打开菜单并选择*引导教程*。
-

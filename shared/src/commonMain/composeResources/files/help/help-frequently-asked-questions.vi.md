@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: vi
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Câu hỏi Thường gặp
@@ -82,4 +83,3 @@ Soundscape tải xuống một lượng nhỏ dữ liệu bản đồ khi bạn 
 
 ### OpenStreetMap là gì?
 OpenStreetMap là một bản đồ thế giới tự do, do các tình nguyện viên xây dựng. Soundscape dùng nó cho đường phố và địa điểm. Ai cũng có thể thêm hoặc sửa một địa điểm tại www.openstreetmap.org, và thay đổi sẽ đến Soundscape trong một bản cập nhật bản đồ sau đó.
-

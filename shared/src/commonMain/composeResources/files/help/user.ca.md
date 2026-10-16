@@ -6,6 +6,7 @@ nav_order: 1
 lang: ca
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 La documentació que trobareu aquí correspon a la darrera versió de l'aplicació. Dins de l'aplicació hi podeu accedir fent clic al botó de menú (a dalt a l'esquerra) i seleccionant després Ajuda i tutorials.

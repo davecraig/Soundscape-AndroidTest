@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: nb
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Markører
@@ -29,4 +30,3 @@ Du kan også lagre et hvilket som helst sted du finner. Åpne *Posisjonsinformas
 ## Tilpass markører
 
 Velg markøren på skjermen *Markører*, og velg deretter *Rediger markør*. Du kan endre navnet, notatene og posisjonen, eller velge *Slett markør*. Når du sletter en markør, fjernes den også fra rutene dine.
-

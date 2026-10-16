@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: pt
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Sugestões
@@ -19,4 +20,3 @@ Pode desativar o som do sinal e continuar a ouvir a que distância fica o local.
 Para explorar um local antes de lá ir, abra os respetivos *Detalhes da Localização* e selecione *Simular Localização*. O Soundscape comporta-se então como se lá estivesse.
 
 Para obter indicações passo a passo, abra os *Detalhes da Localização* de um local e selecione *Abrir numa aplicação de mapas*. O Soundscape continua a funcionar enquanto a outra aplicação dá as indicações.
-

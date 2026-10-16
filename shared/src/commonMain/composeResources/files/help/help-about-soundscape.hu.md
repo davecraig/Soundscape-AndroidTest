@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: hu
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # A Soundscape névjegye
@@ -27,4 +28,3 @@ Az [eredeti Soundscape alkalmazás ©Microsoft Corporation](https://github.com/m
 A [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) önkéntesei több fordítást is javítottak, amelyek az [MIT licenc](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) alapján érhetők el használatra.
 
 Minden harmadik féltől származó termék, cégnév és embléma védjegy vagy bejegyzett védjegy, és a megfelelő jogtulajdonosok tulajdonában marad.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: pt
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Marcos
@@ -29,4 +30,3 @@ Também pode guardar qualquer local que encontre. Abra os respetivos *Detalhes d
 ## Personalizar Marcos
 
 Selecione o marco no ecrã *Marcos* e depois selecione *Editar Marco*. Pode alterar o nome, as notas e a posição, ou selecionar *Eliminar Marco*. Eliminar um marco também o remove das suas rotas.
-

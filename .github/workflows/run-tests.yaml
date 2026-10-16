@@ -44,6 +44,12 @@ jobs:
             exit 1
           fi
 
+      # Each translated help page records the English it was translated from, and has the same
+      # paragraphs; the stale check for help translations relies on both. Needs the full history
+      # for the English it names.
+      - name: Check help page translations line up with their English
+        run: python3 .claude/skills/translate/scripts/help_sync.py check
+
       - name: Setup JDK + Gradle
         uses: ./.github/actions/setup-jdk-gradle
 

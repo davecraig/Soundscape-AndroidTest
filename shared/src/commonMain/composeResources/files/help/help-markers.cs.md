@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: cs
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Značky
@@ -29,4 +30,3 @@ Uložit můžete také jakékoli místo, které najdete. Otevřete jeho *Podrobn
 ## Přizpůsobení značek
 
 Vyberte značku na obrazovce *Značky* a pak vyberte *Upravit značku*. Můžete změnit její název, poznámky a polohu nebo vybrat *Odstranit značku*. Odstraněním se značka odebere i z vašich tras.
-

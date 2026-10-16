@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: sv
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tips
@@ -19,4 +20,3 @@ Du kan stänga av ljudfyrens ljud och ändå höra hur långt bort platsen ligge
 Om du vill utforska en plats innan du åker dit öppnar du dess *Platsuppgifter* och väljer *Simulera plats*. Soundscape beter sig då som om du vore där.
 
 Om du vill ha sväng-för-sväng-anvisningar öppnar du *Platsuppgifter* för en plats och väljer *Öppna i kartapp*. Soundscape fortsätter att köras medan den andra appen ger anvisningar.
-

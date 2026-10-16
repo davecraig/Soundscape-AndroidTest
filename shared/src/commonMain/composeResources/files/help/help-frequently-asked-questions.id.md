@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: id
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Pertanyaan yang Sering Diajukan
@@ -82,4 +83,3 @@ Soundscape mengunduh sedikit data peta saat Anda bergerak. Agar jauh lebih hemat
 
 ### Apa itu OpenStreetMap?
 OpenStreetMap adalah peta dunia yang bebas, dibuat oleh para sukarelawan. Soundscape menggunakannya untuk jalan dan tempat. Siapa pun dapat menambahkan atau memperbaiki tempat di www.openstreetmap.org, dan perubahannya sampai ke Soundscape pada pembaruan peta berikutnya.
-

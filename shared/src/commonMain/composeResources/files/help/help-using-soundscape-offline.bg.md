@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: bg
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Използване на Soundscape офлайн
@@ -27,4 +28,3 @@ permalink: /users/help-using-soundscape-offline.html
 ## Без офлайн карта
 
 Аудио съобщенията може все още да работят на места, които сте посетили наскоро, защото телефонът пази част от данните за картата известно време. Търсенето намира само Вашите маркери. Всичко се връща към нормалното, когато телефонът отново е онлайн.
-

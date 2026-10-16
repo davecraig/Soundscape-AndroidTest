@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: ja
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # 自動コールアウト
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## 乗り物や電車の中で
 
 Soundscape は、乗り物の速さで移動していることを検知します。そのときは、交差点や近くの店のコールアウトをやめます。通り過ぎるのが速すぎるためです。代わりに、走っている道路、ランドマーク、停留所と駅、川、トンネルをコールアウトします。
-

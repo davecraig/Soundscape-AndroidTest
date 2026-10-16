@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: fa
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # پرسش‌های متداول
@@ -82,4 +83,3 @@ permalink: /users/help-frequently-asked-questions.html
 
 ### OpenStreetMap چیست؟
 OpenStreetMap نقشه‌ای آزاد از جهان است که داوطلبان آن را ساخته‌اند. ساند‌اسکیپ برای خیابان‌ها و مکان‌ها از آن استفاده می‌کند. هر کسی می‌تواند در www.openstreetmap.org مکانی را اضافه یا اصلاح کند و این تغییر در یکی از به‌روزرسانی‌های بعدی نقشه به ساند‌اسکیپ می‌رسد.
-

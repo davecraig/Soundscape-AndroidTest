@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: mr
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri व्हॉइस आदेश
@@ -43,4 +44,3 @@ Soundscape स्वतःच्या आवाजात, नेहमीच्
 ## माहीत असावे असे
 
 हे आदेश Shortcuts ॲपमध्ये आणि iOS च्या Settings ॲपमध्ये *Siri* खाली देखील दिसतात. तिथे तुम्ही संपूर्ण यादी पाहू शकता आणि कोणत्याही आदेशासाठी तुमचे स्वतःचे शब्द जोडू शकता.
-

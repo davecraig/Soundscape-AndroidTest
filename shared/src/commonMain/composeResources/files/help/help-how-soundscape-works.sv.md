@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: sv
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Så fungerar Soundscape
@@ -35,4 +36,3 @@ Stereohörlurar ger den tydligaste känslan av riktning. Soundscape fungerar ock
 ## Guidad självstudie
 
 Om du vill prova huvudfunktionerna steg för steg öppnar du menyn och väljer *Guidad självstudie*.
-

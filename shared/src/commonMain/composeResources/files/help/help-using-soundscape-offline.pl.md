@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: pl
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Korzystanie z Soundscape offline
@@ -27,4 +28,3 @@ Mapy mogą być duże, więc w miarę możliwości korzystaj z Wi-Fi.
 ## Bez mapy offline
 
 Powiadomienia mogą nadal działać w niedawno odwiedzonych miejscach, bo telefon przez pewien czas przechowuje część danych mapy. Wyszukiwanie znajduje tylko twoje znaczniki. Wszystko wraca do normy, gdy telefon znów jest online.
-

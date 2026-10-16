@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: pl
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Polecenia głosowe Siri
@@ -43,4 +44,3 @@ Możesz też zatrzymać się po grupie, a Siri zapyta, którą opcję wybierasz.
 ## Warto wiedzieć
 
 Polecenia są też widoczne w aplikacji Skróty oraz w aplikacji Ustawienia systemu iOS, w sekcji *Siri*. Możesz tam zobaczyć całą listę i dodać własne sformułowanie dla dowolnego polecenia.
-

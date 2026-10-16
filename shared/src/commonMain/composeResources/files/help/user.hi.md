@@ -6,6 +6,7 @@ nav_order: 1
 lang: hi
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 यहाँ दिया गया दस्तावेज़ ऐप के नवीनतम संस्करण से है। ऐप में आप मेनू बटन (ऊपर बाएँ) पर क्लिक करके और फिर सहायता और ट्यूटोरियल चुनकर इस तक पहुँच सकते हैं।

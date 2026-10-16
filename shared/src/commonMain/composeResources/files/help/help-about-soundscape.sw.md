@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: sw
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Kuhusu Soundscape
@@ -27,4 +28,3 @@ Soundscape hutegemea maktaba na data hizi nzuri za wahusika wengine. Bofya viung
 Wanaojitolea wa [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) waliboresha baadhi ya tafsiri, ambazo zinapatikana kwa matumizi chini ya [leseni ya MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Bidhaa zote za wahusika wengine, majina ya makampuni na nembo ni alama za biashara au alama za biashara zilizosajiliwa na zinabaki kuwa mali ya wamiliki wake husika.
-

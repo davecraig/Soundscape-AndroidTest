@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: sv
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Använda mediereglage
@@ -43,4 +44,3 @@ Ljudmenyn ger dig fler åtgärder med samma tre knappar. Soundscape läser upp v
 *Föregående* ändrar *Detaljnivå för informationsljud*, precis som i *Originalläge*.
 
 Menyn börjar med fyra grupper: *Lyssna på mina omgivningar*, *Ruttkontroll*, *Starta rutt* och *Ställ in ljudfyr*. Välj en grupp för att höra dess åtgärder. *Lyssna på mina omgivningar* och *Ruttkontroll* slutar med *Huvudmeny*, som tar dig tillbaka till de fyra grupperna.
-

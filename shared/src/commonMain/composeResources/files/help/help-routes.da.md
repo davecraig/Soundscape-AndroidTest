@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: da
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Ruter
@@ -35,4 +36,3 @@ Vælg ruten på skærmen *Ruter*, og vælg derefter *Rediger rute*. Du kan tilf�
 ## Del en rute
 
 Vælg ruten på skærmen *Ruter*, og vælg derefter *Del*.
-

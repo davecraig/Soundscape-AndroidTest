@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: th
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # คำถามที่พบบ่อย
@@ -82,4 +83,3 @@ Soundscape ดาวน์โหลดข้อมูลแผนที่จำ
 
 ### OpenStreetMap คืออะไร
 OpenStreetMap คือแผนที่โลกแบบเสรีที่อาสาสมัครช่วยกันสร้าง Soundscape ใช้แผนที่นี้สำหรับถนนและสถานที่ ทุกคนเพิ่มหรือแก้ไขสถานที่ได้ที่ www.openstreetmap.org และการเปลี่ยนแปลงจะมาถึง Soundscape ในการอัปเดตแผนที่ครั้งถัดไป
-

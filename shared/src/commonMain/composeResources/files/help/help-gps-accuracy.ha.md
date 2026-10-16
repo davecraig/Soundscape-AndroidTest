@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: ha
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # Daidaiton GPS
@@ -19,4 +20,3 @@ Daidaito yakan fi muni a cikin gini, tsakanin dogayen gine-gine, da kuma a minti
 {% if app %}
 Daidaito na yanzu: {{ accuracy }} ({{ quality }})
 {% endif %}
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: pa
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # ਆਪਣੇ-ਆਪ ਘੋਸ਼ਣਾਵਾਂ
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## ਵਾਹਨ ਜਾਂ ਰੇਲਗੱਡੀ ਵਿੱਚ
 
 Soundscape ਪਛਾਣ ਲੈਂਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਵਾਹਨ ਦੀ ਰਫ਼ਤਾਰ ਨਾਲ ਸਫ਼ਰ ਕਰ ਰਹੇ ਹੋ। ਫਿਰ ਇਹ ਚੌਂਕਾਂ ਅਤੇ ਨੇੜਲੀਆਂ ਦੁਕਾਨਾਂ ਦੀ ਘੋਸ਼ਣਾ ਬੰਦ ਕਰ ਦਿੰਦਾ ਹੈ, ਕਿਉਂਕਿ ਉਹ ਬਹੁਤ ਤੇਜ਼ੀ ਨਾਲ ਲੰਘ ਜਾਂਦੀਆਂ ਹਨ। ਇਸ ਦੀ ਥਾਂ ਇਹ ਉਸ ਸੜਕ ਦੀ ਘੋਸ਼ਣਾ ਕਰਦਾ ਹੈ ਜਿਸ 'ਤੇ ਤੁਸੀਂ ਹੋ, ਅਤੇ ਲੈਂਡਮਾਰਕ, ਸਟਾਪ ਤੇ ਸਟੇਸ਼ਨ, ਦਰਿਆ ਅਤੇ ਸੁਰੰਗਾਂ ਦੀ।
-

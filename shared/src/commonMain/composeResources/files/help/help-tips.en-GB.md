@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: en-GB
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tips
@@ -19,4 +20,3 @@ You can mute the beacon and still hear how far away the place is. Soundscape say
 To explore a place before you go, open its *Location Details* and select *Simulate Location*. Soundscape then behaves as if you were there.
 
 For turn-by-turn directions, open the *Location Details* of a place and select *Open in Maps App*. Soundscape keeps running while the other app gives directions.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: vi
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Lệnh thoại Siri
@@ -43,4 +44,3 @@ Bạn cũng có thể dừng lại sau tên nhóm, và Siri sẽ hỏi bạn mu�
 ## Điều nên biết
 
 Các lệnh này cũng xuất hiện trong ứng dụng Phím tắt và trong ứng dụng Cài đặt của iOS, ở mục *Siri*. Ở đó bạn có thể xem toàn bộ danh sách và thêm cách nói của riêng mình cho bất kỳ lệnh nào.
-

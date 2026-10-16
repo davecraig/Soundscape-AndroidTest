@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: cs
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatická hlášení
@@ -43,4 +44,3 @@ Vyberte tlačítko *Spánek* v horní části domovské obrazovky. Soundscape p�
 ## Ve vozidle nebo ve vlaku
 
 Soundscape pozná, když se pohybujete rychlostí vozidla. Pak přestane ohlašovat křižovatky a obchody v okolí, protože míjejí příliš rychle. Místo toho ohlašuje silnici, po které jedete, orientační body, zastávky a stanice, řeky a tunely.
-

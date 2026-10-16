@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: ha
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Shawarwari
@@ -19,4 +20,3 @@ Kuna iya kashe sautin siginar kuma har yanzu ku ji nisan wurin. Soundscape yana 
 Don bincika wani wuri kafin ku je, ku buɗe *Cikakkun Bayanan Wuri* nasa sannan ku zaɓi *Kwaikwayi Wuri*. Sai Soundscape ya yi aiki kamar kuna can.
 
 Don samun umarnin hanya mataki-mataki, ku buɗe *Cikakkun Bayanan Wuri* na wani wuri sannan ku zaɓi *Buɗe a manhajar taswira*. Soundscape yana ci gaba da aiki yayin da ɗayar manhajar take ba da umarni.
-

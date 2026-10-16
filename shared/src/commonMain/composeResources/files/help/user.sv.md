@@ -6,6 +6,7 @@ nav_order: 1
 lang: sv
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Dokumentationen här gäller den senaste versionen av appen. I appen kommer du åt den genom att klicka på menyknappen (uppe till vänster) och sedan välja Hjälp och självstudier.

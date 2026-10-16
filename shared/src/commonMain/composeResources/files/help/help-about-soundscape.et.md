@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: et
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Teave Soundscape'i kohta
@@ -27,4 +28,3 @@ Soundscape tugineb nendele suurepärastele kolmandate osapoolte teekidele ja and
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) vabatahtlikud täiustasid mitut tõlget, mis on kasutamiseks saadaval [MIT litsentsi](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) alusel.
 
 Kõik kolmandate osapoolte toodete ja ettevõtete nimed ning logod on kaubamärgid või registreeritud kaubamärgid ja jäävad nende vastavate omanike omandiks.
-

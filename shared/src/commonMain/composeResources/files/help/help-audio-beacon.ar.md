@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: ar
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # المنارة الصوتية
@@ -39,4 +40,3 @@ permalink: /users/help-audio-beacon.html
 عندما تكون على بعد نحو 12 مترًا من المكان، يخبرك Soundscape ويزيل المنارة. لا يستطيع هاتفك تحديد موقعك بدقة أكبر من ذلك. لسماع المنارة من جديد، اضبطها مرة أخرى.
 
 المنارة المضبوطة على مكان يبعد أقل من 30 مترًا تبقى تعمل حتى تزيلها.
-

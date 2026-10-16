@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: te
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # తరచుగా అడిగే ప్రశ్నలు
@@ -82,4 +83,3 @@ Soundscape మీ స్థానాన్ని ఎల్లప్పుడూ 
 
 ### OpenStreetMap అంటే ఏమిటి?
 OpenStreetMap అనేది స్వచ్ఛంద సేవకులు తయారుచేసిన, ప్రపంచపు స్వేచ్ఛా మ్యాప్. Soundscape వీధులు మరియు స్థలాల కోసం దాన్ని ఉపయోగిస్తుంది. ఎవరైనా www.openstreetmap.org లో ఒక స్థలాన్ని జోడించవచ్చు లేదా సరిచేయవచ్చు, ఆ మార్పు తర్వాతి మ్యాప్ అప్‌డేట్‌లో Soundscapeకు చేరుతుంది.
-

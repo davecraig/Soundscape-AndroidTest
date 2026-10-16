@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: sk
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Zvukový maják
@@ -39,4 +40,3 @@ Na domovskej obrazovke vyberte *Zastaviť trasu*. Tlačidlo má tento názov, aj
 Keď ste asi 12 metrov od miesta, Soundscape vám to povie a maják odstráni. Presnejšie telefón vašu polohu určiť nedokáže. Ak chcete maják znova počuť, nastavte ho znova.
 
 Maják nastavený na miesto vzdialené menej ako 30 metrov zostáva zapnutý, kým ho neodstránite.
-

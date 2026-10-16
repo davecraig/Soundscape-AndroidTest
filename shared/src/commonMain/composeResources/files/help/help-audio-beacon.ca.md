@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: ca
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Balisa sonora
@@ -39,4 +40,3 @@ Selecciona *Atura la ruta* a la pantalla principal. El botó té aquest nom enca
 Quan ets a uns 12 metres del lloc, Soundscape t'ho diu i treu la balisa. El telèfon no pot determinar la teva posició amb més exactitud. Per tornar a sentir la balisa, torna-la a posar.
 
 Una balisa posada en un lloc a menys de 30 metres continua activa fins que la treus.
-

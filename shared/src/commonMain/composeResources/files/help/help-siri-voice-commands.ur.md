@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ur
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri صوتی کمانڈز
@@ -43,4 +44,3 @@ Soundscape اپنی ہی آواز میں، اپنے معمول کے کالآؤٹ
 ## جاننے کی باتیں
 
 یہ کمانڈز Shortcuts ایپ میں اور iOS کی Settings ایپ میں *Siri* کے تحت بھی نظر آتی ہیں۔ وہاں آپ پوری فہرست دیکھ سکتے ہیں اور کسی بھی کمانڈ کے لیے اپنے الفاظ شامل کر سکتے ہیں۔
-

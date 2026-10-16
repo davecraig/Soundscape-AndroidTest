@@ -6,6 +6,7 @@ nav_order: 1
 lang: is
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Skjölin hér eru úr nýjustu útgáfu forritsins. Í forritinu kemstu að þeim með því að ýta á valmyndarhnappinn (efst til vinstri) og velja síðan Hjálp og kennsluefni.

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: hr
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Upotreba upravljanja medijima
@@ -43,4 +44,3 @@ Zvučni izbornik daje vam više radnji s ista tri gumba. Soundscape naglas čita
 *Previous* mijenja postavku *Razina detalja najava*, isto kao *Izvorni način*.
 
 Izbornik počinje s četiri skupine: *Poslušajte svoju okolinu*, *Upravljanje rutom*, *Pokreni rutu* i *Postavi zvučni svjetionik*. Odaberite skupinu da biste čuli njezine radnje. *Poslušajte svoju okolinu* i *Upravljanje rutom* završavaju stavkom *Glavni izbornik*, koja vas vraća na četiri skupine.
-

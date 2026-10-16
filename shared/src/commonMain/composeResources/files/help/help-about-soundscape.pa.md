@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: pa
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Soundscape ਬਾਰੇ
@@ -27,4 +28,3 @@ Soundscape ਇਨ੍ਹਾਂ ਸ਼ਾਨਦਾਰ ਤੀਜੀ-ਧਿਰ ਲ�
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) ਦੇ ਵਲੰਟੀਅਰਾਂ ਨੇ ਕਈ ਅਨੁਵਾਦ ਸੁਧਾਰੇ, ਜੋ [MIT ਲਾਇਸੈਂਸ](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) ਅਧੀਨ ਵਰਤੋਂ ਲਈ ਉਪਲਬਧ ਹਨ।
 
 ਤੀਜੀ-ਧਿਰ ਦੇ ਸਾਰੇ ਉਤਪਾਦ, ਕੰਪਨੀਆਂ ਦੇ ਨਾਮ ਅਤੇ ਲੋਗੋ ਟ੍ਰੇਡਮਾਰਕ ਜਾਂ ਰਜਿਸਟਰਡ ਟ੍ਰੇਡਮਾਰਕ ਹਨ ਅਤੇ ਆਪਣੇ-ਆਪਣੇ ਮਾਲਕਾਂ ਦੀ ਜਾਇਦਾਦ ਹਨ।
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: ro
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Întrebări frecvente
@@ -82,4 +83,3 @@ Soundscape descarcă o cantitate mică de date ale hărții pe măsură ce te de
 
 ### Ce este OpenStreetMap?
 OpenStreetMap este o hartă liberă a lumii, creată de voluntari. Soundscape o folosește pentru străzi și locuri. Oricine poate adăuga sau corecta un loc pe www.openstreetmap.org, iar modificarea ajunge în Soundscape la o actualizare ulterioară a hărții.
-

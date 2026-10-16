@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: th
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # การแจ้งเตือนด้วยเสียงอัตโนมัติ
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## บนยานพาหนะหรือบนรถไฟ
 
 Soundscape รับรู้ได้เมื่อคุณเดินทางด้วยความเร็วของยานพาหนะ จากนั้นจะหยุดแจ้งเตือนทางแยกและร้านค้าใกล้เคียง เพราะผ่านไปเร็วเกินไป และจะแจ้งเตือนถนนที่คุณอยู่ จุดสังเกต ป้ายหยุดรถและสถานี แม่น้ำ และอุโมงค์แทน
-

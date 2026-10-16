@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: it
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Notifiche automatiche
@@ -43,4 +44,3 @@ Seleziona il pulsante *Sospendi* in alto nella schermata iniziale. Soundscape sm
 ## In un veicolo o in treno
 
 Soundscape si accorge quando ti sposti alla velocità di un veicolo. Smette allora di annunciare incroci e negozi vicini, perché passano troppo in fretta. Annuncia invece la strada su cui ti trovi, i punti di riferimento, le fermate e le stazioni, i fiumi e le gallerie.
-

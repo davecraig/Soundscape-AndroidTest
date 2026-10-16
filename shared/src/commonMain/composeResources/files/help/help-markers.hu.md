@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: hu
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Jelölők
@@ -29,4 +30,3 @@ Bármelyik megtalált helyet is elmentheti. Nyissa meg a *Helyszín adatai* kép
 ## Jelölők testreszabása
 
 Válassza ki a jelölőt a *Jelölők* képernyőn, majd válassza a *Jelölő szerkesztése* lehetőséget. Módosíthatja a nevét, a jegyzeteit és a helyzetét, vagy választhatja a *Jelölő törlése* lehetőséget. A jelölő törlése az útvonalaiból is eltávolítja azt.
-

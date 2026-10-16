@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: et
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Kuidas Soundscape töötab
@@ -35,4 +36,3 @@ Stereokõrvaklapid annavad kõige selgema suunataju. Soundscape töötab ka tele
 ## Juhendatud õpetus
 
 Põhifunktsioonide samm-sammult proovimiseks ava menüü ja vali *Juhendatud õpetus*.
-

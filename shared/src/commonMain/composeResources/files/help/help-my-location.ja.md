@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 20
 lang: ja
 permalink: /users/help-my-location.html
+translated-from: b6e725d95c9c9a49842059ef9cf0ecc79c75a10d
 ---
 
 # 現在地
@@ -13,4 +14,3 @@ permalink: /users/help-my-location.html
 *現在地* は、今いる場所を知らせます。向いている方向または進んでいる方向を伝え、次に今いる道路または住所を伝えます。バスを降りたとき、建物を出たとき、方向がわからなくなったときに使ってください。
 
 立ち止まっているときは、まずスマートフォンの上端を自分が向いている方向に向けてください。スマートフォンがロックされている場合や、Soundscape が画面に表示されていない場合は、スマートフォンを水平にも持ってください。
-

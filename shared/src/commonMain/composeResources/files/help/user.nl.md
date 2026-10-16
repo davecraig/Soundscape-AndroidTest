@@ -6,6 +6,7 @@ nav_order: 1
 lang: nl
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 De documentatie hier is afkomstig van de nieuwste versie van de app. In de app komt u erbij door op de menuknop (linksboven) te klikken en vervolgens Help en zelfstudies te selecteren.

@@ -7,7 +7,9 @@ nav_order: 200
 lang: tr
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Soundscape’in arkasındaki teknoloji
 Bu sayfanın amacı, Soundscape uygulamasının arka planda nasıl çalıştığına dair genel bir anlayış sağlamaktır. Uygulamayı kullanmak için bunu okumanıza gerek yok, ancak yazılmasının birkaç nedeni var:
 
@@ -85,9 +87,9 @@ Ayrıştırılan tüm veriler, uygulamanın haritanın hangi öğelerinin yakın
   * Köyler
   * Mezralar
 
- Bu sayede uygulama, herhangi bir konum için kolayca şunları bulabilir
+Bu sayede uygulama, herhangi bir konum için kolayca şunları bulabilir
 
- * "50m içindeki tüm toplu taşıma durakları" veya
+* "50m içindeki tüm toplu taşıma durakları" veya
  * "Önümdeki en yakın kavşak" veya
  * "En yakın mezra, köy, kasaba veya şehir"
 
@@ -108,7 +110,7 @@ Açıklamalara eklenebilecek bağlam ne kadar fazlaysa o kadar iyidir, yeter ki 
 * **Bu bir kaldırım mı?**
 OpenStreetMap'in birçok bölgesinde artık kaldırımlar yollardan ayrı olarak haritalanmıştır. Bunlar genellikle `sidewalk` olarak etiketlenir, ancak normalde hangi yolun kaldırımı olduklarını belirtmezler.
 
-    Uygulama adsız bir kaldırımla karşılaştığında, yanında uzandığını düşündüğü bir yol arar ve kaldırımı adlandırmak için bunu kullanır. Bunun anonslarımız için çok önemli olduğu ortaya çıkıyor. Her kaldırım kavşağını anons etmek yerine, bir kaldırım boyunca ilerledikçe anonslar, ilişkili yol boyunca ilerliyormuşuz gibi yapılır. *"Patika boyunca batıya doğru ilerliyorsunuz"* yerine *"Moor Road boyunca batıya doğru ilerliyorsunuz"* deriz. Kullanıcı haritalanmış kaldırımdadır, ancak açıklama daha anlamlıdır.
+Uygulama adsız bir kaldırımla karşılaştığında, yanında uzandığını düşündüğü bir yol arar ve kaldırımı adlandırmak için bunu kullanır. Bunun anonslarımız için çok önemli olduğu ortaya çıkıyor. Her kaldırım kavşağını anons etmek yerine, bir kaldırım boyunca ilerledikçe anonslar, ilişkili yol boyunca ilerliyormuşuz gibi yapılır. *"Patika boyunca batıya doğru ilerliyorsunuz"* yerine *"Moor Road boyunca batıya doğru ilerliyorsunuz"* deriz. Kullanıcı haritalanmış kaldırımdadır, ancak açıklama daha anlamlıdır.
 
 * **Adlandırılmış bir Yol'da mı sona eriyor?**
 Çoğu zaman iki yolu birbirine bağlayan yaya patikaları vardır. Patikanın her iki ucuna bakarak bu bağlamı kolayca ekleyebiliriz; böylece bir yönde *"Moor Road'a giden patika"* ve diğer uçtan yaklaşırken *"Roselea Drive'a giden patika"* olabilir. Bu yalnızca patika bölünmediğinde yapılır; iki adsız patikaya bölünürse bu bağlamı eklemeye çalışmayız.

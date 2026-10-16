@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: sw
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Kutumia Vidhibiti vya Sauti
@@ -43,4 +44,3 @@ Menyu ya sauti inakupa vitendo zaidi kwa vitufe vilevile vitatu. Soundscape inas
 *Iliyotangulia* inabadilisha *Kiwango cha Matangazo*, sawa na katika *Hali ya Awali*.
 
 Menyu inaanza na makundi manne: *Sikia Mazingira Yangu*, *Udhibiti wa Njia*, *Anzisha Njia* na *Anzisha Beacon ya Sauti*. Chagua kundi ili kusikia vitendo vyake. *Sikia Mazingira Yangu* na *Udhibiti wa Njia* zinaishia na *Menyu kuu*, inayokurudisha kwenye makundi manne.
-

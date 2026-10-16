@@ -7,7 +7,9 @@ nav_order: 200
 lang: is
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Tæknin á bak við Soundscape
 Markmið þessarar síðu er að gefa almennan skilning á því hvernig Soundscape-forritið virkar undir yfirborðinu. Þú þarft ekki að lesa þetta til að nota forritið, en það eru nokkrar ástæður fyrir því að þetta hefur verið skrifað:
 
@@ -85,9 +87,9 @@ Við notum sem stendur tiltölulega lítið magn af kortagögnunum til að búa 
   * Þorp
   * Smáþorp
 
- Þegar þetta er til staðar getur forritið, fyrir hvaða staðsetningu sem er, auðveldlega fundið
+Þegar þetta er til staðar getur forritið, fyrir hvaða staðsetningu sem er, auðveldlega fundið
 
- * „Öll almenningssamgöngustopp innan 50m“ eða
+* „Öll almenningssamgöngustopp innan 50m“ eða
  * „Næstu gatnamót fyrir framan mig“ eða
  * „Næsta smáþorp, þorp, bæ eða borg“
 
@@ -108,7 +110,7 @@ Fyrir margar borgir verður raunverulegt borgarnafn aldrei tilkynnt, því flest
 * **Er það gangstétt?**
 Mörg svæði í OpenStreetMap hafa nú gangstéttir kortlagðar aðskildar frá vegum. Þessar eru yfirleitt merktar sem `sidewalk` en þær segja venjulega ekki hvaða vegur það er sem þær eru gangstéttin við.
 
-    Þegar forritið rekst á nafnlausa gangstétt leitar það að vegi sem það heldur að liggi við hliðina á henni og notar hann til að nefna gangstéttina. Þetta reynist mjög mikilvægt fyrir tilkynningarnar okkar. Í stað þess að tilkynna um hver einustu gangstéttargatnamót, þegar við förum eftir gangstétt eru tilkynningarnar gerðar eins og við værum á ferð eftir tengda veginum. Í stað *„Á ferð í vestur eftir stíg“* fáum við *„Á ferð í vestur eftir Moor Road“*. Notandinn er á kortlögðu gangstéttinni, en lýsingin er skiljanlegri.
+Þegar forritið rekst á nafnlausa gangstétt leitar það að vegi sem það heldur að liggi við hliðina á henni og notar hann til að nefna gangstéttina. Þetta reynist mjög mikilvægt fyrir tilkynningarnar okkar. Í stað þess að tilkynna um hver einustu gangstéttargatnamót, þegar við förum eftir gangstétt eru tilkynningarnar gerðar eins og við værum á ferð eftir tengda veginum. Í stað *„Á ferð í vestur eftir stíg“* fáum við *„Á ferð í vestur eftir Moor Road“*. Notandinn er á kortlögðu gangstéttinni, en lýsingin er skiljanlegri.
 
 * **Endar hún við nefnda Leið?**
 Mjög oft eru gönguleiðir sem tengja saman tvo vegi. Með því að skoða báða enda stígsins getum við auðveldlega bætt við því samhengi þannig að í aðra áttina gæti það verið *„Stígur að Moor Road“* og þegar nálgast er frá hinum endanum gæti það verið *„Stígur að Roselea Drive“*. Þetta er aðeins gert þar sem stígurinn klofnar ekki; ef hann klofnar í tvo nafnlausa stíga þá reynum við ekki að bæta þessu samhengi við.

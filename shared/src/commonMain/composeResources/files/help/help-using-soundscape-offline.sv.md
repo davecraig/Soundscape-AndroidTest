@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: sv
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Använda Soundscape offline
@@ -27,4 +28,3 @@ Kartor kan vara stora, så använd wifi om du kan.
 ## Utan offlinekarta
 
 Informationsljud kan fortfarande fungera på platser du nyligen har besökt, eftersom telefonen sparar en del kartdata en tid. Sökningen hittar bara dina platsmarkörer. Allt blir som vanligt när telefonen är online igen.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: zh-CN
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # 音频信标
@@ -39,4 +40,3 @@ Soundscape 会回到主屏幕，信标开始播放。主屏幕会显示地点的
 当您距离该地点约 12 米时，Soundscape 会告诉您并移除信标。手机无法把您的位置定得比这更精确。要重新听到信标，请再设置一次。
 
 设置在不到 30 米远的地点上的信标会一直开着，直到您移除它。
-

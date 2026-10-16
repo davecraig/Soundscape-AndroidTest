@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: de
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tipps
@@ -19,4 +20,3 @@ Sie können das Beacon stummschalten und trotzdem hören, wie weit der Ort entfe
 Um einen Ort vor dem Besuch zu erkunden, öffnen Sie seine *Standortdetails* und wählen Sie *Standort simulieren*. Soundscape verhält sich dann so, als wären Sie dort.
 
 Für eine Schritt-für-Schritt-Wegbeschreibung öffnen Sie die *Standortdetails* eines Ortes und wählen Sie *In Karten-App öffnen*. Soundscape läuft weiter, während die andere App den Weg ansagt.
-

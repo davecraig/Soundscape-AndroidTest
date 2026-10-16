@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 50
 lang: tr
 permalink: /users/help-nearby-markers.html
+translated-from: 57f19d980fbf428438e21be3555d5331d800dd7b
 ---
 
 # Yakındaki Kayıtlı Noktalar
@@ -13,4 +14,3 @@ permalink: /users/help-nearby-markers.html
 *Yakındaki Kayıtlı Noktalar* kayıtlı noktalarınızdan size en yakın olan en fazla dördünü anons eder. Her birini kendi yönünden, uzaklığıyla birlikte duyarsınız. Zaten bildiğiniz yerlere göre yönünüzü bulmak için kullanın. Yaklaşık 2 kilometreden uzaktaki kayıtlı noktalar dahil edilmez.
 
 Yerinizde duruyorsanız önce telefonun üst kenarını baktığınız yöne doğrultun. Telefonunuz kilitliyse veya Soundscape ekranda değilse telefonu ayrıca yatay tutun.
-

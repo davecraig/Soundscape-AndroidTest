@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: ca
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Avisos de veu automàtics
@@ -43,4 +44,3 @@ Selecciona el botó *Repòs* a la part superior de la pantalla principal. Sounds
 ## En un vehicle o en tren
 
 Soundscape detecta quan et desplaces a la velocitat d'un vehicle. Llavors deixa d'anunciar les cruïlles i les botigues properes, perquè passen massa de pressa. En canvi, anuncia la via per on vas, els punts de referència, les parades i estacions, els rius i els túnels.
-

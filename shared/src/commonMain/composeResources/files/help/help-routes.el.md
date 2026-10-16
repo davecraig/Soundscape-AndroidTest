@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: el
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Διαδρομές
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## Κοινή χρήση διαδρομής
 
 Επιλέξτε τη διαδρομή στην οθόνη *Διαδρομές* και μετά επιλέξτε *Κοινή χρήση*.
-

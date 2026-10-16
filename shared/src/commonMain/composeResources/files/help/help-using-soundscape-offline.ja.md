@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: ja
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Soundscape をオフラインで使う
@@ -27,4 +28,3 @@ Soundscape は通常、移動に合わせて地図データをダウンロード
 ## オフラインマップがない場合
 
 最近訪れた場所では、コールアウトが引き続き動作することがあります。スマートフォンが一部の地図データをしばらく保持しているためです。検索で見つかるのは自分のマーカーだけです。スマートフォンがオンラインに戻ると、すべて元どおりになります。
-

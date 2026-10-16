@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: de
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Sprachbefehle mit Siri
@@ -43,4 +44,3 @@ Sie können auch nach der Gruppe aufhören. Dann fragt Siri, welche Auswahl Sie 
 ## Gut zu wissen
 
 Die Befehle erscheinen auch in der Kurzbefehle-App und in den iOS-Einstellungen unter *Siri*. Dort sehen Sie die ganze Liste und können für jeden Befehl eigene Formulierungen hinzufügen.
-

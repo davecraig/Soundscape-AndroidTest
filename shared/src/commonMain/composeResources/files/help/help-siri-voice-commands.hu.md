@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: hu
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri hangparancsok
@@ -43,4 +44,3 @@ A csoport után meg is állhat, és Siri megkérdezi, melyik választást kéri.
 ## Jó tudni
 
 A parancsok a Parancsok alkalmazásban és az iOS Beállítások alkalmazásban, a *Siri* részben is megjelennek. Ott megnézheti a teljes listát, és bármelyik parancshoz hozzáadhatja a saját megfogalmazását.
-

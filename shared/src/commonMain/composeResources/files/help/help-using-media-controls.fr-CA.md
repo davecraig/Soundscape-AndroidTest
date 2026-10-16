@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: fr-CA
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Utilisation des commandes multimédias
@@ -43,4 +44,3 @@ Le menu audio vous donne accès à plus d’actions avec les trois mêmes bouton
 *Précédent* modifie le *Détail des annonces*, comme en *Mode original*.
 
 Le menu commence par quatre groupes : *Écouter mon environnement*, *Contrôle de l’itinéraire*, *Démarrer un Itinéraire* et *Démarrer la balise*. Sélectionnez un groupe pour entendre ses actions. *Écouter mon environnement* et *Contrôle de l’itinéraire* se terminent par *Menu principal*, qui vous ramène aux quatre groupes.
-

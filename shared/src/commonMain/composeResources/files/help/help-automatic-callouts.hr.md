@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: hr
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatske najave
@@ -43,4 +44,3 @@ Odaberite gumb *Mirovanje* na vrhu početnog zaslona. Soundscape prestaje korist
 ## U vozilu ili u vlaku
 
 Soundscape primjećuje kad se krećete brzinom vozila. Tada prestaje najavljivati raskrižja i obližnje trgovine jer prebrzo prolaze. Umjesto toga najavljuje cestu kojom se krećete, znamenitosti, stajališta i kolodvore, rijeke i tunele.
-

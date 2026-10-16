@@ -6,6 +6,7 @@ nav_order: 1
 lang: ar
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 التوثيق هنا مأخوذ من أحدث إصدار من التطبيق. يمكنك الوصول إليه داخل التطبيق بالنقر على زر القائمة (أعلى اليسار) ثم اختيار المساعدة والدروس التعليمية.

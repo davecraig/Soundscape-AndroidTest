@@ -6,6 +6,7 @@ nav_order: 1
 lang: bn
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 এখানে থাকা ডকুমেন্টেশন অ্যাপের সর্বশেষ সংস্করণ থেকে নেওয়া। অ্যাপের মধ্যে এটি পেতে মেনু বোতামে (উপরে বামদিকে) ক্লিক করে তারপর সহায়তা ও টিউটোরিয়াল নির্বাচন করুন।

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: hu
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Hangok
@@ -15,4 +16,3 @@ A Soundscape az iPhone-jára telepített bármelyik hangot használhatja, a Siri
 {% else %}
 A Soundscape a telefonjára telepített bármelyik hangot használhatja. Hangok hozzáadásához nyissa meg a telefon beállításait, és keresse meg a *Szövegfelolvasó kimenete* elemet. Ha a Soundscape-ben szeretne hangot választani, nyissa meg a menüt, és válassza a *Beállítások*, majd a *Hang*, majd a *Hangok* lehetőséget.
 {% endif %}
-

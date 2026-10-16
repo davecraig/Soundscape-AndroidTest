@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: hr
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Oznake
@@ -29,4 +30,3 @@ Možete spremiti i bilo koje mjesto koje pronađete. Otvorite njegove *Pojedinos
 ## Prilagodba oznaka
 
 Odaberite oznaku na zaslonu *Oznake*, zatim odaberite *Uredi oznaku*. Možete promijeniti njezin naziv, bilješke i položaj ili odabrati *Izbriši oznaku*. Brisanjem se oznaka uklanja i iz vaših ruta.
-

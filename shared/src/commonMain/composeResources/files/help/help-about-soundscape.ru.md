@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: ru
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # О Soundscape
@@ -27,4 +28,3 @@ Soundscape опирается на эти замечательные сторо�
 Волонтёры [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) улучшили ряд переводов, которые предоставляются для использования в соответствии с [лицензией MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Все названия продуктов и компаний третьих сторон, а также их логотипы являются товарными знаками или зарегистрированными товарными знаками и остаются собственностью соответствующих владельцев.
-

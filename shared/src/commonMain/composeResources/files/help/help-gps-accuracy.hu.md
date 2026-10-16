@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: hu
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS-pontosság
@@ -19,4 +20,3 @@ A pontosság általában épületben, magas épületek között és a szabadba l
 {% if app %}
 Jelenlegi pontosság: {{ accuracy }} ({{ quality }})
 {% endif %}
-

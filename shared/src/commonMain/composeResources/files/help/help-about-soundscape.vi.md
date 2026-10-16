@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: vi
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Giới thiệu về Soundscape
@@ -27,4 +28,3 @@ Soundscape dựa trên các thư viện và dữ liệu tuyệt vời của bên
 Các tình nguyện viên của [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) đã cải thiện một số bản dịch, được cung cấp để sử dụng theo [giấy phép MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Tất cả các sản phẩm, tên công ty và logo của bên thứ ba là nhãn hiệu hoặc nhãn hiệu đã đăng ký và vẫn thuộc sở hữu của chủ sở hữu tương ứng.
-

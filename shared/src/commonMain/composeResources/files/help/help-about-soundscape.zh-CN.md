@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: zh-CN
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # 关于 Soundscape
@@ -27,4 +28,3 @@ Soundscape 依赖于这些出色的第三方库和数据。点击链接查看它
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) 的志愿者改进了其中一些翻译，这些翻译在 [MIT 许可证](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) 下提供使用。
 
 所有第三方产品、公司名称和徽标均为其各自所有者的商标或注册商标，且仍归其各自所有者所有。
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: en-GB
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Audio Beacon
@@ -39,4 +40,3 @@ Select *Stop Route* on the home screen. The button has this name even when the b
 When you are about 12 metres from the place, Soundscape tells you and removes the beacon. Your phone cannot find your position more exactly than that. To hear the beacon again, set it again.
 
 A beacon set on a place less than 30 metres away stays on until you remove it.
-

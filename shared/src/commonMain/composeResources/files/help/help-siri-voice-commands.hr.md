@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: hr
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Glasovne naredbe za Siri
@@ -43,4 +44,3 @@ Možete i stati nakon skupine, pa Siri pita koji odabir želite. Tako svaka skup
 ## Dobro je znati
 
 Naredbe se pojavljuju i u aplikaciji Prečaci te u aplikaciji Postavke u iOS-u pod *Siri*. Ondje možete vidjeti cijeli popis i za bilo koju naredbu dodati vlastiti izričaj.
-

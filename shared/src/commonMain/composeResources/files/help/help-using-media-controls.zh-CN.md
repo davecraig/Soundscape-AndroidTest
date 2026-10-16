@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: zh-CN
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # 使用媒体控制
@@ -43,4 +44,3 @@ permalink: /users/help-using-media-controls.html
 *上一曲*会更改*提示详细程度*，与*经典模式*中相同。
 
 菜单以四个分组开始：*聆听周围环境*、*路线控制*、*开始路线*和*启动音频信标*。选择一个分组即可听到其中的操作。*聆听周围环境*和*路线控制*以*顶层菜单*结尾，它会带您回到这四个分组。
-

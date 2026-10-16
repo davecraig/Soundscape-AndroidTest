@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: sw
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Maswali Yanayoulizwa Mara kwa Mara
@@ -82,4 +83,3 @@ Soundscape inapakua kiasi kidogo cha data ya ramani kadiri unavyosogea. Ili kutu
 
 ### OpenStreetMap ni nini?
 OpenStreetMap ni ramani huria ya dunia, iliyotengenezwa na watu wanaojitolea. Soundscape inaitumia kwa barabara na sehemu. Mtu yeyote anaweza kuongeza au kusahihisha sehemu kwenye www.openstreetmap.org, na mabadiliko hayo yanaifikia Soundscape katika sasisho la ramani la baadaye.
-

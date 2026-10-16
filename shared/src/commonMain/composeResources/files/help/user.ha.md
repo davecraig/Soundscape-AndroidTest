@@ -6,6 +6,7 @@ nav_order: 1
 lang: ha
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Takardun da ke nan sun fito ne daga sabon sigar manhajar. A cikin manhajar, za ku iya samun su ta hanyar danna maballin menu (sama hagu) sannan ku zaɓi Taimako da Koyawa.

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: ru
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Использование Soundscape без интернета
@@ -27,4 +28,3 @@ permalink: /users/help-using-soundscape-offline.html
 ## Без офлайн-карты
 
 Уточнения могут по-прежнему работать в местах, где вы недавно побывали, потому что телефон какое-то время хранит часть данных карты. Поиск находит только ваши отметки. Всё вернётся в норму, когда телефон снова будет в сети.
-

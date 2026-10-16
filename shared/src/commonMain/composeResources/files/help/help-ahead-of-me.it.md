@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 40
 lang: it
 permalink: /users/help-ahead-of-me.html
+translated-from: cda148fe477cc3f5d7c64b374ecad0a9af57d6c2
 ---
 
 # Davanti a me
@@ -13,4 +14,3 @@ permalink: /users/help-ahead-of-me.html
 *Davanti a me* annuncia fino a cinque luoghi di fronte a te. Senti ognuno dalla propria direzione, con la sua distanza. Usalo in una strada che non conosci, per sapere che cosa ti aspetta.
 
 Se non ti muovi, punta prima la parte superiore del telefono nella direzione in cui guardi. Se il telefono è bloccato, o Soundscape non è sullo schermo, tieni anche il telefono in piano.
-

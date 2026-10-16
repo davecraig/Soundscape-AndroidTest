@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ha
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Umarnin Murya na Siri
@@ -43,4 +44,3 @@ Kuna iya kuma tsayawa bayan rukunin, sai Siri ya tambaye ku wane zaɓi kuke so. 
 ## Yana da Kyau a Sani
 
 Umarnan suna bayyana kuma a cikin manhajar Shortcuts da kuma cikin manhajar Settings ta iOS a ƙarƙashin *Siri*. A can kuna iya ganin dukan jerin kuma ku ƙara kalmominku ga kowane umarni.
-

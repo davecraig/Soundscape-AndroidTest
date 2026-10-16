@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: ro
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Utilizarea Soundscape offline
@@ -27,4 +28,3 @@ Hărțile pot fi mari, așa că folosește Wi-Fi dacă poți.
 ## Fără o hartă offline
 
 Anunțurile pot funcționa în continuare în locurile vizitate recent, deoarece telefonul păstrează o vreme unele date ale hărții. Căutarea găsește doar marcajele tale. Totul revine la normal când telefonul este din nou online.
-

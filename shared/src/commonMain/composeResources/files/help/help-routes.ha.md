@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: ha
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Tafarkuna
@@ -35,4 +36,3 @@ Ku zaɓi tafarkin a allon *Tafarkuna*, sannan ku zaɓi *Gyara Tafarki*. Kuna iya
 ## Raba Tafarki
 
 Ku zaɓi tafarkin a allon *Tafarkuna*, sannan ku zaɓi *Raba*.
-

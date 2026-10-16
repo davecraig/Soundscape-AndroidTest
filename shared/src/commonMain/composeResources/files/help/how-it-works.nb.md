@@ -7,7 +7,9 @@ nav_order: 200
 lang: nb
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Teknologien bak Soundscape
 Hensikten med denne siden er å gi en generell forståelse av hvordan Soundscape-appen fungerer under panseret. Du trenger ikke å lese dette for å bruke appen, men det er noen grunner til at den er skrevet:
 
@@ -85,9 +87,9 @@ Alle de tolkede dataene legges også inn i et lettsøkbart format slik at appen 
   * Landsbyer
   * Grender
 
- Med dette på plass kan appen så enkelt finne, for en hvilken som helst posisjon
+Med dette på plass kan appen så enkelt finne, for en hvilken som helst posisjon
 
- * «Alle holdeplasser innenfor 50 m» eller
+* «Alle holdeplasser innenfor 50 m» eller
  * «Det nærmeste veikrysset foran meg» eller
  * «Den nærmeste grenda, landsbyen, tettstedet eller byen»
 
@@ -108,7 +110,7 @@ Jo mer kontekst som kan legges til i beskrivelser, desto bedre, så lenge det ho
 * **Er det et fortau?**
 Mange områder i OpenStreetMap har nå fortau kartlagt separat fra veier. Disse er vanligvis merket som `sidewalk`, men de sier normalt ikke hvilken vei de er fortauet til.
 
-    Når appen kommer over et navnløst fortau, søker den etter en vei som den tror går ved siden av det og bruker den til å navngi fortauet. Dette viser seg å være svært viktig for meldingene våre. I stedet for å lese opp hvert fortausveikryss, gjøres meldingene mens vi beveger oss langs et fortau som om vi beveget oss langs den tilhørende veien. I stedet for *«Går mot vest langs sti»* har vi *«Går mot vest langs Moor Road»*. Brukeren er på det kartlagte fortauet, men beskrivelsen gir mer mening.
+Når appen kommer over et navnløst fortau, søker den etter en vei som den tror går ved siden av det og bruker den til å navngi fortauet. Dette viser seg å være svært viktig for meldingene våre. I stedet for å lese opp hvert fortausveikryss, gjøres meldingene mens vi beveger oss langs et fortau som om vi beveget oss langs den tilhørende veien. I stedet for *«Går mot vest langs sti»* har vi *«Går mot vest langs Moor Road»*. Brukeren er på det kartlagte fortauet, men beskrivelsen gir mer mening.
 
 * **Ender den ved en navngitt Way?**
 Svært ofte er det fotgjengerstier som binder to veier sammen. Ved å se på begge endene av stien kan vi enkelt legge til den konteksten, slik at det i én retning kan være *«Sti til Moor Road»* og når man nærmer seg fra den andre enden kan det være *«Sti til Roselea Drive»*. Dette gjøres bare der stien ikke deler seg; hvis den deler seg i to navnløse stier, prøver vi ikke å legge til denne konteksten.

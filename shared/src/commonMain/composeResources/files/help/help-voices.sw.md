@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: sw
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Aina za Sauti
@@ -15,4 +16,3 @@ Soundscape inaweza kutumia sauti yoyote iliyosakinishwa kwenye iPhone yako, isip
 {% else %}
 Soundscape inaweza kutumia sauti yoyote iliyosakinishwa kwenye simu yako. Ili kuongeza sauti, fungua mipangilio ya simu yako na utafute *Kutoa maandishi kama matamshi*. Ili kuchagua sauti katika Soundscape, fungua menyu na uchague *Mipangilio*, kisha *Sauti*, kisha *Aina za Sauti*.
 {% endif %}
-

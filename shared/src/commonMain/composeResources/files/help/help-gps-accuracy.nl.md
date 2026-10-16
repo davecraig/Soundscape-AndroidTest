@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: nl
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS-nauwkeurigheid
@@ -19,4 +20,3 @@ De nauwkeurigheid is meestal het slechtst binnen, tussen hoge gebouwen en in de 
 {% if app %}
 Huidige nauwkeurigheid: {{ accuracy }} ({{ quality }})
 {% endif %}
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: de
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatische Hinweise
@@ -43,4 +44,3 @@ Wählen Sie die Schaltfläche *Ruhemodus aktivieren* oben auf dem Startbildschir
 ## Im Fahrzeug oder im Zug
 
 Soundscape bemerkt, wenn Sie so schnell wie ein Fahrzeug unterwegs sind. Kreuzungen und Geschäfte in der Nähe werden dann nicht mehr angesagt, weil sie zu schnell vorbeiziehen. Stattdessen sagt Soundscape die Straße an, auf der Sie sind, sowie Orientierungspunkte, Haltestellen und Bahnhöfe, Flüsse und Tunnel.
-

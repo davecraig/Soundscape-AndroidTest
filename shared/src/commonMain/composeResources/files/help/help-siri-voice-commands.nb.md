@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: nb
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Talekommandoer med Siri
@@ -43,4 +44,3 @@ Du kan også stoppe etter gruppen, og da spør Siri hvilket valg du vil ha. Hver
 ## Greit å vite
 
 Kommandoene vises også i Snarveier-appen og i Innstillinger-appen på iOS under *Siri*. Der kan du se hele listen og legge til dine egne formuleringer for en hvilken som helst kommando.
-

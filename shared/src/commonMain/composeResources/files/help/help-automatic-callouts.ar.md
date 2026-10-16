@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: ar
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # النداءات الصوتية التلقائية
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## في مركبة أو قطار
 
 يلاحظ Soundscape أنك تتنقل بسرعة مركبة. عندها يتوقف عن النداء بالتقاطعات والمتاجر القريبة، لأنها تمرّ بسرعة كبيرة. وبدلًا من ذلك ينادي بالطريق الذي أنت عليه، والمعالم، والمواقف والمحطات، والأنهار والأنفاق.
-

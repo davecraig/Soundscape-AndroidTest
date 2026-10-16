@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ru
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Как работает Soundscape
@@ -35,4 +36,3 @@ Soundscape описывает мир вокруг вас с помощью зв�
 ## Пошаговое руководство
 
 Чтобы шаг за шагом попробовать основные функции, откройте меню и выберите *Пошаговое руководство*.
-

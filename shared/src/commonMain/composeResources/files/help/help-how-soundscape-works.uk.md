@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: uk
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Як працює Soundscape
@@ -35,4 +36,3 @@ Soundscape описує світ навколо вас за допомогою �
 ## Інтерактивний тур
 
 Щоб крок за кроком спробувати основні функції, відкрийте меню й виберіть *Інтерактивний тур*.
-

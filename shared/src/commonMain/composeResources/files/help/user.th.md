@@ -6,6 +6,7 @@ nav_order: 1
 lang: th
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 เอกสารนี้อ้างอิงจากแอปเวอร์ชันล่าสุด คุณสามารถเข้าถึงได้ในแอปโดยแตะปุ่มเมนู (มุมซ้ายบน) แล้วเลือกวิธีใช้และบทแนะนำ

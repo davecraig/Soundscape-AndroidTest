@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: ja
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # 音声ビーコン
@@ -39,4 +40,3 @@ Soundscape はホーム画面に戻り、ビーコンが始まります。ホー
 場所まで約 12 メートルになると、Soundscape がそれを知らせてビーコンを解除します。スマートフォンは、それより正確に位置を特定できません。ビーコンをもう一度聞くには、もう一度設定します。
 
 30 メートルより近い場所に設定したビーコンは、自分で解除するまで鳴り続けます。
-

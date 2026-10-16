@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: de
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Soundscape offline verwenden
@@ -27,4 +28,3 @@ Karten können groß sein. Nutzen Sie daher möglichst WLAN.
 ## Ohne Offline-Karte
 
 Hinweise funktionieren vielleicht noch an Orten, an denen Sie vor Kurzem waren, weil Ihr Telefon einige Kartendaten eine Zeit lang behält. Die Suche findet nur Ihre Markierungen. Sobald Ihr Telefon wieder online ist, funktioniert alles wie gewohnt.
-

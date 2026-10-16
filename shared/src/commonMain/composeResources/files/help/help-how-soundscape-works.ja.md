@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ja
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape のしくみ
@@ -35,4 +36,3 @@ Soundscape は、周囲の世界を音で説明します。それぞれの場所
 ## ガイド付きチュートリアル
 
 主な機能を順番に試すには、メニューを開いて *ガイド付きチュートリアル* を選択します。
-

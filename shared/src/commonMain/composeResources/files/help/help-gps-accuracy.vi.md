@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: vi
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # Độ chính xác GPS
@@ -19,4 +20,3 @@ Soundscape chỉ có thể mô tả xung quanh bạn chính xác bằng mức đ
 {% if app %}
 Độ chính xác hiện tại: {{ accuracy }} ({{ quality }})
 {% endif %}
-

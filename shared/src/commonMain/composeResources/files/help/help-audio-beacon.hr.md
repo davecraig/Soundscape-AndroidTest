@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: hr
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Zvučni svjetionik
@@ -39,4 +40,3 @@ Odaberite *Zaustavi rutu* na početnom zaslonu. Gumb ima taj naziv i kad svjetio
 Kad ste oko 12 metara od mjesta, Soundscape vam to kaže i uklanja svjetionik. Telefon ne može točnije odrediti vaš položaj. Da biste ponovno čuli svjetionik, postavite ga ponovno.
 
 Svjetionik postavljen na mjesto udaljeno manje od 30 metara ostaje uključen dok ga ne uklonite.
-

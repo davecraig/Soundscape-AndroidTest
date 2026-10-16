@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: sv
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Vanliga frågor
@@ -82,4 +83,3 @@ Soundscape laddar ned en liten mängd kartdata medan du rör dig. Om du vill anv
 
 ### Vad är OpenStreetMap?
 OpenStreetMap är en fri karta över världen, byggd av frivilliga. Soundscape använder den för gator och platser. Vem som helst kan lägga till eller rätta en plats på www.openstreetmap.org, och ändringen når Soundscape i en senare kartuppdatering.
-

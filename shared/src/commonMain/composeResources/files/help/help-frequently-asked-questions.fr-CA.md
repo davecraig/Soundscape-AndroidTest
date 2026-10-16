@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: fr-CA
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Forum Aux Questions
@@ -82,4 +83,3 @@ Soundscape télécharge une petite quantité de données cartographiques au fil 
 
 ### Qu’est-ce qu’OpenStreetMap?
 OpenStreetMap est une carte du monde libre, construite par des bénévoles. Soundscape l’utilise pour les rues et les lieux. Tout le monde peut ajouter ou corriger un lieu sur www.openstreetmap.org, et la modification arrive dans Soundscape lors d’une mise à jour ultérieure des cartes.
-

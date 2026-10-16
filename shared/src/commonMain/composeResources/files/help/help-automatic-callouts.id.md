@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: id
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Pemberitahuan Otomatis
@@ -43,4 +44,3 @@ Pilih tombol *Tidur* di bagian atas layar utama. Soundscape berhenti menggunakan
 ## Di Kendaraan atau Kereta
 
 Soundscape mengetahui saat Anda melaju dengan kecepatan kendaraan. Soundscape lalu berhenti memberitahukan persimpangan dan toko terdekat, karena terlalu cepat terlewati. Sebagai gantinya, Soundscape memberitahukan jalan yang Anda lalui, landmark, halte dan stasiun, sungai, dan terowongan.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: ha
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Alamomi
@@ -29,4 +30,3 @@ Kuna iya kuma ajiye kowane wuri da kuka samu. Ku buɗe *Cikakkun Bayanan Wuri* n
 ## Gyara Alamomi
 
 Ku zaɓi alamar a allon *Alamomi*, sannan ku zaɓi *Gyara Alama*. Kuna iya canja sunanta, bayananta da wurinta, ko ku zaɓi *Share Alama*. Share alama yana cire ta daga tafarkunanku ma.
-

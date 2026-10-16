@@ -7,7 +7,9 @@ nav_order: 200
 lang: ro
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Tehnologia din spatele Soundscape
 Scopul acestei pagini este de a oferi o înțelegere generală a modului în care funcționează aplicația Soundscape în spatele scenei. Nu trebuie să citești acest text pentru a folosi aplicația, dar există câteva motive pentru care a fost scris:
 
@@ -85,9 +87,9 @@ Toate datele analizate sunt puse, de asemenea, într-un format ușor de căutat,
   * Sate
   * Cătune
 
- Cu acestea în loc, pentru orice locație aplicația poate găsi apoi cu ușurință
+Cu acestea în loc, pentru orice locație aplicația poate găsi apoi cu ușurință
 
- * „Toate stațiile de transport pe o rază de 50 m" sau
+* „Toate stațiile de transport pe o rază de 50 m" sau
  * „Cea mai apropiată intersecție din fața mea" sau
  * „Cel mai apropiat cătun, sat, oraș sau oraș mare"
 
@@ -108,7 +110,7 @@ Cu cât se poate adăuga mai mult context în descrieri, cu atât mai bine, atâ
 * **Este un trotuar?**
 Multe zone din OpenStreetMap au acum trotuarele cartografiate separat de drumuri. Acestea sunt de obicei etichetate ca `sidewalk`, dar de obicei nu indică care este drumul căruia îi aparțin ca trotuar.
 
-    Când aplicația întâlnește un trotuar fără nume, caută un drum despre care crede că merge alături de el și îl folosește pentru a denumi trotuarul. Acest lucru se dovedește a fi foarte important pentru anunțurile noastre. În loc să anunțăm fiecare intersecție de trotuar, pe măsură ce ne deplasăm de-a lungul unui trotuar, anunțurile sunt făcute ca și cum ne-am deplasa de-a lungul drumului asociat. În loc de *„Deplasare spre vest pe potecă"* avem *„Deplasare spre vest pe Moor Road"*. Utilizatorul se află pe trotuarul cartografiat, dar descrierea are mai mult sens.
+Când aplicația întâlnește un trotuar fără nume, caută un drum despre care crede că merge alături de el și îl folosește pentru a denumi trotuarul. Acest lucru se dovedește a fi foarte important pentru anunțurile noastre. În loc să anunțăm fiecare intersecție de trotuar, pe măsură ce ne deplasăm de-a lungul unui trotuar, anunțurile sunt făcute ca și cum ne-am deplasa de-a lungul drumului asociat. În loc de *„Deplasare spre vest pe potecă"* avem *„Deplasare spre vest pe Moor Road"*. Utilizatorul se află pe trotuarul cartografiat, dar descrierea are mai mult sens.
 
 * **Se termină la un Way denumit?**
 Foarte des există poteci pietonale care unesc două drumuri. Privind ambele capete ale potecii putem adăuga cu ușurință acel context, astfel încât într-o direcție ar putea fi *„Potecă spre Moor Road"*, iar apropiindu-ne din celălalt capăt ar putea fi *„Potecă spre Roselea Drive"*. Acest lucru se face doar acolo unde poteca nu se ramifică; dacă se ramifică în două poteci fără nume, atunci nu încercăm să adăugăm acest context.

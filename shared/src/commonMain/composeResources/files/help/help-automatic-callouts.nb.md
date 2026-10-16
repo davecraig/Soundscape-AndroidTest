@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: nb
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatiske meldinger
@@ -43,4 +44,3 @@ Velg knappen *Sett i dvalemodus* øverst på startskjermen. Soundscape slutter �
 ## I et kjøretøy eller på et tog
 
 Soundscape merker når du beveger deg i kjøretøyfart. Da slutter appen å lese opp veikryss og butikker i nærheten, fordi de passerer for fort. I stedet leser den opp veien du er på, landemerker, holdeplasser og stasjoner, elver og tunneler.
-

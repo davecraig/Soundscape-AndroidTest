@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: tr
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Sesli İşaret
@@ -39,4 +40,3 @@ Ana ekranda *Rotayı Durdur* seçeneğini seçin. İşaret bir rotanın parças�
 Yere yaklaşık 12 metre kaldığında Soundscape bunu size söyler ve işareti kaldırır. Telefonunuz konumunuzu bundan daha kesin bulamaz. İşareti yeniden duymak için onu yeniden ayarlayın.
 
 30 metreden daha yakın bir yere ayarlanan işaret, siz kaldırana kadar açık kalır.
-

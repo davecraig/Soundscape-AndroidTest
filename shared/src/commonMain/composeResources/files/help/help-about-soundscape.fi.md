@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: fi
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Tietoja Soundscapesta
@@ -27,4 +28,3 @@ Soundscape nojaa näihin erinomaisiin kolmannen osapuolen kirjastoihin ja tietoi
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) -yhteisön vapaaehtoiset paransivat useita käännöksiä, jotka ovat saatavilla käytettäväksi [MIT-lisenssin](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) nojalla.
 
 Kaikki kolmansien osapuolten tuotteiden ja yritysten nimet sekä logot ovat tavaramerkkejä tai rekisteröityjä tavaramerkkejä, ja ne säilyvät niiden omistajien omaisuutena.
-

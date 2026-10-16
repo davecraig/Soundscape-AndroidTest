@@ -161,10 +161,12 @@ Don't commit — leave the changes in the working tree for the user to review
 and commit themselves (per the repo's normal git workflow). Report the full
 list of files touched and remind the user that the language has no help
 pages yet (`shared/src/commonMain/composeResources/files/help/help-*.<web code>.md`), so the app and the
-docs site show it the English help. Once they exist, add the web code to
-`languages` in `HelpPagesTest.kt` so they're checked. Those are hand-maintained Markdown now,
-not generated from `strings.xml` — see "Help pages are Markdown in the app's
-assets" in `docs/developers/translations.md`.
+docs site show it the English help. They are translated by [[translate]] (its "Help pages"
+section): once `values-<qualifier>/strings.xml` exists, `help_sync.py languages` lists every
+page as untranslated, and `apply` writes each new page's front matter, taking `parent:` from
+the `user.<web code>.md` this skill creates. Then add the web code to `languages` in
+`HelpPagesTest.kt` so the pages are checked. See "Help pages are Markdown in the app's
+resources" in `docs/developers/translations.md`.
 
 ## Notes
 

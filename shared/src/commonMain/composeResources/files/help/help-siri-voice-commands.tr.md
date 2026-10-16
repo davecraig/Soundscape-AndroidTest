@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: tr
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri Sesli Komutları
@@ -43,4 +44,3 @@ Grubun ardından durabilirsiniz de; o zaman Siri hangi seçimi istediğinizi sor
 ## Bilmekte Fayda Var
 
 Komutlar Kestirmeler uygulamasında ve iOS Ayarlar uygulamasındaki *Siri* bölümünde de görünür. Orada listenin tamamını görebilir ve herhangi bir komut için kendi ifadenizi ekleyebilirsiniz.
-

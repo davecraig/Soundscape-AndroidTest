@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: pl
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Jak działa Soundscape
@@ -35,4 +36,3 @@ Słuchawki stereo dają najwyraźniejsze poczucie kierunku. Soundscape działa t
 ## Samouczek prowadzony
 
 Aby wypróbować główne funkcje krok po kroku, otwórz menu i wybierz *Samouczek prowadzony*.
-

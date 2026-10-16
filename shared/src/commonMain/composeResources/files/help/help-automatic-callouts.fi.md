@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: fi
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automaattiset ilmoitukset
@@ -43,4 +44,3 @@ Valitse aloitusnäytön yläreunasta painike *Siirry lepotilaan*. Soundscape lak
 ## Ajoneuvossa tai junassa
 
 Soundscape huomaa, kun liikut ajoneuvon nopeudella. Silloin se lakkaa ilmoittamasta risteyksiä ja lähellä olevia kauppoja, koska ne menevät ohi liian nopeasti. Sen sijaan se ilmoittaa tien, jolla olet, maamerkit, pysäkit ja asemat, joet ja tunnelit.
-

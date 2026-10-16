@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: nb
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Stemmer
@@ -15,4 +16,3 @@ Soundscape kan bruke alle stemmer som er installert på iPhonen din, bortsett fr
 {% else %}
 Soundscape kan bruke alle stemmer som er installert på telefonen din. For å legge til stemmer åpner du telefonens innstillinger og finner *Tekst-til-tale-utdata*. For å velge en stemme i Soundscape åpner du menyen og velger *Innstillinger*, deretter *Lyd* og deretter *Stemmer*.
 {% endif %}
-

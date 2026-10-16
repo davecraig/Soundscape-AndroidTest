@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: tr
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS doğruluğu
@@ -19,4 +20,3 @@ Doğruluk genellikle kapalı alanlarda, yüksek binaların arasında ve dışar�
 {% if app %}
 Mevcut doğruluk: {{ accuracy }} ({{ quality }})
 {% endif %}
-

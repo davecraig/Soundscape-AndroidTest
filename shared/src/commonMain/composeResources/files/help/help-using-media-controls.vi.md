@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: vi
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Sử dụng nút điều khiển đa phương tiện
@@ -43,4 +44,3 @@ Menu âm thanh cho bạn nhiều thao tác hơn với cùng ba nút đó. Sounds
 *Trước* thay đổi *Mức chi tiết thông báo*, giống như ở *Chế độ gốc*.
 
 Menu bắt đầu với bốn nhóm: *Nghe xung quanh tôi*, *Điều khiển lộ trình*, *Bắt đầu lộ trình* và *Bắt đầu đèn hiệu âm thanh*. Chọn một nhóm để nghe các thao tác của nhóm đó. *Nghe xung quanh tôi* và *Điều khiển lộ trình* kết thúc bằng *Menu chính*, đưa bạn trở lại bốn nhóm.
-

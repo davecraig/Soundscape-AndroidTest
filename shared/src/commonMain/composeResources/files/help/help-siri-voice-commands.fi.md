@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: fi
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Sirin äänikomennot
@@ -43,4 +44,3 @@ Voit myös pysähtyä ryhmän jälkeen, jolloin Siri kysyy, minkä valinnan halu
 ## Hyvä tietää
 
 Komennot näkyvät myös Pikakomennot-sovelluksessa ja iOS:n Asetukset-sovelluksessa kohdassa *Siri*. Siellä näet koko luettelon ja voit lisätä mille tahansa komennolle oman sanamuotosi.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: id
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Menggunakan Kontrol Media
@@ -43,4 +44,3 @@ Menu audio memberi Anda lebih banyak tindakan dengan tiga tombol yang sama. Soun
 *Sebelumnya* mengubah *Tingkat Detail Pemberitahuan*, sama seperti di *Mode asli*.
 
 Menu dimulai dengan empat grup: *Dengar Sekitar Saya*, *Kontrol rute*, *Mulai Rute*, dan *Mulai Suar Audio*. Pilih sebuah grup untuk mendengar tindakannya. *Dengar Sekitar Saya* dan *Kontrol rute* diakhiri dengan *Menu utama*, yang membawa Anda kembali ke empat grup itu.
-

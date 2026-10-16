@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: te
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri వాయిస్ కమాండ్‌లు
@@ -43,4 +44,3 @@ Soundscape తన సొంత స్వరంలో, మామూలు కా�
 ## తెలుసుకోవాల్సినవి
 
 ఈ కమాండ్‌లు Shortcuts యాప్‌లోనూ, iOS సెట్టింగ్‌ల యాప్‌లో *Siri* కింద కూడా కనిపిస్తాయి. అక్కడ మొత్తం జాబితాను చూడవచ్చు, ఏ కమాండ్‌కైనా మీ సొంత మాటలను జోడించవచ్చు.
-

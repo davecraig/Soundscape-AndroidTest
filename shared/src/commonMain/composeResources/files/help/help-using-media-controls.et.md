@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: et
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Meedianuppude kasutamine
@@ -43,4 +44,3 @@ Helimenüü annab samade kolme nupuga rohkem toiminguid. Soundscape loeb iga val
 *Eelmine* muudab seadet *Häälteadete detailsus*, täpselt nagu *Algne režiim*.
 
 Menüü algab nelja rühmaga: *Kuula oma ümbrust*, *Marsruudi juhtimine*, *Alusta marsruuti* ja *Käivita helimajakas*. Vali rühm, et kuulda selle toiminguid. *Kuula oma ümbrust* ja *Marsruudi juhtimine* lõpevad valikuga *Peamenüü*, mis viib sind tagasi nelja rühma juurde.
-

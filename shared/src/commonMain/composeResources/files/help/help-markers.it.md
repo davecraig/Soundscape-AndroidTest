@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: it
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Indicatori
@@ -29,4 +30,3 @@ Puoi anche salvare qualsiasi luogo che trovi. Apri i suoi *Dettagli posizione* e
 ## Personalizzazione di indicatori
 
 Seleziona l'indicatore nella schermata *Indicatori*, poi seleziona *Modifica indicatore*. Puoi cambiarne il nome, le note e la posizione, oppure selezionare *Elimina indicatore*. Eliminando un indicatore lo rimuovi anche dai tuoi percorsi.
-

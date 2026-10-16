@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: tr
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Otomatik Anonslar
@@ -43,4 +44,3 @@ Ana ekranın üstündeki *Uyku Modu* düğmesini seçin. Siz *Şimdi Uyandır* s
 ## Taşıtta veya Trende
 
 Soundscape taşıt hızında ilerlediğinizi fark eder. O zaman kavşakları ve yakındaki dükkânları anons etmeyi bırakır, çünkü çok hızlı geçerler. Bunun yerine bulunduğunuz yolu, simge yapıları, durakları ve istasyonları, nehirleri ve tünelleri anons eder.
-

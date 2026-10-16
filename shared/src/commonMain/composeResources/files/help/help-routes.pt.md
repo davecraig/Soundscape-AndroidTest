@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: pt
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Rotas
@@ -35,4 +36,3 @@ Selecione a rota no ecrã *Rotas* e depois selecione *Editar Rota*. Pode adicion
 ## Partilhar uma Rota
 
 Selecione a rota no ecrã *Rotas* e depois selecione *Partilhar*.
-

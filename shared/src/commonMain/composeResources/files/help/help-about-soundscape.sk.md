@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: sk
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # O aplikácii Soundscape
@@ -27,4 +28,3 @@ Knižnica [Oboe © The Android Open Source Project](https://github.com/google/ob
 Dobrovoľníci zo [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) vylepšili niekoľko prekladov, ktoré sú dostupné na použitie pod [licenciou MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Všetky názvy produktov, spoločností a logá tretích strán sú ochrannými známkami alebo registrovanými ochrannými známkami a zostávajú vlastníctvom ich príslušných vlastníkov.
-

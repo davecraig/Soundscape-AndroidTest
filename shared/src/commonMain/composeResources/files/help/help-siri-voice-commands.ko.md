@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ko
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri 음성 명령
@@ -43,4 +44,3 @@ Soundscape는 평소의 안내와 비콘 소리로, 자기 목소리로 대답�
 ## 알아 두면 좋은 점
 
 이 명령들은 단축어 앱과 iOS 설정 앱의 *Siri* 항목에도 표시됩니다. 거기에서 전체 목록을 보고 어떤 명령에든 원하는 표현을 추가할 수 있습니다.
-

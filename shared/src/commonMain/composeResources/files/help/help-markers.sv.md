@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: sv
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Platsmarkörer
@@ -29,4 +30,3 @@ Du kan också spara vilken plats du än hittar. Öppna dess *Platsuppgifter* och
 ## Anpassa platsmarkörer
 
 Välj platsmarkören på skärmen *Platsmarkörer* och välj sedan *Redigera platsmarkör*. Du kan ändra namn, anteckningar och position, eller välja *Ta bort platsmarkör*. När du tar bort en platsmarkör försvinner den också från dina rutter.
-

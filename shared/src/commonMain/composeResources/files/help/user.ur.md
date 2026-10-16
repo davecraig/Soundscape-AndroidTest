@@ -6,6 +6,7 @@ nav_order: 1
 lang: ur
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 یہاں دی گئی دستاویزات ایپ کے تازہ ترین ورژن سے لی گئی ہیں۔ ایپ میں آپ مینو بٹن (اوپر بائیں طرف) پر کلک کر کے اور پھر مدد اور ٹیوٹوریلز منتخب کر کے وہاں پہنچ سکتے ہیں۔

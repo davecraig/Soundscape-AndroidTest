@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: de
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Audiobeacon
@@ -39,4 +40,3 @@ Wählen Sie auf dem Startbildschirm *Route anhalten*. Die Schaltfläche heißt a
 Wenn Sie etwa 12 Meter vom Ort entfernt sind, sagt Soundscape Ihnen das und entfernt das Beacon. Genauer kann Ihr Telefon Ihre Position nicht bestimmen. Um das Beacon wieder zu hören, setzen Sie es erneut.
 
 Ein Beacon auf einem Ort, der weniger als 30 Meter entfernt ist, bleibt an, bis Sie es entfernen.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: fr-CA
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Annonces automatiques
@@ -43,4 +44,3 @@ Sélectionnez le bouton *Mettre en veille* en haut de l’écran d’accueil. So
 ## En véhicule ou en train
 
 Soundscape remarque quand vous vous déplacez à la vitesse d’un véhicule. Il cesse alors d’annoncer les croisements et les commerces proches, car ils défilent trop vite. À la place, il annonce la route sur laquelle vous êtes, les repères, les arrêts et les gares, les rivières et les tunnels.
-

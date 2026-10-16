@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: bn
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # স্বয়ংক্রিয় ঘোষণা
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## যানবাহনে বা ট্রেনে
 
 আপনি যানবাহনের গতিতে চললে Soundscape তা বুঝতে পারে। তখন এটি মোড় ও কাছের দোকান কলআউট করা বন্ধ করে, কারণ সেগুলো খুব দ্রুত পেরিয়ে যায়। এর বদলে এটি আপনি যে রাস্তায় আছেন সেটি, ল্যান্ডমার্ক, স্টপ ও স্টেশন, নদী এবং সুড়ঙ্গ কলআউট করে।
-

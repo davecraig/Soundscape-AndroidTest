@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: uk
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Автоматичні оголошення
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## У транспорті або в потязі
 
 Soundscape помічає, коли ви рухаєтеся зі швидкістю транспорту. Тоді він перестає оголошувати перехрестя та магазини поблизу, бо вони минають надто швидко. Натомість він оголошує дорогу, якою ви їдете, орієнтири, зупинки транспорту та станції, річки й тунелі.
-

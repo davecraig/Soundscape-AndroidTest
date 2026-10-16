@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: pl
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Wybór głosu TTS
@@ -15,4 +16,3 @@ Soundscape może używać dowolnego głosu zainstalowanego na iPhonie, z wyjątk
 {% else %}
 Soundscape może używać dowolnego głosu zainstalowanego w telefonie. Aby dodać głosy, otwórz ustawienia telefonu i znajdź *Zamiana tekstu na mowę*. Aby wybrać głos w Soundscape, otwórz menu i wybierz *Ustawienia*, potem *Dźwięk*, a potem *Wybór głosu TTS*.
 {% endif %}
-

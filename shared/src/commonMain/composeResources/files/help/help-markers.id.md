@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: id
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Penanda
@@ -29,4 +30,3 @@ Anda juga dapat menyimpan tempat apa pun yang Anda temukan. Buka *Detail Lokasi*
 ## Menyesuaikan Penanda
 
 Pilih penanda di layar *Penanda*, lalu pilih *Edit Penanda*. Anda dapat mengubah nama, catatan, dan posisinya, atau memilih *Hapus Penanda*. Menghapus penanda juga mengeluarkannya dari rute Anda.
-

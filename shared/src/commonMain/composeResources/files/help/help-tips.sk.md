@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: sk
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tipy
@@ -19,4 +20,3 @@ Maják môžete stlmiť a napriek tomu počuť, ako ďaleko miesto je. Soundscap
 Ak chcete miesto preskúmať vopred, otvorte jeho *Podrobnosti o mieste* a vyberte *Simulovať polohu*. Soundscape sa potom správa, akoby telefón bol na tomto mieste.
 
 Ak chcete pokyny krok za krokom, otvorte *Podrobnosti o mieste* daného miesta a vyberte *Otvoriť v mapovej aplikácii*. Soundscape beží ďalej, kým druhá aplikácia dáva pokyny.
-

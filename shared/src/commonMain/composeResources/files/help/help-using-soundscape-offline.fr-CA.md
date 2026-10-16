@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: fr-CA
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Utiliser Soundscape hors ligne
@@ -27,4 +28,3 @@ Les cartes peuvent être volumineuses. Utilisez le Wi-Fi si possible.
 ## Sans carte hors ligne
 
 Les annonces peuvent encore fonctionner dans les lieux que vous avez visités récemment, car votre téléphone garde certaines données cartographiques pendant un moment. La recherche ne trouve que vos marqueurs. Tout redevient normal quand votre téléphone est de nouveau en ligne.
-

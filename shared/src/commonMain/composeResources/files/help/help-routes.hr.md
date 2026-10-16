@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: hr
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Rute
@@ -35,4 +36,3 @@ Odaberite rutu na zaslonu *Rute*, zatim odaberite *Uredi rutu*. Možete dodavati
 ## Dijeljenje rute
 
 Odaberite rutu na zaslonu *Rute*, zatim odaberite *Podijeli*.
-

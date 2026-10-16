@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: tr
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Soundscape Hakkında
@@ -27,4 +28,3 @@ Soundscape bu harika üçüncü taraf kütüphanelere ve verilere dayanır. Lisa
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) gönüllüleri çevirilerin birkaçını iyileştirmiştir; bu çeviriler [MIT lisansı](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) kapsamında kullanıma sunulmuştur.
 
 Tüm üçüncü taraf ürün, şirket adları ve logolar ticari marka veya tescilli ticari markalardır ve ilgili sahiplerinin mülkiyetinde kalır.
-

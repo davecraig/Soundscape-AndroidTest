@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: is
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Hljóðviti
@@ -39,4 +40,3 @@ Veldu *Stöðva leið* á heimaskjánum. Hnappurinn heitir þetta líka þegar h
 Þegar þú ert um 12 metra frá staðnum lætur Soundscape þig vita og fjarlægir hljóðvitann. Síminn getur ekki fundið staðsetningu þína nákvæmar en það. Til að heyra hljóðvitann aftur skaltu setja hann aftur.
 
 Hljóðviti sem er settur á stað í minna en 30 metra fjarlægð er áfram virkur þar til þú fjarlægir hann.
-

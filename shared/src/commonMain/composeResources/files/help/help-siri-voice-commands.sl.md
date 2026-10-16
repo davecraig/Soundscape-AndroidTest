@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: sl
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Glasovni ukazi za Siri
@@ -43,4 +44,3 @@ Lahko se tudi ustavite po skupini in Siri vpraša, katero izbiro želite. Tako v
 ## Dobro je vedeti
 
 Ukazi so prikazani tudi v aplikaciji Bližnjice in v aplikaciji Nastavitve v iOS pod *Siri*. Tam si lahko ogledate celoten seznam in za kateri koli ukaz dodate svoje besedilo.
-

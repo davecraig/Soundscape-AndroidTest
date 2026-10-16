@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: de
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS-Genauigkeit
@@ -19,4 +20,3 @@ Die Genauigkeit ist meist in Gebäuden, zwischen hohen Häusern und in der erste
 {% if app %}
 Aktuelle Genauigkeit: {{ accuracy }} ({{ quality }})
 {% endif %}
-

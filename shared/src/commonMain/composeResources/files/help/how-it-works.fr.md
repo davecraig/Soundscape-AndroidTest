@@ -7,7 +7,9 @@ nav_order: 200
 lang: fr
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # La technologie derrière Soundscape
 L'objectif de cette page est de donner une compréhension générale du fonctionnement interne de l'application Soundscape. Vous n'avez pas besoin de lire ceci pour utiliser l'application, mais elle a été rédigée pour plusieurs raisons :
 
@@ -85,12 +87,12 @@ Toutes les données analysées sont également placées dans un format facile à
   * Villages
   * Hameaux
 
- Une fois cela en place, pour n'importe quel emplacement l'application peut alors facilement trouver
+Une fois cela en place, pour n'importe quel emplacement l'application peut alors facilement trouver
 
- * « Tous les arrêts de transport dans un rayon de 50 m » ou
+* « Tous les arrêts de transport dans un rayon de 50 m » ou
  * « L'intersection la plus proche devant moi » ou
  * « Le hameau, village, commune ou ville le plus proche »
-  
+
 Une fois cela en place, la création des notifications audio se résume à interroger les données en fonction de l'emplacement et de la direction actuels. À mesure que l'utilisateur se déplace sur une grille de tuiles, celle-ci est mise à jour pour se centrer autour de l'emplacement actuel.
 
 ### Davantage de données
@@ -108,7 +110,7 @@ Plus on peut ajouter de contexte aux descriptions, mieux c'est, tant que cela re
 * **Est-ce un trottoir ?**
 De nombreuses zones d'OpenStreetMap disposent désormais de trottoirs cartographiés séparément des routes. Ils sont généralement étiquetés `sidewalk`, mais ils n'indiquent normalement pas à quelle route ils correspondent.
 
-    Lorsque l'application rencontre un trottoir sans nom, elle recherche une route qu'elle estime longer celui-ci et l'utilise pour nommer le trottoir. Cela s'avère très important pour nos notifications. Au lieu d'annoncer chaque intersection de trottoir, à mesure que nous avançons le long d'un trottoir, les notifications sont faites comme si nous nous déplacions le long de la route associée. Au lieu de *« Se déplaçant vers l'ouest le long d'un chemin »*, nous avons *« Se déplaçant vers l'ouest le long de Moor Road »*. L'utilisateur se trouve sur le trottoir cartographié, mais la description est plus pertinente.
+Lorsque l'application rencontre un trottoir sans nom, elle recherche une route qu'elle estime longer celui-ci et l'utilise pour nommer le trottoir. Cela s'avère très important pour nos notifications. Au lieu d'annoncer chaque intersection de trottoir, à mesure que nous avançons le long d'un trottoir, les notifications sont faites comme si nous nous déplacions le long de la route associée. Au lieu de *« Se déplaçant vers l'ouest le long d'un chemin »*, nous avons *« Se déplaçant vers l'ouest le long de Moor Road »*. L'utilisateur se trouve sur le trottoir cartographié, mais la description est plus pertinente.
 
 * **Se termine-t-elle sur une Way nommée ?**
 Très souvent, il existe des chemins piétons qui relient deux routes entre elles. En examinant les deux extrémités du chemin, nous pouvons facilement ajouter ce contexte de sorte que dans un sens il puisse s'agir de *« Chemin vers Moor Road »* et, en l'abordant depuis l'autre extrémité, de *« Chemin vers Roselea Drive »*. Cela n'est fait que lorsque le chemin ne se divise pas ; s'il se divise en deux chemins sans nom, nous n'essayons pas d'ajouter ce contexte.

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: hr
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # Točnost GPS-a
@@ -19,4 +20,3 @@ Točnost je obično najlošija u zatvorenom prostoru, među visokim zgradama i u
 {% if app %}
 Trenutačna točnost: {{ accuracy }} ({{ quality }})
 {% endif %}
-

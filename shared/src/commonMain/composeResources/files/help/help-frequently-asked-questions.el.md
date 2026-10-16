@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: el
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Συνήθεις ερωτήσεις
@@ -82,4 +83,3 @@ permalink: /users/help-frequently-asked-questions.html
 
 ### Τι είναι το OpenStreetMap;
 Το OpenStreetMap είναι ένας ελεύθερος χάρτης του κόσμου, που φτιάχνουν εθελοντές. Το Soundscape τον χρησιμοποιεί για δρόμους και μέρη. Οποιοσδήποτε μπορεί να προσθέσει ή να διορθώσει ένα μέρος στο www.openstreetmap.org, και η αλλαγή φτάνει στο Soundscape σε μια μεταγενέστερη ενημέρωση χάρτη.
-

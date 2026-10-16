@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: fa
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # استفاده‌ی آفلاین از ساند‌اسکیپ
@@ -27,4 +28,3 @@ permalink: /users/help-using-soundscape-offline.html
 ## بدون نقشه‌ی آفلاین
 
 اعلان‌ها ممکن است در جاهایی که به‌تازگی رفته‌اید همچنان کار کنند، چون گوشی بخشی از داده‌های نقشه را مدتی نگه می‌دارد. جستجو فقط نشانه‌های شما را پیدا می‌کند. وقتی گوشی دوباره آنلاین شود، همه‌چیز به حالت عادی برمی‌گردد.
-

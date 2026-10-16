@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: ur
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS کی درستگی
@@ -19,4 +20,3 @@ Soundscape آپ کے اردگرد کو اتنی ہی درستی سے بیان ک
 {% if app %}
 موجودہ درستگی: {{ accuracy }} ({{ quality }})
 {% endif %}
-

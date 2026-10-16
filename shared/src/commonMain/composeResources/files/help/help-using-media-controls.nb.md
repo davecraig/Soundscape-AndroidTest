@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: nb
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Bruk mediekontroller
@@ -43,4 +44,3 @@ Lydmenyen gir deg flere handlinger med de samme tre knappene. Soundscape leser h
 *Forrige* endrer *Detaljnivå for meldinger*, akkurat som i *Originalmodus*.
 
 Menyen starter med fire grupper: *Hør omgivelsene mine*, *Rutekontroll*, *Start rute* og *Start lydsignal*. Velg en gruppe for å høre handlingene i den. *Hør omgivelsene mine* og *Rutekontroll* slutter med *Toppmeny*, som tar deg tilbake til de fire gruppene.
-

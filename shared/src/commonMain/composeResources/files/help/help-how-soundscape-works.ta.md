@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ta
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape எப்படிச் செயல்படுகிறது
@@ -35,4 +36,3 @@ Soundscape உங்களைச் சுற்றியுள்ள உலக�
 ## வழிகாட்டு பயிற்சி
 
 முக்கிய அம்சங்களைப் படிப்படியாக முயன்று பார்க்க, மெனுவைத் திறந்து *வழிகாட்டு பயிற்சி* என்பதைத் தேர்ந்தெடுக்கவும்.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: et
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Korduma kippuvad küsimused
@@ -82,4 +83,3 @@ Soundscape laadib sinu liikumise ajal alla väikese koguse kaardiandmeid. Et kas
 
 ### Mis on OpenStreetMap?
 OpenStreetMap on vaba maailmakaart, mille loovad vabatahtlikud. Soundscape kasutab seda tänavate ja kohtade jaoks. Igaüks saab aadressil www.openstreetmap.org kohta lisada või parandada ja muudatus jõuab Soundscape’i hilisema kaardiuuendusega.
-

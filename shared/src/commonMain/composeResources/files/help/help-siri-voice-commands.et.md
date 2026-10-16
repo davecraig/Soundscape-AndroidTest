@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: et
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri häälkäsklused
@@ -43,4 +44,3 @@ Võid ka pärast rühma peatuda ja Siri küsib, millist valikut soovid. Nii toim
 ## Hea teada
 
 Käsklused ilmuvad ka rakenduses Otseteed ja iOS-i rakenduses Seaded jaotises *Siri*. Seal näed kogu loendit ja saad igale käsklusele lisada oma sõnastuse.
-

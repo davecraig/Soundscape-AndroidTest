@@ -96,7 +96,20 @@ Current accuracy: {{ accuracy }} ({{ quality }})
 
 A paragraph containing {% raw %}`{{ accuracy }}`{% endraw %} is the GPS accuracy page's live line: the app fills in the current accuracy and one of `help_gps_accuracy_good`/`_ok`/`_poor`, which stay in `strings.xml`. FAQ pages are split on their `###` questions.
 
-`HelpPagesTest` checks every page in every language for both platforms: that the index links the same pages everywhere, that no Liquid tag survives, that every FAQ question has an answer and that each GPS page has its live line. An edit to an English page has to be carried into every `help-<slug>.<lang>.md` by hand; the translation tooling only covers `strings.xml` so far.
+`HelpPagesTest` checks every page in every language for both platforms: that the index links the same pages everywhere, that no Liquid tag survives, that every FAQ question has an answer and that each GPS page has its live line.
+
+### Keeping help translations up to date
+
+Edit only the English page (`help-<slug>.md`); the translations are brought up to date by the `translate` skill, as strings are. Each translation records the English it was translated from as `translated-from:` in its front matter: the git blob id of that version of the English page, which survives the files moving. A translation also has the same blocks (paragraphs, headings and list items, separated by blank lines) as that English, so comparing it with today's English, block by block, shows exactly which blocks of the translation are stale.
+
+`.claude/skills/translate/scripts/help_sync.py` does that comparison, with the same commands as `strings_sync.py`:
+
+* `help_sync.py languages` lists each language's stale blocks and missing pages.
+* `fetch`, `validate` and `apply` hand out the stale and missing blocks as units, check translations of them (block count, heading levels, link targets, Liquid tags) and write them in. `apply` is the only thing that moves `translated-from:` on, so a hand edit to a translation (a typo fix) never hides an English change it hasn't caught up with.
+* `acknowledge --lang <code> --page <slug>` marks a page as checked against the current English when the change needs nothing from that language.
+* `check` fails if a translation has no `translated-from:`, names English that isn't in the repository, or doesn't have the same blocks. It runs in the `run-tests.yaml` lint job.
+
+`help-beacon-styles` and `help-offline-map-extracts` are English only: they are built from Jekyll includes. `how-it-works` (the docs site's "The Technology Behind Soundscape") is only translated into some languages, so the others show as having one untranslated page.
 
 ### Other pages
 

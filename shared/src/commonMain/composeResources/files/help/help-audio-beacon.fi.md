@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: fi
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Äänimajakka
@@ -39,4 +40,3 @@ Valitse aloitusnäytöstä *Pysäytä reitti*. Painikkeella on tämä nimi sillo
 Kun olet noin 12 metrin päässä paikasta, Soundscape kertoo siitä ja poistaa majakan. Puhelin ei pysty määrittämään sijaintiasi sitä tarkemmin. Jos haluat kuulla majakan uudelleen, aseta se uudelleen.
 
 Majakka, joka asetetaan alle 30 metrin päässä olevaan paikkaan, pysyy päällä, kunnes poistat sen.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: fi
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Vinkkejä
@@ -19,4 +20,3 @@ Voit hiljentää majakan ja kuulla silti, kuinka kaukana paikka on. Soundscape s
 Jos haluat tutustua paikkaan ennen kuin menet sinne, avaa sen *Sijainnin tiedot* ja valitse *Sijainnin esikatselu*. Soundscape toimii silloin kuin olisit siellä.
 
 Jos haluat käännös käännökseltä -ohjeet, avaa paikan *Sijainnin tiedot* ja valitse *Avaa karttasovelluksessa*. Soundscape pysyy käynnissä, kun toinen sovellus antaa ohjeita.
-

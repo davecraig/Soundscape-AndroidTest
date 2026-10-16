@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ar
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # كيف يعمل Soundscape
@@ -35,4 +36,3 @@ permalink: /users/help-how-soundscape-works.html
 ## الجولة التعليمية الإرشادية
 
 لتجربة الميزات الرئيسية خطوة بخطوة، افتح القائمة واختر *الجولة التعليمية الإرشادية*.
-

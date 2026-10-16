@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: tr
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Sık Sorulan Sorular
@@ -82,4 +83,3 @@ Soundscape siz hareket ettikçe az miktarda harita verisi indirir. Çok daha az 
 
 ### OpenStreetMap nedir?
 OpenStreetMap, gönüllülerin oluşturduğu özgür bir dünya haritasıdır. Soundscape onu sokaklar ve yerler için kullanır. Herkes www.openstreetmap.org adresinde bir yer ekleyebilir veya düzeltebilir; değişiklik daha sonraki bir harita güncellemesiyle Soundscape'e ulaşır.
-

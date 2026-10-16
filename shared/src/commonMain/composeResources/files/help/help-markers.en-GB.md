@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: en-GB
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Markers
@@ -29,4 +30,3 @@ You can also save any place you find. Open its *Location Details* and select *Sa
 ## Customising Markers
 
 Select the marker on the *Markers* screen, then select *Edit Marker*. You can change its name, notes and position, or select *Delete Marker*. Deleting a marker also removes it from your routes.
-

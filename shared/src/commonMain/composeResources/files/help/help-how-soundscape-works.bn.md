@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: bn
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape কীভাবে কাজ করে
@@ -35,4 +36,3 @@ Soundscape শব্দের মাধ্যমে আপনার চারপ
 ## গাইডেড টিউটোরিয়াল
 
 প্রধান ফিচারগুলো ধাপে ধাপে ব্যবহার করে দেখতে মেনু খুলুন এবং *গাইডেড টিউটোরিয়াল* নির্বাচন করুন।
-

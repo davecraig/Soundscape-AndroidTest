@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: fr-CA
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Commandes vocales Siri
@@ -43,4 +44,3 @@ Vous pouvez aussi vous arrêter après le groupe, et Siri vous demande quel choi
 ## Bon à savoir
 
 Les commandes apparaissent aussi dans l’app Raccourcis et dans l’app Réglages d’iOS, sous *Siri*. Vous pouvez y voir la liste complète et ajouter vos propres formulations pour chaque commande.
-

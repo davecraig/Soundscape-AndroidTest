@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: ja
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # よくあるご質問 (FAQ)
@@ -82,4 +83,3 @@ Soundscape は、移動に合わせて少量の地図データをダウンロー
 
 ### OpenStreetMap とは何ですか？
 OpenStreetMap は、ボランティアが作る自由な世界地図です。Soundscape は、道路と場所の情報にこの地図を使っています。www.openstreetmap.org では誰でも場所を追加したり修正したりでき、その変更は後の地図更新で Soundscape に反映されます。
-

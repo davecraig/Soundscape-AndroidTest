@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: sk
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Ako Soundscape funguje
@@ -35,4 +36,3 @@ Stereo slúchadlá dávajú najzreteľnejšie vnímanie smeru. Soundscape funguj
 ## Sprievodca aplikáciou
 
 Ak si chcete hlavné funkcie vyskúšať krok za krokom, otvorte menu a vyberte *Sprievodca aplikáciou*.
-

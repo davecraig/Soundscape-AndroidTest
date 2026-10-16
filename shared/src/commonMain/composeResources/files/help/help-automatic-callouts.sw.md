@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: sw
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Matangazo ya Sauti Kiotomatiki
@@ -43,4 +44,3 @@ Chagua kitufe cha *Lala* kilicho juu ya skrini ya mwanzo. Soundscape inaacha kut
 ## Ndani ya Gari au Treni
 
 Soundscape inatambua unaposafiri kwa mwendo wa gari. Kisha inaacha kutangaza makutano na maduka ya karibu, kwa sababu yanapita haraka mno. Badala yake inatangaza barabara uliyomo, vivutio, vituo vya usafiri na stesheni, mito na mahandaki.
-

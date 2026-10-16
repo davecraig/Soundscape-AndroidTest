@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: ko
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # 마커
@@ -29,4 +30,3 @@ Soundscape는 마커 옆을 지날 때 그 마커를 안내합니다. 마커에 
 ## 마커 사용자 지정
 
 *마커* 화면에서 마커를 선택한 다음 *마커 편집*을 선택합니다. 이름, 메모, 위치를 바꾸거나 *마커 삭제*를 선택할 수 있습니다. 마커를 삭제하면 내 경로에서도 빠집니다.
-

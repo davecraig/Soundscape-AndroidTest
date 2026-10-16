@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: it
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Come funziona Soundscape
@@ -35,4 +36,3 @@ Gli auricolari stereo danno la percezione più chiara della direzione. Soundscap
 ## Tutorial guidato
 
 Per provare le funzioni principali passo dopo passo, apri il menu e seleziona *Tutorial guidato*.
-

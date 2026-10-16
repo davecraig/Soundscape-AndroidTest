@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: nl
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Routes
@@ -35,4 +36,3 @@ Selecteer de route op het scherm *Routes* en selecteer dan *Route bewerken*. U k
 ## Een route delen
 
 Selecteer de route op het scherm *Routes* en selecteer dan *Delen*.
-

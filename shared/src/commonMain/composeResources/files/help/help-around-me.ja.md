@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 30
 lang: ja
 permalink: /users/help-around-me.html
+translated-from: cb37df8598cb99bd45ef7689b53453963e286a99
 ---
 
 # 周辺
@@ -13,4 +14,3 @@ permalink: /users/help-around-me.html
 *周辺* は、近くの場所を最大 4 つコールアウトします。前、右、後ろ、左にひとつずつです。それぞれが、その方向から距離とともに聞こえます。どこかに着いたとき、自分の位置を確かめるために使ってください。
 
 立ち止まっているときは、まずスマートフォンの上端を自分が向いている方向に向けてください。スマートフォンがロックされている場合や、Soundscape が画面に表示されていない場合は、スマートフォンを水平にも持ってください。
-

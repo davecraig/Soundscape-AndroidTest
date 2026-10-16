@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: sw
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Njia
@@ -35,4 +36,3 @@ Chagua njia kwenye skrini ya *Njia*, kisha uchague *Hariri Njia*. Unaweza kuonge
 ## Kushiriki Njia
 
 Chagua njia kwenye skrini ya *Njia*, kisha uchague *Shiriki*.
-

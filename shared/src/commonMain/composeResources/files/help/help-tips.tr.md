@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: tr
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # İpuçları
@@ -19,4 +20,3 @@ Sık sık aynı otobüse biniyorsanız duraklarınızı kayıtlı nokta olarak k
 Bir yeri gitmeden önce keşfetmek için yerin *Konum Ayrıntıları* ekranını açın ve *Konum Simülasyonu* seçeneğini seçin. Soundscape o zaman siz oradaymışsınız gibi davranır.
 
 Adım adım yol tarifi için bir yerin *Konum Ayrıntıları* ekranını açın ve *Harita Uygulamasında Aç* seçeneğini seçin. Diğer uygulama yol tarifi verirken Soundscape çalışmaya devam eder.
-

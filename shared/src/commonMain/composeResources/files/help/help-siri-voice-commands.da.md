@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: da
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Stemmekommandoer med Siri
@@ -43,4 +44,3 @@ Du kan også stoppe efter gruppen, og så spørger Siri, hvilket valg du vil hav
 ## Godt at vide
 
 Kommandoerne vises også i appen Genveje og i iOS' Indstillinger under *Siri*. Der kan du se hele listen og tilføje dine egne formuleringer til enhver kommando.
-

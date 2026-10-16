@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: hr
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Upotreba Soundscapea izvan mreže
@@ -27,4 +28,3 @@ Karte mogu biti velike, pa koristite Wi-Fi ako možete.
 ## Bez izvanmrežne karte
 
 Najave možda i dalje rade na mjestima koja ste nedavno posjetili, jer telefon neko vrijeme čuva dio podataka karte. Pretraživanje pronalazi samo vaše oznake. Sve se vraća u normalu kad je telefon ponovno na mreži.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: hr
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Kako Soundscape radi
@@ -35,4 +36,3 @@ Stereo slušalice daju najjasniji osjećaj smjera. Soundscape radi i preko zvuč
 ## Vođeni vodič
 
 Da biste glavne značajke isprobali korak po korak, otvorite izbornik i odaberite *Vođeni vodič*.
-

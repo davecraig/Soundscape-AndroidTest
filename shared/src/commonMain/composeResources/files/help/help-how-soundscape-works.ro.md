@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ro
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Cum funcționează Soundscape
@@ -35,4 +36,3 @@ Căștile stereo dau cea mai clară percepție a direcției. Soundscape funcțio
 ## Tutorial ghidat
 
 Pentru a încerca pas cu pas funcțiile principale, deschide meniul și selectează *Tutorial ghidat*.
-

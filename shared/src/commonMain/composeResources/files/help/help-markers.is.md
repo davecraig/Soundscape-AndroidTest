@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: is
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Merki
@@ -29,4 +30,3 @@ Soundscape tilkynnir merkin þín þegar þú ferð fram hjá þeim. Þú getur 
 ## Sérsníða merki
 
 Veldu merkið á skjánum *Merki* og veldu síðan *Breyta merki*. Þú getur breytt heiti þess, athugasemdum og staðsetningu, eða valið *Eyða merki*. Þegar merki er eytt er það líka fjarlægt úr leiðunum þínum.
-

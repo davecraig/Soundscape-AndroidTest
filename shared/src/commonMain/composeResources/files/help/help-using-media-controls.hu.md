@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: hu
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Médiavezérlők használata
@@ -43,4 +44,3 @@ A *lejátszás/szünet* kiválasztja azt a lehetőséget, amelyet éppen hallott
 Az *előző* a *Bemondások részletessége* beállítást módosítja, ugyanúgy, mint az *Eredeti mód*.
 
 A menü négy csoporttal kezdődik: *A környezetem meghallgatása*, *Útvonal vezérlése*, *Útvonal indítása* és *Irányjelző hang indítása*. Válasszon ki egy csoportot a műveletei meghallgatásához. *A környezetem meghallgatása* és az *Útvonal vezérlése* végén a *Főmenü* áll, amely visszavisz a négy csoporthoz.
-

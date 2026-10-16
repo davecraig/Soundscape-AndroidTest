@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 40
 lang: id
 permalink: /users/help-ahead-of-me.html
+translated-from: cda148fe477cc3f5d7c64b374ecad0a9af57d6c2
 ---
 
 # Di Depan Saya
@@ -13,4 +14,3 @@ permalink: /users/help-ahead-of-me.html
 *Di Depan Saya* memberitahukan hingga lima tempat di depan Anda. Anda mendengar masing-masing dari arahnya sendiri, beserta jaraknya. Gunakan di jalan yang belum Anda kenal, untuk mengetahui apa yang ada di depan.
 
 Jika Anda berdiri diam, arahkan dulu bagian atas ponsel ke arah hadap Anda. Jika ponsel terkunci, atau Soundscape tidak ada di layar, pegang juga ponsel secara mendatar.
-

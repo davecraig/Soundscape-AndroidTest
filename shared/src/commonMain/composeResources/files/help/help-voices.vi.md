@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: vi
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Giọng đọc
@@ -15,4 +16,3 @@ Soundscape có thể dùng bất kỳ giọng đọc nào đã cài trên iPhone
 {% else %}
 Soundscape có thể dùng bất kỳ giọng đọc nào đã cài trên điện thoại của bạn. Để thêm giọng đọc, hãy mở cài đặt của điện thoại và tìm *Đầu ra chuyển văn bản thành giọng nói*. Để chọn giọng đọc trong Soundscape, hãy mở menu và chọn *Cài đặt*, rồi *Âm thanh*, rồi *Giọng đọc*.
 {% endif %}
-

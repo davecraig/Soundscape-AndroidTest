@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 30
 lang: nb
 permalink: /users/help-around-me.html
+translated-from: cb37df8598cb99bd45ef7689b53453963e286a99
 ---
 
 # Rundt meg
@@ -13,4 +14,3 @@ permalink: /users/help-around-me.html
 *Rundt meg* leser opp inntil fire steder i nærheten: ett foran, ett til høyre, ett bak og ett til venstre. Du hører hvert av dem fra sin egen retning, med avstanden. Bruk den til å orientere deg når du kommer til et sted.
 
 Hvis du står stille, peker du først toppen av telefonen i den retningen du er vendt. Hvis telefonen er låst, eller Soundscape ikke er på skjermen, holder du også telefonen flatt.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: da
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Lydfyr
@@ -39,4 +40,3 @@ Vælg *Stop rute* på startskærmen. Knappen hedder sådan, også når lydfyret 
 Når du er cirka 12 meter fra stedet, fortæller Soundscape dig det og fjerner lydfyret. Telefonen kan ikke finde din position mere præcist end det. Hvis du vil høre lydfyret igen, skal du sætte det igen.
 
 Et lydfyr, der sættes på et sted mindre end 30 meter væk, bliver ved, indtil du fjerner det.
-

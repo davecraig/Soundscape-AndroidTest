@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: zh-CN
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # 使用技巧
@@ -19,4 +20,3 @@ permalink: /users/help-tips.html
 要在出发前了解一个地点，请打开它的*位置详情*并选择*模拟位置*。这时 Soundscape 的表现就像您身在那里一样。
 
 需要逐个转弯的导航时，请打开某个地点的*位置详情*并选择*在地图应用中打开*。另一个应用导航时，Soundscape 会继续运行。
-

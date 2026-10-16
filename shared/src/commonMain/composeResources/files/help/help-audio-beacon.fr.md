@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: fr
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Balise sonore
@@ -39,4 +40,3 @@ Sélectionnez *Arrêter l’itinéraire* sur l’écran d’accueil. Le bouton p
 Quand vous êtes à environ 12 mètres du lieu, Soundscape vous le dit et retire la balise. Votre téléphone ne peut pas déterminer votre position plus précisément. Pour entendre de nouveau la balise, placez-la de nouveau.
 
 Une balise placée sur un lieu situé à moins de 30 mètres reste active jusqu’à ce que vous la retiriez.
-

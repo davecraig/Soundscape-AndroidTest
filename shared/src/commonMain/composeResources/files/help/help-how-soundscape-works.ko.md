@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ko
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape 작동 방식
@@ -35,4 +36,3 @@ Soundscape는 주변 세상을 소리로 설명합니다. 각 장소는 그 장�
 ## 안내 튜토리얼
 
 주요 기능을 단계별로 써 보려면 메뉴를 열고 *안내 튜토리얼*을 선택하세요.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: cs
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Jak Soundscape funguje
@@ -35,4 +36,3 @@ Stereo sluchátka dávají nejzřetelnější vnímání směru. Soundscape fung
 ## Průvodce aplikací
 
 Chcete-li si hlavní funkce vyzkoušet krok za krokem, otevřete nabídku a vyberte *Průvodce aplikací*.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: fi
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Merkitsimet
@@ -29,4 +30,3 @@ Voit myös tallentaa minkä tahansa löytämäsi paikan. Avaa sen *Sijainnin tie
 ## Merkitsimien mukauttaminen
 
 Valitse merkitsin näytöstä *Merkitsimet* ja valitse sitten *Muokkaa merkitsintä*. Voit muuttaa sen nimeä, muistiinpanoja ja sijaintia tai valita *Poista merkitsin*. Kun poistat merkitsimen, se poistuu myös reiteistäsi.
-

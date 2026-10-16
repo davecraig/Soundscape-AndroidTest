@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: tr
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Kayıtlı Noktalar
@@ -29,4 +30,3 @@ Bulduğunuz herhangi bir yeri de kaydedebilirsiniz. Yerin *Konum Ayrıntıları*
 ## Kayıtlı Noktaları Özelleştirme
 
 *Kayıtlı Noktalar* ekranında kayıtlı noktayı seçin, sonra *Kayıtlı Noktayı Düzenle* seçeneğini seçin. Adını, notlarını ve konumunu değiştirebilir veya *Kayıtlı Noktayı Sil* seçeneğini seçebilirsiniz. Bir kayıtlı noktayı silmek onu rotalarınızdan da kaldırır.
-

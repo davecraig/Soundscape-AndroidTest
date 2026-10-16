@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: ko
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # 자동 안내
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## 차량이나 기차 안에서
 
 Soundscape는 차량 속도로 이동하고 있음을 알아차립니다. 그러면 교차로와 가까운 상점 안내를 멈춥니다. 너무 빨리 지나가기 때문입니다. 대신 지금 달리는 도로, 랜드마크, 정류장과 역, 강, 터널을 안내합니다.
-

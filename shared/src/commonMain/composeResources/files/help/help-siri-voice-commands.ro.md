@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ro
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Comenzi vocale Siri
@@ -43,4 +44,3 @@ Te poți opri și după grup, iar Siri te întreabă ce alegere vrei. Astfel, fi
 ## Bine de știut
 
 Comenzile apar și în aplicația Scurtături și în aplicația Configurări din iOS, la *Siri*. Acolo poți vedea toată lista și poți adăuga propria formulare pentru orice comandă.
-

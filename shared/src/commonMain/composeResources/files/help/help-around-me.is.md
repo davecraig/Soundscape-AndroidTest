@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 30
 lang: is
 permalink: /users/help-around-me.html
+translated-from: cb37df8598cb99bd45ef7689b53453963e286a99
 ---
 
 # Í kringum mig
@@ -13,4 +14,3 @@ permalink: /users/help-around-me.html
 *Í kringum mig* tilkynnir allt að fjóra staði nálægt þér: einn fyrir framan, einn til hægri, einn fyrir aftan og einn til vinstri. Þú heyrir hvern þeirra úr sinni átt, með fjarlægðinni. Notaðu það til að átta þig þegar þú kemur á nýjan stað.
 
 Ef þú stendur kyrr skaltu fyrst beina efri brún símans í þá átt sem þú snýrð. Ef síminn er læstur, eða Soundscape er ekki á skjánum, skaltu líka halda símanum flötum.
-

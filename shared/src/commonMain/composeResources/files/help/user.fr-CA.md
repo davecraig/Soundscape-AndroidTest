@@ -6,6 +6,7 @@ nav_order: 1
 lang: fr-CA
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 La documentation présentée ici provient de la dernière version de l'application. Dans l'application, vous pouvez y accéder en cliquant sur le bouton de menu (en haut à gauche), puis en sélectionnant Aide et didacticiels.

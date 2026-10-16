@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: cs
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # O aplikaci Soundscape
@@ -27,4 +28,3 @@ Soundscape staví na těchto vynikajících knihovnách a datech třetích stran
 Dobrovolníci z [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) vylepšili několik překladů, které jsou zpřístupněny k použití pod [licencí MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Všechny produkty, názvy společností a loga třetích stran jsou ochranné známky nebo registrované ochranné známky a zůstávají majetkem svých příslušných vlastníků.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: uk
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Використання Soundscape без інтернету
@@ -27,4 +28,3 @@ permalink: /users/help-using-soundscape-offline.html
 ## Без офлайн-карти
 
 Оголошення можуть і далі працювати в місцях, де ви нещодавно побували, бо телефон якийсь час зберігає частину даних карти. Пошук знаходить лише ваші мітки. Усе повернеться до норми, коли телефон знову буде в мережі.
-

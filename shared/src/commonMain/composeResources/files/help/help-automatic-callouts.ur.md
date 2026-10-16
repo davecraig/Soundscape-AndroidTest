@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: ur
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # خودکار کالآؤٹس
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## گاڑی یا ٹرین میں
 
 Soundscape جان لیتا ہے کہ آپ گاڑی کی رفتار سے سفر کر رہے ہیں۔ تب یہ چوراہوں اور قریبی دکانوں کے بارے میں بتانا بند کر دیتا ہے، کیونکہ وہ بہت تیزی سے گزر جاتی ہیں۔ اس کے بجائے یہ اس سڑک کے بارے میں بتاتا ہے جس پر آپ ہیں، اور نشانات، اسٹاپ اور اسٹیشن، دریا اور سرنگوں کے بارے میں بتاتا ہے۔
-

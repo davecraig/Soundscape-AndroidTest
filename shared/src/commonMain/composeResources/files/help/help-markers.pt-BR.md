@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: pt-BR
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Favoritos
@@ -29,4 +30,3 @@ Você também pode salvar qualquer lugar que encontrar. Abra os *Detalhes da Loc
 ## Personalizando Favoritos
 
 Selecione o favorito na tela *Favoritos* e depois selecione *Editar Favorito*. Você pode mudar o nome, as notas e a posição, ou selecionar *Excluir Favorito*. Excluir um favorito também o remove das suas rotas.
-

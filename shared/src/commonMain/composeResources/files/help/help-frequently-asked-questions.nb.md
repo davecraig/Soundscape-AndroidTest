@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: nb
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Vanlige spørsmål
@@ -82,4 +83,3 @@ Soundscape laster ned en liten mengde kartdata mens du beveger deg. For å bruke
 
 ### Hva er OpenStreetMap?
 OpenStreetMap er et fritt kart over verden, laget av frivillige. Soundscape bruker det til gater og steder. Hvem som helst kan legge til eller rette et sted på www.openstreetmap.org, og endringen kommer til Soundscape i en senere kartoppdatering.
-

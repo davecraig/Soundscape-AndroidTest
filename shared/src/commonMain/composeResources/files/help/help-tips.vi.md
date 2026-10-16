@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: vi
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Mẹo
@@ -19,4 +20,3 @@ Bạn có thể tắt tiếng đèn hiệu mà vẫn nghe được địa điể
 Để tìm hiểu một địa điểm trước khi đến, hãy mở *Chi tiết vị trí* của địa điểm đó và chọn *Giả lập vị trí*. Khi đó Soundscape hoạt động như thể bạn đang ở đó.
 
 Để được chỉ đường từng chặng, hãy mở *Chi tiết vị trí* của một địa điểm và chọn *Mở trong ứng dụng bản đồ*. Soundscape vẫn chạy trong khi ứng dụng kia chỉ đường.
-

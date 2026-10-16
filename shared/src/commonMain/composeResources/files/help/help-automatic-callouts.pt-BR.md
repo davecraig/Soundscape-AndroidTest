@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: pt-BR
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Notificações Automáticas
@@ -43,4 +44,3 @@ Selecione o botão *Colocar em Suspensão* na parte superior da tela inicial. O 
 ## Em um Veículo ou em um Trem
 
 O Soundscape percebe quando você se desloca na velocidade de um veículo. Ele então para de anunciar cruzamentos e lojas próximas, porque eles passam rápido demais. Em vez disso, anuncia a via em que você está, pontos de referência, pontos e estações, rios e túneis.
-

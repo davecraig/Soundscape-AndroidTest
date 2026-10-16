@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: sv
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Röstkommandon med Siri
@@ -43,4 +44,3 @@ Du kan också stanna efter gruppen, så frågar Siri vilket val du vill ha. Varj
 ## Bra att veta
 
 Kommandona finns också i appen Genvägar och i iOS-appen Inställningar under *Siri*. Där kan du se hela listan och lägga till egna formuleringar för vilket kommando som helst.
-

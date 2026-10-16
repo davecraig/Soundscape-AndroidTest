@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: nb
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Ruter
@@ -35,4 +36,3 @@ Velg ruten på skjermen *Ruter*, og velg deretter *Rediger rute*. Du kan legge t
 ## Dele en rute
 
 Velg ruten på skjermen *Ruter*, og velg deretter *Del*.
-

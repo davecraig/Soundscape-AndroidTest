@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: ar
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # نصائح
@@ -19,4 +20,3 @@ permalink: /users/help-tips.html
 لاستكشاف مكان قبل الذهاب إليه، افتح *تفاصيل الموقع* الخاصة به واختر *محاكاة الموقع*. عندها يتصرف Soundscape كأنك هناك.
 
 للحصول على توجيهات منعطفًا بمنعطف، افتح *تفاصيل الموقع* لمكان ما واختر *فتح في تطبيق الخرائط*. يستمر Soundscape في العمل بينما يعطي التطبيق الآخر التوجيهات.
-

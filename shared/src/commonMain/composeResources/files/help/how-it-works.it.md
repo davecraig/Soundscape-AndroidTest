@@ -7,7 +7,9 @@ nav_order: 200
 lang: it
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # La tecnologia dietro Soundscape
 Lo scopo di questa pagina è fornire una comprensione generale di come funziona l'app Soundscape sotto il cofano. Non è necessario leggerla per usare l'app, ma ci sono alcuni motivi per cui è stata scritta:
 
@@ -85,12 +87,12 @@ Tutti i dati analizzati vengono inoltre inseriti in un formato facile da cercare
   * Paesi
   * Frazioni
 
- Con questo in atto, per qualsiasi posizione l'app può quindi trovare facilmente
+Con questo in atto, per qualsiasi posizione l'app può quindi trovare facilmente
 
- * "Tutte le fermate del trasporto pubblico entro 50m" oppure
+* "Tutte le fermate del trasporto pubblico entro 50m" oppure
  * "L'incrocio più vicino davanti a me" oppure
  * "La frazione, il paese, la cittadina o la città più vicina"
-  
+
 Con questo in atto, creare le notifiche audio è solo una questione di interrogare i dati in base alla posizione e alla direzione attuali. Man mano che l'utente si sposta attraverso una griglia di tile, questa viene aggiornata in modo da centrarsi sulla posizione attuale.
 
 ### Più dati
@@ -108,7 +110,7 @@ Più contesto può essere aggiunto nelle descrizioni, meglio è, purché sia man
 * **È un marciapiede?**
 In molte aree di OpenStreetMap i marciapiedi sono ora mappati separatamente dalle strade. Questi sono solitamente etichettati come `sidewalk` ma di norma non indicano qual è la strada di cui sono il marciapiede.
 
-    Quando l'app incontra un marciapiede senza nome, cerca una strada che ritiene scorrere accanto ad esso e la usa per dare un nome al marciapiede. Questo si rivela molto importante per le nostre notifiche. Invece di annunciare ogni incrocio di marciapiede, mentre ci muoviamo lungo un marciapiede le notifiche vengono fatte come se ci stessimo muovendo lungo la strada associata. Invece di *"In viaggio verso ovest lungo il sentiero"* abbiamo *"In viaggio verso ovest lungo Moor Road"*. L'utente si trova sul marciapiede mappato, ma la descrizione ha più senso.
+Quando l'app incontra un marciapiede senza nome, cerca una strada che ritiene scorrere accanto ad esso e la usa per dare un nome al marciapiede. Questo si rivela molto importante per le nostre notifiche. Invece di annunciare ogni incrocio di marciapiede, mentre ci muoviamo lungo un marciapiede le notifiche vengono fatte come se ci stessimo muovendo lungo la strada associata. Invece di *"In viaggio verso ovest lungo il sentiero"* abbiamo *"In viaggio verso ovest lungo Moor Road"*. L'utente si trova sul marciapiede mappato, ma la descrizione ha più senso.
 
 * **Termina in una Way con nome?**
 Molto spesso ci sono sentieri pedonali che collegano due strade. Osservando entrambe le estremità del sentiero possiamo aggiungere facilmente quel contesto, così che in una direzione potrebbe essere *"Sentiero verso Moor Road"* e avvicinandosi dall'altra estremità potrebbe essere *"Sentiero verso Roselea Drive"*. Questo viene fatto solo dove il sentiero non si dirama; se si dirama in due sentieri senza nome allora non proviamo ad aggiungere questo contesto.

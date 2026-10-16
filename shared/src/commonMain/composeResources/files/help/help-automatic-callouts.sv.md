@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: sv
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatiska informationsljud
@@ -43,4 +44,3 @@ Välj knappen *Inaktivera* högst upp på startskärmen. Soundscape slutar anvä
 ## I ett fordon eller på ett tåg
 
 Soundscape märker när du färdas i fordonsfart. Då slutar appen läsa upp vägkorsningar och butiker i närheten, eftersom de passerar för fort. I stället läser den upp vägen du är på, landmärken, hållplatser och stationer, floder och tunnlar.
-

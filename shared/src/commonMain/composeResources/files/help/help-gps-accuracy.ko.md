@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: ko
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS 정확도
@@ -19,4 +20,3 @@ Soundscape는 휴대폰이 현재 위치를 아는 만큼만 주변을 정확하
 {% if app %}
 현재 정확도: {{ accuracy }}({{ quality }})
 {% endif %}
-

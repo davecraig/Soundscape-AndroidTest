@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: da
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Brug af Soundscape offline
@@ -27,4 +28,3 @@ Kort kan fylde meget, så brug Wi-Fi, hvis du kan.
 ## Uden et offline-kort
 
 Lydbeskeder virker måske stadig på steder, du har besøgt for nylig, fordi telefonen gemmer nogle kortdata i et stykke tid. Søgning finder kun dine mærker. Alt bliver normalt igen, når telefonen er online igen.
-

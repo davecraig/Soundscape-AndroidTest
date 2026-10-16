@@ -6,6 +6,7 @@ nav_order: 1
 lang: da
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Dokumentationen her stammer fra den nyeste version af appen. I appen kan du få adgang til den ved at trykke på menuknappen (øverst til venstre) og derefter vælge Hjælp og selvstudier.

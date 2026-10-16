@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: hi
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # स्वचालित कॉलआउट
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## वाहन या ट्रेन में
 
 Soundscape पहचान लेता है कि आप वाहन की गति से यात्रा कर रहे हैं। तब यह चौराहों और पास की दुकानों का कॉलआउट बंद कर देता है, क्योंकि वे बहुत तेज़ी से गुज़र जाती हैं। इसके बजाय यह उस सड़क का कॉलआउट करता है जिस पर आप हैं, और लैंडमार्क, स्टॉप और स्टेशन, नदियों और सुरंगों का।
-

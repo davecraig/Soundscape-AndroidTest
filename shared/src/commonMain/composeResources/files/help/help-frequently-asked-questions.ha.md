@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: ha
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Tambayoyin da Ake Yawan Yi
@@ -82,4 +83,3 @@ Soundscape yana sauke ɗan ƙaramin bayanan taswira yayin da kuke motsawa. Don r
 
 ### Mene ne OpenStreetMap?
 OpenStreetMap taswirar duniya ce ta kyauta, wadda masu sa kai suka gina. Soundscape yana amfani da ita don tituna da wurare. Kowa yana iya ƙara wuri ko gyara shi a www.openstreetmap.org, sauyin kuma yana isa Soundscape a sabunta taswira ta gaba.
-

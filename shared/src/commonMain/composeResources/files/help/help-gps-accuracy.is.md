@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: is
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS-nákvæmni
@@ -19,4 +20,3 @@ Nákvæmnin er yfirleitt verst innandyra, á milli hárra bygginga og fyrstu mí
 {% if app %}
 Núverandi nákvæmni: {{ accuracy }} ({{ quality }})
 {% endif %}
-

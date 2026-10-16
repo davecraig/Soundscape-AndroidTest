@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: vi
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Điểm đánh dấu
@@ -29,4 +30,3 @@ Bạn cũng có thể lưu bất kỳ địa điểm nào bạn tìm thấy. M�
 ## Tùy chỉnh điểm đánh dấu
 
 Chọn điểm đánh dấu trên màn hình *Điểm đánh dấu*, rồi chọn *Chỉnh sửa điểm đánh dấu*. Bạn có thể đổi tên, ghi chú và vị trí của nó, hoặc chọn *Xóa điểm đánh dấu*. Xóa một điểm đánh dấu cũng gỡ nó khỏi các lộ trình của bạn.
-

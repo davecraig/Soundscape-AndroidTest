@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 20
 lang: sl
 permalink: /users/help-my-location.html
+translated-from: b6e725d95c9c9a49842059ef9cf0ecc79c75a10d
 ---
 
 # Moja lokacija
@@ -13,4 +14,3 @@ permalink: /users/help-my-location.html
 *Moja lokacija* vam pove, kje ste. Pove, v katero smer gledate ali se gibljete, nato pa ulico ali naslov, kjer ste. Uporabite jo, ko izstopite iz avtobusa, zapustite stavbo ali izgubite orientacijo.
 
 Če stojite na mestu, najprej usmerite zgornji rob telefona v smer, v katero gledate. Če je telefon zaklenjen ali Soundscape ni na zaslonu, držite telefon tudi vodoravno.
-

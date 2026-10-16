@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: mr
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # मार्ग
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## मार्ग शेअर करणे
 
 *मार्ग* स्क्रीनवर मार्ग निवडा, नंतर *शेअर करा* निवडा.
-

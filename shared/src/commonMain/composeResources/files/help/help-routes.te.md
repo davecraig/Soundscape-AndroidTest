@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: te
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # రూట్‌లు
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## రూట్‌ను షేర్ చేయడం
 
 *రూట్‌లు* స్క్రీన్‌లో రూట్‌ను ఎంచుకుని, తర్వాత *షేర్ చేయండి* ఎంచుకోండి.
-

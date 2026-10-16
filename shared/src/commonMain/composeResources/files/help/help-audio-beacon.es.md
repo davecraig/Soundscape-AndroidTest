@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: es
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Señal de audio
@@ -39,4 +40,3 @@ Selecciona *Detener ruta* en la pantalla principal. El botón tiene este nombre 
 Cuando estás a unos 12 metros del lugar, Soundscape te avisa y quita la señal. Tu teléfono no puede determinar tu posición con más exactitud. Para volver a oír la señal, colócala de nuevo.
 
 Una señal colocada en un lugar a menos de 30 metros sigue activa hasta que la quitas.
-

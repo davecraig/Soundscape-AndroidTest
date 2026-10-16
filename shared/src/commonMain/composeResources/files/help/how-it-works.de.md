@@ -7,7 +7,9 @@ nav_order: 200
 lang: de
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Die Technik hinter Soundscape
 Das Ziel dieser Seite ist es, ein allgemeines Verständnis dafür zu vermitteln, wie die Soundscape-App im Inneren funktioniert. Sie müssen dies nicht lesen, um die App zu verwenden, aber es gibt einige Gründe, warum sie geschrieben wurde:
 
@@ -85,12 +87,12 @@ Alle geparsten Daten werden außerdem in ein leicht durchsuchbares Format gebrac
   * Dörfer
   * Weiler
 
- Mit dieser Grundlage kann die App dann für jeden beliebigen Standort leicht finden
+Mit dieser Grundlage kann die App dann für jeden beliebigen Standort leicht finden
 
- * „Alle Haltestellen innerhalb von 50 m“ oder
+* „Alle Haltestellen innerhalb von 50 m“ oder
  * „Die nächste Kreuzung vor mir“ oder
  * „Der nächste Weiler, das nächste Dorf, die nächste Stadt oder Großstadt“
-  
+
 Mit dieser Grundlage ist das Erstellen der Audio-Hinweise nur eine Frage der Abfrage der Daten auf Basis des aktuellen Standorts und der Richtung. Während sich der Nutzer über ein Kachelraster bewegt, aktualisiert es dieses, sodass es sich um den aktuellen Standort zentriert.
 
 ### Mehr Daten
@@ -108,7 +110,7 @@ Je mehr Kontext in den Beschreibungen hinzugefügt werden kann, desto besser, so
 * **Ist es ein Gehweg?**
 Viele Bereiche von OpenStreetMap haben jetzt Gehwege separat von Straßen kartiert. Diese sind normalerweise als `sidewalk` getaggt, aber sie geben normalerweise nicht an, zu welcher Straße sie der Gehweg sind.
 
-    Wenn die App auf einen unbenannten Gehweg trifft, sucht sie nach einer Straße, von der sie annimmt, dass sie daneben verläuft, und verwendet diese, um den Gehweg zu benennen. Dies erweist sich als sehr wichtig für unsere Hinweise. Anstatt jede Gehweg-Kreuzung anzusagen, werden, während wir uns entlang eines Gehwegs bewegen, die Hinweise so gegeben, als ob wir uns entlang der zugehörigen Straße bewegen würden. Anstelle von *„Nach Westen entlang Pfad fahrend“* haben wir *„Nach Westen entlang Moor Road fahrend“*. Der Nutzer befindet sich auf dem kartierten Gehweg, aber die Beschreibung ergibt mehr Sinn.
+Wenn die App auf einen unbenannten Gehweg trifft, sucht sie nach einer Straße, von der sie annimmt, dass sie daneben verläuft, und verwendet diese, um den Gehweg zu benennen. Dies erweist sich als sehr wichtig für unsere Hinweise. Anstatt jede Gehweg-Kreuzung anzusagen, werden, während wir uns entlang eines Gehwegs bewegen, die Hinweise so gegeben, als ob wir uns entlang der zugehörigen Straße bewegen würden. Anstelle von *„Nach Westen entlang Pfad fahrend“* haben wir *„Nach Westen entlang Moor Road fahrend“*. Der Nutzer befindet sich auf dem kartierten Gehweg, aber die Beschreibung ergibt mehr Sinn.
 
 * **Endet er an einem benannten Way?**
 Sehr oft gibt es Fußwege, die zwei Straßen miteinander verbinden. Indem wir beide Enden des Pfades betrachten, können wir diesen Kontext leicht hinzufügen, sodass es in einer Richtung *„Pfad zur Moor Road“* sein könnte und beim Annähern vom anderen Ende *„Pfad zum Roselea Drive“*. Dies geschieht nur dort, wo sich der Pfad nicht teilt; wenn er sich in zwei unbenannte Pfade teilt, versuchen wir nicht, diesen Kontext hinzuzufügen.
@@ -117,7 +119,7 @@ Sehr oft gibt es Fußwege, die zwei Straßen miteinander verbinden. Indem wir be
 Wenn ein unbenannter Way in der Nähe einer Markierung beginnt oder endet, wird diese verwendet, um ihn zu beschreiben, z. B. *„Pfad zur Kreuzung am großen Baum“*. Der Nutzer kann Markierungen setzen, wo immer er möchte, und indem er Markierungen entlang von Pfadnetzen setzt, kann er einer ganzen Route Kontext hinzufügen.
 
 * **Betritt oder verlässt er einen POI?**
-Wenn ein unbenannter Way außerhalb eines POI beginnt und in ihm endet (oder umgekehrt), dann können wir diesen Kontext hinzufügen, z. B. *„Track zum Lennox Park“*. 
+Wenn ein unbenannter Way außerhalb eines POI beginnt und in ihm endet (oder umgekehrt), dann können wir diesen Kontext hinzufügen, z. B. *„Track zum Lennox Park“*.
 
 * **Endet er in der Nähe eines Eingangs?**
 Wenn ein unbenannter Way näher an einem Eingang beginnt oder endet, dann können wir diesen Kontext hinzufügen, z. B. *„Zufahrtsstraße zu Best Buy“*.

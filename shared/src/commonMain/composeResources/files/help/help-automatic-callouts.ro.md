@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: ro
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Anunțuri automate
@@ -43,4 +44,3 @@ Selectează butonul *Repaus* din partea de sus a ecranului principal. Soundscape
 ## Într-un vehicul sau în tren
 
 Soundscape observă când te deplasezi cu viteza unui vehicul. Atunci nu mai anunță intersecțiile și magazinele din apropiere, pentru că trec prea repede. În schimb, anunță drumul pe care te afli, reperele, stațiile și gările, râurile și tunelurile.
-

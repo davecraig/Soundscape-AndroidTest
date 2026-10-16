@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: hu
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Hogyan működik a Soundscape
@@ -35,4 +36,3 @@ Sztereó fejhallgatóval érzékelhető a legtisztábban az irány. A Soundscape
 ## Vezetett bemutató
 
 Ha lépésről lépésre szeretné kipróbálni a fő funkciókat, nyissa meg a menüt, és válassza a *Vezetett bemutató* lehetőséget.
-

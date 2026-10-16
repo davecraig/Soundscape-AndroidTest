@@ -7,7 +7,9 @@ nav_order: 200
 lang: pt-BR
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # A tecnologia por trás do Soundscape
 O objetivo desta página é dar uma compreensão geral de como o aplicativo Soundscape funciona internamente. Você não precisa ler isto para usar o aplicativo, mas há alguns motivos pelos quais ele foi escrito:
 
@@ -85,9 +87,9 @@ Todos os dados analisados também são colocados em um formato fácil de pesquis
   * Vilas
   * Aldeias
 
- Com isso implementado, para qualquer localização o aplicativo pode então facilmente encontrar
+Com isso implementado, para qualquer localização o aplicativo pode então facilmente encontrar
 
- * "Todos os pontos de transporte público num raio de 50m" ou
+* "Todos os pontos de transporte público num raio de 50m" ou
  * "A interseção mais próxima à minha frente" ou
  * "A aldeia, vila, cidade ou cidade grande mais próxima"
 
@@ -108,7 +110,7 @@ Quanto mais contexto puder ser adicionado nas descrições, melhor, desde que se
 * **É uma calçada?**
 Muitas áreas do OpenStreetMap agora têm calçadas mapeadas separadamente das estradas. Estas geralmente são marcadas como `sidewalk`, mas normalmente não indicam qual é a estrada da qual elas são a calçada.
 
-    Quando o aplicativo encontra uma calçada sem nome, ele busca uma estrada que ele acha que está correndo ao lado dela e a usa para nomear a calçada. Isso acaba sendo muito importante para nossas notificações. Em vez de anunciar cada interseção de calçada, à medida que nos movemos ao longo de uma calçada, as notificações são feitas como se estivéssemos nos movendo ao longo da estrada associada. Em vez de *"Deslocando-se para Oeste ao longo do caminho"*, temos *"Deslocando-se para Oeste ao longo da Moor Road"*. O usuário está na calçada mapeada, mas a descrição faz mais sentido.
+Quando o aplicativo encontra uma calçada sem nome, ele busca uma estrada que ele acha que está correndo ao lado dela e a usa para nomear a calçada. Isso acaba sendo muito importante para nossas notificações. Em vez de anunciar cada interseção de calçada, à medida que nos movemos ao longo de uma calçada, as notificações são feitas como se estivéssemos nos movendo ao longo da estrada associada. Em vez de *"Deslocando-se para Oeste ao longo do caminho"*, temos *"Deslocando-se para Oeste ao longo da Moor Road"*. O usuário está na calçada mapeada, mas a descrição faz mais sentido.
 
 * **Ela termina em uma Via com nome?**
 Muito frequentemente há caminhos para pedestres que ligam duas estradas. Ao observar as duas extremidades do caminho, podemos facilmente adicionar esse contexto, de modo que em uma direção pode ser *"Caminho para a Moor Road"* e, aproximando-se pela outra extremidade, pode ser *"Caminho para a Roselea Drive"*. Isso só é feito quando o caminho não se divide; se ele se divide em dois caminhos sem nome, então não tentamos adicionar esse contexto.

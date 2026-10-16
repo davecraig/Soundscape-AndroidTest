@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: nb
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Lydsignal
@@ -39,4 +40,3 @@ Velg *Stopp rute* på startskjermen. Knappen heter dette også når lydsignalet 
 Når du er omtrent 12 meter fra stedet, sier Soundscape fra og fjerner lydsignalet. Telefonen kan ikke finne posisjonen din mer nøyaktig enn det. For å høre lydsignalet igjen setter du det på nytt.
 
 Et lydsignal som settes på et sted mindre enn 30 meter unna, blir stående til du fjerner det.
-

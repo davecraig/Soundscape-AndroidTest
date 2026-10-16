@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: sr
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Аутоматске најаве
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## У возилу или у возу
 
 Soundscape примећује када се крећете брзином возила. Тада престаје да најављује раскрснице и оближње продавнице јер пребрзо пролазе. Уместо тога најављује пут којим се крећете, знаменитости, стајалишта и станице, реке и тунеле.
-

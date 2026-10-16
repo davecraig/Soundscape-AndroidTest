@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: nl
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Spraakopdrachten met Siri
@@ -43,4 +44,3 @@ U kunt ook na de groep stoppen. Siri vraagt dan welke keuze u wilt. Elke groep w
 ## Goed om te weten
 
 De opdrachten staan ook in de app Opdrachten en in de app Instellingen van iOS, onder *Siri*. Daar ziet u de hele lijst en kunt u voor elke opdracht uw eigen formulering toevoegen.
-

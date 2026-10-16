@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: sl
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Uporaba kontrolnikov predstavnosti
@@ -43,4 +44,3 @@ Zvočni meni vam z istimi tremi gumbi ponudi več dejanj. Soundscape vsako možn
 *Nazaj* spremeni nastavitev *Raven podrobnosti obvestil*, enako kot *Izvirni način*.
 
 Meni se začne s štirimi skupinami: *Poslušaj okolico*, *Upravljanje poti*, *Zaženi pot* in *Zaženi zvočni svetilnik*. Izberite skupino, da slišite njena dejanja. *Poslušaj okolico* in *Upravljanje poti* se končata z možnostjo *Glavni meni*, ki vas vrne k štirim skupinam.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: sv
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Rutter
@@ -35,4 +36,3 @@ Välj rutten på skärmen *Rutter* och välj sedan *Redigera rutt*. Du kan lägg
 ## Dela en rutt
 
 Välj rutten på skärmen *Rutter* och välj sedan *Dela*.
-

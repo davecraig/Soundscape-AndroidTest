@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: et
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Soundscape’i kasutamine võrguühenduseta
@@ -27,4 +28,3 @@ Kaardid võivad olla suured, seega kasuta võimaluse korral Wi-Fit.
 ## Ilma võrguühenduseta kaardita
 
 Häälteated võivad endiselt töötada kohtades, kus sa hiljuti käisid, sest telefon hoiab osa kaardiandmeid mõnda aega alles. Otsing leiab ainult sinu markerid. Kõik on jälle tavapärane, kui telefon on uuesti võrgus.
-

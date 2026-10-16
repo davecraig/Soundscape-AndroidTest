@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: en-GB
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # How Soundscape Works
@@ -35,4 +36,3 @@ Stereo headphones give the clearest sense of direction. Soundscape also works th
 ## Guided tutorial
 
 To try the main features step by step, open the menu and select *Guided tutorial*.
-

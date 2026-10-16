@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: nl
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tips
@@ -19,4 +20,3 @@ U kunt het baken dempen en toch horen hoe ver de plaats is. Soundscape zegt de a
 Wilt u een plaats verkennen voordat u erheen gaat? Open dan de *Locatiedetails* van de plaats en selecteer *Locatie simuleren*. Soundscape gedraagt zich dan alsof u daar bent.
 
 Voor een stapsgewijze routebeschrijving opent u de *Locatiedetails* van een plaats en selecteert u *Openen in kaart-app*. Soundscape blijft werken terwijl de andere app de route aangeeft.
-

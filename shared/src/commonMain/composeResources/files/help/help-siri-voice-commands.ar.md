@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ar
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # أوامر Siri الصوتية
@@ -43,4 +44,3 @@ permalink: /users/help-siri-voice-commands.html
 ## معلومات مفيدة
 
 تظهر الأوامر أيضًا في تطبيق الاختصارات وفي تطبيق الإعدادات على iOS ضمن *Siri*. هناك يمكنك رؤية القائمة كاملة وإضافة صياغتك الخاصة لأي أمر.
-

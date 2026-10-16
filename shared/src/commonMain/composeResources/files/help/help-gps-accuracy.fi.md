@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: fi
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS-tarkkuus
@@ -19,4 +20,3 @@ Tarkkuus on yleensä heikoin sisätiloissa, korkeiden rakennusten välissä ja e
 {% if app %}
 Nykyinen tarkkuus: {{ accuracy }} ({{ quality }})
 {% endif %}
-

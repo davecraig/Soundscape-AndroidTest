@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 30
 lang: sk
 permalink: /users/help-around-me.html
+translated-from: cb37df8598cb99bd45ef7689b53453963e286a99
 ---
 
 # Okolo mňa
@@ -13,4 +14,3 @@ permalink: /users/help-around-me.html
 *Okolo mňa* ohlási až štyri miesta vo vašom okolí: jedno vpredu, jedno vpravo, jedno vzadu a jedno vľavo. Každé počujete z jeho smeru aj so vzdialenosťou. Použite ho, keď sa chcete zorientovať po príchode na nové miesto.
 
 Ak stojíte na mieste, najprv namierte horný okraj telefónu smerom, ktorým stojíte čelom. Ak je telefón zamknutý alebo Soundscape nie je na obrazovke, držte telefón aj naplocho.
-

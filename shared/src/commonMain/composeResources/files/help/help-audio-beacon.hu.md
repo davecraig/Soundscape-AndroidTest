@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: hu
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Irányjelző hang
@@ -39,4 +40,3 @@ A kezdőképernyőn válassza az *Útvonal leállítása* lehetőséget. A gombn
 Amikor körülbelül 12 méterre van a helytől, a Soundscape szól, és eltávolítja az irányjelző hangot. A telefon ennél pontosabban nem tudja meghatározni a helyzetét. Ha újra hallani szeretné az irányjelző hangot, állítsa be újra.
 
 A 30 méternél közelebbi helyre beállított irányjelző hang addig szól, amíg el nem távolítja.
-

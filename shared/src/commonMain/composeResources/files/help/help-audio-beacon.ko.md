@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: ko
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # 오디오 비콘
@@ -39,4 +40,3 @@ Soundscape가 홈 화면으로 돌아가고 비콘이 시작됩니다. 홈 화�
 장소까지 약 12미터가 남으면 Soundscape가 이를 알리고 비콘을 해제합니다. 휴대폰은 그보다 더 정확하게 위치를 찾을 수 없습니다. 비콘을 다시 들으려면 다시 설정하세요.
 
 30미터보다 가까운 장소에 설정한 비콘은 직접 해제할 때까지 계속 켜져 있습니다.
-

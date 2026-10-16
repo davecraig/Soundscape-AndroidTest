@@ -1,6 +1,6 @@
 ---
 name: translate
-description: Translate Soundscape-Android's untranslated and stale strings directly in the repo's shared/composeResources values-*/strings.xml files, in-session, then commit. Use when the user asks to translate untranslated/missing/unfinished strings, bring translations up to date after an English change, or run a translation pass — for a language the app doesn't support at all yet, use [[add-language]] instead.
+description: Translate Soundscape-Android's untranslated and stale strings directly in the repo's shared/composeResources values-*/strings.xml files, and its untranslated and stale help pages (the Markdown in composeResources/files/help), in-session, then commit. Use when the user asks to translate untranslated/missing/unfinished strings, bring translations up to date after an English change, or run a translation pass — for a language the app doesn't support at all yet, use [[add-language]] instead.
 ---
 
 # Translate untranslated and stale strings
@@ -29,8 +29,10 @@ Work in a **fresh, empty** output directory — a previous run's files are
 indistinguishable from this run's. `fetch` deletes its own outputs before writing.
 
 1. Run `python3 .claude/skills/translate/scripts/strings_sync.py languages`
+   and `python3 .claude/skills/translate/scripts/help_sync.py languages`
    to see every language's untranslated and stale counts. If everything is 0, say so
-   and stop.
+   and stop. The steps below are for strings; the help pages follow the same steps with
+   `help_sync.py` (see "Help pages").
 
 2. Fetch:
    ```
@@ -141,6 +143,52 @@ indistinguishable from this run's. `fetch` deletes its own outputs before writin
    failure. This writes to a shared service: give the user the `--apply` command to run
    with `!` rather than running it yourself. It changes only the unit's state, never its
    text, so Weblate's next update from the repo leaves it alone.
+
+## Help pages
+
+The help and FAQ are not in `strings.xml`. They are Markdown pages in
+`shared/src/commonMain/composeResources/files/help/` (`help-<page>.md` in English,
+`help-<page>.<web code>.md` per language), which the app's Help screen and the docs site
+both show. `scripts/help_sync.py` is their `strings_sync.py`, with the same commands, and a
+translation pass covers both: do the help after the strings, in the same output directory.
+
+Each translated page records the English page it was translated from (`translated-from:` in
+its front matter, a git blob id) and has the same blocks, separated by blank lines. The work is
+worked out by comparing that English with today's, block by block.
+
+1. `python3 .claude/skills/translate/scripts/help_sync.py languages` shows each language's
+   untranslated pages and stale units, and any page `check` would reject.
+2. `help_sync.py fetch --all --out-dir <dir>` (or `--lang <code> ...`) writes
+   `<code>-help-untranslated.json`. Like `strings_sync.py fetch`, it refuses to run while help
+   pages have uncommitted changes. A unit is
+   - `stale`: some blocks of a page whose English changed, was added or removed. `was` is the
+     English they were translated from, `source` the English now and `target` the current
+     translation of `was` (empty for a new block). Rewrite `target` to say what `source`
+     says, keeping its existing choices wherever the English didn't change.
+   - `untranslated`: a whole page (`<page>#0`) the language doesn't have, and its title
+     (`<page>#title`).
+   - `title`: the front matter `title:`, whose English changed.
+3. Translate as for strings, anchored to the language's existing help pages and strings: read
+   the language's other `help-*.<web code>.md` pages for the terms they use. UI names in the
+   help (in `*italics*`) must match the language's `strings.xml` exactly, since they name
+   buttons and settings the user has to find.
+4. Write `{unit id: translation}` to `<dir>/<code>-help-translations.json`. A unit's
+   translation has its blocks separated by blank lines, and must keep the English's block
+   count, heading levels, link targets and Liquid tags exactly: `{% if platform == "ios" %}`,
+   `{% else %}`, `{% endif %}`, `{% if app %}`, `{{ accuracy }}`, `{{ quality }}`. Never
+   translate a tag or a link target (`help-routes.md`), only the text around it.
+5. `help_sync.py validate --lang <code> --out-dir <dir>`, then
+   `help_sync.py apply --all --out-dir <dir>` (or `--lang <code>`). A page is only written once
+   every unit of it is translated, and `apply` sets its `translated-from:`. For a new page it
+   writes the front matter too: the language's `parent:` comes from its `user.<web code>.md`.
+6. If an English change needs nothing from a language (a typo fix), acknowledge the page
+   instead: `help_sync.py acknowledge --lang <code> --page <page> ...`. This only works when
+   the page still has the same blocks as the English.
+7. `help_sync.py check` must pass, and the shared tests (`HelpPagesTest`) check every page in
+   every language. Commit the help with the strings, in the same commit.
+
+Don't edit `translated-from:` by hand: setting it to the current English claims the page has
+caught up with it.
 
 ## Notes
 

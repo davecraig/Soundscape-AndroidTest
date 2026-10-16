@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: pl
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatyczne powiadomienia głosowe
@@ -43,4 +44,3 @@ Wybierz przycisk *Tryb uśpienia* u góry ekranu głównego. Soundscape przestaj
 ## W pojeździe lub w pociągu
 
 Soundscape zauważa, gdy poruszasz się z prędkością pojazdu. Przestaje wtedy powiadamiać o skrzyżowaniach i pobliskich sklepach, bo mijają zbyt szybko. Zamiast tego powiadamia o drodze, którą jedziesz, punktach orientacyjnych, przystankach i stacjach, rzekach i tunelach.
-

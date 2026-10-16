@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: pa
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS ਸਟੀਕਤਾ
@@ -19,4 +20,3 @@ Soundscape ਤੁਹਾਡੇ ਆਲੇ-ਦੁਆਲੇ ਦਾ ਵਰਣਨ ਓ�
 {% if app %}
 ਮੌਜੂਦਾ ਸਟੀਕਤਾ: {{ accuracy }} ({{ quality }})
 {% endif %}
-

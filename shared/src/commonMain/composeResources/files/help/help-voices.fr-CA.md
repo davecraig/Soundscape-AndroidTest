@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: fr-CA
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Voix
@@ -15,4 +16,3 @@ Soundscape peut utiliser toutes les voix installées sur votre iPhone, sauf les 
 {% else %}
 Soundscape peut utiliser toutes les voix installées sur votre téléphone. Pour ajouter des voix, ouvrez les paramètres de votre téléphone et cherchez *Sortie de la synthèse vocale*. Pour choisir une voix dans Soundscape, ouvrez le menu et sélectionnez *Réglages*, puis *Audio*, puis *Voix*.
 {% endif %}
-

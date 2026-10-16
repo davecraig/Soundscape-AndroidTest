@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: fi
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Soundscapen käyttö offline-tilassa
@@ -27,4 +28,3 @@ Kartat voivat olla suuria, joten käytä Wi-Fiä, jos voit.
 ## Ilman offline-karttaa
 
 Ilmoitukset voivat silti toimia paikoissa, joissa kävit äskettäin, koska puhelin säilyttää osan karttatiedoista jonkin aikaa. Haku löytää vain merkitsimesi. Kaikki palaa ennalleen, kun puhelin on taas verkossa.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 50
 lang: id
 permalink: /users/help-nearby-markers.html
+translated-from: 57f19d980fbf428438e21be3555d5331d800dd7b
 ---
 
 # Penanda Terdekat
@@ -13,4 +14,3 @@ permalink: /users/help-nearby-markers.html
 *Penanda Terdekat* memberitahukan hingga empat penanda Anda, yaitu yang paling dekat dengan Anda. Anda mendengar masing-masing dari arahnya sendiri, beserta jaraknya. Gunakan untuk menentukan posisi berdasarkan tempat yang sudah Anda kenal. Penanda yang jaraknya lebih dari sekitar 2 kilometer tidak disertakan.
 
 Jika Anda berdiri diam, arahkan dulu bagian atas ponsel ke arah hadap Anda. Jika ponsel terkunci, atau Soundscape tidak ada di layar, pegang juga ponsel secara mendatar.
-

@@ -1,6 +1,6 @@
 ---
 name: translation-review
-description: Review Soundscape-Android's already-translated strings (the repo's shared/composeResources values-*/strings.xml) for a given language, checking they make sense against the English source, preserve placeholders/formatting, and match project terminology. Reports findings in-session; can apply confident fixes to the files and commit them, but ONLY in a separate step the user explicitly asks for by name in their own message — the review itself never edits anything. Use when the user asks to review, check, audit, or proofread existing translations for a language, as opposed to translating untranslated strings (that's [[translate]]).
+description: Review Soundscape-Android's already-translated strings (the repo's shared/composeResources values-*/strings.xml) and help pages (the Markdown in composeResources/files/help) for a given language, checking they make sense against the English source, preserve placeholders/formatting, and match project terminology. Reports findings in-session; can apply confident fixes to the files and commit them, but ONLY in a separate step the user explicitly asks for by name in their own message — the review itself never edits anything. Use when the user asks to review, check, audit, or proofread existing translations for a language, as opposed to translating untranslated strings (that's [[translate]]).
 ---
 
 # Translation review
@@ -100,6 +100,28 @@ of output for the user to sift through, so don't default to "all" the way
    (meaning/placeholders/formatting) before softer calls (terminology/tone).
    If a language had zero findings, just say so in one line. Mention that
    nothing was changed and that fixes can be applied on request.
+
+### Help pages
+
+The help and FAQ are Markdown pages, not strings: `help-<page>.<web code>.md` in
+`shared/src/commonMain/composeResources/files/help/`. Review them as part of the same pass,
+with `help_sync.py` in place of `strings_sync.py`:
+
+- `python3 .claude/skills/translate/scripts/help_sync.py fetch --lang <code> --out-dir /tmp/translation-review`
+  writes `<code>-help-translated.json`: one unit per block (paragraph, heading, list item) of
+  every page that is up to date, with the English block as `source`, and one per page title
+  (`<page>#title`). Pages with pending work are in `<code>-help-untranslated.json`; leave them to
+  [[translate]], as for strings.
+- Check each block as for a string, plus: UI names in `*italics*` must match the language's
+  `strings.xml` exactly (they name buttons and settings the user has to find), Liquid tags
+  (`{% if platform == "ios" %}`, `{{ accuracy }}`) and link targets (`help-routes.md`) must be
+  untouched, and a heading stays a heading of the same level.
+- Record findings with the unit id (`help-routes#4`) as `context`, in the same
+  `<code>-findings.json`.
+- To apply fixes (the "Applying fixes" step below), put the help findings in their own
+  `<code>-help-apply.json` and apply it with
+  `python3 .claude/skills/translate/scripts/help_sync.py apply --lang <code> --file /tmp/translation-review/<code>-help-apply.json --revise`.
+  A fix changes the text only; the page stays marked as translated from the same English.
 
 ### If parallelizing the review across subagents
 

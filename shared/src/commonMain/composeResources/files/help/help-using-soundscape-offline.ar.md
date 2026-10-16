@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: ar
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # استخدام Soundscape بدون اتصال
@@ -27,4 +28,3 @@ permalink: /users/help-using-soundscape-offline.html
 ## بدون خريطة بدون اتصال
 
 قد تستمر النداءات الصوتية في العمل في الأماكن التي زرتها مؤخرًا، لأن هاتفك يحتفظ ببعض بيانات الخريطة لفترة. والبحث يعثر على علاماتك فقط. يعود كل شيء إلى طبيعته عندما يتصل هاتفك بالإنترنت من جديد.
-

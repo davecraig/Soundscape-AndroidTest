@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: hu
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Gyakran ismételt kérdések
@@ -82,4 +83,3 @@ A Soundscape mozgás közben kis mennyiségű térképadatot tölt le. Ha sokkal
 
 ### Mi az OpenStreetMap?
 Az OpenStreetMap a világ szabad térképe, amelyet önkéntesek készítenek. A Soundscape ezt használja az utcákhoz és a helyekhez. Bárki hozzáadhat vagy kijavíthat egy helyet a www.openstreetmap.org oldalon, és a változás egy későbbi térképfrissítéssel jut el a Soundscape-be.
-

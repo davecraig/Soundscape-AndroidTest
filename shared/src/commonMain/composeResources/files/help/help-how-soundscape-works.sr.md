@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: sr
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Како Soundscape ради
@@ -35,4 +36,3 @@ Soundscape звуком описује свет око вас. Свако мес
 ## Вођени водич
 
 Да бисте главне функције испробали корак по корак, отворите мени и изаберите *Вођени водич*.
-

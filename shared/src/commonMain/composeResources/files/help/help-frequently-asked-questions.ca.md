@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: ca
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Preguntes freqüents
@@ -82,4 +83,3 @@ Soundscape descarrega una petita quantitat de dades del mapa mentre et mous. Per
 
 ### Què és OpenStreetMap?
 OpenStreetMap és un mapa lliure del món, fet per voluntaris. Soundscape el fa servir per als carrers i els llocs. Qualsevol persona pot afegir o corregir un lloc a www.openstreetmap.org, i el canvi arriba a Soundscape en una actualització posterior del mapa.
-

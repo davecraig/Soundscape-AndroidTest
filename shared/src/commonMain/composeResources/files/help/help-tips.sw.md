@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: sw
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Vidokezo
@@ -19,4 +20,3 @@ Unaweza kuzima sauti ya beacon na bado usikie sehemu iko umbali gani. Soundscape
 Ili kuichunguza sehemu kabla ya kwenda, fungua *Taarifa za Mahali* za sehemu hiyo na uchague *Iga Mahali*. Kisha Soundscape inafanya kazi kana kwamba uko huko.
 
 Kwa maelekezo ya hatua kwa hatua, fungua *Taarifa za Mahali* za sehemu na uchague *Fungua katika programu ya ramani*. Soundscape inaendelea kufanya kazi huku programu nyingine ikitoa maelekezo.
-

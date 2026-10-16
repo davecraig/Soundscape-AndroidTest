@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: pt
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Sinal de Áudio
@@ -39,4 +40,3 @@ Selecione *Parar Rota* no ecrã principal. O botão tem este nome mesmo quando o
 Quando está a cerca de 12 metros do local, o Soundscape avisa e remove o sinal. O telemóvel não consegue determinar a sua posição com mais exatidão. Para voltar a ouvir o sinal, defina-o de novo.
 
 Um sinal definido num local a menos de 30 metros fica ativo até o remover.
-

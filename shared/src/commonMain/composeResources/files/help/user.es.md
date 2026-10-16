@@ -6,6 +6,7 @@ nav_order: 1
 lang: es
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 La documentación que se ofrece aquí corresponde a la última versión de la aplicación. Dentro de la aplicación puede acceder a ella pulsando el botón de menú (arriba a la izquierda) y seleccionando luego Ayuda y tutoriales.

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: ro
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Sfaturi
@@ -19,4 +20,3 @@ Poți dezactiva sunetul balizei și să auzi în continuare cât de departe este
 Pentru a explora un loc înainte să mergi acolo, deschide *Detalii locație* pentru acel loc și selectează *Simulare locație*. Soundscape se comportă atunci ca și cum ai fi acolo.
 
 Pentru indicații pas cu pas, deschide *Detalii locație* pentru un loc și selectează *Deschide în aplicația de hărți*. Soundscape continuă să ruleze în timp ce cealaltă aplicație dă indicații.
-

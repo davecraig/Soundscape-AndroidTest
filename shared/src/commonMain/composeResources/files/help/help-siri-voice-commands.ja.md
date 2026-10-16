@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ja
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri の音声コマンド
@@ -43,4 +44,3 @@ Soundscape は、いつものコールアウトとビーコンの音を使って
 ## 知っておくと便利なこと
 
 これらのコマンドは、ショートカットアプリと、iOS の設定アプリの *Siri* にも表示されます。そこで一覧全体を確認したり、どのコマンドにも独自の言い回しを追加したりできます。
-

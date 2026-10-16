@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: sl
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Kako deluje Soundscape
@@ -35,4 +36,3 @@ Stereo slušalke dajo najjasnejši občutek smeri. Soundscape deluje tudi prek z
 ## Vodena vadnica
 
 Če želite glavne funkcije preizkusiti korak za korakom, odprite meni in izberite *Vodena vadnica*.
-

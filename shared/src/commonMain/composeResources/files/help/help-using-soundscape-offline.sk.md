@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: sk
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Používanie Soundscape offline
@@ -27,4 +28,3 @@ Mapy môžu byť veľké, preto podľa možnosti použite Wi-Fi.
 ## Bez offline mapy
 
 Hlásenia môžu ďalej fungovať na nedávno navštívených miestach, pretože telefón si časť mapových údajov nejaký čas uchováva. Vyhľadávanie nájde len vaše značky. Všetko sa vráti do normálu, keď bude telefón znova online.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: et
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Nõuanded
@@ -19,4 +20,3 @@ Saad helimajaka summutada ja ikkagi kuulda, kui kaugel koht on. Soundscape ütle
 Koha uurimiseks enne sinna minekut ava selle *Asukoha üksikasjad* ja vali *Simuleeri asukohta*. Soundscape käitub siis nii, nagu oleksid seal.
 
 Pöördepõhiste juhiste saamiseks ava koha *Asukoha üksikasjad* ja vali *Ava kaardirakenduses*. Soundscape töötab edasi, kuni teine rakendus juhiseid annab.
-

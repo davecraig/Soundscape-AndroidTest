@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: sv
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Ljudfyr
@@ -39,4 +40,3 @@ Välj *Stoppa rutten* på startskärmen. Knappen heter så även när ljudfyren 
 När du är ungefär 12 meter från platsen talar Soundscape om det och tar bort ljudfyren. Telefonen kan inte bestämma din position mer exakt än så. Om du vill höra ljudfyren igen ställer du in den på nytt.
 
 En ljudfyr som ställs in på en plats mindre än 30 meter bort är kvar tills du tar bort den.
-

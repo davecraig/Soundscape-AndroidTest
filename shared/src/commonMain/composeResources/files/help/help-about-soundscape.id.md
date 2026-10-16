@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: id
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Tentang Soundscape
@@ -27,4 +28,3 @@ Soundscape bergantung pada pustaka dan data pihak ketiga yang luar biasa ini. Kl
 Para sukarelawan [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) menyempurnakan beberapa terjemahan, yang disediakan untuk digunakan di bawah [lisensi MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Semua nama produk, nama perusahaan, dan logo pihak ketiga merupakan merek dagang atau merek dagang terdaftar dan tetap menjadi milik masing-masing pemiliknya.
-

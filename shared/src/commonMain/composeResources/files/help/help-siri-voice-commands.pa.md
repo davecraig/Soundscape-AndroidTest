@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: pa
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri ਆਵਾਜ਼ੀ ਹੁਕਮ
@@ -43,4 +44,3 @@ Soundscape ਆਪਣੀ ਹੀ ਆਵਾਜ਼ ਵਿੱਚ, ਆਪਣੀਆਂ 
 ## ਜਾਣਨ ਯੋਗ ਗੱਲਾਂ
 
 ਇਹ ਹੁਕਮ Shortcuts ਐਪ ਵਿੱਚ, ਅਤੇ iOS ਦੀ Settings ਐਪ ਵਿੱਚ *Siri* ਹੇਠਾਂ ਵੀ ਦਿਸਦੇ ਹਨ। ਉੱਥੇ ਤੁਸੀਂ ਪੂਰੀ ਸੂਚੀ ਦੇਖ ਸਕਦੇ ਹੋ ਅਤੇ ਕਿਸੇ ਵੀ ਹੁਕਮ ਲਈ ਆਪਣੇ ਸ਼ਬਦ ਜੋੜ ਸਕਦੇ ਹੋ।
-

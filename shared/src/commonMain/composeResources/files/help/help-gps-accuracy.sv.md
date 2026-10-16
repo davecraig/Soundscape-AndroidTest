@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: sv
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS-noggrannhet
@@ -19,4 +20,3 @@ Noggrannheten är oftast sämst inomhus, mellan höga byggnader och under den f�
 {% if app %}
 Aktuell noggrannhet: {{ accuracy }} ({{ quality }})
 {% endif %}
-

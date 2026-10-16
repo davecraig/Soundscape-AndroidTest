@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: bn
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri ভয়েস কমান্ড
@@ -43,4 +44,3 @@ Soundscape নিজের কণ্ঠেই, তার চেনা কলআ�
 ## জেনে রাখা ভালো
 
 কমান্ডগুলি Shortcuts অ্যাপেও এবং iOS-এর Settings অ্যাপে *Siri*-এর নিচেও দেখা যায়। সেখানে আপনি পুরো তালিকাটি দেখতে পারেন এবং যেকোনো কমান্ডের জন্য নিজের ভাষা যোগ করতে পারেন।
-

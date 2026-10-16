@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: tr
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Medya Kontrollerini Kullanma
@@ -43,4 +44,3 @@ Sesli menü aynı üç düğmeyle size daha fazla işlem sunar. Soundscape her s
 *Geri* tıpkı *Orijinal Mod* gibi *Anons Ayrıntısı* ayarını değiştirir.
 
 Menü dört grupla başlar: *Çevreyi Duyur*, *Rota kontrolü*, *Rotayı Başlat* ve *Sesli İşareti Başlat*. İşlemlerini duymak için bir grup seçin. *Çevreyi Duyur* ve *Rota kontrolü* grupları *Üst Menü* seçeneğiyle biter; bu seçenek sizi dört gruba geri götürür.
-

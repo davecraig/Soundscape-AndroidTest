@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: vi
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Thông báo âm thanh tự động
@@ -43,4 +44,3 @@ Chọn nút *Ngủ* ở đầu màn hình chính. Soundscape ngừng dùng vị 
 ## Trên xe hoặc trên tàu
 
 Soundscape nhận biết khi bạn di chuyển với tốc độ của xe. Khi đó nó ngừng thông báo giao lộ và cửa hàng gần đó, vì chúng trôi qua quá nhanh. Thay vào đó, nó thông báo con đường bạn đang đi, điểm mốc, trạm dừng và nhà ga, sông và đường hầm.
-

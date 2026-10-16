@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: mr
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # स्वयंचलित ध्वनी सूचना
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## वाहनात किंवा ट्रेनमध्ये
 
 तुम्ही वाहनाच्या वेगाने प्रवास करत आहात हे Soundscape ओळखते. तेव्हा ते चौक आणि जवळची दुकाने सांगणे थांबवते, कारण ती फार वेगाने मागे पडतात. त्याऐवजी ते तुम्ही ज्या रस्त्यावर आहात तो रस्ता, खुणा, थांबे आणि स्थानके, नद्या आणि बोगदे सांगते.
-

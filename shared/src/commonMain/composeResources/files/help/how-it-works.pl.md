@@ -7,7 +7,9 @@ nav_order: 200
 lang: pl
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Technologia stojąca za Soundscape
 Celem tej strony jest przekazanie ogólnego zrozumienia tego, jak aplikacja Soundscape działa „pod maską”. Nie musisz tego czytać, aby korzystać z aplikacji, ale istnieje kilka powodów, dla których powstał ten tekst:
 
@@ -85,12 +87,12 @@ Wszystkie przetworzone dane są też umieszczane w łatwym do przeszukiwania for
   * Wsie
   * Przysiółki
 
- Mając to gotowe, dla dowolnej lokalizacji aplikacja może następnie łatwo znaleźć
+Mając to gotowe, dla dowolnej lokalizacji aplikacja może następnie łatwo znaleźć
 
- * „Wszystkie przystanki transportu publicznego w promieniu 50 m” lub
+* „Wszystkie przystanki transportu publicznego w promieniu 50 m” lub
  * „Najbliższe skrzyżowanie przede mną” lub
  * „Najbliższy przysiółek, wieś, miasteczko lub miasto”
-  
+
 Mając to gotowe, tworzenie powiadomień dźwiękowych jest tylko kwestią odpytania danych na podstawie bieżącej lokalizacji i kierunku. W miarę jak użytkownik przemieszcza się po siatce kafelków, jest ona aktualizowana tak, aby skupiała się wokół bieżącej lokalizacji.
 
 ### Więcej danych
@@ -108,7 +110,7 @@ Im więcej kontekstu można dodać do opisów, tym lepiej, o ile pozostaje on zw
 * **Czy to chodnik przyuliczny?**
 W wielu obszarach OpenStreetMap chodniki są obecnie zmapowane oddzielnie od dróg. Są zwykle oznaczone jako `sidewalk`, ale zazwyczaj nie podają, do jakiej drogi należą.
 
-    Gdy aplikacja natrafi na chodnik bez nazwy, wyszukuje drogę, która jej zdaniem biegnie obok niego, i używa jej do nazwania chodnika. Okazuje się to bardzo ważne dla naszych powiadomień. Zamiast ogłaszać każde skrzyżowanie chodnika, w miarę jak poruszamy się wzdłuż chodnika, powiadomienia są tworzone tak, jakbyśmy poruszali się wzdłuż powiązanej drogi. Zamiast *„Poruszasz się na zachód wzdłuż ścieżki”* mamy *„Poruszasz się na zachód wzdłuż Moor Road”*. Użytkownik znajduje się na zmapowanym chodniku, ale opis ma większy sens.
+Gdy aplikacja natrafi na chodnik bez nazwy, wyszukuje drogę, która jej zdaniem biegnie obok niego, i używa jej do nazwania chodnika. Okazuje się to bardzo ważne dla naszych powiadomień. Zamiast ogłaszać każde skrzyżowanie chodnika, w miarę jak poruszamy się wzdłuż chodnika, powiadomienia są tworzone tak, jakbyśmy poruszali się wzdłuż powiązanej drogi. Zamiast *„Poruszasz się na zachód wzdłuż ścieżki”* mamy *„Poruszasz się na zachód wzdłuż Moor Road”*. Użytkownik znajduje się na zmapowanym chodniku, ale opis ma większy sens.
 
 * **Czy kończy się na nazwanej drodze (Way)?**
 Bardzo często istnieją ścieżki dla pieszych, które łączą ze sobą dwie drogi. Patrząc na oba końce ścieżki, możemy łatwo dodać ten kontekst, więc w jednym kierunku może to być *„Ścieżka do Moor Road”*, a podchodząc z drugiego końca *„Ścieżka do Roselea Drive”*. Robi się to tylko tam, gdzie ścieżka się nie rozwidla; jeśli rozwidla się na dwie ścieżki bez nazwy, nie próbujemy dodawać tego kontekstu.

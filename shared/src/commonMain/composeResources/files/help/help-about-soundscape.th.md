@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: th
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # เกี่ยวกับ Soundscape
@@ -27,4 +28,3 @@ Soundscape พึ่งพาไลบรารีและข้อมูลข
 อาสาสมัครของ [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) ได้ปรับปรุงคำแปลหลายรายการ ซึ่งเปิดให้ใช้งานได้ภายใต้ [ใบอนุญาต MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt)
 
 ผลิตภัณฑ์ ชื่อบริษัท และโลโก้ของบุคคลที่สามทั้งหมดเป็นเครื่องหมายการค้าหรือเครื่องหมายการค้าจดทะเบียน และยังคงเป็นทรัพย์สินของเจ้าของแต่ละราย
-

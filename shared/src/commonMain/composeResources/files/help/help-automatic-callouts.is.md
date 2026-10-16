@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: is
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Sjálfvirkar tilkynningar
@@ -43,4 +44,3 @@ Veldu hnappinn *Fara í dvala* efst á heimaskjánum. Soundscape hættir að not
 ## Í farartæki eða lest
 
 Soundscape tekur eftir því þegar þú ferðast á hraða farartækis. Þá hættir það að tilkynna gatnamót og nálægar verslanir, því þau fara of hratt hjá. Í staðinn tilkynnir það veginn sem þú ert á, kennileiti, stoppistöðvar og stöðvar, ár og göng.
-

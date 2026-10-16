@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: ha
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Siginar Sauti
@@ -39,4 +40,3 @@ Ku zaɓi *Tsayar da Tafarki* a babban allo. Maɓallin yana da wannan sunan ko da
 Idan kuna kusan mita 12 daga wurin, Soundscape yana gaya muku sannan ya cire siginar. Wayarku ba za ta iya gano inda kuke daidai fiye da haka ba. Don sake jin siginar, ku sake saita ta.
 
 Siginar da aka saita a wurin da bai kai mita 30 ba tana ci gaba da aiki har sai kun cire ta.
-

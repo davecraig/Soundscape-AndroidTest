@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: sw
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Kutumia Soundscape Nje ya Mtandao
@@ -27,4 +28,3 @@ Ramani zinaweza kuwa kubwa, kwa hiyo tumia Wi-Fi ukiweza.
 ## Bila ramani ya nje ya mtandao
 
 Matangazo yanaweza kuendelea kufanya kazi katika sehemu ulizotembelea hivi karibuni, kwa sababu simu yako huhifadhi baadhi ya data ya ramani kwa muda. Utafutaji unapata alama zako tu. Kila kitu kinarudi kawaida simu yako inaporudi mtandaoni.
-

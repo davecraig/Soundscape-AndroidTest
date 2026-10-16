@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: ro
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Voci
@@ -15,4 +16,3 @@ Soundscape poate folosi orice voce instalată pe iPhone-ul tău, cu excepția vo
 {% else %}
 Soundscape poate folosi orice voce instalată pe telefonul tău. Pentru a adăuga voci, deschide setările telefonului și caută *Rezultatul transformării textului în vorbire*. Pentru a alege o voce în Soundscape, deschide meniul și selectează *Setări*, apoi *Audio*, apoi *Voci*.
 {% endif %}
-

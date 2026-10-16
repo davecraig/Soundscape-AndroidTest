@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: zh-CN
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri 语音命令
@@ -43,4 +44,3 @@ Soundscape 会用自己的声音回应，并带有平时的提示和信标声音
 ## 值得了解
 
 这些命令也会出现在“快捷指令”应用中，以及 iOS“设置”应用的*Siri*里。您可以在那里查看完整清单，并为任意一条命令添加您自己的说法。
-

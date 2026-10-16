@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: ja
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Soundscape について
@@ -27,4 +28,3 @@ Soundscape は、これらの優れたサードパーティ製のライブラリ
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) のボランティアが翻訳の一部を改善しており、それらは [MIT ライセンス](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) のもとで利用可能です。
 
 第三者の製品名、会社名およびロゴは各社の商標または登録商標であり、それぞれの権利所有者に帰属します。
-

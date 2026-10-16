@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: nl
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatische aankondigingen
@@ -43,4 +44,3 @@ Selecteer de knop *Slapen* boven aan het startscherm. Soundscape gebruikt uw loc
 ## In een voertuig of in de trein
 
 Soundscape merkt wanneer u zich met de snelheid van een voertuig verplaatst. Het kondigt dan geen kruispunten en winkels in de buurt meer aan, omdat die te snel voorbijgaan. In plaats daarvan kondigt het de weg aan waarop u zich bevindt, herkenningspunten, haltes en stations, rivieren en tunnels.
-

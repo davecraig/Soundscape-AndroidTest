@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: nl
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Hoe Soundscape werkt
@@ -35,4 +36,3 @@ Met een stereokoptelefoon hoort u richtingen het duidelijkst. Soundscape werkt o
 ## Geleide zelfstudie
 
 Wilt u de belangrijkste functies stap voor stap proberen? Open dan het menu en selecteer *Geleide zelfstudie*.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: sl
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Oznake
@@ -29,4 +30,3 @@ Shranite lahko tudi kateri koli kraj, ki ga najdete. Odprite njegove *Podrobnost
 ## Prilagajanje oznak
 
 Izberite oznako na zaslonu *Oznake*, nato izberite *Uredi oznako*. Spremenite lahko njeno ime, opombe in položaj ali izberete *Izbriši oznako*. Z izbrisom se oznaka odstrani tudi iz vaših poti.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: da
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Brug af mediebetjeningsknapper
@@ -43,4 +44,3 @@ Lydmenuen giver dig flere handlinger med de samme tre knapper. Soundscape læser
 *Forrige* ændrer *Detaljeniveau for lydbeskeder*, ligesom i *Originaltilstand*.
 
 Menuen begynder med fire grupper: *Hør mine omgivelser*, *Rutekontrol*, *Start rute* og *Start lydfyr*. Vælg en gruppe for at høre dens handlinger. *Hør mine omgivelser* og *Rutekontrol* slutter med *Topmenu*, som fører dig tilbage til de fire grupper.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: el
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Σχετικά με το Soundscape
@@ -27,4 +28,3 @@ permalink: /users/help-about-soundscape.html
 Εθελοντές του [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) βελτίωσαν αρκετές από τις μεταφράσεις, οι οποίες διατίθενται για χρήση υπό την [άδεια MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Όλα τα ονόματα προϊόντων, εταιρειών και λογότυπα τρίτων είναι εμπορικά σήματα ή καταχωρημένα εμπορικά σήματα και παραμένουν ιδιοκτησία των αντίστοιχων κατόχων τους.
-

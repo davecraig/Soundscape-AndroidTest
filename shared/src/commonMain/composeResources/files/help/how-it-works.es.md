@@ -7,7 +7,9 @@ nav_order: 200
 lang: es
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # La tecnología detrás de Soundscape
 El objetivo de esta página es ofrecer una comprensión general de cómo funciona la aplicación Soundscape por dentro. No necesita leer esto para usar la aplicación, pero hay algunas razones por las que se ha escrito:
 
@@ -85,12 +87,12 @@ Todos los datos analizados también se ponen en un formato fácil de buscar para
   * Aldeas
   * Caseríos
 
- Con esto en marcha, para cualquier ubicación la aplicación puede entonces encontrar fácilmente
+Con esto en marcha, para cualquier ubicación la aplicación puede entonces encontrar fácilmente
 
- * "Todas las paradas de transporte dentro de 50 m" o
+* "Todas las paradas de transporte dentro de 50 m" o
  * "El cruce más cercano delante de mí" o
  * "El caserío, aldea, pueblo o ciudad más cercano"
-  
+
 Con esto en marcha, crear los avisos de audio es solo cuestión de consultar los datos según la ubicación y la dirección actuales. A medida que el usuario se mueve por una cuadrícula de teselas, la actualiza para que quede centrada en torno a la ubicación actual.
 
 ### Más datos
@@ -108,7 +110,7 @@ Cuanto más contexto se pueda añadir en las descripciones, mejor, siempre que s
 * **¿Es una acera?**
 Muchas zonas de OpenStreetMap ahora tienen las aceras mapeadas por separado de las carreteras. Estas suelen estar etiquetadas como `sidewalk`, pero normalmente no indican cuál es la carretera de la que son la acera.
 
-    Cuando la aplicación se encuentra con una acera sin nombre, busca una carretera que cree que discurre junto a ella y la usa para nombrar la acera. Esto resulta ser muy importante para nuestros avisos. En lugar de anunciar cada cruce de aceras, a medida que avanzamos por una acera los avisos se hacen como si nos moviéramos por la carretera asociada. En lugar de *"Viajando al oeste por sendero"* tenemos *"Viajando al oeste por Moor Road"*. El usuario está en la acera mapeada, pero la descripción tiene más sentido.
+Cuando la aplicación se encuentra con una acera sin nombre, busca una carretera que cree que discurre junto a ella y la usa para nombrar la acera. Esto resulta ser muy importante para nuestros avisos. En lugar de anunciar cada cruce de aceras, a medida que avanzamos por una acera los avisos se hacen como si nos moviéramos por la carretera asociada. En lugar de *"Viajando al oeste por sendero"* tenemos *"Viajando al oeste por Moor Road"*. El usuario está en la acera mapeada, pero la descripción tiene más sentido.
 
 * **¿Termina en una Vía con nombre?**
 Muy a menudo hay caminos peatonales que unen dos carreteras. Al observar ambos extremos del camino podemos añadir fácilmente ese contexto, de modo que en una dirección podría ser *"Camino a Moor Road"* y al acercarse desde el otro extremo podría ser *"Camino a Roselea Drive"*. Esto solo se hace cuando el camino no se bifurca; si se divide en dos caminos sin nombre, no intentamos añadir este contexto.
@@ -117,7 +119,7 @@ Muy a menudo hay caminos peatonales que unen dos carreteras. Al observar ambos e
 Si una Vía sin nombre empieza o termina cerca de un Marcador, este se usa para describirla, por ejemplo, *"Camino al cruce del árbol grande"*. El usuario puede añadir Marcadores donde quiera, y al añadir Marcadores a lo largo de las redes de caminos puede añadir contexto a toda una ruta.
 
 * **¿Entra o sale de un POI?**
-Si una Vía sin nombre empieza fuera de un POI y termina dentro de él (o viceversa), podemos añadir ese contexto, por ejemplo, *"Pista a Lennox Park"*. 
+Si una Vía sin nombre empieza fuera de un POI y termina dentro de él (o viceversa), podemos añadir ese contexto, por ejemplo, *"Pista a Lennox Park"*.
 
 * **¿Termina cerca de una Entrada?**
 Si una Vía sin nombre empieza o termina más cerca de una Entrada, podemos añadir ese contexto, por ejemplo, *"Vía de servicio a Best Buy"*.

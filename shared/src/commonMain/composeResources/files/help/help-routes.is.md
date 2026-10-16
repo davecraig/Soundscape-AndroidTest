@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: is
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Leiðir
@@ -35,4 +36,3 @@ Veldu leiðina á skjánum *Leiðir* og veldu síðan *Breyta leið*. Þú getur
 ## Að deila leið
 
 Veldu leiðina á skjánum *Leiðir* og veldu síðan *Deila*.
-

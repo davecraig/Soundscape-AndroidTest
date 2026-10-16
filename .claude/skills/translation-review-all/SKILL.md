@@ -27,8 +27,10 @@ apply`, never edits a strings file or a guidance file, and never commits.
 Run
 ```
 python3 .claude/skills/translate/scripts/strings_sync.py languages
+python3 .claude/skills/translate/scripts/help_sync.py languages
 ```
-and settle the list of codes from the args. Note each language's
+and settle the list of codes from the args. Each worker reviews the language's help pages as
+well as its strings (translation-review's "Help pages"). Note each language's
 untranslated/stale counts: the review skips those strings, so a language
 with many of them gets a thin review. Mention that in the summary instead
 of holding the run up.
@@ -76,12 +78,12 @@ Give every worker exactly this prompt, with `<code>` and `<name>` filled in:
 > - Review **only `<code>`**. Don't fetch, read or write any other
 >   language's files in `/tmp/translation-review/`.
 > - Work through the batches yourself. **Don't start any subagents.**
-> - **Review only.** Don't run `strings_sync.py apply`, don't edit any file
+> - **Review only.** Don't run `strings_sync.py apply` or `help_sync.py apply`, don't edit any file
 >   in the repository, don't commit and don't push. The skill's "Applying
 >   fixes" step doesn't apply to you.
 > - The only file you may create or change is
 >   `/tmp/translation-review/<code>-findings.json`, plus the `fetch` output
->   files for `<code>`.
+>   files for `<code>` (from both `strings_sync.py` and `help_sync.py`).
 > - Give every finding a `category` field as well: one of `meaning`,
 >   `placeholders`, `formatting`, `gender`, `terminology` or `tone`.
 > - If a problem isn't really this language's, start its `reason` with

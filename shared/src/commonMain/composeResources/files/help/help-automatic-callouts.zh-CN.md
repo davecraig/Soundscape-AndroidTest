@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: zh-CN
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # 自动提示
@@ -43,4 +44,3 @@ permalink: /users/help-automatic-callouts.html
 ## 在车上或火车上
 
 Soundscape 会察觉到您正以车辆的速度移动。这时它会停止播报路口和附近的商店，因为它们过得太快。它会改为播报您所在的道路、地标、站点和车站、河流以及隧道。
-

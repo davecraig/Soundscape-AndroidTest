@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: da
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Om Soundscape
@@ -27,4 +28,3 @@ Soundscape bygger på disse fremragende tredjepartsbiblioteker og data. Klik på
 Frivillige fra [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) har forbedret flere af oversættelserne, som stilles til rådighed under [MIT-licensen](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Alle tredjeparts produkt- og firmanavne samt logoer er varemærker eller registrerede varemærker og forbliver deres respektive ejeres ejendom.
-

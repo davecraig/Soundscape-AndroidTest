@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: id
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Menggunakan Soundscape Secara Offline
@@ -27,4 +28,3 @@ Ukuran peta bisa besar, jadi gunakan Wi-Fi jika bisa.
 ## Tanpa peta offline
 
 Pemberitahuan mungkin masih berfungsi di tempat yang baru-baru ini Anda kunjungi, karena ponsel menyimpan sebagian data peta untuk sementara. Pencarian hanya menemukan penanda Anda. Semuanya kembali normal saat ponsel Anda kembali online.
-

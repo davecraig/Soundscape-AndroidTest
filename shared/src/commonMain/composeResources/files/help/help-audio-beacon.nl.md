@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: nl
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Audiobaken
@@ -39,4 +40,3 @@ Selecteer *Route stoppen* op het startscherm. De knop heeft deze naam ook als he
 Wanneer u ongeveer 12 meter van de plaats bent, zegt Soundscape dat en verwijdert het baken. Nauwkeuriger kan uw telefoon uw positie niet bepalen. Wilt u het baken weer horen, stel het dan opnieuw in.
 
 Een baken op een plaats die minder dan 30 meter ver is, blijft aan totdat u het verwijdert.
-

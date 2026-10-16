@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: en-GB
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS accuracy
@@ -19,4 +20,3 @@ Accuracy is usually worst indoors, among tall buildings, and in the first minute
 {% if app %}
 Current accuracy: {{ accuracy }} ({{ quality }})
 {% endif %}
-

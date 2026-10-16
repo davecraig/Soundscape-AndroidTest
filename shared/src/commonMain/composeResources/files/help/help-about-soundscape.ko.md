@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: ko
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Soundscape 정보
@@ -27,4 +28,3 @@ Soundscape는 이 훌륭한 타사 라이브러리와 데이터를 기반으로 
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) 자원봉사자들이 여러 번역을 개선했으며, 이 번역은 [MIT 라이선스](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt)에 따라 사용할 수 있습니다.
 
 모든 타사 제품명, 회사명 및 로고는 각 소유권자의 상표 또는 등록 상표이며, 해당 소유권자의 자산입니다.
-

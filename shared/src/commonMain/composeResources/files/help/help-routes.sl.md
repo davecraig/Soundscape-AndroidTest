@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: sl
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Poti
@@ -35,4 +36,3 @@ Izberite pot na zaslonu *Poti*, nato izberite *Uredi pot*. Točke poti lahko dod
 ## Deljenje poti
 
 Izberite pot na zaslonu *Poti*, nato izberite *Deli*.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: fr
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Conseils
@@ -19,4 +20,3 @@ Vous pouvez couper le son de la balise et continuer d’entendre la distance du 
 Pour explorer un lieu avant d’y aller, ouvrez ses *Détails de l’emplacement* et sélectionnez *Simuler un emplacement*. Soundscape se comporte alors comme si vous y étiez.
 
 Pour des instructions de navigation étape par étape, ouvrez les *Détails de l’emplacement* d’un lieu et sélectionnez *Ouvrir dans une application de cartes*. Soundscape continue de fonctionner pendant que l’autre application vous guide.
-

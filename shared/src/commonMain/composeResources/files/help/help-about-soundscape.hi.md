@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: hi
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Soundscape के बारे में
@@ -27,4 +28,3 @@ Soundscape इन शानदार तृतीय‑पक्ष लाइब
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) के स्वयंसेवकों ने कई अनुवादों में सुधार किया, जिन्हें उपयोग के लिए [MIT लाइसेंस](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) के अंतर्गत उपलब्ध कराया गया है।
 
 सभी तृतीय‑पक्ष उत्पाद, कंपनी नाम और लोगो ट्रेडमार्क या पंजीकृत ट्रेडमार्क हैं और अपने‑अपने धारकों की संपत्ति बने रहते हैं।
-

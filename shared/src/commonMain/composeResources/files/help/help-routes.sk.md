@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: sk
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Trasy
@@ -35,4 +36,3 @@ Vyberte trasu na obrazovke *Trasy* a potom vyberte *Upraviť trasu*. Môžete pr
 ## Zdieľanie trasy
 
 Vyberte trasu na obrazovke *Trasy* a potom vyberte *Zdieľať*.
-

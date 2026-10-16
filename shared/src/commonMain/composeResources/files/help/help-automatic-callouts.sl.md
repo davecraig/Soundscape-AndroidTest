@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: sl
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Samodejna zvočna obvestila
@@ -43,4 +44,3 @@ Izberite gumb *Spanje* na vrhu domačega zaslona. Soundscape preneha uporabljati
 ## V vozilu ali na vlaku
 
 Soundscape zazna, ko se gibljete s hitrostjo vozila. Takrat preneha oznanjati križišča in trgovine v bližini, ker prehitro minejo. Namesto tega oznanja cesto, po kateri se peljete, znamenitosti, postajališča in postaje, reke in predore.
-

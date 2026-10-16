@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: da
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Mærker
@@ -29,4 +30,3 @@ Du kan også gemme ethvert sted, du finder. Åbn stedets *Oplysninger om placeri
 ## Tilpasning af mærker
 
 Vælg mærket på skærmen *Mærker*, og vælg derefter *Rediger mærke*. Du kan ændre navn, noter og position eller vælge *Slet mærke*. Når du sletter et mærke, fjernes det også fra dine ruter.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: ro
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Despre Soundscape
@@ -27,4 +28,3 @@ Soundscape se bazează pe aceste biblioteci și date terțe excelente. Apasă pe
 Voluntarii [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) au îmbunătățit mai multe dintre traduceri, care sunt puse la dispoziție pentru utilizare sub [licența MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Toate denumirile și logourile produselor și companiilor terțe sunt mărci comerciale sau mărci înregistrate și rămân proprietatea titularilor lor.
-

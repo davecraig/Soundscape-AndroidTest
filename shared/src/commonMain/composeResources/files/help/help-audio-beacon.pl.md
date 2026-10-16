@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: pl
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Dźwięk naprowadzający
@@ -39,4 +40,3 @@ Wybierz *Zatrzymaj trasę* na ekranie głównym. Przycisk ma tę nazwę także w
 Gdy jesteś około 12 metrów od miejsca, Soundscape mówi ci o tym i wyłącza naprowadzanie. Telefon nie potrafi ustalić twojej pozycji dokładniej. Aby znów słyszeć dźwięk naprowadzający, włącz naprowadzanie ponownie.
 
 Naprowadzanie na miejsce oddalone o mniej niż 30 metrów działa, dopóki go nie wyłączysz.
-

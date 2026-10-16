@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: ro
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Marcaje
@@ -29,4 +30,3 @@ Poți salva și orice loc pe care îl găsești. Deschide *Detalii locație* pen
 ## Personalizarea marcajelor
 
 Selectează marcajul pe ecranul *Marcaje*, apoi selectează *Editează marcaj*. Îi poți schimba numele, notele și poziția sau poți selecta *Șterge marcaj*. Ștergerea unui marcaj îl elimină și din rutele tale.
-

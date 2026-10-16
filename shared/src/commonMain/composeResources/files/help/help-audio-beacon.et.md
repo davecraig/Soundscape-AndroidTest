@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: et
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Helimajakas
@@ -39,4 +40,3 @@ Vali avakuval *Peata marsruut*. Nupul on see nimi ka siis, kui helimajakas ei ol
 Kui oled kohast umbes 12 meetri kaugusel, ütleb Soundscape seda ja eemaldab helimajaka. Telefon ei suuda sinu asukohta sellest täpsemalt määrata. Helimajaka uuesti kuulmiseks määra see uuesti.
 
 Helimajakas, mis on määratud vähem kui 30 meetri kaugusel olevale kohale, jääb sisse, kuni sa selle eemaldad.
-

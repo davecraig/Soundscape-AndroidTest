@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: en-GB
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatic Callouts
@@ -43,4 +44,3 @@ Select the *Sleep* button at the top of the home screen. Soundscape stops using 
 ## In a Vehicle or on a Train
 
 Soundscape notices when you are travelling at vehicle speed. It then stops calling out intersections and nearby shops, because they pass too quickly. Instead it calls out the road you are on, landmarks, stops and stations, rivers and tunnels.
-

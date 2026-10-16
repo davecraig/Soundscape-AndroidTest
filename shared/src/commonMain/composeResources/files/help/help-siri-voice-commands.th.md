@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: th
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # คำสั่งเสียง Siri
@@ -43,4 +44,3 @@ Soundscape ตอบด้วยเสียงของตัวเอง พ�
 ## ข้อควรรู้
 
 คำสั่งเหล่านี้ยังปรากฏในแอปคำสั่งลัด และในแอปการตั้งค่าของ iOS ภายใต้ *Siri* ที่นั่นคุณดูรายการทั้งหมดได้ และเพิ่มถ้อยคำของคุณเองให้กับคำสั่งใดก็ได้
-

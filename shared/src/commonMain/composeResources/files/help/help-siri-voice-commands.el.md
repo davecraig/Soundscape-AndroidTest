@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: el
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Φωνητικές εντολές Siri
@@ -43,4 +44,3 @@ permalink: /users/help-siri-voice-commands.html
 ## Καλό είναι να γνωρίζετε
 
 Οι εντολές εμφανίζονται επίσης στην εφαρμογή Συντομεύσεις και στην εφαρμογή Ρυθμίσεις του iOS, στην ενότητα *Siri*. Εκεί μπορείτε να δείτε ολόκληρη τη λίστα και να προσθέσετε τη δική σας διατύπωση για οποιαδήποτε εντολή.
-

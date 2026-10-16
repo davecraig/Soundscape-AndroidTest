@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: hu
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Automatikus bemondások
@@ -43,4 +44,3 @@ Válassza az *Alvás* gombot a kezdőképernyő tetején. A Soundscape nem haszn
 ## Járművön vagy vonaton
 
 A Soundscape észreveszi, ha járműsebességgel halad. Ilyenkor nem mondja be a kereszteződéseket és a közeli üzleteket, mert túl gyorsan haladnak el. Helyettük bemondja az utat, amelyen halad, a nevezetességeket, a megállókat és állomásokat, a folyókat és az alagutakat.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 20
 lang: hu
 permalink: /users/help-my-location.html
+translated-from: b6e725d95c9c9a49842059ef9cf0ecc79c75a10d
 ---
 
 # Saját helyzetem
@@ -13,4 +14,3 @@ permalink: /users/help-my-location.html
 A *Saját helyzetem* megmondja, hol van. Elmondja, merre néz vagy merre halad, majd az utcát vagy a címet, ahol van. Használja, amikor leszáll egy buszról, kilép egy épületből, vagy elveszíti a tájékozódást.
 
 Ha egy helyben áll, először fordítsa a telefon felső szélét abba az irányba, amerre néz. Ha a telefon zárolva van, vagy a Soundscape nincs a képernyőn, tartsa a telefont vízszintesen is.
-

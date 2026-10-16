@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: hr
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Često postavljana pitanja
@@ -82,4 +83,3 @@ Soundscape preuzima malu količinu podataka karte dok se krećete. Da biste tro�
 
 ### Što je OpenStreetMap?
 OpenStreetMap je slobodna karta svijeta koju izrađuju volonteri. Soundscape je koristi za ulice i mjesta. Svatko može dodati ili ispraviti mjesto na www.openstreetmap.org, a promjena stiže u Soundscape s kasnijim ažuriranjem karte.
-

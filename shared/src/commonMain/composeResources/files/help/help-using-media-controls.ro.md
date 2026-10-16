@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: ro
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Utilizarea comenzilor media
@@ -43,4 +44,3 @@ Meniul audio îți oferă mai multe acțiuni cu aceleași trei butoane. Soundsca
 *Anterior* schimbă *Detaliul anunțurilor*, la fel ca în *Mod original*.
 
 Meniul începe cu patru grupuri: *Ascultă împrejurimile*, *Control rută*, *Pornește ruta* și *Pornește baliza audio*. Selectează un grup pentru a-i auzi acțiunile. *Ascultă împrejurimile* și *Control rută* se termină cu *Meniu principal*, care te duce înapoi la cele patru grupuri.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: de
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Routen
@@ -35,4 +36,3 @@ Wählen Sie die Route auf dem Bildschirm *Routen* aus und dann *Route bearbeiten
 ## Route teilen
 
 Wählen Sie die Route auf dem Bildschirm *Routen* aus und dann *Teilen*.
-

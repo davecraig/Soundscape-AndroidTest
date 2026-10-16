@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: ca
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Consells
@@ -19,4 +20,3 @@ Pots silenciar la balisa i continuar sentint a quina distància és el lloc. Sou
 Per explorar un lloc abans d'anar-hi, obre els seus *Detalls de la ubicació* i selecciona *Simula la ubicació*. Soundscape es comporta llavors com si hi fossis.
 
 Per obtenir indicacions pas a pas, obre els *Detalls de la ubicació* d'un lloc i selecciona *Obre a l'aplicació de mapes*. Soundscape continua funcionant mentre l'altra aplicació dona les indicacions.
-

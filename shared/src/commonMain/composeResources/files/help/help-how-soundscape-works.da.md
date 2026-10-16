@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: da
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Sådan fungerer Soundscape
@@ -35,4 +36,3 @@ Stereohovedtelefoner giver den tydeligste fornemmelse af retning. Soundscape fun
 ## Guidet tutorial
 
 Hvis du vil prøve de vigtigste funktioner trin for trin, skal du åbne menuen og vælge *Guidet tutorial*.
-

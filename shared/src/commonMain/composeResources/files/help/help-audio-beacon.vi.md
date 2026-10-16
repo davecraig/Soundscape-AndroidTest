@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: vi
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Đèn hiệu âm thanh
@@ -39,4 +40,3 @@ Chọn *Dừng lộ trình* trên màn hình chính. Nút vẫn mang tên này n
 Khi bạn cách địa điểm khoảng 12 mét, Soundscape báo cho bạn và gỡ đèn hiệu. Điện thoại không thể xác định vị trí của bạn chính xác hơn thế. Để nghe lại đèn hiệu, hãy đặt lại đèn hiệu.
 
 Đèn hiệu đặt tại địa điểm cách chưa đến 30 mét sẽ tiếp tục bật cho đến khi bạn gỡ nó.
-

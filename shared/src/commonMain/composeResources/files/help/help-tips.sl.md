@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: sl
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Nasveti
@@ -19,4 +20,3 @@ Svetilnik lahko utišate in še vedno slišite, kako daleč je kraj. Soundscape 
 Če želite kraj raziskati vnaprej, odprite njegove *Podrobnosti lokacije* in izberite *Simulacija lokacije*. Soundscape se nato obnaša, kot da ste tam.
 
 Za navodila zavoj za zavojem odprite *Podrobnosti lokacije* kraja in izberite *Odpri v aplikaciji za zemljevide*. Soundscape deluje naprej, medtem ko druga aplikacija daje navodila.
-

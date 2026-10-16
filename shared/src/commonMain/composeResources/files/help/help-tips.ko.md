@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: ko
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # 팁
@@ -19,4 +20,3 @@ permalink: /users/help-tips.html
 가기 전에 장소를 살펴보려면 그 장소의 *위치 세부 정보*를 열고 *위치 시뮬레이션*을 선택하세요. 그러면 Soundscape는 마치 그곳에 있는 것처럼 작동합니다.
 
 턴바이턴 길 안내가 필요하면 장소의 *위치 세부 정보*를 열고 *지도 앱에서 열기*를 선택하세요. 다른 앱이 길을 안내하는 동안에도 Soundscape는 계속 실행됩니다.
-

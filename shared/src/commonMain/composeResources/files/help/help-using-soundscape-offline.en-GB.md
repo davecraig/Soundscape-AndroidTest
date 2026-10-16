@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: en-GB
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Using Soundscape Offline
@@ -27,4 +28,3 @@ Maps can be large, so use Wi-Fi if you can.
 ## Without an offline map
 
 Callouts may still work in places you visited recently, because your phone keeps some map data for a while. Search finds only your markers. Everything returns to normal when your phone is back online.
-

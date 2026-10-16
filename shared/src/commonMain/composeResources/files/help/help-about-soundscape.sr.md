@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: sr
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # О апликацији Soundscape
@@ -27,4 +28,3 @@ Soundscape се ослања на ове одличне библиотеке и 
 Волонтери пројекта [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) побољшали су неколико превода, који су доступни за коришћење под [MIT лиценцом](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Сви називи производа, компанија и логотипи трећих страна су заштитни знакови или регистровани заштитни знакови и остају у власништву својих носилаца права.
-

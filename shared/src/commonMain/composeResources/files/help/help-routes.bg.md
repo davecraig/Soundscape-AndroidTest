@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: bg
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Маршрути
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## Споделяне на маршрут
 
 Изберете маршрута на екрана *Маршрути*, след това изберете *Споделяне*.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ca
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Com funciona Soundscape
@@ -35,4 +36,3 @@ Els auriculars estèreo donen la sensació de direcció més clara. Soundscape t
 ## Tutorial guiat
 
 Per provar les funcions principals pas a pas, obre el menú i selecciona *Tutorial guiat*.
-

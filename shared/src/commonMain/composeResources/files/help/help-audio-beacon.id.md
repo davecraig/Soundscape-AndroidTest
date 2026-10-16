@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: id
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Suar Audio
@@ -39,4 +40,3 @@ Pilih *Hentikan Rute* di layar utama. Tombol ini memakai nama tersebut meskipun 
 Saat Anda berada sekitar 12 meter dari tempat itu, Soundscape memberi tahu Anda dan menghapus suar. Ponsel tidak dapat menentukan posisi Anda lebih tepat dari itu. Untuk mendengar suar lagi, pasang lagi suarnya.
 
 Suar yang dipasang pada tempat yang jaraknya kurang dari 30 meter tetap menyala sampai Anda menghapusnya.
-

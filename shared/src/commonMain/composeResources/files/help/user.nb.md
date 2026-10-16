@@ -6,6 +6,7 @@ nav_order: 1
 lang: nb
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Dokumentasjonen her er fra den nyeste versjonen av appen. I appen kan du komme til den ved å klikke på menyknappen (øverst til venstre) og deretter velge Hjelp og veiledninger.

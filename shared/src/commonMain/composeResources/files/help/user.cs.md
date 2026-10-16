@@ -6,6 +6,7 @@ nav_order: 1
 lang: cs
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Dokumentace zde pochází z nejnovější verze aplikace. V aplikaci se k ní dostanete kliknutím na tlačítko nabídky (vlevo nahoře) a výběrem možnosti Nápověda a výuková videa.

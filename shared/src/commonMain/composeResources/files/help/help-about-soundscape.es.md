@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: es
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Acerca de Soundscape
@@ -27,4 +28,3 @@ Soundscape se apoya en estas excelentes bibliotecas y datos de terceros. Haz cli
 Los voluntarios de [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) mejoraron varias de las traducciones, que están disponibles para su uso bajo la [licencia MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Todos los nombres y logotipos de productos y empresas de terceros son marcas comerciales o marcas registradas y siguen siendo propiedad de sus respectivos titulares.
-

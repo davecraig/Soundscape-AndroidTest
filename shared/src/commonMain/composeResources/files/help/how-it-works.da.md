@@ -7,7 +7,9 @@ nav_order: 200
 lang: da
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Teknologien bag Soundscape
 Formålet med denne side er at give en generel forståelse af, hvordan Soundscape-appen fungerer under motorhjelmen. Du behøver ikke at læse dette for at bruge appen, men der er et par grunde til, at den er skrevet:
 
@@ -85,12 +87,12 @@ Alle de fortolkede data lægges også ind i et let søgbart format, så appen ne
   * Landsbyer
   * Småbyer
 
- Med dette på plads kan appen for enhver placering nemt finde
+Med dette på plads kan appen for enhver placering nemt finde
 
- * "Alle transitstoppesteder inden for 50 m" eller
+* "Alle transitstoppesteder inden for 50 m" eller
  * "Det nærmeste vejkryds foran mig" eller
  * "Den nærmeste småby, landsby, by eller storby"
-  
+
 Med dette på plads er oprettelse af lydbeskederne blot et spørgsmål om at forespørge dataene baseret på den aktuelle placering og retning. Efterhånden som brugeren bevæger sig hen over et flisegitter, opdaterer den det, så det centreres omkring den aktuelle placering.
 
 ### Flere data
@@ -108,7 +110,7 @@ Jo mere kontekst der kan tilføjes i beskrivelser, jo bedre, så længe det hold
 * **Er det et fortov?**
 Mange områder af OpenStreetMap har nu fortove kortlagt separat fra veje. Disse er normalt tagget som `sidewalk`, men de siger normalt ikke, hvilken vej det er, de er fortovet til.
 
-    Når appen støder på et unavngivent fortov, søger den efter en vej, som den mener løber ved siden af det, og bruger den til at navngive fortovet. Dette viser sig at være meget vigtigt for vores lydbeskeder. I stedet for at annoncere hvert fortovsvejkryds, udsendes lydbeskederne, efterhånden som vi bevæger os langs et fortov, som om vi bevægede os langs den tilknyttede vej. I stedet for *"Kører vest ad sti"* har vi *"Kører vest ad Moor Road"*. Brugeren er på det kortlagte fortov, men beskrivelsen giver mere mening.
+Når appen støder på et unavngivent fortov, søger den efter en vej, som den mener løber ved siden af det, og bruger den til at navngive fortovet. Dette viser sig at være meget vigtigt for vores lydbeskeder. I stedet for at annoncere hvert fortovsvejkryds, udsendes lydbeskederne, efterhånden som vi bevæger os langs et fortov, som om vi bevægede os langs den tilknyttede vej. I stedet for *"Kører vest ad sti"* har vi *"Kører vest ad Moor Road"*. Brugeren er på det kortlagte fortov, men beskrivelsen giver mere mening.
 
 * **Ender den ved en navngiven Way?**
 Meget ofte er der gangstier, der forbinder to veje. Ved at se på begge ender af stien kan vi nemt tilføje den kontekst, så det i den ene retning kan være *"Sti til Moor Road"* og ved nærmelse fra den anden ende kan være *"Sti til Roselea Drive"*. Dette gøres kun, hvor stien ikke deler sig; hvis den deler sig i to unavngivne stier, forsøger vi ikke at tilføje denne kontekst.

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: is
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Notkun fjölmiðlastýringa
@@ -43,4 +44,3 @@ Hljóðvalmyndin gefur þér fleiri aðgerðir með sömu þremur hnöppunum. So
 *Fyrri* breytir stillingunni *Nákvæmni tilkynninga*, eins og í *Upprunalegur hamur*.
 
 Valmyndin byrjar á fjórum flokkum: *Lýsing á umhverfi*, *Stjórnun leiða*, *Hefja leið* og *Kveikja á hljóðvita*. Veldu flokk til að heyra aðgerðir hans. *Lýsing á umhverfi* og *Stjórnun leiða* enda á *Aðalvalmynd*, sem fer með þig aftur í flokkana fjóra.
-

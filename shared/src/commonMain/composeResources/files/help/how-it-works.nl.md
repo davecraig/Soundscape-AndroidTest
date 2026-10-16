@@ -7,7 +7,9 @@ nav_order: 200
 lang: nl
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # De technologie achter Soundscape
 Het doel van deze pagina is om een algemeen begrip te geven van hoe de Soundscape-app onder de motorkap werkt. U hoeft dit niet te lezen om de app te gebruiken, maar er zijn een paar redenen waarom het is geschreven:
 
@@ -85,12 +87,12 @@ Alle geparseerde gegevens worden ook in een gemakkelijk doorzoekbaar formaat gep
   * Dorpen
   * Gehuchten
 
- Met dit op zijn plaats kan de app voor elke locatie vervolgens gemakkelijk vinden
+Met dit op zijn plaats kan de app voor elke locatie vervolgens gemakkelijk vinden
 
- * "Alle haltes van het openbaar vervoer binnen 50m" of
+* "Alle haltes van het openbaar vervoer binnen 50m" of
  * "Het dichtstbijzijnde kruispunt vóór mij" of
  * "Het dichtstbijzijnde gehucht, dorp, gemeente of stad"
-  
+
 Met dit op zijn plaats is het maken van de audiowaarschuwingen slechts een kwestie van het opvragen van de gegevens op basis van de huidige locatie en richting. Terwijl de gebruiker zich over een tegelraster verplaatst, werkt het dit bij zodat het rond de huidige locatie gecentreerd is.
 
 ### Meer gegevens
@@ -108,7 +110,7 @@ Hoe meer context er aan beschrijvingen kan worden toegevoegd, hoe beter, zolang 
 * **Is het een stoep?**
 Veel gebieden van OpenStreetMap hebben nu stoepen apart van wegen in kaart gebracht. Deze worden meestal getagd als `sidewalk`, maar ze geven normaal gesproken niet aan welke weg het is waar ze de stoep van zijn.
 
-    Wanneer de app een naamloze stoep tegenkomt, zoekt het naar een weg waarvan het denkt dat die ernaast loopt en gebruikt het die om de stoep te benoemen. Dit blijkt erg belangrijk te zijn voor onze waarschuwingen. In plaats van elk stoepkruispunt aan te kondigen, worden de waarschuwingen terwijl we langs een stoep lopen gemaakt alsof we langs de bijbehorende weg liepen. In plaats van *"U loopt naar het westen langs pad"* hebben we *"U loopt naar het westen langs Moor Road"*. De gebruiker bevindt zich op de in kaart gebrachte stoep, maar de beschrijving is logischer.
+Wanneer de app een naamloze stoep tegenkomt, zoekt het naar een weg waarvan het denkt dat die ernaast loopt en gebruikt het die om de stoep te benoemen. Dit blijkt erg belangrijk te zijn voor onze waarschuwingen. In plaats van elk stoepkruispunt aan te kondigen, worden de waarschuwingen terwijl we langs een stoep lopen gemaakt alsof we langs de bijbehorende weg liepen. In plaats van *"U loopt naar het westen langs pad"* hebben we *"U loopt naar het westen langs Moor Road"*. De gebruiker bevindt zich op de in kaart gebrachte stoep, maar de beschrijving is logischer.
 
 * **Eindigt het bij een benoemde Way?**
 Heel vaak zijn er voetpaden die twee wegen met elkaar verbinden. Door naar beide uiteinden van het pad te kijken, kunnen we die context gemakkelijk toevoegen, zodat het in de ene richting *"Pad naar Moor Road"* kan zijn en wanneer u vanaf het andere uiteinde nadert *"Pad naar Roselea Drive"*. Dit gebeurt alleen waar het pad zich niet splitst; als het zich splitst in twee naamloze paden, dan proberen we deze context niet toe te voegen.
@@ -117,7 +119,7 @@ Heel vaak zijn er voetpaden die twee wegen met elkaar verbinden. Door naar beide
 Als een naamloze Way begint of eindigt in de buurt van een markering, wordt die gebruikt om hem te beschrijven, bijv. *"Pad naar kruising grote boom"*. De gebruiker kan markeringen toevoegen waar hij maar wil, en door markeringen langs padnetwerken toe te voegen, kan hij context toevoegen aan een hele route.
 
 * **Gaat het een POI in of uit?**
-Als een naamloze Way buiten een POI begint en erbinnen eindigt (of omgekeerd), dan kunnen we die context toevoegen, bijv. *"Spoor naar Lennox Park"*. 
+Als een naamloze Way buiten een POI begint en erbinnen eindigt (of omgekeerd), dan kunnen we die context toevoegen, bijv. *"Spoor naar Lennox Park"*.
 
 * **Eindigt het in de buurt van een ingang?**
 Als een naamloze Way begint of eindigt dichter bij een ingang, dan kunnen we die context toevoegen, bijv. *"Ventweg naar Best Buy"*.

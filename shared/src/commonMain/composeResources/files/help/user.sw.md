@@ -6,6 +6,7 @@ nav_order: 1
 lang: sw
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Nyaraka zilizopo hapa zimetokana na toleo jipya zaidi la programu. Kwenye programu unaweza kufikia sehemu hii kwa kubofya kitufe cha menyu (juu kushoto) kisha kuchagua Msaada na Mafunzo.

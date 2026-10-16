@@ -7,7 +7,9 @@ nav_order: 200
 lang: fr-CA
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # La technologie derrière Soundscape
 Le but de cette page est de donner une compréhension générale du fonctionnement interne de l'application Soundscape. Vous n'avez pas besoin de la lire pour utiliser l'application, mais elle a été rédigée pour quelques raisons :
 
@@ -85,12 +87,12 @@ Toutes les données analysées sont également placées dans un format facile à
   * Villages
   * Hameaux
 
- Une fois cela en place, pour tout emplacement l'application peut alors facilement trouver
+Une fois cela en place, pour tout emplacement l'application peut alors facilement trouver
 
- * « Tous les arrêts de transport à moins de 50 m » ou
+* « Tous les arrêts de transport à moins de 50 m » ou
  * « L'intersection la plus proche devant moi » ou
  * « Le hameau, village, bourg ou ville le plus proche »
-  
+
 Une fois cela en place, créer les notifications audio se résume à interroger les données en fonction de l'emplacement et de la direction actuels. À mesure que l'utilisateur se déplace sur une grille de tuiles, celle-ci est mise à jour afin de rester centrée sur l'emplacement actuel.
 
 ### Plus de données
@@ -108,7 +110,7 @@ Plus on peut ajouter de contexte aux descriptions, mieux c'est, à condition que
 * **Est-ce un trottoir?**
 De nombreux secteurs d'OpenStreetMap ont maintenant des trottoirs cartographiés séparément des routes. Ceux-ci sont généralement étiquetés `sidewalk`, mais ils n'indiquent normalement pas à quelle route ils correspondent.
 
-    Lorsque l'application rencontre un trottoir sans nom, elle recherche une route qu'elle pense longer et l'utilise pour nommer le trottoir. Cela s'avère très important pour nos notifications. Au lieu d'annoncer chaque intersection de trottoir, à mesure que nous avançons le long d'un trottoir, les notifications sont faites comme si nous avancions le long de la route associée. Au lieu de *« Se déplaçant vers l'ouest le long d'un sentier »*, nous avons *« Se déplaçant vers l'ouest le long de Moor Road »*. L'utilisateur se trouve sur le trottoir cartographié, mais la description a plus de sens.
+Lorsque l'application rencontre un trottoir sans nom, elle recherche une route qu'elle pense longer et l'utilise pour nommer le trottoir. Cela s'avère très important pour nos notifications. Au lieu d'annoncer chaque intersection de trottoir, à mesure que nous avançons le long d'un trottoir, les notifications sont faites comme si nous avancions le long de la route associée. Au lieu de *« Se déplaçant vers l'ouest le long d'un sentier »*, nous avons *« Se déplaçant vers l'ouest le long de Moor Road »*. L'utilisateur se trouve sur le trottoir cartographié, mais la description a plus de sens.
 
 * **Se termine-t-elle à une Way nommée?**
 Très souvent, il existe des sentiers piétonniers qui relient deux routes entre elles. En examinant les deux extrémités du sentier, nous pouvons facilement ajouter ce contexte de sorte que, dans un sens, cela pourrait être *« Sentier vers Moor Road »* et, en approchant de l'autre extrémité, cela pourrait être *« Sentier vers Roselea Drive »*. Cela n'est fait que lorsque le sentier ne se divise pas; s'il se divise en deux sentiers sans nom, nous n'essayons pas d'ajouter ce contexte.
@@ -117,7 +119,7 @@ Très souvent, il existe des sentiers piétonniers qui relient deux routes entre
 Si une Way sans nom commence ou se termine près d'un marqueur, celui-ci est utilisé pour la décrire, par exemple *« Sentier vers le carrefour du grand arbre »*. L'utilisateur peut ajouter des marqueurs où il le souhaite et, en ajoutant des marqueurs le long des réseaux de sentiers, il peut ajouter du contexte à tout un itinéraire.
 
 * **Entre-t-elle ou sort-elle d'un point d'intérêt?**
-Si une Way sans nom commence à l'extérieur d'un point d'intérêt et se termine à l'intérieur (ou vice versa), nous pouvons alors ajouter ce contexte, par exemple *« Piste vers Lennox Park »*. 
+Si une Way sans nom commence à l'extérieur d'un point d'intérêt et se termine à l'intérieur (ou vice versa), nous pouvons alors ajouter ce contexte, par exemple *« Piste vers Lennox Park »*.
 
 * **Se termine-t-elle près d'une entrée?**
 Si une Way sans nom commence ou se termine plus près d'une entrée, nous pouvons alors ajouter ce contexte, par exemple *« Ruelle vers Best Buy »*.

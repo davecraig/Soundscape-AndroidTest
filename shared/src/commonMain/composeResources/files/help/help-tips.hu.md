@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: hu
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tippek
@@ -19,4 +20,3 @@ Némíthatja az irányjelző hangot, és közben továbbra is hallhatja, milyen 
 Ha indulás előtt szeretne felfedezni egy helyet, nyissa meg a *Helyszín adatai* képernyőt, és válassza a *Helyszín szimulálása* lehetőséget. A Soundscape ekkor úgy viselkedik, mintha Ön ott lenne.
 
 Ha lépésről lépésre szeretne útbaigazítást, nyissa meg egy hely *Helyszín adatai* képernyőjét, és válassza a *Megnyitás térképalkalmazásban* lehetőséget. A Soundscape tovább fut, miközben a másik alkalmazás ad útbaigazítást.
-

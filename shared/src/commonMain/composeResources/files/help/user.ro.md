@@ -6,6 +6,7 @@ nav_order: 1
 lang: ro
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Documentația de aici provine din cea mai recentă versiune a aplicației. În aplicație o poți accesa apăsând butonul de meniu (în stânga sus) și selectând apoi Ajutor și tutoriale.

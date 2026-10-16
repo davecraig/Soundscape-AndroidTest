@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: nb
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Bruke Soundscape offline
@@ -27,4 +28,3 @@ Kart kan være store, så bruk Wi-Fi hvis du kan.
 ## Uten offlinekart
 
 Meldinger kan fortsatt fungere på steder du nylig har besøkt, fordi telefonen beholder noe kartdata en stund. Søk finner bare markørene dine. Alt blir som normalt når telefonen er på nett igjen.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: pt-BR
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Sinalizador Sonoro
@@ -39,4 +40,3 @@ Selecione *Interromper Rota* na tela inicial. O botão tem esse nome mesmo quand
 Quando você está a cerca de 12 metros do lugar, o Soundscape avisa e remove o sinalizador. O telefone não consegue determinar a sua posição com mais exatidão do que isso. Para ouvir o sinalizador de novo, defina-o de novo.
 
 Um sinalizador definido em um lugar a menos de 30 metros continua ativo até você removê-lo.
-

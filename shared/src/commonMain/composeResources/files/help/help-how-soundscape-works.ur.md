@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ur
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape کیسے کام کرتا ہے
@@ -35,4 +36,3 @@ Soundscape آپ کے اردگرد کی دنیا کو آواز سے بیان کر
 ## گائیڈڈ ٹیوٹوریل
 
 اہم خصوصیات کو ایک ایک قدم کر کے آزمانے کے لیے مینو کھولیں اور *گائیڈڈ ٹیوٹوریل* منتخب کریں۔
-

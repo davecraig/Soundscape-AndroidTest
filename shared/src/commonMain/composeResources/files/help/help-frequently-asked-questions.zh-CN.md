@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: zh-CN
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # 常见问题
@@ -82,4 +83,3 @@ Soundscape 会在您移动时下载少量地图数据。要大幅减少流量，
 
 ### 什么是 OpenStreetMap？
 OpenStreetMap 是一张由志愿者共同绘制的自由的世界地图。Soundscape 用它来获取街道和地点。任何人都可以在 www.openstreetmap.org 上添加或更正地点，改动会在之后的地图更新中进入 Soundscape。
-

@@ -7,7 +7,9 @@ nav_order: 200
 lang: pt
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # A tecnologia por trás do Soundscape
 O objetivo desta página é dar uma compreensão geral de como a aplicação Soundscape funciona nos bastidores. Não precisa de ler isto para utilizar a aplicação, mas existem algumas razões pelas quais foi escrita:
 
@@ -85,9 +87,9 @@ Todos os dados analisados são também colocados num formato fácil de pesquisar
   * Aldeias
   * Lugarejos
 
- Com isto implementado, para qualquer localização a aplicação pode então encontrar facilmente
+Com isto implementado, para qualquer localização a aplicação pode então encontrar facilmente
 
- * "Todas as paragens de transportes num raio de 50 m" ou
+* "Todas as paragens de transportes num raio de 50 m" ou
  * "O cruzamento mais próximo à minha frente" ou
  * "O lugarejo, aldeia, vila ou cidade mais próximo"
 
@@ -108,7 +110,7 @@ Quanto mais contexto puder ser adicionado às descrições, melhor, desde que se
 * **É um passeio?**
 Muitas áreas do OpenStreetMap têm agora os passeios mapeados separadamente das estradas. Estes são normalmente etiquetados como `sidewalk`, mas normalmente não indicam qual é a estrada de que são o passeio.
 
-    Quando a aplicação encontra um passeio sem nome, pesquisa por uma estrada que pensa estar a correr ao seu lado e utiliza-a para dar nome ao passeio. Isto acaba por ser muito importante para os nossos avisos. Em vez de anunciar cada cruzamento de passeio, à medida que nos movemos ao longo de um passeio os avisos são feitos como se estivéssemos a mover-nos ao longo da estrada associada. Em vez de *"A viajar em direção a oeste num caminho"* temos *"A viajar em direção a oeste na Moor Road"*. O utilizador está no passeio mapeado, mas a descrição faz mais sentido.
+Quando a aplicação encontra um passeio sem nome, pesquisa por uma estrada que pensa estar a correr ao seu lado e utiliza-a para dar nome ao passeio. Isto acaba por ser muito importante para os nossos avisos. Em vez de anunciar cada cruzamento de passeio, à medida que nos movemos ao longo de um passeio os avisos são feitos como se estivéssemos a mover-nos ao longo da estrada associada. Em vez de *"A viajar em direção a oeste num caminho"* temos *"A viajar em direção a oeste na Moor Road"*. O utilizador está no passeio mapeado, mas a descrição faz mais sentido.
 
 * **Termina numa Via com nome?**
 Muito frequentemente existem caminhos pedonais que ligam duas estradas. Ao olhar para ambas as extremidades do caminho, podemos facilmente adicionar esse contexto, de modo a que numa direção possa ser *"Caminho para a Moor Road"* e aproximando-se da outra extremidade possa ser *"Caminho para a Roselea Drive"*. Isto só é feito quando o caminho não se bifurca; se se bifurcar em dois caminhos sem nome, então não tentamos adicionar este contexto.

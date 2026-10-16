@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: is
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Raddskipanir með Siri
@@ -43,4 +44,3 @@ Allar skipanir eru eins uppbyggðar: *„Soundscape“*, síðan flokkur og sí�
 ## Gott að vita
 
 Skipanirnar birtast líka í forritinu Shortcuts og í iOS-stillingunum undir *Siri*. Þar getur þú séð allan listann og bætt við þínu eigin orðalagi fyrir hvaða skipun sem er.
-

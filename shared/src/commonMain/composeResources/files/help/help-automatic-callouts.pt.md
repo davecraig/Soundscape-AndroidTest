@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: pt
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Avisos Automáticos
@@ -43,4 +44,3 @@ Selecione o botão *Suspender* na parte superior do ecrã principal. O Soundscap
 ## Num Veículo ou num Comboio
 
 O Soundscape repara quando se desloca à velocidade de um veículo. Deixa então de anunciar cruzamentos e lojas próximas, porque passam depressa demais. Em vez disso, anuncia a estrada em que segue, pontos de referência, paragens e estações, rios e túneis.
-

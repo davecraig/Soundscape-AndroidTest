@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: nl
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Mediaregelaars gebruiken
@@ -43,4 +44,3 @@ Het audiomenu geeft u meer acties met dezelfde drie knoppen. Soundscape leest el
 *Vorige* wijzigt het *Detailniveau aankondigingen*, net als in de *Originele modus*.
 
 Het menu begint met vier groepen: *Luisteren naar mijn omgeving*, *Routebediening*, *Route starten* en *Audiobaken starten*. Selecteer een groep om de acties ervan te horen. *Luisteren naar mijn omgeving* en *Routebediening* eindigen met *Hoofdmenu*. Daarmee gaat u terug naar de vier groepen.
-

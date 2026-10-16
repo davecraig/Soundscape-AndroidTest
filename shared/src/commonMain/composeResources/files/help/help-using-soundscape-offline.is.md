@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: is
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Notkun Soundscape án nettengingar
@@ -27,4 +28,3 @@ Kort geta verið stór, svo notaðu Wi-Fi ef þú getur.
 ## Án ónettengds korts
 
 Tilkynningar geta enn virkað á stöðum sem þú heimsóttir nýlega, því síminn geymir sum kortagögn um tíma. Leit finnur aðeins merkin þín. Allt verður eðlilegt aftur þegar síminn er kominn aftur á netið.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: ca
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Utilitzar els controls multimèdia
@@ -43,4 +44,3 @@ El menú d'àudio et dona més accions amb els mateixos tres botons. Soundscape 
 *Anterior* canvia el *Detall dels avisos de veu*, igual que al *Mode original*.
 
 El menú comença amb quatre grups: *Escolta el meu entorn*, *Control de ruta*, *Inicia la ruta* i *Inicia la balisa sonora*. Selecciona un grup per sentir-ne les accions. *Escolta el meu entorn* i *Control de ruta* acaben amb *Menú principal*, que et torna als quatre grups.
-

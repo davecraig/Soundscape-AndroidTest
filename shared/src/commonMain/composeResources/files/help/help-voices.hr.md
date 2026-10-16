@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: hr
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Glasovi
@@ -15,4 +16,3 @@ Soundscape može koristiti bilo koji glas instaliran na vašem iPhoneu, osim Sir
 {% else %}
 Soundscape može koristiti bilo koji glas instaliran na vašem telefonu. Da biste dodali glasove, otvorite postavke telefona i pronađite *Pretvaranje teksta u govor*. Da biste odabrali glas u Soundscapeu, otvorite izbornik i odaberite *Postavke*, zatim *Zvuk*, zatim *Glasovi*.
 {% endif %}
-

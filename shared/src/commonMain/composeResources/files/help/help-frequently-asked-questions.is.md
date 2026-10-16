@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: is
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Algengar spurningar
@@ -82,4 +83,3 @@ Soundscape hleður niður litlu magni af kortagögnum á meðan þú ert á fer�
 
 ### Hvað er OpenStreetMap?
 OpenStreetMap er frjálst kort af heiminum, búið til af sjálfboðaliðum. Soundscape notar það fyrir götur og staði. Hver sem er getur bætt við eða leiðrétt stað á www.openstreetmap.org, og breytingin berst til Soundscape í síðari kortauppfærslu.
-

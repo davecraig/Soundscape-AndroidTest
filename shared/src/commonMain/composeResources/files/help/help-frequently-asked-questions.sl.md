@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: sl
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Pogosta vprašanja
@@ -82,4 +83,3 @@ Soundscape med vašim gibanjem prenaša majhno količino podatkov zemljevida. Č
 
 ### Kaj je OpenStreetMap?
 OpenStreetMap je prost zemljevid sveta, ki ga ustvarjajo prostovoljci. Soundscape ga uporablja za ulice in kraje. Vsakdo lahko na www.openstreetmap.org doda ali popravi kraj, sprememba pa pride v Soundscape s poznejšo posodobitvijo zemljevida.
-

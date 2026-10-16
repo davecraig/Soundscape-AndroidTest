@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: ta
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # பாதைகள்
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## பாதையைப் பகிர்தல்
 
 *பாதைகள்* திரையில் பாதையைத் தேர்ந்தெடுத்து, பின்னர் *பகிர்* என்பதைத் தேர்ந்தெடுக்கவும்.
-

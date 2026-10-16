@@ -6,6 +6,7 @@ nav_order: 1
 lang: pa
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 ਇੱਥੇ ਦਿੱਤੇ ਦਸਤਾਵੇਜ਼ ਐਪ ਦੇ ਸਭ ਤੋਂ ਨਵੇਂ ਵਰਜਨ ਦੇ ਹਨ। ਐਪ ਵਿੱਚ ਤੁਸੀਂ ਮੀਨੂ ਬਟਨ (ਉੱਪਰ ਖੱਬੇ) 'ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਅਤੇ ਫਿਰ ਮਦਦ ਅਤੇ ਟਿਊਟੋਰੀਅਲ ਚੁਣ ਕੇ ਇਨ੍ਹਾਂ ਤੱਕ ਪਹੁੰਚ ਸਕਦੇ ਹੋ।

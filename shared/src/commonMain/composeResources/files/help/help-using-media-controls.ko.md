@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: ko
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # 미디어 제어 사용하기
@@ -43,4 +44,3 @@ permalink: /users/help-using-media-controls.html
 *이전*은 *기본 모드*에서와 똑같이 *안내 상세도*를 바꿉니다.
 
 메뉴는 네 개의 그룹으로 시작합니다. *주변 환경 듣기*, *경로 제어*, *경로 시작*, *오디오 비콘 시작*입니다. 그룹을 선택하면 그 안의 동작을 들을 수 있습니다. *주변 환경 듣기*와 *경로 제어*는 *메인 메뉴*로 끝나며, 이 항목은 네 개의 그룹으로 돌아갑니다.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: vi
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Sử dụng Soundscape ngoại tuyến
@@ -27,4 +28,3 @@ Bản đồ có thể lớn, vì vậy hãy dùng Wi-Fi nếu có thể.
 ## Khi không có bản đồ ngoại tuyến
 
 Thông báo có thể vẫn hoạt động ở những nơi bạn vừa ghé gần đây, vì điện thoại giữ lại một phần dữ liệu bản đồ trong một thời gian. Tìm kiếm chỉ tìm thấy các điểm đánh dấu của bạn. Mọi thứ trở lại bình thường khi điện thoại có mạng lại.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: ha
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Amfani da Soundscape Ba Tare da Intanet Ba
@@ -27,4 +28,3 @@ Taswirori na iya zama manya, don haka ku yi amfani da Wi-Fi idan za ku iya.
 ## Idan babu taswirar offline
 
 Sanarwowi na iya ci gaba da aiki a wuraren da kuka ziyarta kwanan nan, domin wayarku tana ajiye wasu bayanan taswira na ɗan lokaci. Bincike yana samun alamominku kawai. Komai yana komawa daidai idan wayarku ta dawo kan intanet.
-

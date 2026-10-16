@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: fi
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Usein kysytyt kysymykset
@@ -82,4 +83,3 @@ Soundscape lataa pienen määrän karttatietoja sitä mukaa kuin liikut. Jos hal
 
 ### Mikä on OpenStreetMap?
 OpenStreetMap on vapaa maailmankartta, jonka tekevät vapaaehtoiset. Soundscape käyttää sitä katuihin ja paikkoihin. Kuka tahansa voi lisätä tai korjata paikan osoitteessa www.openstreetmap.org, ja muutos tulee Soundscapeen myöhemmässä karttapäivityksessä.
-

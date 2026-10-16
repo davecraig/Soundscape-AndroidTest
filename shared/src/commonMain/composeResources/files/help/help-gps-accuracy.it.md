@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: it
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # Precisione GPS
@@ -19,4 +20,3 @@ Di solito la precisione è peggiore al chiuso, tra edifici alti e nel primo minu
 {% if app %}
 Precisione attuale: {{ accuracy }} ({{ quality }})
 {% endif %}
-

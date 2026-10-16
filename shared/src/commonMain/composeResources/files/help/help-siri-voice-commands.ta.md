@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ta
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Siri குரல் கட்டளைகள்
@@ -43,4 +44,3 @@ Soundscape தனது சொந்தக் குரலில், வழக�
 ## தெரிந்துகொள்ள வேண்டியவை
 
 இந்தக் கட்டளைகள் Shortcuts ஆப்ஸிலும், iOS இன் Settings ஆப்ஸில் *Siri* பகுதியிலும் தோன்றும். அங்கே முழுப் பட்டியலையும் பார்க்கலாம், எந்தக் கட்டளைக்கும் உங்கள் சொந்தச் சொற்களைச் சேர்க்கலாம்.
-

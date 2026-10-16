@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: pt-BR
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Uso dos Controles de Mídia
@@ -43,4 +44,3 @@ O menu de áudio oferece mais ações com os mesmos três botões. O Soundscape 
 *Anterior* muda o *Detalhe das Notificações*, como no *Modo Original*.
 
 O menu começa com quatro grupos: *Ouvir Meus Arredores*, *Controle de Rota*, *Iniciar Rota* e *Iniciar Sinalizador Sonoro*. Selecione um grupo para ouvir as ações dele. *Ouvir Meus Arredores* e *Controle de Rota* terminam com *Menu principal*, que leva você de volta aos quatro grupos.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: sw
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Amri za Sauti za Siri
@@ -43,4 +44,3 @@ Unaweza pia kuacha baada ya kundi, na Siri atakuuliza unataka chaguo lipi. Kwa h
 ## Vizuri Kujua
 
 Amri hizi pia huonekana katika programu ya Njia za Mkato na katika programu ya Mipangilio ya iOS chini ya *Siri*. Huko unaweza kuona orodha nzima na kuongeza maneno yako mwenyewe kwa amri yoyote.
-

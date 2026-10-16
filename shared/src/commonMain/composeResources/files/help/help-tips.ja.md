@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: ja
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # ヒント
@@ -19,4 +20,3 @@ permalink: /users/help-tips.html
 出かける前に場所を調べるには、その場所の *場所の詳細* を開いて *位置のシミュレーション* を選択します。すると Soundscape は、あなたがそこにいるかのように動作します。
 
 曲がり角ごとの道案内が必要なときは、場所の *場所の詳細* を開いて *地図アプリで開く* を選択します。ほかのアプリが道案内をしている間も、Soundscape は動作し続けます。
-

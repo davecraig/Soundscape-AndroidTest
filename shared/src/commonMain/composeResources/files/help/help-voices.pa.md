@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: pa
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # ਆਵਾਜ਼ਾਂ
@@ -15,4 +16,3 @@ Soundscape ਤੁਹਾਡੇ iPhone 'ਤੇ ਇੰਸਟਾਲ ਕੋਈ ਵੀ
 {% else %}
 Soundscape ਤੁਹਾਡੇ ਫ਼ੋਨ 'ਤੇ ਇੰਸਟਾਲ ਕੋਈ ਵੀ ਆਵਾਜ਼ ਵਰਤ ਸਕਦਾ ਹੈ। ਆਵਾਜ਼ਾਂ ਜੋੜਨ ਲਈ ਆਪਣੇ ਫ਼ੋਨ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ ਅਤੇ *ਲਿਖਤ-ਤੋਂ-ਬੋਲੀ ਆਊਟਪੁੱਟ* ਲੱਭੋ। Soundscape ਵਿੱਚ ਆਵਾਜ਼ ਚੁਣਨ ਲਈ ਮੀਨੂ ਖੋਲ੍ਹੋ ਅਤੇ *ਸੈਟਿੰਗਾਂ*, ਫਿਰ *ਆਡੀਓ*, ਫਿਰ *ਆਵਾਜ਼ਾਂ* ਚੁਣੋ।
 {% endif %}
-

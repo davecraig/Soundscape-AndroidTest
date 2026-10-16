@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: sr
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # Прецизност GPS-а
@@ -19,4 +20,3 @@ Soundscape може да опише вашу околину само оноли�
 {% if app %}
 Тренутна прецизност: {{ accuracy }} ({{ quality }})
 {% endif %}
-

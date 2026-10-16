@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: ja
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # ルート
@@ -35,4 +36,3 @@ permalink: /users/help-routes.html
 ## ルートを共有する
 
 *ルート* 画面でルートを選択し、次に *共有する* を選択します。
-

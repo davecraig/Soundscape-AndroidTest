@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: el
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Πώς λειτουργεί το Soundscape
@@ -35,4 +36,3 @@ permalink: /users/help-how-soundscape-works.html
 ## Καθοδηγούμενος οδηγός
 
 Για να δοκιμάσετε τις κύριες λειτουργίες βήμα προς βήμα, ανοίξτε το μενού και επιλέξτε *Καθοδηγούμενος οδηγός*.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: sw
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Jinsi Soundscape Inavyofanya Kazi
@@ -35,4 +36,3 @@ Vipokea sauti vya stereo vinakupa hisia iliyo wazi zaidi ya mwelekeo. Soundscape
 ## Mafunzo elekezi
 
 Ili kujaribu vipengele vikuu hatua kwa hatua, fungua menyu na uchague *Mafunzo elekezi*.
-

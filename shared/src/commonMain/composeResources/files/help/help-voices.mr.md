@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: mr
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # आवाज
@@ -15,4 +16,3 @@ Soundscape तुमच्या iPhone वर इन्स्टॉल के�
 {% else %}
 Soundscape तुमच्या फोनवर इन्स्टॉल केलेला कोणताही आवाज वापरू शकते. आवाज जोडण्यासाठी फोनची सेटिंग्ज उघडा आणि *टेक्स्ट-टू-स्पीच आउटपुट* शोधा. Soundscape मध्ये आवाज निवडण्यासाठी मेनू उघडा आणि *सेटिंग्ज*, नंतर *ऑडिओ*, नंतर *आवाज* निवडा.
 {% endif %}
-

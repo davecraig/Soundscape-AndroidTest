@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: te
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # GPS ఖచ్చితత్వం
@@ -19,4 +20,3 @@ permalink: /users/help-gps-accuracy.html
 {% if app %}
 ప్రస్తుత ఖచ్చితత్వం: {{ accuracy }} ({{ quality }})
 {% endif %}
-

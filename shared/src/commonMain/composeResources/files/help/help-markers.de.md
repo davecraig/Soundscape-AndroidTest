@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: de
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Markierungen
@@ -29,4 +30,3 @@ Sie können auch jeden Ort speichern, den Sie finden. Öffnen Sie seine *Standor
 ## Anpassen von Markierungen
 
 Wählen Sie die Markierung auf dem Bildschirm *Markierungen* aus und dann *Markierung bearbeiten*. Sie können Namen, Notizen und Position ändern oder *Markierung löschen* wählen. Wenn Sie eine Markierung löschen, wird sie auch aus Ihren Routen entfernt.
-

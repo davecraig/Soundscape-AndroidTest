@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: pt-BR
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Como o Soundscape Funciona
@@ -35,4 +36,3 @@ Fones de ouvido estéreo dão a noção de direção mais clara. O Soundscape ta
 ## Tutorial guiado
 
 Para experimentar os recursos principais passo a passo, abra o menu e selecione *Tutorial guiado*.
-

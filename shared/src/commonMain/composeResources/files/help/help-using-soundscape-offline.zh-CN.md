@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: zh-CN
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # 离线使用 Soundscape
@@ -27,4 +28,3 @@ Soundscape 通常会在您移动时下载地图数据。没有网络连接时就
 ## 没有离线地图时
 
 在您最近去过的地方，提示可能仍然有效，因为手机会把一部分地图数据保留一段时间。搜索只能找到您的标记点。手机重新联网后，一切都会恢复正常。
-

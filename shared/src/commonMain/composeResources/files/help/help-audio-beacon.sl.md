@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: sl
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Zvočni svetilnik
@@ -39,4 +40,3 @@ Na domačem zaslonu izberite *Zaustavi pot*. Gumb ima to ime tudi takrat, ko sve
 Ko ste približno 12 metrov od kraja, vam Soundscape to pove in odstrani svetilnik. Telefon vašega položaja ne more določiti natančneje. Če želite svetilnik znova slišati, ga nastavite znova.
 
 Svetilnik, nastavljen na kraj, ki je oddaljen manj kot 30 metrov, ostane vklopljen, dokler ga ne odstranite.
-

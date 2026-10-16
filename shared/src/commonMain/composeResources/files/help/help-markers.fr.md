@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: fr
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Marqueurs
@@ -29,4 +30,3 @@ Vous pouvez aussi enregistrer n’importe quel lieu que vous trouvez. Ouvrez ses
 ## Personnalisation de marqueurs
 
 Sélectionnez le marqueur sur l’écran *Marqueurs*, puis sélectionnez *Modifier le marqueur*. Vous pouvez changer son nom, ses notes et sa position, ou sélectionner *Supprimer le marqueur*. Supprimer un marqueur le retire aussi de vos itinéraires.
-

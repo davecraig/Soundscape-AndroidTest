@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: id
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Suara
@@ -15,4 +16,3 @@ Soundscape dapat menggunakan suara apa pun yang terpasang di iPhone Anda, kecual
 {% else %}
 Soundscape dapat menggunakan suara apa pun yang terpasang di ponsel Anda. Untuk menambah suara, buka pengaturan ponsel dan cari *Output text-to-speech*. Untuk memilih suara di Soundscape, buka menu dan pilih *Pengaturan*, lalu *Audio*, lalu *Suara*.
 {% endif %}
-

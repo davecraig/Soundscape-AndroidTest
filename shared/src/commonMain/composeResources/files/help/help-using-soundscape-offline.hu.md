@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: hu
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # A Soundscape használata offline
@@ -27,4 +28,3 @@ A térképek nagyok lehetnek, ezért ha lehet, használjon Wi-Fit.
 ## Offline térkép nélkül
 
 A bemondások a nemrég felkeresett helyeken még működhetnek, mert a telefon egy ideig megőriz néhány térképadatot. A keresés csak a jelölőit találja meg. Minden visszaáll a megszokottra, amikor a telefon újra online van.
-

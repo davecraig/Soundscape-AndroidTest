@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: ro
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Baliză audio
@@ -39,4 +40,3 @@ Selectează *Oprește ruta* pe ecranul principal. Butonul are acest nume chiar �
 Când ești la aproximativ 12 metri de loc, Soundscape îți spune și elimină baliza. Telefonul nu îți poate determina poziția mai exact de atât. Pentru a auzi din nou baliza, seteaz-o din nou.
 
 O baliză setată pe un loc aflat la mai puțin de 30 de metri rămâne activă până când o elimini.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: fr
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Itinéraires
@@ -35,4 +36,3 @@ Sélectionnez l’itinéraire sur l’écran *Itinéraires*, puis sélectionnez 
 ## Partager un itinéraire
 
 Sélectionnez l’itinéraire sur l’écran *Itinéraires*, puis sélectionnez *Partager*.
-

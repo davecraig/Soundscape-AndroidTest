@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: tr
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Ses Seçenekleri
@@ -15,4 +16,3 @@ Soundscape, Siri sesleri dışında iPhone'unuzda yüklü olan herhangi bir sesi
 {% else %}
 Soundscape telefonunuzda yüklü olan herhangi bir sesi kullanabilir. Ses eklemek için telefonunuzun ayarlarını açın ve *Metin okuma çıkışı* bölümünü bulun. Soundscape içinde bir ses seçmek için menüyü açın ve *Ayarlar*, sonra *Ses*, sonra *Ses Seçenekleri* seçeneğini seçin.
 {% endif %}
-

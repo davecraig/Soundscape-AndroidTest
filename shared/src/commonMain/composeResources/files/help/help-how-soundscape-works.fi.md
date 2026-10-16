@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: fi
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Näin Soundscape toimii
@@ -35,4 +36,3 @@ Stereokuulokkeilla suunnat erottuvat selvimmin. Soundscape toimii myös puhelime
 ## Opastettu tutoriaali
 
 Jos haluat kokeilla tärkeimpiä toimintoja vaihe vaiheelta, avaa valikko ja valitse *Opastettu tutoriaali*.
-

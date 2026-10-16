@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: es
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # Marcadores
@@ -29,4 +30,3 @@ También puedes guardar cualquier lugar que encuentres. Abre sus *Detalles de la
 ## Personalización de marcadores
 
 Selecciona el marcador en la pantalla *Marcadores* y después selecciona *Editar marcador*. Puedes cambiar su nombre, sus notas y su posición, o seleccionar *Eliminar marcador*. Al eliminar un marcador, también se quita de tus rutas.
-

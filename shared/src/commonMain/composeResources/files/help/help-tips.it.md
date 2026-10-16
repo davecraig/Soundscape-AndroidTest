@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: it
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Suggerimenti
@@ -19,4 +20,3 @@ Puoi disattivare l'audio dell'audiofaro e sentire comunque quanto dista il luogo
 Per esplorare un luogo prima di andarci, apri i suoi *Dettagli posizione* e seleziona *Simula posizione*. Soundscape si comporta allora come se tu fossi lì.
 
 Per avere indicazioni passo passo, apri i *Dettagli posizione* di un luogo e seleziona *Apri in un'app di mappe*. Soundscape continua a funzionare mentre l'altra app dà le indicazioni.
-

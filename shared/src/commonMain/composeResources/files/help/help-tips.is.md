@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: is
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Góð ráð
@@ -19,4 +20,3 @@ Ef þú tekur oft sama strætó skaltu vista stoppistöðvarnar þínar sem merk
 Til að kanna stað áður en þú ferð þangað skaltu opna *Upplýsingar um staðsetningu* fyrir staðinn og velja *Herma staðsetningu*. Soundscape hagar sér þá eins og þú værir þar.
 
 Til að fá leiðbeiningar skref fyrir skref skaltu opna *Upplýsingar um staðsetningu* fyrir stað og velja *Opna í kortaforriti*. Soundscape heldur áfram að keyra á meðan hitt forritið gefur leiðbeiningar.
-

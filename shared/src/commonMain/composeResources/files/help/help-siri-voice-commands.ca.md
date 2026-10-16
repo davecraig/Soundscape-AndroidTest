@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: ca
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Ordres de veu de Siri
@@ -43,4 +44,3 @@ També pots aturar-te després del grup, i el Siri et pregunta quina opció vols
 ## Val la pena saber-ho
 
 Les ordres també apareixen a l'app Dreceres i a l'aplicació de configuració d'iOS, a *Siri*. Allà pots veure tota la llista i afegir la teva pròpia manera de dir qualsevol ordre.
-

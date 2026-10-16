@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: ca
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Quant a Soundscape
@@ -27,4 +28,3 @@ Soundscape depèn d'aquestes excel·lents biblioteques i dades de tercers. Feu c
 Els voluntaris de [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) van millorar diverses de les traduccions, que es posen a disposició per al seu ús sota la [llicència MIT](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).
 
 Tots els noms de productes, empreses i logotips de tercers són marques comercials o marques registrades i continuen sent propietat dels seus respectius titulars.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 60
 lang: it
 permalink: /users/help-audio-beacon.html
+translated-from: 568a656c6115c6af2b989a62c43d89d25249ff4d
 ---
 
 # Audiofaro
@@ -39,4 +40,3 @@ Seleziona *Interrompi Percorso* nella schermata iniziale. Il pulsante ha questo 
 Quando sei a circa 12 metri dal luogo, Soundscape te lo dice e rimuove l'audiofaro. Il telefono non può determinare la tua posizione con più precisione. Per sentire di nuovo l'audiofaro, impostalo di nuovo.
 
 Un audiofaro impostato su un luogo a meno di 30 metri resta attivo finché non lo rimuovi.
-

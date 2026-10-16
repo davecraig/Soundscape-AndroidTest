@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: es
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Uso de controles multimedia
@@ -43,4 +44,3 @@ El menú de audio te da más acciones con los mismos tres botones. Soundscape le
 *Anterior* cambia el *Detalle de los avisos*, igual que en el *Modo Original*.
 
 El menú empieza con cuatro grupos: *Escuchar mi entorno*, *Control de ruta*, *Iniciar ruta* e *Iniciar señal de audio*. Selecciona un grupo para oír sus acciones. *Escuchar mi entorno* y *Control de ruta* terminan con *Menú principal*, que te lleva de vuelta a los cuatro grupos.
-

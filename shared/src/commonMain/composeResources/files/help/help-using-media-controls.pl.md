@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: pl
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Sterowanie przyciskami multimedialnymi
@@ -43,4 +44,3 @@ Menu audio daje więcej działań przy użyciu tych samych trzech przycisków. S
 *Poprzedni* zmienia ustawienie *Szczegółowość powiadomień*, tak samo jak w trybie *Tryb oryginalny*.
 
 Menu zaczyna się od czterech grup: *Słuchaj opisu otoczenia*, *Sterowanie trasą*, *Rozpocznij trasę* i *Uruchom dźwięk naprowadzający*. Wybierz grupę, aby usłyszeć jej działania. Grupy *Słuchaj opisu otoczenia* i *Sterowanie trasą* kończą się pozycją *Menu główne*, która wraca do czterech grup.
-

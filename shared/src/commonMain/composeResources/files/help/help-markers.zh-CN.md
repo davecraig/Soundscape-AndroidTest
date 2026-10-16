@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 80
 lang: zh-CN
 permalink: /users/help-markers.html
+translated-from: a86e031c7ac9f8910954903e810189afe8782a35
 ---
 
 # 标记点
@@ -29,4 +30,3 @@ permalink: /users/help-markers.html
 ## 自定义标记点
 
 在*标记点*屏幕上选择标记点，然后选择*编辑标记点*。您可以更改它的名称、备注和位置，或者选择*删除标记点*。删除标记点也会把它从您的路线中移除。
-

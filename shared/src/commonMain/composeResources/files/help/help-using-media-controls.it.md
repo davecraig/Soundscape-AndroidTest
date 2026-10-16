@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: it
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Utilizzo dei controlli di riproduzione
@@ -43,4 +44,3 @@ Il menu audio ti offre più azioni con gli stessi tre pulsanti. Soundscape legge
 *Indietro* cambia il *Dettaglio delle notifiche*, come nella *Modalità originale*.
 
 Il menu inizia con quattro gruppi: *Ascolta i miei dintorni*, *Controllo percorso*, *Avvia Percorso* e *Avvia audiofaro*. Seleziona un gruppo per sentirne le azioni. *Ascolta i miei dintorni* e *Controllo percorso* finiscono con *Menu principale*, che ti riporta ai quattro gruppi.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: vi
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Soundscape hoạt động như thế nào
@@ -35,4 +36,3 @@ Tai nghe stereo cho cảm nhận về hướng rõ nhất. Soundscape cũng ho�
 ## Hướng dẫn từng bước
 
 Để thử các tính năng chính theo từng bước, hãy mở menu và chọn *Hướng dẫn từng bước*.
-

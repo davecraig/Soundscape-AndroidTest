@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: pa
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ
@@ -82,4 +83,3 @@ Soundscape ਤੁਹਾਡੇ ਚੱਲਣ ਦੇ ਨਾਲ-ਨਾਲ ਨਕਸ�
 
 ### OpenStreetMap ਕੀ ਹੈ?
 OpenStreetMap ਦੁਨੀਆ ਦਾ ਇੱਕ ਆਜ਼ਾਦ ਨਕਸ਼ਾ ਹੈ, ਜਿਸ ਨੂੰ ਸਵੈ-ਸੇਵਕ ਬਣਾਉਂਦੇ ਹਨ। Soundscape ਇਸ ਨੂੰ ਸੜਕਾਂ ਅਤੇ ਥਾਵਾਂ ਲਈ ਵਰਤਦਾ ਹੈ। ਕੋਈ ਵੀ www.openstreetmap.org 'ਤੇ ਥਾਂ ਜੋੜ ਜਾਂ ਠੀਕ ਕਰ ਸਕਦਾ ਹੈ, ਅਤੇ ਇਹ ਤਬਦੀਲੀ ਨਕਸ਼ੇ ਦੇ ਕਿਸੇ ਬਾਅਦ ਵਾਲੇ ਅੱਪਡੇਟ ਵਿੱਚ Soundscape ਤੱਕ ਪਹੁੰਚਦੀ ਹੈ।
-

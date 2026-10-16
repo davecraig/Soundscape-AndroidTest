@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: is
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Raddir
@@ -15,4 +16,3 @@ Soundscape getur notað hvaða rödd sem er uppsett í iPhone-símanum þínum, 
 {% else %}
 Soundscape getur notað hvaða rödd sem er uppsett í símanum þínum. Til að bæta við röddum skaltu opna stillingar símans og finna *Texti í tal*. Til að velja rödd í Soundscape skaltu opna valmyndina og velja *Stillingar*, síðan *Hljóðstillingar* og síðan *Raddir*.
 {% endif %}
-

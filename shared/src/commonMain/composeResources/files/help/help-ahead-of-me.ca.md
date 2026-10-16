@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 40
 lang: ca
 permalink: /users/help-ahead-of-me.html
+translated-from: cda148fe477cc3f5d7c64b374ecad0a9af57d6c2
 ---
 
 # Davant meu
@@ -13,4 +14,3 @@ permalink: /users/help-ahead-of-me.html
 *Davant meu* anuncia fins a cinc llocs que tens al davant. Sents cadascun des de la seva direcció, amb la distància. Fes-lo servir en un carrer que no coneixes, per saber què ve a continuació.
 
 Si no t'estàs movent, apunta primer la part superior del telèfon cap on mires. Si el telèfon està bloquejat, o Soundscape no és a la pantalla, aguanta també el telèfon pla.
-

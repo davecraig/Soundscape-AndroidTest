@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 70
 lang: es
 permalink: /users/help-automatic-callouts.html
+translated-from: bac81d379acd90b239f5e46fe7b70a459adf5141
 ---
 
 # Avisos automáticos
@@ -43,4 +44,3 @@ Selecciona el botón *Suspender* en la parte superior de la pantalla principal. 
 ## En un vehículo o en tren
 
 Soundscape detecta cuándo te desplazas a la velocidad de un vehículo. Entonces deja de avisar de los cruces y las tiendas cercanas, porque pasan demasiado rápido. En su lugar avisa de la vía por la que vas, los puntos de referencia, las paradas y estaciones, los ríos y los túneles.
-

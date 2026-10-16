@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 150
 lang: ca
 permalink: /users/help-gps-accuracy.html
+translated-from: cf9d1bc3ba5aaac2a0ffceb928eff90a1878e910
 ---
 
 # Precisió del GPS
@@ -19,4 +20,3 @@ La precisió acostuma a ser pitjor a l'interior, entre edificis alts i durant el
 {% if app %}
 Precisió actual: {{ accuracy }} ({{ quality }})
 {% endif %}
-

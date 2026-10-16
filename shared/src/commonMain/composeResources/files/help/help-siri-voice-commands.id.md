@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: id
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Perintah Suara Siri
@@ -43,4 +44,3 @@ Anda juga bisa berhenti setelah grup, dan Siri akan menanyakan pilihan mana yang
 ## Perlu Diketahui
 
 Perintah-perintah ini juga muncul di aplikasi Pintasan dan di aplikasi Pengaturan iOS pada bagian *Siri*. Di sana Anda bisa melihat seluruh daftarnya dan menambahkan kata-kata Anda sendiri untuk perintah mana pun.
-

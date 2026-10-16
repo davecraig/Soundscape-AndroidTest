@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: ar
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # الأسئلة الشائعة
@@ -82,4 +83,3 @@ permalink: /users/help-frequently-asked-questions.html
 
 ### ما هي OpenStreetMap؟
 OpenStreetMap خريطة حرة للعالم، يبنيها متطوعون. يستخدمها Soundscape للشوارع والأماكن. يستطيع أي شخص إضافة مكان أو تصحيحه على www.openstreetmap.org، ويصل التغيير إلى Soundscape في تحديث لاحق للخريطة.
-

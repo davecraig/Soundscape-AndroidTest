@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: ha
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Yadda Soundscape Yake Aiki
@@ -35,4 +36,3 @@ Belun kunne na sitiriyo sun fi ba da fahimtar alkibla a fili. Soundscape yana ku
 ## Jagorar Koyarwa
 
 Don gwada manyan fasaloli mataki-mataki, ku buɗe menu sannan ku zaɓi *Jagorar Koyarwa*.
-

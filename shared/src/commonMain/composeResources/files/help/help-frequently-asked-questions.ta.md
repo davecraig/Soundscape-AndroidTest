@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: ta
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # அடிக்கடி கேட்கப்படும் கேள்விகள்
@@ -82,4 +83,3 @@ Soundscape உங்கள் இருப்பிடத்தை எப்ப�
 
 ### OpenStreetMap என்றால் என்ன?
 OpenStreetMap என்பது தன்னார்வலர்கள் உருவாக்கிய, உலகின் கட்டற்ற வரைபடம். தெருக்களுக்கும் இடங்களுக்கும் Soundscape அதைப் பயன்படுத்துகிறது. www.openstreetmap.org-இல் யார் வேண்டுமானாலும் ஓர் இடத்தைச் சேர்க்கலாம் அல்லது திருத்தலாம்; அந்த மாற்றம் பின்னர் வரும் வரைபடப் புதுப்பிப்பில் Soundscape-ஐ வந்தடையும்.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 90
 lang: hu
 permalink: /users/help-routes.html
+translated-from: 0d0e66ea885c20bcf4514908e13ac232d1f52e04
 ---
 
 # Útvonalak
@@ -35,4 +36,3 @@ Válassza ki az útvonalat az *Útvonalak* képernyőn, majd válassza az *Útvo
 ## Útvonal megosztása
 
 Válassza ki az útvonalat az *Útvonalak* képernyőn, majd válassza a *Megosztás* lehetőséget.
-

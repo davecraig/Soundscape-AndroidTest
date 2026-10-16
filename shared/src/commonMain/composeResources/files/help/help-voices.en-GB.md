@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: en-GB
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Voices
@@ -15,4 +16,3 @@ Soundscape can use any voice installed on your iPhone, except the Siri voices. T
 {% else %}
 Soundscape can use any voice installed on your phone. To add voices, open your phone's settings and find *Text-to-speech output*. To choose a voice in Soundscape, open the menu and select *Settings*, then *Audio*, then *Voices*.
 {% endif %}
-

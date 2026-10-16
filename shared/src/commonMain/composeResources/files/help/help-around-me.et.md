@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 30
 lang: et
 permalink: /users/help-around-me.html
+translated-from: cb37df8598cb99bd45ef7689b53453963e286a99
 ---
 
 # Minu ümber
@@ -13,4 +14,3 @@ permalink: /users/help-around-me.html
 *Minu ümber* teatab kuni neljast lähedal olevast kohast: üks ees, üks paremal, üks taga ja üks vasakul. Kuuled igaüht selle enda suunast koos kaugusega. Kasuta seda, et orienteeruda, kui jõuad kuhugi.
 
 Kui seisad paigal, suuna esmalt telefoni ülemine serv sinna, kuhu sa näoga oled. Kui telefon on lukus või Soundscape ei ole ekraanil, hoia telefoni lisaks ka horisontaalselt.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 110
 lang: en-GB
 permalink: /users/help-using-media-controls.html
+translated-from: 107196941180ed90cb11d7e0336db5ab4b06edc8
 ---
 
 # Using Media Controls
@@ -43,4 +44,3 @@ The audio menu gives you more actions from the same three buttons. Soundscape re
 *Previous* changes the *Callout Detail*, the same as in *Original mode*.
 
 The menu starts with four groups: *Hear My Surroundings*, *Route control*, *Start Route* and *Start Audio Beacon*. Select a group to hear its actions. *Hear My Surroundings* and *Route control* end with *Top menu*, which takes you back to the four groups.
-

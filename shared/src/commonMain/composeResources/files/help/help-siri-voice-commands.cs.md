@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 120
 lang: cs
 permalink: /users/help-siri-voice-commands.html
+translated-from: ebc849e1971356ecde28deb2f2b43bca6324ca28
 ---
 
 # Hlasové příkazy pro Siri
@@ -43,4 +44,3 @@ Můžete se také po skupině zastavit a Siri se zeptá, kterou volbu chcete. Ka
 ## Dobré vědět
 
 Příkazy se zobrazují také v aplikaci Zkratky a v aplikaci Nastavení systému iOS v části *Siri*. Tam uvidíte celý seznam a ke kterémukoli příkazu můžete přidat vlastní formulaci.
-

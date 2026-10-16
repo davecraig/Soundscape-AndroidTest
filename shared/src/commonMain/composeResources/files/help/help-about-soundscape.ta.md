@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 170
 lang: ta
 permalink: /users/help-about-soundscape.html
+translated-from: a44958c10a713ae790f25fe5c960e3b7ac7a9bd8
 ---
 
 # Soundscape பற்றி
@@ -27,4 +28,3 @@ Soundscape இந்த சிறந்த மூன்றாம் தரப்
 [Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) தன்னார்வலர்கள் பல மொழிபெயர்ப்புகளை மேம்படுத்தினர், அவை [MIT உரிமத்தின்](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt) கீழ் பயன்பாட்டிற்குக் கிடைக்கின்றன.
 
 அனைத்து மூன்றாம் தரப்பு தயாரிப்பு, நிறுவனப் பெயர்கள் மற்றும் லோகோக்கள் வர்த்தக முத்திரைகள் அல்லது பதிவு செய்யப்பட்ட வர்த்தக முத்திரைகள் ஆகும், மேலும் அவை அந்தந்த உரிமையாளர்களின் சொத்தாகவே உள்ளன.
-

@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 160
 lang: nl
 permalink: /users/help-frequently-asked-questions.html
+translated-from: 9b862c7258631ff99d8e6bd2c90f6e8e228073a5
 ---
 
 # Veelgestelde vragen
@@ -82,4 +83,3 @@ Soundscape downloadt een kleine hoeveelheid kaartgegevens terwijl u onderweg ben
 
 ### Wat is OpenStreetMap?
 OpenStreetMap is een vrije kaart van de wereld, gemaakt door vrijwilligers. Soundscape gebruikt die voor straten en plaatsen. Iedereen kan op www.openstreetmap.org een plaats toevoegen of verbeteren. De wijziging komt met een latere kaartupdate in Soundscape.
-

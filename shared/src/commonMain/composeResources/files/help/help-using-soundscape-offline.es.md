@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 140
 lang: es
 permalink: /users/help-using-soundscape-offline.html
+translated-from: 372e95c38c0ce3b321194334b6dc107661628eef
 ---
 
 # Usar Soundscape sin conexión
@@ -27,4 +28,3 @@ Los mapas pueden ocupar mucho, así que usa wifi si puedes.
 ## Sin un mapa sin conexión
 
 Los avisos pueden seguir funcionando en lugares que has visitado hace poco, porque tu teléfono guarda algunos datos del mapa durante un tiempo. La búsqueda solo encuentra tus marcadores. Todo vuelve a la normalidad cuando tu teléfono recupera la conexión.
-

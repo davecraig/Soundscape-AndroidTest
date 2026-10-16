@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 100
 lang: ca
 permalink: /users/help-voices.html
+translated-from: 90527ec92475fb3e09217cdf463481a67fdf8a80
 ---
 
 # Veus
@@ -15,4 +16,3 @@ Soundscape pot fer servir qualsevol veu instal·lada al teu iPhone, excepte les 
 {% else %}
 Soundscape pot fer servir qualsevol veu instal·lada al teu telèfon. Per afegir veus, obre la configuració del telèfon i busca *Sortida de text a veu*. Per triar una veu a Soundscape, obre el menú i selecciona *Configuració*, després *Àudio* i després *Veus*.
 {% endif %}
-

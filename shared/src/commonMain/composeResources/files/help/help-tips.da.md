@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: da
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tips
@@ -19,4 +20,3 @@ Du kan slå lydfyrets lyd fra og stadig høre, hvor langt væk stedet er. Sounds
 Hvis du vil udforske et sted, før du tager derhen, skal du åbne stedets *Oplysninger om placering* og vælge *Simuler placering*. Soundscape opfører sig så, som om du var der.
 
 Hvis du vil have rutevejledning sving for sving, skal du åbne *Oplysninger om placering* for et sted og vælge *Åbn i kortapp*. Soundscape bliver ved med at køre, mens den anden app giver rutevejledning.
-

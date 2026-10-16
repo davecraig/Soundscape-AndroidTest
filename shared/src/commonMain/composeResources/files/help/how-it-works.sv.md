@@ -7,7 +7,9 @@ nav_order: 200
 lang: sv
 permalink: /users/how-it-works.html
 machine-translated: true
+translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
 ---
+
 # Tekniken bakom Soundscape
 Syftet med den här sidan är att ge en allmän förståelse för hur Soundscape-appen fungerar under huven. Du behöver inte läsa det här för att använda appen, men det finns några anledningar till att den har skrivits:
 
@@ -85,12 +87,12 @@ All tolkad data placeras också i ett lättsökt format så att appen enkelt kan
   * Byar
   * Småbyar
 
- Med detta på plats kan appen sedan enkelt hitta, för vilken plats som helst,
+Med detta på plats kan appen sedan enkelt hitta, för vilken plats som helst,
 
- * ”Alla kollektivtrafikhållplatser inom 50 m” eller
+* ”Alla kollektivtrafikhållplatser inom 50 m” eller
  * ”Närmaste vägkorsningen framför mig” eller
  * ”Närmaste småby, by, stad eller storstad”
-  
+
 Med detta på plats är skapandet av ljudinformationen bara en fråga om att fråga datan baserat på den aktuella platsen och riktningen. När användaren rör sig över ett rutnät uppdaterar appen det så att det centreras runt den aktuella platsen.
 
 ### Mer data
@@ -108,7 +110,7 @@ Ju mer sammanhang som kan läggas till i beskrivningarna desto bättre, så län
 * **Är det en trottoar?**
 Många områden i OpenStreetMap har nu trottoarer kartlagda separat från vägar. Dessa taggas vanligtvis som `sidewalk` men de säger normalt inte vilken väg de är trottoaren till.
 
-    När appen stöter på en namnlös trottoar söker den efter en väg som den tror löper bredvid den och använder den för att namnge trottoaren. Det visar sig vara mycket viktigt för vår information. Istället för att tillkännage varje trottoarkorsning, när vi rör oss längs en trottoar, görs informationen som om vi rörde oss längs den tillhörande vägen. Istället för *”Färdas västerut längs stig”* har vi *”Färdas västerut längs Moor Road”*. Användaren är på den kartlagda trottoaren, men beskrivningen är mer logisk.
+När appen stöter på en namnlös trottoar söker den efter en väg som den tror löper bredvid den och använder den för att namnge trottoaren. Det visar sig vara mycket viktigt för vår information. Istället för att tillkännage varje trottoarkorsning, när vi rör oss längs en trottoar, görs informationen som om vi rörde oss längs den tillhörande vägen. Istället för *”Färdas västerut längs stig”* har vi *”Färdas västerut längs Moor Road”*. Användaren är på den kartlagda trottoaren, men beskrivningen är mer logisk.
 
 * **Slutar den vid en namngiven Way?**
 Mycket ofta finns det gångvägar som förbinder två vägar. Genom att titta på båda ändarna av stigen kan vi enkelt lägga till det sammanhanget så att det i en riktning kan vara *”Stig till Moor Road”* och vid ankomst från den andra änden kan det vara *”Stig till Roselea Drive”*. Detta görs bara där stigen inte delar sig; om den delar sig i två namnlösa stigar försöker vi inte lägga till detta sammanhang.
@@ -117,7 +119,7 @@ Mycket ofta finns det gångvägar som förbinder två vägar. Genom att titta p�
 Om en namnlös Way börjar eller slutar nära en platsmarkör används den för att beskriva den, t.ex. *”Stig till korsningen vid det stora trädet”*. Användaren kan lägga till platsmarkörer var de vill, och genom att lägga till platsmarkörer längs stignätverk kan de lägga till sammanhang för en hel rutt.
 
 * **Går den in i eller ut ur en POI?**
-Om en namnlös Way börjar utanför en POI och slutar inuti den (eller tvärtom) kan vi lägga till det sammanhanget, t.ex. *”Led till Lennox Park”*. 
+Om en namnlös Way börjar utanför en POI och slutar inuti den (eller tvärtom) kan vi lägga till det sammanhanget, t.ex. *”Led till Lennox Park”*.
 
 * **Slutar den nära en entré?**
 Om en namnlös Way börjar eller slutar närmare en entré kan vi lägga till det sammanhanget, t.ex. *”Servicegata till Best Buy”*.

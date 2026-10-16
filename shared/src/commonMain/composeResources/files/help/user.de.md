@@ -6,6 +6,7 @@ nav_order: 1
 lang: de
 permalink: /users/user.html
 machine-translated: true
+translated-from: ee4352f0a178a9084c8a2fb9af49460a159f3727
 ---
 
 Die Dokumentation hier stammt aus der neuesten Version der App. In der App gelangen Sie dorthin, indem Sie auf die Menüschaltfläche (oben links) klicken und dann „Hilfe und Tutorials“ auswählen.

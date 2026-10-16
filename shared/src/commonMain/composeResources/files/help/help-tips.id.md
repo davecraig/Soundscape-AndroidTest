@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 130
 lang: id
 permalink: /users/help-tips.html
+translated-from: defda496cc3f39aa5a0272c4a8e73e49f2074885
 ---
 
 # Tips
@@ -19,4 +20,3 @@ Anda dapat menonaktifkan suara suar dan tetap mendengar seberapa jauh tempat itu
 Untuk menjelajahi suatu tempat sebelum pergi ke sana, buka *Detail Lokasi* tempat itu dan pilih *Simulasikan Lokasi*. Soundscape lalu berperilaku seolah-olah Anda berada di sana.
 
 Untuk petunjuk belokan demi belokan, buka *Detail Lokasi* suatu tempat dan pilih *Buka di Aplikasi Peta*. Soundscape tetap berjalan selama aplikasi lain memberi petunjuk arah.
-

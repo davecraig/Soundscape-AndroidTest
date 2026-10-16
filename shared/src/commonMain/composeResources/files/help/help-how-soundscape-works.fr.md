@@ -6,6 +6,7 @@ has_toc: false
 nav_order: 10
 lang: fr
 permalink: /users/help-how-soundscape-works.html
+translated-from: c2cae8556e65704c01f1265c20d44c800765002b
 ---
 
 # Comment fonctionne Soundscape
@@ -35,4 +36,3 @@ Des écouteurs stéréo donnent la perception la plus nette des directions. Soun
 ## Tutoriel guidé
 
 Pour essayer les fonctions principales pas à pas, ouvrez le menu et sélectionnez *Tutoriel guidé*.
-
