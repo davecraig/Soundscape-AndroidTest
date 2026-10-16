@@ -1,6 +1,5 @@
 package org.scottishtecharmy.soundscape
 
-import android.os.Environment
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -9,47 +8,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.compose.resources.InternalResourceApi
-import org.jetbrains.compose.resources.LanguageQualifier
-import org.jetbrains.compose.resources.RegionQualifier
-import org.jetbrains.compose.resources.ResourceEnvironment
-import org.jetbrains.compose.resources.getString
-import org.jetbrains.compose.resources.getSystemResourceEnvironment
 import org.junit.Rule
 import org.junit.Test
 import org.scottishtecharmy.soundscape.database.local.model.MarkerEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteEntity
 import org.scottishtecharmy.soundscape.database.local.model.RouteWithMarkers
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
-import org.scottishtecharmy.soundscape.resources.Res
-import org.scottishtecharmy.soundscape.resources.menu_help
 import org.scottishtecharmy.soundscape.screens.home.HomeState
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.screens.home.home.BottomButtonFunctions
 import org.scottishtecharmy.soundscape.screens.home.home.RouteFunctions
 import org.scottishtecharmy.soundscape.screens.home.home.SearchFunctions
-import org.scottishtecharmy.soundscape.screens.home.home.SectionType
 import org.scottishtecharmy.soundscape.screens.home.home.SharedHomeScreen
 import org.scottishtecharmy.soundscape.screens.home.home.StreetPreviewFunctions
-import org.scottishtecharmy.soundscape.screens.home.home.helpPageOrder
-import org.scottishtecharmy.soundscape.screens.home.home.helpPages
 import org.scottishtecharmy.soundscape.screens.markers_routes.screens.routedetailsscreen.SharedRouteDetailsScreen
 import org.scottishtecharmy.soundscape.services.RoutePlayerState
 import org.scottishtecharmy.soundscape.ui.theme.SoundscapeTheme
-import java.io.File
-import java.io.FileOutputStream
-
-fun String.toSafeFilename(replacement: String = "-"): String {
-    val illegalCharsRegex = """[/:\\?*"<>|#%&{}^`~ ]""".toRegex()
-    var safeName = this.replace(illegalCharsRegex, replacement)
-    safeName = safeName.trim('.', ' ')
-    safeName = safeName.replace(Regex("$replacement{2,}"), replacement)
-    if (safeName.isEmpty()) {
-        assert(false)
-    }
-    return safeName.lowercase()
-}
 
 // This is very helpful:
 // https://developer.android.com/develop/ui/compose/testing/testing-cheatsheet
@@ -222,285 +196,5 @@ class DocumentationScreens {
                 onShareRoute = { },
             )
         }
-    }
-
-    // Maps each Android resource qualifier to its web / BCP-47 (jekyll-polyglot)
-    // language code. The default language "en" is emitted with no filename suffix.
-    // Source of truth for the supported set: app/build.gradle.kts resourceConfigurations.
-    // Keep this in sync with the `languages` list in docs/_config.yml.
-    private val localeMap: Map<String, String> = mapOf(
-        "en" to "en",          // default -> no suffix, no `lang:` front matter
-        "ar" to "ar",
-        "bg" to "bg",
-        "bn" to "bn",
-        "ca" to "ca",
-        "zh-rCN" to "zh-CN",
-        "cs" to "cs",
-        "da" to "da",
-        "de" to "de",
-        "el" to "el",
-        "en-rGB" to "en-GB",
-        "es" to "es",
-        "et" to "et",
-        "fa" to "fa",
-        "fi" to "fi",
-        "fr" to "fr",
-        "fr-rCA" to "fr-CA",
-        "ha" to "ha",
-        "hi" to "hi",
-        "hr" to "hr",
-        "hu" to "hu",
-        "in" to "id",
-        "is" to "is",
-        "it" to "it",
-        "ja" to "ja",
-        "ko" to "ko",
-        "mr" to "mr",
-        "nb" to "nb",
-        "nl" to "nl",
-        "pa" to "pa",
-        "pl" to "pl",
-        "pt" to "pt",
-        "pt-rBR" to "pt-BR",
-        "ro" to "ro",
-        "ru" to "ru",
-        "sk" to "sk",
-        "sl" to "sl",
-        "sr" to "sr",
-        "sv" to "sv",
-        "sw" to "sw",
-        "ta" to "ta",
-        "te" to "te",
-        "th" to "th",
-        "tr" to "tr",
-        "uk" to "uk",
-        "ur" to "ur",
-        "vi" to "vi",
-    )
-
-    // Localized "Using Soundscape" — the nav parent/section title. Keyed by web language
-    // code. just-the-docs matches a child page's `parent:` to the parent page's `title:`
-    // within each language, so the value here must exactly match the title of the
-    // corresponding app/src/main/assets/help/user.<lang>.md. English (and en-GB) keep the English label.
-    private val parentLabels: Map<String, String> = mapOf(
-        "en" to "Using Soundscape",
-        "en-GB" to "Using Soundscape",
-        "ar" to "استخدام Soundscape",
-        "bg" to "Използване на Soundscape",
-        "bn" to "সাউন্ডস্কেপ ব্যবহার",
-        "ca" to "Utilitzar Soundscape",
-        "zh-CN" to "使用 Soundscape",
-        "cs" to "Používání Soundscape",
-        "da" to "Brug af Soundscape",
-        "de" to "Soundscape verwenden",
-        "el" to "Χρήση του Soundscape",
-        "es" to "Usar Soundscape",
-        "et" to "Soundscape'i kasutamine",
-        "fa" to "استفاده از ساند‌اسکیپ",
-        "fi" to "Soundscapen käyttö",
-        "fr" to "Utiliser Soundscape",
-        "fr-CA" to "Utiliser Soundscape",
-        "ha" to "Amfani da Soundscape",
-        "hi" to "Soundscape का उपयोग",
-        "hr" to "Korištenje Soundscape",
-        "hu" to "A Soundscape használata",
-        "id" to "Menggunakan Soundscape",
-        "is" to "Að nota Soundscape",
-        "it" to "Usare Soundscape",
-        "ja" to "Soundscape を使う",
-        "ko" to "Soundscape 사용하기",
-        "mr" to "Soundscape वापरणे",
-        "nb" to "Bruke Soundscape",
-        "nl" to "Soundscape gebruiken",
-        "pa" to "Soundscape ਦੀ ਵਰਤੋਂ",
-        "pl" to "Korzystanie z Soundscape",
-        "pt" to "Utilizar o Soundscape",
-        "pt-BR" to "Usando o Soundscape",
-        "ro" to "Utilizarea Soundscape",
-        "ru" to "Использование Soundscape",
-        "sk" to "Používanie Soundscape",
-        "sl" to "Uporaba Soundscape",
-        "sr" to "Коришћење Soundscape",
-        "sv" to "Använda Soundscape",
-        "sw" to "Kutumia Soundscape",
-        "ta" to "Soundscape பயன்படுத்துதல்",
-        "te" to "Soundscape వాడకం",
-        "th" to "การใช้ Soundscape",
-        "tr" to "Soundscape Kullanımı",
-        "uk" to "Використання Soundscape",
-        "ur" to "Soundscape کا استعمال",
-        "vi" to "Sử dụng Soundscape",
-    )
-
-    /**
-     * Builds the markdown for a single help page rendered under [environment]'s locale.
-     * [parentLabel] is the localized "Using Soundscape" nav parent for [webLang], and
-     * [navOrder] is the page's place in that section's list.
-     */
-    private suspend fun buildPageMarkdown(
-        environment: org.jetbrains.compose.resources.ResourceEnvironment,
-        page: org.scottishtecharmy.soundscape.screens.home.home.Sections,
-        webLang: String,
-        slug: String,
-        parentLabel: String,
-        navOrder: Int
-    ): String {
-        suspend fun localized(resource: org.jetbrains.compose.resources.StringResource): String =
-            org.jetbrains.compose.resources.getString(environment, resource)
-
-        val pageTitle = localized(page.titleId)
-
-        val sb = StringBuilder()
-        sb.append("---\n")
-        sb.append("title: $pageTitle\n")
-        sb.append("layout: page\n")
-        // Parent must match the title of app/src/main/assets/help/user.<lang>.md in the same language so
-        // just-the-docs nests this page under the localized "Using Soundscape" section.
-        sb.append("parent: \"$parentLabel\"\n")
-        sb.append("has_toc: false\n")
-        sb.append("nav_order: $navOrder\n")
-        if (webLang != "en") {
-            sb.append("lang: $webLang\n")
-            // Pin the permalink to the English page's URL so jekyll-polyglot matches this
-            // file (by page_id, which it derives from the URL) to its English sibling and
-            // serves it at /<lang>/users/help-<slug>.html instead of a separate URL.
-            sb.append("permalink: /users/help-$slug.html\n")
-        }
-        sb.append("---\n\n")
-
-        sb.append("# ")
-        sb.append(pageTitle)
-        sb.append("\n")
-        for (section in page.sections) {
-            when (section.type) {
-                SectionType.Faq -> {
-                    sb.append("\n")
-                    sb.append("### ")
-                    sb.append(localized(section.textId))
-                    sb.append("\n")
-                    section.faqAnswer?.let { answer ->
-                        sb.append(localized(answer))
-                    }
-                }
-
-                SectionType.Title -> {
-                    sb.append("\n")
-                    sb.append("## ")
-                    sb.append(localized(section.textId))
-                }
-
-                else -> {
-                    sb.append("\n")
-                    sb.append(localized(section.textId))
-                }
-            }
-            sb.append("\n")
-        }
-        sb.append("\n")
-
-        return sb.toString()
-    }
-
-    @Test
-    fun getHelp() {
-
-        val base = InstrumentationRegistry.getInstrumentation().targetContext
-
-        val helpDir = File(
-            base.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
-            "help"
-        )
-        if (!helpDir.exists()) {
-            helpDir.mkdirs()
-        }
-
-        // Each language's ResourceEnvironment is built from its resource qualifier - see
-        // environmentFor. Every page body in English is kept to check each language against.
-        val englishBodies = mutableMapOf<String, String>()
-        runBlocking {
-            val englishEnvironment = environmentFor("en")
-
-            for ((qualifier, webLang) in localeMap) {
-                val environment = environmentFor(qualifier)
-                // Fall back to the English label if a language is somehow missing from the map.
-                val parentLabel = parentLabels[webLang] ?: "Using Soundscape"
-                var translatedPages = 0
-
-                for (page in helpPages) {
-                    if (page.titleId == Res.string.menu_help)
-                        continue
-
-                    // Slug always comes from the English title so all languages of one page
-                    // share a base name (help-routes.md / help-routes.de.md) and the same
-                    // permalink, which is how polyglot pairs them.
-                    val slug = getString(englishEnvironment, page.titleId).toSafeFilename()
-
-                    // Emit a file for every language even when a page is untranslated (its
-                    // strings fall back to English). The localized `parent:` keeps it nested
-                    // under the language's "Using Soundscape" section instead of orphaning a
-                    // fallback page whose English parent wouldn't match.
-                    // List the pages in the order of the app's Help index; a page the index
-                    // doesn't link comes after the rest. The hand-written pages in app/src/main/assets/help
-                    // carry larger numbers of their own, so they follow all of these.
-                    val indexPosition = helpPageOrder.indexOf(page.titleId)
-                    val navOrder =
-                        10 * (if (indexPosition >= 0) indexPosition + 1 else helpPageOrder.size + 1)
-
-                    val markdown =
-                        buildPageMarkdown(environment, page, webLang, slug, parentLabel, navOrder)
-
-                    val body = markdown.substringAfter("\n---\n")
-                    if (webLang == "en") englishBodies[slug] = body
-                    else if (body != englishBodies[slug]) translatedPages++
-
-                    val suffix = if (webLang == "en") "" else ".$webLang"
-
-                    val file = File(helpDir, "help-$slug$suffix.md")
-                    val outputFile = FileOutputStream(file)
-                    outputFile.write(markdown.toByteArray())
-                    outputFile.close()
-                }
-
-                // A single untranslated page is normal, but a language with none at all
-                // means its strings were never found - fail rather than publish English.
-                // en-GB is exempt: it only overrides the few strings that differ.
-                if (webLang != "en" && webLang != "en-GB") {
-                    check(translatedPages > 0) {
-                        "Help for $webLang ($qualifier) came out identical to English"
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * The ResourceEnvironment for an Android resource qualifier from [localeMap]: "de", "zh-rCN".
-     *
-     * getSystemResourceEnvironment() takes its language from java.util.Locale.getDefault(),
-     * which is not something a test can steer reliably. AppCompatDelegate.setApplicationLocales
-     * never reaches it with no activity to recreate - every page came out in the emulator's
-     * English under a translated `parent:` - and even Locale.setDefault can't reach Indonesian:
-     * since Android 14 Locale("in") reports itself as "id", while the strings are generated
-     * with the qualifier "in" from their values-in folder, and are matched exactly.
-     *
-     * So the language and region are set here from the folder's own qualifier, keeping the
-     * device's theme and density. The constructor is internal to Compose Resources, hence the
-     * reflection; the check in getHelp catches it if that ever stops working.
-     */
-    @OptIn(InternalResourceApi::class)
-    private fun environmentFor(qualifier: String): ResourceEnvironment {
-        val system = getSystemResourceEnvironment()
-        val type = ResourceEnvironment::class.java
-        fun systemField(name: String) =
-            type.getDeclaredField(name).apply { isAccessible = true }.get(system)
-        val parts = qualifier.split("-r")
-        val constructor = type.declaredConstructors.single { it.parameterCount == 4 }
-        constructor.isAccessible = true
-        return constructor.newInstance(
-            LanguageQualifier(parts[0]),
-            RegionQualifier(parts.getOrElse(1) { "" }),
-            systemField("theme"),
-            systemField("density"),
-        ) as ResourceEnvironment
     }
 }

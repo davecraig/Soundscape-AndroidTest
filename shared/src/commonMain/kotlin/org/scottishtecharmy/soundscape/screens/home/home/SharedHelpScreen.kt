@@ -287,11 +287,6 @@ private fun helpIndex(siri: Boolean): List<Section> = listOfNotNull(
     Section(Res.string.faq_title, SectionType.Link),
 )
 
-// Every page the Help index can link to, in index order. The docs site lists its pages in
-// this order, and it has the Siri page whichever platform generates it.
-val helpPageOrder: List<StringResource>
-    get() = helpIndex(siri = true).filter { it.type == SectionType.Link }.map { it.textId }
-
 // This is a list of all the possible Sections that can be displayed as part of the help screen.
 // Each one has a unique titleId which is used to identify it in the route.
 val helpPages = listOf(

@@ -69,36 +69,19 @@ Most of our languages don't yet have a native speaker checking them, so translat
 
 This website is built with [Jekyll](https://jekyllrb.com/) and the [just-the-docs](https://just-the-docs.com/) theme, and is published to GitHub Pages by the `jekyll-gh-pages.yml` workflow. It is multilingual via the [`jekyll-polyglot`](https://github.com/untra/polyglot) plugin: every supported language gets its own URL subtree (e.g. `/de/`, `/fr-CA/`) and a language switcher appears in the header. Pages that have no translation in a given language fall back to the English version automatically, so the developer documentation (which is English-only) still appears under every language.
 
-### Localized help pages come from the app's strings
+### Help pages are Markdown in the app's assets
 
-The user help pages (`app/src/main/assets/help/help-*.md`) are **generated**, not hand-written. They are checked in as app assets so the in-app Markdown help can read them, and the `jekyll-gh-pages.yml` workflow copies them into `docs/users/` before building the site, so the site URLs are unchanged. They are produced by the `getHelp` test in `app/src/androidTest/.../DocumentationScreens.kt`, which walks the `helpPages` structure in `HelpScreen.kt` and emits markdown using `context.getString(...)`. Because `getString` is locale-aware, the test loops over every supported locale (using a context built with `createConfigurationContext`) and emits one markdown file per page per language:
+The user help pages are hand-edited Markdown files in `app/src/main/assets/help/`. They are the source: the in-app Markdown help reads them directly, and the `jekyll-gh-pages.yml` workflow copies them into `docs/users/` before building the site, so the site URLs are unchanged. Nothing generates them any more; until 2026-10 they were written from `strings.xml` by a `getHelp` instrumented test at each release, which would now overwrite hand edits.
 
-* English is written with no suffix, e.g. `help-routes.md`.
-* Each other language is written with its web/BCP-47 code as a suffix, e.g. `help-routes.de.md`, and carries a `lang:` entry plus a `permalink:` pinned to the English page's URL (e.g. `permalink: /users/help-routes.html`). polyglot matches translations by URL, so the shared permalink is what makes it serve the German file at `/de/users/help-routes.html` rather than a separate URL.
-* A locale that has nothing translated on a page is skipped, so polyglot serves the English fallback rather than a page mislabelled as translated.
+* English has no suffix, e.g. `help-routes.md`.
+* Each other language has its web/BCP-47 code as a suffix, e.g. `help-routes.de.md`, and carries a `lang:` entry plus a `permalink:` pinned to the English page's URL (e.g. `permalink: /users/help-routes.html`). polyglot matches translations by URL, so the shared permalink is what makes it serve the German file at `/de/users/help-routes.html` rather than a separate URL. The app looks for the same suffix: the full tag first (`pt-BR`), then the bare language, then English.
+* `parent:` must match the `title:` of `user.<lang>.md` in the same language, so just-the-docs nests the page under that language's "Using Soundscape" section. `nav_order:` sets its place in that list.
 
-The set of locales lives in `localeMap` in `DocumentationScreens.kt`, which mirrors `resourceConfigurations` in `app/build.gradle.kts` and must stay in sync with the `languages` list in `docs/_config.yml`.
+An edit to an English page has to be carried into every `help-<slug>.<lang>.md` by hand; the `strings.xml` translation tooling doesn't cover these files yet. The old Help screen (used while the "Enable new Help screens" debug setting is off) still reads `strings.xml`, so the two can now drift apart.
 
-### Regenerating the help pages
+### Other pages
 
-The `build-app.yaml` release workflow runs `getHelp` on an emulator, pulls the generated markdown off the device, and commits any changes to `main` (which triggers the Pages deploy). It runs as part of every release, so the pages pick up whatever translations had been committed by then — cut a release to publish a batch of translations.
-
-To regenerate locally instead:
-
-1. Run only the doc-generation test on a connected device/emulator:
-   ```
-   ./gradlew connectedDebugAndroidTest \
-     -Pandroid.testInstrumentationRunnerArguments.class=org.scottishtecharmy.soundscape.DocumentationScreens#getHelp
-   ```
-2. Pull the generated files into the repo:
-   ```
-   adb pull /storage/emulated/0/Android/data/org.scottishtecharmy.soundscape/files/Documents/help/. app/src/main/assets/help/
-   ```
-3. Review the diff and commit. (`help-beacon-styles.md` is hand-authored — it is not produced by the test, so leave it in place.)
-
-### Pages not driven by strings
-
-`index.md` and the legal pages are hand-authored and not part of `strings.xml`, so they are currently English only and rely on polyglot's English fallback under each `/<lang>/` URL. A translation can be added later by committing a per-language variant (e.g. `index.de.md` with `lang: de`). The legal pages (privacy policy, terms and conditions) should only ever be translated by a human reviewer — do not machine-translate them.
+`index.md` and the legal pages are not translated yet, so they are currently English only and rely on polyglot's English fallback under each `/<lang>/` URL. A translation can be added later by committing a per-language variant (e.g. `index.de.md` with `lang: de`). The legal pages (privacy policy, terms and conditions) should only ever be translated by a human reviewer — do not machine-translate them.
 
 ### Linking to localized pages
 

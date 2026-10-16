@@ -109,15 +109,14 @@ what's actually there:
    region distinguishes it from another variant of the same base language,
    e.g. `en-rGB`, `fr-rCA`, `pt-rBR`, `zh-rCN` — but plain `nb`, `et` for
    single-variant languages). This is the `<qualifier>` from the gate check,
-   and what `app/build.gradle.kts`'s `localeFilters`,
-   `DocumentationScreens.kt`'s `localeMap` keys and `PreviewTest.kt`'s
+   and what `app/build.gradle.kts`'s `localeFilters` and `PreviewTest.kt`'s
    `locale` use.
 3. **Web/BCP-47 code** (plain hyphen, no `r`) — e.g. `en-GB`, `fr-CA`,
    `pt-BR`, `zh-CN`. Used in `locales_config.xml`, `docs/_config.yml`, and as
-   `DocumentationScreens.kt`'s `localeMap` values / `parentLabels` keys.
+   the suffix of the help pages (`help-<slug>.<web code>.md`).
 
 State your determination for all three forms back to the user before
-editing, so a wrong guess is caught before it's baked into eight files.
+editing, so a wrong guess is caught before it's baked into seven files.
 
 ### Edits
 
@@ -134,26 +133,21 @@ them in sync with each other):
 3. `app/src/main/res/xml/locales_config.xml` — add
    `<locale android:name="<web code>" /> <!-- <English name> -->` in the
    BCP-47 hyphen form, matching the existing comment style.
-4. `app/src/androidTest/java/org/scottishtecharmy/soundscape/DocumentationScreens.kt`
-   — add `"<android qualifier>" to "<web code>"` to `localeMap`, and
-   `"<web code>" to "<title of app/src/main/assets/help/user.<web-code>.md>"` to
-   `parentLabels` (the value must exactly match the `title:` you write in
-   the next step — `parentLabels` is what nests the generated help pages
-   under the right nav section for that language).
-5. `docs/_config.yml` — add the web code to the `languages:` array.
-6. `app/src/main/assets/help/user.<web code>.md` — new file, translating
+4. `docs/_config.yml` — add the web code to the `languages:` array.
+5. `app/src/main/assets/help/user.<web code>.md` — new file, translating
    `app/src/main/assets/help/user.md` (title + two short sentences — small enough to
    translate directly, don't skip it). Match the front matter shape of an
    existing translation like `app/src/main/assets/help/user.de.md` exactly: `title` (in
    the target language), `layout: page`, `has_toc: true`, `nav_order: 1`,
    `lang: <web code>`, `permalink: /users/user.html`,
-   `machine-translated: true`.
-7. `app/src/screenshotTest/kotlin/org/scottishtecharmy/soundscape/PreviewTest.kt`
+   `machine-translated: true`. Its `title:` is what each help page's
+   `parent:` has to match in that language.
+6. `app/src/screenshotTest/kotlin/org/scottishtecharmy/soundscape/PreviewTest.kt`
    — add a `@Preview` to **both** `@LocalePreviews` and `@TallLocalePreviews`,
    copying a neighbour's shape, with `name` the language code (form 1, e.g.
    `nb_NO`) and `locale` the Android qualifier (form 2, e.g. `nb`). The name
    is what `screenshots.yaml` publishes the language's screenshot zip as.
-8. `docs/help-translate.md` — when the language's questionnaire is listed
+7. `docs/help-translate.md` — when the language's questionnaire is listed
    there, end its line with
    ` · [screenshots]({{ page.screenshots }}/screenshots-<language code>.zip)`.
    The zip only exists after `screenshots.yaml` next runs on upstream.
@@ -165,10 +159,11 @@ only changes through `strings_sync.py apply`.
 
 Don't commit — leave the changes in the working tree for the user to review
 and commit themselves (per the repo's normal git workflow). Report the full
-list of files touched and remind the user that the generated help pages
-(`app/src/main/assets/help/help-*.<web code>.md`) still need a regeneration run — point
-them at "Regenerating the help pages" in `docs/developers/translations.md`
-rather than trying to run the instrumented test from here.
+list of files touched and remind the user that the language has no help
+pages yet (`app/src/main/assets/help/help-*.<web code>.md`), so the app and the
+docs site show it the English help. Those are hand-maintained Markdown now,
+not generated from `strings.xml` — see "Help pages are Markdown in the app's
+assets" in `docs/developers/translations.md`.
 
 ## Notes
 
