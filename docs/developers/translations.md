@@ -69,15 +69,34 @@ Most of our languages don't yet have a native speaker checking them, so translat
 
 This website is built with [Jekyll](https://jekyllrb.com/) and the [just-the-docs](https://just-the-docs.com/) theme, and is published to GitHub Pages by the `jekyll-gh-pages.yml` workflow. It is multilingual via the [`jekyll-polyglot`](https://github.com/untra/polyglot) plugin: every supported language gets its own URL subtree (e.g. `/de/`, `/fr-CA/`) and a language switcher appears in the header. Pages that have no translation in a given language fall back to the English version automatically, so the developer documentation (which is English-only) still appears under every language.
 
-### Help pages are Markdown in the app's assets
+### Help pages are Markdown in the app's resources
 
-The user help pages are hand-edited Markdown files in `app/src/main/assets/help/`. They are the source: the in-app Markdown help reads them directly, and the `jekyll-gh-pages.yml` workflow copies them into `docs/users/` before building the site, so the site URLs are unchanged. Nothing generates them any more; until 2026-10 they were written from `strings.xml` by a `getHelp` instrumented test at each release, which would now overwrite hand edits.
+The user help pages are hand-edited Markdown files in `shared/src/commonMain/composeResources/files/help/`. They are the only source of the help: the app's Help screen renders them (on Android and iOS), and the `jekyll-gh-pages.yml` workflow copies them into `docs/users/` before building the site, so the site URLs are unchanged. Until 2026-10 they were generated from `strings.xml`; the help and FAQ text is no longer in `strings.xml` at all.
 
 * English has no suffix, e.g. `help-routes.md`.
-* Each other language has its web/BCP-47 code as a suffix, e.g. `help-routes.de.md`, and carries a `lang:` entry plus a `permalink:` pinned to the English page's URL (e.g. `permalink: /users/help-routes.html`). polyglot matches translations by URL, so the shared permalink is what makes it serve the German file at `/de/users/help-routes.html` rather than a separate URL. The app looks for the same suffix: the full tag first (`pt-BR`), then the bare language, then English.
+* Each other language has its web/BCP-47 code as a suffix, e.g. `help-routes.de.md`, and carries a `lang:` entry plus a `permalink:` pinned to the English page's URL (e.g. `permalink: /users/help-routes.html`). polyglot matches translations by URL, so the shared permalink is what makes it serve the German file at `/de/users/help-routes.html` rather than a separate URL. The app shows the page in the UI's language: `language-REGION` first (`pt-BR`), then the bare language, then English.
 * `parent:` must match the `title:` of `user.<lang>.md` in the same language, so just-the-docs nests the page under that language's "Using Soundscape" section. `nav_order:` sets its place in that list.
+* `help-and-tutorials.<lang>.md` is the app's Help index. It has no front matter and isn't published on the site, whose navigation does the same job.
 
-An edit to an English page has to be carried into every `help-<slug>.<lang>.md` by hand; the `strings.xml` translation tooling doesn't cover these files yet. The old Help screen (used while the "Enable new Help screens" debug setting is off) still reads `strings.xml`, so the two can now drift apart.
+Text that differs by platform, or appears only in the app, uses Liquid conditions. Jekyll evaluates them with `platform` and `app` undefined, so the site gets the Android text and none of the app-only text; the app evaluates them itself (`applyConditions` in `MarkdownProcessor.kt`):
+
+{% raw %}
+```
+{% if platform == "ios" %}
+Text for iPhone.
+{% else %}
+Text for Android, and for the website.
+{% endif %}
+
+{% if app %}
+Current accuracy: {{ accuracy }} ({{ quality }})
+{% endif %}
+```
+{% endraw %}
+
+A paragraph containing {% raw %}`{{ accuracy }}`{% endraw %} is the GPS accuracy page's live line: the app fills in the current accuracy and one of `help_gps_accuracy_good`/`_ok`/`_poor`, which stay in `strings.xml`. FAQ pages are split on their `###` questions.
+
+`HelpPagesTest` checks every page in every language for both platforms: that the index links the same pages everywhere, that no Liquid tag survives, that every FAQ question has an answer and that each GPS page has its live line. An edit to an English page has to be carried into every `help-<slug>.<lang>.md` by hand; the translation tooling only covers `strings.xml` so far.
 
 ### Other pages
 

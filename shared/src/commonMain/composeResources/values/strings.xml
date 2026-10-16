@@ -112,17 +112,11 @@
     <string name="beacon_styles_mallet_very_slow">Mallet (Very Slow)</string>
     <!-- Title for section in settings for audio beacons -->
     <string name="beacon_audio_beacon">Audio Beacon</string>
-    <!-- Title of the help page which shows how accurate the phone's current GPS position is. -->
-    <string name="help_gps_accuracy_page_title">GPS accuracy</string>
-    <!-- Body of the GPS accuracy help page, explaining what the figure below it means. Markdown. The English is US English, so distances are in feet and miles: 30 feet is 10 metres and 60 feet is 20 metres. Translate into the units your readers use. -->
-    <string name="help_gps_accuracy_description">Soundscape can only describe your surroundings as well as your phone knows where you are. Accuracy of 30 feet or better is good. Up to 60 feet is ok. Beyond that, callouts may name the wrong side of the street or arrive late.\n\nAccuracy is usually worst indoors, among tall buildings, and in the first minute after you go outside. If the figure below stays poor while you are outside in the open, turn your phone's location services off and on again.</string>
-    <!-- The current GPS accuracy, %1$s is an already-formatted distance such as "10 metres" and %2$s is one of help_gps_accuracy_good, _ok or _poor, "Current accuracy: 10 metres (good)" -->
-    <string name="help_gps_accuracy_current">Current accuracy: %1$s (%2$s)</string>
-    <!-- Describes a GPS accuracy of 10 metres or better. Appears in help_gps_accuracy_current. -->
+    <!-- Describes a GPS accuracy of 10 metres or better. Appears in the current accuracy line of the GPS accuracy help page (help-gps-accuracy.md). -->
     <string name="help_gps_accuracy_good">good</string>
-    <!-- Describes a GPS accuracy between 10 and 20 metres. Appears in help_gps_accuracy_current. -->
+    <!-- Describes a GPS accuracy between 10 and 20 metres. Appears in the current accuracy line of the GPS accuracy help page (help-gps-accuracy.md). -->
     <string name="help_gps_accuracy_ok">ok</string>
-    <!-- Describes a GPS accuracy worse than 20 metres. Appears in help_gps_accuracy_current. -->
+    <!-- Describes a GPS accuracy worse than 20 metres. Appears in the current accuracy line of the GPS accuracy help page (help-gps-accuracy.md). -->
     <string name="help_gps_accuracy_poor">poor</string>
     <!-- Shown on the GPS accuracy help page when the phone has not yet reported a position, or reports one with no accuracy figure. -->
     <string name="help_gps_accuracy_waiting">Waiting for a position from your phone…</string>
@@ -334,8 +328,6 @@
     <string name="search_use_current_location">Current Location</string>
     <!-- Nearby Places screen title -->
     <string name="search_nearby_screen_title">Places Nearby</string>
-    <!-- Title of the Help section covering the Markers and Routes screens -->
-    <string name="search_view_markers">Markers and Routes</string>
     <!-- Accessibility hint when the user selects the markers button on the home screen. This is always preceded by "Double tap to " -->
     <string name="search_button_markers_only_accessibility_hint">select or edit your saved markers</string>
     <!-- Accessibility hint when the user selects the routes button on the home screen. This is always preceded by "Double tap to " -->
@@ -810,70 +802,10 @@
     <string name="behavior_scavenger_hunt_callout_next_flag">Beacon set on %1$s, %2$s away, %3$s of %4$s</string>
     <!-- Callout indicating the current waypoint has changed, %1$s is the waypoint name, %2$s is the distance to waypoint -->
     <string name="behavior_scavenger_hunt_callout_next_flag_short_route">Beacon set on %1$s, %2$s away</string>
-    <!-- Help section title, Configuring Soundscape -->
-    <string name="help_configuration_section_title">Configuring Soundscape</string>
-    <!-- Heading in the help index above the introductory help page -->
-    <string name="help_getting_started_section_title">Getting Started</string>
-    <!-- Heading in the help index above tips, offline use, GPS accuracy and the FAQ -->
-    <string name="help_more_help_section_title">More Help</string>
-    <!-- Title of the introductory help page -->
-    <string name="help_basics_page_title">How Soundscape Works</string>
-    <!-- Introductory help page: what the app does -->
-    <string name="help_basics_intro">Soundscape describes the world around you with sound. You hear each place from the direction it is in, so you learn where things are as well as what they are.</string>
-    <!-- Introductory help page: automatic callouts. UI name: *Automatic Callouts* is `callouts_automatic_callouts`, the title of another help page. -->
-    <string name="help_basics_callouts">As you walk, Soundscape calls out streets, intersections and places near you. You do not need to do anything. See the *Automatic Callouts* help page.</string>
-    <!-- Introductory help page: the four buttons. UI names: *My Location* is `directions_my_location`; *Around Me* is `help_orient_page_title`; *Ahead of Me* is `help_explore_page_title`; *Nearby Markers* is `callouts_nearby_markers`. -->
-    <string name="help_basics_buttons">The four buttons at the bottom of the home screen describe your surroundings whenever you ask. They are *My Location*, *Around Me*, *Ahead of Me* and *Nearby Markers*.</string>
-    <!-- Introductory help page: the audio beacon. UI name: *Audio Beacon* is `beacon_audio_beacon`, the title of another help page. -->
-    <string name="help_basics_beacon">An audio beacon is a sound that plays from the direction of a place you choose. It shows you where the place is, and you decide how to get there. See the *Audio Beacon* help page.</string>
-    <!-- Heading in the introductory help page: how the app knows which way the user is facing -->
-    <string name="help_basics_direction_heading">Which Way You Are Facing</string>
-    <!-- Introductory help page: how the app knows which way the user is facing -->
-    <string name="help_basics_direction">While you walk, Soundscape uses your direction of travel, so your phone can stay in a pocket or bag. When you stand still, point the top of your phone the way you are facing. Soundscape then uses your phone as a compass. If your phone is locked, or Soundscape is not on the screen, hold your phone flat as well.</string>
-    <!-- Heading in the introductory help page -->
-    <string name="help_basics_headphones_heading">Headphones</string>
-    <!-- Introductory help page: headphones are optional -->
-    <string name="help_basics_headphones">Stereo headphones give the clearest sense of direction. Soundscape also works through your phone's speaker.</string>
-    <!-- Introductory help page: the guided tutorial. UI name: *Guided tutorial* is `menu_audio_tutorial`. -->
-    <string name="help_basics_tutorial">To try the main features step by step, open the menu and select *Guided tutorial*.</string>
-    <!-- Help section title. This section contains help articles on the audio beacon and the automatic callout features. -->
-    <string name="settings_help_section_beacons_and_pois">Beacons and Callouts</string>
-    <!-- Help section title -->
-    <string name="settings_help_section_home_screen_buttons">Location and Exploration Buttons</string>
-    <!-- Help page on choosing a voice, Android. UI names: *Settings* is `settings_screen_title`; *Audio* is `menu_manage_audio`; *Voices* is `voice_voices`. *Text-to-speech output* is the name of the Android system setting. -->
-    <string name="help_config_voices_content">Soundscape can use any voice installed on your phone. To add voices, open your phone's settings and find *Text-to-speech output*. To choose a voice in Soundscape, open the menu and select *Settings*, then *Audio*, then *Voices*.</string>
-    <!-- Help page on choosing a voice, iOS. UI names: *Settings* is `settings_screen_title`; *Audio* is `menu_manage_audio`; *Voices* is `voice_voices`. Accessibility, Read & Speak, Spoken Content, Voices and Enhanced are the names Apple uses in the iOS Settings app. -->
-    <string name="help_config_voices_content_ios">Soundscape can use any voice installed on your iPhone, except the Siri voices. The *Enhanced* voices sound best, but you must download them first. In the iOS Settings app, go to Accessibility &gt; Read &amp; Speak &gt; Voices and select a voice. Before iOS 26, *Read &amp; Speak* is called *Spoken Content*. To choose a voice in Soundscape, open the menu and select *Settings*, then *Audio*, then *Voices*.</string>
-    <!-- Title of the help page about using the app with no internet connection -->
-    <string name="help_offline_page_title">Using Soundscape Offline</string>
-    <!-- Help content: why an offline map is needed -->
-    <string name="help_offline_description">Soundscape normally downloads map data as you move. Without an internet connection it cannot do that. To keep everything working, download an offline map before you travel.</string>
-    <!-- Heading above the steps for downloading an offline map -->
-    <string name="help_offline_limitations_heading">Downloading an offline map</string>
-    <!-- Help content: numbered steps to download an offline map. UI names: *Offline maps* is `offline_maps_title`; *Nearby offline maps* is `offline_maps_nearby`; *Download offline map* is `offline_map_details_download`. -->
-    <string name="help_offline_limitations_description">1. Open the menu and select *Offline maps*.\n\n2. Select a map from *Nearby offline maps*.\n\n3. Select *Download offline map*.\n\nMaps can be large, so use Wi-Fi if you can.</string>
-    <!-- Heading above the description of what still works offline when no offline map has been downloaded -->
-    <string name="help_offline_troubleshooting_heading">Without an offline map</string>
-    <!-- Help content: what works offline when there is no offline map -->
-    <string name="help_offline_troubleshooting_description">Callouts may still work in places you visited recently, because your phone keeps some map data for a while. Search finds only your markers. Everything returns to normal when your phone is back online.</string>
     <!-- Help Title, Around Me -->
     <string name="help_orient_page_title">Around Me</string>
     <!-- Help Title, Ahead of Me -->
     <string name="help_explore_page_title">Ahead of Me</string>
-    <!-- Help Title, Creating Markers -->
-    <string name="help_creating_markers_page_title">Creating Markers</string>
-    <!-- Help Title, Customizing Markers -->
-    <string name="help_edit_markers_page_title">Customizing Markers</string>
-    <!-- Help Title, This is a help topic related to using the media control buttons on headphones -->
-    <string name="help_remote_page_title">Using Media Controls</string>
-    <!-- Help Title, This is a help topic about controlling Soundscape by speaking to Siri. The page is only linked from the help index on iOS, but it also appears on the documentation website. -->
-    <string name="help_assistant_page_title">Siri Voice Commands</string>
-    <!-- Help heading on the Siri Voice Commands page, above the text on how to phrase a command -->
-    <string name="help_assistant_how_heading">How to Ask</string>
-    <!-- Help heading on the Siri Voice Commands page, above the list of commands -->
-    <string name="help_assistant_commands_heading">What You Can Ask For</string>
-    <!-- Help heading on the Siri Voice Commands page, above some extra notes -->
-    <string name="help_assistant_notes_heading">Good to Know</string>
     <!-- Help Tutorial, Hint when disabled while route guidance is active -->
     <!-- Title Terms of Use -->
     <string name="terms_of_use_title">Terms of Use</string>
@@ -950,208 +882,10 @@
     <string name="first_launch_change_language">Change Language</string>
     <!-- Hint for configuring the language -->
     <string name="first_launch_change_language_hint">change the language used for the app</string>
-    <!-- Help content: what an audio beacon is -->
-    <string name="help_text_destination_beacons_what">An audio beacon is a sound that plays from the direction of a place you choose. It tells you where the place is in a straight line. It does not give turn-by-turn directions, so you choose your own way there.</string>
-    <!-- Help content: how the beacon sound changes when the user faces the place -->
-    <string name="help_text_destination_beacons_when">The beacon changes sound when you face the place or walk straight toward it. To find that sound, hold your phone flat and turn slowly. You can choose a different beacon sound in *Settings*.</string>
-    <!-- Help content: numbered steps to set an audio beacon. UI names: *Places Nearby* is `search_nearby_screen_title`; *Markers* is `markers_title`; *Current Location* is `search_use_current_location`; *Location Details* is `location_detail_title_default`; *Start Audio Beacon* is `location_detail_action_beacon`. -->
-    <string name="help_text_destination_beacons_how_1">1. Find the place. Use the search bar, *Places Nearby*, *Markers* or *Current Location* on the home screen.\n\n2. Select the place to open *Location Details*.\n\n3. Select *Start Audio Beacon*.\n\nSoundscape returns to the home screen and the beacon starts. The home screen shows the name of the place and how far away it is.</string>
-    <!-- Help content: how to remove the beacon. UI names: *Stop Route* is `route_detail_action_stop_route`. The same button stops a single beacon and a route, which is what the second sentence explains. -->
-    <string name="help_text_destination_beacons_how_2">Select *Stop Route* on the home screen. The button has this name even when the beacon is not part of a route.</string>
-    <!-- Help content: how to mute the beacon. UI names: *Mute Beacon* is `beacon_action_mute_beacon`; *Unmute Beacon* is `beacon_action_unmute_beacon`. -->
-    <string name="help_text_destination_beacons_how_3">Select *Mute Beacon* on the home screen. Soundscape still tells you how far away the place is as you move. Select *Unmute Beacon* to hear the beacon again.</string>
-    <!-- Help content: what happens on arriving at the beacon. The English is US English, so distances are in feet and miles: 40 feet is 12 metres and 100 feet is 30 metres. Translate into the units your readers use. -->
-    <string name="help_text_destination_beacons_arrival">When you are about 40 feet from the place, Soundscape tells you and removes the beacon. Your phone cannot find your position more exactly than that. To hear the beacon again, set it again.\n\nA beacon set on a place less than 100 feet away stays on until you remove it.</string>
-    <!-- Heading in the Audio Beacon help page -->
-    <string name="help_beacons_set_heading">Setting a Beacon</string>
-    <!-- Heading in the Audio Beacon help page -->
-    <string name="help_beacons_facing_heading">Finding the Direction</string>
-    <!-- Heading in the Audio Beacon help page -->
-    <string name="help_beacons_mute_heading">Muting the Beacon</string>
-    <!-- Heading in the Audio Beacon help page -->
-    <string name="help_beacons_remove_heading">Removing the Beacon</string>
-    <!-- Heading in the Audio Beacon help page -->
-    <string name="help_beacons_arrival_heading">When You Arrive</string>
-    <!-- Help content: what automatic callouts are -->
-    <string name="help_text_automatic_callouts_what">As you walk, Soundscape calls out what is near you. You hear each name from the direction of the place. Callouts cover streets, intersections, shops, bus stops, landmarks and your own markers.</string>
-    <!-- Help content: how an intersection is called out -->
-    <string name="help_text_automatic_callouts_when_1">As you approach an intersection, Soundscape names each road that leaves it. You hear which road goes left, which continues ahead and which goes right.</string>
-    <!-- Help content: the four Callout Detail levels. UI names: *Settings* is `settings_screen_title`; *Manage Callouts* is `menu_manage_callouts`; *Callout Detail* is `callouts_verbosity`; *Detailed* is `callouts_verbosity_level_detailed`; *Simplified* is `callouts_verbosity_level_balanced`; *Essential* is `callouts_verbosity_level_quiet`; *Silent* is `callouts_verbosity_level_silent`. -->
-    <string name="help_text_automatic_callouts_when_2">Open the menu and select *Settings*, then *Manage Callouts*. *Callout Detail* has four levels.\n\n*Detailed* calls out everything nearby.\n\n*Simplified* leaves out minor paths and service roads, and repeats itself less.\n\n*Essential* calls out only streets, intersections and landmarks.\n\n*Silent* makes no automatic callouts. Beacons, routes and the home screen buttons still work.</string>
-    <!-- Help content: choosing which kinds of thing are called out. UI names: *Manage Callouts* is `menu_manage_callouts`; *Streets and Junctions* is `callouts_streets_and_junctions`; *Places to Call Out* is `callouts_places_to_call_out`; *Public Transit* is `filter_transit`; *Food and Drink* is `filter_food_drink`. -->
-    <string name="help_text_automatic_callouts_when_3">*Manage Callouts* has two more settings. *Streets and Junctions* turns street and intersection callouts on or off. *Places to Call Out* chooses which kinds of place you hear, such as *Public Transit* or *Food and Drink*. Your markers are always called out.</string>
-    <!-- Help content: making the app quieter from the headphone buttons. *previous* is the previous-track button on headphone media controls. UI names: the four levels as in `callouts_verbosity_level_*`; *Using Media Controls* is `help_remote_page_title`. -->
-    <string name="help_text_automatic_callouts_how_1">Press *previous* on your headphone controls. Each press moves one level quieter: *Detailed*, *Simplified*, *Essential*, then *Silent*. One more press returns to *Detailed*. See the *Using Media Controls* help page.</string>
-    <!-- Help content: sleep and snooze. UI names: *Sleep* is `sleep_sleep`; *Wake Up Now* is `sleep_wake_up_now`; *Wake On Leave* is `sleep_wake_on_leave`. -->
-    <string name="help_text_automatic_callouts_how_2">Select the *Sleep* button at the top of the home screen. Soundscape stops using your location and makes no sound until you select *Wake Up Now*. Or select *Wake On Leave*, and Soundscape wakes up when you leave the place you are in.</string>
-    <!-- Help content: how callouts change in a car, bus or train -->
-    <string name="help_text_automatic_callouts_vehicle">Soundscape notices when you are traveling at vehicle speed. It then stops calling out intersections and nearby shops, because they pass too quickly. Instead it calls out the road you are on, landmarks, stops and stations, rivers and tunnels.</string>
-    <!-- Heading in the Automatic Callouts help page -->
-    <string name="help_callouts_intersections_heading">Intersections</string>
-    <!-- Heading in the Automatic Callouts help page, above the Callout Detail levels -->
-    <string name="help_callouts_detail_heading">How Much You Hear</string>
-    <!-- Heading in the Automatic Callouts help page, above the settings for which kinds of thing are called out -->
-    <string name="help_callouts_kinds_heading">What You Hear</string>
-    <!-- Heading in the Automatic Callouts help page, above the headphone button that makes the app quieter -->
-    <string name="help_callouts_quiet_heading">Making Soundscape Quieter</string>
-    <!-- Heading in the Automatic Callouts help page, above sleep and snooze -->
-    <string name="help_callouts_sleep_heading">Stopping Soundscape for a While</string>
-    <!-- Heading in the Automatic Callouts help page -->
-    <string name="help_callouts_vehicle_heading">In a Vehicle or on a Train</string>
-    <!-- Help content for the My Location button. UI name: *My Location* is `directions_my_location`. -->
-    <string name="help_text_my_location_what">*My Location* tells you where you are. It says which way you are facing or traveling, then the street or address you are at. Use it when you step off a bus, leave a building or lose your bearings.</string>
-    <!-- Help content for the Nearby Markers button. UI name: *Nearby Markers* is `callouts_nearby_markers`. The English is US English, so distances are in feet and miles: about a mile is 2 kilometres. Translate into the units your readers use. -->
-    <string name="help_text_nearby_markers_what">*Nearby Markers* calls out up to four of your markers, the ones closest to you. You hear each one from its own direction, with its distance. Use it to get your bearings from places you already know. Markers more than about a mile away are left out.</string>
-    <!-- Help content for the Around Me button. UI name: *Around Me* is `help_orient_page_title`. -->
-    <string name="help_text_around_me_what">*Around Me* calls out up to four places near you: one ahead, one to the right, one behind and one to the left. You hear each one from its own direction, with its distance. Use it to get your bearings when you arrive somewhere.</string>
-    <!-- Help content for the Ahead of Me button. UI name: *Ahead of Me* is `help_explore_page_title`. -->
-    <string name="help_text_ahead_of_me_what">*Ahead of Me* calls out up to five places in front of you. You hear each one from its own direction, with its distance. Use it on a street you do not know, to learn what is coming up.</string>
-    <!-- Shown at the end of the help page for each of the four home screen buttons -->
-    <string name="help_text_buttons_direction">If you are standing still, first point the top of your phone the way you are facing. If your phone is locked, or Soundscape is not on the screen, hold your phone flat as well.</string>
-    <!-- Help content: what the headphone media buttons are for. *play/pause*, *next* and *previous* are the standard media buttons on headphones. -->
-    <string name="help_text_remote_control_what">You can control Soundscape with the media buttons on your headphones: *play/pause*, *next* and *previous*. This works with wired and Bluetooth headphones. It also works when Soundscape is in the background or your phone is locked.\n\nNot all headphones have all three buttons.</string>
-    <!-- Help content: the headphone buttons go to whichever app is playing audio. -->
-    <string name="help_text_remote_control_when">The buttons only control Soundscape when no other app is playing audio. If you are playing music or a podcast, the buttons control that app instead.</string>
-    <!-- iOS variant of help_text_remote_control_when. Used on iOS builds only. UI names: *Mix audio with other apps* is `settings_mix_audio`; *Settings* is `settings_screen_title`. -->
-    <string name="help_text_remote_control_when_ios">The buttons only control Soundscape when no other app is playing audio. If you are playing music or a podcast, the buttons control that app instead.\n\nThe buttons also do not control Soundscape while *Mix audio with other apps* is turned on in *Settings*.</string>
-    <!-- Help content: choosing between the two media control modes. UI names: *Original mode* is `settings_media_controls_original`; *Audio menu* is `settings_media_controls_audio_menu`; *Settings* is `settings_screen_title`; *Media Controls* is `menu_media_controls`. -->
-    <string name="help_text_remote_control_modes">The buttons can work in two ways: *Original mode* or *Audio menu*. To choose, open the menu and select *Settings*, then *Media Controls*.</string>
-    <!-- Help content: what each headphone button does in Original mode. Shown under the heading `settings_media_controls_original`. UI names: *Around Me* is `help_orient_page_title`; *Callout Detail* is `callouts_verbosity`; *Detailed* is `callouts_verbosity_level_detailed`; *Simplified* is `callouts_verbosity_level_balanced`; *Essential* is `callouts_verbosity_level_quiet`; *Silent* is `callouts_verbosity_level_silent`. -->
-    <string name="help_text_remote_control_original">*Play/pause* mutes the beacon. Press it again to hear the beacon.\n\n*Next* moves the beacon to the next waypoint when you are following a route. Otherwise it calls out *Around Me*.\n\n*Previous* moves the beacon to the previous waypoint when you are following a route. Otherwise it changes the *Callout Detail*. Each press moves one level quieter: *Detailed*, *Simplified*, *Essential*, then *Silent*. One more press returns to *Detailed*. Soundscape says the name of the new level.</string>
-    <!-- Help content: how the headphone buttons work in Audio menu mode. Shown under the heading `settings_media_controls_audio_menu`. UI names: *Callout Detail* is `callouts_verbosity`; *Original mode* is `settings_media_controls_original`; *Hear My Surroundings* is `callouts_panel_title`; *Route control* is `menu_route`; *Start Route* is `route_detail_action_start_route`; *Start Audio Beacon* is `location_detail_action_beacon`; *Top menu* is `menu_main_menu`. -->
-    <string name="help_text_remote_control_audio_menu">The audio menu gives you more actions from the same three buttons. Soundscape reads each option aloud.\n\n*Next* moves to the next option. After the last option it returns to the first.\n\n*Play/pause* selects the option you just heard.\n\n*Previous* changes the *Callout Detail*, the same as in *Original mode*.\n\nThe menu starts with four groups: *Hear My Surroundings*, *Route control*, *Start Route* and *Start Audio Beacon*. Select a group to hear its actions. *Hear My Surroundings* and *Route control* end with *Top menu*, which takes you back to the four groups.</string>
-    <!-- Help content: what voice commands are. They work only with Siri on iPhone. Shown in the iOS app and on the documentation website. -->
-    <string name="help_text_assistant_what_ios">On iPhone, you can ask Siri to do things in Soundscape without touching your phone. For example, hear a callout, start a route, or set a beacon on a marker.\n\nSoundscape answers in its own voice, with its usual callouts and beacon sounds. So you still hear each sound from the direction of the place.</string>
-    <!-- Notification, Information about when to use voice commands. -->
-    <string name="help_text_assistant_when">Use voice commands when your phone is in your pocket or your hands are full. They work while Soundscape is in the background and while your phone is locked. Asking for a callout does not open the app.\n\nSiri does the listening, not Soundscape. So Soundscape never uses your microphone, and your Bluetooth headphones keep their high quality sound.</string>
-    <!-- Help content: how to phrase a Siri command. “Soundscape” here is the app name that starts every spoken command, so leave it as it is. -->
-    <string name="help_text_assistant_how_ios">Every command has the same shape: *“Soundscape”*, then a group, then your choice. For example, *“Soundscape surroundings around me”*.\n\nYou can also stop after the group, and Siri asks which choice you want. So each group works like a spoken menu. There are only seven groups to remember.</string>
-    <!-- Help content: the list of Siri commands. The quoted phrases are the exact words the user says to Siri, so only translate them if this language also has its own Siri phrases authored in AppShortcuts.strings - a translated phrase Siri does not recognise is worse than an English one that works. The choices after each dash are labels Siri shows and speaks. UI names: *My Location* is `directions_my_location`; *Around Me* is `help_orient_page_title`; *Ahead of Me* is `help_explore_page_title`; *Nearby Markers* is `callouts_nearby_markers`; *Call out Beacon* is `beacon_action_callout_beacon`; *Beacon Info* is `menu_beacon_info`; *Next Waypoint* is `route_detail_action_next`; *Previous Waypoint* is `route_detail_action_previous`; *Mute Beacon* is `beacon_action_mute_beacon`; *Stop* is `siri_choice_stop`; *Silent* is `callouts_verbosity_level_silent`; *Essential* is `callouts_verbosity_level_quiet`; *Simplified* is `callouts_verbosity_level_balanced`; *Detailed* is `callouts_verbosity_level_detailed`; *Routes* is `routes_title`; *Markers* is `markers_title`; *Commands* is `siri_choice_commands`. -->
-    <string name="help_text_assistant_commands_ios">*“Soundscape surroundings”* — then *My Location*, *Around Me*, *Ahead of Me*, *Nearby Markers*, *Call out Beacon* or *Beacon Info*.\n\n*“Soundscape route”* — then *Next Waypoint*, *Previous Waypoint*, *Mute Beacon* or *Stop*.\n\n*“Soundscape start route”* — then the name of one of your routes.\n\n*“Soundscape beacon”* — then the name of one of your markers.\n\n*“Soundscape stop beacon”*.\n\n*“Soundscape detail”* — then *Silent*, *Essential*, *Simplified* or *Detailed*. *Silent* turns automatic callouts off.\n\n*“Soundscape list”* — then *Routes*, *Markers* or *Commands*. *Commands* reads this list back to you.</string>
-    <!-- Help content: where else the Siri commands appear on an iPhone. -->
-    <string name="help_text_assistant_notes_ios">The commands also appear in the Shortcuts app, and in the iOS Settings app under *Siri*. There you can see the whole list and add your own wording for any command.</string>
-    <!-- Help content: what a marker is -->
-    <string name="help_text_markers_content_1">A marker is a place you have saved. It can be any place that matters to you: your home, a bus stop, a building entrance or a crossing.</string>
-    <!-- Help content: what markers are used for. UI name: *Nearby Markers* is `callouts_nearby_markers`. -->
-    <string name="help_text_markers_content_2">Soundscape calls out your markers as you pass them. You can set an audio beacon on a marker, add it to a route, or hear the closest ones with the *Nearby Markers* button.</string>
-    <!-- Help content: numbered steps to create a marker. UI names: *Markers* is `markers_title`; *New* is `markers_routes_action_new`; *Current Location* is `search_use_current_location`; *Places Nearby* is `search_nearby_screen_title`; *Done* is `general_alert_done`. The notes are the `markers_annotation` field. -->
-    <string name="help_text_creating_markers_content_1">1. Select *Markers* on the home screen, then select *New*.\n\n2. Choose *Current Location*, or a place from *Places Nearby*.\n\n3. Change the name if you want, and add notes. Soundscape reads the notes out with the marker.\n\n4. Select *Done*.</string>
-    <!-- Help content: saving any place as a marker. UI names: *Location Details* is `location_detail_title_default`; *Save as Marker* is `universal_links_alert_action_marker`. -->
-    <string name="help_text_creating_markers_content_2">You can also save any place you find. Open its *Location Details* and select *Save as Marker*.</string>
-    <!-- Help content: editing or deleting a marker. UI names: *Markers* is `markers_title`; *Edit Marker* is `markers_edit_screen_title_edit`; *Delete Marker* is `markers_action_delete`. -->
-    <string name="help_text_customizing_markers_content_1">Select the marker on the *Markers* screen, then select *Edit Marker*. You can change its name, notes and position, or select *Delete Marker*. Deleting a marker also removes it from your routes.</string>
-    <!-- Help content: what a route is -->
-    <string name="help_text_routes_content_what">A route is a list of locations, called waypoints, that you visit in order. Soundscape sets a beacon on the first waypoint. When you arrive, it tells you and moves the beacon to the next one.</string>
-    <!-- Help content: when a route is useful -->
-    <string name="help_text_routes_content_when">Use a route to learn a new journey, or to stay on track on one you know.</string>
-    <!-- Help content: numbered steps to create a route. UI names: *Routes* is `routes_title`; *New* is `markers_routes_action_new`; *Add Waypoints* is `route_detail_edit_waypoints_button`; *Done* is `general_alert_done`. -->
-    <string name="help_text_routes_content_how_1">1. Select *Routes* on the home screen, then select *New*.\n\n2. Give the route a name. You can add a description.\n\n3. Select *Add Waypoints* and choose markers. You can also add your current location or a place nearby.\n\n4. Select *Done*.</string>
-    <!-- Help content: editing a route. UI names: *Routes* is `routes_title`; *Edit Route* is `route_detail_action_edit`. -->
-    <string name="help_text_routes_content_how_2">Select the route on the *Routes* screen, then select *Edit Route*. You can add, remove and reorder waypoints, change the name and description, or delete the route.</string>
-    <!-- Help content: sharing a route. UI names: *Routes* is `routes_title`; *Share* is `share_title`. -->
-    <string name="help_text_routes_content_how_3">Select the route on the *Routes* screen, then select *Share*.</string>
-    <!-- Help content: following a route. UI names: *Routes* is `routes_title`; *Start Route* is `route_detail_action_start_route`; *Start Route in Reverse* is `route_detail_action_start_route_reverse`; *Next Waypoint* is `route_detail_action_next`; *Previous Waypoint* is `route_detail_action_previous`; *Stop Route* is `route_detail_action_stop_route`. -->
-    <string name="help_text_routes_content_how_start">Select the route on the *Routes* screen, then select *Start Route*. To follow it backwards, select *Start Route in Reverse*. On the home screen, *Next Waypoint* and *Previous Waypoint* move the beacon along the route. *Stop Route* ends it.</string>
-    <!-- Heading in the Routes help page -->
-    <string name="help_routes_create_heading">Creating a Route</string>
-    <!-- Heading in the Routes help page -->
-    <string name="help_routes_follow_heading">Following a Route</string>
-    <!-- Heading in the Routes help page -->
-    <string name="help_routes_edit_heading">Changing a Route</string>
-    <!-- Heading in the Routes help page -->
-    <string name="help_routes_share_heading">Sharing a Route</string>
     <!-- Title in menu of button to share the app with others -->
     <string name="share_title">Share</string>
-    <!-- Title of the Frequently Asked Questions page -->
-    <string name="faq_title">Frequently Asked Questions</string>
     <!-- Abbreviated title "FAQ" standing for "Frequently Asked Questions" -->
     <string name="faq_title_abbreviated">FAQ</string>
-    <!-- Title of the "Tips and Tricks" section in the help content -->
-    <string name="faq_tips_title">Tips</string>
-    <!-- FAQ section heading: general questions about the app -->
-    <string name="faq_section_what_is_soundscape">About Soundscape</string>
-    <!-- Soundscape - The app that explores the use of innovative audio-based technology to enable people, particularly those with blindness or low vision, to build a richer awareness of their surroundings, thus becoming more confident and empowered to get around by using 3D audio cues to enrich ambient awareness and provide a new way to relate to the environment. -->
-    <string name="faq_when_to_use_soundscape_question">When should I use Soundscape?</string>
-    <!-- FAQ answer -->
-    <string name="faq_when_to_use_soundscape_answer">Use Soundscape whenever you are out. It runs in the background and tells you the streets you are on and the places you pass. It can also help with one task, such as keeping track of a place you are walking to.</string>
-    <!-- FAQ section heading: questions about beacons and callouts -->
-    <string name="faq_section_getting_the_best_experience">Beacons and Callouts</string>
-    <!-- A 'beacon' is an audio signal that helps fix the position of a location - the audio signal is played from the direction of a location which helps navigating towards that direction. -->
-    <string name="faq_how_to_use_beacon_question">How do I get the most out of a beacon?</string>
-    <!-- FAQ answer. UI names: mute and unmute are `beacon_action_mute_beacon` and `beacon_action_unmute_beacon`. -->
-    <string name="faq_how_to_use_beacon_answer">Think of the beacon as a lighthouse for your ears. It shows where the place is in a straight line, not the path to it. You still choose your way around buildings and across roads.\n\nThe beacon changes sound when you face the place. To find that sound, hold your phone flat and turn slowly.\n\nIf you know most of the way, mute the beacon and unmute it when you are close.</string>
-    <!-- FAQ question about the beacon sounding different while standing still -->
-    <string name="faq_why_does_beacon_disappear_question">Why does the beacon sound different when I stop walking?</string>
-    <!-- FAQ answer -->
-    <string name="faq_why_does_beacon_disappear_answer">With your phone in a pocket or bag, Soundscape works out which way you face from your direction of travel. When you stop, it can no longer tell, so the beacon plays as if you were facing away. Start walking again, or point the top of your phone the way you are facing. If your phone is locked, or Soundscape is not on the screen, hold your phone flat as well.</string>
-    <!-- FAQ question -->
-    <string name="faq_beacon_on_address_question">Can I set a beacon on an address, such as my home?</string>
-    <!-- FAQ answer. UI names: *Start Audio Beacon* is `location_detail_action_beacon`; *Save as Marker* is `universal_links_alert_action_marker`. -->
-    <string name="faq_beacon_on_address_answer">Yes. Type the address in the search bar on the home screen and select it in the results. Then select *Start Audio Beacon*. To keep the address for next time, select *Save as Marker*.</string>
-    <!-- FAQ question -->
-    <string name="faq_how_close_to_destination_question">What happens when I reach my destination?</string>
-    <!-- FAQ answer. The English is US English, so distances are in feet and miles: 40 feet is 12 metres. Translate into the units your readers use. -->
-    <string name="faq_how_close_to_destination_answer">When you are about 40 feet away, Soundscape tells you and removes the beacon. Your phone cannot find your position more exactly than that, so use your other skills for the last few steps. To hear the beacon again, set it again.</string>
-    <!-- FAQ question -->
-    <string name="faq_road_names_question">Why do I hear a road name twice at an intersection?</string>
-    <!-- FAQ answer -->
-    <string name="faq_road_names_answer">Soundscape names each road that leaves the intersection, from the direction it goes. A road that crosses yours goes both left and right, so you hear its name twice. If you hear only a left and a right, your road ends ahead.</string>
-    <!-- Soundscape - The app that explores the use of innovative audio-based technology to enable people, particularly those with blindness or low vision, to build a richer awareness of their surroundings, thus becoming more confident and empowered to get around by using 3D audio cues to enrich ambient awareness and provide a new way to relate to the environment. -->
-    <string name="faq_why_not_every_business_question">Why doesn’t Soundscape announce every business that I pass?</string>
-    <!-- FAQ answer. UI names: *Callout Detail* is `callouts_verbosity`; *Detailed* is `callouts_verbosity_level_detailed`; *Places to Call Out* is `callouts_places_to_call_out`. -->
-    <string name="faq_why_not_every_business_answer">Soundscape gets its places from OpenStreetMap, a map built by volunteers. If a business is missing from that map, Soundscape cannot call it out. Soundscape also limits callouts so that you do not hear too many. To hear more, set *Callout Detail* to *Detailed* and check *Places to Call Out*.</string>
-    <!-- FAQ question -->
-    <string name="faq_callouts_stopping_in_vehicle_question">What changes when I am in a vehicle?</string>
-    <!-- FAQ answer -->
-    <string name="faq_callouts_stopping_in_vehicle_answer">Soundscape stops calling out intersections and nearby shops, because they pass too quickly. Instead it calls out the road you are on, landmarks, stops and stations, rivers and tunnels.</string>
-    <!-- FAQ question -->
-    <string name="faq_miss_a_callout_question">What if I miss a callout?</string>
-    <!-- FAQ answer. UI names: *My Location* is `directions_my_location`; *Around Me* is `help_orient_page_title`; *Ahead of Me* is `help_explore_page_title`. -->
-    <string name="faq_miss_a_callout_answer">Soundscape does not keep a list of past callouts. Ask again with the buttons at the bottom of the home screen: *My Location*, *Around Me* or *Ahead of Me*.</string>
-    <!-- FAQ section heading: phones, headphones, battery, data and map questions -->
-    <string name="faq_section_how_soundscape_works">Phones, Battery and Maps</string>
-    <!-- Soundscape frequently asked questions -->
-    <string name="faq_supported_phones_question">What phone does Soundscape run on?</string>
-    <!-- FAQ answer -->
-    <string name="faq_supported_phones_answer">Soundscape runs on iPhones with iOS 16 or later, and on Android phones with Android 11 or later.</string>
-    <!-- FAQ question -->
-    <string name="faq_supported_headsets_question">Do I need headphones?</string>
-    <!-- FAQ answer -->
-    <string name="faq_supported_headsets_answer">No. Soundscape works through your phone's speaker. Stereo headphones give a much clearer sense of direction, and any wired or Bluetooth pair will do.</string>
-    <!-- FAQ question -->
-    <string name="faq_battery_impact_question">How do I save battery?</string>
-    <!-- FAQ answer. UI names: *Sleep* is `sleep_sleep`; *Wake On Leave* is `sleep_wake_on_leave`. -->
-    <string name="faq_battery_impact_answer">Soundscape uses your location all the time, and that uses battery. To use less:\n\n1. Keep the screen off when you are not using it.\n\n2. When you stop for a while, select *Sleep* at the top of the home screen. Select *Wake On Leave* if you want Soundscape to wake when you move on.\n\n3. When you have finished, close Soundscape.</string>
-    <!-- Soundscape - The app that explores the use of innovative audio-based technology to enable people, particularly those with blindness or low vision, to build a richer awareness of their surroundings, thus becoming more confident and empowered to get around by using 3D audio cues to enrich ambient awareness and provide a new way to relate to the environment. -->
-    <string name="faq_mobile_data_use_question">How much mobile data does Soundscape use?</string>
-    <!-- FAQ answer. UI name: *Offline maps* is `offline_maps_title`. -->
-    <string name="faq_mobile_data_use_answer">Soundscape downloads a small amount of map data as you move. To use much less, download an offline map over Wi-Fi before you travel. Open the menu and select *Offline maps*.</string>
-    <!-- Soundscape - The app that explores the use of innovative audio-based technology to enable people, particularly those with blindness or low vision, to build a richer awareness of their surroundings, thus becoming more confident and empowered to get around by using 3D audio cues to enrich ambient awareness and provide a new way to relate to the environment. -->
-    <string name="faq_difference_from_map_apps_question">How is Soundscape different from other map apps?</string>
-    <!-- FAQ answer -->
-    <string name="faq_difference_from_map_apps_answer">Most map apps give turn-by-turn directions. Soundscape tells you what is around you and plays a beacon from the direction of your destination. You choose the way.\n\nYou can use both together. Start directions in your map app, then set a Soundscape beacon on the same place.</string>
-    <!-- FAQ question -->
-    <string name="faq_controlling_what_you_hear_question">How do I make Soundscape quieter?</string>
-    <!-- FAQ answer. UI names: *Settings* is `settings_screen_title`; *Manage Callouts* is `menu_manage_callouts`; *Callout Detail* is `callouts_verbosity`; *Silent* is `callouts_verbosity_level_silent`; *Mute Beacon* is `beacon_action_mute_beacon`; *Sleep* is `sleep_sleep`. -->
-    <string name="faq_controlling_what_you_hear_answer">1. To hear fewer callouts, open *Settings*, select *Manage Callouts* and lower *Callout Detail*. *Silent* stops all automatic callouts.\n\n2. To silence the beacon, select *Mute Beacon* on the home screen.\n\n3. To stop Soundscape for a while, select *Sleep* at the top of the home screen.</string>
-    <!-- FAQ question -->
-    <string name="faq_holding_phone_flat_question">Do I need to hold my phone all the time?</string>
-    <!-- FAQ answer -->
-    <string name="faq_holding_phone_flat_answer">No. While you walk, Soundscape uses your direction of travel, so your phone can stay in a pocket or bag. Take it out when you are standing still and want directions to be right. Point the top of your phone the way you are facing. If your phone is locked, or Soundscape is not on the screen, hold your phone flat as well.</string>
-    <!-- FAQ question -->
-    <string name="faq_what_is_osm_question">What is OpenStreetMap?</string>
-    <!-- FAQ answer -->
-    <string name="faq_what_is_osm_answer">OpenStreetMap is a free map of the world, built by volunteers. Soundscape uses it for streets and places. Anyone can add or correct a place at www.openstreetmap.org, and the change reaches Soundscape in a later map update.</string>
-    <!-- Tip. UI names: *Places Nearby* is `search_nearby_screen_title`; *Public Transit* is `filter_transit`. -->
-    <string name="faq_tip_finding_bus_stops">To find nearby bus stops, select *Places Nearby* and choose *Public Transit*.</string>
-    <!-- Tip about muting the beacon -->
-    <string name="faq_tip_turning_beacon_off">You can mute the beacon and still hear how far away the place is. Soundscape says the distance from time to time as you move.</string>
-    <!-- Tip about saving bus stops as markers -->
-    <string name="faq_tip_create_marker_at_bus_stop">If you take the same bus often, save your stops as markers. Set a beacon on the stop where you get off, and Soundscape tells you how far away it is as you ride.</string>
-    <!-- Tip. UI names: *Location Details* is `location_detail_title_default`; *Simulate Location* is `preview_title`. -->
-    <string name="faq_tip_simulate_location">To explore a place before you go, open its *Location Details* and select *Simulate Location*. Soundscape then behaves as if you were there.</string>
-    <!-- Tip. UI names: *Location Details* is `location_detail_title_default`; *Open in Maps App* is `location_detail_action_open_in_app`. -->
-    <string name="faq_tip_open_in_maps">For turn-by-turn directions, open the *Location Details* of a place and select *Open in Maps App*. Soundscape keeps running while the other app gives directions.</string>
     <!-- No language has been selected by the user, shown in the onboarding screens if the system language isn't supported by the app -->
     <string name="no_language_selected">No language selected</string>
     <!-- Notifications are a type of Android permission required to run the app -->
@@ -1410,19 +1144,6 @@ We are always looking to improve our translations and on the same website as the
 
 Please continue to report any problems, however small, through “Contact support” in the main menu.
 </string>
-    <!-- Text for the About Soundscape menu option. It describes what the app does -->
-    <string name="about_soundscape">Soundscape uses innovative audio-based technology to help people build a richer awareness of their surroundings. This makes people more confident and able to get around independently.</string>
-    <!-- Licensing strings -->
-    <string name="copyright_notices">Soundscape depends on these excellent third-party libraries and data. Click the links to see their licenses:</string>
-    <string name="osm_copyright">[©OpenStreetMap contributors](https://www.openstreetmap.org/copyright) provide all of the geo data for mapping and audio used in Soundscape.</string>
-    <string name="openmaptiles_copyright">[©OpenMapTiles](https://github.com/openmaptiles/openmaptiles/blob/master/LICENSE.md) is used to generate the mapping tiles that we use.</string>
-    <string name="steam_copyright">[Steam Audio library ©Valve Corporation](https://github.com/ValveSoftware/steam-audio) is used to generate the 3D audio, and is made available for use under the [Apache 2.0 license](https://github.com/ValveSoftware/steam-audio/blob/master/LICENSE.md).</string>
-    <string name="oboe_copyright">[Oboe library ©The Android Open Source Project](https://github.com/google/oboe) is used to play the audio with low latency, and is made available for use under the [Apache 2.0 license](https://github.com/google/oboe/blob/main/LICENSE).</string>
-    <!-- Licensing credit for the original Microsoft Soundscape app, whose beacon sounds and translations this app reuses. Keep the link targets and "©Microsoft Corporation" unchanged. -->
-    <string name="microsoft_copyright">[The original Soundscape app ©Microsoft Corporation](https://github.com/microsoft/soundscape) provided the audio beacon sounds and many of the translations, and is made available for use under the [MIT license](https://github.com/microsoft/soundscape/blob/main/LICENSE.txt).</string>
-    <!-- Licensing credit for the Soundscape Community project, whose volunteers improved some of the translations this app uses. Keep the link targets and "©Soundscape Community contributors" unchanged. -->
-    <string name="soundscape_community_copyright">[Soundscape Community ©Soundscape Community contributors](https://github.com/soundscape-community/soundscape) volunteers improved several of the translations, which are made available for use under the [MIT license](https://github.com/soundscape-community/soundscape/blob/main/LICENSE.txt).</string>
-    <string name="trademark_disclaimer">All third-party product, company names and logos are trademarks or registered trademarks and remain the property of their respective holders.</string>
     <!-- OpenStreetMap term. Used to describe a block or building typically housing companies, but offices may be also used by any other kind of organization like charities, government, any NGO etc.. -->
     <string name="osm_office_building">Office Building</string>
     <!-- OpenStreetMap term. Used for any generic building that is used as a school. -->

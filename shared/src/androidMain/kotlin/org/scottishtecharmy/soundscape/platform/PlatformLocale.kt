@@ -1,5 +1,7 @@
 package org.scottishtecharmy.soundscape.platform
 
-import java.util.Locale
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 
-actual fun getDefaultLanguageTag(): String = Locale.getDefault().toLanguageTag()
+@Composable
+actual fun currentLanguageTag(): String = LocalConfiguration.current.locales[0].toLanguageTag()

@@ -26,7 +26,10 @@ kotlin {
         androidResources.enable = true
         // Run commonTest on the JVM too - previously it was only compiled (never executed)
         // for iosSimulatorArm64Test on the macOS CI runner, and never run at all on Android.
-        withHostTest {}
+        withHostTest {
+            // Compose Resources logs through android.util.Log when it reads a file
+            isReturnDefaultValues = true
+        }
     }
     // Only configure iOS targets on macOS (local dev) or if explicitly requested via -PincludeIos=true.
     // This speeds up build/sync times on Linux/Windows where iOS targets cannot be compiled.
@@ -82,6 +85,14 @@ kotlin {
             // Reuse shared resources for the Android target so JSON data files live
             // in a single canonical location consumed by both platforms.
             resources.srcDir("src/commonMain/resources")
+        }
+        getByName("androidHostTest") {
+            // Compose Resources reads files (the help Markdown) through the Android context, which
+            // a JVM test doesn't have, and falls back to the classpath, so put them there.
+            resources.srcDir(
+                files(layout.buildDirectory.dir("generated/assets/copyAndroidMainComposeResourcesToAndroidAssets"))
+                    .builtBy("copyAndroidMainComposeResourcesToAndroidAssets")
+            )
         }
         
         // iosMain is created automatically by the default hierarchy template

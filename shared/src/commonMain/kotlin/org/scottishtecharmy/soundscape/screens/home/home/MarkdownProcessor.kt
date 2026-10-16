@@ -8,17 +8,78 @@ import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.CancellationToken
 import org.intellij.markdown.parser.MarkdownParser
+import org.scottishtecharmy.soundscape.platform.isIos
 
 sealed class MarkdownBlock {
     data class Heading(val text: String, val level: Int) : MarkdownBlock()
     data class Paragraphs(val html: String) : MarkdownBlock()
     data class Link(val text: String, val destination: String) : MarkdownBlock()
-    data class FaqQuestion(val text: String, val fileName: String) : MarkdownBlock()
+    /** The [index]th question on the FAQ page [fileName], counting from 0 */
+    data class FaqQuestion(val text: String, val fileName: String, val index: Int) : MarkdownBlock()
+    /** The live GPS accuracy line. [template] contains the {{ accuracy }} and {{ quality }} tags. */
+    data class GpsAccuracy(val template: String) : MarkdownBlock()
 }
 
 private val LINK_TAG = Regex("""\{% link (?:[^/]+/)*([^ ]+\.md) %\}""")
+private val CONDITION_TAG = Regex("""\{%-?\s*(if|elsif|else|endif)\b\s*(.*?)\s*-?%\}""")
+private val PLATFORM_CONDITION = Regex("""platform\s*(==|!=)\s*"(\w+)"""")
 
-fun processMarkdownContent(raw: String): String {
+const val GPS_ACCURACY_TAG = "{{ accuracy }}"
+const val GPS_QUALITY_TAG = "{{ quality }}"
+
+/**
+ * The help pages are also the docs site's Jekyll pages, so platform and app-only text is written
+ * with Liquid conditions, which Jekyll evaluates with `platform` and `app` undefined (so the site
+ * gets the Android text and none of the app-only text):
+ *
+ *     {% if platform == "ios" %} ... {% else %} ... {% endif %}
+ *     {% if app %} ... {% endif %}
+ *
+ * This evaluates the same conditions for the app. Any other condition is false, as an undefined
+ * variable is in Jekyll.
+ */
+internal fun applyConditions(text: String, platform: String): String {
+    fun isTrue(condition: String): Boolean {
+        if (condition == "app") return true
+        val match = PLATFORM_CONDITION.matchEntire(condition) ?: return false
+        val (op, value) = match.destructured
+        return (platform == value) == (op == "==")
+    }
+
+    // One entry per open {% if %}: whether its enclosing block is shown, and whether a branch of
+    // it has already been taken.
+    data class Level(val parentShown: Boolean, var taken: Boolean, var shown: Boolean)
+    val levels = ArrayDeque<Level>()
+    fun shown() = levels.lastOrNull()?.shown ?: true
+
+    val out = StringBuilder()
+    var position = 0
+    for (tag in CONDITION_TAG.findAll(text)) {
+        if (shown()) out.append(text, position, tag.range.first)
+        position = tag.range.last + 1
+        val (keyword, condition) = tag.destructured
+        when (keyword) {
+            "if" -> {
+                val parentShown = shown()
+                val taken = parentShown && isTrue(condition)
+                levels.addLast(Level(parentShown, taken, taken))
+            }
+            "elsif", "else" -> levels.lastOrNull()?.let { level ->
+                val now = level.parentShown && !level.taken &&
+                    (keyword == "else" || isTrue(condition))
+                level.shown = now
+                if (now) level.taken = true
+            }
+            "endif" -> levels.removeLastOrNull()
+        }
+    }
+    if (shown()) out.append(text, position, text.length)
+    return out.toString()
+}
+
+fun processMarkdownContent(text: String, platform: String = if (isIos) "ios" else "android"): String {
+    // A Windows checkout may have CRLF line endings
+    val raw = text.replace("\r\n", "\n")
     val withoutFrontMatter = if (raw.startsWith("---")) {
         val endOfFrontMatter = raw.indexOf("---", 3)
         if (endOfFrontMatter != -1) {
@@ -29,7 +90,14 @@ fun processMarkdownContent(raw: String): String {
     } else {
         raw
     }
-    return withoutFrontMatter.replace(LINK_TAG, "$1")
+    return applyConditions(withoutFrontMatter, platform).replace(LINK_TAG, "$1")
+}
+
+internal fun markdownToHtml(markdown: String): String {
+    val flavour = CommonMarkFlavourDescriptor()
+    val tree = MarkdownParser(flavour, true, CancellationToken.NonCancellable)
+        .buildMarkdownTreeFromString(markdown as CharSequence)
+    return HtmlGenerator(markdown, tree, flavour).generateHtml()
 }
 
 class MarkdownProcessor(content: String) {
@@ -39,7 +107,7 @@ class MarkdownProcessor(content: String) {
 
     fun getBlocks(
         isFaqSubPage: Boolean,
-        faqQuestion: String? = null,
+        faqQuestionIndex: Int? = null,
         fileName: String? = null
     ): List<MarkdownBlock> {
         val flavour = CommonMarkFlavourDescriptor()
@@ -48,8 +116,8 @@ class MarkdownProcessor(content: String) {
 
         val nodes = rootNode.children
 
-        val processedNodes = if (isFaqSubPage && faqQuestion != null) {
-            filterNodesForFaq(nodes, faqQuestion)
+        val processedNodes = if (isFaqSubPage && faqQuestionIndex != null) {
+            filterNodesForFaq(nodes, faqQuestionIndex)
         } else {
             withoutAnyRootHeading(nodes)
         }
@@ -61,21 +129,17 @@ class MarkdownProcessor(content: String) {
         return groupsToBlocks(grouped, isFaqListPage, fileName, flavour)
     }
 
-    private fun filterNodesForFaq(nodes: List<ASTNode>, questionTitle: String): List<ASTNode> {
+    // The nodes of the [questionIndex]th question (counting from 0) and its answer
+    private fun filterNodesForFaq(nodes: List<ASTNode>, questionIndex: Int): List<ASTNode> {
         val result = mutableListOf<ASTNode>()
+        var questions = 0
         var found = false
-        val normalizedQuestionTitle = questionTitle.trim().removeSuffix("?").removeSuffix(":")
 
         for (node in nodes) {
             if (node.type == MarkdownElementTypes.ATX_3) {
-                val title = node.children.find { it.type == MarkdownTokenTypes.ATX_CONTENT }
-                    ?.getTextInNode(content)?.toString()?.trim() ?: ""
-                val normalizedTitle = title.removeSuffix("?").removeSuffix(":")
-                if (normalizedTitle == normalizedQuestionTitle) {
-                    found = true
-                } else if (found) {
-                    break
-                }
+                if (found) break
+                found = (questions == questionIndex)
+                questions++
             } else if ((node.type == MarkdownElementTypes.ATX_1 || node.type == MarkdownElementTypes.ATX_2) && found) {
                 break
             }
@@ -119,7 +183,7 @@ class MarkdownProcessor(content: String) {
     ): Boolean {
         return when {
             isHeading(node) -> !isFaqListPage || headingLevel(node) <= 3
-            isParagraphWithOnlyLink(node) -> true
+            isStandaloneParagraph(node) -> true
             isParagraphStartingWithStrong(node) -> true
             else -> {
                 if (groupedNodes.isEmpty()) {
@@ -133,7 +197,7 @@ class MarkdownProcessor(content: String) {
                         false
                     } else if (isHeading(lastNode)) {
                         true
-                    } else if (isParagraphWithOnlyLink(lastNode)) {
+                    } else if (isStandaloneParagraph(lastNode)) {
                         true
                     } else if (isFaqSubPage) {
                         false
@@ -158,6 +222,7 @@ class MarkdownProcessor(content: String) {
         flavour: CommonMarkFlavourDescriptor
     ): List<MarkdownBlock> {
         val blocks = mutableListOf<MarkdownBlock>()
+        var questionCount = 0
 
         for (group in groups) {
             val firstNode = group.first()
@@ -170,10 +235,12 @@ class MarkdownProcessor(content: String) {
 
                 if (isFaqListPage && level == 3) {
                     val mdFileName = fileName ?: ""
-                    blocks.add(MarkdownBlock.FaqQuestion(text, mdFileName))
+                    blocks.add(MarkdownBlock.FaqQuestion(text, mdFileName, questionCount++))
                 } else {
                     blocks.add(MarkdownBlock.Heading(text, level))
                 }
+            } else if (group.size == 1 && isGpsAccuracy(firstNode)) {
+                blocks.add(MarkdownBlock.GpsAccuracy(firstNode.getTextInNode(content).toString().trim()))
             } else if (group.size == 1 && isParagraphWithOnlyLink(firstNode)) {
                 val linkNode = findLinkNode(firstNode)!!
                 val text = linkNode.children.find { it.type == MarkdownElementTypes.LINK_TEXT }
@@ -223,6 +290,14 @@ class MarkdownProcessor(content: String) {
 
     private fun isParagraphWithOnlyLink(node: ASTNode): Boolean =
         node.type == MarkdownElementTypes.PARAGRAPH && isOnlyLink(node)
+
+    private fun isGpsAccuracy(node: ASTNode): Boolean =
+        node.type == MarkdownElementTypes.PARAGRAPH &&
+            node.getTextInNode(content).contains(GPS_ACCURACY_TAG)
+
+    // A paragraph which is a block of its own, never grouped with its neighbours
+    private fun isStandaloneParagraph(node: ASTNode): Boolean =
+        isParagraphWithOnlyLink(node) || isGpsAccuracy(node)
 
     private fun isParagraphStartingWithStrong(node: ASTNode): Boolean {
         if (node.type != MarkdownElementTypes.PARAGRAPH) return false

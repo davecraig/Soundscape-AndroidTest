@@ -134,10 +134,10 @@ them in sync with each other):
    `<locale android:name="<web code>" /> <!-- <English name> -->` in the
    BCP-47 hyphen form, matching the existing comment style.
 4. `docs/_config.yml` — add the web code to the `languages:` array.
-5. `app/src/main/assets/help/user.<web code>.md` — new file, translating
-   `app/src/main/assets/help/user.md` (title + two short sentences — small enough to
+5. `shared/src/commonMain/composeResources/files/help/user.<web code>.md` — new file, translating
+   `shared/src/commonMain/composeResources/files/help/user.md` (title + two short sentences — small enough to
    translate directly, don't skip it). Match the front matter shape of an
-   existing translation like `app/src/main/assets/help/user.de.md` exactly: `title` (in
+   existing translation like `shared/src/commonMain/composeResources/files/help/user.de.md` exactly: `title` (in
    the target language), `layout: page`, `has_toc: true`, `nav_order: 1`,
    `lang: <web code>`, `permalink: /users/user.html`,
    `machine-translated: true`. Its `title:` is what each help page's
@@ -160,8 +160,9 @@ only changes through `strings_sync.py apply`.
 Don't commit — leave the changes in the working tree for the user to review
 and commit themselves (per the repo's normal git workflow). Report the full
 list of files touched and remind the user that the language has no help
-pages yet (`app/src/main/assets/help/help-*.<web code>.md`), so the app and the
-docs site show it the English help. Those are hand-maintained Markdown now,
+pages yet (`shared/src/commonMain/composeResources/files/help/help-*.<web code>.md`), so the app and the
+docs site show it the English help. Once they exist, add the web code to
+`languages` in `HelpPagesTest.kt` so they're checked. Those are hand-maintained Markdown now,
 not generated from `strings.xml` — see "Help pages are Markdown in the app's
 assets" in `docs/developers/translations.md`.
 

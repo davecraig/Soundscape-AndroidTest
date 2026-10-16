@@ -99,11 +99,13 @@ jobs:
         with:
           path: docs/dokka
 
-      # The help pages are checked in as app assets; Jekyll serves them from docs/users.
+      # The help pages are checked in as Compose Resources files, for the app; Jekyll serves them from
+      # docs/users. help-and-tutorials is the app's own index, which the site's navigation replaces.
       - name: Sync help pages into docs/users
         run: |
           mkdir -p users
-          cp ../app/src/main/assets/help/*.md users
+          cp ../shared/src/commonMain/composeResources/files/help/*.md users
+          rm users/help-and-tutorials*.md
         working-directory: docs
 
       - name: Build with Jekyll

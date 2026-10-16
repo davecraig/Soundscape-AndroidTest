@@ -1048,13 +1048,13 @@ fun HelpScreenMenuPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BeaconHelpPreview() {
-    SharedHelpScreen(topic = "pagebeacon_audio_beacon", onNavigate = {}, onNavigateUp = {})
+    SharedHelpScreen(topic = "page:help-audio-beacon.md", onNavigate = {}, onNavigateUp = {})
 }
 
 @Preview(showBackground = true)
 @Composable
 fun VoicesHelpPreview() {
-    SharedHelpScreen(topic = "pagevoice_voices", onNavigate = {}, onNavigateUp = {})
+    SharedHelpScreen(topic = "page:help-voices.md", onNavigate = {}, onNavigateUp = {})
 }
 
 // ---------------------------------------------------------------------------
@@ -1075,7 +1075,6 @@ fun PreviewDrawerContent() {
         tutorialRunning = false,
         recordingEnabled = false,
         newReleaseDialog = null,
-        preferencesProvider = null,
     )
 }
 
@@ -1787,35 +1786,35 @@ class ThemeTestClass {
     @Composable
     @PreviewTest
     fun FaqHelpPreviewTest() {
-        PreviewTheme { SharedHelpScreen(topic = "pagefaq_title", onNavigate = {}, onNavigateUp = {}) }
+        PreviewTheme { SharedHelpScreen(topic = "page:help-frequently-asked-questions.md", onNavigate = {}, onNavigateUp = {}) }
     }
 
     @TallCustomPreviews
     @Composable
     @PreviewTest
     fun TipsHelpPreviewTest() {
-        PreviewTheme { SharedHelpScreen(topic = "pagefaq_tips_title", onNavigate = {}, onNavigateUp = {}) }
+        PreviewTheme { SharedHelpScreen(topic = "page:help-tips.md", onNavigate = {}, onNavigateUp = {}) }
     }
 
     @TallCustomPreviews
     @Composable
     @PreviewTest
     fun OfflineHelpPreviewTest() {
-        PreviewTheme { SharedHelpScreen(topic = "pagehelp_offline_page_title", onNavigate = {}, onNavigateUp = {}) }
+        PreviewTheme { SharedHelpScreen(topic = "page:help-using-soundscape-offline.md", onNavigate = {}, onNavigateUp = {}) }
     }
 
     @TallCustomPreviews
     @Composable
     @PreviewTest
     fun GpsAccuracyHelpPreviewTest() {
-        PreviewTheme { SharedHelpScreen(topic = "pagehelp_gps_accuracy_page_title", onNavigate = {}, onNavigateUp = {}) }
+        PreviewTheme { SharedHelpScreen(topic = "page:help-gps-accuracy.md", onNavigate = {}, onNavigateUp = {}) }
     }
 
     @TallCustomPreviews
     @Composable
     @PreviewTest
     fun FaqAnswerHelpPreviewTest() {
-        PreviewTheme { SharedHelpScreen(topic = "faqfaq_what_is_osm_question.faq_what_is_osm_answer", onNavigate = {}, onNavigateUp = {}) }
+        PreviewTheme { SharedHelpScreen(topic = "faq:help-frequently-asked-questions.md:16", onNavigate = {}, onNavigateUp = {}) }
     }
 
     @CustomPreviews

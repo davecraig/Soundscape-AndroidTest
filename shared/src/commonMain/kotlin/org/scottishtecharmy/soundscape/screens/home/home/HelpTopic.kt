@@ -1,191 +1,111 @@
 package org.scottishtecharmy.soundscape.screens.home.home
 
-import androidx.compose.runtime.Composable
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
-import org.scottishtecharmy.soundscape.platform.readResourceText
-import org.scottishtecharmy.soundscape.platform.getDefaultLanguage
-import org.scottishtecharmy.soundscape.platform.getDefaultLanguageTag
-import org.scottishtecharmy.soundscape.platform.urlEncode
-import org.scottishtecharmy.soundscape.platform.urlDecode
-import org.scottishtecharmy.soundscape.preferences.PreferencesProvider
-import org.scottishtecharmy.soundscape.preferences.PreferenceKeys
-import org.scottishtecharmy.soundscape.preferences.PreferenceDefaults
-import org.scottishtecharmy.soundscape.resources.Res
-import org.scottishtecharmy.soundscape.resources.faq_title_abbreviated
-import org.scottishtecharmy.soundscape.resources.menu_help
-import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
-import org.intellij.markdown.parser.MarkdownParser
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.getTextInNode
+import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.parser.CancellationToken
+import org.intellij.markdown.parser.MarkdownParser
+import org.scottishtecharmy.soundscape.platform.urlDecode
+import org.scottishtecharmy.soundscape.platform.urlEncode
+import org.scottishtecharmy.soundscape.resources.Res
 
-sealed class HelpTopic {
-    // This class uses urlEncode/decode because FAQ entries may contain "?", which is otherwise
-    // interpreted as a query parameter, breaking the routing.
+/**
+ * A help page, read from the Markdown in composeResources/files/help, or one question and answer
+ * on an FAQ page.
+ *
+ * Routes are "page:<file>" and "faq:<file>:<n>", where n counts the page's questions from 0.
+ * Questions go by number rather than by text so that a route means the same in every language.
+ */
+sealed class HelpTopic(fileName: String) {
+
+    /** The file name of the English page, e.g. "help-routes.md" */
+    val fileName: String = if (fileName.endsWith(".md")) fileName else "$fileName.md"
 
     abstract fun toRouteParam(): String
 
-    @Composable
-    abstract fun getDisplayTitle(): String
-
-    class Home : HelpTopic() {
-        override fun toRouteParam(): String = "page${Res.string.menu_help.key}"
-        @Composable
-        override fun getDisplayTitle(): String = stringResource(Res.string.menu_help)
+    class Page(fileName: String) : HelpTopic(fileName) {
+        override fun toRouteParam(): String = "page:${urlEncode(fileName)}"
     }
 
-    class ResourcePage(val titleId: StringResource) : HelpTopic() {
-        override fun toRouteParam(): String = "page${titleId.key}"
-        @Composable
-        override fun getDisplayTitle(): String = stringResource(titleId)
+    class Faq(fileName: String, val questionIndex: Int) : HelpTopic(fileName) {
+        override fun toRouteParam(): String = "faq:${urlEncode(fileName)}:$questionIndex"
     }
 
-    class ResourceFaq(val questionId: StringResource, val answerId: StringResource) : HelpTopic() {
-        override fun toRouteParam(): String = "faq${questionId.key}.${answerId.key}"
-        @Composable
-        override fun getDisplayTitle(): String = stringResource(Res.string.faq_title_abbreviated)
-    }
+    /**
+     * The page in the language [languageTag] (e.g. "pt-BR", "zh-Hans-CN"), or in English if it
+     * isn't translated, with its front matter removed and its conditions applied for this
+     * platform. [readBytes] reads a Compose Resources file.
+     */
+    suspend fun load(
+        languageTag: String,
+        readBytes: suspend (String) -> ByteArray = { Res.readBytes(it) },
+    ): String =
+        processMarkdownContent(
+            loadMarkdown(languageTag, readBytes) ?: "# Error\n\nFailed to load help content"
+        )
 
-    abstract class MarkdownHelpTopic(
-        val fileName: String
-    ) : HelpTopic() {
-
-        val content: String by lazy {
-            processMarkdownContent(loadMarkdownAsset() ?: "# Error\n\nFailed to load help content")
-        }
-
-        val title: String by lazy {
-            val flavour = CommonMarkFlavourDescriptor()
-            val tree = MarkdownParser(flavour, true, CancellationToken.NonCancellable)
-                .buildMarkdownTreeFromString(content as CharSequence)
-            
-            // Look for the first level 1 heading
-            val h1 = tree.children.find { it.type == MarkdownElementTypes.ATX_1 }
-            if (h1 != null) {
-                h1.children.find { it.type == MarkdownTokenTypes.ATX_CONTENT }
-                    ?.getTextInNode(content)?.toString()?.trim() ?: getFallbackTitle()
-            } else {
-                getFallbackTitle()
+    private suspend fun loadMarkdown(languageTag: String, readBytes: suspend (String) -> ByteArray): String? {
+        for (path in candidatePaths(fileName, languageTag)) {
+            try {
+                return readBytes(path).decodeToString()
+            } catch (_: Exception) {
+                // Try next path
             }
         }
-
-        abstract fun getFallbackTitle(): String
-
-        @Composable
-        override fun getDisplayTitle(): String = title
-
-        fun getMarkdownFileName(): String =
-            if (fileName.endsWith(".md")) fileName else "$fileName.md"
-
-        protected open fun loadMarkdownAsset(): String? {
-            // Translations sit next to the English page as help-<slug>.<lang>.md, where <lang> is
-            // the full tag for regional variants (pt-BR, fr-CA, zh-CN) and the bare language
-            // otherwise.
-            val baseName = getMarkdownFileName().removeSuffix(".md")
-
-            val localeTag = getDefaultLanguageTag()
-            val lang = getDefaultLanguage()
-
-            val candidatePaths = listOf(
-                "help/$baseName.$localeTag.md",
-                "help/$baseName.$lang.md",
-                "help/$baseName.md",
-            ).distinct()
-
-            for (path in candidatePaths) {
-                try {
-                    return readResourceText(path)
-                } catch (_: Exception) {
-                    // Try next path
-                }
-            }
-
-            return null
-        }
-
-    }
-
-    class MarkdownPage(fileName: String) : MarkdownHelpTopic(fileName) {
-        override fun toRouteParam(): String {
-            val name = if (fileName.endsWith(".md")) fileName else "$fileName.md"
-            return "page:${urlEncode(name)}"
-        }
-
-        override fun getFallbackTitle(): String = fileName.removeSuffix(".md")
-    }
-
-    class MarkdownFaq(fileName: String, val question: String)
-        : MarkdownHelpTopic(fileName)
-    {
-        override fun toRouteParam(): String = "page:faq:${urlEncode(fileName)}:${urlEncode(question)}"
-
-        @Composable
-        override fun getDisplayTitle(): String = stringResource(Res.string.faq_title_abbreviated)
-
-        override fun getFallbackTitle(): String = "FAQ"
+        return null
     }
 
     companion object {
         const val HELP_AND_TUTORIALS_FILENAME = "help-and-tutorials.md"
         const val ABOUT_SOUNDSCAPE_FILENAME = "help-about-soundscape.md"
 
-        @Composable
-        fun fromRouteParam(param: String, preferences: PreferencesProvider? = null): HelpTopic {
-            val useMarkdownHelp = preferences?.getBoolean(PreferenceKeys.MARKDOWN_HELP, PreferenceDefaults.MARKDOWN_HELP) ?: false
+        /**
+         * Translations sit next to the English page as help-<slug>.<lang>.md, where <lang> is
+         * language-REGION for regional variants (pt-BR, fr-CA, zh-CN) and the bare language
+         * otherwise.
+         */
+        internal fun candidatePaths(fileName: String, languageTag: String): List<String> {
+            val baseName = fileName.removeSuffix(".md")
+            val parts = languageTag.replace('_', '-').split('-')
+            // Indonesian still reports itself with the legacy code "in" in places
+            val language = parts[0].lowercase().let { if (it == "in") "id" else it }
+            // Skip any script, as in zh-Hans-CN. Chinese is only translated as zh-CN, so that is
+            // where Simplified Chinese with no region goes.
+            val region = parts.drop(1).lastOrNull { it.length == 2 && it.all(Char::isLetter) }
+                ?.uppercase()
+                ?: if (language == "zh" && parts.getOrNull(1) != "Hant") "CN" else null
+            return listOfNotNull(
+                region?.let { "files/help/$baseName.$language-$it.md" },
+                "files/help/$baseName.$language.md",
+                "files/help/$baseName.md",
+            ).distinct()
+        }
 
-            fun getHome(): HelpTopic {
-                return if (useMarkdownHelp) {
-                    MarkdownPage(HELP_AND_TUTORIALS_FILENAME)
-                } else {
-                    Home()
-                }
-            }
+        /** The page title is its first level 1 heading */
+        fun titleOf(content: String): String? {
+            val tree = MarkdownParser(CommonMarkFlavourDescriptor(), true, CancellationToken.NonCancellable)
+                .buildMarkdownTreeFromString(content as CharSequence)
+            return tree.children.find { it.type == MarkdownElementTypes.ATX_1 }
+                ?.children?.find { it.type == MarkdownTokenTypes.ATX_CONTENT }
+                ?.getTextInNode(content)?.toString()?.trim()
+        }
 
-            if (param == "page:${HELP_AND_TUTORIALS_FILENAME}" || param == "page${Res.string.menu_help.key}" || param.isEmpty()) {
-                return getHome()
-            }
-
+        /** Anything unrecognised, including an empty route, is the Help index */
+        fun fromRouteParam(param: String): HelpTopic {
+            val home = Page(HELP_AND_TUTORIALS_FILENAME)
             return when {
-                param.startsWith("page:") -> {
-                    val rest = urlDecode(param.substring(5))
-                    if (rest.startsWith("faq:")) {
-                        val parts = rest.substring(4).split(":", limit = 2)
-                        if (parts.size == 2) {
-                            MarkdownFaq(urlDecode(parts[0]), urlDecode(parts[1]))
-                        } else {
-                            Home()
-                        }
-                    } else {
-                        MarkdownPage(rest)
-                    }
+                param.startsWith("page:") ->
+                    param.substring(5).takeIf { it.isNotEmpty() }?.let { Page(urlDecode(it)) }
+                        ?: home
+
+                param.startsWith("faq:") -> {
+                    val parts = param.substring(4).split(":")
+                    val index = parts.getOrNull(1)?.toIntOrNull()
+                    if (parts.size == 2 && index != null) Faq(urlDecode(parts[0]), index) else home
                 }
-                param.startsWith("faq") -> {
-                    val ids = param.substring(3).split(".")
-                    if (ids.size == 2) {
-                        val qId = findStringResourceByKey(ids[0])
-                        val aId = findStringResourceByKey(ids[1])
-                        if (qId != null && aId != null) {
-                            ResourceFaq(qId, aId)
-                        } else {
-                            Home()
-                        }
-                    } else {
-                        Home()
-                    }
-                }
-                param.startsWith("page") -> {
-                    val key = urlDecode(param.substring(4))
-                    val res = findStringResourceByKey(key)
-                    if (res != null) {
-                        ResourcePage(res)
-                    } else {
-                        MarkdownPage(key)
-                    }
-                }
-                param.endsWith(".md") -> MarkdownPage(urlDecode(param))
-                else -> getHome()
+
+                else -> home
             }
         }
     }

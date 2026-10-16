@@ -35,12 +35,12 @@ class MarkdownProcessorTest {
         """.trimIndent()
         val processor = MarkdownProcessor(content)
 
-        val blocks1 = processor.getBlocks(true, "Question 1")
+        val blocks1 = processor.getBlocks(true, 0)
         assertEquals(2, blocks1.size)
         assertEquals(MarkdownBlock.Heading("Question 1?", 3), blocks1[0])
         assertEquals(MarkdownBlock.Paragraphs("<p>Answer 1.</p>"), blocks1[1])
 
-        val blocks2 = processor.getBlocks(true, "Question 2")
+        val blocks2 = processor.getBlocks(true, 1)
         assertEquals(2, blocks2.size)
         assertEquals(MarkdownBlock.Heading("Question 2", 3), blocks2[0])
         assertEquals(MarkdownBlock.Paragraphs("<p>Answer 2.</p>"), blocks2[1])
@@ -129,8 +129,10 @@ class MarkdownProcessorTest {
         assertTrue(blocks[0] is MarkdownBlock.FaqQuestion)
         assertEquals("Question 1?", (blocks[0] as MarkdownBlock.FaqQuestion).text)
         assertEquals("help-faq.md", (blocks[0] as MarkdownBlock.FaqQuestion).fileName)
+        assertEquals(0, (blocks[0] as MarkdownBlock.FaqQuestion).index)
         assertTrue(blocks[1] is MarkdownBlock.FaqQuestion)
         assertEquals("Question 2?", (blocks[1] as MarkdownBlock.FaqQuestion).text)
+        assertEquals(1, (blocks[1] as MarkdownBlock.FaqQuestion).index)
     }
 
     @Test
@@ -142,7 +144,7 @@ class MarkdownProcessorTest {
             Answer paragraph 2.
         """.trimIndent()
         val processor = MarkdownProcessor(content)
-        val blocks = processor.getBlocks(true, "Question 1")
+        val blocks = processor.getBlocks(true, 0)
 
         // H3 heading + all answer paragraphs grouped into one block
         assertEquals(2, blocks.size)
@@ -179,5 +181,94 @@ class MarkdownProcessorTest {
         val raw = "See [Voices]({% link voices/help-voices.md %}) for details."
         val processed = processMarkdownContent(raw)
         assertEquals("See [Voices](help-voices.md) for details.", processed)
+    }
+
+    @Test
+    fun testPlatformConditions() {
+        val raw = """
+            Before.
+            {% if platform == "ios" %}
+            iPhone text.
+            {% else %}
+            Android text.
+            {% endif %}
+            After.
+        """.trimIndent()
+        val ios = processMarkdownContent(raw, platform = "ios")
+        val android = processMarkdownContent(raw, platform = "android")
+        assertTrue(ios.contains("iPhone text.") && !ios.contains("Android text."))
+        assertTrue(android.contains("Android text.") && !android.contains("iPhone text."))
+        for (text in listOf(ios, android)) {
+            assertTrue(text.contains("Before.") && text.contains("After."))
+            assertFalse(text.contains("{%"))
+        }
+    }
+
+    @Test
+    fun testAppAndUnknownConditions() {
+        // The app is "app"; anything else is undefined, so false, as it is in Jekyll
+        val raw = "{% if app %}A{% endif %}{% if site.thing %}B{% elsif platform != \"ios\" %}C{% else %}D{% endif %}"
+        assertEquals("AC", applyConditions(raw, "android"))
+        assertEquals("AD", applyConditions(raw, "ios"))
+    }
+
+    @Test
+    fun testNestedConditions() {
+        val raw = "{% if platform == \"ios\" %}1{% if app %}2{% else %}3{% endif %}{% else %}4{% if app %}5{% endif %}{% endif %}"
+        assertEquals("12", applyConditions(raw, "ios"))
+        assertEquals("45", applyConditions(raw, "android"))
+    }
+
+    @Test
+    fun testGpsAccuracyIsItsOwnBlock() {
+        val content = """
+            # GPS accuracy
+
+            If the figure below stays poor:
+
+            Current accuracy: {{ accuracy }} ({{ quality }})
+        """.trimIndent()
+        val blocks = MarkdownProcessor(content).getBlocks(false)
+
+        assertEquals(2, blocks.size)
+        assertTrue(blocks[0] is MarkdownBlock.Paragraphs)
+        assertEquals(MarkdownBlock.GpsAccuracy("Current accuracy: {{ accuracy }} ({{ quality }})"), blocks[1])
+    }
+
+    @Test
+    fun testCrlfLineEndings() {
+        val processed = processMarkdownContent("---\r\ntitle: T\r\n---\r\n\r\n# T\r\n\r\nText.\r\n")
+        assertEquals("# T\n\nText.\n", processed)
+    }
+
+    @Test
+    fun testCandidatePaths() {
+        fun paths(tag: String) = HelpTopic.candidatePaths("help-routes.md", tag)
+        assertEquals(
+            listOf("files/help/help-routes.pt-BR.md", "files/help/help-routes.pt.md", "files/help/help-routes.md"),
+            paths("pt-BR")
+        )
+        assertEquals(
+            listOf("files/help/help-routes.zh-CN.md", "files/help/help-routes.zh.md", "files/help/help-routes.md"),
+            paths("zh-Hans-CN")
+        )
+        assertEquals(listOf("files/help/help-routes.id.md", "files/help/help-routes.md"), paths("in"))
+        assertEquals(
+            listOf("files/help/help-routes.zh-CN.md", "files/help/help-routes.zh.md", "files/help/help-routes.md"),
+            paths("zh-Hans")
+        )
+        assertEquals(listOf("files/help/help-routes.zh.md", "files/help/help-routes.md"), paths("zh-Hant"))
+        assertEquals(listOf("files/help/help-routes.en.md", "files/help/help-routes.md"), paths("en"))
+    }
+
+    @Test
+    fun testRoutes() {
+        val faq = HelpTopic.fromRouteParam(HelpTopic.Faq("help-faq.md", 3).toRouteParam())
+        assertTrue(faq is HelpTopic.Faq && faq.fileName == "help-faq.md" && faq.questionIndex == 3)
+        val page = HelpTopic.fromRouteParam(HelpTopic.Page("help-routes").toRouteParam())
+        assertTrue(page is HelpTopic.Page && page.fileName == "help-routes.md")
+        for (unknown in listOf("", "page:", "faq:x.md", "faq:x.md:y", "pagehelp_routes")) {
+            assertEquals(HelpTopic.HELP_AND_TUTORIALS_FILENAME, HelpTopic.fromRouteParam(unknown).fileName)
+        }
     }
 }

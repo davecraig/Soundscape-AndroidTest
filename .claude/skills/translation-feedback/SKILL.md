@@ -87,8 +87,11 @@ it from the feedback and say which you inferred.
      the sentence rewritten, not the word swapped. Count and report them
      separately from the mechanical noun swaps
    - siblings by context-key prefix (`tour_*`, `new_version_info_*`) — the
-     cancel variant, the completion message, the a11y hint, the help page, the
-     FAQ answer
+     cancel variant, the completion message, the a11y hint
+   - the help pages. Help and FAQ text is not in `strings.xml`: it is
+     Markdown in `shared/src/commonMain/composeResources/files/help/`
+     (`help-*.<web code>.md`), so sweep those files too and report their hits
+     by file and line
    - false positives. Verify every hit against its English source before
      proposing a change; regex sweeps catch unrelated words (the Ukrainian
      pilot's «керован» sweep hit "Remote-Control Car")
