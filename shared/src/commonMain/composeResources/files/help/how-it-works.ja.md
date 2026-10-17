@@ -7,7 +7,7 @@ nav_order: 200
 lang: ja
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Soundscape を支える技術
@@ -130,7 +130,7 @@ OpenStreetMap の多くの地域では、現在では歩道が道路とは別に
 * **行き止まりか？**
 アプリは、どこにもつながっていない無名の Way を行き止まりとして記します。
 
-* **何か階段を通るか？**
+* **橋、トンネル、階段を通るか？**
 無名の Way が橋を渡る、トンネルを通る、または階段を上り下りする場合、これが記録され文脈に追加されます。これは目的地のタグ付けとは別のものなので、*「橋を通って Lennox Park への小道」*のような文脈も可能です。
 
 これらの文脈は順番に追加されるので、一方向では*「階段を通って Park Lane への小道」*、反対方向では*「階段を通って Lennox Park への小道」*とすることが可能です。名前のある通りは出ていくときに優先され、公園は入っていくときに使われます。

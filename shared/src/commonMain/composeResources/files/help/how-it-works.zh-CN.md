@@ -7,7 +7,7 @@ nav_order: 200
 lang: zh-CN
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Soundscape 背后的技术
@@ -130,7 +130,7 @@ GPS 返回的位置可能存在相当大的误差，这取决于手机 GPS 能�
 * **它是死胡同吗？**
 应用会将任何不通往任何地方的未命名路径标记为死胡同。
 
-* **它经过任何台阶吗？**
+* **它经过桥梁、隧道或台阶吗？**
 如果未命名路径经过一座桥、穿过一条隧道或上/下台阶，那么这一点会被记录下来并添加到背景信息中。这与目的地标记是分开的，因此可以有诸如*“经桥通往 Lennox Park 的路径”*这样的背景信息。
 
 这些背景信息是按顺序添加的，因此一个方向上可能是*“经台阶通往 Park Lane 的路径”*，而另一个方向上是*“经台阶通往 Lennox Park 的路径”*。离开公园时已命名的街道获得优先权，而进入公园时则使用公园名称。

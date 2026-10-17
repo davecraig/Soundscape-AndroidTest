@@ -7,7 +7,7 @@ nav_order: 200
 lang: nb
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Teknologien bak Soundscape
@@ -130,7 +130,7 @@ Hvis en navnløs Way starter eller ender nærmere et landemerke, kan vi også le
 * **Er det en blindvei?**
 Appen merker som blindvei alle navnløse Way-er som ikke fører noe sted.
 
-* **Passerer den noen trinn?**
+* **Går den over en bro, gjennom en tunnel eller i trapper?**
 Hvis den navnløse Way-en går over en bro, gjennom en tunnel eller opp/ned trinn, blir dette notert og lagt til i konteksten. Dette er adskilt fra destinasjonsmerkingen, så kontekst som *«Sti over bro til Lennox Park»* er mulig.
 
 Disse kontekstene legges til i rekkefølge, og det er derfor mulig å ha *«Sti til Park Lane via trinn»* i én retning og *«Sti til Lennox Park via trinn»* i den andre retningen. Den navngitte gaten får prioritet når man forlater parken, men parken brukes når man går inn i den.

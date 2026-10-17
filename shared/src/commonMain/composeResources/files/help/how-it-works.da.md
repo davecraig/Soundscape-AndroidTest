@@ -7,7 +7,7 @@ nav_order: 200
 lang: da
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Teknologien bag Soundscape
@@ -130,7 +130,7 @@ Hvis en unavngiven Way starter eller ender nærmere et landemærke, kan vi også
 * **Er det en blind vej?**
 Appen markerer som en blind vej alle unavngivne Ways, der ikke fører nogen steder hen.
 
-* **Passerer den nogen trin?**
+* **Går den over en bro, gennem en tunnel eller ad trapper?**
 Hvis den unavngivne Way passerer over en bro, gennem en tunnel eller op/ned ad trin, bemærkes dette og tilføjes til konteksten. Dette er adskilt fra destinationstagningen, så kontekst såsom *"Sti over bro til Lennox Park"* er mulig.
 
 Disse kontekster tilføjes i rækkefølge, og så er det muligt at have *"Sti til Park Lane via trin"* i den ene retning og *"Sti til Lennox Park via trin"* i den anden retning. Den navngivne gade får prioritet ved at forlade parken, men parken bruges ved indgang til den.

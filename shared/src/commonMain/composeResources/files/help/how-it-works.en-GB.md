@@ -7,7 +7,7 @@ nav_order: 200
 lang: en-GB
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # The Technology Behind Soundscape
@@ -113,7 +113,7 @@ A lot of areas of OpenStreetMap now have sidewalks mapped separately to roads. T
 When the app comes across an un-named sidewalk, it searches for a road that it thinks is running next to it and uses that to name the sidewalk. This turns out to be very important for our callouts. Instead of announcing every sidewalk intersection, as we move along a sidewalk the callouts are made as if we were moving along the associated road. Instead of *"Travelling West along path"* we have *"Travelling West along Moor Road"*. The user is on the mapped sidewalk, but the description makes more sense.
 
 * **Does it end at a named Way?**
-Very often there are pedestrian paths that join two roads together. By looking at both ends of the path we can easily add that context so that in one direction it might be *"Path to Moor Road"* and approaching from the other end it might be *"Path to Roselea Drive"*. This is only done where the path doesn't split, if it splits in to two un-named paths then we don't try and add this context.
+Very often there are pedestrian paths that join two roads together. By looking at both ends of the path we can easily add that context so that in one direction it might be *"Path to Moor Road"* and approaching from the other end it might be *"Path to Roselea Drive"*. This is only done where the path doesn't split, if it splits into two un-named paths then we don't try and add this context.
 
 * **Does it end near a Marker?**
 If an un-named Way starts or ends near a Marker, that is used to describe it e.g. *"Path to large tree junction"*. The user can add Markers wherever they want, and by adding Markers along path networks they can add context to a whole route.
@@ -122,23 +122,23 @@ If an un-named Way starts or ends near a Marker, that is used to describe it e.g
 If an un-named Way starts outside a POI and ends inside it (or vice versa) then we can add that context e.g. *"Track to Lennox Park"*.
 
 * **Does it end near an Entrance?**
-If an un-named Way starts or ends nearer an Entrance then we can add that context e.g. *"Service road to Best Buy"*.
+If an un-named Way starts or ends near an Entrance then we can add that context e.g. *"Service road to Best Buy"*.
 
-* **Does it end near an Landmark or Place?**
+* **Does it end near a Landmark or Place?**
 If an un-named Way starts or ends nearer a Landmark then we can also add that context e.g. *"Service road to St. Giles Cathedral"*.
 
 * **Is it a dead-end?**
 The app marks as a dead end any un-named Ways which don't lead anywhere.
 
-* **Does it pass any steps?**
+* **Does it cross a bridge, tunnel or steps?**
 If the un-named Way passes over a bridge, through a tunnel or up/down steps then this is noted and added to the context. This is separate to the destination tagging so context such as *"Path over bridge to Lennox Park"* is possible.
 
-These contexts are added in order and so it's possible to have *"Path to Park Lane via steps"* in one direction and *"Path to Lennox Park via steps* in the other direction. The named street gets priority leaving the park, but the park is used when entering it.
+These contexts are added in order and so it's possible to have *"Path to Park Lane via steps"* in one direction and *"Path to Lennox Park via steps"* in the other direction. The named street gets priority leaving the park, but the park is used when entering it.
 
 #### Future context
 There are various additional contexts we hope to add in the future including:
 * Context for Ways following linear water features e.g. *"Path next to River Dee"*
-* Context for Ways following the edge of bodies of water *"Path next to Milngavie reservoir "*
+* Context for Ways following the edge of bodies of water *"Path next to Milngavie reservoir"*
 * Context for Ways following railways e.g. *"Path next to railway"*. This could even include the name of the railway line
 * Add extra content to bridges and tunnels, what are they over or under e.g. *"Path via bridge over railway to Moor Road"*
 

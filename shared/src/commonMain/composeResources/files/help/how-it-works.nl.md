@@ -7,7 +7,7 @@ nav_order: 200
 lang: nl
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # De technologie achter Soundscape
@@ -130,7 +130,7 @@ Als een naamloze Way begint of eindigt dichter bij een herkenningspunt, dan kunn
 * **Is het een doodlopende weg?**
 De app markeert als doodlopend elke naamloze Way die nergens heen leidt.
 
-* **Passeert het trappen?**
+* **Gaat het over een brug, door een tunnel of via trappen?**
 Als de naamloze Way over een brug, door een tunnel of op/af trappen gaat, dan wordt dit genoteerd en aan de context toegevoegd. Dit staat los van de bestemmingstagging, dus context zoals *"Pad over brug naar Lennox Park"* is mogelijk.
 
 Deze contexten worden in volgorde toegevoegd en daarom is het mogelijk om *"Pad naar Park Lane via trappen"* in de ene richting en *"Pad naar Lennox Park via trappen"* in de andere richting te hebben. De benoemde straat krijgt prioriteit bij het verlaten van het park, maar het park wordt gebruikt bij het betreden ervan.

@@ -15,7 +15,7 @@ The aim of this page is to give a general understanding of how the Soundscape ap
 There are two pieces of technology which make the app possible, GPS and OpenStreetMap data. The GPS gives us a good idea of where the phone is, and where it's been. OpenStreetMap data can then be used to find what's nearby and we can use it describe that to the user.
 
 ## Audio beacons
-In most ways these are the simplest things to implement from a technology standpoint. Assuming we have the phone location, and a direction for the phone, we can then alter the audio for the beacon so that it sounds like it's coming from that direction. We use a library from Steam Audio to perform the audio positioning, which users head related transfer functions to give the best sounding positioning possible. The only other thing we do is to change the beacon audio so that a different sound is played depending on the angle between the user direction and the beacon location. The angles vary depending on the beacon selected (Tactile, Flare, Ping etc.) and some have a larger number of sounds than others. And that's audio beacons at the simplest level.
+In most ways these are the simplest things to implement from a technology standpoint. Assuming we have the phone location, and a direction for the phone, we can then alter the audio for the beacon so that it sounds like it's coming from that direction. We use a library from Steam Audio to perform the audio positioning, which uses head related transfer functions to give the best sounding positioning possible. The only other thing we do is to change the beacon audio so that a different sound is played depending on the angle between the user direction and the beacon location. The angles vary depending on the beacon selected (Tactile, Flare, Ping etc.) and some have a larger number of sounds than others. And that's audio beacons at the simplest level.
 
 The only additional complexity is the assumption on the phone location and the direction that the user is pointing in. Let's look at these in turn.
 
@@ -105,10 +105,10 @@ The more context that can be added in descriptions the better, so long as it's k
 * **Is it a sidewalk?**
 A lot of areas of OpenStreetMap now have sidewalks mapped separately to roads. These are usually tagged as `sidewalk` but they don't normally say what the road is that they are the sidewalk to.
 
-    When the app comes across an un-named sidewalk, it searches for a road that it things is running next to it and uses that to name the sidewalk. This turns out to be very important for our callouts. Instead of announcing every sidewalk intersection, as we move along a sidewalk the callouts are made as if we were moving along the associated road. Instead of *"Travelling West along path"* we have *"Travelling West along Moor Road"*. The user is on the mapped sidewalk, but the description makes more sense.
+    When the app comes across an un-named sidewalk, it searches for a road that it thinks is running next to it and uses that to name the sidewalk. This turns out to be very important for our callouts. Instead of announcing every sidewalk intersection, as we move along a sidewalk the callouts are made as if we were moving along the associated road. Instead of *"Travelling West along path"* we have *"Travelling West along Moor Road"*. The user is on the mapped sidewalk, but the description makes more sense.
 
 * **Does it end at a named Way?**
-Very often there are pedestrian paths that join two roads together. By looking at both ends of the path we can easily add that context so that in one direction it might be *"Path to Moor Road"* and approaching from the other end it might be *"Path to Roselea Drive"*. This is only done where the path doesn't split, if it splits in to two un-named paths then we don't try and add this context.
+Very often there are pedestrian paths that join two roads together. By looking at both ends of the path we can easily add that context so that in one direction it might be *"Path to Moor Road"* and approaching from the other end it might be *"Path to Roselea Drive"*. This is only done where the path doesn't split, if it splits into two un-named paths then we don't try and add this context.
 
 * **Does it end near a Marker?**
 If an un-named Way starts or ends near a Marker, that is used to describe it e.g. *"Path to large tree junction"*. The user can add Markers wherever they want, and by adding Markers along path networks they can add context to a whole route.
@@ -117,23 +117,23 @@ If an un-named Way starts or ends near a Marker, that is used to describe it e.g
 If an un-named Way starts outside a POI and ends inside it (or vice versa) then we can add that context e.g. *"Track to Lennox Park"*. 
 
 * **Does it end near an Entrance?**
-If an un-named Way starts or ends nearer an Entrance then we can add that context e.g. *"Service road to Best Buy"*.
+If an un-named Way starts or ends near an Entrance then we can add that context e.g. *"Service road to Best Buy"*.
 
-* **Does it end near an Landmark or Place?**
+* **Does it end near a Landmark or Place?**
 If an un-named Way starts or ends nearer a Landmark then we can also add that context e.g. *"Service road to St. Giles Cathedral"*.
 
 * **Is it a dead-end?**
 The app marks as a dead end any un-named Ways which don't lead anywhere.
 
-* **Does it pass any steps?**
+* **Does it cross a bridge, tunnel or steps?**
 If the un-named Way passes over a bridge, through a tunnel or up/down steps then this is noted and added to the context. This is separate to the destination tagging so context such as *"Path over bridge to Lennox Park"* is possible.
 
-These contexts are added in order and so it's possible to have *"Path to Park Lane via steps"* in one direction and *"Path to Lennox Park via steps* in the other direction. The named street gets priority leaving the park, but the park is used when entering it.
+These contexts are added in order and so it's possible to have *"Path to Park Lane via steps"* in one direction and *"Path to Lennox Park via steps"* in the other direction. The named street gets priority leaving the park, but the park is used when entering it.
 
 #### Future context
 There are various additional contexts we hope to add in the future including:
 * Context for Ways following linear water features e.g. *"Path next to River Dee"*
-* Context for Ways following the edge of bodies of water *"Path next to Milngavie reservoir "*
+* Context for Ways following the edge of bodies of water *"Path next to Milngavie reservoir"*
 * Context for Ways following railways e.g. *"Path next to railway"*. This could even include the name of the railway line
 * Add extra content to bridges and tunnels, what are they over or under e.g. *"Path via bridge over railway to Moor Road"*
 

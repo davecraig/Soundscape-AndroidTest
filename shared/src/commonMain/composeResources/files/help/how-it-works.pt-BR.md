@@ -7,7 +7,7 @@ nav_order: 200
 lang: pt-BR
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # A tecnologia por trás do Soundscape
@@ -130,7 +130,7 @@ Se uma Via sem nome começa ou termina mais perto de um Ponto de Referência, en
 * **É um beco sem saída?**
 O aplicativo marca como beco sem saída qualquer Via sem nome que não leve a lugar nenhum.
 
-* **Ela passa por algum degrau?**
+* **Ela passa por uma ponte, um túnel ou degraus?**
 Se a Via sem nome passa sobre uma ponte, através de um túnel ou sobe/desce degraus, então isso é anotado e adicionado ao contexto. Isso é separado da marcação de destino, então um contexto como *"Caminho sobre ponte para o Lennox Park"* é possível.
 
 Esses contextos são adicionados em ordem e, portanto, é possível ter *"Caminho para a Park Lane via degraus"* em uma direção e *"Caminho para o Lennox Park via degraus"* na outra direção. A rua com nome tem prioridade ao sair, mas o parque é usado ao entrar nele.

@@ -7,7 +7,7 @@ nav_order: 200
 lang: tr
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Soundscape’in arkasındaki teknoloji
@@ -130,7 +130,7 @@ Adsız bir Yol bir Simge Yapıya daha yakın başlar veya biterse, bu bağlamı 
 * **Çıkmaz yol mu?**
 Uygulama, hiçbir yere ulaşmayan adsız Yolları çıkmaz yol olarak işaretler.
 
-* **Herhangi bir merdivenden geçiyor mu?**
+* **Bir köprüden, tünelden veya merdivenden geçiyor mu?**
 Adsız Yol bir köprüden, bir tünelden ya da merdivenlerden yukarı/aşağı geçiyorsa, bu not edilir ve bağlama eklenir. Bu, hedef etiketlemesinden ayrıdır; bu nedenle *"Lennox Park'a köprü üzerinden patika"* gibi bir bağlam mümkündür.
 
 Bu bağlamlar sırayla eklenir; bu nedenle bir yönde *"Merdivenlerden Park Lane'e giden patika"* ve diğer yönde *"Merdivenlerden Lennox Park'a giden patika"* olması mümkündür. Adlandırılmış cadde, parktan ayrılırken önceliklidir, ancak parka girerken park kullanılır.

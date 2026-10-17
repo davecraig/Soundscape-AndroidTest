@@ -7,7 +7,7 @@ nav_order: 200
 lang: pl
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Technologia stojąca za Soundscape
@@ -130,7 +130,7 @@ Jeśli droga (Way) bez nazwy zaczyna się lub kończy bliżej Punktu orientacyjn
 * **Czy to ślepa uliczka?**
 Aplikacja oznacza jako ślepą uliczkę każdą drogę (Way) bez nazwy, która donikąd nie prowadzi.
 
-* **Czy mija jakieś schody?**
+* **Czy prowadzi przez most, tunel lub schody?**
 Jeśli droga (Way) bez nazwy przechodzi przez most, przez tunel lub w górę/w dół po schodach, jest to odnotowywane i dodawane do kontekstu. Jest to niezależne od oznaczania celu, więc możliwy jest kontekst taki jak *„Ścieżka przez most do Lennox Park”*.
 
 Te konteksty są dodawane po kolei, więc możliwe jest, że w jednym kierunku będzie *„Ścieżka do Park Lane przez schody”*, a w drugim *„Ścieżka do Lennox Park przez schody”*. Nazwana ulica ma priorytet przy wychodzeniu z parku, ale przy wchodzeniu do niego używany jest park.

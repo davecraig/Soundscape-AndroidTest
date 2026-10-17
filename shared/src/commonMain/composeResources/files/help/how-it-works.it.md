@@ -7,7 +7,7 @@ nav_order: 200
 lang: it
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # La tecnologia dietro Soundscape
@@ -130,7 +130,7 @@ Se una Way senza nome inizia o termina più vicino a un Punto di riferimento all
 * **È un vicolo cieco?**
 L'app contrassegna come vicolo cieco qualsiasi Way senza nome che non porta da nessuna parte.
 
-* **Passa per degli scalini?**
+* **Passa su un ponte, in una galleria o per degli scalini?**
 Se la Way senza nome passa sopra un ponte, attraverso un tunnel o su/giù per degli scalini, allora questo viene annotato e aggiunto al contesto. Questo è separato dall'etichettatura della destinazione, quindi è possibile un contesto come *"Sentiero sopra il ponte verso Lennox Park"*.
 
 Questi contesti vengono aggiunti in ordine e quindi è possibile avere *"Sentiero verso Park Lane tramite scalini"* in una direzione e *"Sentiero verso Lennox Park tramite scalini"* nell'altra direzione. La via con nome ha la priorità lasciando il parco, ma il parco viene usato quando vi si entra.

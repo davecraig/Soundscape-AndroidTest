@@ -7,7 +7,7 @@ nav_order: 200
 lang: is
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Tæknin á bak við Soundscape
@@ -130,7 +130,7 @@ Ef nafnlaus Leið byrjar eða endar nær Kennileiti þá getum við einnig bætt
 * **Er það botnlangi?**
 Forritið merkir sem botnlanga allar nafnlausar Leiðir sem leiða ekki neitt.
 
-* **Liggur hún framhjá einhverjum þrepum?**
+* **Liggur hún yfir brú, í gegnum göng eða um þrep?**
 Ef nafnlausa Leiðin liggur yfir brú, í gegnum göng eða upp/niður þrep þá er þetta tekið fram og bætt við samhengið. Þetta er aðskilið frá áfangastaðamerkingunni svo samhengi eins og *„Stígur yfir brú að Lennox Park“* er mögulegt.
 
 Þessu samhengi er bætt við í röð og því er hægt að hafa *„Stígur að Park Lane um þrep“* í aðra áttina og *„Stígur að Lennox Park um þrep“* í hina áttina. Nefnda gatan fær forgang þegar farið er frá garðinum, en garðurinn er notaður þegar farið er inn í hann.

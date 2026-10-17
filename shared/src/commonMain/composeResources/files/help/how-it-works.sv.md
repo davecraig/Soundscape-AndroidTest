@@ -7,7 +7,7 @@ nav_order: 200
 lang: sv
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Tekniken bakom Soundscape
@@ -130,7 +130,7 @@ Om en namnlös Way börjar eller slutar närmare ett landmärke kan vi också l�
 * **Är det en återvändsgränd?**
 Appen markerar som återvändsgränd alla namnlösa Ways som inte leder någonstans.
 
-* **Passerar den några trappor?**
+* **Går den över en bro, genom en tunnel eller i trappor?**
 Om den namnlösa Way:en passerar över en bro, genom en tunnel eller upp/ner för trappor noteras detta och läggs till i sammanhanget. Detta är separat från destinationstaggningen så sammanhang som *”Stig över bro till Lennox Park”* är möjligt.
 
 Dessa sammanhang läggs till i ordning och så är det möjligt att ha *”Stig till Park Lane via trappor”* i en riktning och *”Stig till Lennox Park via trappor”* i den andra riktningen. Den namngivna gatan får prioritet på väg ut ur parken, men parken används vid inträde i den.

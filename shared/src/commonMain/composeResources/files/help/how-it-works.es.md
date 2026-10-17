@@ -7,7 +7,7 @@ nav_order: 200
 lang: es
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # La tecnología detrás de Soundscape
@@ -130,7 +130,7 @@ Si una Vía sin nombre empieza o termina más cerca de un Punto de referencia, t
 * **¿Es un callejón sin salida?**
 La aplicación marca como callejón sin salida cualquier Vía sin nombre que no lleve a ninguna parte.
 
-* **¿Pasa por algún tramo de escaleras?**
+* **¿Pasa por un puente, un túnel o unas escaleras?**
 Si la Vía sin nombre pasa por encima de un puente, a través de un túnel o sube/baja escaleras, esto se anota y se añade al contexto. Esto es independiente del etiquetado del destino, por lo que es posible un contexto como *"Camino por puente a Lennox Park"*.
 
 Estos contextos se añaden en orden, por lo que es posible tener *"Camino a Park Lane por escaleras"* en una dirección y *"Camino a Lennox Park por escaleras"* en la otra. La calle con nombre tiene prioridad al salir, pero el parque se usa al entrar en él.

@@ -7,7 +7,7 @@ nav_order: 200
 lang: de
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Die Technik hinter Soundscape
@@ -130,7 +130,7 @@ Wenn ein unbenannter Way näher an einem Orientierungspunkt beginnt oder endet, 
 * **Ist es eine Sackgasse?**
 Die App markiert alle unbenannten Ways, die nirgendwohin führen, als Sackgasse.
 
-* **Führt er an Stufen vorbei?**
+* **Führt er über eine Brücke, durch einen Tunnel oder über Stufen?**
 Wenn der unbenannte Way über eine Brücke, durch einen Tunnel oder Stufen hinauf/hinab führt, dann wird dies vermerkt und dem Kontext hinzugefügt. Dies ist getrennt vom Ziel-Tagging, sodass Kontext wie *„Pfad über Brücke zum Lennox Park“* möglich ist.
 
 Diese Kontexte werden in Reihenfolge hinzugefügt, sodass es möglich ist, in einer Richtung *„Pfad zur Park Lane über Stufen“* und in der anderen Richtung *„Pfad zum Lennox Park über Stufen“* zu haben. Die benannte Straße erhält beim Verlassen des Parks Priorität, aber der Park wird beim Betreten verwendet.

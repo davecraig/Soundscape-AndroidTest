@@ -7,7 +7,7 @@ nav_order: 200
 lang: ro
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Tehnologia din spatele Soundscape
@@ -130,7 +130,7 @@ Dacă un Way fără nume începe sau se termină mai aproape de un Reper, atunci
 * **Este o fundătură?**
 Aplicația marchează ca fundătură orice Way fără nume care nu duce nicăieri.
 
-* **Trece pe lângă vreo scară?**
+* **Trece peste un pod, printr-un tunel sau pe scări?**
 Dacă Way-ul fără nume trece peste un pod, printr-un tunel sau urcă/coboară scări, atunci acest lucru este notat și adăugat la context. Acest lucru este separat de etichetarea destinației, deci un context precum *„Potecă peste pod spre Lennox Park"* este posibil.
 
 Aceste contexte sunt adăugate în ordine și astfel este posibil să avem *„Potecă spre Park Lane prin scări"* într-o direcție și *„Potecă spre Lennox Park prin scări"* în cealaltă direcție. Strada denumită are prioritate la ieșirea din parc, dar parcul este folosit la intrarea în el.

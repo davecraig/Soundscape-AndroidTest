@@ -7,7 +7,7 @@ nav_order: 200
 lang: fi
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # Soundscapen taustalla oleva tekniikka
@@ -130,7 +130,7 @@ Jos nimetön väylä alkaa tai päättyy lähemmäs maamerkkiä, voimme myös li
 * **Onko se umpikuja?**
 Sovellus merkitsee umpikujaksi kaikki nimettömät väylät, jotka eivät johda minnekään.
 
-* **Ohittaako se portaita?**
+* **Kulkeeko se sillan, tunnelin tai portaiden kautta?**
 Jos nimetön väylä kulkee sillan yli, tunnelin läpi tai portaita ylös/alas, tämä huomioidaan ja lisätään kontekstiin. Tämä on erillistä määränpäämerkinnästä, joten konteksti kuten *"Polku sillan yli puistoon Lennox Park"* on mahdollinen.
 
 Nämä kontekstit lisätään järjestyksessä, joten on mahdollista saada *"Polku kadulle Park Lane portaiden kautta"* yhteen suuntaan ja *"Polku puistoon Lennox Park portaiden kautta"* toiseen suuntaan. Nimetty katu saa etusijan puistosta poistuttaessa, mutta puistoa käytetään sinne saavuttaessa.

@@ -7,7 +7,7 @@ nav_order: 200
 lang: fr
 permalink: /users/how-it-works.html
 machine-translated: true
-translated-from: 1d7f81a05233463dbc2eb8bf62ea26979f5114d0
+translated-from: adca9a12417b9862100cb0f837baedb969eded43
 ---
 
 # La technologie derrière Soundscape
@@ -130,7 +130,7 @@ Si une Way sans nom commence ou se termine plus près d'un Repère, nous pouvons
 * **Est-ce une impasse ?**
 L'application marque comme impasse toute Way sans nom qui ne mène nulle part.
 
-* **Passe-t-elle par des marches ?**
+* **Passe-t-elle sur un pont, dans un tunnel ou par des marches ?**
 Si la Way sans nom passe par-dessus un pont, à travers un tunnel ou monte/descend des marches, cela est noté et ajouté au contexte. Cela est distinct de l'étiquetage de la destination, de sorte qu'un contexte tel que *« Chemin par le pont vers Lennox Park »* est possible.
 
 Ces contextes sont ajoutés dans l'ordre, il est donc possible d'avoir *« Chemin vers Park Lane via des marches »* dans un sens et *« Chemin vers Lennox Park via des marches »* dans l'autre sens. La rue nommée est prioritaire à la sortie du parc, mais le parc est utilisé à l'entrée.
