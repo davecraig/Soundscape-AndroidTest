@@ -132,6 +132,12 @@ data class JunctionCluster(
     val settlementByExit: Map<String, String?> = emptyMap(),
     /** A roundabout's own name, from its ring - "Burnbrae Roundabout". */
     val roundaboutName: String? = null,
+    /**
+     * Which way traffic turns on joining the ring: LEFT where it goes round clockwise (the UK),
+     * RIGHT where it goes anticlockwise (France). Exits in [exits] order are met going this way;
+     * walking round the other way meets them in reverse.
+     */
+    val trafficTurns: JunctionSide? = null,
 )
 
 private fun normalise(bearing: Double): Double {
@@ -304,6 +310,7 @@ fun buildJunctionCluster(
 
     // On a roundabout, number the exits in the direction of traffic: the ring's Ways are drawn in
     // that direction, so follow START to END from the entry node.
+    var trafficTurns: JunctionSide? = null
     if (isRoundabout) {
         val order = HashMap<Intersection, Int>()
         var node: Intersection? = nodes.firstOrNull { n -> n.members.any { it.isRoundabout() } }
@@ -320,6 +327,22 @@ fun buildJunctionCluster(
                 // - it's all the same place - or the count stops at the tile edge.
                 ?: ringContinuationAcrossJoiners(current, order.keys)
         }
+        // Which way round the ring is drawn, and so which way traffic turns on joining it: the
+        // sign of the area the ring nodes enclose, taken in traffic order (shoelace formula; with
+        // x east and y north, positive is anticlockwise).
+        val ringInOrder = order.entries.sortedBy { it.value }.map { it.key.location }
+        var twiceArea = 0.0
+        for (i in ringInOrder.indices) {
+            val a = ringInOrder[i]
+            val b = ringInOrder[(i + 1) % ringInOrder.size]
+            twiceArea += (a.longitude * b.latitude) - (b.longitude * a.latitude)
+        }
+        trafficTurns = when {
+            ringInOrder.size < 3 -> null
+            twiceArea < 0.0 -> JunctionSide.LEFT
+            else -> JunctionSide.RIGHT
+        }
+
         // Nodes reached by a short link rather than on the ring itself (a splitter island, say)
         // take the position of the nearest ring node.
         fun position(n: Intersection) = order[n]
@@ -570,6 +593,7 @@ fun buildJunctionCluster(
         byExit,
         settlementDiagnostics,
         roundaboutName,
+        trafficTurns,
     )
 }
 
@@ -744,7 +768,48 @@ fun describeJunctionCluster(cluster: JunctionCluster, beaconName: String? = null
         lines.add("$keep, ${ordinal(exit.exitNumber!!)} exit, for $beaconName")
         return lines
     }
-    if (cluster.isRoundabout) {
+    if (cluster.isRoundabout) return describeRoundabout(cluster)
+    return describeSides(cluster, beaconName)
+}
+
+private fun ClusterExit.spokenName(): String? = label.takeIf { it.isNotEmpty() }
+    ?.let { l -> towards?.let { "$l towards $it" } ?: l }
+
+/**
+ * A roundabout in brief: how many exits it has, and the first one met going each way round from
+ * where the user joins it - which is what someone on foot walking round the outside meets first,
+ * whichever way they choose. Going with the traffic that's exit 1; going against it, the last.
+ */
+fun describeRoundabout(cluster: JunctionCluster): List<String> {
+    val name = cluster.roundaboutName ?: "Roundabout"
+    val exits = cluster.exits
+    val count = if (exits.size == 1) "1 exit" else "${exits.size} exits"
+    if (exits.size <= 1) {
+        return listOf("$name, $count" + (exits.firstOrNull()?.spokenName()?.let { ", $it" } ?: ""))
+    }
+    val turns = cluster.trafficTurns
+    // Without a known direction round, fall back on which side each end of the list is on.
+    val leftFirst = when (turns) {
+        JunctionSide.LEFT -> exits.first()
+        JunctionSide.RIGHT -> exits.last()
+        else -> exits.minBy { it.relativeBearing }
+    }
+    val rightFirst = when (turns) {
+        JunctionSide.LEFT -> exits.last()
+        JunctionSide.RIGHT -> exits.first()
+        else -> exits.maxBy { it.relativeBearing }
+    }
+    return listOf(
+        "$name, $count",
+        "First on the left, ${leftFirst.spokenName() ?: "an unnamed road"}",
+        "First on the right, ${rightFirst.spokenName() ?: "an unnamed road"}",
+    )
+}
+
+/** Every exit in turn, numbered - for a user who asks to hear them all. */
+fun describeRoundaboutInFull(cluster: JunctionCluster): List<String> {
+    val lines = mutableListOf<String>()
+    run {
         // Every exit separately: at a roundabout the user needs to count them, not just pick a side.
         lines.add("${cluster.roundaboutName ?: "Roundabout"}, ${cluster.exits.size} exits")
         for (exit in cluster.exits) {
@@ -760,8 +825,12 @@ fun describeJunctionCluster(cluster: JunctionCluster, beaconName: String? = null
             lines.add("${ordinal(exit.exitNumber ?: 0).replaceFirstChar { it.uppercase() }} exit $where" +
                 (destination?.let { " for $it" } ?: ""))
         }
-        return lines
     }
+    return lines
+}
+
+private fun describeSides(cluster: JunctionCluster, beaconName: String?): List<String> {
+    val lines = mutableListOf<String>()
     if ((beaconName != null) && (cluster.beaconSide != null)) {
         lines.add(
             when (cluster.beaconSide) {

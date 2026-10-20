@@ -8,6 +8,7 @@ import org.scottishtecharmy.soundscape.geoengine.callouts.IntersectionDescriptio
 import org.scottishtecharmy.soundscape.geoengine.callouts.addIntersectionCalloutFromDescription
 import org.scottishtecharmy.soundscape.geoengine.callouts.buildJunctionCluster
 import org.scottishtecharmy.soundscape.geoengine.callouts.describeJunctionCluster
+import org.scottishtecharmy.soundscape.geoengine.callouts.describeRoundaboutInFull
 import org.scottishtecharmy.soundscape.geoengine.callouts.isRoundabout
 import org.scottishtecharmy.soundscape.geoengine.callouts.isOnewayInto
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
@@ -218,8 +219,12 @@ class RoundaboutSweepPrototypeTest {
                             flag("no cluster", "$where from $armName")
                             continue
                         }
-                        val lines = describeJunctionCluster(cluster)
-                        detail.append("    PROTO: " + lines.joinToString(" | ") + "\n")
+                        // The checks below read the full numbered list; what would be spoken is the
+                        // brief form.
+                        val lines = if (cluster.isRoundabout) describeRoundaboutInFull(cluster)
+                            else describeJunctionCluster(cluster)
+                        detail.append("    SAY:   " + describeJunctionCluster(cluster).joinToString(" | ") + "\n")
+                        detail.append("    FULL:  " + lines.joinToString(" | ") + "\n")
                         val entryBearing = grid.ruler.bearing(c, node.location)
                         detail.append("    exits: " + cluster.exits.joinToString("; ") { e ->
                             val fromAngle = ((grid.ruler.bearing(c, e.from.location) - entryBearing + 540.0) % 360.0) - 180.0
