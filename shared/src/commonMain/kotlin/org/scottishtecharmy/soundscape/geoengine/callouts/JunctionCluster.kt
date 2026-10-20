@@ -2,6 +2,7 @@ package org.scottishtecharmy.soundscape.geoengine.callouts
 
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.UserGeometry
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
@@ -45,6 +46,12 @@ private const val clusterRadiusMetres = 20.0
 private const val carriagewayLinkMetres = 40.0
 private const val carriagewayRadiusMetres = 35.0
 private const val reservationStubMetres = 15.0
+/** How long a connector from the user's path to the junction can be and still be folded in. */
+private const val connectorFoldMetres = 20.0
+
+/** How far ahead along the user's path to look for the connector's near end. */
+private const val connectorSearchMetres = 40.0
+
 /** A road this near the user, heading back behind them, is the one they're walking beside. */
 private const val besideRoadMetres = 20.0
 /** How far apart a dual carriageway's two carriageways can be, centre line to centre line. */
@@ -285,6 +292,60 @@ private fun Way.isReservationStub(from: Intersection, approach: Way, dual: DualC
 }
 
 /**
+ * Follows the path the user is on forward to [near], the near end of [connector], and returns
+ * that node, the user's heading arriving there and the Way they arrive along - but only if their
+ * path carries straight on there and the connector turns off it. Null otherwise.
+ */
+private fun pathCarriesOnPast(
+    user: UserGeometry,
+    near: Intersection,
+    connector: Way,
+    ruler: Ruler,
+): Triple<Intersection, Double, Way>? {
+    var way = user.mapMatchedWay ?: return null
+    if (way === connector) return null
+    val userHeading = user.heading() ?: return null
+    // The end of the user's Way that they are heading towards.
+    var node = way.intersections.filterNotNull().minByOrNull { end ->
+        kotlin.math.abs(normalise(ruler.bearing(user.location, end.location) - userHeading))
+    } ?: return null
+    var travelled = ruler.distance(user.location, node.location)
+    val seen = hashSetOf(way)
+    while (node !== near) {
+        if (travelled > connectorSearchMetres) return null
+        val arriving = (way.heading(node) + 180.0) % 360.0
+        val current = way
+        // On along the straightest way: a pavement often comes in several short pieces.
+        way = node.members.filter { (it !== current) && (it !== connector) && (it !in seen) }
+            .minByOrNull { kotlin.math.abs(normalise(it.heading(node) - arriving)) }
+            ?.takeIf { kotlin.math.abs(normalise(it.heading(node) - arriving)) < 45.0 } ?: return null
+        seen.add(way)
+        node = way.getOtherIntersection(node) ?: return null
+        travelled += way.length
+    }
+    val arriving = (way.heading(near) + 180.0) % 360.0
+    val arrivedBy = way
+    val straightOn = near.members.any {
+        (it !== arrivedBy) && (it !== connector) && (kotlin.math.abs(normalise(it.heading(near) - arriving)) < 30.0)
+    }
+    val turnsOff = kotlin.math.abs(normalise(connector.heading(near) - arriving)) > 45.0
+    return if (straightOn && turnsOff) Triple(near, arriving, arrivedBy) else null
+}
+
+/**
+ * The name of the pedestrian street this Way is, or - for a short unnamed path - leads straight
+ * into as its [destination]. Null if neither.
+ */
+private fun Way.pedestrianStreet(destination: String?): String? {
+    if (featureValue == "pedestrian") return name
+    if ((name != null) || (destination == null)) return null
+    val far = intersections.filterNotNull()
+    return destination.takeIf {
+        far.any { node -> node.members.any { (it.name == destination) && (it.featureValue == "pedestrian") } }
+    }
+}
+
+/**
  * Builds the cluster around [description]'s intersection and works out what each side leads to.
  *
  * @param beacon Where the user is heading, if anywhere. Its side is found from the same search.
@@ -300,17 +361,25 @@ fun buildJunctionCluster(
     if (!approach.containsIntersection(entry)) return null
     val ruler = gridState.ruler
 
-    // Direction of travel into the junction: heading() is the approach leaving the junction, i.e.
-    // back towards the user.
-    val travelHeading = (approach.heading(entry) + 180.0) % 360.0
-
     // The name of the roundabout the user is arriving at, if that's what this is.
     val ringName = entry.members.firstOrNull { it.isRoundabout() && (it.name != null) }?.name
+
+    // Sometimes the junction found is at the far end of a short unnamed connector - a path from
+    // the pavement out to the road - while the path the user is on carries straight on past the
+    // connector's near end to somewhere else. Then the near end is part of the junction, and
+    // "ahead" is the way the user is walking, not along the connector.
+    val nearEnd = if ((ringName == null) && (approach.name == null) && (approach.length <= connectorFoldMetres))
+        approach.getOtherIntersection(entry)?.let { near -> pathCarriesOnPast(description.userGeometry, near, approach, ruler) }
+    else null
+
+    // Direction of travel into the junction: heading() is the approach leaving the junction, i.e.
+    // back towards the user.
+    val travelHeading = nearEnd?.second ?: ((approach.heading(entry) + 180.0) % 360.0)
 
     // Gather the cluster
     val dual = DualCarriageways(gridState)
     val nodes = LinkedHashSet<Intersection>()
-    val queue = ArrayDeque(listOf(entry))
+    val queue = ArrayDeque(listOfNotNull(entry, nearEnd?.first))
     while (queue.isNotEmpty()) {
         val node = queue.removeFirst()
         if (!nodes.add(node)) continue
@@ -349,7 +418,7 @@ fun buildJunctionCluster(
     val origin = if (isRoundabout) {
         val ring = nodes.filter { node -> node.members.any { it.isRoundabout() } }
         LngLatAlt(ring.sumOf { it.location.longitude } / ring.size, ring.sumOf { it.location.latitude } / ring.size)
-    } else entry.location
+    } else nearEnd?.first?.location ?: entry.location
     // And "ahead" is the way the approach points at the centre, not along its last few metres.
     val referenceHeading = if (isRoundabout) ruler.bearing(entry.location, origin) else travelHeading
 
@@ -358,7 +427,7 @@ fun buildJunctionCluster(
     val exits = mutableListOf<ClusterExit>()
     for (node in nodes) {
         for (way in node.members) {
-            if (way === approach) continue
+            if ((way === approach) || (way === nearEnd?.third)) continue
             if (way.isRoundabout()) continue
             if (isRoundabout) {
                 // Only the ways a vehicle can leave the ring by are its numbered exits: not an
@@ -515,7 +584,19 @@ fun buildJunctionCluster(
             destination == approach.name -> false
             else -> labelled.none { (other, _, _) -> other.side != exit.side && other.label == exit.label }
         }
-        exits.add(exit.copy(labelIsUseful = useful))
+        // A pedestrian street, whether this is it or a short path into it, is named as one when
+        // there's a road of the same name to tell it from ("Main Street" the road bending away,
+        // and Main Street the precinct straight on), or when it's reached by a path labelled only
+        // "Path to Main Street".
+        val pedestrian = exit.way.pedestrianStreet(destination)
+        val sameNamedRoad = labelled.any { (other, _, _) ->
+            (other !== exit) && (other.way.name == pedestrian) && (other.way.featureValue != "pedestrian")
+        }
+        // Not where the label carries steps, a bridge or a dead end, which matter more.
+        if ((pedestrian != null) && !qualified && ((exit.way.name == null) || sameNamedRoad))
+            exits.add(exit.copy(label = "$pedestrian pedestrian precinct", labelIsUseful = true))
+        else
+            exits.add(exit.copy(labelIsUseful = useful))
     }
 
     // The ring's own name, if it has one: the most common name among its Ways.
