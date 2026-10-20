@@ -67,15 +67,31 @@ class RoundaboutSweepPrototypeTest {
         return result
     }
 
+    /** The node past a tile edge where [ring] carries on - see JunctionCluster's equivalent. */
+    private fun acrossJoiners(node: Intersection, ring: Set<Way>): Intersection? {
+        val seen = HashSet<Intersection>()
+        val queue = ArrayDeque(listOf(node))
+        while (queue.isNotEmpty()) {
+            val current = queue.removeFirst()
+            if (!seen.add(current)) continue
+            if ((current !== node) && current.members.any { (it in ring) && (it.intersections[WayEnd.START.id] === current) })
+                return current
+            current.members.filter { it.wayType == WayType.JOINER }.forEach { j -> j.getOtherIntersection(current)?.let { queue.add(it) } }
+        }
+        return null
+    }
+
     /** True if following the ring START to END from any node gets back to it. */
     private fun isClosed(ring: Set<Way>): Boolean {
         val first = ring.first().intersections[WayEnd.START.id] ?: return false
         var node: Intersection = first
-        repeat(ring.size + 4) {
+        val visited = HashSet<Intersection>()
+        repeat(2 * ring.size + 4) {
+            visited.add(node)
             val next = node.members.firstOrNull {
                 (it in ring) && (it.intersections[WayEnd.START.id] === node)
             }?.intersections?.get(WayEnd.END.id)
-                ?: node.members.firstOrNull { it.wayType == WayType.JOINER }?.getOtherIntersection(node)
+                ?: acrossJoiners(node, ring)
                 ?: return false
             if (next === first) return true
             node = next

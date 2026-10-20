@@ -8,6 +8,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayType
 import org.scottishtecharmy.soundscape.geoengine.utils.isJunctionArm
+import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
@@ -235,7 +236,10 @@ fun buildJunctionCluster(
                 partOfRing -> ringNamedLinkRadiusMetres
                 else -> clusterRadiusMetres
             }
-            if (ruler.distance(entry.location, other.location) > radius) continue
+            // A tile-edge joiner has no length: its far node is the same place as this one, already
+            // inside the cluster, so it's never too far away.
+            if ((way.wayType != WayType.JOINER) &&
+                (ruler.distance(entry.location, other.location) > radius)) continue
             // Don't fold in anything behind the user - a short link back alongside the approach
             // is somewhere they have already been. A roundabout's ring goes all the way round, so
             // that's not a test for it.
@@ -305,6 +309,10 @@ fun buildJunctionCluster(
             node = current.members.firstOrNull {
                 it.isRoundabout() && (it.intersections[WayEnd.START.id] === current)
             }?.intersections?.get(WayEnd.END.id)
+                // Where a tile edge cuts the ring, the two tiles' copies of the node are stitched
+                // together by zero-length joiners rather than by a roundabout Way. Step across them
+                // - it's all the same place - or the count stops at the tile edge.
+                ?: ringContinuationAcrossJoiners(current, order.keys)
         }
         // Nodes reached by a short link rather than on the ring itself (a splitter island, say)
         // take the position of the nearest ring node.
@@ -333,18 +341,21 @@ fun buildJunctionCluster(
         // Where a dual carriageway stays divided past that, the two never share a node, but they
         // still run side by side: after the same distance they end up close together, where a
         // road continuing across ends up far away in the other direction.
-        val approachFollowed = followRoad(approach, entry, nodes, null, uTurnRejoinMetres, false)
+        val approachFollowed = followRoad(approach, entry, nodes, null, uTurnRejoinMetres, false, ruler)
         val approachRoute = approachFollowed.nodes + setOfNotNull(approach.getOtherIntersection(entry))
         val forward = merged.filterNot { exit ->
             if (exit.way.name != approach.name) return@filterNot false
             if (kotlin.math.abs(exit.relativeBearing) > 150.0) return@filterNot true
-            val route = followRoad(exit.way, exit.from, nodes, null, uTurnRejoinMetres, true)
+            val route = followRoad(exit.way, exit.from, nodes, null, uTurnRejoinMetres, true, ruler)
             route.nodes.any { it in approachRoute } ||
-                // Only once both have been followed far enough for their ends to mean something:
-                // a road that stops at a name change by the ring proves nothing.
-                ((route.travelled >= uTurnCorridorFollowMetres) &&
-                    (approachFollowed.travelled >= uTurnCorridorFollowMetres) &&
-                    (ruler.distance(route.end, approachFollowed.end) < uTurnCorridorMetres))
+                // Compared at the same distance out on both, and only if both got that far: a road
+                // that stops at a name change by the ring proves nothing, and two carriageways of
+                // different lengths end far apart even when they run side by side.
+                run {
+                    val a = route.probe
+                    val b = approachFollowed.probe
+                    (a != null) && (b != null) && (ruler.distance(a, b) < uTurnCorridorMetres)
+                }
         }
         exits.clear()
         forward.forEachIndexed { i, exit -> exits.add(exit.copy(exitNumber = i + 1)) }
@@ -561,7 +572,31 @@ private const val uTurnRejoinMetres = 200.0
 
 /** ...or whose road, followed as far, ends up this close to where the approach road leads. */
 private const val uTurnCorridorMetres = 80.0
-private const val uTurnCorridorFollowMetres = 150.0
+private const val uTurnCorridorProbeMetres = 150.0
+
+/**
+ * The node on the far side of a tile edge where a roundabout's ring carries on from [node].
+ *
+ * Not simply the first joiner: where another road crosses the tile edge at the same spot the
+ * joiners meet at a hub, and one of them leads to that road's copy - a dead end as far as the ring
+ * is concerned. So search everything reachable through joiners for the node a ring Way starts at.
+ */
+private fun ringContinuationAcrossJoiners(node: Intersection, visited: Set<Intersection>): Intersection? {
+    val seen = HashSet<Intersection>()
+    val queue = ArrayDeque(listOf(node))
+    while (queue.isNotEmpty()) {
+        val current = queue.removeFirst()
+        if (!seen.add(current)) continue
+        if ((current !== node) && (current !in visited) &&
+            current.members.any { it.isRoundabout() && (it.intersections[WayEnd.START.id] === current) }
+        ) return current
+        for (way in current.members) {
+            if (way.wayType != WayType.JOINER) continue
+            way.getOtherIntersection(current)?.let { queue.add(it) }
+        }
+    }
+    return null
+}
 
 /** How far along an exit's own road [followRoad] looks for where it is heading. */
 private const val followRoadMetres = 600.0
@@ -574,6 +609,8 @@ private class RoadRoute(
     val crossings: List<String>,
     val nodes: Set<Intersection> = emptySet(),
     val travelled: Double = 0.0,
+    /** Where the road is [uTurnCorridorProbeMetres] out, if it was followed that far. */
+    val probe: LngLatAlt? = null,
 )
 
 /**
@@ -586,7 +623,7 @@ private fun followRoad(
     cluster: Set<Intersection>,
     roundaboutName: String?,
     gridState: GridState,
-): RoadRoute = followRoad(exit.way, exit.from, cluster, roundaboutName, followRoadMetres, true)
+): RoadRoute = followRoad(exit.way, exit.from, cluster, roundaboutName, followRoadMetres, true, gridState.ruler)
 
 /**
  * As above, from [start] leaving [from]. [respectOneway] off follows a road against its one-way
@@ -599,6 +636,7 @@ private fun followRoad(
     roundaboutName: String?,
     limit: Double,
     respectOneway: Boolean,
+    ruler: Ruler,
 ): RoadRoute {
     val name = start.name
     val crossings = mutableListOf<String>()
@@ -606,9 +644,16 @@ private fun followRoad(
     var way = start
     var node = from
     var travelled = 0.0
+    var probe: LngLatAlt? = null
     val seen = HashSet<Way>()
     while (seen.add(way)) {
         val next = way.getOtherIntersection(node) ?: break
+        if ((probe == null) && (travelled + way.length >= uTurnCorridorProbeMetres)) {
+            val along = uTurnCorridorProbeMetres - travelled
+            val line = way.geometry as LineString
+            probe = if (way.intersections[WayEnd.START.id] === node) ruler.along(line, along)
+                else ruler.along(line, maxOf(0.0, way.length - along))
+        }
         travelled += way.length
         visited.add(next)
         if ((travelled > limit) || (next in cluster)) {
@@ -637,7 +682,7 @@ private fun followRoad(
         }
         node = next
     }
-    return RoadRoute(node.location, crossings, visited, travelled)
+    return RoadRoute(node.location, crossings, visited, travelled, probe)
 }
 
 private fun shortestBoundedDistance(
