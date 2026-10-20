@@ -151,7 +151,13 @@ private fun pointAlong(way: Way, from: Intersection, metres: Double, gridState: 
         gridState.ruler.along(line, maxOf(0.0, way.length - d))
 }
 
-fun Way.isRoundabout() = properties?.get("junction") == "roundabout"
+/**
+ * True for a piece of a roundabout's ring - including `junction=circular`, which OpenStreetMap
+ * uses for a ring where circulating traffic doesn't have priority (signalled sections, say). For
+ * describing the exits that's the same thing, and one ring can mix the two: Whirlies Roundabout
+ * in East Kilbride has seven pieces of one and three of the other.
+ */
+fun Way.isRoundabout() = properties?.get("junction").let { (it == "roundabout") || (it == "circular") }
 
 /**
  * True if this Way is one-way and can only be travelled *towards* [node] - an entry carriageway

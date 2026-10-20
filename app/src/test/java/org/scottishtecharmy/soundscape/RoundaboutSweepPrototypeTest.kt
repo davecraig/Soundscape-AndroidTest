@@ -8,6 +8,7 @@ import org.scottishtecharmy.soundscape.geoengine.callouts.IntersectionDescriptio
 import org.scottishtecharmy.soundscape.geoengine.callouts.addIntersectionCalloutFromDescription
 import org.scottishtecharmy.soundscape.geoengine.callouts.buildJunctionCluster
 import org.scottishtecharmy.soundscape.geoengine.callouts.describeJunctionCluster
+import org.scottishtecharmy.soundscape.geoengine.callouts.isRoundabout
 import org.scottishtecharmy.soundscape.geoengine.callouts.isOnewayInto
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
@@ -35,7 +36,6 @@ class RoundaboutSweepPrototypeTest {
         "Tehran" to LngLatAlt(51.3380, 35.6997),
     )
 
-    private fun Way.isRoundabout() = properties?.get("junction") == "roundabout"
 
     /** Groups the roundabout Ways in [ways] into rings - connected through shared nodes. */
     private fun rings(ways: List<Way>): List<Set<Way>> {
@@ -99,6 +99,45 @@ class RoundaboutSweepPrototypeTest {
         return false
     }
 
+    /**
+     * Why [ring] doesn't close: walks it as [isClosed] does and describes where it stops - what
+     * is attached at that node, and which ring Ways have no successor at all.
+     */
+    private fun closeDiagnosis(ring: Set<Way>, ruler: org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler): String {
+        val out = StringBuilder()
+        val nodes = ring.flatMap { it.intersections.filterNotNull() }.toSet()
+        fun ll(n: Intersection) = "%.6f,%.6f".format(n.location.latitude, n.location.longitude)
+        fun describe(n: Intersection) = n.members.joinToString("; ") { m ->
+            val end = when {
+                m.intersections[WayEnd.START.id] === n -> "starts"
+                m.intersections[WayEnd.END.id] === n -> "ends"
+                else -> "?"
+            }
+            "%s%s %s class=%s oneway=%s len=%.1f %s".format(
+                if (m in ring) "RING " else "", m.wayType.name.lowercase(), m.name, m.featureClass,
+                m.properties?.get("oneway"), m.length, end)
+        }
+        // Ring Ways nothing follows on from, and ones nothing leads into.
+        for (way in ring) {
+            val end = way.intersections[WayEnd.END.id]
+            val start = way.intersections[WayEnd.START.id]
+            if ((end == null) || ((end.members.none { (it in ring) && (it.intersections[WayEnd.START.id] === end) }) &&
+                    (acrossJoiners(end, ring) == null)))
+                out.append("    dead end after ${way.name} (len %.0f) at ${end?.let { ll(it) }}: ${end?.let { describe(it) }}\n".format(way.length))
+            if ((start == null) || ((start.members.none { (it in ring) && (it.intersections[WayEnd.END.id] === start) }) &&
+                    start.members.none { it.wayType == WayType.JOINER }))
+                out.append("    nothing leads into ${way.name} (len %.0f) at ${start?.let { ll(it) }}: ${start?.let { describe(it) }}\n".format(way.length))
+        }
+        // Two-way or opposite-direction pieces.
+        ring.filter { it.properties?.get("oneway") == null }.forEach {
+            out.append("    ring piece with no oneway: ${it.name} len %.0f\n".format(it.length))
+        }
+        var diameter = 0.0
+        for (a in nodes) for (b in nodes) diameter = maxOf(diameter, ruler.distance(a.location, b.location))
+        out.append("    ${ring.size} pieces, ${nodes.size} nodes, %.0fm across, joiners at ${nodes.count { n -> n.members.any { it.wayType == WayType.JOINER } }} nodes\n".format(diameter))
+        return out.toString()
+    }
+
     @Test
     fun sweep() {
         val detail = StringBuilder()
@@ -107,6 +146,8 @@ class RoundaboutSweepPrototypeTest {
         fun flag(kind: String, what: String) { flagged.getOrPut(kind) { mutableListOf() }.add(what) }
         var totalRings = 0
         var totalApproaches = 0
+        val notClosed = StringBuilder()
+        var reloaded = 0
 
         for ((area, centre) in areas) {
             val settlementGrid = getGridStateForLocation(centre, 12, 3)
@@ -119,7 +160,25 @@ class RoundaboutSweepPrototypeTest {
             summary.append("$area: ${found.size} roundabouts\n")
             totalRings += found.size
 
-            for (ring in found) {
+            for (foundRing in found) {
+                // A ring on the edge of the area loaded for the town is cut off there. Load the
+                // map around it instead, as the app would around a user standing there.
+                var ring = foundRing
+                var grid = gridState
+                if (!isClosed(foundRing)) {
+                    val fc = foundRing.flatMap { it.intersections.filterNotNull() }.let { n ->
+                        LngLatAlt(n.sumOf { it.location.longitude } / n.size, n.sumOf { it.location.latitude } / n.size)
+                    }
+                    val local = getGridStateForLocation(fc, MAX_ZOOM_LEVEL, 2, settlementGrid)
+                    val localRing = rings(local.getFeatureTree(TreeId.ROADS_AND_PATHS)
+                        .getNearbyCollection(fc, 300.0, local.ruler).map { it as Way }.filter { it.isRoundabout() })
+                        .firstOrNull { r -> r.flatMap { it.intersections.filterNotNull() }.any { local.ruler.distance(it.location, fc) < 40.0 } }
+                    if ((localRing != null) && isClosed(localRing)) {
+                        ring = localRing
+                        grid = local
+                        reloaded++
+                    }
+                }
                 val ringNodes = ring.flatMap { it.intersections.filterNotNull() }.toSet()
                 val c = LngLatAlt(
                     ringNodes.sumOf { it.location.longitude } / ringNodes.size,
@@ -131,6 +190,9 @@ class RoundaboutSweepPrototypeTest {
                 if (!isClosed(ring)) {
                     flag("ring not closed (tile edge or data)", where)
                     detail.append("  (ring does not close)\n")
+                    val why = closeDiagnosis(ring, grid.ruler)
+                    detail.append(why)
+                    notClosed.append("\n$where${ringName?.let { " ($it)" } ?: ""}\n$why")
                 }
 
                 // Per road: the exit lists heard from each of its approaches.
@@ -147,10 +209,10 @@ class RoundaboutSweepPrototypeTest {
                         val heading = (arm.heading(node) + 180.0) % 360.0
                         detail.append("\n  Approaching along $armName (heading %.0f)\n".format(heading))
                         val description = IntersectionDescription(arm, UserGeometry(location = node.location), node, 40.0)
-                        val current = addIntersectionCalloutFromDescription(description, null, null, gridState, false)
+                        val current = addIntersectionCalloutFromDescription(description, null, null, grid, false)
                         detail.append("    NOW:   " + (current?.positionedStrings?.drop(1)
                             ?.joinToString(" | ") { it.text.trim() } ?: "(nothing)") + "\n")
-                        val cluster = buildJunctionCluster(description, gridState, null)
+                        val cluster = buildJunctionCluster(description, grid, null)
                         if (cluster == null) {
                             detail.append("    PROTO: (no cluster)\n")
                             flag("no cluster", "$where from $armName")
@@ -158,9 +220,9 @@ class RoundaboutSweepPrototypeTest {
                         }
                         val lines = describeJunctionCluster(cluster)
                         detail.append("    PROTO: " + lines.joinToString(" | ") + "\n")
-                        val entryBearing = gridState.ruler.bearing(c, node.location)
+                        val entryBearing = grid.ruler.bearing(c, node.location)
                         detail.append("    exits: " + cluster.exits.joinToString("; ") { e ->
-                            val fromAngle = ((gridState.ruler.bearing(c, e.from.location) - entryBearing + 540.0) % 360.0) - 180.0
+                            val fromAngle = ((grid.ruler.bearing(c, e.from.location) - entryBearing + 540.0) % 360.0) - 180.0
                             "%d:%s rel=%.0f at=%.0f oneway=%s".format(
                                 e.exitNumber ?: 0, e.way.name, e.relativeBearing, fromAngle, e.way.properties?.get("oneway"))
                         } + "  approach oneway=${arm.properties?.get("oneway")}\n")
@@ -184,12 +246,12 @@ class RoundaboutSweepPrototypeTest {
                         if (cluster.diameter > 100.0) flag("ring over 100m across", tag)
                         // Keyed by the arm's direction from the centre as well as its name, so that
                         // a road crossing the roundabout counts as two arms.
-                        val far = gridState.ruler.along(
+                        val far = grid.ruler.along(
                             arm.geometry as org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString,
                             if (arm.intersections[WayEnd.START.id] === node) minOf(30.0, arm.length)
                             else maxOf(0.0, arm.length - 30.0)
                         )
-                        val octant = (((gridState.ruler.bearing(c, far) + 360.0) % 360.0) / 45.0).toInt()
+                        val octant = (((grid.ruler.bearing(c, far) + 360.0) % 360.0) / 45.0).toInt()
                         heardByRoad.getOrPut("$armName ~${octant * 45}") { mutableSetOf() }
                             .add(cluster.exits.joinToString(",") { "${it.exitNumber}:${it.way.name}" })
                     }
@@ -201,7 +263,7 @@ class RoundaboutSweepPrototypeTest {
             }
         }
 
-        summary.append("\nTotal: $totalRings roundabouts, $totalApproaches approaches\n")
+        summary.append("\nTotal: $totalRings roundabouts, $totalApproaches approaches ($reloaded rings reloaded because they were cut off at the edge of the loaded area)\n")
         for ((kind, list) in flagged.entries.sortedByDescending { it.value.size }) {
             summary.append("\n## $kind: ${list.size}\n")
             list.take(12).forEach { summary.append("  $it\n") }
@@ -209,6 +271,7 @@ class RoundaboutSweepPrototypeTest {
         }
         testOutputFile("roundabout-sweep.txt").writeText(detail.toString())
         testOutputFile("roundabout-sweep-summary.txt").writeText(summary.toString())
+        testOutputFile("roundabout-sweep-not-closed.txt").writeText(notClosed.toString())
         println(summary)
     }
 }

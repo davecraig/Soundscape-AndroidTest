@@ -12,6 +12,7 @@ import org.scottishtecharmy.soundscape.geoengine.callouts.JunctionSide
 import org.scottishtecharmy.soundscape.geoengine.callouts.addIntersectionCalloutFromDescription
 import org.scottishtecharmy.soundscape.geoengine.callouts.buildJunctionCluster
 import org.scottishtecharmy.soundscape.geoengine.callouts.describeJunctionCluster
+import org.scottishtecharmy.soundscape.geoengine.callouts.isRoundabout
 import org.scottishtecharmy.soundscape.geoengine.callouts.getRoadsDescriptionFromFov
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
@@ -117,7 +118,6 @@ class JunctionClusterPrototypeTest {
     @Test
     fun toTown() = replay("ToTown")
 
-    private fun Way.isRoundabout() = properties?.get("junction") == "roundabout"
 
     /**
      * Walks in to the roundabout at [centre] along each of its arms and describes it both ways.
