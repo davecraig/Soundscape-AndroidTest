@@ -38,7 +38,11 @@ private const val clusterRadiusMetres = 20.0
  * A roundabout is one junction however big its ring is, so its ring Ways join the cluster whatever
  * their length - up to this radius, which is larger than any town roundabout.
  */
-private const val roundaboutRadiusMetres = 60.0
+private const val roundaboutRadiusMetres = 250.0
+
+/** See [isClusterLink]: links named after the ring are folded in up to this long, and this far. */
+private const val ringNamedLinkMetres = 50.0
+private const val ringNamedLinkRadiusMetres = 80.0
 
 /** How far out an exit is followed to decide which way it really goes. */
 private const val exitBearingMetres = 15.0
@@ -146,11 +150,42 @@ private fun pointAlong(way: Way, from: Intersection, metres: Double, gridState: 
         gridState.ruler.along(line, maxOf(0.0, way.length - d))
 }
 
-private fun Way.isRoundabout() = properties?.get("junction") == "roundabout"
+fun Way.isRoundabout() = properties?.get("junction") == "roundabout"
 
-private fun Way.isClusterLink(from: Intersection, approach: Way, gridState: GridState, strings: LocalizedStrings?): Boolean {
+/**
+ * True if this Way is one-way and can only be travelled *towards* [node] - an entry carriageway
+ * into a roundabout, say, which is not a way out of it. `oneway` is 1 along the Way's digitised
+ * direction (START to END) and -1 against it, as MapMatchFilter reads it.
+ */
+fun Way.isOnewayInto(node: Intersection): Boolean {
+    val oneway = when (val value = properties?.get("oneway")) {
+        is Number -> value.toInt()
+        is String -> value.toIntOrNull() ?: 0
+        else -> 0
+    }
+    return when (oneway) {
+        1 -> intersections[WayEnd.END.id] === node
+        -1 -> intersections[WayEnd.START.id] === node
+        else -> false
+    }
+}
+
+/** Paths, footways, cycleways and tracks - not the roads a roundabout's exits are counted by. */
+private val nonRoadClasses = setOf("path", "track")
+
+private fun Way.isClusterLink(
+    from: Intersection,
+    approach: Way,
+    ringName: String?,
+): Boolean {
     if (this === approach) return false
     if (isRoundabout()) return getOtherIntersection(from) != null
+    // Links within a big roundabout junction are sometimes drawn untagged but carry its name -
+    // "Whirlies Roundabout" - and are as much a part of it as the ring.
+    // Only short pieces, though: a ring is sometimes named after the street through it, and that
+    // street isn't part of the roundabout.
+    if ((ringName != null) && (name == ringName) && (length <= ringNamedLinkMetres))
+        return getOtherIntersection(from) != null
     if (length > clusterLinkMetres) return false
     // A different named street leaving is a real exit, however short this piece of it - only
     // unnamed connectors and the street being walked fold nodes together.
@@ -181,6 +216,9 @@ fun buildJunctionCluster(
     // back towards the user.
     val travelHeading = (approach.heading(entry) + 180.0) % 360.0
 
+    // The name of the roundabout the user is arriving at, if that's what this is.
+    val ringName = entry.members.firstOrNull { it.isRoundabout() && (it.name != null) }?.name
+
     // Gather the cluster
     val nodes = LinkedHashSet<Intersection>()
     val queue = ArrayDeque(listOf(entry))
@@ -188,15 +226,20 @@ fun buildJunctionCluster(
         val node = queue.removeFirst()
         if (!nodes.add(node)) continue
         for (way in node.members) {
-            if (!way.isClusterLink(node, approach, gridState, strings)) continue
+            if (!way.isClusterLink(node, approach, ringName)) continue
             val other = way.getOtherIntersection(node) ?: continue
             if (other in nodes) continue
-            val radius = if (way.isRoundabout()) roundaboutRadiusMetres else clusterRadiusMetres
+            val partOfRing = way.isRoundabout() || ((ringName != null) && (way.name == ringName))
+            val radius = when {
+                way.isRoundabout() -> roundaboutRadiusMetres
+                partOfRing -> ringNamedLinkRadiusMetres
+                else -> clusterRadiusMetres
+            }
             if (ruler.distance(entry.location, other.location) > radius) continue
             // Don't fold in anything behind the user - a short link back alongside the approach
             // is somewhere they have already been. A roundabout's ring goes all the way round, so
             // that's not a test for it.
-            if (!way.isRoundabout() && (way.wayType != WayType.JOINER)) {
+            if (!partOfRing && (way.wayType != WayType.JOINER)) {
                 val rel = normalise(ruler.bearing(entry.location, other.location) - travelHeading)
                 if (kotlin.math.abs(rel) > 120.0) continue
             }
@@ -224,6 +267,12 @@ fun buildJunctionCluster(
         for (way in node.members) {
             if (way === approach) continue
             if (way.isRoundabout()) continue
+            if (isRoundabout) {
+                // Only the ways a vehicle can leave the ring by are its numbered exits: not an
+                // entry carriageway, and not a footpath that happens to touch the ring.
+                if (way.isOnewayInto(node)) continue
+                if (way.featureClass in nonRoadClasses) continue
+            }
             val other = way.getOtherIntersection(node)
             if ((other != null) && (other in nodes)) continue
             if (!way.isJunctionArm(node, approach, gridState, strings)) continue
@@ -275,20 +324,27 @@ fun buildJunctionCluster(
                 (kotlin.math.abs(normalise(exit.relativeBearing - previous.relativeBearing)) < 60.0)
             if (!sameRoad) merged.add(exit)
         }
-        // The approach road's own other carriageway is the way back, not an exit.
-        // Measured from the centre, the approach itself is at 180 degrees.
-        val forward = merged.filterNot {
-            (it.way.name == approach.name) && (kotlin.math.abs(it.relativeBearing) > 130.0)
-        }.toMutableList()
-        // But on a large ring the approach's outbound carriageway can join well round from that.
-        // Going round in the direction of traffic it is always the last exit before the entry,
-        // so if the road the user is on leaves last *and* also leaves earlier (crossing the
-        // roundabout), the last one is the way back.
-        val last = forward.lastOrNull()
-        if ((last != null) && (last.way.name == approach.name) &&
-            forward.dropLast(1).any { it.way.name == approach.name }
-        ) {
-            forward.removeAt(forward.size - 1)
+        // The approach road's own outbound carriageway is the way back, not an exit. It leaves
+        // the ring right beside where the user joins it, seen from the centre, whereas the same
+        // road carrying on across the roundabout leaves from the far side.
+        // The definite test is where it goes: followed outwards, the way back joins the road the
+        // user arrived on within a short distance, where the two carriageways meet. Angles alone
+        // can't tell it from the same road continuing across a small roundabout at a slant.
+        // Where a dual carriageway stays divided past that, the two never share a node, but they
+        // still run side by side: after the same distance they end up close together, where a
+        // road continuing across ends up far away in the other direction.
+        val approachFollowed = followRoad(approach, entry, nodes, null, uTurnRejoinMetres, false)
+        val approachRoute = approachFollowed.nodes + setOfNotNull(approach.getOtherIntersection(entry))
+        val forward = merged.filterNot { exit ->
+            if (exit.way.name != approach.name) return@filterNot false
+            if (kotlin.math.abs(exit.relativeBearing) > 150.0) return@filterNot true
+            val route = followRoad(exit.way, exit.from, nodes, null, uTurnRejoinMetres, true)
+            route.nodes.any { it in approachRoute } ||
+                // Only once both have been followed far enough for their ends to mean something:
+                // a road that stops at a name change by the ring proves nothing.
+                ((route.travelled >= uTurnCorridorFollowMetres) &&
+                    (approachFollowed.travelled >= uTurnCorridorFollowMetres) &&
+                    (ruler.distance(route.end, approachFollowed.end) < uTurnCorridorMetres))
         }
         exits.clear()
         forward.forEachIndexed { i, exit -> exits.add(exit.copy(exitNumber = i + 1)) }
@@ -325,6 +381,9 @@ fun buildJunctionCluster(
     val roundaboutName = if (isRoundabout) {
         nodes.flatMap { it.members }.filter { it.isRoundabout() }.toSet()
             .mapNotNull { it.name }.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+            // A ring is often named after the road through it ("Park Lane"), and announcing that
+            // as the roundabout's name is just confusing next to an exit with the same name.
+            ?.takeIf { ring -> (approach.name != ring) && exits.none { it.way.name == ring } }
     } else null
 
     val settlementDiagnostics = HashMap<String, String?>()
@@ -497,13 +556,25 @@ fun buildJunctionCluster(
     )
 }
 
+/** An exit whose road rejoins the approach road within this distance is the way back. */
+private const val uTurnRejoinMetres = 200.0
+
+/** ...or whose road, followed as far, ends up this close to where the approach road leads. */
+private const val uTurnCorridorMetres = 80.0
+private const val uTurnCorridorFollowMetres = 150.0
+
 /** How far along an exit's own road [followRoad] looks for where it is heading. */
 private const val followRoadMetres = 600.0
 
 private val crossingRoadClasses =
     setOf("motorway", "trunk", "primary", "secondary", "tertiary", "minor", "busway")
 
-private class RoadRoute(val end: LngLatAlt, val crossings: List<String>)
+private class RoadRoute(
+    val end: LngLatAlt,
+    val crossings: List<String>,
+    val nodes: Set<Intersection> = emptySet(),
+    val travelled: Double = 0.0,
+)
 
 /**
  * Follows [exit]'s road by name away from the junction, up to [followRoadMetres], noting the named
@@ -515,17 +586,32 @@ private fun followRoad(
     cluster: Set<Intersection>,
     roundaboutName: String?,
     gridState: GridState,
+): RoadRoute = followRoad(exit.way, exit.from, cluster, roundaboutName, followRoadMetres, true)
+
+/**
+ * As above, from [start] leaving [from]. [respectOneway] off follows a road against its one-way
+ * direction - for tracing back along the road the user arrived on.
+ */
+private fun followRoad(
+    start: Way,
+    from: Intersection,
+    cluster: Set<Intersection>,
+    roundaboutName: String?,
+    limit: Double,
+    respectOneway: Boolean,
 ): RoadRoute {
-    val name = exit.way.name
+    val name = start.name
     val crossings = mutableListOf<String>()
-    var way = exit.way
-    var node = exit.from
+    val visited = LinkedHashSet<Intersection>()
+    var way = start
+    var node = from
     var travelled = 0.0
     val seen = HashSet<Way>()
     while (seen.add(way)) {
         val next = way.getOtherIntersection(node) ?: break
         travelled += way.length
-        if ((travelled > followRoadMetres) || (next in cluster)) {
+        visited.add(next)
+        if ((travelled > limit) || (next in cluster)) {
             node = next
             break
         }
@@ -536,13 +622,22 @@ private fun followRoad(
             val other = member.name ?: continue
             if ((other != name) && (other != roundaboutName) && (other !in crossings)) crossings.add(other)
         }
+        // Carry on along the same road, the straightest way on. Never back into the junction:
+        // where an exit carriageway meets its entry twin, that twin has the same name and leads
+        // straight back to the roundabout.
+        val arrivingHeading = (way.heading(next) + 180.0) % 360.0
+        val current = way
+        way = next.members.filter {
+            (it !== current) && (name != null) && (it.name == name) && !it.isSidewalkOrCrossing() &&
+                (it !in seen) && !(respectOneway && it.isOnewayInto(next)) &&
+                (it.getOtherIntersection(next) !in cluster)
+        }.minByOrNull { kotlin.math.abs(normalise(it.heading(next) - arrivingHeading)) } ?: run {
+            node = next
+            break
+        }
         node = next
-        // Carry on along the same road; a dual carriageway may offer two, either will do.
-        way = next.members.firstOrNull {
-            (it !== way) && (name != null) && (it.name == name) && !it.isSidewalkOrCrossing() && (it !in seen)
-        } ?: break
     }
-    return RoadRoute(node.location, crossings)
+    return RoadRoute(node.location, crossings, visited, travelled)
 }
 
 private fun shortestBoundedDistance(
@@ -602,7 +697,9 @@ fun describeJunctionCluster(cluster: JunctionCluster, beaconName: String? = null
         // Every exit separately: at a roundabout the user needs to count them, not just pick a side.
         lines.add("${cluster.roundaboutName ?: "Roundabout"}, ${cluster.exits.size} exits")
         for (exit in cluster.exits) {
-            val destination = exit.label.takeIf { exit.labelIsUseful }
+            // Every exit is spoken by name at a roundabout, generic or not ("Service"), as the
+            // count only works if each one is mentioned.
+            val destination = exit.label.takeIf { it.isNotEmpty() }
                 ?.let { label -> exit.towards?.let { "$label towards $it" } ?: label }
             val where = when (exit.side) {
                 JunctionSide.LEFT -> "on the left"
