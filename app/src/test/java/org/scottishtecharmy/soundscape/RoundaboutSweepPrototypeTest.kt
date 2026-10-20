@@ -257,6 +257,8 @@ class RoundaboutSweepPrototypeTest {
                         detail.append("    SAY:   " + describeJunctionCluster(cluster).joinToString(" | ") + "\n")
                         detail.append("    FULL:  " + lines.joinToString(" | ") + "\n")
                         val entryBearing = grid.ruler.bearing(c, node.location)
+                        if (cluster.settlementByExit.isNotEmpty())
+                            detail.append("    apart: ${cluster.settlementByExit}\n")
                         detail.append("    exits: " + cluster.exits.joinToString("; ") { e ->
                             val fromAngle = ((grid.ruler.bearing(c, e.from.location) - entryBearing + 540.0) % 360.0) - 180.0
                             "%d:%s rel=%.0f at=%.0f oneway=%s".format(

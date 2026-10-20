@@ -7,11 +7,13 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayType
+import org.scottishtecharmy.soundscape.geoengine.utils.getCompassLabel
 import org.scottishtecharmy.soundscape.geoengine.utils.isJunctionArm
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
+import kotlin.math.roundToInt
 
 /**
  * PROTOTYPE - not wired into the callouts yet.
@@ -128,7 +130,7 @@ data class JunctionCluster(
     val beaconExit: ClusterExit? = null,
     /** Diagnostic: the route length to the beacon via each exit. */
     val beaconDistanceByExit: Map<ClusterExit, Double> = emptyMap(),
-    /** Diagnostic: for exits that needed telling apart, the settlement each one heads towards. */
+    /** Diagnostic: for exits that needed telling apart, where each one heads and what it crosses. */
     val settlementByExit: Map<String, String?> = emptyMap(),
     /** A roundabout's own name, from its ring - "Burnbrae Roundabout". */
     val roundaboutName: String? = null,
@@ -427,7 +429,10 @@ fun buildJunctionCluster(
 
     val settlementDiagnostics = HashMap<String, String?>()
     // Tell apart exits that would otherwise be announced identically.
-    val duplicates = exits.filter { it.labelIsUseful }.groupBy { it.label }.filterValues { it.size > 1 }
+    // At a roundabout every exit is spoken, unnamed ones included ("Service"), so those need telling
+    // apart too.
+    val duplicates = exits.filter { it.labelIsUseful || isRoundabout }.groupBy { it.label }
+        .filterValues { it.size > 1 }
     for ((_, group) in duplicates) {
         val routes = group.associateWith { followRoad(it, nodes, roundaboutName, gridState) }
         // A settlement, if each one heads to a different place.
@@ -435,17 +440,37 @@ fun buildJunctionCluster(
             gridState.settlementNameProvider?.invoke(route.end)
         }
         for ((exit, settlement) in settlements) {
-            settlementDiagnostics["${exit.label} #${exit.exitNumber}"] = settlement
+            val route = routes.getValue(exit)
+            settlementDiagnostics["${exit.label} #${exit.exitNumber}"] =
+                "$settlement, %.0fm, crossing ${route.anyCrossings}".format(route.travelled)
         }
         val qualifiers: Map<ClusterExit, String?> =
             if (settlements.values.all { it != null } && (settlements.values.toSet().size == group.size)) {
                 settlements
             } else {
-                // Otherwise the first road crossed that the others never reach.
+                // Otherwise the first road crossed that the others never reach: a main road if
+                // there is one, or else any named road, such as a business park's service roads.
                 routes.mapValues { (exit, route) ->
-                    val others = routes.filterKeys { it !== exit }.values.flatMap { it.crossings }.toSet()
-                    route.crossings.firstOrNull { it !in others }
-                }
+                    val others = routes.filterKeys { it !== exit }.values
+                    route.crossings.firstOrNull { c -> others.none { c in it.crossings } }
+                        ?: route.anyCrossings.firstOrNull { c -> others.none { c in it.anyCrossings } }
+                }.let { byRoad -> if (byRoad.values.count { it != null } >= group.size - 1) byRoad else null }
+                    // Car park and business park roads often meet no named road at all, but end
+                    // at somewhere that has a name.
+                    ?: routes.mapValues { (_, route) ->
+                        (gridState.getFeatureTree(TreeId.POIS)
+                            .getNearestFeature(route.end, ruler, routeEndPoiMetres) as MvtFeature?)?.name
+                    }.takeIf { places -> places.values.all { it != null } && (places.values.toSet().size == group.size) }
+                    // Failing everything else, which way each one heads.
+                    ?: routes.mapValues { (_, route) ->
+                        compassWord(ruler.bearing(origin, route.end), strings)
+                    }.takeIf { it.values.toSet().size == group.size }
+                    // A road that loops round can end where it started, so then the way it leaves.
+                    ?: routes.mapValues { (exit, _) ->
+                        val out = pointAlongRoad(exit.way, exit.from, exitBearingMetres * 2, nodes, ruler).first
+                        compassWord(ruler.bearing(origin, out), strings)
+                    }.takeIf { it.values.toSet().size == group.size }
+                    ?: emptyMap()
             }
         for ((exit, towards) in qualifiers) {
             if (towards == null) continue
@@ -664,6 +689,16 @@ private fun ringContinuationAcrossJoiners(node: Intersection, visited: Set<Inter
 
 /** How far along an exit's own road [followRoad] looks for where it is heading. */
 private const val followRoadMetres = 600.0
+/** How near the end of a followed road a named place must be to say the road goes towards it. */
+private const val routeEndPoiMetres = 40.0
+
+/** "the north west" - which way an exit heads, for when nothing else tells two exits apart. */
+private fun compassWord(bearing: Double, strings: LocalizedStrings?): String {
+    val key = getCompassLabel(bearing.roundToInt())
+    val word = strings?.getOrNull(key) ?: key.name.removePrefix("DirectionsCardinal")
+        .replace(Regex("(?<=[a-z])(?=[A-Z])"), " ")
+    return "the ${word.lowercase()}"
+}
 
 private val crossingRoadClasses =
     setOf("motorway", "trunk", "primary", "secondary", "tertiary", "minor", "busway")
@@ -673,12 +708,14 @@ private class RoadRoute(
     val crossings: List<String>,
     val nodes: Set<Intersection> = emptySet(),
     val travelled: Double = 0.0,
+    /** Every named road met, service roads included - for when [crossings] can't tell exits apart. */
+    val anyCrossings: List<String> = emptyList(),
 )
 
 /**
  * Follows [exit]'s road by name away from the junction, up to [followRoadMetres], noting the named
  * roads it crosses in the order it meets them. Stops where the road's name runs out. Without a
- * name to follow, it goes only as far as the exit's own Way.
+ * name to follow, it carries on along unnamed road of the same class.
  */
 private fun followRoad(
     exit: ClusterExit,
@@ -702,6 +739,7 @@ private fun followRoad(
 ): RoadRoute {
     val name = start.name
     val crossings = mutableListOf<String>()
+    val anyCrossings = mutableListOf<String>()
     val visited = LinkedHashSet<Intersection>()
     var way = start
     var node = from
@@ -718,9 +756,11 @@ private fun followRoad(
         for (member in next.members) {
             // Roads only: a path or cycle route alongside ("Bears Way") says little about where
             // the road is going.
-            if (member.featureClass !in crossingRoadClasses) continue
+            if ((member.featureClass in nonRoadClasses) || member.isSidewalkOrCrossing()) continue
             val other = member.name ?: continue
-            if ((other != name) && (other != roundaboutName) && (other !in crossings)) crossings.add(other)
+            if ((other == name) || (other == roundaboutName)) continue
+            if (other !in anyCrossings) anyCrossings.add(other)
+            if ((member.featureClass in crossingRoadClasses) && (other !in crossings)) crossings.add(other)
         }
         // Carry on along the same road, the straightest way on. Never back into the junction:
         // where an exit carriageway meets its entry twin, that twin has the same name and leads
@@ -728,7 +768,8 @@ private fun followRoad(
         val arrivingHeading = (way.heading(next) + 180.0) % 360.0
         val current = way
         way = next.members.filter {
-            (it !== current) && (name != null) && (it.name == name) && !it.isSidewalkOrCrossing() &&
+            (it !== current) && (it.name == name) && !it.isSidewalkOrCrossing() &&
+                ((name != null) || (it.featureClass == start.featureClass)) &&
                 (it !in seen) && !(respectOneway && it.isOnewayInto(next)) &&
                 (it.getOtherIntersection(next) !in cluster)
         }.minByOrNull { kotlin.math.abs(normalise(it.heading(next) - arrivingHeading)) } ?: run {
@@ -737,7 +778,7 @@ private fun followRoad(
         }
         node = next
     }
-    return RoadRoute(node.location, crossings, visited, travelled)
+    return RoadRoute(node.location, crossings, visited, travelled, anyCrossings)
 }
 
 private fun shortestBoundedDistance(
