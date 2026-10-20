@@ -45,6 +45,8 @@ private const val clusterRadiusMetres = 20.0
 private const val carriagewayLinkMetres = 40.0
 private const val carriagewayRadiusMetres = 35.0
 private const val reservationStubMetres = 15.0
+/** A road this near the user, heading back behind them, is the one they're walking beside. */
+private const val besideRoadMetres = 20.0
 /** How far apart a dual carriageway's two carriageways can be, centre line to centre line. */
 private const val dualCarriagewayApartMetres = 30.0
 
@@ -462,9 +464,24 @@ fun buildJunctionCluster(
         // At a dual carriageway, the user's own street's other carriageway heading back is the far
         // side of the road they came along, not a way out. And a street's two carriageways leaving
         // on the same side are one way to go, whichever of them traffic uses.
+        // Likewise a road heading back behind the user that runs right beside where they are now:
+        // a path from the pavement meeting the road it ran alongside gives that road as a way out
+        // back the way they came.
+        val user = description.userGeometry.location
+        val userAway = ruler.distance(user, entry.location) > besideRoadMetres
         val kept = mutableListOf<ClusterExit>()
         for (exit in exits.sortedBy { kotlin.math.abs(it.relativeBearing) }) {
+            val behind = kotlin.math.abs(exit.relativeBearing) > 100.0
             if (exit.way.isCarriagewayOf(approach, dual) && (kotlin.math.abs(exit.relativeBearing) > 120.0)) continue
+            if (behind && userAway && (exit.way.name != null) && (exit.way.name != approach.name)) {
+                // Followed back as far as the user is from the junction, a road running alongside
+                // them ends up beside them; one fanning away behind (Moor Road leaving Strathblane
+                // Road at a sharp angle) doesn't.
+                val back = ruler.distance(user, entry.location)
+                val (point, reach) = pointAlongRoad(exit.way, exit.from, back, nodes, ruler)
+                val apart = ruler.distance(point, user)
+                if ((reach >= back * 0.75) && (apart < minOf(besideRoadMetres, back * 0.6))) continue
+            }
             val twin = kept.any { k ->
                 (k.side == exit.side) && (k.way.name != null) && (k.way.name == exit.way.name) &&
                     dual.isDual(k.way) && dual.isDual(exit.way)
