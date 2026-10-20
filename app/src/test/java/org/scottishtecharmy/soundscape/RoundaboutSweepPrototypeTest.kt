@@ -82,6 +82,36 @@ class RoundaboutSweepPrototypeTest {
         return null
     }
 
+    /**
+     * The point [distance] along [way] away from [from], carrying on along Ways of the same name
+     * (either direction, straightest first), and how far it actually got.
+     */
+    private fun pointOut(way: Way, from: Intersection, distance: Double,
+                         ruler: org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler): Pair<LngLatAlt, Double> {
+        var w = way
+        var n = from
+        var travelled = 0.0
+        val seen = HashSet<Way>()
+        while (seen.add(w)) {
+            val line = w.geometry as org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
+            if (travelled + w.length >= distance) {
+                val along = distance - travelled
+                val p = if (w.intersections[WayEnd.START.id] === n) ruler.along(line, along)
+                    else ruler.along(line, maxOf(0.0, w.length - along))
+                return p to distance
+            }
+            travelled += w.length
+            val next = w.getOtherIntersection(n) ?: return n.location to travelled
+            val heading = (w.heading(next) + 180.0) % 360.0
+            val current = w
+            w = next.members.filter { (it !== current) && (it !in seen) && (it.name != null) && (it.name == way.name) && !it.isRoundabout() }
+                .minByOrNull { kotlin.math.abs(((it.heading(next) - heading + 540.0) % 360.0) - 180.0) }
+                ?: return next.location to travelled
+            n = next
+        }
+        return n.location to travelled
+    }
+
     /** True if following the ring START to END from any node gets back to it. */
     private fun isClosed(ring: Set<Way>): Boolean {
         val first = ring.first().intersections[WayEnd.START.id] ?: return false
@@ -149,6 +179,7 @@ class RoundaboutSweepPrototypeTest {
         var totalApproaches = 0
         val notClosed = StringBuilder()
         var reloaded = 0
+        val uTurnCases = linkedMapOf<String, MutableList<String>>()
 
         for ((area, centre) in areas) {
             val settlementGrid = getGridStateForLocation(centre, 12, 3)
@@ -204,7 +235,7 @@ class RoundaboutSweepPrototypeTest {
                         // Only arms that let you in: a one-way exit carriageway isn't an approach.
                         val leaving = arm.getOtherIntersection(node)
                         if ((leaving != null) && arm.isOnewayInto(leaving)) continue
-                        if (arm.featureClass in setOf("path", "track")) continue
+                        if (arm.featureClass in setOf("path", "track", "busway")) continue
                         totalApproaches++
                         val armName = arm.name ?: "unnamed ${arm.featureClass}"
                         val heading = (arm.heading(node) + 180.0) % 360.0
@@ -245,9 +276,37 @@ class RoundaboutSweepPrototypeTest {
                         if (lines.drop(1).any { !it.contains(" for ") })
                             flag("exit with no name", tag)
                         // The same road leaving in roughly the direction it arrived from.
-                        if (cluster.exits.any { it.way.name == arm.name && (arm.name != null) &&
-                                kotlin.math.abs(it.relativeBearing) > 100.0 })
+                        val suspects = cluster.exits.filter { it.way.name == arm.name && (arm.name != null) &&
+                                kotlin.math.abs(it.relativeBearing) > 100.0 }
+                        if (suspects.isNotEmpty()) {
                             flag("possible U-turn listed (own road, behind)", tag)
+                            // Where are the two roads 30m and 150m out? A real way back runs
+                            // alongside the approach; the same road continuing leaves the far side.
+                            val r = grid.ruler
+                            val a30 = pointOut(arm, node, 30.0, r)
+                            val a150 = pointOut(arm, node, 150.0, r)
+                            val approachOneway = arm.properties?.get("oneway")
+                            for (e in suspects) {
+                                val e30 = pointOut(e.way, e.from, 30.0, r)
+                                val e150 = pointOut(e.way, e.from, 150.0, r)
+                                val gap150 = r.distance(a150.first, e150.first)
+                                val angle = kotlin.math.abs(((r.bearing(c, e150.first) - r.bearing(c, a150.first) + 540.0) % 360.0) - 180.0)
+                                val isLast = e === cluster.exits.last()
+                                val kind = when {
+                                    (approachOneway == null) && (arm.length < 40.0) -> "approach is a short two-way link"
+                                    angle > 120.0 -> "false flag: same road continuing across"
+                                    gap150 < 80.0 -> "missed way back: runs alongside the approach"
+                                    angle < 45.0 -> "missed way back: heads the same way, further apart"
+                                    else -> "unclear"
+                                }
+                                uTurnCases.getOrPut(kind) { mutableListOf() }.add(
+                                    "$where from ${arm.name} (heading %.0f, approach oneway=%s len %.0f) -> exit %d of %d%s: gap at 30m %.0fm, at 150m %.0fm (followed %.0f/%.0fm), angle at centre %.0f\n      SAY: %s".format(
+                                        (arm.heading(node) + 180.0) % 360.0, approachOneway, arm.length,
+                                        e.exitNumber ?: 0, cluster.exits.size, if (isLast) " (last)" else "",
+                                        r.distance(a30.first, e30.first), gap150, a150.second, e150.second, angle,
+                                        describeJunctionCluster(cluster).joinToString(" | ")))
+                            }
+                        }
                         if (cluster.diameter > 100.0) flag("ring over 100m across", tag)
                         // Keyed by the arm's direction from the centre as well as its name, so that
                         // a road crossing the roundabout counts as two arms.
@@ -277,6 +336,10 @@ class RoundaboutSweepPrototypeTest {
         testOutputFile("roundabout-sweep.txt").writeText(detail.toString())
         testOutputFile("roundabout-sweep-summary.txt").writeText(summary.toString())
         testOutputFile("roundabout-sweep-not-closed.txt").writeText(notClosed.toString())
+        testOutputFile("roundabout-sweep-uturns.txt").writeText(
+            uTurnCases.entries.sortedByDescending { it.value.size }.joinToString("") { (kind, list) ->
+                "\n## $kind: ${list.size}\n" + list.joinToString("") { "  $it\n" }
+            })
         println(summary)
     }
 }

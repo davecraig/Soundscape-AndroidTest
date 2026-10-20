@@ -183,8 +183,12 @@ fun Way.isOnewayInto(node: Intersection): Boolean {
     }
 }
 
-/** Paths, footways, cycleways and tracks - not the roads a roundabout's exits are counted by. */
-private val nonRoadClasses = setOf("path", "track")
+/**
+ * Not the roads a roundabout's exits are counted by: paths, footways, cycleways and tracks, and
+ * bus-only ways - a busway across a roundabout (Saint-Quentin's TCSP, Tehran's BRT) is no way out
+ * for anyone the description is for.
+ */
+private val nonRoadClasses = setOf("path", "track", "busway")
 
 private fun Way.isClusterLink(
     from: Intersection,
@@ -364,27 +368,22 @@ fun buildJunctionCluster(
         // The approach road's own outbound carriageway is the way back, not an exit. It leaves
         // the ring right beside where the user joins it, seen from the centre, whereas the same
         // road carrying on across the roundabout leaves from the far side.
-        // The definite test is where it goes: followed outwards, the way back joins the road the
-        // user arrived on within a short distance, where the two carriageways meet. Angles alone
-        // can't tell it from the same road continuing across a small roundabout at a slant.
-        // Where a dual carriageway stays divided past that, the two never share a node, but they
-        // still run side by side: after the same distance they end up close together, where a
-        // road continuing across ends up far away in the other direction.
-        val approachFollowed = followRoad(approach, entry, nodes, null, uTurnRejoinMetres, false, ruler)
-        val approachRoute = approachFollowed.nodes + setOfNotNull(approach.getOtherIntersection(entry))
+        // The way back is the exit with the user's own road name that heads off in the same
+        // direction the approach came from, seen from the centre: a divided road's two
+        // carriageways stay within a few degrees of each other however far apart they run, while
+        // the same road continuing across - or bending at the roundabout and leaving both ways -
+        // is 80 degrees or more round. Measured as far out as both roads can be followed (they
+        // often change name or end within 100m), up to [wayBackProbeMetres]: right by the ring
+        // the two carriageways' mouths can be a fair angle apart.
         val forward = merged.filterNot { exit ->
             if (exit.way.name != approach.name) return@filterNot false
             if (kotlin.math.abs(exit.relativeBearing) > 150.0) return@filterNot true
-            val route = followRoad(exit.way, exit.from, nodes, null, uTurnRejoinMetres, true, ruler)
-            route.nodes.any { it in approachRoute } ||
-                // Compared at the same distance out on both, and only if both got that far: a road
-                // that stops at a name change by the ring proves nothing, and two carriageways of
-                // different lengths end far apart even when they run side by side.
-                run {
-                    val a = route.probe
-                    val b = approachFollowed.probe
-                    (a != null) && (b != null) && (ruler.distance(a, b) < uTurnCorridorMetres)
-                }
+            val (_, approachReach) = pointAlongRoad(approach, entry, wayBackProbeMetres, nodes, ruler)
+            val (_, exitReach) = pointAlongRoad(exit.way, exit.from, wayBackProbeMetres, nodes, ruler)
+            val probe = minOf(approachReach, exitReach)
+            val a = pointAlongRoad(approach, entry, probe, nodes, ruler).first
+            val b = pointAlongRoad(exit.way, exit.from, probe, nodes, ruler).first
+            kotlin.math.abs(normalise(ruler.bearing(origin, b) - ruler.bearing(origin, a))) < wayBackMaxAngle
         }
         exits.clear()
         forward.forEachIndexed { i, exit -> exits.add(exit.copy(exitNumber = i + 1)) }
@@ -597,12 +596,47 @@ fun buildJunctionCluster(
     )
 }
 
-/** An exit whose road rejoins the approach road within this distance is the way back. */
-private const val uTurnRejoinMetres = 200.0
+/** See the way-back test in [buildJunctionCluster]. */
+private const val wayBackProbeMetres = 150.0
+private const val wayBackMaxAngle = 50.0
 
-/** ...or whose road, followed as far, ends up this close to where the approach road leads. */
-private const val uTurnCorridorMetres = 80.0
-private const val uTurnCorridorProbeMetres = 150.0
+/**
+ * The point [distance] along [way] going away from [from], carrying on along Ways of the same name
+ * - the straightest on, either one-way direction, never back into [cluster] - and how far it got,
+ * which is less than [distance] where the road changes name or ends first.
+ */
+private fun pointAlongRoad(
+    way: Way,
+    from: Intersection,
+    distance: Double,
+    cluster: Set<Intersection>,
+    ruler: Ruler,
+): Pair<LngLatAlt, Double> {
+    var current = way
+    var node = from
+    var travelled = 0.0
+    val seen = HashSet<Way>()
+    while (seen.add(current)) {
+        val line = current.geometry as LineString
+        if (travelled + current.length >= distance) {
+            val along = distance - travelled
+            val point = if (current.intersections[WayEnd.START.id] === node) ruler.along(line, along)
+                else ruler.along(line, maxOf(0.0, current.length - along))
+            return point to distance
+        }
+        travelled += current.length
+        val next = current.getOtherIntersection(node) ?: return node.location to travelled
+        val arriving = (current.heading(next) + 180.0) % 360.0
+        val previous = current
+        current = next.members.filter {
+            (it !== previous) && (it !in seen) && (way.name != null) && (it.name == way.name) &&
+                !it.isRoundabout() && (it.getOtherIntersection(next) !in cluster)
+        }.minByOrNull { kotlin.math.abs(normalise(it.heading(next) - arriving)) }
+            ?: return next.location to travelled
+        node = next
+    }
+    return node.location to travelled
+}
 
 /**
  * The node on the far side of a tile edge where a roundabout's ring carries on from [node].
@@ -639,8 +673,6 @@ private class RoadRoute(
     val crossings: List<String>,
     val nodes: Set<Intersection> = emptySet(),
     val travelled: Double = 0.0,
-    /** Where the road is [uTurnCorridorProbeMetres] out, if it was followed that far. */
-    val probe: LngLatAlt? = null,
 )
 
 /**
@@ -674,16 +706,9 @@ private fun followRoad(
     var way = start
     var node = from
     var travelled = 0.0
-    var probe: LngLatAlt? = null
     val seen = HashSet<Way>()
     while (seen.add(way)) {
         val next = way.getOtherIntersection(node) ?: break
-        if ((probe == null) && (travelled + way.length >= uTurnCorridorProbeMetres)) {
-            val along = uTurnCorridorProbeMetres - travelled
-            val line = way.geometry as LineString
-            probe = if (way.intersections[WayEnd.START.id] === node) ruler.along(line, along)
-                else ruler.along(line, maxOf(0.0, way.length - along))
-        }
         travelled += way.length
         visited.add(next)
         if ((travelled > limit) || (next in cluster)) {
@@ -712,7 +737,7 @@ private fun followRoad(
         }
         node = next
     }
-    return RoadRoute(node.location, crossings, visited, travelled, probe)
+    return RoadRoute(node.location, crossings, visited, travelled)
 }
 
 private fun shortestBoundedDistance(
