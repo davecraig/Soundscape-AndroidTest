@@ -52,6 +52,10 @@ class JunctionClusterPrototypeTest {
                 if (cluster.isRoundabout) ", roundabout" else ""
             )
         )
+        lines.add("    [exits: " + cluster.exits.joinToString("; ") { e ->
+            "%s %s rel=%.0f from %.6f,%.6f oneway=%s".format(e.side.name.first(), e.label, e.relativeBearing,
+                e.from.location.latitude, e.from.location.longitude, e.way.properties?.get("oneway"))
+        } + "  approach ${cluster.approach.name} oneway=${cluster.approach.properties?.get("oneway")}]")
         if (cluster.settlementByExit.isNotEmpty())
             lines.add("    [settlements: ${cluster.settlementByExit}]")
         for (side in JunctionSide.entries) {
@@ -117,6 +121,17 @@ class JunctionClusterPrototypeTest {
 
     @Test
     fun toTown() = replay("ToTown")
+
+    /**
+     * Synthetic walks north up either pavement of Main Street, Milngavie, past Park Road
+     * (55.9383482,-4.3175173): where Main Street splits into a dual carriageway and Park Road
+     * meets both carriageways, one junction spread over five nodes.
+     */
+    @Test
+    fun parkRoadWestPavement() = replay("synthetic-park-road-west-pavement")
+
+    @Test
+    fun parkRoadEastPavement() = replay("synthetic-park-road-east-pavement")
 
 
     /**

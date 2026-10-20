@@ -38,6 +38,17 @@ private const val clusterLinkMetres = 12.0
 private const val clusterRadiusMetres = 20.0
 
 /**
+ * A dual carriageway spreads one junction over several nodes: where the road splits, one node per
+ * carriageway for the side street, and a stub across the central reservation joining them. The
+ * carriageways of the street being walked link nodes this far apart, within [carriagewayRadiusMetres].
+ */
+private const val carriagewayLinkMetres = 40.0
+private const val carriagewayRadiusMetres = 35.0
+private const val reservationStubMetres = 15.0
+/** How far apart a dual carriageway's two carriageways can be, centre line to centre line. */
+private const val dualCarriagewayApartMetres = 30.0
+
+/**
  * A roundabout is one junction however big its ring is, so its ring Ways join the cluster whatever
  * their length - up to this radius, which is larger than any town roundabout.
  */
@@ -196,6 +207,7 @@ private fun Way.isClusterLink(
     from: Intersection,
     approach: Way,
     ringName: String?,
+    dual: DualCarriageways,
 ): Boolean {
     if (this === approach) return false
     if (isRoundabout()) return getOtherIntersection(from) != null
@@ -205,6 +217,11 @@ private fun Way.isClusterLink(
     // street isn't part of the roundabout.
     if ((ringName != null) && (name == ringName) && (length <= ringNamedLinkMetres))
         return getOtherIntersection(from) != null
+    if (ringName == null) {
+        if (isCarriagewayOf(approach, dual) && (length <= carriagewayLinkMetres))
+            return getOtherIntersection(from) != null
+        if (isReservationStub(from, approach, dual)) return true
+    }
     if (length > clusterLinkMetres) return false
     // A different named street leaving is a real exit, however short this piece of it - only
     // unnamed connectors and the street being walked fold nodes together.
@@ -213,6 +230,56 @@ private fun Way.isClusterLink(
     // the same street.
     if (isSidewalkOrCrossing()) return false
     return getOtherIntersection(from) != null
+}
+
+/**
+ * Whether a one-way Way is one carriageway of a dual carriageway: another one-way Way with the
+ * same name runs alongside it the other way, not joined to it. A one-way street in a town centre
+ * grid has no such twin.
+ */
+private class DualCarriageways(private val gridState: GridState) {
+    private val known = HashMap<Way, Boolean>()
+
+    fun isDual(way: Way): Boolean = known.getOrPut(way) {
+        val name = way.name ?: return@getOrPut false
+        if (way.properties?.get("oneway") == null) return@getOrPut false
+        val start = way.intersections[WayEnd.START.id] ?: return@getOrPut false
+        val end = way.intersections[WayEnd.END.id] ?: return@getOrPut false
+        val ruler = gridState.ruler
+        val heading = ruler.bearing(start.location, end.location)
+        val middle = ruler.along(way.geometry as LineString, way.length / 2.0)
+        gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
+            .getNearbyCollection(middle, dualCarriagewayApartMetres, ruler)
+            .map { it as Way }
+            .any { other ->
+                val os = other.intersections[WayEnd.START.id]
+                val oe = other.intersections[WayEnd.END.id]
+                (other !== way) && (other.name == name) && (other.properties?.get("oneway") != null) &&
+                    (os != null) && (oe != null) &&
+                    way.intersections.none { it != null && (it === os || it === oe) } &&
+                    (kotlin.math.abs(normalise(ruler.bearing(os.location, oe.location) - heading)) > 135.0)
+            }
+    }
+}
+
+/** One carriageway of the dual-carriageway street [approach] is on - not at a roundabout. */
+private fun Way.isCarriagewayOf(approach: Way, dual: DualCarriageways): Boolean =
+    (approach.name != null) && (name == approach.name) && !isSidewalkOrCrossing() && !isRoundabout() &&
+        intersections.filterNotNull().none { node -> node.members.any { it.isRoundabout() } } &&
+        dual.isDual(this)
+
+/**
+ * A short piece of road across a dual carriageway's central reservation - between a node on one
+ * carriageway of [approach]'s street and a node on the other. Whatever it's called, it's inside
+ * the junction, not a way out of it.
+ */
+private fun Way.isReservationStub(from: Intersection, approach: Way, dual: DualCarriageways): Boolean {
+    if ((length > reservationStubMetres) || isSidewalkOrCrossing() || (featureClass in nonRoadClasses)) return false
+    val other = getOtherIntersection(from) ?: return false
+    val fromCarriageways = from.members.filter { it !== this && it.isCarriagewayOf(approach, dual) }
+    val otherCarriageways = other.members.filter { it !== this && it.isCarriagewayOf(approach, dual) }
+    return fromCarriageways.isNotEmpty() && otherCarriageways.isNotEmpty() &&
+        fromCarriageways.none { it in otherCarriageways }
 }
 
 /**
@@ -239,19 +306,21 @@ fun buildJunctionCluster(
     val ringName = entry.members.firstOrNull { it.isRoundabout() && (it.name != null) }?.name
 
     // Gather the cluster
+    val dual = DualCarriageways(gridState)
     val nodes = LinkedHashSet<Intersection>()
     val queue = ArrayDeque(listOf(entry))
     while (queue.isNotEmpty()) {
         val node = queue.removeFirst()
         if (!nodes.add(node)) continue
         for (way in node.members) {
-            if (!way.isClusterLink(node, approach, ringName)) continue
+            if (!way.isClusterLink(node, approach, ringName, dual)) continue
             val other = way.getOtherIntersection(node) ?: continue
             if (other in nodes) continue
             val partOfRing = way.isRoundabout() || ((ringName != null) && (way.name == ringName))
             val radius = when {
                 way.isRoundabout() -> roundaboutRadiusMetres
                 partOfRing -> ringNamedLinkRadiusMetres
+                way.isCarriagewayOf(approach, dual) || way.isReservationStub(node, approach, dual) -> carriagewayRadiusMetres
                 else -> clusterRadiusMetres
             }
             // A tile-edge joiner has no length: its far node is the same place as this one, already
@@ -389,6 +458,20 @@ fun buildJunctionCluster(
         }
         exits.clear()
         forward.forEachIndexed { i, exit -> exits.add(exit.copy(exitNumber = i + 1)) }
+    } else {
+        // At a dual carriageway, the user's own street's other carriageway heading back is the far
+        // side of the road they came along, not a way out. And a street's two carriageways leaving
+        // on the same side are one way to go, whichever of them traffic uses.
+        val kept = mutableListOf<ClusterExit>()
+        for (exit in exits.sortedBy { kotlin.math.abs(it.relativeBearing) }) {
+            if (exit.way.isCarriagewayOf(approach, dual) && (kotlin.math.abs(exit.relativeBearing) > 120.0)) continue
+            val twin = kept.any { k ->
+                (k.side == exit.side) && (k.way.name != null) && (k.way.name == exit.way.name) &&
+                    dual.isDual(k.way) && dual.isDual(exit.way)
+            }
+            if (!twin) kept.add(exit)
+        }
+        exits.retainAll { it in kept }
     }
 
     // Labels, as the current callout would say them. A confected "Path to X" is only worth keeping
