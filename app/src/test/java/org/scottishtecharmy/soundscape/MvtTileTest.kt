@@ -4425,7 +4425,12 @@ class MvtTileTest {
         gpxFilename: String,
         calloutFilename: String,
         geojsonFilename: String,
-        preferences: PreferencesProvider? = null
+        preferences: PreferencesProvider? = null,
+        /**
+         * Extra lines to write after each callout - for comparing a prototype against what is
+         * said now, at the same moment and with the same state.
+         */
+        onCallout: ((UserGeometry, GridState, TrackedCallout) -> List<String>)? = null,
     ): Int {
 
         val gridState = FileGridState()
@@ -4705,6 +4710,9 @@ class MvtTileTest {
                         }
                     }
                     collection.addFeature(fovFeature)
+                    onCallout?.invoke(userGeometry, gridState, callout)?.forEach {
+                        callOutText.write("$it\n".toByteArray())
+                    }
 
                     callout.calloutHistory?.add(callout)
                     callout.locationFilter?.update(callout.userGeometry)
