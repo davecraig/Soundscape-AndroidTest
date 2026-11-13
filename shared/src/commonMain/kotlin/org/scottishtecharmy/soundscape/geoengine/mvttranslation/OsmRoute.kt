@@ -11,15 +11,16 @@ package org.scottishtecharmy.soundscape.geoengine.mvttranslation
  * because a track can carry five local trails at once and the user will be able to pick one to
  * follow.
  *
- * [type] is the relation's route tag (hiking, foot, walking, bicycle or mtb), [role] the way's role
- * in it (forward/backward on a one-way route), and [rootId]/[rootName] the whole route when this
- * relation is only a section of it - "West Highland Way" for "West Highland Way (Milngavie to
- * Drymen part 1)".
+ * [type] is the relation's route tag (hiking, foot, walking, bicycle or mtb), [networkType] its
+ * network:type, [role] the way's role in it (forward/backward on a one-way route), and
+ * [rootId]/[rootName] the whole route when this relation is only a section of it - "West Highland
+ * Way" for "West Highland Way (Milngavie to Drymen part 1)".
  */
 data class OsmRoute(
     val id: Long,
     val type: String,
     val network: String? = null,
+    val networkType: String? = null,
     val ref: String? = null,
     val name: String? = null,
     val colour: String? = null,
@@ -38,6 +39,14 @@ data class OsmRoute(
     /** International, national or regional - a route that is signposted as a route in its own right. */
     val isMajor: Boolean
         get() = network in MAJOR_NETWORKS
+
+    /**
+     * One stretch of a numbered junction network - the Dutch and Belgian walking and cycling
+     * networks, mapped as rwn/rcn like a regional route but with only the two junction numbers for
+     * a ref ("V72-V74"). Something to follow from junction to junction, not a name for the path.
+     */
+    val isNodeNetworkStretch: Boolean
+        get() = networkType == "node_network"
 
     companion object {
         private val WALKING_ROUTE_TYPES = setOf("hiking", "foot", "walking")
@@ -73,6 +82,7 @@ class OsmRouteTags {
                 id = id,
                 type = tags["type"]?.toString() ?: return@mapNotNull null,
                 network = tags["network"]?.toString(),
+                networkType = tags["network_type"]?.toString(),
                 ref = tags["ref"]?.toString(),
                 name = tags["name"]?.toString(),
                 colour = tags["colour"]?.toString(),
@@ -95,12 +105,14 @@ class OsmRouteTags {
  * Soundscape is used on foot. Then an international, national or regional route - the best one,
  * which the tiles list first. A local route only names the way when it is the only one: five
  * waymarked trails share one forest track near Aberfoyle, and calling it after any one of them
- * would tell the user it is that trail and not the other four.
+ * would tell the user it is that trail and not the other four. A stretch of a junction network
+ * never names the way: its "name" is only the two junction numbers it runs between.
  */
 fun nameFromRoutes(routes: List<OsmRoute>, isCycleway: Boolean): String? {
-    if (routes.isEmpty()) return null
-    val candidates = routes.filter { it.isWalking }.ifEmpty {
-        if (isCycleway) routes else emptyList()
+    val named = routes.filterNot { it.isNodeNetworkStretch }
+    if (named.isEmpty()) return null
+    val candidates = named.filter { it.isWalking }.ifEmpty {
+        if (isCycleway) named else emptyList()
     }
     candidates.firstOrNull { it.isMajor }?.displayName?.let { return it }
     return candidates.singleOrNull()?.displayName

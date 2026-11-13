@@ -53,6 +53,27 @@ class OsmRouteTest {
         )
     }
 
+    /**
+     * Around Ede the footpaths are stretches of the Dutch walking node network: rwn, like a
+     * regional route, but with only junction numbers for a ref. "V72-V74" is not a path's name,
+     * though the stretch stays on the way to be followed - and a real named walk on the same path
+     * still names it.
+     */
+    @Test
+    fun aNodeNetworkStretchNeverNamesAWay() {
+        val stretch = OsmRoute(
+            21159993, "foot", network = "rwn", networkType = "node_network", ref = "V72-V74",
+        )
+        val cycleStretch = OsmRoute(
+            16835, "bicycle", network = "rcn", networkType = "node_network", ref = "26-61",
+        )
+        assertNull(nameFromRoutes(listOf(stretch), isCycleway = false))
+        assertNull(nameFromRoutes(listOf(cycleStretch), isCycleway = true))
+
+        val pegasus = OsmRoute(21149725, "foot", network = "lwn", name = "Pegasus I")
+        assertEquals("Pegasus I", nameFromRoutes(listOf(stretch, pegasus), isCycleway = false))
+    }
+
     @Test
     fun aRouteWithOnlyARefIsCalledByIt() {
         assertEquals("AT", nameFromRoutes(listOf(OsmRoute(1, "hiking", network = "nwn", ref = "AT")), false))
@@ -66,6 +87,7 @@ class OsmRouteTest {
             "route_2_id" to 4550727L,
             "route_2_type" to "hiking",
             "route_2_name" to "Clyde Coastal Path",
+            "route_2_network_type" to "node_network",
             "route_1_type" to "hiking",
             "route_1_id" to 19772647,
             "route_1_name" to "West Highland Way (Milngavie to Drymen part 1)",
@@ -83,6 +105,8 @@ class OsmRouteTest {
         assertEquals(16287L, routes[0].rootId)
         assertEquals("West Highland Way", routes[0].displayName)
         assertEquals("Clyde Coastal Path", routes[1].displayName)
+        assertEquals(null, routes[0].networkType)
+        assertEquals(true, routes[1].isNodeNetworkStretch)
 
         tags.clear()
         assertEquals(emptyList(), tags.build())
