@@ -108,7 +108,13 @@ import kotlin.time.measureTime
  * FileGridState overrides ProtomapsGridState updateTile to set validateContext to false as it
  * assumes that the tests are all running in a single context.
  */
-const val offlineExtractPath = "src/test/res/org/scottishtecharmy/soundscape"
+/**
+ * Where the tests read their pmtiles from. SOUNDSCAPE_TEST_EXTRACTS points them at another
+ * directory, for trying out a freshly built extract against the replays - every .pmtiles in the
+ * directory is used, so it should hold just the one being tried.
+ */
+val offlineExtractPath: String =
+    System.getenv("SOUNDSCAPE_TEST_EXTRACTS") ?: "src/test/res/org/scottishtecharmy/soundscape"
 
 class FileGridState(
     zoomLevel: Int = MAX_ZOOM_LEVEL,

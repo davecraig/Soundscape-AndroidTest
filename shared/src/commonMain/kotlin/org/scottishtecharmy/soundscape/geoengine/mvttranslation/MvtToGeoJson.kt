@@ -838,6 +838,7 @@ fun vectorTileToGeoJson(
 
         val mapInterpolatedNodes: HashMap<Long, Feature> = hashMapOf()
         val translation = NameTranslationPicker(layer.keys, nameKeys)
+        val routeTags = OsmRouteTags()
         // A tile's houses share a few street names between them, and each name's key is worked out once
         val streetKeys = hashMapOf<String?, String>()
         for (feature in layer.features) {
@@ -870,6 +871,7 @@ fun vectorTileToGeoJson(
             var value: Any? = null
             var properties: HashMap<String, Any?>? = null
             translation.reset()
+            routeTags.clear()
             for (tag in feature.tags) {
                 if (firstInPair) {
                     keyIndex = tag
@@ -905,7 +907,9 @@ fun vectorTileToGeoJson(
                         "neighbourhood" -> neighbourhood = value.toString()
                         "suburb" -> suburb = value.toString()
                         else -> {
-                            if (isNameKey(key) || key.startsWith("name_")) {
+                            if (routeTags.offer(key, value)) {
+                                // A walking or cycling route the way is on - see OsmRoute
+                            } else if (isNameKey(key) || key.startsWith("name_")) {
                                 // The name in other languages and scripts - name:xx, and
                                 // OpenMapTiles' name_en/name_de/name_int. Only the app language's
                                 // is kept, and not as a property - see MvtFeature.translatedName.
@@ -927,6 +931,15 @@ fun vectorTileToGeoJson(
                 // A farm's only tags are its class and name, which aren't kept as properties, but
                 // every other POI has some and code that works with POIs expects them
                 if (properties == null) properties = HashMap()
+            }
+            val routes = routeTags.build()
+            if ((name == null) && routes.isNotEmpty() && !isPavementOrCrossing(properties)) {
+                // Mappers have moved route names off the ways and onto the route relations, so the
+                // West Highland Way out of Milngavie arrives as unnamed footways. Naming the way
+                // after its route here, as it was named before, keeps everything downstream - the
+                // junction search, the confected names, the callouts - as it was when the name was
+                // on the way. A pavement is still named after the road it runs beside.
+                name = nameFromRoutes(routes, isCycleway = (featureSubClass == "cycleway"))
             }
             val translatedName = translation.translationOf(name)
 
@@ -1177,6 +1190,7 @@ fun vectorTileToGeoJson(
                     geoFeature.name = name
                     geoFeature.translatedName = translatedName
                     geoFeature.ref = ref
+                    geoFeature.routes = routes
                     geoFeature.street = street
                     geoFeature.featureClass = featureClass
                     geoFeature.featureSubClass = featureSubClass
@@ -1529,3 +1543,10 @@ fun translateProperties(feature: MvtFeature): Boolean {
 
     return true
 }
+
+/**
+ * Whether a transportation feature's tags make it a pavement or a crossing, which is named after the
+ * road it belongs to rather than any route it is on - see Way.isSidewalkOrCrossing.
+ */
+private fun isPavementOrCrossing(properties: Map<String, Any?>?): Boolean =
+    properties?.get("footway")?.toString().let { (it == "sidewalk") || (it == "crossing") }

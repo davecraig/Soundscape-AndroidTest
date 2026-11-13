@@ -109,6 +109,13 @@ open class MvtFeature : Feature() {
         }
 
     var ref: String? = null
+
+    /**
+     * The walking and cycling routes this way belongs to, best known first - see [OsmRoute]. Every
+     * one is kept, not only the one (if any) that gave the way its [name].
+     */
+    var routes: List<OsmRoute> = emptyList()
+
     var housenumber: String? = null
     var street: String? = null
 
@@ -160,6 +167,7 @@ open class MvtFeature : Feature() {
         name = other.name
         translatedName = other.translatedName
         ref = other.ref
+        routes = other.routes
         housenumber = other.housenumber
         street = other.street
         blockNumber = other.blockNumber
