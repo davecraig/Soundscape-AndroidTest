@@ -85,8 +85,11 @@ enum class TreeId(
     RAILWAY_STOPS(24, "Railway Stops"),
     // Platforms mapped as areas - only somewhere paths lead, not POIs to call out
     PLATFORMS(25, "Platforms"),
-    MAX_COLLECTION_ID(26, ""),
-    WAYS_SELECTION(id = 26, "Either Roads OR Roads and Paths")
+    // Pedestrian areas (highway=pedestrian mapped as an area) - precincts and squares, open
+    // spaces with no line to follow. See OpenArea.
+    PEDESTRIAN_AREAS(26, "Pedestrian Areas"),
+    MAX_COLLECTION_ID(27, ""),
+    WAYS_SELECTION(id = 27, "Either Roads OR Roads and Paths")
 }
 
 fun treeIdToIndex(id: TreeId): TreeId {
@@ -1847,6 +1850,8 @@ fun processTileFeatureCollection(
     for (feature in tileFeatureCollection) {
         if ((feature as MvtFeature).isPlatform())
             initialFeatureCollections[TreeId.PLATFORMS.id].addFeature(feature)
+        else if (feature.isPedestrianArea())
+            initialFeatureCollections[TreeId.PEDESTRIAN_AREAS.id].addFeature(feature)
     }
 
     // POIS includes bus stops and crossings
