@@ -166,5 +166,9 @@ open class ProtomapsGridState(
         // Merge any overlapping Polygons that are on the tile boundaries
         val mergedPoi = mergeAllPolygonsInFeatureCollection(featureCollections[TreeId.POIS.id])
         featureCollections[TreeId.POIS.id] = mergedPoi
+        // A precinct crossing a tile boundary arrives as one clipping per tile - OpenArea needs
+        // the whole outline to find its exits and how far it is to the far side
+        featureCollections[TreeId.PEDESTRIAN_AREAS.id] =
+            mergeAllPolygonsInFeatureCollection(featureCollections[TreeId.PEDESTRIAN_AREAS.id])
     }
 }

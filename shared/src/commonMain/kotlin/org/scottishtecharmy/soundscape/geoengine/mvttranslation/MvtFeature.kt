@@ -85,6 +85,14 @@ open class MvtFeature : Feature() {
     fun isPlatform(): Boolean =
         (featureType == "highway") && (featureValue == "platform") && (geometry.type == "Polygon")
 
+    /**
+     * A pedestrian area - highway=pedestrian mapped as an area, a precinct or square. OpenMapTiles
+     * puts these in the transportation layer as class path, subclass pedestrian, without a name;
+     * they're kept in TreeId.PEDESTRIAN_AREAS - see OpenArea.
+     */
+    fun isPedestrianArea(): Boolean =
+        (featureType == "highway") && (featureValue == "pedestrian") && (geometry.type == "Polygon")
+
     var osmId: Long = 0L
     var name: String? = null
 
