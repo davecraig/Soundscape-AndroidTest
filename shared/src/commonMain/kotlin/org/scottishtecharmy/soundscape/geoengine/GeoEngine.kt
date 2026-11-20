@@ -31,6 +31,7 @@ import org.scottishtecharmy.soundscape.geoengine.filters.TravelHeadingEstimator
 import org.scottishtecharmy.soundscape.geoengine.filters.TrackedCallout
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.MvtFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.nameKeysForLanguage
 import org.scottishtecharmy.soundscape.geoengine.utils.FeatureTree
 import org.scottishtecharmy.soundscape.geoengine.utils.PoiRankStrategy
@@ -499,6 +500,14 @@ class GeoEngine {
         gridState.refreshOfflineMaps()
         settlementGrid.refreshOfflineMaps()
         tileSearch.refreshOfflineMaps()
+    }
+
+    /**
+     * Follow [route], or stop following with null: every way on it is described as the route, and
+     * leaving it is said - see GridState.followedRoute. Takes effect on the next location update.
+     */
+    fun followRoute(route: FollowedRoute?) {
+        gridState.followedRoute = route
     }
 
     /** What the walking POI callouts may announce - see [CalloutPoiSelection]. */

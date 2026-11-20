@@ -259,6 +259,7 @@ fun SharedNavHost(
                         holder.startBeacon(desc.location, desc.name)
                     },
                     itemActions = rememberLocationListActions(callbacks, preferencesProvider),
+                    onToggleFollowRoute = { route -> holder.toggleFollowRoute(route) },
                 )
             } else {
                 // Fallback path: external state holder publishes via flows.

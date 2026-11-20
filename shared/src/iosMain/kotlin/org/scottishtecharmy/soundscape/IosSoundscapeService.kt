@@ -1,5 +1,8 @@
 package org.scottishtecharmy.soundscape
 
+import org.scottishtecharmy.soundscape.services.followRouteAnnouncement
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
+import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.Volatile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -688,6 +691,18 @@ class IosSoundscapeService : GeoEngineListener, MediaControllableService, Servic
         calloutController.beaconMoreInfo(routePlayer.currentWaypointName())
 
     override fun cancelCallout() = calloutController.cancel()
+
+    private val _followedRouteFlow = MutableStateFlow<FollowedRoute?>(null)
+    override val followedRouteFlow: StateFlow<FollowedRoute?> = _followedRouteFlow.asStateFlow()
+
+    override fun followRoute(route: FollowedRoute?) {
+        val previous = _followedRouteFlow.value
+        if (previous == route) return
+        _followedRouteFlow.value = route
+        geoEngine.followRoute(route)
+        val text = runBlocking { followRouteAnnouncement(previous, route) } ?: return
+        speak2dText(text, clearQueue = true)
+    }
 
     override fun setCalloutVerbosity(verbosity: CalloutVerbosity) {
         preferencesProvider.putString(PreferenceKeys.CALLOUT_VERBOSITY, verbosity.preferenceValue)

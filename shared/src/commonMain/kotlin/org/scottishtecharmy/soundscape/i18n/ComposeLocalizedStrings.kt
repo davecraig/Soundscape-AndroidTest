@@ -152,6 +152,8 @@ import org.scottishtecharmy.soundscape.resources.directions_name_branches_off_le
 import org.scottishtecharmy.soundscape.resources.directions_name_branches_off_right
 import org.scottishtecharmy.soundscape.resources.directions_leaving_route
 import org.scottishtecharmy.soundscape.resources.directions_back_on_route
+import org.scottishtecharmy.soundscape.resources.directions_on_route_offer
+import org.scottishtecharmy.soundscape.resources.directions_on_routes_offer
 import org.scottishtecharmy.soundscape.resources.path_surface_paved
 import org.scottishtecharmy.soundscape.resources.path_surface_gravel
 import org.scottishtecharmy.soundscape.resources.path_surface_earth
@@ -338,6 +340,8 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.DirectionsNameBranchesOffRight -> Res.string.directions_name_branches_off_right
         StringKey.DirectionsLeavingRoute -> Res.string.directions_leaving_route
         StringKey.DirectionsBackOnRoute -> Res.string.directions_back_on_route
+        StringKey.DirectionsOnRouteOffer -> Res.string.directions_on_route_offer
+        StringKey.DirectionsOnRoutesOffer -> Res.string.directions_on_routes_offer
         StringKey.PathPaved -> Res.string.path_surface_paved
         StringKey.PathGravel -> Res.string.path_surface_gravel
         StringKey.PathEarth -> Res.string.path_surface_earth

@@ -1256,6 +1256,47 @@ class AutoCallout(
     }
 
     private val followedRouteTracker = FollowedRouteTracker()
+    private val routeOfferTracker = RouteOfferTracker()
+
+    /**
+     * "You're on the West Highland Way. To follow it, choose it from Walking routes in Places
+     * Nearby." for a user on foot walking along a route without following one - see
+     * RouteOfferTracker.
+     */
+    private fun buildCalloutForRouteOffer(
+        userGeometry: UserGeometry,
+        gridState: GridState
+    ): TrackedCallout? {
+        val onFoot = !userGeometry.inVehicle() && !recentlyInVehicle(userGeometry) &&
+            (userGeometry.mapMatchedRailway == null)
+        val routes = routeOfferTracker.update(
+            gridState.followedRoute, userGeometry.location,
+            if (onFoot) userGeometry.mapMatchedWay else null, gridState.ruler
+        ) ?: return null
+        if (routes.isEmpty()) return null
+        val text = if (routes.size == 1) {
+            localized?.get(StringKey.DirectionsOnRouteOffer, routes.single().name)
+                ?: "You're on ${routes.single().name}. To follow it, choose it from Walking routes in Places Nearby."
+        } else {
+            val names = routes.joinToString(", ") { it.name }
+            localized?.get(StringKey.DirectionsOnRoutesOffer, names)
+                ?: "Several walking routes share this path: $names. To follow one, choose it from Walking routes in Places Nearby."
+        }
+        return TrackedCallout(
+            userGeometry,
+            trackedText = text,
+            location = userGeometry.location,
+            positionedStrings = listOf(
+                PositionedString(
+                    text = text,
+                    location = userGeometry.location,
+                    type = AudioType.STANDARD
+                )
+            ),
+            isPoint = true,
+            isGeneric = false,
+        )
+    }
 
     /**
      * "Leaving Loch Ard Sculpture Trail" and "Back on Loch Ard Sculpture Trail" for a user following
@@ -1641,6 +1682,7 @@ class AutoCallout(
                     val tunnelCallout = buildCalloutForTunnel(userGeometry, gridState)
                     // On every update, so it keeps count of how far the user has walked off the route
                     val followedRouteCallout = buildCalloutForFollowedRoute(userGeometry, gridState)
+                        ?: buildCalloutForRouteOffer(userGeometry, gridState)
                     // buildCalloutForRoadSense builds a callout for travel that's faster than
                     // walking
                     val roadSenseCallout =

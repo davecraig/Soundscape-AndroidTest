@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.ControlCamera
 import androidx.compose.material.icons.rounded.DirectionsBus
 import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material.icons.rounded.ForkLeft
+import androidx.compose.material.icons.rounded.Hiking
 import androidx.compose.material.icons.rounded.LocalGroceryStore
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.resources.StringResource
@@ -25,11 +26,13 @@ import org.scottishtecharmy.soundscape.resources.filter_banks
 import org.scottishtecharmy.soundscape.resources.filter_food_drink
 import org.scottishtecharmy.soundscape.resources.filter_groceries
 import org.scottishtecharmy.soundscape.resources.filter_transit
+import org.scottishtecharmy.soundscape.resources.filter_walking_routes
 import org.scottishtecharmy.soundscape.resources.food_drink_places_nearby_description
 import org.scottishtecharmy.soundscape.resources.groceries_places_nearby_description
 import org.scottishtecharmy.soundscape.resources.intersections_places_nearby_description
 import org.scottishtecharmy.soundscape.resources.osm_intersection
 import org.scottishtecharmy.soundscape.resources.public_transit_places_nearby_description
+import org.scottishtecharmy.soundscape.resources.walking_routes_places_nearby_description
 import org.scottishtecharmy.soundscape.screens.home.data.LocationDescription
 import org.scottishtecharmy.soundscape.utils.deferredToLocationDescription
 
@@ -77,7 +80,16 @@ val placesNearbyFolders = listOf(
         "intersections",
         Res.string.intersections_places_nearby_description
     ),
+    Folder(
+        Res.string.filter_walking_routes,
+        Icons.Rounded.Hiking,
+        WALKING_ROUTES_FILTER,
+        Res.string.walking_routes_places_nearby_description
+    ),
 )
+
+/** The Places Nearby folder of walking routes to follow - see PlacesNearbyUiState.nearbyRoutes. */
+const val WALKING_ROUTES_FILTER = "walking_routes"
 
 fun filterLocations(
     uiState: PlacesNearbyUiState,

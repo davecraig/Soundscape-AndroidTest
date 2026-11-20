@@ -14,6 +14,8 @@ import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.audio.AudioTour
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.TreeId
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
+import org.scottishtecharmy.soundscape.geoengine.utils.walkingRoutesNear
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.CheapRuler
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -41,6 +43,7 @@ open class PlacesNearbyViewModel(
     val uiState: StateFlow<PlacesNearbyUiState> = internalUiState
 
     private var monitorJob: Job? = null
+    private var followedRouteJob: Job? = null
 
     init {
         audioTour?.onNavigatedToPlacesNearby()
@@ -63,6 +66,15 @@ open class PlacesNearbyViewModel(
 
     fun startBeacon(location: LngLatAlt, name: String) {
         connection.service?.startBeacon(location, name)
+    }
+
+    /**
+     * Follows [route] from the Walking routes folder, or stops following it if it is the one
+     * already being followed.
+     */
+    fun toggleFollowRoute(route: FollowedRoute) {
+        val service = connection.service ?: return
+        service.followRoute(if (service.followedRouteFlow.value == route) null else route)
     }
 
     /**
@@ -98,7 +110,13 @@ open class PlacesNearbyViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun startMonitoring() {
         monitorJob?.cancel()
+        followedRouteJob?.cancel()
         val service = connection.service ?: return
+        followedRouteJob = viewModelScope.launch {
+            service.followedRouteFlow.collect { route ->
+                internalUiState.update { it.copy(followedRoute = route) }
+            }
+        }
         monitorJob = viewModelScope.launch {
             combine(service.gridStateFlow, service.locationFlow) { gridState, location ->
                 LocationAndGridState(
@@ -113,6 +131,17 @@ open class PlacesNearbyViewModel(
                     }
                 }
                 if (locationAndGrid.gridState != null) {
+                    val userLocation = locationAndGrid.location
+                    val routes = withContext(locationAndGrid.gridState.treeContext) {
+                        if (userLocation == null) emptyList()
+                        else runCatching {
+                            walkingRoutesNear(locationAndGrid.gridState, userLocation)
+                        }.getOrElse {
+                            logger.e(it) { "Walking routes lookup failed" }
+                            emptyList()
+                        }
+                    }
+                    internalUiState.update { it.copy(nearbyRoutes = routes) }
                     val (pois, intersections) = withContext(locationAndGrid.gridState.treeContext) {
                         val p = runCatching {
                             locationAndGrid.gridState.getFeatureCollection(TreeId.POIS)
@@ -145,5 +174,7 @@ open class PlacesNearbyViewModel(
     private fun stopMonitoring() {
         monitorJob?.cancel()
         monitorJob = null
+        followedRouteJob?.cancel()
+        followedRouteJob = null
     }
 }

@@ -1,5 +1,6 @@
 package org.scottishtecharmy.soundscape.screens.home.placesnearby
 
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
 import org.scottishtecharmy.soundscape.components.LocationListActions
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ fun PlacesNearbyScreen(
     onClickBack: () -> Unit = {},
     onStartBeacon: (LocationDescription) -> Unit = {},
     itemActions: LocationListActions = LocationListActions(),
+    onToggleFollowRoute: (FollowedRoute) -> Unit = {},
 ) {
 
     // System back (button, gesture, or predictive-back swipe) must drill up a folder level
@@ -66,6 +68,7 @@ fun PlacesNearbyScreen(
                 onClickFolder = onClickFolder,
                 onStartBeacon = onStartBeacon,
                 itemActions = itemActions,
+                onToggleFollowRoute = onToggleFollowRoute,
                 modifier = modifier.padding(innerPadding)
             )
         }

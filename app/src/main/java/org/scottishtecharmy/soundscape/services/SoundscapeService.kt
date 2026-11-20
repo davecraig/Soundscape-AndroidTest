@@ -1,5 +1,8 @@
 package org.scottishtecharmy.soundscape.services
 
+import org.scottishtecharmy.soundscape.services.followRouteAnnouncement
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
+import kotlinx.coroutines.flow.asStateFlow
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ForegroundServiceStartNotAllowedException
@@ -1167,6 +1170,18 @@ class SoundscapeService : MediaSessionService(), GeoEngineListener, MediaControl
 
     override fun speakCallout(callout: TrackedCallout?, addModeEarcon: Boolean): Long =
         calloutController.speakCallout(callout, addModeEarcon)
+
+    private val _followedRouteFlow = MutableStateFlow<FollowedRoute?>(null)
+    override val followedRouteFlow: StateFlow<FollowedRoute?> = _followedRouteFlow.asStateFlow()
+
+    override fun followRoute(route: FollowedRoute?) {
+        val previous = _followedRouteFlow.value
+        if (previous == route) return
+        _followedRouteFlow.value = route
+        geoEngine.followRoute(route)
+        val text = runBlocking { followRouteAnnouncement(previous, route) } ?: return
+        speak2dText(text, clearQueue = true)
+    }
 
     override fun setCalloutVerbosity(verbosity: CalloutVerbosity) {
         AndroidPreferencesProvider(sharedPreferences)

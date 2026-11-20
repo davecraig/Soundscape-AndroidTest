@@ -3,6 +3,7 @@ package org.scottishtecharmy.soundscape.services.mediacontrol
 import org.scottishtecharmy.soundscape.geoengine.callouts.CalloutVerbosity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
 import kotlinx.coroutines.flow.asStateFlow
 import org.scottishtecharmy.soundscape.audio.AudioType
 import org.scottishtecharmy.soundscape.audio.TourButton
@@ -30,6 +31,8 @@ private val DEFAULT_HEAD_TRACKER_STATE_FLOW: StateFlow<HeadTrackerState?> =
 
 private val DEFAULT_HEADSET_BATTERY_FLOW: StateFlow<Int?> =
     MutableStateFlow<Int?>(null).asStateFlow()
+
+private val DEFAULT_FOLLOWED_ROUTE_FLOW: StateFlow<FollowedRoute?> = MutableStateFlow(null)
 
 private val DEFAULT_ACTIVE_CALLOUT_FLOW: StateFlow<TourButton?> =
     MutableStateFlow<TourButton?>(null).asStateFlow()
@@ -97,6 +100,16 @@ interface MediaControllableService {
      * no preferences.
      */
     fun cycleCalloutDetail(): CalloutVerbosity? = null
+
+    /**
+     * The walking route being followed, or null - see GeoEngine.followRoute. Defaults to never
+     * following one, for implementations with no GeoEngine.
+     */
+    val followedRouteFlow: StateFlow<FollowedRoute?>
+        get() = DEFAULT_FOLLOWED_ROUTE_FLOW
+
+    /** Follows [route], or stops following with null, saying which. */
+    fun followRoute(route: FollowedRoute?) {}
     fun routeStop()
     fun routeStartById(routeId: Long)
     fun startBeacon(location: LngLatAlt, name: String)

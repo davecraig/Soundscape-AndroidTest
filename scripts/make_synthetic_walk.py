@@ -28,7 +28,7 @@ def d(a, b): return math.hypot((a[0] - b[0]) * KX, (a[1] - b[1]) * KY)
 
 # Chain the relation's pieces, flipping each to start where the last one ended
 line = parts[0][:]
-if d(parts[0][0], parts[1][0]) < 1 or d(parts[0][0], parts[1][-1]) < 1:
+if len(parts) > 1 and (d(parts[0][0], parts[1][0]) < 1 or d(parts[0][0], parts[1][-1]) < 1):
     line.reverse()
 for p in parts[1:]:
     if d(line[-1], p[-1]) < d(line[-1], p[0]):
@@ -39,7 +39,10 @@ for p in parts[1:]:
 i0 = min(range(len(line)), key=lambda i: d(line[i], start))
 if d(line[0], line[-1]) < 1:
     line = line[i0:] + line[1:i0 + 1]
-line = [start] + line + [start]
+    line = [start] + line + [start]
+else:
+    # Not a loop: there and back again
+    line = [start] + line + line[-2::-1] + [start]
 
 # Resample at walking pace, one fix a second
 SPEED = 1.3

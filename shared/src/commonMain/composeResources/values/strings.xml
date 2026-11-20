@@ -498,6 +498,26 @@
     <string name="directions_leaving_route">Leaving %1$s</string>
     <!-- Said when someone following a waymarked walking or cycling route who had walked off it (directions_leaving_route) is on it again. %1$s is the route's name, e.g. "Back on Loch Ard Sculpture Trail". -->
     <string name="directions_back_on_route">Back on %1$s</string>
+    <!-- Said once, while walking, after the user has walked a little way along a waymarked walking route without choosing to follow one. %1$s is the route's name, e.g. "You're on West Highland Way. To follow it, choose it from Walking routes in Places Nearby." The folder name should match filter_walking_routes and the screen name search_nearby_screen_title. -->
+    <string name="directions_on_route_offer">You're on %1$s. To follow it, choose it from Walking routes in Places Nearby.</string>
+    <!-- As directions_on_route_offer, where several waymarked walking routes share the same path. %1$s is their names separated by commas, e.g. "Several walking routes share this path: Loch Ard Sculpture Trail, Ben Lomond Viewpoint, 8 mile loop. To follow one, choose it from Walking routes in Places Nearby." -->
+    <string name="directions_on_routes_offer">Several walking routes share this path: %1$s. To follow one, choose it from Walking routes in Places Nearby.</string>
+    <!-- The Places Nearby folder of waymarked walking routes near the user - the West Highland Way, a forest trail - to choose one to follow. -->
+    <string name="filter_walking_routes">Walking routes</string>
+    <!-- Screen reader hint for the Walking routes folder in Places Nearby (filter_walking_routes). -->
+    <string name="walking_routes_places_nearby_description">Waymarked walking routes nearby. Choose one to follow it.</string>
+    <!-- Shown in the Walking routes folder of Places Nearby when there are no waymarked walking routes near the user. -->
+    <string name="places_nearby_no_walking_routes">No walking routes nearby</string>
+    <!-- Screen reader action on a walking route in Places Nearby (filter_walking_routes) that isn't being followed: choosing it starts following it. -->
+    <string name="route_follow_action">Follow route</string>
+    <!-- Screen reader action on the walking route being followed, in Places Nearby: choosing it stops following it. -->
+    <string name="route_stop_following_action">Stop following route</string>
+    <!-- Marks the walking route being followed in the Walking routes folder of Places Nearby, shown before its distance, e.g. "Following, 50 metres". -->
+    <string name="route_following_state">Following</string>
+    <!-- Said when the user chooses a walking route to follow. %1$s is the route's name, e.g. "Following Loch Ard Sculpture Trail". From then on paths on the route are called by its name. -->
+    <string name="route_follow_started">Following %1$s</string>
+    <!-- Said when the user stops following a walking route. %1$s is the route's name, e.g. "Stopped following Loch Ard Sculpture Trail". -->
+    <string name="route_follow_stopped">Stopped following %1$s</string>
     <!-- An unnamed footpath with a hard surface (asphalt, concrete, paving stones), said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Paved path to Mugdock Road". -->
     <string name="path_surface_paved">Paved path</string>
     <!-- An unnamed footpath of gravel or compacted stone chips, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Gravel path to Mugdock Road". -->
