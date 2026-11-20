@@ -1,6 +1,8 @@
 package org.scottishtecharmy.soundscape.geoengine.mvttranslation
 
 import org.scottishtecharmy.soundscape.geoengine.GridState
+import org.scottishtecharmy.soundscape.geoengine.utils.isPathOrTrack
+import org.scottishtecharmy.soundscape.geoengine.utils.signpostDestination
 import org.scottishtecharmy.soundscape.geoengine.utils.DEAD_END
 import org.scottishtecharmy.soundscape.geoengine.utils.Direction
 import org.scottishtecharmy.soundscape.geoengine.utils.GATE_ONLY_SUFFIX
@@ -254,6 +256,14 @@ class Way : MvtFeature() {
                             properties?.get("dead-end:forward")
                         else
                             properties?.get("dead-end:backward")
+                    }
+
+                    // Nowhere named at the end of it: signpost the path to what it leads to,
+                    // past the forks - "Path to Mugdock Castle"
+                    if ((destinationModifier == null) && (gridState != null) && isPathOrTrack &&
+                        !isSidewalkOrCrossing()
+                    ) {
+                        destinationModifier = signpostDestination(this, direction, gridState, strings)
                     }
 
                     if (destinationModifier != null) {

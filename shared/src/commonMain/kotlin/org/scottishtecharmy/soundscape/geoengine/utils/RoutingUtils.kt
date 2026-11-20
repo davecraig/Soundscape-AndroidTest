@@ -13,11 +13,26 @@ import org.scottishtecharmy.soundscape.utils.PriorityQueue
 
 var dijkstraRunCount = 0
 
+/**
+ * Shortest distances over the Way graph from [start] - to [end], or with no [end] to everything
+ * within [maxDistance] (see signpostDestination). The results are left on the Intersections
+ * themselves (dijkstraDistance, dijkstraPrevious, valid while dijkstraRunCount matches), so they
+ * must be read - getPathWays - before anything else runs a search: in particular before asking a
+ * Way for its name, which can run one to signpost a path.
+ *
+ * @param reached Given, collects every node settled, start included - its distance and previous
+ *  node are then final
+ * @param traverse Given, only the Ways it accepts are walked along
+ * @param expandFrom Given, the search goes no further from a node (other than [start]) it rejects
+ */
 fun dijkstraOnWaysWithLoops(
     start: Intersection,
-    end: Intersection,
+    end: Intersection?,
     ruler: CheapRuler,
-    maxDistance: Double = Double.MAX_VALUE
+    maxDistance: Double = Double.MAX_VALUE,
+    reached: MutableList<Intersection>? = null,
+    traverse: ((Way) -> Boolean)? = null,
+    expandFrom: ((Intersection) -> Boolean)? = null,
 ): Double {
 
     dijkstraRunCount++
@@ -34,13 +49,17 @@ fun dijkstraOnWaysWithLoops(
     start.dijkstraRunCount = dijkstraRunCount
     start.dijkstraDistance = 0.0
     start.dijkstraPrevious = null
-    end.dijkstraRunCount = dijkstraRunCount
-    end.dijkstraDistance = Double.MAX_VALUE
-    end.dijkstraPrevious = null
+    if (end != null) {
+        end.dijkstraRunCount = dijkstraRunCount
+        end.dijkstraDistance = Double.MAX_VALUE
+        end.dijkstraPrevious = null
+    }
 
     while (priorityQueue.isNotEmpty()) {
         val (node, currentDist) = priorityQueue.poll() ?: break
         PerfCounters.dijkstraPop()
+        // With no end, an entry superseded by a shorter route to its node is stale
+        if ((end == null) && (currentDist > node.dijkstraDistance)) continue
         if (visited.add(node to currentDist)) {
             // The node popped here is only guaranteed to have its final (minimal) distance once
             // it's been taken off the priority queue - the queue is ordered by totalDist plus an
@@ -49,7 +68,10 @@ fun dijkstraOnWaysWithLoops(
             if (node == end) {
                 return currentDist
             }
+            reached?.add(node)
+            if ((node !== start) && (expandFrom?.invoke(node) == false)) continue
             node.members.forEach { way ->
+                if (traverse?.invoke(way) == false) return@forEach
                 val weight = way.length
                 val adjacent = if (node == way.intersections[WayEnd.START.id])
                     way.intersections[WayEnd.END.id]
@@ -58,7 +80,7 @@ fun dijkstraOnWaysWithLoops(
 
                 if (adjacent != null) {
                     val totalDist = currentDist + weight
-                    val directDistanceToEnd = ruler.distance(adjacent.location, end.location)
+                    val directDistanceToEnd = end?.let { ruler.distance(adjacent.location, it.location) } ?: 0.0
                     if ((totalDist + directDistanceToEnd) < distanceToEnd) {
                         if (adjacent.dijkstraRunCount != dijkstraRunCount) {
                             // Lazy initialization of internal distance
@@ -83,7 +105,7 @@ fun dijkstraOnWaysWithLoops(
             }
         }
     }
-    return end.dijkstraDistance
+    return end?.dijkstraDistance ?: 0.0
 }
 
 class ShortestDistanceResults(
