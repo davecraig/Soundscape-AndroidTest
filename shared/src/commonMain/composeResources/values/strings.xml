@@ -486,6 +486,36 @@
     <string name="directions_name_goes_right">%1$s, goes right</string>
     <!-- Notification, %s street name, "<Pike Street>, continues ahead -->
     <string name="directions_name_continues_ahead">%1$s, continues ahead</string>
+    <!-- Junction callout on a footpath, for the path the user is walking on where it bends away to the left while a different path goes straight on. %1$s is the path, e.g. "Gravel path, continues to the left". Heard together with directions_name_branches_off_right for the path going straight on, so the two together have to say: this is your path, it bends left; that other one is the straight-on path. -->
+    <string name="directions_name_continues_left">%1$s, continues to the left</string>
+    <!-- Junction callout on a footpath, for the path the user is walking on where it bends away to the right while a different path goes straight on. %1$s is the path, e.g. "Gravel path, continues to the right". See directions_name_continues_left. -->
+    <string name="directions_name_continues_right">%1$s, continues to the right</string>
+    <!-- Junction callout on a footpath, for a path going straight on that leaves the user's path on its left, where the user's own path bends away to the right (directions_name_continues_right). %1$s is the path, e.g. "Earth path, branches off to the left". -->
+    <string name="directions_name_branches_off_left">%1$s, branches off to the left</string>
+    <!-- Junction callout on a footpath, for a path going straight on that leaves the user's path on its right, where the user's own path bends away to the left (directions_name_continues_left). %1$s is the path, e.g. "Earth path, branches off to the right". -->
+    <string name="directions_name_branches_off_right">%1$s, branches off to the right</string>
+    <!-- An unnamed footpath with a hard surface (asphalt, concrete, paving stones), said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Paved path to Mugdock Road". -->
+    <string name="path_surface_paved">Paved path</string>
+    <!-- An unnamed footpath of gravel or compacted stone chips, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Gravel path to Mugdock Road". -->
+    <string name="path_surface_gravel">Gravel path</string>
+    <!-- An unnamed footpath of bare earth, dirt or mud, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Earth path to Mugdock Road". -->
+    <string name="path_surface_earth">Earth path</string>
+    <!-- An unnamed footpath across grass, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Grass path to Mugdock Road". -->
+    <string name="path_surface_grass">Grass path</string>
+    <!-- An unnamed footpath made of wooden boards, often raised over wet ground, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>". -->
+    <string name="path_surface_boardwalk">Boardwalk</string>
+    <!-- An unnamed footpath over bare rock, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>". -->
+    <string name="path_surface_rocky">Rocky path</string>
+    <!-- An unnamed footpath of sand, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>". -->
+    <string name="path_surface_sandy">Sandy path</string>
+    <!-- An unnamed farm or forest track with a hard surface, said in junction callouts where the surface tells the ways apart. Can be followed by "to <destination>". -->
+    <string name="track_surface_paved">Paved track</string>
+    <!-- An unnamed farm or forest track of gravel, said in junction callouts where the surface tells the ways apart. Can be followed by "to <destination>". -->
+    <string name="track_surface_gravel">Gravel track</string>
+    <!-- An unnamed farm or forest track of bare earth or mud, said in junction callouts where the surface tells the ways apart. Can be followed by "to <destination>". -->
+    <string name="track_surface_earth">Earth track</string>
+    <!-- An unnamed farm or forest track across grass, said in junction callouts where the surface tells the ways apart. Can be followed by "to <destination>". -->
+    <string name="track_surface_grass">Grass track</string>
     <!-- Travelling on foot, called out when a road lies straight ahead in the direction you are walking. %1$s is the road's name, e.g. "Ahead Moor Road". Put the name wherever your language needs it ("Moor Road ahead"). The name arrives undeclined, in the nominative. -->
     <string name="directions_ahead_road">Ahead %1$s</string>
     <!-- Notification announced to the user that they are near a location that is near a settlement. The settlement is the nearest by distance, but isn't necessarily the one that the road is actually in. %1$@ is a road name and %2$@ is a settlement name, example: "Near Glasgow Road and close to Milngavie" -->

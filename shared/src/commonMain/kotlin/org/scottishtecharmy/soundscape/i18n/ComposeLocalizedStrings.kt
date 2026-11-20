@@ -146,6 +146,21 @@ import org.scottishtecharmy.soundscape.resources.directions_heading_w
 import org.scottishtecharmy.soundscape.resources.directions_junction_with_ref
 import org.scottishtecharmy.soundscape.resources.directions_junction_with_ref_and_name
 import org.scottishtecharmy.soundscape.resources.directions_name_continues_ahead
+import org.scottishtecharmy.soundscape.resources.directions_name_continues_left
+import org.scottishtecharmy.soundscape.resources.directions_name_continues_right
+import org.scottishtecharmy.soundscape.resources.directions_name_branches_off_left
+import org.scottishtecharmy.soundscape.resources.directions_name_branches_off_right
+import org.scottishtecharmy.soundscape.resources.path_surface_paved
+import org.scottishtecharmy.soundscape.resources.path_surface_gravel
+import org.scottishtecharmy.soundscape.resources.path_surface_earth
+import org.scottishtecharmy.soundscape.resources.path_surface_grass
+import org.scottishtecharmy.soundscape.resources.path_surface_boardwalk
+import org.scottishtecharmy.soundscape.resources.path_surface_rocky
+import org.scottishtecharmy.soundscape.resources.path_surface_sandy
+import org.scottishtecharmy.soundscape.resources.track_surface_paved
+import org.scottishtecharmy.soundscape.resources.track_surface_gravel
+import org.scottishtecharmy.soundscape.resources.track_surface_earth
+import org.scottishtecharmy.soundscape.resources.track_surface_grass
 import org.scottishtecharmy.soundscape.resources.directions_name_goes_left
 import org.scottishtecharmy.soundscape.resources.directions_name_goes_right
 import org.scottishtecharmy.soundscape.resources.directions_near_name
@@ -315,6 +330,21 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.DirectionsNameGoesLeft -> Res.string.directions_name_goes_left
         StringKey.DirectionsNameGoesRight -> Res.string.directions_name_goes_right
         StringKey.DirectionsNameContinuesAhead -> Res.string.directions_name_continues_ahead
+        StringKey.DirectionsNameContinuesLeft -> Res.string.directions_name_continues_left
+        StringKey.DirectionsNameContinuesRight -> Res.string.directions_name_continues_right
+        StringKey.DirectionsNameBranchesOffLeft -> Res.string.directions_name_branches_off_left
+        StringKey.DirectionsNameBranchesOffRight -> Res.string.directions_name_branches_off_right
+        StringKey.PathPaved -> Res.string.path_surface_paved
+        StringKey.PathGravel -> Res.string.path_surface_gravel
+        StringKey.PathEarth -> Res.string.path_surface_earth
+        StringKey.PathGrass -> Res.string.path_surface_grass
+        StringKey.PathBoardwalk -> Res.string.path_surface_boardwalk
+        StringKey.PathRocky -> Res.string.path_surface_rocky
+        StringKey.PathSandy -> Res.string.path_surface_sandy
+        StringKey.TrackPaved -> Res.string.track_surface_paved
+        StringKey.TrackGravel -> Res.string.track_surface_gravel
+        StringKey.TrackEarth -> Res.string.track_surface_earth
+        StringKey.TrackGrass -> Res.string.track_surface_grass
         StringKey.NumberDecimalSeparator -> Res.string.number_decimal_separator
         StringKey.NumberDecimalSeparatorA11y -> Res.string.number_decimal_separator_a11y
         StringKey.RelativeClockDirection -> Res.string.relative_clock_direction

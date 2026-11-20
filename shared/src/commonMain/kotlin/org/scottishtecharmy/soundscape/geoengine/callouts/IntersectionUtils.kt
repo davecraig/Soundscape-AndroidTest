@@ -22,6 +22,8 @@ import org.scottishtecharmy.soundscape.geoengine.utils.calculateHeadingOffset
 import org.scottishtecharmy.soundscape.geoengine.utils.calculateSmallestAngleBetweenLines
 import org.scottishtecharmy.soundscape.geoengine.utils.checkWhetherIntersectionIsOfInterest
 import org.scottishtecharmy.soundscape.geoengine.utils.confectNamesForRoad
+import org.scottishtecharmy.soundscape.geoengine.utils.continuingArm
+import org.scottishtecharmy.soundscape.geoengine.utils.isPathOrTrack
 import org.scottishtecharmy.soundscape.geoengine.utils.createPolygonFromTriangle
 import org.scottishtecharmy.soundscape.geoengine.utils.findShortestDistance
 import org.scottishtecharmy.soundscape.geoengine.utils.forEachIntersectionAhead
@@ -34,6 +36,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.sameRoad
 import org.scottishtecharmy.soundscape.geoengine.utils.setbackAlong
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
+import org.scottishtecharmy.soundscape.geoengine.utils.surfaceNoun
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -909,6 +912,7 @@ fun addIntersectionCalloutFromDescription(
     val insideJunction = description.alsoAt.map { it.second } +
         listOfNotNull(description.nearestRoad.takeIf { description.alsoAt.isNotEmpty() })
     val nodes = listOf(description.intersection) + description.alsoAt.map { it.first }
+    val arms = mutableListOf<JunctionArm>()
     for (node in nodes) for (way in node.members) {
         if ((node !== description.intersection) && insideJunction.any { it === way }) continue
 
@@ -927,55 +931,58 @@ fun addIntersectionCalloutFromDescription(
 
         // Don't call out the road we are on (0) as part of the intersection
         if (direction != Direction.BEHIND.value) {
-            val directionKey = when (direction) {
-                Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value ->
-                    StringKey.DirectionsNameGoesLeft
-
-                Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value ->
-                    StringKey.DirectionsNameGoesRight
-
-                else ->
-                    StringKey.DirectionsNameContinuesAhead
-            }
-            var unlocalizedDirection = ""
-            if (localized == null) {
-                unlocalizedDirection = when (direction) {
-                    Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value ->
-                        "goes left"
-
-                    Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value ->
-                        "goes right"
-
-                    else ->
-                        "continues ahead"
-                }
-
-            }
-
-            val presentationHeading = incomingHeading + when (direction) {
-                Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value -> -90.0
-                Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value -> 90.0
-                else -> 0.0
-            }
-
-            val destinationText = way.getName(
-                way.intersections[WayEnd.START.id] == node,
-                gridState,
-                localized
-            )
-            val intersectionCallout =
-                localized?.get(directionKey, destinationText)
-                    ?: "\t$destinationText $unlocalizedDirection"
-            if (armResults.any { it.second.text == intersectionCallout }) continue
-            armResults.add(
-                armOrderAngle(way, node, description.intersection, incomingHeading, gridState) to
-                    PositionedString(
-                        text = intersectionCallout,
-                        type = AudioType.COMPASS,
-                        heading = presentationHeading
-                    )
+            arms.add(
+                JunctionArm(
+                    way, node, direction,
+                    armOrderAngle(way, node, description.intersection, incomingHeading, gridState)
+                )
             )
         }
+    }
+
+    val bend = pathBendAt(description, arms)
+    for (arm in arms) {
+        val side = arm.side()
+        val wording = when {
+            (bend != null) && (arm === bend) -> ArmWording.continuesTo(side!!)
+            (bend != null) && (side == null) ->
+                ArmWording.branchesOffTo(if (arm.angle < bend.angle) Side.LEFT else Side.RIGHT)
+            side == Side.LEFT -> ArmWording.GOES_LEFT
+            side == Side.RIGHT -> ArmWording.GOES_RIGHT
+            else -> ArmWording.CONTINUES_AHEAD
+        }
+        // Left and right are said on the left and right, as are the arms branching off, so the
+        // order below puts them on the side they go
+        val presentationHeading = incomingHeading + when (wording) {
+            ArmWording.GOES_LEFT, ArmWording.CONTINUES_LEFT, ArmWording.BRANCHES_OFF_LEFT -> -90.0
+            ArmWording.GOES_RIGHT, ArmWording.CONTINUES_RIGHT, ArmWording.BRANCHES_OFF_RIGHT -> 90.0
+            ArmWording.CONTINUES_AHEAD -> 0.0
+        }
+
+        // Where the path bends, what each path is like underfoot is what tells them apart: "Gravel
+        // path continues to the left, Earth path branches off to the right"
+        val genericNoun = if ((bend != null) && ((arm === bend) || (side == null)))
+            surfaceNoun(arm.way, localized)
+        else
+            null
+        val destinationText = arm.way.getName(
+            arm.way.intersections[WayEnd.START.id] == arm.node,
+            gridState,
+            localized,
+            genericNoun = genericNoun
+        )
+        val intersectionCallout =
+            localized?.get(wording.key, destinationText)
+                ?: "\t$destinationText ${wording.english}"
+        if (armResults.any { it.second.text == intersectionCallout }) continue
+        armResults.add(
+            arm.angle to
+                PositionedString(
+                    text = intersectionCallout,
+                    type = AudioType.COMPASS,
+                    heading = presentationHeading
+                )
+        )
     }
     // Clockwise from the left: the arms going left, then ahead, then right, and within each of
     // those by the way they actually go. Sorting on presentationHeading alone, which is only left,
@@ -1000,6 +1007,64 @@ private const val ARM_ORDER_METRES = 20.0
  * leave from several nodes a few metres apart, and a road going left a few metres further on comes
  * after one going left at the junction itself, though both leave at a right angle.
  */
+private enum class Side { LEFT, RIGHT }
+
+/**
+ * One way leaving a junction the callout describes: [direction] is its Direction segment, and
+ * [angle] its armOrderAngle - negative to the left, positive to the right.
+ */
+private class JunctionArm(val way: Way, val node: Intersection, val direction: Int, val angle: Double) {
+    /** Left or right, or null for an arm going ahead. */
+    fun side(): Side? = when (direction) {
+        Direction.BEHIND_LEFT.value, Direction.LEFT.value, Direction.AHEAD_LEFT.value -> Side.LEFT
+        Direction.BEHIND_RIGHT.value, Direction.RIGHT.value, Direction.AHEAD_RIGHT.value -> Side.RIGHT
+        else -> null
+    }
+}
+
+/** How a junction callout says which way an arm goes, with its English for when untranslated. */
+private enum class ArmWording(val key: StringKey, val english: String) {
+    GOES_LEFT(StringKey.DirectionsNameGoesLeft, "goes left"),
+    GOES_RIGHT(StringKey.DirectionsNameGoesRight, "goes right"),
+    CONTINUES_AHEAD(StringKey.DirectionsNameContinuesAhead, "continues ahead"),
+    CONTINUES_LEFT(StringKey.DirectionsNameContinuesLeft, "continues to the left"),
+    CONTINUES_RIGHT(StringKey.DirectionsNameContinuesRight, "continues to the right"),
+    BRANCHES_OFF_LEFT(StringKey.DirectionsNameBranchesOffLeft, "branches off to the left"),
+    BRANCHES_OFF_RIGHT(StringKey.DirectionsNameBranchesOffRight, "branches off to the right");
+
+    companion object {
+        fun continuesTo(side: Side) = if (side == Side.LEFT) CONTINUES_LEFT else CONTINUES_RIGHT
+        fun branchesOffTo(side: Side) = if (side == Side.LEFT) BRANCHES_OFF_LEFT else BRANCHES_OFF_RIGHT
+    }
+}
+
+/**
+ * The arm that carries on the path the user is walking, where it bends away to the left or right
+ * while some other way goes straight on - or null anywhere else, where the junction is described
+ * by angle alone.
+ *
+ * At Mugdock (mugdock-whw.gpx, point 1436) a compacted footway bends 47 degrees left where a dirt
+ * path carries straight on, and "Path goes left, Path continues ahead" had the walker leave the
+ * gravel they could feel underfoot for the dirt. See [continuingArm] for which arm carries on the
+ * path. Only at a junction of one node, where the way the user arrives on is one of its arms, and
+ * where whatever goes straight on is a path or track too.
+ */
+private fun pathBendAt(description: IntersectionDescription, arms: List<JunctionArm>): JunctionArm? {
+    val node = description.intersection ?: return null
+    if (description.alsoAt.isNotEmpty()) return null
+    val arrivedOn = description.nearestRoad?.takeIf { road -> node.members.any { it === road } }
+        ?: return null
+    val continuing = continuingArm(arrivedOn, node.members) ?: return null
+    val bend = arms.firstOrNull { it.way === continuing } ?: return null
+    if (bend.side() == null) return null
+    // Only among paths: a road going straight on is told apart by its name, and "Gavin's Mill
+    // Road branches off to the left" beside "Gavin's Mill Road goes left" (travel.gpx) says less
+    // than "continues ahead" did
+    val ahead = arms.filter { other -> (other !== bend) && (other.side() == null) }
+    if (ahead.isEmpty() || ahead.any { !it.way.isPathOrTrack }) return null
+    return bend
+}
+
 private fun armOrderAngle(
     arm: Way,
     node: Intersection,

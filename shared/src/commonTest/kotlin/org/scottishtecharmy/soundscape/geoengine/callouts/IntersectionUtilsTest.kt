@@ -396,6 +396,135 @@ class IntersectionUtilsTest {
         )
     }
 
+    // ---- The path the user is on bending away (mugdock-whw.gpx point 1436) -------------------
+
+    private fun footpath(
+        subclass: String,
+        surface: String?,
+        osmId: Long,
+        from: LngLatAlt,
+        to: LngLatAlt,
+        start: Intersection?,
+        end: Intersection?,
+        name: String? = null,
+    ) = road(name ?: "", from, to, start, end).apply {
+        this.name = name
+        featureType = "highway"
+        featureValue = subclass
+        featureClass = "path"
+        featureSubClass = subclass
+        this.osmId = osmId
+        properties = HashMap<String, Any?>().apply { surface?.let { put("surface_raw", it) } }
+    }
+
+    private fun bendCallout(vararg ways: Way, junction: Intersection, origin: LngLatAlt): List<String> {
+        junction.members = ways.toMutableList()
+        val description = IntersectionDescription(
+            nearestRoad = ways.first(),
+            userGeometry = UserGeometry(
+                location = getDestinationCoordinate(origin, 180.0, 20.0), phoneHeading = 0.0
+            ),
+            intersection = junction,
+        )
+        val callout = addIntersectionCalloutFromDescription(description, null, null, gridStateFor(*ways))
+        assertNotNull(callout)
+        return callout.positionedStrings.drop(1).map { it.text }
+    }
+
+    /**
+     * Walking north on a compacted footway that bends 47 degrees left, where a dirt path goes on
+     * 14 degrees right of straight ahead - by angle alone "Path goes left, Path continues ahead".
+     */
+    @Test
+    fun addIntersectionCallout_pathBendsLeft_isTheOneThatContinues() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        val approach = footpath("footway", "compacted", 5184400492,
+            getDestinationCoordinate(origin, 180.0, 30.0), origin, null, junction)
+        val gravel = footpath("footway", "compacted", 5184400492,
+            origin, getDestinationCoordinate(origin, 313.0, 40.0), junction, null)
+        val dirt = footpath("path", "dirt", 14976863852,
+            origin, getDestinationCoordinate(origin, 14.0, 40.0), junction, null)
+        assertEquals(
+            listOf("\tGravel path continues to the left", "\tEarth path branches off to the right"),
+            bendCallout(approach, gravel, dirt, junction = junction, origin = origin)
+        )
+    }
+
+    /**
+     * mugdock-whw.gpx point 9522: the West Highland Way's fine-gravel footway bends right where a
+     * compacted path goes on ahead, just left of straight. A named way keeps its name.
+     */
+    @Test
+    fun addIntersectionCallout_namedPathBendsRight_otherPathBranchesOffLeft() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        val approach = footpath("footway", "fine_gravel", 1,
+            getDestinationCoordinate(origin, 180.0, 30.0), origin, null, junction, "West Highland Way")
+        val whw = footpath("footway", "fine_gravel", 2,
+            origin, getDestinationCoordinate(origin, 49.0, 40.0), junction, null, "West Highland Way")
+        val compacted = footpath("path", "compacted", 3,
+            origin, getDestinationCoordinate(origin, 331.0, 40.0), junction, null)
+        assertEquals(
+            listOf("\tGravel path branches off to the left", "\tWest Highland Way continues to the right"),
+            bendCallout(approach, whw, compacted, junction = junction, origin = origin)
+        )
+    }
+
+    /** Where the path being walked is the one going ahead, nothing changes. */
+    @Test
+    fun addIntersectionCallout_pathGoesStraightOn_isDescribedAsBefore() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        val approach = footpath("footway", "compacted", 1,
+            getDestinationCoordinate(origin, 180.0, 30.0), origin, null, junction)
+        val gravel = footpath("footway", "compacted", 1,
+            origin, getDestinationCoordinate(origin, 5.0, 40.0), junction, null)
+        val grass = footpath("path", "grass", 2,
+            origin, getDestinationCoordinate(origin, 300.0, 40.0), junction, null)
+        assertEquals(
+            listOf("\tPath goes left", "\tPath continues ahead"),
+            bendCallout(approach, gravel, grass, junction = junction, origin = origin)
+        )
+    }
+
+    /**
+     * travel.gpx at Gavin's Mill Road: the path bends right where the road goes on ahead. The road
+     * is known by its name, so the junction is described as before.
+     */
+    @Test
+    fun addIntersectionCallout_roadAhead_isDescribedAsBefore() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        val approach = footpath("footway", null, 1,
+            getDestinationCoordinate(origin, 180.0, 30.0), origin, null, junction)
+        val bends = footpath("footway", null, 1,
+            origin, getDestinationCoordinate(origin, 60.0, 40.0), junction, null)
+        val roadAhead = road("Gavin's Mill Road", origin, getDestinationCoordinate(origin, 350.0, 40.0), junction, null)
+            .apply { featureClass = "minor" }
+        assertEquals(
+            listOf("\tGavin's Mill Road continues ahead", "\tPath goes right"),
+            bendCallout(approach, bends, roadAhead, junction = junction, origin = origin)
+        )
+    }
+
+    /** Two footways with no surface mapped can't be told apart, so there's no saying which is which. */
+    @Test
+    fun addIntersectionCallout_pathsThatCantBeToldApart_areDescribedAsBefore() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        val approach = footpath("footway", null, 1,
+            getDestinationCoordinate(origin, 180.0, 30.0), origin, null, junction)
+        val left = footpath("footway", null, 2,
+            origin, getDestinationCoordinate(origin, 313.0, 40.0), junction, null)
+        val ahead = footpath("footway", null, 3,
+            origin, getDestinationCoordinate(origin, 14.0, 40.0), junction, null)
+        assertEquals(
+            listOf("\tPath goes left", "\tPath continues ahead"),
+            bendCallout(approach, left, ahead, junction = junction, origin = origin)
+        )
+    }
+
     @Test
     fun addIntersectionCallout_twoArmsAhead_areOrderedLeftToRight() {
         // Walking north into a fork: one road bears 20 degrees left, the other 20 degrees right.

@@ -168,7 +168,9 @@ class Way : MvtFeature() {
         gridState: GridState? = null,
         strings: LocalizedStrings?,
         nonGenericOnly: Boolean = false,
-        noGenericDeadEnds: Boolean = false
+        noGenericDeadEnds: Boolean = false,
+        /** In place of the class noun for an unnamed way - "Gravel path" for "Path". */
+        genericNoun: String? = null,
     ): String {
 
         var destinationModifier: Any? = null
@@ -207,7 +209,7 @@ class Way : MvtFeature() {
                 genericName = false
             } else {
                 // Un-named way, so use "class" property
-                result = genericClassName(strings)
+                result = genericNoun ?: genericClassName(strings)
             }
 
             result = result.replaceFirstChar {
