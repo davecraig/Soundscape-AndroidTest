@@ -251,6 +251,18 @@ class Way : MvtFeature() {
                         strings?.resolveFeatureClass(it) ?: it
                     } ?: ""
 
+                    // Leaving the route being followed, a track that loops back to it isn't the
+                    // way to it: "Loch Ard Sculpture Trail goes left, Track to Loch Ard Sculpture
+                    // Trail goes right". Signposted instead, which leaves the route out.
+                    val followed = gridState?.followedRoute
+                    if ((followed != null) && (destinationModifier?.toString() == followed.name)) {
+                        val from = intersections[if (direction) WayEnd.START.id else WayEnd.END.id]
+                        val onRouteHere = from?.members?.any { member ->
+                            (member !== this) && member.routes.any { it.followKey == followed.key }
+                        } == true
+                        if (onRouteHere) destinationModifier = null
+                    }
+
                     if (destinationModifier == null) {
                         destinationModifier = if (direction)
                             properties?.get("dead-end:forward")

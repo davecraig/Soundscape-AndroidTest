@@ -42,6 +42,31 @@ class OsmRouteTest {
         assertNull(nameFromRoutes(trails, isCycleway = false))
     }
 
+    /** Following the red route, the track it shares with four other trails is the red route. */
+    @Test
+    fun aFollowedRouteNamesEveryWayItIsOn() {
+        val trails = listOf(
+            OsmRoute(2866086, "foot", network = "lwn", ref = "Red", name = "Loch Ard Sculpture Trail"),
+            OsmRoute(2866087, "foot", network = "lwn", ref = "Blue", name = "Ben Lomond Viewpoint"),
+            OsmRoute(12620312, "hiking", network = "lwn", ref = "Black", name = "8 mile loop"),
+        )
+        assertEquals(
+            "Loch Ard Sculpture Trail",
+            nameFromRoutes(trails, isCycleway = false, followedRoute = 2866086)
+        )
+        // Ahead of a national trail, and by the whole route's id for a section of it
+        assertEquals(
+            "Clyde Coastal Path",
+            nameFromRoutes(listOf(westHighlandWay, clydeCoastalPath), isCycleway = false, followedRoute = 4550727)
+        )
+        assertEquals(
+            "West Highland Way",
+            nameFromRoutes(listOf(clydeCoastalPath, westHighlandWay), isCycleway = false, followedRoute = 16287)
+        )
+        // A way not on it is named as before
+        assertNull(nameFromRoutes(trails.drop(1), isCycleway = false, followedRoute = 2866086))
+    }
+
     @Test
     fun aCycleRouteOnlyNamesACycleway() {
         assertNull(nameFromRoutes(listOf(greatNorthTrail), isCycleway = false))

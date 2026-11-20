@@ -84,6 +84,8 @@ enum class StringKey {
     DirectionsNameContinuesRight,
     DirectionsNameBranchesOffLeft,
     DirectionsNameBranchesOffRight,
+    DirectionsLeavingRoute,
+    DirectionsBackOnRoute,
     PathPaved,
     PathGravel,
     PathEarth,

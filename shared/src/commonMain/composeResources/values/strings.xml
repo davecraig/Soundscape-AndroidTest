@@ -494,6 +494,10 @@
     <string name="directions_name_branches_off_left">%1$s, branches off to the left</string>
     <!-- Junction callout on a footpath, for a path going straight on that leaves the user's path on its right, where the user's own path bends away to the left (directions_name_continues_left). %1$s is the path, e.g. "Earth path, branches off to the right". -->
     <string name="directions_name_branches_off_right">%1$s, branches off to the right</string>
+    <!-- Said when someone following a waymarked walking or cycling route (one they chose to follow, e.g. the West Highland Way or a forest trail) walks off it. %1$s is the route's name, e.g. "Leaving Loch Ard Sculpture Trail". -->
+    <string name="directions_leaving_route">Leaving %1$s</string>
+    <!-- Said when someone following a waymarked walking or cycling route who had walked off it (directions_leaving_route) is on it again. %1$s is the route's name, e.g. "Back on Loch Ard Sculpture Trail". -->
+    <string name="directions_back_on_route">Back on %1$s</string>
     <!-- An unnamed footpath with a hard surface (asphalt, concrete, paving stones), said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Paved path to Mugdock Road". -->
     <string name="path_surface_paved">Paved path</string>
     <!-- An unnamed footpath of gravel or compacted stone chips, said in junction callouts where the surface tells the paths apart. Can be followed by "to <destination>", e.g. "Gravel path to Mugdock Road". -->

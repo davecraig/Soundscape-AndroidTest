@@ -767,7 +767,10 @@ fun vectorTileToGeoJson(
     transitIntersectionMap: HashMap<LngLatAlt, Intersection> = hashMapOf(),
     // The keys of the name translation to keep, from nameKeysForLanguage. Every other translation
     // of a name is dropped here - see MvtFeature.translatedName.
-    nameKeys: List<String> = emptyList()
+    nameKeys: List<String> = emptyList(),
+    // The OsmRoute.followKey of the route the user is following, which names every unnamed way on
+    // it - see nameFromRoutes
+    followedRoute: Long? = null,
 ): Array<FeatureCollection> {
 
     val collection = FeatureCollection()
@@ -939,7 +942,7 @@ fun vectorTileToGeoJson(
                 // after its route here, as it was named before, keeps everything downstream - the
                 // junction search, the confected names, the callouts - as it was when the name was
                 // on the way. A pavement is still named after the road it runs beside.
-                name = nameFromRoutes(routes, isCycleway = (featureSubClass == "cycleway"))
+                name = nameFromRoutes(routes, isCycleway = (featureSubClass == "cycleway"), followedRoute)
             }
             val translatedName = translation.translationOf(name)
 

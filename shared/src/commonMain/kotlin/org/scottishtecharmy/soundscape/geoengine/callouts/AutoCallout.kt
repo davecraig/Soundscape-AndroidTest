@@ -1255,6 +1255,42 @@ class AutoCallout(
         )
     }
 
+    private val followedRouteTracker = FollowedRouteTracker()
+
+    /**
+     * "Leaving Loch Ard Sculpture Trail" and "Back on Loch Ard Sculpture Trail" for a user following
+     * a route (GridState.followedRoute) - see FollowedRouteTracker.
+     */
+    private fun buildCalloutForFollowedRoute(
+        userGeometry: UserGeometry,
+        gridState: GridState
+    ): TrackedCallout? {
+        val route = gridState.followedRoute
+        val change = followedRouteTracker.update(
+            route, userGeometry.location, userGeometry.mapMatchedWay, gridState.ruler
+        ) ?: return null
+        val text = when (change) {
+            FollowedRouteTracker.Change.LEFT ->
+                localized?.get(StringKey.DirectionsLeavingRoute, route!!.name) ?: "Leaving ${route!!.name}"
+            FollowedRouteTracker.Change.BACK ->
+                localized?.get(StringKey.DirectionsBackOnRoute, route!!.name) ?: "Back on ${route!!.name}"
+        }
+        return TrackedCallout(
+            userGeometry,
+            trackedText = text,
+            location = userGeometry.location,
+            positionedStrings = listOf(
+                PositionedString(
+                    text = text,
+                    location = userGeometry.location,
+                    type = AudioType.STANDARD
+                )
+            ),
+            isPoint = true,
+            isGeneric = false,
+        )
+    }
+
     /**
      * The tunnel Way the user is in right now, or null if they're out in the open.
      */
@@ -1603,6 +1639,8 @@ class AutoCallout(
                     // computed outside the vehicle/pedestrian split below and merged onto whatever
                     // else this update produced.
                     val tunnelCallout = buildCalloutForTunnel(userGeometry, gridState)
+                    // On every update, so it keeps count of how far the user has walked off the route
+                    val followedRouteCallout = buildCalloutForFollowedRoute(userGeometry, gridState)
                     // buildCalloutForRoadSense builds a callout for travel that's faster than
                     // walking
                     val roadSenseCallout =
@@ -1674,6 +1712,16 @@ class AutoCallout(
                             trackedCallout.positionedStrings += tunnelCallout.positionedStrings
                         } else {
                             trackedCallout = tunnelCallout
+                        }
+                    }
+                    // Leaving or rejoining a followed route comes first: it's what the rest of the
+                    // update is to be heard against
+                    if (followedRouteCallout != null) {
+                        if (trackedCallout != null) {
+                            trackedCallout.positionedStrings =
+                                followedRouteCallout.positionedStrings + trackedCallout.positionedStrings
+                        } else {
+                            trackedCallout = followedRouteCallout
                         }
                     }
                 }

@@ -39,6 +39,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.AlongWayKind
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.AlongWayPosition
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.EntranceDetails
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.EntranceMatching
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Intersection
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.IntersectionType
 import org.scottishtecharmy.soundscape.components.LocationSource
@@ -4555,9 +4556,12 @@ class MvtTileTest {
         startIndex: Int = 0,
         endIndex: Int = Int.MAX_VALUE,
         junctionTracer: JunctionTracer? = null,
+        // The route the replayed walk follows - see GridState.followedRoute
+        followedRoute: FollowedRoute? = null,
     ): Int {
 
         val gridState = FileGridState()
+        gridState.followedRoute = followedRoute
         gridState.start(offlineExtractPath)
         val settlementGrid = FileGridState(12, 3)
         settlementGrid.start(offlineExtractPath)
@@ -5023,6 +5027,7 @@ class MvtTileTest {
                 startIndex = clip.start,
                 endIndex = clip.end,
                 junctionTracer = tracer,
+                followedRoute = clip.followedRoute,
             )
             junctionSearchTrace = null
             testOutputFile("gpxFiles/clips/${clip.name}-search.txt").writeText(searchLog.toString())
@@ -5036,7 +5041,13 @@ class MvtTileTest {
         println(summary)
     }
 
-    private class JunctionClip(val name: String, val gpx: String, val start: Int, val end: Int)
+    private class JunctionClip(
+        val name: String,
+        val gpx: String,
+        val start: Int,
+        val end: Int,
+        val followedRoute: FollowedRoute? = null,
+    )
 
     private val junctionClips = listOf(
         // Moor Road / Strathblane Road
@@ -5097,6 +5108,21 @@ class MvtTileTest {
         JunctionClip("hillfoot-pixel", "pixel", 3200, 3460),
         // Off the train at Milngavie and up Station Road / Buchanan Street.
         JunctionClip("trainoff-pixel", "pixel", 3990, 4500),
+        // Round the Loch Ard Sculpture Trail (the red route) from Milton Forest Car Park, Aberfoyle,
+        // which shares its tracks with four other trails - not following it, and following it.
+        // Synthetic, and outside the test extracts: run against a Scotland one with
+        // SOUNDSCAPE_TEST_EXTRACTS.
+        JunctionClip("lochard-synthetic", "LochArdSculptureTrail-synthetic", 0, Int.MAX_VALUE),
+        JunctionClip(
+            "lochard-following-synthetic", "LochArdSculptureTrail-synthetic", 0, Int.MAX_VALUE,
+            FollowedRoute(2866086, "Loch Ard Sculpture Trail")
+        ),
+        // The 2026-11-20 walk (mugdock-whw.gpx) following the West Highland Way, which it joins
+        // from the John Muir Way and leaves at Drumclog Moor
+        JunctionClip(
+            "whw-following-mugdock", "mugdock-whw", 0, Int.MAX_VALUE,
+            FollowedRoute(16287, "West Highland Way")
+        ),
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)

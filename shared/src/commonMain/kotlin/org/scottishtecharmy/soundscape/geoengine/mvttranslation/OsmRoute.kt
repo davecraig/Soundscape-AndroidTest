@@ -36,6 +36,13 @@ data class OsmRoute(
     val isWalking: Boolean
         get() = type in WALKING_ROUTE_TYPES
 
+    /**
+     * Which route a user following this one is on: the whole route rather than the section, so
+     * that following the West Highland Way carries on from "Milngavie to Drymen part 1" into part 2.
+     */
+    val followKey: Long
+        get() = rootId ?: id
+
     /** International, national or regional - a route that is signposted as a route in its own right. */
     val isMajor: Boolean
         get() = network in MAJOR_NETWORKS
@@ -106,9 +113,14 @@ class OsmRouteTags {
  * which the tiles list first. A local route only names the way when it is the only one: five
  * waymarked trails share one forest track near Aberfoyle, and calling it after any one of them
  * would tell the user it is that trail and not the other four. A stretch of a junction network
- * never names the way: its "name" is only the two junction numbers it runs between.
+ * never names the way: its "name" is only the two junction numbers it runs between. A route the user
+ * is following ([followedRoute], an [OsmRoute.followKey]) comes before all of these.
  */
-fun nameFromRoutes(routes: List<OsmRoute>, isCycleway: Boolean): String? {
+fun nameFromRoutes(routes: List<OsmRoute>, isCycleway: Boolean, followedRoute: Long? = null): String? {
+    // The route the user has chosen to follow names every way it is on, whichever other routes
+    // share it: that's the one they're keeping to
+    if (followedRoute != null)
+        routes.firstOrNull { it.followKey == followedRoute }?.displayName?.let { return it }
     val named = routes.filterNot { it.isNodeNetworkStretch }
     if (named.isEmpty()) return null
     val candidates = named.filter { it.isWalking }.ifEmpty {
@@ -117,3 +129,9 @@ fun nameFromRoutes(routes: List<OsmRoute>, isCycleway: Boolean): String? {
     candidates.firstOrNull { it.isMajor }?.displayName?.let { return it }
     return candidates.singleOrNull()?.displayName
 }
+
+/**
+ * The route the user has chosen to follow - see GridState.followedRoute. [key] is the
+ * [OsmRoute.followKey] of the ways on it, [name] what it's called.
+ */
+data class FollowedRoute(val key: Long, val name: String)

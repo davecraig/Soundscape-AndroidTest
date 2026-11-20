@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.scottishtecharmy.soundscape.dto.BoundingBox
 import org.scottishtecharmy.soundscape.dto.Tile
+import org.scottishtecharmy.soundscape.geoengine.mvttranslation.FollowedRoute
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.AlongWayFeature
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.AlongWayKind
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.AlongWayPosition
@@ -665,6 +666,19 @@ open class GridState(
      * only their local names.
      */
     var nameKeys: List<String> = emptyList()
+
+    /**
+     * The walking or cycling route the user has chosen to follow, or null. Every unnamed way on it
+     * is named after it as the tiles are read (see nameFromRoutes), so a track five trails share is
+     * the followed trail, and junctions say which arm it takes. As names are read with the tiles
+     * and everything confected from them, changing it rebuilds the grid on the next location update.
+     */
+    var followedRoute: FollowedRoute? = null
+        set(value) {
+            if (field == value) return
+            field = value
+            centralBoundingBox = BoundingBox()
+        }
 
     /**
      * How far [feature] reaches from [probe] - zero for a point. Added to the candidate search
