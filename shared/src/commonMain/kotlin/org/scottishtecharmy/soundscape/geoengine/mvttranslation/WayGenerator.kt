@@ -173,6 +173,8 @@ class Way : MvtFeature() {
         noGenericDeadEnds: Boolean = false,
         /** In place of the class noun for an unnamed way - "Gravel path" for "Path". */
         genericNoun: String? = null,
+        /** False leaves out the signpost for an unnamed path - see signpostDestination. */
+        signpost: Boolean = true,
     ): String {
 
         var destinationModifier: Any? = null
@@ -271,8 +273,11 @@ class Way : MvtFeature() {
                     }
 
                     // Nowhere named at the end of it: signpost the path to what it leads to,
-                    // past the forks - "Path to Mugdock Castle"
-                    if ((destinationModifier == null) && (gridState != null) && isPathOrTrack &&
+                    // past the forks - "Path to Mugdock Castle". And an unnamed street, as so
+                    // many are in Chennai: "Road to Venkatesan Street". Not a service road, which
+                    // is mostly a car park or a driveway - "Road to Car wash" says nothing.
+                    if (signpost && (destinationModifier == null) && (gridState != null) &&
+                        (isPathOrTrack || (featureClass == "minor")) &&
                         !isSidewalkOrCrossing()
                     ) {
                         destinationModifier = signpostDestination(this, direction, gridState, strings)

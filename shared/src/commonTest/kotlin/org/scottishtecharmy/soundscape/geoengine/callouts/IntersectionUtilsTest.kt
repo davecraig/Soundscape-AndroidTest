@@ -508,6 +508,67 @@ class IntersectionUtilsTest {
         )
     }
 
+    private fun street(name: String, origin: LngLatAlt, bearing: Double, junction: Intersection, arriving: Boolean = false) =
+        if (arriving)
+            road(name, getDestinationCoordinate(origin, 180.0, 30.0), origin, null, junction)
+                .apply { featureClass = "minor" }
+        else
+            road(name, origin, getDestinationCoordinate(origin, bearing, 40.0), junction, null)
+                .apply { featureClass = "minor" }
+
+    /** iphone.gpx: Kersland Drive turns right where Kersland Lane goes left. */
+    @Test
+    fun addIntersectionCallout_namedRoadBendsRight_continuesToTheRight() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        assertEquals(
+            listOf("\tKersland Lane goes left", "\tKersland Drive continues to the right"),
+            bendCallout(
+                street("Kersland Drive", origin, 0.0, junction, arriving = true),
+                street("Kersland Drive", origin, 80.0, junction),
+                street("Kersland Lane", origin, 280.0, junction),
+                junction = junction, origin = origin
+            )
+        )
+    }
+
+    /** Roselea Drive turns right where the path to Mosswell Road goes on ahead. */
+    @Test
+    fun addIntersectionCallout_namedRoadBendsRight_pathAheadBranchesOffLeft() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        val path = footpath("footway", null, 9, origin, getDestinationCoordinate(origin, 10.0, 40.0), junction, null)
+        assertEquals(
+            listOf("\tPath branches off to the left", "\tRoselea Drive continues to the right"),
+            bendCallout(
+                street("Roselea Drive", origin, 0.0, junction, arriving = true),
+                street("Roselea Drive", origin, 70.0, junction),
+                path,
+                junction = junction, origin = origin
+            )
+        )
+    }
+
+    /**
+     * ToTown.gpx at Blythswood Square: at a crossroads the road going on ahead isn't said to branch
+     * off to the left beside one that goes left.
+     */
+    @Test
+    fun addIntersectionCallout_namedRoadBendsAtACrossroads_isDescribedAsBefore() {
+        val origin = LngLatAlt(-4.3211, 55.9705)
+        val junction = node(origin)
+        assertEquals(
+            listOf("\tWest Regent Street goes left", "\tDouglas Street continues ahead", "\tBlythswood Square goes right"),
+            bendCallout(
+                street("Blythswood Square", origin, 0.0, junction, arriving = true),
+                street("Blythswood Square", origin, 90.0, junction),
+                street("Douglas Street", origin, 0.0, junction),
+                street("West Regent Street", origin, 270.0, junction),
+                junction = junction, origin = origin
+            )
+        )
+    }
+
     /** Two footways with no surface mapped can't be told apart, so there's no saying which is which. */
     @Test
     fun addIntersectionCallout_pathsThatCantBeToldApart_areDescribedAsBefore() {

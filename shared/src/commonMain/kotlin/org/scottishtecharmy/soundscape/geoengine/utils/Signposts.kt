@@ -78,7 +78,36 @@ fun signpostDestination(
  */
 private class Landmark(val text: String, val feature: Feature?, val fallback: Boolean)
 
-private class Reached(val distance: Double, val arm: Int, val fallback: Boolean = false)
+private class Reached(
+    val distance: Double,
+    val arm: Int,
+    val fallback: Boolean = false,
+    val at: Intersection? = null,
+    val feature: Feature? = null,
+    val via: Way? = null,
+    val along: Double = 0.0,
+)
+
+/**
+ * What a signpost was worked out from, for tools that map the signposts (JunctionSurveyTest): the
+ * arm [way] leaving [junction], its signpost [text], how far along the search it was, the junction
+ * [reachedAt] it was found from - its route back to [junction] runs through dijkstraPrevious - and
+ * the [feature] it is, null for a named road or path met at [reachedAt]. A [feature] is reached
+ * [along] metres out along [via], one of [reachedAt]'s ways.
+ */
+class SignpostTrace(
+    val junction: Intersection,
+    val way: Way,
+    val text: String,
+    val distance: Double,
+    val reachedAt: Intersection?,
+    val feature: Feature?,
+    val via: Way?,
+    val along: Double,
+)
+
+/** Told of every signpost as it's chosen, when set - only ever by tools, never by the app. */
+var signpostObserver: ((SignpostTrace) -> Unit)? = null
 
 private fun signpostJunction(node: Intersection, gridState: GridState, strings: LocalizedStrings?) {
     val ruler = gridState.ruler
@@ -86,13 +115,22 @@ private fun signpostJunction(node: Intersection, gridState: GridState, strings: 
     val reachedLandmarks = HashMap<String, Reached>()
     // The roads and paths meeting here are where the walker is, not where an arm leads: a path
     // leaving the West Highland Way and rejoining it further on isn't the way to it
-    val here = node.members.filter { isNamedLandmarkWay(it) }.mapNotNull { it.displayName }.toSet()
+    val here = node.members.filter { isNamedLandmarkWay(it) }.mapNotNull { it.displayName }.toMutableSet()
+    // Nor is where another arm already leads by its own destination: "Path to Lennox Park" both
+    // ways from Gavin's Mill Road doesn't say which path is which
+    for (way in node.members) {
+        val forwards = way.intersections[WayEnd.START.id] === node
+        (way.properties?.get(if (forwards) "destination:forward" else "destination:backward") as? String)
+            ?.let { here.add(it) }
+    }
 
-    fun reach(text: String, distance: Double, arm: Int, fallback: Boolean) {
+    var reachingFrom: Intersection? = null
+    fun reach(text: String, distance: Double, arm: Int, fallback: Boolean, feature: Feature?, via: Way?, along: Double) {
         if ((distance > SIGNPOST_RANGE_METRES) || (text in here)) return
         val best = reachedLandmarks[text]
         if ((best == null) || (distance < best.distance))
-            reachedLandmarks[text] = Reached(distance, arm, fallback && (best?.fallback != false))
+            reachedLandmarks[text] =
+                Reached(distance, arm, fallback && (best?.fallback != false), reachingFrom, feature, via, along)
     }
 
     // A shortest-path search out from the junction, not walking along named ways - they're
@@ -101,7 +139,7 @@ private fun signpostJunction(node: Intersection, gridState: GridState, strings: 
     val expanded = HashSet<Intersection>()
     dijkstraOnWaysWithLoops(
         node, null, ruler, SIGNPOST_RANGE_METRES, reached,
-        traverse = { !isNamedLandmarkWay(it) },
+        traverse = { !isNamedLandmarkWay(it) && isWalkable(it) },
         expandFrom = { at ->
             val expand = (expanded.size < SIGNPOST_MAX_JUNCTIONS) && at.members.none { isNamedLandmarkWay(it) }
             if (expand) expanded.add(at)
@@ -128,23 +166,26 @@ private fun signpostJunction(node: Intersection, gridState: GridState, strings: 
 
     for (at in reached) {
         val distance = at.dijkstraDistance
+        reachingFrom = at
         if (at === node) {
             // The landmarks along each arm itself
             node.members.forEachIndexed { arm, way ->
-                if (!isNamedLandmarkWay(way)) reachAlong(way, node, 0.0, arm, landmarks, ruler, ::reach)
+                if (!isNamedLandmarkWay(way) && isWalkable(way))
+                    reachAlong(way, node, 0.0, arm, landmarks, ruler, ::reach)
             }
             continue
         }
         val arm = armOf[at] ?: continue
         if (at !in expanded) {
-            // A named road or path is a destination in itself, and as far as this arm needs to go
-            at.members.firstOrNull { isNamedLandmarkWay(it) }?.let {
-                reach(it.displayName!!, distance, arm, false)
+            // A named road or path is a destination in itself, and as far as this arm needs to go -
+            // unless it's one nobody can walk, which is where this arm stops, going nowhere
+            at.members.firstOrNull { isNamedLandmarkWay(it) && isWalkable(it) }?.let {
+                reach(it.displayName!!, distance, arm, false, null, null, 0.0)
             }
             continue
         }
         for (way in at.members) {
-            if (!isNamedLandmarkWay(way)) reachAlong(way, at, distance, arm, landmarks, ruler, ::reach)
+            if (!isNamedLandmarkWay(way) && isWalkable(way)) reachAlong(way, at, distance, arm, landmarks, ruler, ::reach)
         }
     }
 
@@ -159,9 +200,29 @@ private fun signpostJunction(node: Intersection, gridState: GridState, strings: 
     }
     node.members.forEachIndexed { arm, way ->
         val forwards = way.intersections[WayEnd.START.id] === node
-        way.setProperty(signpostKey(forwards), nearestByArm[arm]?.first ?: "")
+        val signpost = nearestByArm[arm]
+        way.setProperty(signpostKey(forwards), signpost?.first ?: "")
+        signpost?.let {
+            way.setProperty(signpostDistanceKey(forwards), it.second.distance)
+            signpostObserver?.invoke(
+                SignpostTrace(
+                    node, way, it.first, it.second.distance, it.second.at, it.second.feature,
+                    it.second.via, it.second.along,
+                )
+            )
+        }
     }
 }
+
+private fun signpostDistanceKey(forwards: Boolean) =
+    if (forwards) "signpost-distance:forward" else "signpost-distance:backward"
+
+/**
+ * How far it is to what [way] is signposted to, setting off from its START when [forwards], or
+ * null if it has no signpost (see [signpostDestination], which must have been asked first).
+ */
+fun signpostDistance(way: Way, forwards: Boolean): Double? =
+    way.properties?.get(signpostDistanceKey(forwards)) as? Double
 
 /**
  * Each of [landmarks] that [way] leads to, setting off along it from [from], [distance] metres out
@@ -174,16 +235,37 @@ private fun reachAlong(
     arm: Int,
     landmarks: List<Landmark>,
     ruler: Ruler,
-    reach: (String, Double, Int, Boolean) -> Unit,
+    reach: (String, Double, Int, Boolean, Feature?, Way?, Double) -> Unit,
 ) {
     val forwards = way.intersections[WayEnd.START.id] === from
     for (landmark in landmarks) {
         val along = alongToLandmark(way, landmark.feature!!, ruler) ?: continue
-        reach(landmark.text, distance + (if (forwards) along else way.length - along), arm, landmark.fallback)
+        val out = if (forwards) along else way.length - along
+        reach(landmark.text, distance + out, arm, landmark.fallback, landmark.feature, way, out)
     }
 }
 
 /** A way that names itself: anything with a name but a pavement, which is named for its road. */
+/**
+ * Whether the walker can go along [way], so that a signpost may lead along it or to it: not a
+ * motorway or its slip roads, a trunk road's slip roads or a trunk road tagged as an expressway,
+ * nor anything marked foot=no, nor access=no - which in the tiles covers access=private, gated
+ * estates among them - unless foot access is given back. A trunk road otherwise is walkable:
+ * Midosuji in Osaka and Chennai's main roads are trunk roads with wide pavements.
+ */
+private fun isWalkable(way: Way): Boolean {
+    when (way.featureClass) {
+        "motorway" -> return false
+        "trunk" -> if (way.isRamp || (way.properties?.get("expressway") != null)) return false
+    }
+    val foot = way.properties?.get("foot") as? String
+    if (foot == "no") return false
+    if ((way.properties?.get("access") == "no") && (foot !in FOOT_ALLOWED)) return false
+    return true
+}
+
+private val FOOT_ALLOWED = setOf("yes", "designated", "permissive")
+
 private fun isNamedLandmarkWay(way: Way): Boolean =
     (way.displayName != null) && !way.isSidewalkOrCrossing() &&
         (way.properties?.get("pavement") == null)

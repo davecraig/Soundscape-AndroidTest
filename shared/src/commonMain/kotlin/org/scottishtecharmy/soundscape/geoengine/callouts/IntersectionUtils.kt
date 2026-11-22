@@ -37,6 +37,7 @@ import org.scottishtecharmy.soundscape.geoengine.utils.setbackAlong
 import org.scottishtecharmy.soundscape.geoengine.utils.rulers.Ruler
 import org.scottishtecharmy.soundscape.geoengine.utils.sortedByDistanceTo
 import org.scottishtecharmy.soundscape.geoengine.utils.surfaceNoun
+import org.scottishtecharmy.soundscape.geoengine.utils.signpostDistance
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.FeatureCollection
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
@@ -941,9 +942,9 @@ fun addIntersectionCalloutFromDescription(
     }
 
     val bend = pathBendAt(description, arms)
-    for (arm in arms) {
+    val wordings = arms.map { arm ->
         val side = arm.side()
-        val wording = when {
+        when {
             (bend != null) && (arm === bend) -> ArmWording.continuesTo(side!!)
             (bend != null) && (side == null) ->
                 ArmWording.branchesOffTo(if (arm.angle < bend.angle) Side.LEFT else Side.RIGHT)
@@ -951,6 +952,10 @@ fun addIntersectionCalloutFromDescription(
             side == Side.RIGHT -> ArmWording.GOES_RIGHT
             else -> ArmWording.CONTINUES_AHEAD
         }
+    }
+    val names = signpostedOnce(arms, wordings, bend, gridState, localized)
+    for ((index, arm) in arms.withIndex()) {
+        val wording = wordings[index]
         // Left and right are said on the left and right, as are the arms branching off, so the
         // order below puts them on the side they go
         val presentationHeading = incomingHeading + when (wording) {
@@ -959,18 +964,7 @@ fun addIntersectionCalloutFromDescription(
             ArmWording.CONTINUES_AHEAD -> 0.0
         }
 
-        // Where the path bends, what each path is like underfoot is what tells them apart: "Gravel
-        // path continues to the left, Earth path branches off to the right"
-        val genericNoun = if ((bend != null) && ((arm === bend) || (side == null)))
-            surfaceNoun(arm.way, localized)
-        else
-            null
-        val destinationText = arm.way.getName(
-            arm.way.intersections[WayEnd.START.id] == arm.node,
-            gridState,
-            localized,
-            genericNoun = genericNoun
-        )
+        val destinationText = names[index]
         val intersectionCallout =
             localized?.get(wording.key, destinationText)
                 ?: "\t$destinationText ${wording.english}"
@@ -992,6 +986,54 @@ fun addIntersectionCalloutFromDescription(
     intersectionResults.addAll(armResults.map { it.second })
     trackedCallout.positionedStrings = intersectionResults
     return trackedCallout
+}
+
+/**
+ * The name each of [arms] is called out by. An unnamed path's signpost (signpostDestination) is
+ * worked out for one node at a time, so where a junction of several nodes is described as one, two
+ * arms can be signposted to the same place - "Path to Lennox Park goes left, Path to Lennox Park
+ * continues ahead" - which doesn't tell them apart. Only the arm nearest to it keeps the signpost,
+ * and none does if another arm is the way there by its own destination. Arms going the same way
+ * under one name are left be: the callout says them once.
+ */
+private fun signpostedOnce(
+    arms: List<JunctionArm>,
+    wordings: List<ArmWording>,
+    bend: JunctionArm?,
+    gridState: GridState,
+    localized: LocalizedStrings?,
+): List<String> {
+    fun name(arm: JunctionArm, signpost: Boolean): String {
+        // Where the path bends, what each path is like underfoot is what tells them apart:
+        // "Gravel path continues to the left, Earth path branches off to the right"
+        val genericNoun = if ((bend != null) && ((arm === bend) || (arm.side() == null)))
+            surfaceNoun(arm.way, localized)
+        else
+            null
+        return arm.way.getName(
+            arm.way.intersections[WayEnd.START.id] == arm.node,
+            gridState,
+            localized,
+            genericNoun = genericNoun,
+            signpost = signpost,
+        )
+    }
+    val names = arms.map { name(it, true) }.toMutableList()
+    // Read after every name is known - naming one arm can signpost the others at its node
+    val signposted = arms.indices.map { i ->
+        if (names[i] == name(arms[i], false)) null
+        else signpostDistance(arms[i].way, arms[i].way.intersections[WayEnd.START.id] == arms[i].node)
+    }
+    for (text in names.toSet()) {
+        val sharing = names.indices.filter { names[it] == text }
+        // Going the same way they're said once, as one
+        if (sharing.map { wordings[it] }.distinct().size < 2) continue
+        val signposts = sharing.filter { signposted[it] != null }
+        if (signposts.isEmpty()) continue
+        val keep = if (signposts.size < sharing.size) null else signposts.minBy { signposted[it]!! }
+        for (i in signposts) if (i != keep) names[i] = name(arms[i], false)
+    }
+    return names
 }
 
 // How far along an arm the point is taken that says which way it goes - see armOrderAngle.
@@ -1054,15 +1096,37 @@ private fun pathBendAt(description: IntersectionDescription, arms: List<Junction
     if (description.alsoAt.isNotEmpty()) return null
     val arrivedOn = description.nearestRoad?.takeIf { road -> node.members.any { it === road } }
         ?: return null
-    val continuing = continuingArm(arrivedOn, node.members) ?: return null
+    val continuing = (if (arrivedOn.isPathOrTrack) continuingArm(arrivedOn, node.members)
+        else continuingRoad(arrivedOn, node.members)) ?: return null
     val bend = arms.firstOrNull { it.way === continuing } ?: return null
     if (bend.side() == null) return null
-    // Only among paths: a road going straight on is told apart by its name, and "Gavin's Mill
-    // Road branches off to the left" beside "Gavin's Mill Road goes left" (travel.gpx) says less
-    // than "continues ahead" did
     val ahead = arms.filter { other -> (other !== bend) && (other.side() == null) }
-    if (ahead.isEmpty() || ahead.any { !it.way.isPathOrTrack }) return null
+    if (arrivedOn.isPathOrTrack) {
+        // Only among paths: a road going straight on is told apart by its name, and "Gavin's Mill
+        // Road branches off to the left" beside "Gavin's Mill Road goes left" (travel.gpx) says
+        // less than "continues ahead" did
+        if (ahead.isEmpty() || ahead.any { !it.way.isPathOrTrack }) return null
+    } else {
+        // The same, from the road: what goes ahead mustn't be named like an arm going left or right
+        if (ahead.any { a -> arms.any { (it !== a) && (it.side() != null) && (it.way.name == a.way.name) } })
+            return null
+        // Nor at a crossroads - four or more ways, counting the one arrived on - where what goes
+        // ahead "branches off to the left" beside a road that goes left: "West Regent Street goes
+        // left, Douglas Street branches off to the left, Blythswood Square continues to the right"
+        // (ToTown.gpx)
+        if (arms.size >= 3) return null
+    }
     return bend
+}
+
+/**
+ * The one other arm at a junction that carries on the named road [arrivedOn] - "Kersland Drive
+ * continues to the right" where Kersland Lane goes left (iphone.gpx) - or null where the road
+ * isn't named, or its name goes more than one way.
+ */
+private fun continuingRoad(arrivedOn: Way, arms: List<Way>): Way? {
+    val name = arrivedOn.name?.takeIf { it.isNotEmpty() } ?: return null
+    return arms.singleOrNull { (it !== arrivedOn) && (it.name == name) }
 }
 
 private fun armOrderAngle(

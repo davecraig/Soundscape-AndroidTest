@@ -66,7 +66,12 @@ class SignpostsTest {
 
     private class Park(val grid: GridState, val junction: Intersection, val west: Way, val east: Way, val approach: Way)
 
-    private fun park(withRoadPastTheFork: Boolean = true, withRoadAtJunction: Boolean = false): Park {
+    private fun park(
+        withRoadPastTheFork: Boolean = true,
+        withRoadAtJunction: Boolean = false,
+        wayPastTheFork: Way.() -> Unit = {},
+        roadPastTheFork: Way.() -> Unit = {},
+    ): Park {
         val j = node(origin)
         val south = node(at(180.0, 50.0))
         val westEnd = node(at(270.0, 300.0))
@@ -79,8 +84,8 @@ class SignpostsTest {
         way(fork, shop)
         if (withRoadPastTheFork) {
             val roadEnd = node(at(135.0, 100.0, fork.location))
-            way(fork, roadEnd)
-            way(roadEnd, null, at(135.0, 200.0, fork.location), name = "Craigend Road")
+            way(fork, roadEnd).wayPastTheFork()
+            way(roadEnd, null, at(135.0, 200.0, fork.location), name = "Craigend Road").roadPastTheFork()
         }
         if (withRoadAtJunction) way(j, null, at(0.0, 100.0), name = "Mugdock Road")
 
@@ -127,6 +132,60 @@ class SignpostsTest {
             it.grid.featureTrees[TreeId.POIS.id] = FeatureTree(FeatureCollection())
         }
         assertNull(signpost(bare.west, bare.junction, bare.grid))
+    }
+
+    @Test
+    fun noArmIsSignpostedToWhereAnotherAlreadyLeads() {
+        // The east arm is already "Path to Mugdock Castle" by its own destination, so the west arm,
+        // nearer the castle, is signposted to the next thing it leads to
+        val park = park()
+        park.east.setProperty("destination:forward", "Mugdock Castle")
+        assertEquals("Mugdock Road", signpost(park.west, park.junction, park.grid))
+    }
+
+    @Test
+    fun anUnnamedStreetIsSignpostedButAServiceRoadIsNot() {
+        val park = park()
+        park.west.apply { featureClass = "minor"; featureValue = "residential"; featureSubClass = null }
+        assertEquals("Minor to Mugdock Castle", park.west.getName(true, park.grid, null))
+        val other = park()
+        other.west.apply { featureClass = "service"; featureValue = "service"; featureSubClass = null }
+        assertEquals("Service", other.west.getName(true, other.grid, null))
+    }
+
+    @Test
+    fun aRoadNobodyCanWalkIsNoDestination() {
+        // Each time, the east arm is the way to the shop instead
+        for (road in listOf<Way.() -> Unit>(
+            { featureClass = "motorway" },
+            { featureClass = "trunk"; setProperty("expressway", 1) },
+            { setProperty("foot", "no") },
+            { setProperty("access", "no") },
+        )) {
+            val park = park(roadPastTheFork = road)
+            assertEquals("Caulders", signpost(park.east, park.junction, park.grid))
+        }
+    }
+
+    @Test
+    fun aTrunkRoadIsADestination() {
+        val park = park(roadPastTheFork = { featureClass = "trunk" })
+        assertEquals("Craigend Road", signpost(park.east, park.junction, park.grid))
+    }
+
+    @Test
+    fun noSignpostLeadsAlongAWayNobodyCanWalk() {
+        for (link in listOf<Way.() -> Unit>(
+            { featureClass = "motorway"; setProperty("ramp", 1) },
+            { featureClass = "trunk"; setProperty("ramp", 1) },
+            { setProperty("access", "no") },
+        )) {
+            val park = park(wayPastTheFork = link)
+            assertEquals("Caulders", signpost(park.east, park.junction, park.grid))
+        }
+        // ...but a private road the walker is let along is a way there
+        val open = park(wayPastTheFork = { setProperty("access", "no"); setProperty("foot", "yes") })
+        assertEquals("Craigend Road", signpost(open.east, open.junction, open.grid))
     }
 
     @Test
