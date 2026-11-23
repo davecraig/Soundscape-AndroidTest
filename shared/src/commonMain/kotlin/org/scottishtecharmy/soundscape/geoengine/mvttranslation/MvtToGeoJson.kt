@@ -8,6 +8,8 @@ import org.scottishtecharmy.soundscape.geoengine.TreeId
 import org.scottishtecharmy.soundscape.geoengine.processTileFeatureCollection
 import org.scottishtecharmy.soundscape.geoengine.utils.SuperCategoryId
 import org.scottishtecharmy.soundscape.geoengine.utils.findLineIntersectionPoint
+import org.scottishtecharmy.soundscape.geoengine.utils.MOUNTAIN_BIKE_TRAIL
+import org.scottishtecharmy.soundscape.geoengine.utils.isMountainBikeTrail
 import org.scottishtecharmy.soundscape.geoengine.utils.address.JapaneseAddress
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.isNameKey
 import org.scottishtecharmy.soundscape.geoengine.utils.geocoders.streetKey
@@ -936,7 +938,13 @@ fun vectorTileToGeoJson(
                 if (properties == null) properties = HashMap()
             }
             val routes = routeTags.build()
-            if ((name == null) && routes.isNotEmpty() && !isPavementOrCrossing(properties)) {
+            if ((layer.name == "transportation") && isMountainBikeTrail(featureClass, featureSubClass, properties)) {
+                // Called a mountain bike trail and never by its name, which only riders know it by -
+                // and nothing else is named after it either. See isMountainBikeTrail.
+                properties!![MOUNTAIN_BIKE_TRAIL] = true
+                name = null
+                ref = null
+            } else if ((name == null) && routes.isNotEmpty() && !isPavementOrCrossing(properties)) {
                 // Mappers have moved route names off the ways and onto the route relations, so the
                 // West Highland Way out of Milngavie arrives as unnamed footways. Naming the way
                 // after its route here, as it was named before, keeps everything downstream - the

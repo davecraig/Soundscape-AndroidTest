@@ -99,6 +99,8 @@ enum class StringKey {
     TrackGravel,
     TrackEarth,
     TrackGrass,
+    MountainBikeTrail,
+    MountainBikeTrailDestination,
     NumberDecimalSeparator,
     NumberDecimalSeparatorA11y,
     RelativeClockDirection,

@@ -617,14 +617,21 @@ fun setDestinationTag(
     forwards: Boolean,
     tagValue: String,
     deadEnd: Boolean = false,
-    brunnelOrStepsValue: String
+    brunnelOrStepsValue: String,
+    kind: String = DESTINATION_KIND_ROAD,
 ) {
 
     if (tagValue.isNotEmpty()) {
         val direction = if (forwards) "backward" else "forward"
+        // A way to somewhere named is never instead the way to a mountain bike trail: a track with
+        // trails leaving it all along is still the track to where it goes
+        if (!deadEnd) {
+            val existing = way.properties?.get("destination:$direction")
+            if ((kind == MOUNTAIN_BIKE_TRAIL) && (existing != null)) return
+        }
         way.setProperty("${if (deadEnd) "dead-end" else "destination"}:$direction", tagValue)
         if (!deadEnd)
-            way.setProperty("$DESTINATION_KIND:$direction", DESTINATION_KIND_ROAD)
+            way.setProperty("$DESTINATION_KIND:$direction", kind)
     }
     if (brunnelOrStepsValue.isNotEmpty())
         way.setProperty("passes:${if (forwards) "backward" else "forward"}", brunnelOrStepsValue)
@@ -651,6 +658,13 @@ fun traverseIntersectionsConfectingNames(
                 namedRoadToUse = road.displayName
             }
         }
+        // Failing a name, a mountain bike trail starting here is where the way leads - "Track to
+        // mountain bike trail", warning a walker off before they reach it. See MOUNTAIN_BIKE_TRAIL.
+        var kind = DESTINATION_KIND_ROAD
+        if ((namedRoadToUse == null) && intersection.value.members.any { it.isMountainBikeTrail }) {
+            namedRoadToUse = MOUNTAIN_BIKE_TRAIL
+            kind = MOUNTAIN_BIKE_TRAIL
+        }
         // We've got a named road at this junction, so use if for any un-named roads
         for (road in intersection.value.members) {
             // Skip if the road is named
@@ -658,12 +672,15 @@ fun traverseIntersectionsConfectingNames(
 
                 // We don't confect names for sidewalks or crossings as those will be named from the
                 // adjacent road.
-                if (road.isSidewalkOrCrossing())
+                if (road.isSidewalkOrCrossing() || road.isMountainBikeTrail)
                     continue
 
                 val ways = mutableListOf<Pair<Boolean, Way>>()
-                // Break out when the next way has a name
-                road.followWays(intersection.value, ways) { way, _ -> (way.name != null) }
+                // Break out when the next way has a name, or is a mountain bike trail: a path isn't
+                // the way to anywhere by going down one
+                road.followWays(intersection.value, ways) { way, _ ->
+                    (way.name != null) || way.isMountainBikeTrail
+                }
 
                 // followWays returns the chain ordered outwards from the named road, so the
                 // bridge/steps/tunnel a way passes through on its way to that road are those at or
@@ -685,7 +702,8 @@ fun traverseIntersectionsConfectingNames(
                         way.first,
                         namedRoadToUse ?: "",
                         false,
-                        brunnelOrStepsValue
+                        brunnelOrStepsValue,
+                        kind,
                     )
                 }
             }

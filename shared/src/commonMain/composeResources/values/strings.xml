@@ -540,6 +540,10 @@
     <string name="track_surface_earth">Earth track</string>
     <!-- An unnamed farm or forest track across grass, said in junction callouts where the surface tells the ways apart. Can be followed by "to <destination>". -->
     <string name="track_surface_grass">Grass track</string>
+    <!-- A trail built for mountain bikes, said in place of its name in junction callouts and as the way ahead, to warn a walker off it, e.g. "Mountain bike trail goes left". Never followed by a destination. -->
+    <string name="mountain_bike_trail">Mountain bike trail</string>
+    <!-- Where an unnamed path or track leads when it goes to a trail built for mountain bikes, said after "to" as the destination in "Track to mountain bike trail", to warn a walker before they reach it. Lower case in English because it is mid-sentence. -->
+    <string name="mountain_bike_trail_destination">mountain bike trail</string>
     <!-- Travelling on foot, called out when a road lies straight ahead in the direction you are walking. %1$s is the road's name, e.g. "Ahead Moor Road". Put the name wherever your language needs it ("Moor Road ahead"). The name arrives undeclined, in the nominative. -->
     <string name="directions_ahead_road">Ahead %1$s</string>
     <!-- Notification announced to the user that they are near a location that is near a settlement. The settlement is the nearest by distance, but isn't necessarily the one that the road is actually in. %1$@ is a road name and %2$@ is a settlement name, example: "Near Glasgow Road and close to Milngavie" -->

@@ -250,10 +250,11 @@ private fun reachAlong(
  * Whether the walker can go along [way], so that a signpost may lead along it or to it: not a
  * motorway or its slip roads, a trunk road's slip roads or a trunk road tagged as an expressway,
  * nor anything marked foot=no, nor access=no - which in the tiles covers access=private, gated
- * estates among them - unless foot access is given back. A trunk road otherwise is walkable:
+ * estates among them - unless foot access is given back - nor a mountain bike trail. A trunk road otherwise is walkable:
  * Midosuji in Osaka and Chennai's main roads are trunk roads with wide pavements.
  */
 private fun isWalkable(way: Way): Boolean {
+    if (way.isMountainBikeTrail) return false
     when (way.featureClass) {
         "motorway" -> return false
         "trunk" -> if (way.isRamp || (way.properties?.get("expressway") != null)) return false

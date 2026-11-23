@@ -5123,6 +5123,11 @@ class MvtTileTest {
             "whw-following-mugdock", "mugdock-whw", 0, Int.MAX_VALUE,
             FollowedRoute(16287, "West Highland Way")
         ),
+        // The 2026-11-22 walk round the trails near Aberfoyle, then the drive away
+        JunctionClip("aberfoyle-drive", "aberfoyle-drive", 0, Int.MAX_VALUE),
+        // Along two forest tracks by Aberfoyle Bike Park, where mountain bike trails go off them
+        JunctionClip("aberfoyle-biketrails-a", "AberfoyleBikeTrailsA-synthetic", 0, Int.MAX_VALUE),
+        JunctionClip("aberfoyle-biketrails-b", "AberfoyleBikeTrailsB-synthetic", 0, Int.MAX_VALUE),
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)

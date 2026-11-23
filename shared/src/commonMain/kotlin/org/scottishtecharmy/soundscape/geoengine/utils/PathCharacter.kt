@@ -38,6 +38,50 @@ enum class PathSurface {
 
 private val PATH_CLASSES = setOf("path", "track")
 
+/** Set on a mountain bike trail's properties as the tiles are read - see [isMountainBikeTrail]. */
+const val MOUNTAIN_BIKE_TRAIL = "mtb-trail"
+
+private val FOOT_ALLOWED = setOf("yes", "designated", "permissive")
+
+/**
+ * Whether a transportation feature with these tile values is a mountain bike trail: singletrack
+ * that a walker shouldn't set off down, and whose name ("Noodle Soup", "Bat Sh!t" at Aberfoyle)
+ * means nothing to one. A cycleway of earth or rock, or a path graded for mountain bikes and either
+ * closed to everyone but bikes or designated for them - and in both cases with no foot access given.
+ * Paved, gravel and boardwalk cycleways are shared paths and bridges, which walkers do use.
+ */
+fun isMountainBikeTrail(featureClass: String?, featureSubClass: String?, properties: Map<String, Any?>?): Boolean {
+    if ((featureClass != "path") || (properties == null)) return false
+    if (properties["foot"]?.toString() in FOOT_ALLOWED) return false
+    val surface = PathSurface.fromOsm(properties["surface_raw"]?.toString())
+    if ((surface != PathSurface.EARTH) && (surface != PathSurface.ROCK)) return false
+    return when (featureSubClass) {
+        "cycleway" -> true
+        "path" -> (properties["mtb_scale"] != null) &&
+            ((properties["access"] == "no") || (properties["foot"] == "no") || (properties["bicycle"] == "designated"))
+        else -> false
+    }
+}
+
+/** Whether [this] is a mountain bike trail - see [isMountainBikeTrail]. */
+val Way.isMountainBikeTrail: Boolean
+    get() = properties?.get(MOUNTAIN_BIKE_TRAIL) != null
+
+/**
+ * A "destination:forward/backward" value as said after "to": a way leading to a mountain bike trail
+ * and nothing named has [MOUNTAIN_BIKE_TRAIL] as its destination (see
+ * traverseIntersectionsConfectingNames), said "Track to mountain bike trail".
+ */
+fun destinationText(value: Any?, strings: LocalizedStrings?): Any? =
+    if (value == MOUNTAIN_BIKE_TRAIL)
+        strings?.getOrNull(StringKey.MountainBikeTrailDestination) ?: "mountain bike trail"
+    else
+        value
+
+/** What a mountain bike trail is called, whatever its own name - see [isMountainBikeTrail]. */
+fun mountainBikeTrailName(strings: LocalizedStrings?): String =
+    strings?.getOrNull(StringKey.MountainBikeTrail) ?: "Mountain bike trail"
+
 /** Whether [this] is a path or a track, the ways whose character the tiles describe. */
 val Way.isPathOrTrack: Boolean
     get() = featureClass in PATH_CLASSES

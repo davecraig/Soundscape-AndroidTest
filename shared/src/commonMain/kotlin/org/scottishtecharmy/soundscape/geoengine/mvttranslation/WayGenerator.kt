@@ -2,6 +2,10 @@ package org.scottishtecharmy.soundscape.geoengine.mvttranslation
 
 import org.scottishtecharmy.soundscape.geoengine.GridState
 import org.scottishtecharmy.soundscape.geoengine.utils.isPathOrTrack
+import org.scottishtecharmy.soundscape.geoengine.utils.isMountainBikeTrail
+import org.scottishtecharmy.soundscape.geoengine.utils.mountainBikeTrailName
+import org.scottishtecharmy.soundscape.geoengine.utils.destinationText
+import org.scottishtecharmy.soundscape.geoengine.utils.MOUNTAIN_BIKE_TRAIL
 import org.scottishtecharmy.soundscape.geoengine.utils.signpostDestination
 import org.scottishtecharmy.soundscape.geoengine.utils.DEAD_END
 import org.scottishtecharmy.soundscape.geoengine.utils.Direction
@@ -177,6 +181,9 @@ class Way : MvtFeature() {
         signpost: Boolean = true,
     ): String {
 
+        // Said as what it is, to put the walker off it, and never as a way to anywhere
+        if (isMountainBikeTrail) return mountainBikeTrailName(strings)
+
         var destinationModifier: Any? = null
         var passesModifier: Any?
         var result = displayName
@@ -245,6 +252,16 @@ class Way : MvtFeature() {
                     else
                         properties?.get("destination:backward")
 
+                    // A track that carries on past where a mountain bike trail leaves it is signposted
+                    // to where it goes - signposts never lead along a trail. Only one that leads to a
+                    // trail and nowhere else is "Track to mountain bike trail".
+                    if (destinationModifier == MOUNTAIN_BIKE_TRAIL) {
+                        val signposted = if (signpost && (gridState != null) &&
+                            (isPathOrTrack || (featureClass == "minor")) && !isSidewalkOrCrossing()
+                        ) signpostDestination(this, direction, gridState, strings) else null
+                        destinationModifier = signposted ?: destinationText(destinationModifier, strings)
+                    }
+
                     passesModifier = if (direction)
                         properties?.get("passes:forward")
                     else
@@ -310,8 +327,8 @@ class Way : MvtFeature() {
                         }
                     }
                 } else {
-                    val start = properties?.get("destination:backward")
-                    val end = properties?.get("destination:forward")
+                    val start = destinationText(properties?.get("destination:backward"), strings)
+                    val end = destinationText(properties?.get("destination:forward"), strings)
 
                     if ((end != null) and (start != null)) {
                         return strings?.getOrNull(StringKey.ConfectNameJoins, result, start, end)
@@ -406,6 +423,8 @@ class Way : MvtFeature() {
     }
 
     fun isSidewalkOrCrossing(): Boolean {
+        // A mountain bike trail is a cycleway but nobody's pavement, and is called out as itself
+        if (isMountainBikeTrail) return false
         val footway = properties?.get("footway")
         val bicycle = properties?.get("bicycle")
         return ((footway == "sidewalk") ||

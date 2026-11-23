@@ -165,6 +165,8 @@ import org.scottishtecharmy.soundscape.resources.track_surface_paved
 import org.scottishtecharmy.soundscape.resources.track_surface_gravel
 import org.scottishtecharmy.soundscape.resources.track_surface_earth
 import org.scottishtecharmy.soundscape.resources.track_surface_grass
+import org.scottishtecharmy.soundscape.resources.mountain_bike_trail
+import org.scottishtecharmy.soundscape.resources.mountain_bike_trail_destination
 import org.scottishtecharmy.soundscape.resources.directions_name_goes_left
 import org.scottishtecharmy.soundscape.resources.directions_name_goes_right
 import org.scottishtecharmy.soundscape.resources.directions_near_name
@@ -353,6 +355,8 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.TrackGravel -> Res.string.track_surface_gravel
         StringKey.TrackEarth -> Res.string.track_surface_earth
         StringKey.TrackGrass -> Res.string.track_surface_grass
+        StringKey.MountainBikeTrail -> Res.string.mountain_bike_trail
+        StringKey.MountainBikeTrailDestination -> Res.string.mountain_bike_trail_destination
         StringKey.NumberDecimalSeparator -> Res.string.number_decimal_separator
         StringKey.NumberDecimalSeparatorA11y -> Res.string.number_decimal_separator_a11y
         StringKey.RelativeClockDirection -> Res.string.relative_clock_direction
