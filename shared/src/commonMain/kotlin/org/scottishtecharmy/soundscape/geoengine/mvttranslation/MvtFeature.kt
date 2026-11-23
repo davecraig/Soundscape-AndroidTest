@@ -353,6 +353,10 @@ open class MvtFeature : Feature() {
         // planetiler puts the information tag in the subclass. Values without a name of their own
         // stay "Information": a raw "office" or "terminal" would be mistaken for something else.
         "information" -> ResourceMapper.qualifiedKey("information", featureSubClass)
+        // OpenMapTiles' attraction class covers viewpoints, zoos, aquariums, theme parks... and the
+        // subclass says which: an unnamed viewpoint is "Viewpoint", not "Attraction". A subclass with
+        // no word of its own falls back to the class.
+        "attraction" -> featureSubClass
         else -> null
     }
 }

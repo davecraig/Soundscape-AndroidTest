@@ -22,7 +22,7 @@ private class ResourceNameLocalizedStrings : LocalizedStrings {
 /**
  * Unnamed pitches are called out by their sport, artworks by their artwork_type and information
  * POIs by their information tag, rather than as the "Sports Field", "Gallery" and "Information" of
- * their OpenMapTiles class.
+ * their OpenMapTiles class - and attractions (viewpoints, zoos) by their subclass, not "Attraction".
  */
 class MvtFeatureTypeTextTest {
     private val localized = ResourceNameLocalizedStrings()
@@ -106,6 +106,20 @@ class MvtFeatureTypeTextTest {
         assertEquals("Osm_information", text("information", null))
         // a subclass without its own name isn't used raw: "stele" has no string at all
         assertEquals("Osm_information", text("information", "stele"))
+    }
+
+    @Test
+    fun attractionIsCalledOutByType() {
+        // The unnamed viewpoints above Aberfoyle were "Attraction"
+        assertEquals("Osm_viewpoint", text("attraction", "viewpoint"))
+        assertEquals("Osm_zoo", text("attraction", "zoo"))
+    }
+
+    @Test
+    fun attractionWithoutKnownTypeIsAttraction() {
+        assertEquals("Osm_attraction", text("attraction", "attraction"))
+        assertEquals("Osm_attraction", text("attraction", "not_a_real_attraction"))
+        assertEquals("Osm_attraction", text("attraction", null))
     }
 
     @Test
