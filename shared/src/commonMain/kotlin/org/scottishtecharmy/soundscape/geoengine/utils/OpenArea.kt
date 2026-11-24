@@ -204,11 +204,38 @@ fun describeOpenArea(
 
     val ways = gridState.getFeatureTree(TreeId.ROADS_AND_PATHS)
         .getNearbyCollection(centre, radius + 10.0, gridState.ruler)
-    for (f in ways) {
-        val way = f as? Way ?: continue
-        val line = (way.geometry as? LineString)?.coordinates ?: continue
-        if (line.size < 2) continue
-        val pts = line.map { projection.toLocal(it) }
+        .mapNotNull { f ->
+            val way = f as? Way ?: return@mapNotNull null
+            val line = (way.geometry as? LineString)?.coordinates ?: return@mapNotNull null
+            if (line.size < 2) null else way to line.map { projection.toLocal(it) }
+        }
+
+    // Does the way cross the edge anywhere, on whatever level. Only part way along a segment: a
+    // way that merely starts or stops on the edge doesn't cross it.
+    fun crossesEdge(pts: List<Point2>) = pts.zipWithNext().any { (a, b) ->
+        val segLength = a.distanceTo(b)
+        segLength >= 0.01 && boundary.any { (c, d) ->
+            val t = segmentIntersection(a, b, c, d)
+            if (t == null || t * segLength < 0.1 || (1 - t) * segLength < 0.1) false
+            else {
+                val step = min(CROSSING_PROBE, min(t, 1 - t) * segLength) / segLength
+                inside(Point2(a.x + (b.x - a.x) * (t - step), a.y + (b.y - a.y) * (t - step))) !=
+                    inside(Point2(a.x + (b.x - a.x) * (t + step), a.y + (b.y - a.y) * (t + step)))
+            }
+        }
+    }
+    // The ends of ways crossing the edge. A way stopping at the edge where one of these starts
+    // isn't a way out: it carries on across, and whether that's an exit is the crossing's to say.
+    // Milngavie's Ellangowan Road runs under the precinct as a separate short way, its approaches
+    // stopping either side of it on the edge.
+    val crossingEnds = ways.filter { (_, pts) -> crossesEdge(pts) }
+        .flatMap { (way, pts) -> listOf(way to pts.first(), way to pts.last()) }
+
+    for ((way, pts) in ways) {
+        // Somewhere the user can't walk isn't a way out. That's also all that tells us a road
+        // runs underneath the area, when it's mapped with no tunnel or layer: Ellangowan Road
+        // under Milngavie's precinct is tagged only foot=no and a maxheight.
+        if (way.properties?.get("foot") == "no") continue
         val name = way.displayName
         val wayKind = way.featureValue ?: "way"
         val isRoad = way.featureClass != null && way.featureClass !in nonRoadClasses
@@ -247,7 +274,9 @@ fun describeOpenArea(
             Triple(pts.first(), pts[1], true),
             Triple(pts.last(), pts[pts.size - 2], false)
         )) {
-            if (distanceToEdge(end) <= EDGE_TOUCH && !inside(next) && distanceToEdge(next) > EDGE_TOUCH)
+            if (distanceToEdge(end) <= EDGE_TOUCH && !inside(next) && distanceToEdge(next) > EDGE_TOUCH &&
+                crossingEnds.none { (other, p) -> other !== way && p.distanceTo(end) < SHARED_END }
+            )
                 raw.add(RawExit(end, name, wayKind, way, forward, isRoad))
         }
     }
@@ -366,6 +395,7 @@ class OpenAreaTracker(
 
 private const val CROSSING_PROBE = 2.0
 private const val EDGE_TOUCH = 2.0
+private const val SHARED_END = 0.5
 private const val EXIT_CLUSTER = 10.0
 private const val SAME_NAME_CLUSTER = 25.0
 private const val MIN_NAME_LENGTH = 10.0
