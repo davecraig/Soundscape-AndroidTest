@@ -542,6 +542,10 @@
     <string name="directions_entering_pedestrian_area_named">Entering %1$s pedestrian area</string>
     <!-- Called out on walking onto a railway or tram platform. Example: "On a platform" -->
     <string name="directions_on_platform">On a platform</string>
+    <!-- Called out on walking onto a railway or tram platform that has a number or letter in the map data. %1$s is the platform's number or letter as shown on the station's signs, example: "On platform 2" -->
+    <string name="directions_on_platform_ref">On platform %1$s</string>
+    <!-- Called out on walking onto an island platform - one platform with a track on each side, so it has a number for each side. GPS can't tell which side the user is on, so both are named. %1$s and %2$s are the two platform numbers or letters, example: "On platforms 1 and 2" -->
+    <string name="directions_on_platforms_refs">On platforms %1$s and %2$s</string>
     <!-- Called out while crossing an open area such as a pedestrian precinct, square or railway platform, where there are no kerbs or edges to follow. Names the way out of the area that the user is walking straight towards. %1$s is the name of the street or path leaving the area there, %2$s is an already-formatted distance such as "40 metres" - see the distance_meters and distance_feet plurals. Example: "Heading towards Station Road, 40 metres" -->
     <string name="directions_heading_towards_exit">Heading towards %1$s, %2$s</string>
     <!-- Traveling in a vehicle such as a train, bus, car with a cardinal direction, %s is a road name. Whenever the vehicle changes roads, the app will announce a location update by saying the direction the vehicle is travelling in and the name of the road e.g. Travelling east along High Street -->

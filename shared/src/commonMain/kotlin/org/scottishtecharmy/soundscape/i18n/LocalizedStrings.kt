@@ -180,6 +180,8 @@ enum class StringKey {
     DirectionsEnteringPedestrianArea,
     DirectionsEnteringPedestrianAreaNamed,
     DirectionsOnPlatform,
+    DirectionsOnPlatformRef,
+    DirectionsOnPlatformsRefs,
     DirectionsHeadingTowardsExit,
     StreetDescriptionIntersection,
     StreetDescriptionRelativeBefore,

@@ -1320,14 +1320,20 @@ class AutoCallout(
         if (areaId != announcedOpenArea) {
             // Stepping straight from one area into another of the same kind is staying where
             // they are as far as the user can tell: the two faces of an island platform are often
-            // mapped as two platforms sharing an edge, as at Westerton.
+            // mapped as two platforms sharing a side, as at Exhibition Centre, and GPS wanders
+            // across the few metres between Westerton's two.
             val sameKind = (announcedOpenArea != null) && (announcedOpenAreaKind == area.kind)
             forgetOpenArea()
             announcedOpenArea = areaId
             announcedOpenAreaKind = area.kind
             val text = if (sameKind) null else when (area.kind) {
-                OpenAreaKind.PLATFORM ->
-                    localized?.get(StringKey.DirectionsOnPlatform) ?: "On a platform"
+                OpenAreaKind.PLATFORM -> when (area.refs.size) {
+                    1 -> localized?.get(StringKey.DirectionsOnPlatformRef, area.refs[0])
+                        ?: "On platform ${area.refs[0]}"
+                    2 -> localized?.get(StringKey.DirectionsOnPlatformsRefs, area.refs[0], area.refs[1])
+                        ?: "On platforms ${area.refs[0]} and ${area.refs[1]}"
+                    else -> localized?.get(StringKey.DirectionsOnPlatform) ?: "On a platform"
+                }
                 OpenAreaKind.PEDESTRIAN_AREA -> area.name?.let { name ->
                     localized?.get(StringKey.DirectionsEnteringPedestrianAreaNamed, name)
                         ?: "Entering $name pedestrian area"

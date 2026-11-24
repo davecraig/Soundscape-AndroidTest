@@ -68,6 +68,13 @@ data class OpenArea(
      * furthest through the area - for a precinct that's normally the street it is.
      */
     val name: String?,
+    /**
+     * A platform's numbers. Usually one, but an island platform is often mapped as one platform
+     * per face, sharing a long side - Exhibition Centre's 1 and 2 - and a 5m face is too narrow for GPS to
+     * say which of them the user is on, so the faces alongside are counted in. Sorted, and empty
+     * when the platform has no ref.
+     */
+    val refs: List<String>,
     val exits: List<OpenAreaExit>,
     /** Length and width of the smallest rectangle around the area, and its long axis bearing. */
     val length: Double,
@@ -309,11 +316,44 @@ fun describeOpenArea(
         )
     }
 
+    val refs = mutableSetOf<String>()
+    fun addRefs(f: MvtFeature) {
+        f.ref?.split(';')?.map { it.trim() }?.filter { it.isNotEmpty() }?.let { refs.addAll(it) }
+    }
+    if (kind == OpenAreaKind.PLATFORM) {
+        addRefs(feature)
+        for (f in gridState.getFeatureTree(TreeId.PLATFORMS)
+            .getNearbyCollection(centre, radius + ADJACENT_PLATFORM, gridState.ruler)) {
+            val other = f as? MvtFeature ?: continue
+            if (other.osmId == feature.osmId) continue
+            val otherRing = (other.geometry as? Polygon)?.coordinates?.firstOrNull()
+                ?.map { projection.toLocal(it) } ?: continue
+            if (otherRing.size < 2) continue
+            val otherEdges = otherRing.zipWithNext()
+            fun nearOther(p: Point2) =
+                otherEdges.any { (a, b) -> pointSegmentDistance(p, a, b) <= ADJACENT_PLATFORM }
+            // The faces of an island share a long side. Merely touching isn't enough: Milngavie's
+            // two platforms are separate, meeting only across the 9m at the buffer end.
+            var shared = 0.0
+            for ((a, b) in rings.first().zipWithNext()) {
+                val length = a.distanceTo(b)
+                val steps = max(1, length.toInt())
+                for (i in 0 until steps) {
+                    val t = (i + 0.5) / steps
+                    if (nearOther(Point2(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t)))
+                        shared += length / steps
+                }
+            }
+            if (shared >= ISLAND_SHARED_SIDE) addRefs(other)
+        }
+    }
+
     val (length, width, axis) = minimumRectangle(rings.first())
     return OpenArea(
         feature = feature,
         kind = kind,
         name = nameLengths.filter { it.value >= MIN_NAME_LENGTH }.maxByOrNull { it.value }?.key,
+        refs = refs.sortedWith(compareBy({ it.toIntOrNull() ?: Int.MAX_VALUE }, { it })),
         exits = exits,
         length = length,
         width = width,
@@ -396,6 +436,10 @@ class OpenAreaTracker(
 private const val CROSSING_PROBE = 2.0
 private const val EDGE_TOUCH = 2.0
 private const val SHARED_END = 0.5
+/** How close another platform's outline must come to count as a face of the same island. */
+private const val ADJACENT_PLATFORM = 1.5
+/** How much of its side another platform must share to be the other face of an island. */
+private const val ISLAND_SHARED_SIDE = 20.0
 private const val EXIT_CLUSTER = 10.0
 private const val SAME_NAME_CLUSTER = 25.0
 private const val MIN_NAME_LENGTH = 10.0

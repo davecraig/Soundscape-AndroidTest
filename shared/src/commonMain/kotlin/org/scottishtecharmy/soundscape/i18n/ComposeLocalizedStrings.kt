@@ -137,6 +137,8 @@ import org.scottishtecharmy.soundscape.resources.directions_entering_pedestrian_
 import org.scottishtecharmy.soundscape.resources.directions_entering_pedestrian_area_named
 import org.scottishtecharmy.soundscape.resources.directions_heading_towards_exit
 import org.scottishtecharmy.soundscape.resources.directions_on_platform
+import org.scottishtecharmy.soundscape.resources.directions_on_platform_ref
+import org.scottishtecharmy.soundscape.resources.directions_on_platforms_refs
 import org.scottishtecharmy.soundscape.resources.directions_going_under_railway
 import org.scottishtecharmy.soundscape.resources.directions_going_under_railway_generic
 import org.scottishtecharmy.soundscape.resources.directions_heading_e
@@ -417,6 +419,8 @@ class ComposeLocalizedStrings : LocalizedStrings {
         StringKey.DirectionsEnteringPedestrianArea -> Res.string.directions_entering_pedestrian_area
         StringKey.DirectionsEnteringPedestrianAreaNamed -> Res.string.directions_entering_pedestrian_area_named
         StringKey.DirectionsOnPlatform -> Res.string.directions_on_platform
+        StringKey.DirectionsOnPlatformRef -> Res.string.directions_on_platform_ref
+        StringKey.DirectionsOnPlatformsRefs -> Res.string.directions_on_platforms_refs
         StringKey.DirectionsHeadingTowardsExit -> Res.string.directions_heading_towards_exit
         StringKey.StreetDescriptionIntersection -> Res.string.street_description_intersection
         StringKey.StreetDescriptionRelativeBefore -> Res.string.street_description_relative_before

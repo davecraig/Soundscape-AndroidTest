@@ -79,7 +79,9 @@ class OpenAreaTracerTest {
             }
         }
         val gridState = FileGridState(MAX_ZOOM_LEVEL, 2)
-        gridState.start(offlineExtractPath)
+        // OPEN_AREA_EXTRACTS points the trace at a directory of freshly built tiles instead of
+        // the checked-in fixtures
+        gridState.start(System.getenv("OPEN_AREA_EXTRACTS") ?: offlineExtractPath)
 
         val out = StringBuilder()
         val areasSeen = linkedMapOf<Any, OpenArea>()
@@ -142,7 +144,9 @@ class OpenAreaTracerTest {
     }
 
     private fun label(area: OpenArea) =
-        "${area.kind.name.lowercase()} ${area.name ?: "(unnamed)"} [osm ${area.feature.osmId / 10}]"
+        "${area.kind.name.lowercase()} ${area.name ?: "(unnamed)"}" +
+            (if (area.refs.isEmpty()) "" else " refs ${area.refs.joinToString("/")}") +
+            " [osm ${area.feature.osmId / 10}]"
 
     private fun exitList(area: OpenArea, from: LngLatAlt, heading: Double): String =
         area.exits
