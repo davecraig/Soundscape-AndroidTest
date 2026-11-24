@@ -13,6 +13,7 @@ import org.scottishtecharmy.soundscape.geoengine.LastStationTracker
 import org.scottishtecharmy.soundscape.geoengine.roadNameWithRef
 import org.scottishtecharmy.soundscape.geoengine.NotableVehicleEventTracker
 import org.scottishtecharmy.soundscape.geoengine.describeReverseGeocode
+import org.scottishtecharmy.soundscape.geoengine.formatDistanceAndDirection
 import org.scottishtecharmy.soundscape.geoengine.filters.CalloutHistory
 import org.scottishtecharmy.soundscape.geoengine.filters.LocationUpdateFilter
 import org.scottishtecharmy.soundscape.geoengine.filters.RoadSettleTracker
@@ -25,6 +26,9 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geoengine.mvttranslation.WayEnd
 import org.scottishtecharmy.soundscape.geoengine.utils.CountryBoundaries
 import org.scottishtecharmy.soundscape.geoengine.utils.DrivingSide
+import org.scottishtecharmy.soundscape.geoengine.utils.OpenAreaExit
+import org.scottishtecharmy.soundscape.geoengine.utils.OpenAreaKind
+import org.scottishtecharmy.soundscape.geoengine.utils.OpenAreaTracker
 import org.scottishtecharmy.soundscape.geoengine.utils.AlongWayFeatureAhead
 import org.scottishtecharmy.soundscape.geoengine.utils.PoiRankStrategy
 import org.scottishtecharmy.soundscape.geoengine.utils.Side
@@ -1271,6 +1275,123 @@ class AutoCallout(
         )
     }
 
+    // Open-area directions - see buildCalloutForOpenArea
+    private val openAreaTracker = OpenAreaTracker(localized = localized)
+    // The osmId of the open area whose entry has been announced
+    private var announcedOpenArea: Long? = null
+    private var announcedOpenAreaKind: OpenAreaKind? = null
+    // The exit last reported as ahead, held against heading wobble - see OpenArea.exitAhead
+    private var openAreaHeldExit: OpenAreaExit? = null
+    private var openAreaAnnouncedExit: OpenAreaExit? = null
+    // When each exit of the current area was last announced
+    private val openAreaExitTimes = mutableMapOf<OpenAreaExit, Long>()
+    private var lastOpenAreaExitCalloutMs: Long? = null
+
+    /**
+     * Directions across an open area - a pedestrian precinct or square, a railway platform - where
+     * there's no kerb or pavement edge to follow. Says when the user walks into one, and then
+     * names the way out that they're walking straight towards: "Heading towards Station Road, 80
+     * metres". Spoken from the direction of the exit, so that it's heard where it is.
+     *
+     * Only an exit that changes is announced. Walking across a precinct the heading swings by
+     * tens of degrees and the exit ahead with it, so an exit isn't repeated within
+     * openAreaExitRepeatMs, nor any exit within openAreaExitGapMs of the last; and none that's
+     * almost reached, where the intersection callout describes it better.
+     */
+    private fun buildCalloutForOpenArea(
+        userGeometry: UserGeometry,
+        gridState: GridState
+    ): TrackedCallout? {
+        if (!streetsAndJunctionsEnabled() || userGeometry.inStreetPreview ||
+            userGeometry.inVehicle() || recentlyInVehicle(userGeometry)
+        ) {
+            openAreaTracker.clear()
+            forgetOpenArea()
+            return null
+        }
+        val area = openAreaTracker.update(gridState, userGeometry.location, userGeometry.speed)
+        if (area == null) {
+            forgetOpenArea()
+            return null
+        }
+
+        val strings = mutableListOf<PositionedString>()
+        val areaId = area.feature.osmId
+        if (areaId != announcedOpenArea) {
+            // Stepping straight from one area into another of the same kind is staying where
+            // they are as far as the user can tell: the two faces of an island platform are often
+            // mapped as two platforms sharing an edge, as at Westerton.
+            val sameKind = (announcedOpenArea != null) && (announcedOpenAreaKind == area.kind)
+            forgetOpenArea()
+            announcedOpenArea = areaId
+            announcedOpenAreaKind = area.kind
+            val text = if (sameKind) null else when (area.kind) {
+                OpenAreaKind.PLATFORM ->
+                    localized?.get(StringKey.DirectionsOnPlatform) ?: "On a platform"
+                OpenAreaKind.PEDESTRIAN_AREA -> area.name?.let { name ->
+                    localized?.get(StringKey.DirectionsEnteringPedestrianAreaNamed, name)
+                        ?: "Entering $name pedestrian area"
+                } ?: (localized?.get(StringKey.DirectionsEnteringPedestrianArea)
+                    ?: "Entering a pedestrian area")
+            }
+            if (text != null) strings.add(
+                PositionedString(text = text, location = userGeometry.location, type = AudioType.STANDARD)
+            )
+        }
+
+        val heading = userGeometry.heading()
+        val now = userGeometry.timestampMilliseconds
+        if ((heading != null) && userGeometry.inMotion()) {
+            val ahead = area.exitAhead(userGeometry.location, heading, holding = openAreaHeldExit)
+            openAreaHeldExit = ahead?.first
+            if (ahead != null) {
+                val (exit, distance) = ahead
+                val name = exit.spokenName()
+                val lastTime = openAreaExitTimes[exit]
+                val lastAny = lastOpenAreaExitCalloutMs
+                if ((name != null) &&
+                    (exit != openAreaAnnouncedExit) &&
+                    (distance >= openAreaExitMinimumMetres) &&
+                    ((lastTime == null) || (now - lastTime >= openAreaExitRepeatMs)) &&
+                    ((lastAny == null) || (now - lastAny >= openAreaExitGapMs))
+                ) {
+                    val formatted = formatDistanceAndDirection(
+                        distance, null, localized, speed = userGeometry.speed
+                    )
+                    strings.add(
+                        PositionedString(
+                            text = localized?.get(StringKey.DirectionsHeadingTowardsExit, name, formatted)
+                                ?: "Heading towards $name, $formatted",
+                            location = exit.location,
+                            type = AudioType.LOCALIZED
+                        )
+                    )
+                    openAreaAnnouncedExit = exit
+                    openAreaExitTimes[exit] = now
+                    lastOpenAreaExitCalloutMs = now
+                }
+            }
+        }
+        if (strings.isEmpty()) return null
+        return TrackedCallout(
+            userGeometry,
+            trackedText = strings.joinToString { it.text },
+            location = userGeometry.location,
+            positionedStrings = strings,
+            isPoint = true,
+            isGeneric = false,
+        )
+    }
+
+    private fun forgetOpenArea() {
+        announcedOpenArea = null
+        announcedOpenAreaKind = null
+        openAreaHeldExit = null
+        openAreaAnnouncedExit = null
+        openAreaExitTimes.clear()
+        lastOpenAreaExitCalloutMs = null
+    }
+
     /**
      * The tunnel Way the user is in right now, or null if they're out in the open.
      */
@@ -1294,6 +1415,11 @@ class AutoCallout(
      * "intersection ahead" always means about the same thing.
      */
     private val intersectionAnnounceBandMetres = 30.0
+
+    // See buildCalloutForOpenArea. An exit closer than this is left to the intersection callout.
+    private val openAreaExitMinimumMetres = 15.0
+    private val openAreaExitRepeatMs = 60_000L
+    private val openAreaExitGapMs = 8_000L
 
     fun buildCalloutForIntersections(
         userGeometry: UserGeometry,
@@ -1667,6 +1793,9 @@ class AutoCallout(
                     // itself needs to run on every update rather than only while driving.
                     val walkingCrossingCallout =
                         buildCalloutForWalkingCrossing(userGeometry, gridState)
+                    // Also run on every update, so that the open area being tracked is dropped
+                    // the moment vehicle travel starts.
+                    val openAreaCallout = buildCalloutForOpenArea(userGeometry, gridState)
                     val vehicleCallouts = listOfNotNull(
                         roadSenseCallout, vehicleLandmarkCallout, vehicleTransitStopCallout,
                         vehicleWaterwayCrossingCallout, trainCrossingCallout
@@ -1690,6 +1819,14 @@ class AutoCallout(
                                 trackedCallout.positionedStrings += walkingCrossingCallout.positionedStrings
                             } else {
                                 trackedCallout = walkingCrossingCallout
+                            }
+                        }
+                        if (openAreaCallout != null) {
+                            // After an intersection: the junction is nearer, and more pressing.
+                            if (trackedCallout != null) {
+                                trackedCallout.positionedStrings += openAreaCallout.positionedStrings
+                            } else {
+                                trackedCallout = openAreaCallout
                             }
                         }
                         if ((intersectionCallout == null) || userGeometry.inStreetPreview) {

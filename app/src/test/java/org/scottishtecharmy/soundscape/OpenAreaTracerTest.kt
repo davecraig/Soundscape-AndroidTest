@@ -46,6 +46,9 @@ class OpenAreaTracerTest {
         Clip("trainoff-pixel", "pixel", 3990, 4500),
         Clip("glasgowcross-train-2", "train-2", 80, 280),
         Clip("finnieston-train-2", "train-2", 1620, 1780),
+        // Westerton's platforms and footbridge
+        Clip("westerton-pixel", "pixel-merged", 7700, 8480),
+        Clip("westerton-ios", "ios-merged", 5720, 6290),
     )
 
     @Test

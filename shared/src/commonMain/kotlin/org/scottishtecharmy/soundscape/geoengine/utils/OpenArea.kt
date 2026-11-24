@@ -7,6 +7,7 @@ import org.scottishtecharmy.soundscape.geoengine.mvttranslation.Way
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LineString
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.LngLatAlt
 import org.scottishtecharmy.soundscape.geojsonparser.geojson.Polygon
+import org.scottishtecharmy.soundscape.i18n.LocalizedStrings
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -51,9 +52,11 @@ data class OpenAreaExit(
      */
     val road: Boolean = false,
 ) {
+    /** What to call this exit when speaking it, or null when it has nothing better than "path". */
+    fun spokenName(): String? = names.firstOrNull() ?: confectedNames.firstOrNull()
+
     fun description(): String =
-        names.firstOrNull() ?: confectedNames.firstOrNull()
-            ?: kinds.firstOrNull()?.let { "unnamed $it" } ?: "unnamed way"
+        spokenName() ?: kinds.firstOrNull()?.let { "unnamed $it" } ?: "unnamed way"
 }
 
 data class OpenArea(
@@ -148,17 +151,31 @@ data class OpenAreaRayHit(
  * The open area [location] is within, smallest first so that a platform within a station's
  * pedestrian concourse wins over the concourse, or null when it's in none.
  */
-fun findOpenArea(gridState: GridState, location: LngLatAlt): OpenArea? {
+fun findOpenArea(
+    gridState: GridState,
+    location: LngLatAlt,
+    localized: LocalizedStrings? = null
+): OpenArea? {
+    val (feature, kind) = findOpenAreaFeature(gridState, location) ?: return null
+    return describeOpenArea(gridState, feature, kind, localized)
+}
+
+/** The outline of the open area [location] is within - see [findOpenArea] - without describing it. */
+fun findOpenAreaFeature(gridState: GridState, location: LngLatAlt): Pair<MvtFeature, OpenAreaKind>? {
     val candidates = mutableListOf<Pair<MvtFeature, OpenAreaKind>>()
     for (f in gridState.getFeatureTree(TreeId.PLATFORMS).getContainingPolygons(location))
         candidates.add((f as MvtFeature) to OpenAreaKind.PLATFORM)
     for (f in gridState.getFeatureTree(TreeId.PEDESTRIAN_AREAS).getContainingPolygons(location))
         candidates.add((f as MvtFeature) to OpenAreaKind.PEDESTRIAN_AREA)
-    val (feature, kind) = candidates.minByOrNull { polygonArea(it.first) } ?: return null
-    return describeOpenArea(gridState, feature, kind)
+    return candidates.minByOrNull { polygonArea(it.first) }
 }
 
-fun describeOpenArea(gridState: GridState, feature: MvtFeature, kind: OpenAreaKind): OpenArea {
+fun describeOpenArea(
+    gridState: GridState,
+    feature: MvtFeature,
+    kind: OpenAreaKind,
+    localized: LocalizedStrings? = null
+): OpenArea {
     val polygon = feature.geometry as Polygon
     val outer = polygon.coordinates.first()
     val centre = LngLatAlt(
@@ -256,7 +273,7 @@ fun describeOpenArea(gridState: GridState, feature: MvtFeature, kind: OpenAreaKi
             names = c.mapNotNull { it.name }.distinct(),
             kinds = c.map { it.kind }.distinct(),
             confectedNames = if (c.any { it.name != null }) emptyList() else c.mapNotNull {
-                it.way.getName(it.outwardForward, gridState, null, nonGenericOnly = true)
+                it.way.getName(it.outwardForward, gridState, localized, nonGenericOnly = true)
                     .takeIf { n -> n.isNotBlank() }
             }.distinct(),
             road = c.any { it.road },
@@ -302,10 +319,16 @@ class OpenAreaTracker(
     private val leaveDistance: Double = 8.0,
     private val leaveFixes: Int = 3,
     private val maxSpeed: Double = 3.0,
+    private val localized: LocalizedStrings? = null,
 ) {
     var current: OpenArea? = null
         private set
     private var outsideCount = 0
+
+    fun clear() {
+        current = null
+        outsideCount = 0
+    }
 
     /** Updates and returns the area the user is in. [speed] in metres per second, if known. */
     fun update(gridState: GridState, location: LngLatAlt, speed: Double?): OpenArea? {
@@ -314,15 +337,18 @@ class OpenAreaTracker(
             outsideCount = 0
             return null
         }
-        val found = findOpenArea(gridState, location)
+        // Only the outline is looked up on every fix: describing the area, which walks every way
+        // near it to find the exits, is done once on entering it.
+        val found = findOpenAreaFeature(gridState, location)
         val held = current
-        if (found != null && (held == null || found.feature.osmId != held.feature.osmId)) {
+        if (found != null && (held == null || found.first.osmId != held.feature.osmId)) {
             // A different area: take it unless this is a fix wandering into a neighbour while
             // still within the one we're in
             if (held == null || held.distanceOutside(location) > 0.0) {
-                current = found
+                val area = describeOpenArea(gridState, found.first, found.second, localized)
+                current = area
                 outsideCount = 0
-                return found
+                return area
             }
         }
         if (held != null && found == null) {

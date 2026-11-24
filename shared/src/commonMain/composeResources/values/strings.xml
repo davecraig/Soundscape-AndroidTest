@@ -536,6 +536,14 @@
     <string name="directions_entering_tunnel_vehicle">Entering a tunnel</string>
     <!-- Called out on going into a tunnel IN A VEHICLE OR ON A TRAIN that has a name in the map data. %1$s is the tunnel's name, example: "Entering Clyde Tunnel". directions_entering_tunnel_named is the same callout on foot: use a driving or riding verb here if your language distinguishes them -->
     <string name="directions_entering_tunnel_named_vehicle">Entering %1$s</string>
+    <!-- Called out on walking into a pedestrian area - a pedestrianised street, precinct or square that is one open paved space with no kerbs or pavement edges to follow. Example: "Entering a pedestrian area" -->
+    <string name="directions_entering_pedestrian_area">Entering a pedestrian area</string>
+    <!-- Called out on walking into a pedestrian area - a pedestrianised street, precinct or square that is one open paved space with no kerbs or pavement edges to follow. %1$s is the name of the street the pedestrian area is, example: "Entering Douglas Street pedestrian area" -->
+    <string name="directions_entering_pedestrian_area_named">Entering %1$s pedestrian area</string>
+    <!-- Called out on walking onto a railway or tram platform. Example: "On a platform" -->
+    <string name="directions_on_platform">On a platform</string>
+    <!-- Called out while crossing an open area such as a pedestrian precinct, square or railway platform, where there are no kerbs or edges to follow. Names the way out of the area that the user is walking straight towards. %1$s is the name of the street or path leaving the area there, %2$s is an already-formatted distance such as "40 metres" - see the distance_meters and distance_feet plurals. Example: "Heading towards Station Road, 40 metres" -->
+    <string name="directions_heading_towards_exit">Heading towards %1$s, %2$s</string>
     <!-- Traveling in a vehicle such as a train, bus, car with a cardinal direction, %s is a road name. Whenever the vehicle changes roads, the app will announce a location update by saying the direction the vehicle is travelling in and the name of the road e.g. Travelling east along High Street -->
     <string name="directions_traveling_n">Traveling north</string>
     <!-- Traveling in a vehicle such as a train, bus, car with a cardinal direction, %s is a road name. Whenever the vehicle changes roads, the app will announce a location update by saying the direction the vehicle is travelling in and the name of the road e.g. Travelling east along High Street -->
